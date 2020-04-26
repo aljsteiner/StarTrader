@@ -4352,7 +4352,7 @@ public class StarTrader extends javax.swing.JFrame {
       setFatalError();
     }
     else {
-      runYears(1);
+      runYears(5);
     }
   }//GEN-LAST:event_statsCtlButtonRun1YrMouseClicked
 
@@ -4366,7 +4366,7 @@ public class StarTrader extends javax.swing.JFrame {
       setFatalError();
     }
     else {
-      runYears(5);
+      runYears(1);
     }
   }//GEN-LAST:event_statsCtlButtonRun5YrMouseClicked
 
@@ -6201,12 +6201,18 @@ public class StarTrader extends javax.swing.JFrame {
       int blip = 5;
       String linez = sinceRunYear() + " curEc=" + curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + "/n";
       line0 = line1 = line2 = line3 = line4 = line5 = "";
+      line0 = stateStringNames[stateConst];
+      displayPanel0Text.setBackground(E.clan.values()[curEc.clan].getColor(curEc.pors));
       switch (stateConst) {
         case WAITING:
         case STARTING:
           line5 = linez;
           break;
         case CREATING:
+          /*  eM.getCurCumPorsClanUnitSum(eM.getStatrN( dname),EM.curCum,porsStart,porsEnd,clanStart,clanEnd)
+          */
+          
+          line1 =  eM.getCurCumPorsClanUnitSum(eM.getStatrN( dname),curCum,porsStart,porsEnd,clanStart,clanEnd)
           line5 = linez;
           break;
         case FUTUREFUNDCREATE:
