@@ -6212,10 +6212,12 @@ public class StarTrader extends javax.swing.JFrame {
           /*  eM.getCurCumPorsClanUnitSum(eM.getStatrN( dname),EM.curCum,porsStart,porsEnd,clanStart,clanEnd)
           */
           
-          line1 =  eM.getCurCumPorsClanUnitSum(eM.getStatrN( dname),curCum,porsStart,porsEnd,clanStart,clanEnd)
+          line1 = "year " + eM.year + " Creating both " + eM.getCurCumPorsClanUnitSum(eM.getStatrN( "yearCreate"),EM.ICUR0,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(eM.getStatrN( "yearCreate"),EM.ICUR0,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum(eM.getStatrN( "yearCreate"),EM.ICUR0,E.S,E.S+1,0,5) + "\n" ;
+          
           line5 = linez;
           break;
         case FUTUREFUNDCREATE:
+          line1 = "year " + eM.year + " Creating both " + eM.getCurCumPorsClanUnitSum(eM.getStatrN( "yearCreate"),EM.ICUR0,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(eM.getStatrN( "yearCreate"),EM.ICUR0,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum(eM.getStatrN( "yearCreate"),EM.ICUR0,E.S,E.S+1,0,5) + "\n" ;
           line5 = linez;
           break;
         case STARTYR:
