@@ -426,6 +426,7 @@ public class StarTrader extends javax.swing.JFrame {
     displayPanel0 = new javax.swing.JPanel();
     jScrollPane1 = new javax.swing.JScrollPane();
     displayPanel0Text = new javax.swing.JTextArea();
+    displayPanel0Text1 = new javax.swing.JTextField();
     displayPanel1 = new javax.swing.JPanel();
     displayPanel1SinceYearStart = new javax.swing.JTextField();
     displayPanel1EconName = new javax.swing.JTextField();
@@ -3037,46 +3038,38 @@ public class StarTrader extends javax.swing.JFrame {
     display.setMaximumSize(new java.awt.Dimension(900, 700));
     display.setMinimumSize(new java.awt.Dimension(300, 400));
     display.setPreferredSize(new java.awt.Dimension(800, 600));
+    display.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
     displayPanel0.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
     displayPanel0.setToolTipText("primary display");
     displayPanel0.setMaximumSize(new java.awt.Dimension(1200, 500));
     displayPanel0.setMinimumSize(new java.awt.Dimension(400, 200));
     displayPanel0.setPreferredSize(new java.awt.Dimension(1200, 300));
+    displayPanel0.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-    jScrollPane1.setMaximumSize(new java.awt.Dimension(1200, 500));
-    jScrollPane1.setMinimumSize(new java.awt.Dimension(800, 50));
-    jScrollPane1.setPreferredSize(new java.awt.Dimension(1200, 300));
+    jScrollPane1.setBorder(null);
+    jScrollPane1.setAutoscrolls(true);
+    jScrollPane1.setMaximumSize(new java.awt.Dimension(800, 300));
+    jScrollPane1.setMinimumSize(new java.awt.Dimension(100, 50));
+    jScrollPane1.setPreferredSize(new java.awt.Dimension(500, 300));
 
-    displayPanel0Text.setColumns(70);
-    displayPanel0Text.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-    displayPanel0Text.setRows(15);
+    displayPanel0Text.setColumns(50);
+    displayPanel0Text.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+    displayPanel0Text.setLineWrap(true);
+    displayPanel0Text.setRows(5);
     displayPanel0Text.setWrapStyleWord(true);
-    displayPanel0Text.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-    displayPanel0Text.setMaximumSize(new java.awt.Dimension(1200, 600));
-    displayPanel0Text.setMinimumSize(new java.awt.Dimension(800, 30));
+    displayPanel0Text.setBorder(null);
+    displayPanel0Text.setMaximumSize(new java.awt.Dimension(800, 300));
+    displayPanel0Text.setMinimumSize(new java.awt.Dimension(150, 30));
+    displayPanel0Text.setName(""); // NOI18N
+    displayPanel0Text.setOpaque(false);
+    displayPanel0Text.setPreferredSize(new java.awt.Dimension(200, 115));
     jScrollPane1.setViewportView(displayPanel0Text);
 
-    javax.swing.GroupLayout displayPanel0Layout = new javax.swing.GroupLayout(displayPanel0);
-    displayPanel0.setLayout(displayPanel0Layout);
-    displayPanel0Layout.setHorizontalGroup(
-      displayPanel0Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGap(0, 1198, Short.MAX_VALUE)
-      .addGroup(displayPanel0Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(displayPanel0Layout.createSequentialGroup()
-          .addGap(0, 0, Short.MAX_VALUE)
-          .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-          .addGap(0, 0, Short.MAX_VALUE)))
-    );
-    displayPanel0Layout.setVerticalGroup(
-      displayPanel0Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGap(0, 300, Short.MAX_VALUE)
-      .addGroup(displayPanel0Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(displayPanel0Layout.createSequentialGroup()
-          .addGap(0, 0, Short.MAX_VALUE)
-          .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-          .addGap(0, 0, Short.MAX_VALUE)))
-    );
+    displayPanel0.add(jScrollPane1);
+
+    displayPanel0Text1.setText("jTextField1");
+    displayPanel0.add(displayPanel0Text1);
 
     display.add(displayPanel0);
 
@@ -3158,20 +3151,22 @@ public class StarTrader extends javax.swing.JFrame {
       displayPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(displayPanel2Layout.createSequentialGroup()
         .addComponent(displayPanel2EconName, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-        .addComponent(displayPanel2Operation, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addComponent(displayPanel2Operation, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addGap(18, 18, 18)
         .addComponent(displayPanel2SinceYearStart, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addGap(0, 206, Short.MAX_VALUE))
+        .addGap(0, 198, Short.MAX_VALUE))
     );
     displayPanel2Layout.setVerticalGroup(
       displayPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, displayPanel2Layout.createSequentialGroup()
+        .addContainerGap()
+        .addComponent(displayPanel2EconName, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
       .addGroup(displayPanel2Layout.createSequentialGroup()
-        .addGroup(displayPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-          .addComponent(displayPanel2Operation, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-          .addComponent(displayPanel2SinceYearStart, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+        .addGroup(displayPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addComponent(displayPanel2SinceYearStart, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+          .addComponent(displayPanel2Operation, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
         .addGap(0, 0, Short.MAX_VALUE))
-      .addComponent(displayPanel2EconName)
     );
 
     display.add(displayPanel2);
@@ -4631,6 +4626,7 @@ public class StarTrader extends javax.swing.JFrame {
   protected javax.swing.JPanel display;
   protected javax.swing.JPanel displayPanel0;
   protected javax.swing.JTextArea displayPanel0Text;
+  protected javax.swing.JTextField displayPanel0Text1;
   protected javax.swing.JPanel displayPanel1;
   protected javax.swing.JTextField displayPanel1EconName;
   protected javax.swing.JTextField displayPanel1Operation;
@@ -5150,25 +5146,26 @@ public class StarTrader extends javax.swing.JFrame {
     // select ship only if all shipFracs are not met
     // game shipFracs, clanClanShipFrac, clanAllShipFrac
     pors = eM.clanCnt[clan] < 1
+      ? E.P
+      : // P clanCnt < 1
+      eM.porsClanCnt[S][clan] < 1
+        ? E.S
+        : // S clanCnt[S} < 1
+        eM.porsCnt[S] / eM.econCnt > eM.clanAllShipFrac[S][clan]
+          ? E.P // P ships/tot > clanAllShipFrac 
+          : eM.porsCnt[S] / eM.econCnt > eM.gameShipFrac[S]
             ? E.P
-            : // P clanCnt < 1
-            eM.porsClanCnt[S][clan] < 1
-                    ? E.S
-                    : // S clanCnt[S} < 1
-                    eM.porsCnt[S] / eM.econCnt > eM.clanAllShipFrac[S][clan]
-                            ? E.P // P ships/tot > clanAllShipFrac 
-                            : eM.porsCnt[S] / eM.econCnt > eM.gameShipFrac[S]
-                                    ? E.P
-                                    : // P ships/tot > gameShipFrac
-                                    eM.porsClanCnt[S][clan] / eM.clanCnt[clan] > eM.clanShipFrac[S][clan]
-                                            ? E.P
-                                            : // clan ship cnt/ clanCnt > clanShipFrac
-                                            E.S;
+            : // P ships/tot > gameShipFrac
+            eM.porsClanCnt[S][clan] / eM.clanCnt[clan] > eM.clanShipFrac[S][clan]
+              ? E.P
+              : // clan ship cnt/ clanCnt > clanShipFrac
+              E.S;
     // select a ship only if all the following conditions are true
 
     double sFrac1 = 99.;
     double sFrac2 = 99.;
     double sFrac3 = 99.;
+    // use .0001 to prevent divide by zero
     double sFrac1a = (sFrac1 = (.0001 + eM.porsCnt[S]) / (.0001 + eM.econCnt));
     double sFrac2a = (sFrac2 = (.0001 + eM.porsCnt[S]) / (.0001 + eM.econCnt));
     double sFrac3a = (sFrac3 = (.0001 + eM.porsClanCnt[S][clan]) / (.0001 + eM.clanCnt[clan]));
@@ -5764,14 +5761,22 @@ public class StarTrader extends javax.swing.JFrame {
       int lEcons = eM.econs.size();
 
       // preset counts to zero, they will be counted next
+      // preset traded to zero
       eM.econCnt = 0;
       eM.planets.clear();
       eM.ships.clear();
       for (int m = 0; m < 2; m++) {
         eM.porsCnt[m] = 0;
+        eM.porsTraded[m] = 0;
+        eM.porsVisited[m] = 0;
         for (int n = 0; n < 5; n++) {
           eM.clanCnt[n] = 0; // doing twice
+          eM.clanTraded[n] = 0;
           eM.porsClanCnt[m][n] = 0;
+          eM.porsClanTraded[m][n] = 0;
+          eM.clanVisited[n] = 0;
+          eM.porsClanVisited[m][n] = 0;
+          
         }// n
       }// m
 
@@ -6183,10 +6188,12 @@ public class StarTrader extends javax.swing.JFrame {
 
   void paintCurDisplay(Econ curEc) {
     int numEcons = eM.econs.size();
+    int rN=999999;
+    String newLine = "\n";
     String line1 = "", line0 = "", line2 = "", line3 = "", line4 = "", line5 = "";
     //   controlPanels.setVisible(true);
-    controlPanels.getComponent(4);
-    controlPanels.setSelectedIndex(4);
+    controlPanels.getComponent(5);
+    controlPanels.setSelectedIndex(5);
     // display.setVisible(false);
     // displayPanel1.setVisible(false);
     // displayPanel2.setVisible(false);
@@ -6197,61 +6204,75 @@ public class StarTrader extends javax.swing.JFrame {
       displayPanel1EconName.setBackground(E.clan.values()[curEc.clan].getColor(curEc.pors));
       displayPanel1EconName.setText(curEc.name);
       econCnt = curEc.econCnt;
-      controlPanels.setSelectedIndex(4);
+     // controlPanels.setSelectedIndex(5);
       int blip = 5;
-      String linez = sinceRunYear() + " curEc=" + curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + "/n";
+      String linez = sinceRunYear() + " curEc=" + curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine;
       line0 = line1 = line2 = line3 = line4 = line5 = "";
       line0 = stateStringNames[stateConst];
       displayPanel0Text.setBackground(E.clan.values()[curEc.clan].getColor(curEc.pors));
       switch (stateConst) {
         case WAITING:
         case STARTING:
-          line5 = linez;
+          displayPanel0Text.setText(
+          sinceRunYear() + " curEc=" + curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine);
           break;
         case CREATING:
-          /*  eM.getCurCumPorsClanUnitSum(eM.getStatrN( dname),EM.curCum,porsStart,porsEnd,clanStart,clanEnd)
-          */
-          
-          line1 = "year " + eM.year + " Creating both " + eM.getCurCumPorsClanUnitSum(eM.getStatrN( "yearCreate"),EM.ICUR0,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(eM.getStatrN( "yearCreate"),EM.ICUR0,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum(eM.getStatrN( "yearCreate"),EM.ICUR0,E.S,E.S+1,0,5) + "\n" ;
-          
-          line5 = linez;
-          break;
         case FUTUREFUNDCREATE:
-          line1 = "year " + eM.year + " Creating both " + eM.getCurCumPorsClanUnitSum(eM.getStatrN( "yearCreate"),EM.ICUR0,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(eM.getStatrN( "yearCreate"),EM.ICUR0,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum(eM.getStatrN( "yearCreate"),EM.ICUR0,E.S,E.S+1,0,5) + "\n" ;
-          line5 = linez;
+          rN = eM.getStatrN( "bothCreate");
+          displayPanel0Text.append(
+          "year " + eM.year + newLine);
+          displayPanel0Text.setText(
+         " Creating both " + eM.getCurCumPorsClanUnitSum(rN,EM.ICUR0,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rN,EM.ICUR0,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum(rN,EM.ICUR0,E.S,E.S+1,0,5) + newLine) ;
+          displayPanel0Text.append(
+          sinceRunYear() + " curEc=" + curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine);
+         
           break;
         case STARTYR:
-          line5 = linez;
+         displayPanel0Text.setText(
+          sinceRunYear() + " curEc=" + curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine);
           break;
         case SEARCH:
-          line5 = linez;
+           displayPanel0Text.setText(
+          sinceRunYear() + " curEc=" + curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine);
           break;
         case SWAPS:
-          line5 = linez;
+         displayPanel0Text.setText(
+          sinceRunYear() + " curEc=" + curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine);
           break;
         case TRADING:
-          line5 = linez;
+          displayPanel1EconName.setBackground(E.clan.values()[curEc.clan].getColor(curEc.pors));
+      displayPanel1EconName.setText(curEc.name);
+          displayPanel0Text1.setText(eM.otherEcon.name);
+          displayPanel0Text1.setBackground(E.clan.values()[eM.otherEcon.clan].getColor(eM.otherEcon.pors));
+          displayPanel0Text.setText(
+          sinceRunYear() + " curEc=" + curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine);
           break;
         case ENDYR:
-          line5 = linez;
+          displayPanel0Text.setText(
+          sinceRunYear() + " curEc=" + curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine);
           break;
         case STATS:
           controlPanels.setSelectedIndex(4);
-          line5 = linez;
+        //  line5 = linez;
           break;
         default:
 
       }
     }
-    displayPanel0Text.setText(line0 + line1 + line2 + line3 + line4 + line5);
+  //  displayPanel0Text.setText(line0 + line1 + line2 + line3 + line4 + line5);
 
     displayPanel1Operation.setText(stateStringNames[stateConst]);
     displayPanel1SinceYearStart.setText(sinceRunYear());
-    displayPanel1EconName.setVisible(true);
-    displayPanel1Operation.setVisible(true);
-    displayPanel1SinceYearStart.setVisible(true);
-    displayPanel1.setVisible(true);
+  //  displayPanel1EconName.setVisible(true);
+  //  displayPanel1Operation.setVisible(true);
+  //  displayPanel1SinceYearStart.setVisible(true);
+  //  displayPanel1.setVisible(true);
+  if(stateConst == STATS){
+    display.setVisible(false);
+    stats.setVisible(true);
+  } else {
     display.setVisible(true);
+  }
     controlPanels.setVisible(true);
 
     display.revalidate();

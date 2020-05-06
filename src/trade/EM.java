@@ -67,6 +67,12 @@ class EM {
   int porsCntd[] = {0, 0};
   int porsCnt[] = {0, 0};
   double econLimits1[] = {300.}; // start limiting econs
+  int porsClanTraded[][] = {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}};
+  int clanTraded[] = {0, 0, 0, 0, 0};
+  int porsTraded[] = {0,0};
+  int porsClanVisited[][] = {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}};
+  int clanVisited[] = {0, 0, 0, 0, 0};
+  int porsVisited[] = {0,0};
   static double mEconLimits1[][] = {{200., 500.}, {200., 500.}};
   double econLimits2[] = {350.}; // more limiting of econs
   static double mEconLimits2[][] = {{275., 550.}};
@@ -76,6 +82,7 @@ class EM {
   static double[][] mLimitEcons = {{100., 300.}, {100., 300.}};
 
   static Econ curEcon;  //eM only changes at the end a a year run, EM.curEcon
+  static Econ otherEcon;  // other Econ when trading
   double[][] wildCursCnt = {{7}};
   static double[][] mWildCursCnt = {{3., 10.}};
   double[] difficultyPercent = {50.};
@@ -405,6 +412,7 @@ class EM {
   static final long cumAve = cumUnitAve;
   static final long CUMAVE = cumUnitAve;
   static final long thisYearUnitAve = 0000200L; // sum of This Year div by units
+  static final long THISYEARAVE = thisYearUnitAve; // sum of This Year div by units
   static final long THISYEARUNITAVE = thisYearUnitAve;
   static final long thisYrUnitAve = thisYearUnitAve;
   static final long thisYrAve = thisYrUnitAve;
@@ -693,10 +701,28 @@ class EM {
   static int stf = 1;
   double[] pa = {5.};  // planet mult 3/10/17 3. -> 5.,181008->11 181213 5.
   double[] sa = {.25}; //ship mult 3/10/17 .4 -> .25
-  double aa[] = {pa[0], sa[0]};
+  double[] rb = {1.};
+  double[] sb = {1.};
   double[] cb = {.3};  // bias for cargo
   double[] gb = {.3};  // bias for guests
-  // the followint is {{planet r,c,s,g},{ship r,c,s,g} using the above numbers
+  double[] rcsgMult = {rb[0],cb[0],sb[0],gb[0]};
+  //[p|s][r|c|s|g]
+  double econMult[][] = {{.5,.15,.5,.15},{.25,.075,.25,.075}};
+  double[][] multEcons(double pa,double sa,double cb,double gb){
+    int m=0,n=0;
+    double dd[][] = new double[2][];
+    for(m=0;m<2;m++){
+      dd[m] = new double[4];
+     for(n=0;n<4;n++){
+       dd[m][n] = 0.;
+       
+     }
+    }
+    return dd;
+  }
+  double aa[] = {pa[0], sa[0]};
+  
+  // the following is {{planet r,c,s,g},{ship r,c,s,g} using the above numbers
   double ps[][] = {{pa[0], pa[0] * cb[0], pa[0], pa[0] * gb[0]}, {sa[0], sa[0] * cb[0], sa[0], sa[0] * gb[0]}};
 
   /**
@@ -880,7 +906,10 @@ class EM {
   /**
    * values used in Assets.AssetsYr.Trades values that are not subject to change
    */
-  static double maxStrategicFrac = 10., minStrategicFrac = .03;
+ // static double maxStrategicFrac = 10., minStrategicFrac = .03;
+  /** years to keep TradeRecords */
+  double[][] yearsToKeepTradeRecord = {{12.},{12.}};
+  static double[][] mYearsToKeepTradeRecord = {{6.,20.},{6.,20.}};
 
   double fava[][] = {{3., 3., 3., 3., 3.}, {3., 3., 3., 3., 3.}, {3., 3., 3., 3., 3.}, {.5, .5, .5, 5., 5.}, {5., .5, .5, 5., .5}};
   double fav0[] = {3., 3., 3., 3., 3.};
@@ -2034,7 +2063,9 @@ class EM {
     doRes(WORTHIFRAC, "PercInitWorth ", "Percent of Initial Worth Value including working, reserve: resource, staff, knowledge", 3, 1, 4, list1 | curAve | curUnits | both, thisYrAve | both | thisYr | sum, 0, 0);
 
     //   doRes("LIVEWORTH", "Live Worth", "Live Value including year end working, reserve: resource, staff, knowledge", 6, 0, list0 | list12 | thisYr | sum, list0 | cur | curUnits | both, list0 | 0, 0);
-    doRes("yearCreate", "yearCreations", "new Econs ceated from year initial funds", 6, 2, 0, LIST034567 | cumUnits | cum | curUnits | both, 0, 0, 0);
+    doRes("yearCreate", "yearCreations", "new Econs ceated from year initial funds", 6, 2, 0, LIST034567 | cumUnits | cum | THISYEARUNITS | both, 0, 0, 0);
+    doRes("FutureCreate", "Future Create", "Econs created from Future Funds", 3, 2, 1, LIST234567 | CURAVE | both | skipUnset | CURUNITS , LIST0 | CUMUNITS | THISYEARUNITS, 0, 0);
+    doRes("bothCreate", "bothCreations", "new Econs ceated from  initial funds and future funds", 6, 2, 0, LIST034567 | cumUnits | cum | THISYEARUNITS | both, 0, 0, 0);
     doRes("swapRIncr", "swapRIncr", "Uses of R Incr Swap percent of RC", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
     doRes("swapSIncr", "swapSIncr", "Uses of S Incr Swap percent of SG", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
     doRes("swapSDecr", "swapSDecr", "Uses of S Decr Swap percent of SG", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
@@ -2126,7 +2157,7 @@ class EM {
     doRes("RSwapFF", "R SwapEmergFF", "At emergency level of resource/staff sums during swaps tranfer resource to FutureFund", 3, 2, 1, LIST234567 | curAve | both | skipUnset | curUnits | cur | cum | cumUnits, 0, 0, 0);
     doRes("SSwapFF", "S SwapEmergFF", "At emergency level of staff/resource sums during swaps tranfer Staff to FutureFund", 3, 2, 1, LIST234567 | curAve | both | skipUnset | curUnits, 0, 0, 0);
     doRes("CRITICALRECEIPTSFRAC", "CritReceiptsFrac", "Fraction of Critical receipts Worth/start totWorth ", 3, 4, 1, LIST134567 | curAve | both | skipUnset, 0, 0, 0);
-    doRes("FutureCreate", "Future Create", "Econs created from Future Funds", 3, 2, 1, LIST234567 | curAve | both | skipUnset | curUnits, 0, 0, 0);
+    
     //   doRes("CRITICALRECEIPTSFRACWORTHMULT", "CritTradeFracMult", "Fraction of critical units received with Multiple Trades this /start totWorth  ", 3, 4,1, LIST134567 | curAve | both | skipUnset, 0, 0, 0);
     doRes("CRITICALRECEIPTSFRACSYFAV5", "CritReceiptsFracYF5", "Percent of critical receipts worth favor5 Trades/start year worth", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, 0, 0, 0);
     doRes("CRITICALRECEIPTSFRACSYFAV4", "CritReceiptsFracYF4", "Percent of critical receipts worth favor4 Trades/start year worth", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, 0, 0, 0);
@@ -2149,6 +2180,7 @@ class EM {
     doRes("CRITICALRECEIPTSFRACSYFAV2", "CritReceiptsFracYF2", "Percent of critical receipts worth favor2 Trades/start year worth", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, 0, 0, 0);
     doRes("CRITICALRECEIPTSFRACSYFAV1", "CritReceiptsFracYF1", "Percent of critical receipts worth favor1 Trades/start year worth", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, 0, 0, 0);
     doRes("CRITICALRECEIPTSFRACSYFAV0", "CritReceiptsFracYF0", "Percent of critical receipts worth favor0 Trades/start year worth", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, 0, 0, 0);
+     doRes("CRITICALRECEIPTSFRACSYFAVA", "CritReceiptsFracYF0", "Percent of critical receipts worth favor0-5 Trades/start year worth", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, LIST0 | THISYEARAVE | SKIPUNSET | BOTH , 0, 0);
     doRes("CRITICALRECEIPTSFRADROPT5", "CritTradeFracDropF5", "Percent of traded critical receipts worth favor5 Trades/start barter C receipts  ", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, 0, 0, 0);
     doRes("CRITICALRECEIPTSFRADROPT4", "CritTradeFracDropF4", "Percent of traded critical receipts worth favor4 Trades/start barter C receipts  ", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, 0, 0, 0);;
     doRes("CRITICALRECEIPTSFRADROPT3", "CritTradeFracDropF3", "Percent of traded critical receipts worth favor3 Trades/start barter C receipts  ", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, 0, 0, 0);

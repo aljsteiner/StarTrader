@@ -70,6 +70,8 @@ public class Offer {
   double[] totalReceipts={0.,0.};
   double[] strategicFrac={0.,0.};
   double[] strategicValue= {0.,0.};
+  double[] startWorth = {0.,0.}; // worth at start trade
+  double[] endWorth = {0.,0.}; // worth after trade   
   /**
    * the following shipCG,otherCG,guestGrades are pointers to current values in
    * Assets.cur for the trading ship and other planet or ship these are used in
@@ -593,7 +595,7 @@ public class Offer {
    * @return goods
    */
   A2Row set2Values(A2Row goods, double sends, double receipts, double totalSends, double totalReceipts, double strategicFrac, double strategicValue) {
-    
+ //   int myIx  = cn[0] == myEcon ? 0 : cn[1] == ec ? 1 : 2;
       this.receipts[myIx] = receipts;
       this.sends[myIx] = sends;
       this.totalSends[myIx] = totalSends;
@@ -601,6 +603,12 @@ public class Offer {
       this.strategicFrac[myIx] = strategicFrac;
       this.strategicValue[myIx] = strategicValue;
     return set2Goods(goods);
+  }
+  
+  void set2Values(Econ ec, double startWorth, double endWorth){
+       int myIx  = cn[0] == ec ? 0 : cn[1] == ec ? 1 : 2;
+       this.startWorth[myIx] = startWorth;
+       this.endWorth[myIx] = endWorth;
   }
 
   /**

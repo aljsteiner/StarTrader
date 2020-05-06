@@ -1198,7 +1198,7 @@ public class Assets {
    * year end, for end of year from Econ from StarTrader
    *
    */
-  void yearEnd() {
+  void yearEnd() {  //trade.Assets
     if (cur == null) {
       cur = new CashFlow(this);
       cur.cashFlowInit(this);
@@ -1216,19 +1216,7 @@ public class Assets {
         bals.getRow(ABalRows.cumulativeDecayIx + m).add(n, bals.getRow(ABalRows.GROWTHSIX + m).get(n) * eM.decay[m][pors]);
       }
     }
-    /*   int tradedSuccessTrades; // successful trades this year
-  double tradedStrategicWorths; // positive strategic worths
-  double tradedStrategicRealWorths; // real worths of successful trades
-  double tradedStrategicCosts;// 2-3 least strategic value traded
-  double tradedStrategicRealCosts; // 2-3 real costs of trades
-  double tradedManualsWorths;  // worth of manuals received in trades
-  double tradingOfferWorth; // valid if didGoods;
-  // if multiple ships trade in a year, this is for the last ship
-  int tradedShipOrdinal; // count of ships this year
-  int prevBarterYear = -20;  // set by Assets.barter
-  boolean newTradeYear = false; // set by Assets.barter
-  int yrTradesStarted;  // -1 if no trade this year, set at newTradeYear
-     */
+    // Assets.yearEnd, zero yearly counters before yearStart
     tradedSuccessTrades = 0; // successful trades this year
     tradedStrategicWorths = 0.; // positive strategic worths
     tradedStrategicRealWorths = 0.; // real worths of successful trades
@@ -1239,7 +1227,7 @@ public class Assets {
     // if multiple ships trade in a year, this is for the last ship
     tradedShipOrdinal = 0;
     tradedShipsTried = 0;
-    yrTradesStarted = -1;  // -1 if no trade this year
+    // yrTradesStarted = -1;  // -1 if no trade this year
     // int[] tradedShipAccepted = new int[E.hcnt];
     tradedFav = 0.;
     tradedOFav = 0.;
@@ -1310,21 +1298,9 @@ public class Assets {
    * @return the output offer after processed by Assets.CashFlow.Trades
    */
   Offer barter(Offer inOffer) {  // Assets.barter
-    /*   int tradedSuccessTrades; // successful trades this year
-  double tradedStrategicWorths; // positive strategic worths
-  double tradedStrategicRealWorths; // real worths of successful trades
-  double tradedStrategicCosts;// 2-3 least strategic value traded
-  double tradedStrategicRealCosts; // 2-3 real costs of trades
-  double tradedManualsWorths;  // worth of manuals received in trades
-  double tradingOfferWorth; // valid if didGoods;
-  // if multiple ships trade in a year, this is for the last ship
-  int tradedShipOrdinal; // count of ships this year
-  int prevBarterYear = -20;  // set by Assets.barter
-  boolean newTradeYear = false; // set by Assets.barter
-  int yrTradesStarted;  // -1 if no trade this year, set at newTradeYear
-     */
+  
     newTradeYear1 = prevBarterYear == eM.year ? false : true;
-    if (prevBarterYear != eM.year) {
+    if (prevBarterYear != eM.year) { //a new year barter
       yrTradesStarted = eM.year;
       tradedShipOrdinal = 0;
       tradedShipsTried = 0;
@@ -6568,12 +6544,13 @@ public class Assets {
         myTrade.initTrade(inOffer, this);
         hist.add(new History(aPre, 5, " " + name + " after init", " a new", " trades"));
 
-        yrTradesStarted++;
+        // new year barter in Assets.CashFlow.barter
+        tradedShipsTried++;
         aPre = "c&";
-        hist.add(new History(aPre, 5, name + " initT R", resource.balance));
-        hist.add(new History(aPre, 5, name + " initT S", staff.balance));
-        hist.add(new History(aPre, 5, name + " initT C", c.balance));
-        hist.add(new History(aPre, 5, name + " initT G", g.balance));
+        hist.add(new History(aPre, 5, name + " cur.Bar R", resource.balance));
+        hist.add(new History(aPre, 5, name + " cur.Bar S", staff.balance));
+        hist.add(new History(aPre, 5, name + " cur.Bar C", c.balance));
+        hist.add(new History(aPre, 5, name + " cur.Bar G", g.balance));
       }
       E.myTest(myTrade == null && entryTerm > 0, "xit ASY barter " + (eTrad == null ? " !eTrad" : " eTrad") + " entryTerm=" + entryTerm + (myTrade == null ? " !myTrade" : " myTrade"));
 
@@ -6690,16 +6667,31 @@ public class Assets {
             // gameRes.WREJTRADEDPINCR.wet(pors, clan, worthincrPercent, 1);
             setStat("WREJTRADEDPINCR", pors, clan, worthincrPercent, 1);
             setStat(EM.INCRAVAILFRACa, pors, clan, tradeAvailIncrPercent, 1);
+             eM.porsVisited[pors]++;
+            eM.porsClanVisited[pors][clan]++;
           }
           else if (fav >= -2.) {
             // gameRes.WLOSTTRADEDINCR.wet(pors, clan, worthincrPercent, 1);
             setStat("WLOSTTRADEDINCR", pors, clan, worthincrPercent, 1);
             setStat(EM.INCRAVAILFRACb, pors, clan, tradeAvailIncrPercent, 1);
+             eM.porsVisited[pors]++;
+            eM.porsClanVisited[pors][clan]++;
           }
           else {
             // gameRes.UNTRADEDWINCR.wet(pors, clan, worthincrPercent, 1);
             setStat("UNTRADEDWINCR", pors, clan, worthincrPercent, 1);
             setStat(EM.INCRAVAILFRACc, pors, clan, tradeAvailIncrPercent, 1);
+            eM.porsVisited[pors]++;
+            eM.porsClanVisited[pors][clan]++;
+          }
+          if(fav >= 0){
+             setStat("CRITICALRECEIPTSFRACSYFAVA", pors, clan, criticalStrategicRequestsPercentTWorth, 1);
+             eM.clanTraded[clan]++;
+             eM.porsClanTraded[pors][clan]++;
+             eM.clanVisited[clan]++;
+             eM.porsClanVisited[pors][clan]++;
+             eM.porsTraded[pors]++;
+             eM.porsVisited[pors]++;
           }
           hist.add(new History(aPre, 5, name + "CF.barter t=" + ret.getTerm(), "before", "xitTrade", "do null", "<<<<<<<<<", "<<<<<<<<<"));
           ec.addOHist(ohist, new History(aPre, 5, name + "CF.barter t=" + ret.getTerm(), "before", "xitTrade", "do null", "<<<<<<<<<", "<<<<<<<<<"));
@@ -6849,6 +6841,7 @@ public class Assets {
           startYrSumWorth = initialSumWorth = iyW.getTotWorth();
           startYrSumKnowledge = initialSumKnowledge = iyW.sumKnowledgeBal;
           startYrSumKnowledgeWorth = initialSumKnowledgeWorth = iyW.sumKnowledgeWorth;
+          setStat("bothCreate",pors,clan,initialSumWorth,1); 
         }
         syW = new DoTotalWorths();
         // syWTotWorth = getTotWorth();
@@ -7155,39 +7148,14 @@ public class Assets {
       if ((tprev = syW.sumManualsWorth) > PZERO) {
         setStat(EM.MANUALSINCR, pors, clan, (manuals.sum() - (tprev = syW.getManualsBal()))*100 / tprev, 1);
       }
-      //chgd KNOWLEDGEB MANUALSfrac NEWKNOWLEDGEfrac COMMONKNOWLEDGEfrac KNOWLEDGEINCR NEWKNOWLEDGEINCR MANUALSINCR COMMONKNOWLEDGEINCR
-      // gameRes.RCTBAL.wet(pors, clan, fyW.getRCBal(), 1);
-
-      // names  DoTotalWorths syW, tW, gSwapW, gGrowW, gCostW, fyW;
-      //       EM.gameRes.RGROWTH.set(pors, clan, growths.getRow(0).sum, 1)
-      //      EM.gameRes.RGROWTHPW.set(pors, clan, difTs[1] / startYearTotalWorths[0], 1);
-      //     EM.gameRes.SGROWTHPW.set(pors, clan, difTs[2] / startYearTotalWorths[0], 1);
-      //     EM.gameRes.RGROWTH.wet(pors, clan, growths.getRow(0).sum());
-      //    EM.gameRes.SGROWTH.wet(pors, clan, growths.getRow(1).sum());
-      // EM.gameRes.RCGROWTHCOSTSB.wet(pors, clan, growthCosts.getRow(0).sum() / startYearBalances.getRow(0).sum(), 1);
-      // EM.gameRes.SGGROWTHCOSTSBwet(pors, clan, growthCosts.getRow(1).sum() / startYearBalances.getRow(1).sum(), 1);
-      // EM.gameRes.INCRGSWAPCOSTSB.wet(pors, clan, (swapCosts.getRow(0).sum() + swapCosts.getRow(1).sum()) / xxstrtYrBalancesSum);
-      // EM.gameRes.DECRGSWAPCOSTSB.wet(pors, clan, (swapCosts.getRow(2).sum() + swapCosts.getRow(3).sum()) / xxstrtYrBalancesSum);
-      // EM.gameRes.RXFERGSWAPCOSTSB.wet(pors, clan, (swapCosts.getRow(4).sum()) / xxstrtYrBalancesSum);
-      // EM.gameRes.SXFERGSWAPCOSTSB.wet(pors, clan, (swapCosts.getRow(5).sum()) / xxstrtYrBalancesSum);
+     
       double worthincrPercent = (sumTotWorth - startYrSumWorth)*100 / startYrSumWorth;
-      // gameRes.WORTH.wet(pors, clan, fyW.sumTotWorth, 1);
-//setStat("WORTH",pors, clan, fyW.sumTotWorth, 1);
-      // gameRes.WORTHINCR.wet(pors, clan, (fyW.sumTotWorth - asyW.sumTotWorth) / asyW.sumTotWorth, 1);
       setStat(EM.WORTHINCR, pors, clan, worthincrPercent, 1);
       // gameRes.RCTBAL.wet(pors, clan, fyW.sumRCBal, 1);
       setStat(EM.RCfrac, pors, clan, fyW.sumRCWorth*100 / fyW.sumTotWorth, 1);
       // gameRes.SGTBAL.wet(pors, clan, fyW.sumSG, 1);
       setStat(EM.SGfrac, pors, clan, fyW.sumSGWorth*100 / fyW.sumTotWorth, 1);
       setStat(EM.KNOWLEDGEFRAC, pors, clan, fyW.sumKnowledgeBal*100 / sumTotWorth, 1);
-      // gameRes.KNOWLEDGEINCR3.wet(pors, clan, (fyW.sumKnowledgeBal - asyW.sumKnowledgeBal) / asyW.sumKnowledgeBal);
-    //  setStat(EM.KNOWLEDGEINCR, pors, clan, (fyW.sumKnowledgeBal - startYrSumKnowledge)*100 / startYrSumKnowledge, 1);
-      // gameRes.KNOWLEDGEWFRAC3.wet(pors, clan, (fyW.sumKnowledgeWorth) / iyW.sumKnowledgeWorth);
-
-      // gameRes.NEWKNOWLEDGEFRAC3.wet(pors, clan, fyW.sumNewKnowledgeBal / iyW.sumNewKnowledgeBal);
-    //  setStat(EM.NEWKNOWLEDGEFRAC, pors, clan, fyW.sumNewKnowledgeBal*100 / (syW.sumNewKnowledgeBal > PZERO ? syW.sumNewKnowledgeBal : 100.), 1);
-      // gameRes.NEWKNOWLEDGEINCR3.wet(pors, clan, (fyW.sumNewKnowledgeBal - asyW.sumNewKnowledgeBal) / asyW.sumKnowledgeBal);
-   //   setStat(EM.NEWKNOWLEDGEINCR, pors, clan, (fyW.sumNewKnowledgeBal - syW.sumNewKnowledgeBal) / (syW.sumNewKnowledgeBal > PZERO ? syW.sumNewKnowledgeBal : 100.), 1);
 
       double criticalStrategicRequestsPercentTWorth = criticalStrategicRequests / startYrSumWorth;
       double criticalStrategicRequestsPercentFirst = (criticalStrategicRequestsFirst - criticalStrategicRequests) / criticalStrategicRequestsFirst;

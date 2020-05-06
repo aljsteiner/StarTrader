@@ -46,18 +46,6 @@ import java.util.Set;
  * calculated for each economy before yearStart or planetSearch. The random
  * numbers remain constant until the start of the next year cycle.
  * 
-   static public String statsButton0Tip = "0: Current Game Worths";
-  static public String statsButton1Tip = "1: Favors and trade effects";
-  static public String statsButton2Tip = "2: Catastrophies, deaths, randoms, forward fund";
-  static public String statsButton3Tip = "3: years 0,1,2,3 worth inc, costs, efficiency,knowledge,phe";
-  static public String statsButton4Tip = "4: years 4,5,6,7 worth inc, costs, efficiency,knowledge,phe ";
-  static public String statsButton5Tip = "5: years 8->15 worth inc, costs, efficiency,knowledge,phe ";
-  static public String statsButton6Tip = "6: years 16->31 worth inc, costs, efficiency,knowledge,phe ";
-  static public String statsButton7Tip = "7: years 32+ worth inc, costs, efficiency,knowledge,phe ";
-  static public String statsButton8Tip = "8: swap factors";
-  static public String statsButton9Tip = "9: Resource, staff values";
-  static public String statsButton10Tip = "10: growth and costs details";
-  static public String statsButton11Tip = "11: Fertility, health and effects";
  */
 public class Econ {
 
@@ -329,6 +317,23 @@ public class Econ {
   int getTradedShipsTried() {
     return as.getTradedShipsTried();
   }
+  
+  /** decide is this planet is available for another trade
+   * check StarTrader values for #ships, #Econs, #tradesTried
+   * 
+   * @param stTradedThisYear
+   * @param stShips
+   * @param stEcons
+   * @return 
+   */
+  boolean canTradeShip(int stTradedThisYear,int stShips,int stEcons){
+    boolean ret=false;
+    int maxTrades=0; // max for this clan
+    int planets = stEcons-stShips;
+    maxTrades = 1 + (int)stShips/planets; 
+    
+    return ret;
+  }
 
   ;
   ARow getNewKnowledge() {
@@ -498,6 +503,13 @@ public class Econ {
     return as.getShipOrdinal();
   }
 
+  
+ /** add the current offer (after barter finished) to the Econ offer list
+  * 
+  * @param fromPlanet  previous Offer list
+  * @param newOffer  the new offer
+  * @return offer list
+  */
   ArrayList<Offer> buildPlanetOffers(ArrayList<Offer> fromPlanet, Offer newOffer) {
     ArrayList<Offer> pList = new ArrayList<Offer>();
     int pSize = planetOffers.size();
@@ -853,6 +865,7 @@ public class Econ {
     Econ cn[] = {planet, ship};
     if (!ship.getDie()) {
       eM.curEcon = ship;
+      eM.otherEcon = planet;
       Offer aOffer = new Offer(eM.year, eM.barterStart, eM, ship, planet);
 
       int bb = 1; // start barter with planet,
