@@ -466,6 +466,10 @@ class EM {
   static final long LIST19 = 0200000000000000L;
   static final long LIST20 = 0400000000000000L;
   static final long lmask = 0777777700000000L;
+  static final long ROWS0 = 01000000000000000L;
+  static final long ROWS1 = 02000000000000000L;
+  static final long ROWS2 = 04000000000000000L; 
+  static final long ROWSMASK = 07000000000000000L;
   static final long LMASK = lmask;
   static final long LIST34567 = list3 | list4 | list5 | list6 | list7;
   static long list34567 = LIST34567;

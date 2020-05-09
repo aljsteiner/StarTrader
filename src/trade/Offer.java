@@ -123,6 +123,12 @@ public class Offer {
   double searchCumVal = 0;
   double searchCumDivisor = 0;
   EM eM;
+  
+  Offer() {
+    eM = StarTrader.eM;
+    hists = new ArrayList[2];
+    year = eM.year;
+  }
 
   /**
    * initial offer created in Econ of the ship

@@ -22,6 +22,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -847,6 +848,39 @@ public class Econ {
  */
   protected String wh(int n) {
     return whole.format(n);
+  }
+  
+ 
+  
+   /** merge lists in descending order older t0 new, z to a, return a newShipList, in the new lists leave an original copy of any TradeRecord from the destination previous list, (E.G. entries from the old ownerList are moved to the newOwnerList but are copied from the otherList.
+    * 
+    * @param ownerList owner econ for which list is being made.
+    * @param otherList from the other Econ doing the trade
+    * @param aOffer new offer to be added to list
+    * @return newOwnerList only containing ships
+    */
+  ArrayList<TradeRecord> mergeLists(ArrayList<TradeRecord> ownerList,ArrayList<TradeRecord> otherList,Offer aOffer){
+    // construct newOwnerList
+    ArrayList<TradeRecord> newOwnerList = new ArrayList<TradeRecord>();
+    int lOwnerList = ownerList.size();
+    int yearsTooEarly = (int)(eM.year - eM.yearsToKeepTradeRecord[0][0]);
+    // put new offer at the end
+    ownerList.add(new TradeRecord(aOffer));
+    
+    Iterator<TradeRecord> iterOther = otherList.iterator();
+   TradeRecord otherRec;
+     for(TradeRecord ownerRec:ownerList){
+       while( iterOther.hasNext() && 
+      (otherRec = iterOther.next()).isOlderThan(ownerRec)){
+         
+         if(year > yearsTooEarly && otherRec.cnName.startsWith("P"))
+         { 
+           newOwnerList.add(new TradeRecord(otherRec));
+         }       
+    }// end while
+       if(year > yearsTooEarly && ownerRec.cnName.startsWith("P")){ newOwnerList.add(ownerRec);}
+     } // end for
+    return newOwnerList;
   }
 
   /**

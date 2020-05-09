@@ -1290,6 +1290,18 @@ public class Assets {
     return bals.getRow(ABalRows.BALANCESIX + ABalRows.CIX);
   }
 
+  /** select a planet to do the trade with
+   * 
+   * @param wilda list of tradable planets
+   * @return Econ of the selected planet
+   */
+  Econ SelectPlanet(Econ[] wilda){
+     if (cur == null) {
+      cur = new CashFlow(this);
+      cur.cashFlowInit(this);
+    }
+    return cur.selectPlanet(wilda);
+  }
   /**
    * pass on request to barter to CashFlow to Assets.CashFlow.Trades instantiate
    * CashFlow if needed
@@ -1457,9 +1469,9 @@ public class Assets {
     ARow ylimHiRCbyR = new ARow();
     ARow ylimHiSGbyR = new ARow();
     /**
-     * the following used for Assets.CashFlow.swaps
+     * the following used by Assets.CashFlow.swaps
      */
-    final int lPrevns = 9;
+    final int lPrevns = 9;// in trade.Assets.CashFlow
     HSwaps[] prevprevns; // previous number swap values
     HSwaps[] prevns = new HSwaps[lPrevns];
     HSwaps[] prevgood = new HSwaps[lPrevns];
@@ -5976,16 +5988,55 @@ public class Assets {
         fneedReq.sendHist(hist, bLev, aPre, lev, "rc fneedReq", "sg fneedReq");
         needReq.sendHist(hist, bLev, aPre, lev, "rc needReq", "sg needReq");
       }  // Assets.CashFlow.Trades.calcTrades
-    } // Assets.CashFlow.Trades
+ 
+    
+    /** subclass to enable the search for a good planet to do the next trade.
+     * trade.Assets.CashFlow.SearchRecord
+     */
+    class SearchRecord{
+       Econ cn; //0=planet or ship,1=primaryShip
+  String cnName = "aPlanetOther";
+  A2Row goods = new A2Row(); //only one instance of goods, for both cn's  
+ // int prevTerm = 60;
+  int age = 1;
+  int year = -10;  // year of the offer **
+ double[] xyzs = {-40, -41, -42}; //**
+ double startWorth = 0.;// worth before the trade.
+ double endWorth = 0.; // worth after trade
+ double strategicValue = 0.; // received/sent;
+  int clan = 0;
+  NumberFormat dFrac = NumberFormat.getNumberInstance();
+  NumberFormat whole = NumberFormat.getNumberInstance();
+  NumberFormat dfo = dFrac;
+ // EM eM; see outer class
+      
+      SearchRecord(){
+        year = eM.year;
+      } // end class SearchRecord constructor
+      
+    } // end trade.Assets.CashFlows.Trades.SearchRecord
 //
+    
+     Econ selectPlanet(Econ[] wilda) {
+    String wildS = "in selectPlanet for:" + name + " names=";
+    for (Econ ww : wilda) {
+      wildS += " " + ww.name + " distance=" + ec.calcLY(ec, ww);
+    }
+    int r = (int) Math.floor(Math.random() * 5.3 % wilda.length);
+    wildS += " selected:" + wilda[r].name;
+    System.out.println(wildS);
+    return wilda[r];
+  }
+ } // Assets.CashFlow.Trades
+    
+      int eeea = 0, eeeb = 0, eeec = 0, eeed = 0, eeee = 0, eeef = 0, eeeg = 0, eeeh = 0, eeei = 0, eeej = 0;
 
     /**
      * start the process to deal with cashFlow for the next year
      *
      * @param aas higher level Class Assets
      */
-    int eeea = 0, eeeb = 0, eeec = 0, eeed = 0, eeee = 0, eeef = 0, eeeg = 0, eeeh = 0, eeei = 0, eeej = 0;
-
+   
     void cashFlowInit(Assets aas) { //Assets.CashFlow.initCashFlow
       histTitles("initCashFlow");
       EM.wasHere = "CashFlow.init... before HSwaps eeea=" + ++eeea;
@@ -6066,7 +6117,20 @@ public class Assets {
       EM.wasHere = "CashFlow.init... end eeej=" + ++eeej;
       //   System.out.println("5045 end CashFlow.initCashFlow");
     }  //Assets.CashFlow.cashFlowInit
-
+    
+    /** select a planet to trade
+     * 
+     * @param wilda  list of tradeable planets from StarTrader
+     * @return the Econ of the selected planet
+     */
+     Econ selectPlanet(Econ[] wilda) {
+      if(myTrade == null){
+        Offer myOffer = new Offer();
+        myTrade = new Trades();
+        myTrade.initTrade(myOffer,this);
+      }
+    return myTrade.selectPlanet(wilda);
+     }
     /**
      * return the current value of loop n
      *
@@ -7693,7 +7757,7 @@ public class Assets {
       E.msgcnt = mcnt;
       yCalcRawCosts(lightYearsTraveled, aPre, curMaintGoal, curGrowthGoal);
       //     xitCalcCosts = hcopyn(cur);
-    }
+    } // trade.Assets.CashFlow.yCalcCosts
 
     /**
      * CashFlow variables created in yCalcRawCosts
@@ -10023,7 +10087,7 @@ public class Assets {
       }
     }
 
-  } // end AssetYr   }  //end calcRawCosts
+  } // end trade.Assets.CashFlow   }  //end calcRawCosts
 
   void yDisplayBalances(int level, String title
   ) {  //CashFlow  now unused

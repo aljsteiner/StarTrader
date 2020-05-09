@@ -123,17 +123,22 @@ public class TradeRecord {
     // construct newOwnerList
     ArrayList<TradeRecord> newOwnerList = new ArrayList<TradeRecord>();
     int lOwnerList = ownerList.size();
+    int yearsTooEarly = (int)(eM.year - eM.yearsToKeepTradeRecord[0][0]);
+    // put new offer at the end
+    ownerList.add(new TradeRecord(aOffer));
+    
     Iterator<TradeRecord> iterOther = otherList.iterator();
    TradeRecord otherRec;
      for(TradeRecord ownerRec:ownerList){
        while( iterOther.hasNext() && 
-      (otherRec = iterOther.next()).isOlderThan(ownerRec)){ 
-         if(otherRec.cnName.startsWith("P"))
+      (otherRec = iterOther.next()).isOlderThan(ownerRec)){
+         
+         if(year > yearsTooEarly && otherRec.cnName.startsWith("P"))
          { 
            newOwnerList.add(new TradeRecord(otherRec));
          }       
     }// end while
-       if(ownerRec.cnName.startsWith("P")){ newOwnerList.add(ownerRec);}
+       if(year > yearsTooEarly && ownerRec.cnName.startsWith("P")){ newOwnerList.add(ownerRec);}
      } // end for
     return newOwnerList;
   }
