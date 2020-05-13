@@ -171,6 +171,7 @@ public class Assets {
   // if multiple ships trade in a year, this is for the last ship
   int tradedShipOrdinal; // count of ships traded this year
   int tradedShipsTried; // count of ships trying trade this year
+  String tradingShipName= "none";
   int prevBarterYear = -20;  // set by Assets.barter
   boolean newTradeYear1 = false; // set by Assets.barter
   boolean newTradeYear2 = false; // set after maint  & travel saved
@@ -290,7 +291,8 @@ public class Assets {
     int n() {
       return ordinal();
     }
-  }
+  } // end yrphase
+  
   yrphase yphase = yrphase.GROW;
   boolean em;  // print error message
 
@@ -6459,7 +6461,7 @@ public class Assets {
            hist.add(new History("$c", History.loopMinorConditionals5,"n" + n + "calcFF" +" m" + m + rcNsq[ixWRSrc] + srcIx + " " +  resTypeName, "v" + df(val),  "b" + df(bals.get(ixWRSrc, srcIx)), "df" + df(dif1), "f" + df(frac1), "FF=" + df(eM.clanFutureFunds[clan]), "r" + df(bals.getRow(0).sum()), df(mtgNeeds6.getRow(0).sum()), "s" + df(bals.getRow(1).sum()), df(mtgNeeds6.getRow(1).sum()),"<<<<<<<<"));
           setStat(resTypeName, pors, clan, rsval, 1);
           setStat(resTypeName.contains("Emerg")?"EmergFF":"SizeFF", pors, clan, rsval, 1);
-          setStat("FutureFund", pors, clan, rsval, 1);
+          setStat("FutureFundSaved", pors, clan, rsval, 1);
           // transfer val to clanFutureFunds
      //.eM.clanFutureFunds[clan] += rsval;
      yearsFutureFund += rsval;
@@ -6604,20 +6606,25 @@ public class Assets {
         preTradeSum4 = bals.sum4();
         hist.add(new History(aPre, 5, " " + name + " now instantiate", " a new", " trades"));
         myTrade = new Trades();
+       } // end myTrade == null
+      if(!inOffer.getOName().equals(tradingShipName) ){
+        tradingShipName = inOffer.getOName();
         inOffer.setMyIx(ec);
         myTrade.initTrade(inOffer, this);
         hist.add(new History(aPre, 5, " " + name + " after init", " a new", " trades"));
 
         // new year barter in Assets.CashFlow.barter
+        if(inOffer.getOName().startsWith("P")){
         tradedShipsTried++;
+        }
         aPre = "c&";
         hist.add(new History(aPre, 5, name + " cur.Bar R", resource.balance));
         hist.add(new History(aPre, 5, name + " cur.Bar S", staff.balance));
         hist.add(new History(aPre, 5, name + " cur.Bar C", c.balance));
         hist.add(new History(aPre, 5, name + " cur.Bar G", g.balance));
-      }
-      E.myTest(myTrade == null && entryTerm > 0, "xit ASY barter " + (eTrad == null ? " !eTrad" : " eTrad") + " entryTerm=" + entryTerm + (myTrade == null ? " !myTrade" : " myTrade"));
 
+      E.myTest(myTrade == null && entryTerm > 0, "xit ASY barter " + (eTrad == null ? " !eTrad" : " eTrad") + " entryTerm=" + entryTerm + (myTrade == null ? " !myTrade" : " myTrade"));
+      }//end other name not equal
       // now set up for a barter by Trades.barter
       if (myTrade != null && entryTerm > 0) {
         hist.add(new History(aPre, 5, " " + name + "cashFlow barter", " term=" + inOffer.getTerm(), " trades"));

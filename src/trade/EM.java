@@ -466,9 +466,10 @@ class EM {
   static final long LIST19 = 0200000000000000L;
   static final long LIST20 = 0400000000000000L;
   static final long lmask = 0777777700000000L;
-  static final long ROWS0 = 01000000000000000L;
-  static final long ROWS1 = 02000000000000000L;
-  static final long ROWS2 = 04000000000000000L; 
+  static final long ROWS1 = 01000000000000000L;
+  static final long ROWS2 = 02000000000000000L;
+  static final long ROWS3 = 04000000000000000L; 
+  static final long ROWS123 = ROWS1 | ROWS2|ROWS3;
   static final long ROWSMASK = 07000000000000000L;
   static final long LMASK = lmask;
   static final long LIST34567 = list3 | list4 | list5 | list6 | list7;
@@ -2062,14 +2063,13 @@ class EM {
 
   void defRes() {
 
-    doRes(LIVEWORTH, "Live Worth", "Live Worth Value including year end working, reserve: resource, staff, knowledge", 6, 2, 0, list9 | list10 | list11 | LIST034567 | thisYr | EM.THISYEARUNITS | sum, list0 | thisYrAve | both, LIST034567 | cur | curUnits | both, LIST17 | cumUnits);
-    doRes(STARTWORTH, "Starting Worth", "Starting Worth Value including working, reserve: resource, staff, knowledge", 2, 2, 0, cur | sum, 0, 0, 0);
-    doRes(WORTHIFRAC, "PercInitWorth ", "Percent of Initial Worth Value including working, reserve: resource, staff, knowledge", 3, 1, 4, list1 | curAve | curUnits | both, thisYrAve | both | thisYr | sum, 0, 0);
+    doRes(LIVEWORTH, "Live Worth", "Live Worth Value including year end working, reserve: resource, staff, knowledge", 6, 2, 0, list9 | list10 | list11 | LIST034567 | thisYr |THISYEARUNITS | sum, ROWS1 | list0 | thisYrAve | both, ROWS3 | LIST034567 | cur | curUnits | both, ROWS2 | LIST0 | LIST17 | cumUnits);
+    doRes(STARTWORTH, "Starting Worth", "Starting Worth Value including working, reserve: resource, staff, knowledge", 2, 2, 0, CURAVE | LIST34567 | LIST10 | sum, 0, 0, 0);
+    doRes(WORTHIFRAC, "PercInitWorth ", "Percent of Initial Worth Value including working, reserve: resource, staff, knowledge", 2, 1, 4,LIST10 | curAve | ROWS3 | both, thisYrAve | both | thisYr , 0, 0);
 
-    //   doRes("LIVEWORTH", "Live Worth", "Live Value including year end working, reserve: resource, staff, knowledge", 6, 0, list0 | list12 | thisYr | sum, list0 | cur | curUnits | both, list0 | 0, 0);
-    doRes("yearCreate", "yearCreations", "new Econs ceated from year initial funds", 6, 2, 0, LIST034567 | cumUnits | cum | THISYEARUNITS | both, 0, 0, 0);
-    doRes("FutureCreate", "Future Create", "Econs created from Future Funds", 3, 2, 1, LIST234567 | CURAVE | both | skipUnset | CURUNITS , LIST0 | CUMUNITS | THISYEARUNITS, 0, 0);
-    doRes("bothCreate", "bothCreations", "new Econs ceated from  initial funds and future funds", 6, 2, 0, LIST034567 | cumUnits | cum | THISYEARUNITS | both, 0, 0, 0);
+    doRes("yearCreate", "yearCreations", "new Econs ceated from year initial funds", 2, 2, 0, LIST034567 | THISYEAR | THISYEARUNITS | ROWS1 | both ,LIST034567 | cumUnits  | both | ROWS3, 0, 0);
+    doRes("FutureCreate", "FutureFund Create", "Econs created from Future Funds", 2, 2, 0, LIST034567 | THISYEAR | THISYEARUNITS | ROWS1 | both ,LIST034567 | cumUnits  | both | ROWS3, 0, 0);
+    doRes("bothCreate", "bothCreations", "new Econs ceated from  initial funds and future funds", 2, 2, 0, LIST034567 | THISYEAR | THISYEARUNITS | ROWS1 | both ,LIST034567 | cumUnits  | both | ROWS3, 0, 0);
     doRes("swapRIncr", "swapRIncr", "Uses of R Incr Swap percent of RC", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
     doRes("swapSIncr", "swapSIncr", "Uses of S Incr Swap percent of SG", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
     doRes("swapSDecr", "swapSDecr", "Uses of S Decr Swap percent of SG", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
@@ -2079,14 +2079,7 @@ class EM {
     doRes("swapSSXchg", "swapSSXchg", "Uses of S Xchg Scost Swap percent of RC", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
     doRes("swapSRXchg", "swapSRXchg", "Uses of S Xchg Rcost Swap percent of RC", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
 
-    /*
-     if(swapsN < 0)setStat("DeadNegN",pors,clan,fyW.sumTotWorth,1);
-          else if(swapsN<10)setStat("DeadLt10",pors,clan,fyW.sumTotWorth,1);
-          if(rawProspects2.curMin()< E.NZERO)setStat("DeadNegProsp",pors,clan,fyW.sumTotWorth,1);
-          setStat(EM.DEADHEALTH, pors, clan, rawProspects2.curMin(), 1);
-          if((tt3=bals.getRow(1).sum()/bals.getRow(0).sum())>1.5)setStat("DeadRatioS",pors,clan,tt3,1);
-          if((tt3=bals.getRow(0).sum()/bals.getRow(1).sum()) > 1.5)setStat("DeadRatioR",pors,clan,tt3,1);
-     */
+
     doRes("DeadNegN", "DeadNegSwapN", "Swaps never entered", 3, 2, 0, list0 | LIST17 | cumUnits | both, list2 | LIST17 | cumUnits | CUR | both, 0, 0);
     doRes("DeadLt10", "DeadLt10", "no more than 10 swaps", 3, 2, 0, list0 | LIST17 | cumUnits | both, list2 | LIST17 | cumUnits | CUR | both, 0, 0);
     doRes("DeadNegProsp", "DeadNegProsp", "Never was able to get healthy", 3, 2, 0, list0 | LIST17 | cumUnits | both, list2 | LIST17 | cumUnits | CUR | both, 0, 0);
@@ -2147,7 +2140,7 @@ class EM {
     doRes(SWAPSXFERCOST, "Swap SXfer Cost", "Fraction of S XFER swap cost/sum of R units", 3, 4, 1, list8 | curAve | curUnits | both | skipUnset, 0, 0, 0);
     doRes("EmergFF", "EmergFF", "emergency resource/staff sums tranfer resource to FutureFund", 2, 2, 1, LIST2 | CURUNITAVE | BOTH | SKIPUNSET | CURUNITS | CUR | CUM | CUMUNITS, LIST034567 | SKIPUNSET | BOTH | CUM | THISYEAR | THISYEARUNITS, 0, 0);
     doRes("SizeFF", "SizeFF", "Size resource/staff sums tranfer resource to FutureFund", 2, 2, 1, LIST2 | CURUNITAVE | BOTH | SKIPUNSET | CURUNITS | CUR | CUM | CUMUNITS, LIST034567 | SKIPUNSET | BOTH | CUM | THISYEAR | THISYEARUNITS, 0, 0);
-    doRes("FutureFund", "FutureFund", "At emergency1 level of resource/staff sums tranfer resource to FutureFund", 2, 2, 1, LIST2 | CURUNITAVE | BOTH | SKIPUNSET | CURUNITS | CUR | CUM | CUMUNITS, LIST034567 | SKIPUNSET | BOTH | CUM | THISYEAR | THISYEARUNITS, 0, 0);
+    doRes("FutureFundSaved", "FutureFundsSaved", "Total resource/staff sums tranfered to FutureFund", 2, 2, 1, LIST2 | CURUNITAVE | BOTH | SKIPUNSET | CURUNITS | CUR | CUM | CUMUNITS, LIST034567 | SKIPUNSET | BOTH | CUM | THISYEAR | THISYEARUNITS, 0, 0);
     doRes("REmergFF1", "R Emerg FutureFund1", "At emergency1 level of resource/staff sums tranfer resource to FutureFund", 2, 2, 1, LIST2 | CURUNITAVE | BOTH | SKIPUNSET | CURUNITS | CUR | CUM | CUMUNITS, 0, 0, 0);
     doRes("SEmergFF1", "S Emerg FutureFund1", "At emergency1 level of staff/resource sums tranfer resource to FutureFund", 2, 2, 1, LIST2 | CURUNITAVE | BOTH | SKIPUNSET | CURUNITS | CUR | CUM | CUMUNITS, 0, 0, 0);
     doRes("REmergFF2", "R Emerg FutureFund2", "At emergency2 level of resource/staff sums tranfer resource to FutureFund", 2, 2, 1, LIST2 | CURUNITAVE | BOTH | SKIPUNSET | CURUNITS | CUR | CUM | CUMUNITS, 0, 0, 0);
@@ -3004,17 +2997,21 @@ class EM {
       }
       int c = 0, ageIx = 0;
       long depth = -2, hLM = 0, hLM1 = 0, hLMp = 0, myValid = 0;
+      long haveRows = 0L;
       didSum = false; // initialize didSum, remember sum across locks
       // process each LOCKS0-3 thru each command and list not zero
       // use previous hlMp if this lock has no list
       for (int d = 0; d < 4; d++) {
         hLM1 = (long) (aop & resI[rn][ICUM][CCONTROLD][LOCKS0 + d]) & lmask;
+        long aRows = aop & ROWSMASK;
+        long lRows = (resI[rn][ICUM][CCONTROLD][LOCKS0 + d] & ROWSMASK);
+        boolean okRows = (aRows == 0L && lRows == 0L) || ((aRows & lRows)  >  0L);
         //use previous if none present.
         hLM = (resI[rn][ICUM][CCONTROLD][LOCKS0 + d] & lmask) > 0L ? hLM1 : hLM;
         long hDM = aop & resI[rn][ICUM][CCONTROLD][LOCKS0 + d] & d1mask;
         opr = hDM;
         // must have at least 1 matching list and 1 matching do type
-        if (hLM > 0L && hDM > 0L) {
+        if (hLM > 0L && hDM > 0L && okRows) {
           hLMp = hLM; // save a good list option
           // now process the selected age group by the first match
           // aop should containt no more than 1 age list

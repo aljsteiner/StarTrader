@@ -171,7 +171,7 @@ public class StarTrader extends javax.swing.JFrame {
    */
 
   static final public String[] statsButtonsTips = {statsButton0Tip, statsButton1Tip, statsButton2Tip, statsButton3Tip, statsButton4Tip, statsButton5Tip, statsButton6Tip, statsButton7Tip, statsButton8Tip, statsButton9Tip, statsButton10Tip, statsButton11Tip, statsButton12Tip, statsButton13Tip, statsButton14Tip, statsButton15Tip, statsButton16Tip, statsButton17Tip, statsButton18Tip, statsButton19Tip, statsButton20Tip, gameTextFieldText};
-  static final public String versionText = "Version 19.0";
+  static final public String versionText = "     Version 19.0";
   static final public String storyText = "This game is about trading not fighting. Trading is done between planets and Starships which move between planets.  There are 5 clans and a gamemaster, all of which can change some priorities or values for the game.You can choose one of several winning goals, highest worth, highest trades received, highest trades given, highest number of planets and ships etc.  Planets and ships are each economies with 7 sectors.  Each sector has working resources, reserve resources (cargo), working staff and reserve staff (guests).\n\nThere is also knowledge.  As knowledge in a sector increases, the annual cost per unit in each sector decreases and in some sectors new units of resource, staff, and knowledge increase. As in any game, random factors influence many aspects of the game.\n\nPlanets mine resources and grow staff, but deliberately have surpluses in some financial sectors, and famines in some other sectors.  Ships move resources between planets, often trading the resources that are lacking at a given planet in exchange for other resources and staff and knowledge.  But ships generally cannot increase staff or mine/find resources, they must receive significant resources and staff in each trade to grow at a rate that allows them to be productive trade partners.\n\nThe game proceeds either 1 year at a time or 5 years at a time depending on the chice by the gamemaster.  At the end of each 1 year or 5 years, clan masters may look at their statistices and decide to change some clan priorities.  The gamemaster can also make changes, but probably should not.  It is possible in some systems to have multiple games running, each game with different priorities.  The initial priorities are set to make the game interesting with possibilities of growth.  Some priority changes by gamemaster or clanmaster may increase growth, but may also decrease growth causing a death of all or most ships and planets.  The balancing of economies is not simple or easy.  It is more possible to crash an economy than to grow it, so don't be greedy, make small changes until you understand the game better.\n\n"
           + "As each year begins some ships and planets encounter catastrophies.  Clanmasters that choose higher random activity encountor more catastrophies.  Catastrophies remove some resources and some staff, but they also reveal additional resources that planets can mine, they can increase resources that ships can find while traveling between planets, they can ships to uncover caches of  manuals for techniques in one or more sectors.  In each case, a trade is very useful to get back resources and/or staff in crippled sectors.\n\nAfter catastrophies ships and planets do trading.  For planets the goal is to even out resources and staff as much as possible, and to gain tech manuals to be turned into knowledge.  For ships the goal is to pick friendly planets which will do reasonable trades, and to try to grow in all resources and staff, whle also getting cargo and guests that can be traded to some other planet, the ship also gets manuals from the planet of new technologies that have not been found elsewhere.  The gamemaster sets the amount of new knowledge that can be turned into manuals for trade.\n\nAfter zero to 15 ships trade with a planet, and ships trade with up to 5 ships at the same planet.\n\nThe next activity is swapping resources to prevent death, reduce costs and to enhance growth.  Units of resource or staff can be moved between working and reserve status at a modest cost.  Moving resorces between sectors has a much higher cost, you can call the move transmuting a resource or repurposing a resource depending on you view of magic and economic theory.  The gamemaster can change the costs of movement.\n\nAfter the swapping the planet dies if some sector does not have enough working staff or resources.  Each year has a requirment for there to be enough buildings to survive winter, enough food production to not starve etc.  The required working units are higher than the cost of units for a given year, and growth is done before taking costs.<p>The stregth of sectors may influence some operations, E.G. a strong defense may reduce the size of catastrophies, a strong, strong lifeneed may aid staff growth and decreas staff deaths, strong transportation may decrease cost of moving staff and resources."
           + "\n\nClanmasters can change priorities that influence how the robots runing each clan ship and clan planet make decisions.  The gamemaster sets overall parameters that can change the nature of the game in some way for all of the clans.\n\nThe window for the game has a number of named tabs.\n\nThe \"game\" tab displays ways for the gamemaster and each clanmaster to change priorities. \n\n Planets and ships make increasing contributions to the forward fund as their worth increases.  At the beginning of each yaar, new planets and ships are created from the forward fund and/or from the game initialization.  As the game reaches the maximum number of plaets and ships, contributions to the forward fund are reduced.  The memory assigned to the game limits the number of planets and ships.\n\nThe \"stats\" tab shows many different values about the position of each clan.  The stats can be used to decide how to change input values at the \"game\" tab.<p>The \"display\" tab will change as the game progresses each year.";
@@ -483,7 +483,9 @@ public class StarTrader extends javax.swing.JFrame {
     storyVersionField.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
     storyVersionField.setText("jTextField1");
     storyVersionField.setBorder(null);
-    storyVersionField.setPreferredSize(new java.awt.Dimension(400, 40));
+    storyVersionField.setMaximumSize(new java.awt.Dimension(400, 50));
+    storyVersionField.setMinimumSize(new java.awt.Dimension(100, 30));
+    storyVersionField.setPreferredSize(new java.awt.Dimension(200, 40));
     story.add(storyVersionField);
 
     storyTextPane.setAutoscrolls(true);
@@ -3639,9 +3641,7 @@ public class StarTrader extends javax.swing.JFrame {
   }//GEN-LAST:event_gameCtlButtonRun1Year1MouseClicked
 
   private void gameCtlButtonRun5Years1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gameCtlButtonRun5Years1MouseClicked
-    // resetRes(fullRes);
-    // getGameValues(curVals, gamePanels, gameTextFields, gameSlidersP, gameSlidersS);
-    //resetRes(fullRes);
+   
     if (eM.fatalError) {
       setFatalError();
     }
@@ -6730,7 +6730,7 @@ public class StarTrader extends javax.swing.JFrame {
   String resExt[] = new String[105];
 
   /**
-   * this set array of arrays match the 12 radio buttons on the stats tab The
+   * this set array of arrays match the 20 radio buttons on the stats tab The
    * 0'th array is invoked by the 0 radio button etc. Each array contains an
    * array of one or more numbers that are filters for the response ENUM's in
    * class EM Each ENUM has up to 4 filters that must match at one "listx" in a
@@ -6738,7 +6738,7 @@ public class StarTrader extends javax.swing.JFrame {
    * matches The methods in Assets and associated classes invoke a selection of
    * EM.gameRes to store a value
    */
-  long resLoops[][] = {{EM.list0 | EM.thisYr | EM.sum | EM.skipUnset, EM.list0 | EM.thisYr | EM.both | EM.skipUnset, EM.list0 | EM.CUM | EM.both | EM.skipUnset, EM.list0 | EM.THISYEARUNITS | EM.CUMUNITS | EM.skipUnset | EM.BOTH},
+  long resLoops[][] = {{EM.list0 | EM.thisYr | EM.sum | EM.skipUnset, EM.list0 | EM.ROWS1 | EM.thisYr | EM.both | EM.skipUnset, EM.list0 | EM.CUM | EM.both | EM.skipUnset, EM.ROWS2 | EM.list0 | EM.THISYEARUNITS |  EM.skipUnset | EM.BOTH , EM.ROWS3 | EM.list0 | EM.CUMUNITS | EM.skipUnset | EM.BOTH },
   {EM.list1 | EM.CURUNITAVE | EM.CURUNITS | EM.skipUnset, EM.list1 | EM.cum | EM.CUMUNITS | EM.both, EM.skipUnset},
   {EM.list2 | EM.cur | EM.curUnitAve | EM.curUnits | EM.both | EM.skipUnset, EM.list2 | EM.cum | EM.cumUnits | EM.both | EM.skipUnset},
   {EM.list3 | EM.cur | EM.curAve | EM.curUnits | EM.both | EM.skipUnset},
@@ -6763,8 +6763,7 @@ public class StarTrader extends javax.swing.JFrame {
   int m = 0, arow = 0;
 
   /**
-   * list the results saved in each of the econs Temporary without response to
-   * setting radio buttons
+   * list the results saved by setStats in Econs and Assets 
    *
    * @param fullRes
    */
@@ -6777,13 +6776,15 @@ public class StarTrader extends javax.swing.JFrame {
     statsField2.setText("year" + eM.year);
     int lrows = statsTable1.getRowCount();
     int cntLoops = 0;
+    int [] rowsCnts = {100,0,0,0};
+    long [] rowsMasks = {0L,eM.ROWS1,eM.ROWS2,eM.ROWS3};
+      for(int r=0;r < 3;r++){
     for (long i : resLoops[list]) {  // do loops with resLoops as ops;
       System.out.printf("StarTrador.listRes list%d, cntLoops%d key%o row%d", list, cntLoops, i, arow);
-      // System.out.println("listRes list=" + list + ", cntLoops=" + cntLoops++ + ", i=" + Integer.toOctalString(i) + ", row=" + arow);
-      //  for (m = 0; m < lGameRes; m++) {
-      //    arow = fullRes[m].putRows(statsTable1, resExt, arow, i);
-      // }
+    
+    
       for (m = 0; m < EM.rende4; m++) {
+        boolean rowsOk = (((i & EM.ROWSMASK) == 0L) && r == 0) || ((( i & rowsMasks[r]) > 0L) && r > 0);
         arow = eM.putRows(statsTable1, resExt, m, arow, i);
       }
     }
@@ -6818,10 +6819,12 @@ public class StarTrader extends javax.swing.JFrame {
           int selectedRow = lsm.getMinSelectionIndex();
           statsField.setText(stringTemp = resExt[selectedRow]);
           //    statsTable1.setToolTipText(stringTemp);
-        }
-      }
-    });
-  }
+        } // 
+      } // end valueChanged
+    } // end ListSelectionListener
+    ); // end addListSelectionListener
+  }// for reslooops
+  }// for 
 
   /*  void resetRes(EM.gameRes[] fRes) {
     for (m = 0; m < lGameRes; m++) {
