@@ -139,18 +139,18 @@ public class A2Row {
     aCnt[0] = A[0].setCnt;
     aCnt[1] = A[1].setCnt;
     minSum2 = minSum = anegSum = aplusSum = asum = 0.;
-    for (int g = 0; g < 2 * E.lsecs; g++) {
+    for (int g = 0; g <  E.L2SECS; g++) {
       if (g < E.lsecs) {
         minC = A[0].values[g];
       }
       else {
-        minC = A[1].values[g - E.lsecs];
+        minC = A[1].values[g - E.LSECS];
       }
       asum += minC;
-      if (minC < E.nzero) {
+      if (minC < E.NZERO) {
         anegSum += minC;
       }
-      if (minC > E.pzero) {
+      if (minC > E.PZERO) {
         aplusSum += minC;
       }
       minCIx = g;

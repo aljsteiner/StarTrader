@@ -5655,17 +5655,17 @@ public class StarTrader extends javax.swing.JFrame {
    * @param n number of planets in the return Econ array
    * @return new Econ array
    */
-  public Econ[] getWildCurs(int n) {
+  public Econ[] getWildCurs(int n,Econ shipEcon) {
     int j = 0; // counter for planets in ret;
     Econ[] ret = new Econ[n];
-    ret[0] = eM.planets.get(0);   // start with the newest planet
+    ret[0] = eM.planets.get(0);   // start with the oldest planet
     for (int m = 0; m < ret.length; m++) {
       ret[m] = ret[0];   // set everything to the oldest planet
     }
     // loop from new to old planets
     int lplanets = eM.planets.size();
     double lsel, maxsel;
-    for (int m = 0; m < 4 && j < ret.length; m++) {
+    for (int m = 0; m < 12 && m < ret.length; m++) {
       for (int i = lplanets - 1; i >= 0 && j < ret.length; i--) {
         Econ planet = eM.planets.get(i);
         if (!planet.getDie() && (planet.getShipOrdinal() < (1 + m) && (lsel = planet.calcLY(planet, eM.curEcon)) < (maxsel = eM.maxLY[0] * (1 + m) / 2.))) {
@@ -5725,14 +5725,15 @@ public class StarTrader extends javax.swing.JFrame {
 
   ;
   public void doYear() {
-    NumberFormat df = NumberFormat.getNumberInstance();
+   
+
+    try {
+       NumberFormat df = NumberFormat.getNumberInstance();
     df.setMinimumFractionDigits(2);
     df.setMaximumFractionDigits(5);
     NumberFormat whole = NumberFormat.getNumberInstance();
     whole.setMaximumFractionDigits(0);
     double curWorth = 1.;
-
-    try {
       // years is a -1 origin,
       EM.doYearTime = startYear = new Date().getTime();
       stateConst = STARTING;
@@ -5765,17 +5766,19 @@ public class StarTrader extends javax.swing.JFrame {
       eM.econCnt = 0;
       eM.planets.clear();
       eM.ships.clear();
+      EM.tradedCnt = 0;
+      EM.visitedCnt=0;
       for (int m = 0; m < 2; m++) {
-        eM.porsCnt[m] = 0;
-        eM.porsTraded[m] = 0;
-        eM.porsVisited[m] = 0;
+        EM.porsCnt[m] = 0;
+        EM.porsTraded[m] = 0;
+        EM.porsVisited[m] = 0;
         for (int n = 0; n < 5; n++) {
-          eM.clanCnt[n] = 0; // doing twice
-          eM.clanTraded[n] = 0;
-          eM.porsClanCnt[m][n] = 0;
-          eM.porsClanTraded[m][n] = 0;
-          eM.clanVisited[n] = 0;
-          eM.porsClanVisited[m][n] = 0;
+          EM.clanCnt[n] = 0; // doing twice
+          EM.clanTraded[n] = 0;
+          EM.porsClanCnt[m][n] = 0;
+          EM.porsClanTraded[m][n] = 0;
+          EM.clanVisited[n] = 0;
+          EM.porsClanVisited[m][n] = 0;
           
         }// n
       }// m
@@ -5783,10 +5786,10 @@ public class StarTrader extends javax.swing.JFrame {
       // now set the counts and planets and ships
       for (Econ t : eM.econs) {
         if (!t.getDie()) {
-          eM.porsClanCnt[t.pors][t.clan]++;
-          eM.clanCnt[t.clan]++;
-          eM.porsCnt[t.pors]++;
-          eM.econCnt++;
+          EM.porsClanCnt[t.pors][t.clan]++;
+          EM.clanCnt[t.clan]++;
+          EM.porsCnt[t.pors]++;
+          EM.econCnt++;
           if (t.pors == P) {
             eM.planets.add(t);
           }

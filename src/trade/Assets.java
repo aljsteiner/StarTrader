@@ -5998,11 +5998,19 @@ public class Assets {
     class SearchRecord{
        Econ cn; //0=planet or ship,1=primaryShip
   String cnName = "aPlanetOther";
-  A2Row goods = new A2Row(); //only one instance of goods, for both cn's  
+  A2Row goodsFracs = new A2Row(); //only one instance of goods, for both cn's  
+  int goodCnt= 0; // count of goods found
  // int prevTerm = 60;
-  int age = 1;
-  int year = -10;  // year of the offer **
- double[] xyzs = {-40, -41, -42}; //**
+  int prevAge = 1;
+  double prevTradeWorth = 0.;
+  double lastTradeWorth = 0.;
+  double curTradeWorth = 0.; 
+  double averageYearWorthIncrease = 0.0;
+  int prevYear = -10;  // year of the offer **
+  int firstYear = 0;
+  int lastYear = 0;
+  double travelCost=0.; // travel, maintenence cost of travel to this planet
+ double[] xyzs = {-40, -41, -42}; //planet location
  double startWorth = 0.;// worth before the trade.
  double endWorth = 0.; // worth after trade
  double strategicValue = 0.; // received/sent;
@@ -6012,9 +6020,60 @@ public class Assets {
   NumberFormat dfo = dFrac;
  // EM eM; see outer class
       
+  /** constructor with no variables
+   * 
+   */
       SearchRecord(){
-        year = eM.year;
+        prevYear = -10;
       } // end class SearchRecord constructor
+      
+      SearchRecord(Econ one){
+        cn = one;
+        clan = one.clan;
+        pors = one.pors;
+        prevAge = -12;
+        cnName = one.name;
+      }
+      
+      void updatePlanet(TradeRecord tRec){
+        double goodsSum = tRec.goods.plusSum() - tRec.goods.negSum();
+        for(int n=0;n < E.L2SECS;n++){
+          // initial values of 0.0
+          goodsFracs.add(n,tRec.goods.get(n));
+        }
+        if(prevYear < 0){ // first entry
+          
+          
+        }
+        
+        
+        
+        
+        
+      }
+      
+      Econ searchForNextPlanet(Econ[] nearPlanetsList,ArrayList<TradeRecord>  knownPlanets){
+        Econ ret = eM.planets.get(0);
+        int nearPlanetsListLength =  nearPlanetsList.length;
+        int knownPlanetsLength = knownPlanets.size();
+        SearchRecord[] searchNearPlanets = new SearchRecord[nearPlanetsListLength];
+        for(int m = 0; m < nearPlanetsListLength;m++){
+          searchNearPlanets[m] = new SearchRecord(nearPlanetsList[m]);
+        }
+        
+        
+        for(int m=0;m < knownPlanetsLength;m++){
+         TradeRecord nextKnownPlanet = knownPlanets.get(m); 
+         Econ knownEcon = knownPlanets.get(m).cn;
+         for(int n=0;n< nearPlanetsListLength;n++){
+           if(knownEcon == nearPlanetsList[n]){
+            searchNearPlanets[m].updatePlanet(knownPlanets.get(m));
+           }
+         }
+        }
+        
+        return ret;
+      } // end searchForNextPlanet
       
     } // end trade.Assets.CashFlows.Trades.SearchRecord
 //
@@ -6607,16 +6666,18 @@ public class Assets {
         hist.add(new History(aPre, 5, " " + name + " now instantiate", " a new", " trades"));
         myTrade = new Trades();
        } // end myTrade == null
+      // test for a new visitor
       if(!inOffer.getOName().equals(tradingShipName) ){
         tradingShipName = inOffer.getOName();
         inOffer.setMyIx(ec);
         myTrade.initTrade(inOffer, this);
         hist.add(new History(aPre, 5, " " + name + " after init", " a new", " trades"));
-
+        EM.porsClanVisited[pors][clan]++;
+        EM.porsVisited[pors]++;
+        EM.clanVisited[clan]++;
+        EM.visitedCnt++;
         // new year barter in Assets.CashFlow.barter
-        if(inOffer.getOName().startsWith("P")){
         tradedShipsTried++;
-        }
         aPre = "c&";
         hist.add(new History(aPre, 5, name + " cur.Bar R", resource.balance));
         hist.add(new History(aPre, 5, name + " cur.Bar S", staff.balance));
@@ -6663,6 +6724,10 @@ public class Assets {
             tradedSuccessTrades++;
             tradeAccepted = true;
             tradeRejected = tradeLost = false;
+            EM.tradedCnt++;
+            EM.porsTraded[pors]++;
+            EM.porsClanTraded[pors][clan]++;
+            EM.clanTraded[clan]++;
             // leave fav set 5 to 0
             // ret.setTerm(-2); set 2 in Econ 
           }

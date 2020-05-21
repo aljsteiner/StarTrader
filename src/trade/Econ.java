@@ -319,21 +319,28 @@ public class Econ {
     return as.getTradedShipsTried();
   }
   
-  /** decide is this planet is available for another trade
-   * check StarTrader values for #ships, #Econs, #tradesTried
+  /** decide is this planet is available for another visit to attempt a trade
+   * Check the number of tradedShipsTried against several requirements.
+   * check against:<ul><li>ships per planet--visited ships per visited planets</li>
+   * <li>clan ships per clan planets -- visited clan ships -- visited clan planets</li>
+   * <li>clan ships per all planets -- clan ship visits per all planets</li></ul>
    * 
-   * @param stTradedThisYear
-   * @param stShips
-   * @param stEcons
-   * @return 
+   * @return true if planet can have a visit to trade
    */
-  boolean canTradeShip(int stTradedThisYear,int stShips,int stEcons){
+  boolean planetCanTrade(){
+    if(pors > 0) return true; // any ship trades
+    if(EM.econCnt < 11) return true;
     boolean ret=false;
-    int maxTrades=0; // max for this clan
-    int planets = stEcons-stShips;
-    maxTrades = 1 + (int)stShips/planets; 
-    
-    return ret;
+    int myVisits = getTradedShipsTried();
+    double shipsPerPlanets = EM.porsCnt[E.S] /EM.porsCnt[E.P];
+    if(myVisits > Math.floor(shipsPerPlanets)) return false;
+    double visitedShipsPerPlanets = EM.porsVisited[E.S]/EM.porsVisited[E.P];
+    if(visitedShipsPerPlanets > shipsPerPlanets) return false;
+    double clanShipsPerClanPlanets = EM.porsClanCnt[E.S][clan]/EM.porsClanCnt[E.P][clan];
+    if(myVisits > Math.floor(clanShipsPerClanPlanets)) return false;
+    double visitedClanShipsPerClanPlanets = EM.porsClanVisited[E.S][clan] /EM.porsClanVisited[E.P][clan];
+    if(visitedClanShipsPerClanPlanets > clanShipsPerClanPlanets) return false;
+    return true; //OK past all limits
   }
 
   ;
