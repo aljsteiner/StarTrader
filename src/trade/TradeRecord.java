@@ -97,6 +97,13 @@ public class TradeRecord {
     strategicValue = aa.strategicValue;
   }
    
+   // list to output a record for checking correctness
+   void listRec(){
+     if((eM.year == 5 || eM.year == 6) && (year == 1 || year == 2  || year == 6) ){
+     System.out.println(eM.year + ":" + year + ":" + age + " " + cn.getName() + ", clan" + clan + ", g=" + cn.mf(goods.plusSum() - goods.negSum()) + ", w=" + cn.mf(startWorth) + ":" + cn.mf(endWorth) + ", sv=" + cn.mf(strategicValue) + ", xyz=" + cn.mf(xyzs[0]) + ":" + cn.mf(xyzs[1]) + ":" + cn.mf(xyzs[2]));
+     
+         }}
+   
    /** this is older than ownrR
     * Year 8 &lt; Year 10  Year 8 Is older 
     * P00009 &lt; S00008 P00009 is older

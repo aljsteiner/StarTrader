@@ -91,8 +91,9 @@ public class Econ {
   protected ArrayList<History>[] hists = new ArrayList[1];
   protected ArrayList<History> hist;
   protected ArrayList<Offer> offers = new ArrayList<Offer>();  // planet veriable
-  ArrayList<ArrayList<Offer>> planetOffers
-                              = new ArrayList<ArrayList<Offer>>(); // ships list of planets
+  // ArrayList<ArrayList<Offer>> planetOffers
+ //                              = new ArrayList<ArrayList<Offer>>(); // ships list of planets
+   ArrayList<TradeRecord> planetList = new ArrayList<TradeRecord>();
 
   ARow sectorPri;
   ArrayList<Offer> myPlanetOffers; // list of offers for this planet
@@ -512,133 +513,7 @@ public class Econ {
   }
 
   
- /** add the current offer (after barter finished) to the Econ offer list
-  * 
-  * @param fromPlanet  previous Offer list
-  * @param newOffer  the new offer
-  * @return offer list
-  */
-  ArrayList<Offer> buildPlanetOffers(ArrayList<Offer> fromPlanet, Offer newOffer) {
-    ArrayList<Offer> pList = new ArrayList<Offer>();
-    int pSize = planetOffers.size();
-    Offer fOffer;
-    Offer yOffer;
-    ArrayList<Offer> pArray;
-    int pIx = 0, fIx = 0, fSize = 0, yFlag = -10;
-    int ySize = 0, yIx = 0;
-    boolean done = false, pDone = false, yDone = false;
-    // first add offer first in the appropriate planetList, create one if new
-    if (pSize > 0) { // skip first time empty planetOffers
-      for (pIx = 0; pIx < pSize && !done; pIx++) {
-        // find list with the same planet
-        if ((planetOffers.get(pIx).size() > 0) && planetOffers.get(pIx).get(0).cnName[0].equals(name)) {
-          planetOffers.get(pIx).add(0, newOffer.clean());
-          done = true;
-        }
-      }
-    }
-    if (!done && pIx >= pSize) { // add new planet
-      pIx = pSize;
-      planetOffers.add(new ArrayList<Offer>());
-      planetOffers.get(pIx).add(newOffer);
-      done = true;
-    }
 
-    //now remove the expired entries
-    pSize = planetOffers.size();
-    for (pIx = 0; pIx < pSize; pIx++) {
-      ySize = planetOffers.get(pIx).size();
-      for (yIx = 0; yIx < ySize; yIx++) {
-        if (ySize > 0) {
-          yOffer = planetOffers.get(pIx).get(yIx);
-          if (yOffer.isMyShip(this)) {
-            if (yOffer.getAge() > myYearsKeep[clan]) {
-              planetOffers.get(pIx).remove(yOffer);
-            }
-          }
-          else if (yOffer.getAge() > yearsKeep[clan]) {
-            planetOffers.get(pIx).remove(yOffer);
-          }
-        }
-      }
-    } // end of removals
-
-    // now import the fromPlanet list
-    if (fromPlanet != null) {
-      fSize = fromPlanet.size();
-      if (fSize > 0) { // skip first time fromPlanet empty
-        fBreak0:  // break to here when fromPlanet offer is dealt with
-        // get the fromPlanet entries one by one
-        // keep fOffer if it is not null
-        for (fIx = 0; fIx < fSize; fIx = fOffer == null ? fIx++ : fIx) {
-          // if pIx for existing planet array matches; keep it
-          fOffer = fromPlanet.get(fIx);
-          pSize = planetOffers.size();
-          if (fOffer.getAge() < yearsKeep[clan]) { // skip any over age element
-            if (pIx >= pSize) { // need a new planet
-              planetOffers.add(new ArrayList<Offer>());
-              pSize = planetOffers.size();
-              // start a new planet column with fOffer the first entry
-              planetOffers.get(pIx).add(fOffer);
-              fOffer = null;  // flag fOffer used
-            }
-            else {  // pix inside, fOffer still good
-              ySize = planetOffers.get(pIx).size();
-              if (yIx < ySize) {
-                yFlag = planetOffers.get(pIx).get(yIx).match(fOffer);
-                if (yFlag == 0 || yFlag == +2) {
-                  fOffer = null;
-                  yIx++;
-                }
-                else if (yFlag == -1) {
-                  planetOffers.get(pIx).add(yIx, fOffer);
-                  fOffer = null;
-                  yIx++; // one before
-                }
-                else if (yFlag == +1) {
-                  yIx++;  // next yIx
-                }
-                else if (yFlag == +3) { // wrong planet
-                  if (pDone) {
-                    pIx++;
-                  }
-                  else {
-                    pIx = 0; // start planet search from start
-                    pDone = true; // search restarted
-                  }
-                  yIx = 0;
-                }
-              }
-              else if (ySize < 1) {// y empty yIx == ySize == 0
-                planetOffers.get(pIx).add(fOffer);
-                fOffer = null; // we used it
-              }
-              else { // yIx > ySize
-                yFlag = planetOffers.get(pIx).get(0).match(fOffer);
-                if (yFlag < +3) {  // same planet
-                  planetOffers.get(pIx).add(fOffer);
-                  fOffer = null; // we used it
-                } // end of yFlag < 3
-              } // end if on pIx
-              fOffer = null;  // get the next one
-            } // end on pIx
-          } // end if on fOffer
-        } // loop back on fIx;
-        // end of merge fromPlanet
-      } // end skip first fime
-    } // end null fromPlanet
-
-    // now generate list to return to the planet
-    pSize = planetOffers.size();
-    for (pIx = 0; pIx < pSize; pIx++) {
-      ySize = planetOffers.get(pIx).size();
-      for (yIx = 0; yIx < ySize; yIx++) {
-        pList.add(planetOffers.get(pIx).get(yIx));
-        planetOffers.get(pIx).get(yIx).listPOffer(hist);
-      }
-    }
-    return pList;
-  }
 
   /**
    * start the year for this economy. This includes all of the bartering, Assume
@@ -880,12 +755,16 @@ public class Econ {
        while( iterOther.hasNext() && 
       (otherRec = iterOther.next()).isOlderThan(ownerRec)){
          
-         if(year > yearsTooEarly && otherRec.cnName.startsWith("P"))
+         if(otherRec.year > yearsTooEarly && otherRec.cnName.startsWith("P"))
          { 
-           newOwnerList.add(new TradeRecord(otherRec));
+           newOwnerList.add(otherRec);
+           if(E.debugTradeRecord) { otherRec.listRec(); }
          }       
     }// end while
-       if(year > yearsTooEarly && ownerRec.cnName.startsWith("P")){ newOwnerList.add(ownerRec);}
+       if(ownerRec.year > yearsTooEarly && ownerRec.cnName.startsWith("P")){ 
+         newOwnerList.add(ownerRec); 
+         if(E.debugTradeRecord) { ownerRec.listRec();}
+       }
      } // end for
     return newOwnerList;
   }
@@ -924,8 +803,9 @@ public class Econ {
         //send loop to both histories
         cn[0].hist.add(new History(History.loopMinorConditionals5,"T" + aOffer.getTerm() + " " + cn[bb].getName() +  " loop>>>>> ",  "i=" + i, "bb=" + bb1, "cur name=" ,cn[bb1].getName(), "ship=" + ship.getName(), "planet=" , planet.getName(),"<<<<<<<<<<<<<<<<<"));
         cn[1].hist.add(new History(History.loopMinorConditionals5, "**loop aOffer=", wh(aOffer.getTerm()), "i=" + i, "bb=" + bb1, "name=" + cn[bb1].getName(), "ship=" + ship.getName(), "planet=" + planet.getName()));
-        eM.curEcon = cn[bb1];;
-        aOffer = cn[bb1].as.barter(aOffer); // first barter with planet
+        eM.curEcon = cn[bb1];
+        aOffer = cn[bb1].barter(aOffer,cn[bb]);
+       // aOffer = cn[bb1].as.barter(aOffer); // first barter with planet
         //   ship.hist.add(new History(3,"Env finish ship Trade"));
         //   planet.hist.add(new History(3,"Env oofinish planet Trade"));
 
@@ -933,6 +813,15 @@ public class Econ {
       if(clearHist()){hist.clear();}
       eM.curEcon = myCur; // reset curEcon to its entry value
     }
+  }
+  
+  Offer barter(Offer aOffer,Econ otherEcon){
+    
+    Offer ret = as.barter(aOffer);
+    if(aOffer.getTerm() < 1){
+    planetList = mergeLists(planetList,otherEcon.planetList,aOffer);
+    }
+    return ret;
   }
 
 }

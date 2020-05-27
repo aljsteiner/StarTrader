@@ -1838,7 +1838,7 @@ public class StarTrader extends javax.swing.JFrame {
     logDisplayTable.setColumnSelectionAllowed(true);
     logDisplayTable.setGridColor(new java.awt.Color(153, 153, 255));
     logDisplayTable.setMaximumSize(new java.awt.Dimension(1200, 1200));
-    logDisplayTable.setMinimumSize(new java.awt.Dimension(800, 600));
+    logDisplayTable.setMinimumSize(new java.awt.Dimension(11200, 900));
     logDisplayTable.setPreferredSize(new java.awt.Dimension(1200, 1200));
     logDisplayTable.setRowHeight(13);
     logDisplayTable.getTableHeader().setResizingAllowed(false);
@@ -2431,9 +2431,9 @@ public class StarTrader extends javax.swing.JFrame {
     stats.setPreferredSize(new java.awt.Dimension(1200, 1200));
 
     statsScrollPanel.setMaximumSize(new java.awt.Dimension(1200, 1200));
-    statsScrollPanel.setMinimumSize(new java.awt.Dimension(600, 400));
+    statsScrollPanel.setMinimumSize(new java.awt.Dimension(700, 400));
     statsScrollPanel.setName(""); // NOI18N
-    statsScrollPanel.setPreferredSize(new java.awt.Dimension(800, 500));
+    statsScrollPanel.setPreferredSize(new java.awt.Dimension(1200, 500));
 
     statsTable1.setModel(new javax.swing.table.DefaultTableModel(
       new Object [][] {
@@ -3051,9 +3051,10 @@ public class StarTrader extends javax.swing.JFrame {
 
     jScrollPane1.setBorder(null);
     jScrollPane1.setAutoscrolls(true);
-    jScrollPane1.setMaximumSize(new java.awt.Dimension(800, 300));
-    jScrollPane1.setMinimumSize(new java.awt.Dimension(100, 50));
-    jScrollPane1.setPreferredSize(new java.awt.Dimension(500, 300));
+    jScrollPane1.setMaximumSize(new java.awt.Dimension(1200, 300));
+    jScrollPane1.setMinimumSize(new java.awt.Dimension(800, 80));
+    jScrollPane1.setName(""); // NOI18N
+    jScrollPane1.setPreferredSize(new java.awt.Dimension(1200, 100));
 
     displayPanel0Text.setColumns(50);
     displayPanel0Text.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
@@ -3061,16 +3062,19 @@ public class StarTrader extends javax.swing.JFrame {
     displayPanel0Text.setRows(5);
     displayPanel0Text.setWrapStyleWord(true);
     displayPanel0Text.setBorder(null);
-    displayPanel0Text.setMaximumSize(new java.awt.Dimension(800, 300));
-    displayPanel0Text.setMinimumSize(new java.awt.Dimension(150, 30));
+    displayPanel0Text.setMaximumSize(new java.awt.Dimension(1200, 300));
+    displayPanel0Text.setMinimumSize(new java.awt.Dimension(800, 30));
     displayPanel0Text.setName(""); // NOI18N
     displayPanel0Text.setOpaque(false);
-    displayPanel0Text.setPreferredSize(new java.awt.Dimension(200, 115));
+    displayPanel0Text.setPreferredSize(new java.awt.Dimension(1200, 100));
     jScrollPane1.setViewportView(displayPanel0Text);
 
     displayPanel0.add(jScrollPane1);
 
     displayPanel0Text1.setText("jTextField1");
+    displayPanel0Text1.setMaximumSize(new java.awt.Dimension(1200, 300));
+    displayPanel0Text1.setMinimumSize(new java.awt.Dimension(600, 50));
+    displayPanel0Text1.setPreferredSize(new java.awt.Dimension(800, 50));
     displayPanel0.add(displayPanel0Text1);
 
     display.add(displayPanel0);
@@ -5655,24 +5659,27 @@ public class StarTrader extends javax.swing.JFrame {
    * @param n number of planets in the return Econ array
    * @return new Econ array
    */
-  public Econ[] getWildCurs(int n,Econ shipEcon) {
+  public Econ[] getWildCurs(int n,int shipsLoop) {
+    int lPlanets = eM.planets.size();
+    int lShips = eM.ships.size();
     int j = 0; // counter for planets in ret;
+    // planetsStart = start of search for planets
+    int planetsStart =  Math.floorDiv(shipsLoop * lPlanets,lShips) - Math.floorDiv(shipsLoop,3);
     Econ[] ret = new Econ[n];
     ret[0] = eM.planets.get(0);   // start with the oldest planet
     for (int m = 0; m < ret.length; m++) {
       ret[m] = ret[0];   // set everything to the oldest planet
     }
-    // loop from new to old planets
-    int lplanets = eM.planets.size();
     double lsel, maxsel;
+    // find planets older to newer
     for (int m = 0; m < 12 && m < ret.length; m++) {
-      for (int i = lplanets - 1; i >= 0 && j < ret.length; i--) {
+      for (int i=planetsStart; i < lPlanets-1&& j < ret.length; i--) {
         Econ planet = eM.planets.get(i);
-        if (!planet.getDie() && (planet.getShipOrdinal() < (1 + m) && (lsel = planet.calcLY(planet, eM.curEcon)) < (maxsel = eM.maxLY[0] * (1 + m) / 2.))) {
+        if (!planet.getDie() && (planet.planetCanTrade()  && (lsel = planet.calcLY(planet, eM.curEcon)) < eM.maxLY[0])) {
           if (j < ret.length) {
             ret[j++] = planet;
             //    System.out.println(eM.curEcon.getName() + " build select list=" + planet.getName());
-            System.out.printf("build select list #%d for %s, dist=%5.2f < max=%5.2f planet %s\n", j - 1, eM.curEcon.getName(), lsel, maxsel, planet.getName());
+            System.out.printf("build select list #%d for %s, dist=%5.2f < max=%5.2f planet %s\n", j - 1, eM.curEcon.getName(), lsel, eM.maxLY[0], planet.getName());
           }
         }
       }
@@ -5921,7 +5928,7 @@ public class StarTrader extends javax.swing.JFrame {
 
           if (!eM.curEcon.getDie()) {
             // ship selects its next planet, from offer list and wildCurs
-            Econ cur2 = eM.curEcon.selectPlanet(getWildCurs((int) eM.wildCursCnt[0][0]));
+            Econ cur2 = eM.curEcon.selectPlanet(getWildCurs((int) eM.wildCursCnt[0][0],shipsLoop));
             System.out.println(eM.curEcon.getName() + " select planet=" + cur2.getName());
             double distance = calcLY(eM.curEcon, cur2);
             clearHist(eM.logEnvirn[1]);

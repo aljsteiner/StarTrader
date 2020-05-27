@@ -4255,7 +4255,7 @@ public class Assets {
         hist.add(h4 = new History(aPre, 5, name + " xitf G", g.balance));
         if (pors == E.s) {
           myOffer.clean();
-          ec.buildPlanetOffers(myOffer.cn[0].myPlanetOffers, myOffer);
+      //    ec.buildPlanetOffers(myOffer.cn[0].myPlanetOffers, myOffer);
         }
 
       }// Assets.CashFlow.Trades.xitTrade
@@ -5999,10 +5999,10 @@ public class Assets {
        Econ cn; //0=planet or ship,1=primaryShip
   String cnName = "aPlanetOther";
   A2Row goodsFracs = new A2Row(); //only one instance of goods, for both cn's  
-  int goodCnt= 0; // count of goods found
+  int goodsCnt= 0; // count of goods found
  // int prevTerm = 60;
   int prevAge = 1;
-  double prevTradeWorth = 0.;
+  double firstTradeWorth = 0.;
   double lastTradeWorth = 0.;
   double curTradeWorth = 0.; 
   double averageYearWorthIncrease = 0.0;
@@ -6037,19 +6037,19 @@ public class Assets {
       
       void updatePlanet(TradeRecord tRec){
         double goodsSum = tRec.goods.plusSum() - tRec.goods.negSum();
+         if(prevYear < 0){ // first entry
+          prevYear = eM.year;
+          firstYear = eM.year;
+          firstTradeWorth = tRec.endWorth;
+        }
+         lastTradeWorth = tRec.endWorth;
+         lastYear = eM.year;
         for(int n=0;n < E.L2SECS;n++){
           // initial values of 0.0
-          goodsFracs.add(n,tRec.goods.get(n));
-        }
-        if(prevYear < 0){ // first entry
-          
-          
-        }
-        
-        
-        
-        
-        
+          goodsFracs.add(n,tRec.goods.get(n)/goodsSum);
+          goodsCnt++;
+       } 
+      
       }
       
       Econ searchForNextPlanet(Econ[] nearPlanetsList,ArrayList<TradeRecord>  knownPlanets){
@@ -6629,8 +6629,8 @@ public class Assets {
      * <li>entryTerm >1 newTerm=barter => -1 rejected xitTrade => -1</li>
      * <li>entryTerm == 1 newTerm=barter == 0 traded xitTrade => 0</li>
      * <li>entryTerm == 1 newTerm=barter == -1 rejected xitTrade => -1</li>
-     * <li>entryTerm == 0 traded other xitTrade => 3 ndLoop</li>
-     * <li>entryTerm == -1 lost other xitTrade => 5 ndLoop</li>
+     * <li>entryTerm == 0 traded other xitTrade => -2 ndLoop</li>
+     * <li>entryTerm == -1 lost other xitTrade => -3 ndLoop</li>
      * </ol>
      * 
      * @return a new offer for the other economy
@@ -6717,7 +6717,9 @@ public class Assets {
       } // end entryTerm > 0
         // check for ending this trade //Assets.CashFlow.barter
         fav = (eM.fav[oClan][clan]);
-        if (newTerm < 1) { //0==traded donull,-1=notrade donull, -2 = lostTrade donull
+        
+        // may enter barter terminating process
+        if (newTerm < 1) { 
           
           if (newTerm == 0) {  //trade accepted
             tradedShipOrdinal++; // set ordinal of the next ship if any
@@ -6729,22 +6731,24 @@ public class Assets {
             EM.porsClanTraded[pors][clan]++;
             EM.clanTraded[clan]++;
             // leave fav set 5 to 0
-            // ret.setTerm(-2); set 2 in Econ 
+            if(entryTerm == 0) ret.setTerm(-2); // other so no more return
+            // else leave ret.term 0 for the other cn
           }
           else if (newTerm == -1) {
             tradeRejected = entryTerm == -1 ? false:true; // rejectd by this econ
             tradeLost = entryTerm == -1 ? true:false; // rejected by othre econ
             tradeAccepted  = false;
             fav = -2.;
-            //  ret.setTerm(-3);
+            if(entryTerm == -1) ret.setTerm(-3);
+            // else leave ret.ter -1 for the other cn
           }
-          else if (newTerm < -1) {
+          else if (newTerm < -1) { // should stop in econ
             tradeLost = false; // shouldn't get here
             tradeRejected = false;
             tradeAccepted = false;
             ret.setTerm(-5);
             fav = -3.;
-          } //exitif //Assets.CashFlow.barter
+          } //exitif   Assets.CashFlow.barter
           hist.add(new History("%v", 5, "inCF", " term was=" + entryTerm, "now=" + ret.getTerm(), "fav=" + df(fav)));
           double criticalStrategicRequestsPercentTWorth = criticalStrategicRequests*100 / startYrSumWorth;
           double criticalStrategicRequestsPercentFirst = (criticalStrategicRequests) / criticalStrategicRequestsFirst;
@@ -6762,6 +6766,7 @@ public class Assets {
           tW = new DoTotalWorths();
           tWTotWorth = tW.getTotWorth();
           double worthincrPercent = (tW.sumTotWorth - btW.sumTotWorth)*100 / btW.sumTotWorth;
+          ret.set2Values(ec,btW.sumTotWorth,tW.sumTotWorth); // needed in TradeRecord SearchRecord
           // Desired stats 
           if (fav >= 5.) {
             // gameRes.WTRADEDINCRF5.wet(pors, clan, worthincrPercent, 1);

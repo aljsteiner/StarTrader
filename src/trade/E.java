@@ -58,12 +58,14 @@ public class E {
   /** start debug flags, it is possible if static final boolean is false the code enclosed by an if on this flag will never be compiled.
    * In any case execution speeds up if the debugging code is not reached
    */
-  static final boolean debugNoTerm = true; // term undefined in assets, find whyu
-  static final boolean debugOfferCargos = true; //cargos in offer == cargo.balance
-  static final boolean debugSumGrades = true; //sum of grades = sum of staff/guests
-  static final boolean debugPutValue = true; //test putValue processing
-  static final boolean debugCosts = true;  // check that cost processing ok
-  static final boolean debugDouble = true;
+  static final boolean debugMaster = true;
+  static final boolean debugNoTerm = debugMaster; // term undefined in assets, find whyu
+  static final boolean debugOfferCargos = debugMaster; //cargos in offer == cargo.balance
+  static final boolean debugSumGrades = debugMaster; //sum of grades = sum of staff/guests
+  static final boolean debugPutValue = debugMaster; //test putValue processing
+  static final boolean debugCosts = debugMaster;  // check that cost processing ok
+  static final boolean debugDouble = debugMaster; //doubleTrouble and infinity or NaN
+  static final boolean debugTradeRecord = debugMaster; // or false
   /* Start Global data, set in tab init
    * [pors]
    */
