@@ -6748,7 +6748,7 @@ public class StarTrader extends javax.swing.JFrame {
    * matches The methods in Assets and associated classes invoke a selection of
    * EM.gameRes to store a value
    */
-  long resLoops[][] = {{EM.list0 | EM.thisYr | EM.sum | EM.skipUnset, EM.list0 | EM.ROWS1 | EM.thisYr | EM.both | EM.skipUnset, EM.list0 | EM.CUM | EM.both | EM.skipUnset, EM.ROWS2 | EM.list0 | EM.THISYEARUNITS |  EM.skipUnset | EM.BOTH , EM.ROWS3 | EM.list0 | EM.CUMUNITS | EM.skipUnset | EM.BOTH },
+  long resLoops[][] = {{EM.list0 | EM.thisYr | EM.sum | EM.skipUnset, EM.list0 | EM.ROWS1 | EM.thisYr | EM.both | EM.skipUnset, EM.list0 | EM.CUMUNITS | EM.CUM | EM.both | EM.skipUnset, EM.ROWS2 | EM.list0 | EM.THISYEARUNITS |  EM.skipUnset | EM.BOTH , EM.ROWS3 | EM.list0 | EM.CUMUNITS | EM.CUM | EM.skipUnset | EM.BOTH },
   {EM.list1 | EM.CURUNITAVE | EM.CURUNITS | EM.skipUnset, EM.list1 | EM.cum | EM.CUMUNITS | EM.both, EM.skipUnset},
   {EM.list2 | EM.cur | EM.curUnitAve | EM.curUnits | EM.both | EM.skipUnset, EM.list2 | EM.cum | EM.cumUnits | EM.both | EM.skipUnset},
   {EM.list3 | EM.cur | EM.curAve | EM.curUnits | EM.both | EM.skipUnset},

@@ -818,7 +818,7 @@ public class Econ {
   Offer barter(Offer aOffer,Econ otherEcon){
     
     Offer ret = as.barter(aOffer);
-    if(aOffer.getTerm() < 1){
+    if(ret.getTerm() < 1){
     planetList = mergeLists(planetList,otherEcon.planetList,aOffer);
     }
     return ret;

@@ -422,7 +422,7 @@ public class Assets {
     //  needsArray = new A6Row[5];
 
     cur = new CashFlow(this);
-    cur.cashFlowInit(this);
+    cur.aStartCashFlow(this);
     assetsInitialized = true;
   } // end Assets.assetsInit
 
@@ -660,7 +660,7 @@ public class Assets {
     if (cur == null) {
       yphase = yrphase.PRESEARCH;
       cur = new CashFlow(this);
-      cur.cashFlowInit(this);
+      cur.aStartCashFlow(this);
     }
     A2Row ret = cur.getTradingGoods();
     cur = null;
@@ -1152,7 +1152,7 @@ public class Assets {
     lightYearsTraveled = lYears;
     if (cur == null) {
       cur = new CashFlow(this);
-      cur.cashFlowInit(this);
+      cur.aStartCashFlow(this);
       cur = null;
     }
 
@@ -1203,7 +1203,7 @@ public class Assets {
   void yearEnd() {  //trade.Assets
     if (cur == null) {
       cur = new CashFlow(this);
-      cur.cashFlowInit(this);
+      cur.aStartCashFlow(this);
     }
     cur.yearEnd();
     cur = null; // release all CashFlow storage
@@ -1300,7 +1300,7 @@ public class Assets {
   Econ SelectPlanet(Econ[] wilda){
      if (cur == null) {
       cur = new CashFlow(this);
-      cur.cashFlowInit(this);
+      cur.aStartCashFlow(this);
     }
     return cur.selectPlanet(wilda);
   }
@@ -1322,7 +1322,7 @@ public class Assets {
     }
     if (cur == null) {
       cur = new CashFlow(this);
-      cur.cashFlowInit(this);
+      cur.aStartCashFlow(this);
     }
     Offer myIn = cur.barter(inOffer);
     // if exit trade exit cur
@@ -6098,7 +6098,7 @@ public class Assets {
      * @param aas higher level Class Assets
      */
    
-    void cashFlowInit(Assets aas) { //Assets.CashFlow.initCashFlow
+    void aStartCashFlow(Assets aas) { //Assets.CashFlow.initCashFlow
       histTitles("initCashFlow");
       EM.wasHere = "CashFlow.init... before HSwaps eeea=" + ++eeea;
       prevns = new HSwaps[lPrevns];
@@ -6177,7 +6177,7 @@ public class Assets {
       didCashFlowInit = true;
       EM.wasHere = "CashFlow.init... end eeej=" + ++eeej;
       //   System.out.println("5045 end CashFlow.initCashFlow");
-    }  //Assets.CashFlow.cashFlowInit
+    }  //Assets.CashFlow.aStartCashFlow
     
     /** select a planet to trade
      * 

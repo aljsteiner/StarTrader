@@ -2066,13 +2066,13 @@ class EM {
 
   void defRes() {
 
-    doRes(LIVEWORTH, "Live Worth", "Live Worth Value including year end working, reserve: resource, staff, knowledge", 6, 2, 0, list9 | list10 | list11 | LIST034567 | thisYr |THISYEARUNITS | sum, ROWS1 | list0 | thisYrAve | both, ROWS3 | LIST034567 | cur | curUnits | both, ROWS2 | LIST0 | LIST17 | cumUnits);
+    doRes(LIVEWORTH, "Live Worth", "Live Worth Value including year end working, reserve: resource, staff, knowledge", 6, 2, 0, list9 | list10 | list11 | LIST034567 | thisYr |THISYEARUNITS | sum, ROWS1 | list0 | thisYrAve | both, ROWS3 | LIST034567 | cur | curUnits | both, ROWS2 | LIST0 | LIST17 | CUMUNITS);
     doRes(STARTWORTH, "Starting Worth", "Starting Worth Value including working, reserve: resource, staff, knowledge", 2, 2, 0, CURAVE | LIST34567 | LIST10 | sum, 0, 0, 0);
     doRes(WORTHIFRAC, "PercInitWorth ", "Percent of Initial Worth Value including working, reserve: resource, staff, knowledge", 2, 1, 4,LIST10 | curAve | ROWS3 | both, thisYrAve | both | thisYr , 0, 0);
 
-    doRes("yearCreate", "yearCreations", "new Econs ceated from year initial funds", 2, 2, 0, LIST034567 | THISYEAR | THISYEARUNITS | ROWS1 | both ,LIST034567 | cumUnits  | both | ROWS3, 0, 0);
-    doRes("FutureCreate", "FutureFund Create", "Econs created from Future Funds", 2, 2, 0, LIST034567 | THISYEAR | THISYEARUNITS | ROWS1 | both ,LIST034567 | cumUnits  | both | ROWS3, 0, 0);
-    doRes("bothCreate", "bothCreations", "new Econs ceated from  initial funds and future funds", 2, 2, 0, LIST034567 | THISYEAR | THISYEARUNITS | ROWS1 | both ,LIST034567 | cumUnits  | both | ROWS3, 0, 0);
+    doRes("yearCreate", "yearCreations", "new Econs ceated from year initial funds", 2, 2, 0, LIST034567 | THISYEAR | THISYEARUNITS | ROWS1 | both ,LIST034567 | cumUnits  | both | ROWS2, 0, 0);
+    doRes("FutureCreate", "FutureFund Create", "Econs created from Future Funds", 2, 2, 0, LIST034567 | THISYEAR | THISYEARUNITS | ROWS1 | both ,LIST034567 | cumUnits  | both | ROWS2, 0, 0);
+    doRes("bothCreate", "bothCreations", "new Econs ceated from  initial funds and future funds", 2, 2, 0, LIST034567 | THISYEAR | THISYEARUNITS | ROWS1 | both ,LIST034567 | cumUnits  | both | ROWS2, 0, 0);
     doRes("swapRIncr", "swapRIncr", "Uses of R Incr Swap percent of RC", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
     doRes("swapSIncr", "swapSIncr", "Uses of S Incr Swap percent of SG", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
     doRes("swapSDecr", "swapSDecr", "Uses of S Decr Swap percent of SG", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
@@ -2083,16 +2083,16 @@ class EM {
     doRes("swapSRXchg", "swapSRXchg", "Uses of S Xchg Rcost Swap percent of RC", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
 
 
-    doRes("DeadNegN", "DeadNegSwapN", "Swaps never entered", 3, 2, 0, list0 | LIST17 | cumUnits | both, list2 | LIST17 | cumUnits | CUR | both, 0, 0);
-    doRes("DeadLt10", "DeadLt10", "no more than 10 swaps", 3, 2, 0, list0 | LIST17 | cumUnits | both, list2 | LIST17 | cumUnits | CUR | both, 0, 0);
-    doRes("DeadNegProsp", "DeadNegProsp", "Never was able to get healthy", 3, 2, 0, list0 | LIST17 | cumUnits | both, list2 | LIST17 | cumUnits | CUR | both, 0, 0);
+    doRes("DeadNegN", "DeadNegSwapN", "Dead Swaps never entered", 3, 2, 0, list0 | LIST17 | cumUnits | ROWS2 |  both, list2 | LIST17 | cumUnits | CUR | both, 0, 0);
+    doRes("DeadLt10", "DeadLt10", "no more than 10 swaps", 3, 2, 0, ROWS2 |list0 | LIST17 | cumUnits | both, list2 | LIST17 | cumUnits | CUR | both, 0, 0);
+    doRes("DeadNegProsp", "DeadNegProsp", "Never was able to get healthy", 3, 2, 0,ROWS2 | list0 | LIST17 | cumUnits | both, list2 | LIST17 | cumUnits | CUR | both, 0, 0);
     doRes("DeadRatioS", "DeadRatioS", "Resource values simply too small", 3, 2, 0, list0 | LIST17 | cumUnits | both, list2 | LIST17 | cumUnits | CUR | both, 0, 0);
-    doRes("DeadRatioR", "DeadRatioR", "Staff values simply too small", 3, 2, 0, list0 | LIST17 | cumUnits | both, list2 | LIST17 | cumUnits | CUR | both, 0, 0);
-    doRes("died", "died", "died from any set of causes", 3, 2, 0, list0 | LIST17 | cumUnits | both, list2 | LIST17 | cumUnits | CUR | both, 0, 0);
+    doRes("DeadRatioR", "DeadRatioR", "Staff values simply too small", 3, 2, 0, ROWS2 | list0 | LIST17 | cumUnits | both, list2 | LIST17 | cumUnits | CUR | both, 0, 0);
+    doRes("died", "died", "died from any set of causes", 3, 2, 0, ROWS2 | list0 | LIST17 | cumUnits | both, list2 | LIST17 | cumUnits | CUR | both, 0, 0);
     doRes(MISSINGNAME, "missing name", "tried an unknown name", 6, 0, list0 | cumUnits | curUnits | curAve | cumAve | both, 0, 0, 0);
-    doRes(DEADRATIO, "diedRatio", "died,average mult year last/initial worth death", 3, 2, 0, list0 | LIST17 | cumUnits | both, list2 | LIST17 | cumUnits | CUR | both, 0, 0);
-    doRes(DEADHEALTH, "died health", "died,average negative minimum health at death", 4, 2, 2, (list8 | curUnits | curAve | both), 0, 0, 0);
-    doRes(DEADFERTILITY, "died fertility", "died,average negative minimum fertility at death", 3, 2, 0, list0 | LIST17 | cumUnits | both, list2 | LIST17 | cumUnits | CUR | both, 0, 0);
+    doRes(DEADRATIO, "diedRatio", "died,average mult year last/initial worth death", 3, 2, 0, list0 | LIST17 | ROWS2 | cumUnits | both, list2 | LIST17 | cumUnits | CUR | both, 0, 0);
+    doRes(DEADHEALTH, "died health", "died,average negative minimum health at death", 4, 2, 2, (list8 | curUnits | curAve | both),ROWS2 | CUMUNITS | BOTH, 0, 0);
+    doRes(DEADFERTILITY, "died fertility", "died,average negative minimum fertility at death", 3, 2, 0, ROWS2 | list0 | LIST17 | cumUnits | both, list2 | LIST17 | cumUnits | CUR | both, 0, 0);
     doRes(DEADSWAPSMOVED, "diedSwapMoves", "died,average Swap Moves at death", 3, 2, 0, list0 | LIST17 | cumUnits | both, list2 | LIST17 | cumUnits | CUR | both, 0, 0);
     doRes(DEADSWAPSCOSTS, "diedSwapCosts", "died,average SwapCosts at death", 3, 2, 0, list0 | LIST17 | cumUnits | both, list2 | LIST17 | cumUnits | CUR | both, 0, 0);
     doRes(DEADTRADED, "diedTraded", "died,even after trading", 3, 2, 0, list0 | LIST17 | cumUnits | both, list2 | LIST17 | cumUnits | CUR | both, 0, 0);
