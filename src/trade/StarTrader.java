@@ -5895,7 +5895,7 @@ public class StarTrader extends javax.swing.JFrame {
         // ignored planetsStart 0:planets.size(). start the years
         for (planetsLoop = 0; planetsLoop < eM.planets.size(); planetsLoop++) {
           eM.curEcon = eM.planets.get(planetsLoop);
-          String msgLine0 = since() + "Start year " + eM.year + " " + eM.curEcon.name + "=planet" + (eM.curEcon.getDie() ? " is dead" : " live");
+          String msgLine0 = since() + "Planet yearStart " + eM.year + " " + eM.curEcon.name + "=planet" + (eM.curEcon.getDie() ? " is dead" : " live");
           //  System.out.println(msgLine0);
           startEconState = (new Date()).getTime();
           paintCurDisplay(eM.curEcon);
@@ -5921,7 +5921,7 @@ public class StarTrader extends javax.swing.JFrame {
         stateConst = STOPPED;
       }
       else {
-        for (shipsLoop = 0; shipsLoop > eM.ships.size() - 1; shipsLoop++) {
+        for (shipsLoop = 0; shipsLoop < eM.ships.size() - 1; shipsLoop++) {
           eM.curEcon = eM.ships.get(shipsLoop);
           startEconState = (new Date()).getTime();
           //paintCurDisplay(eM.curEcon);
@@ -5929,7 +5929,7 @@ public class StarTrader extends javax.swing.JFrame {
           if (!eM.curEcon.getDie()) {
             // ship selects its next planet, from offer list and wildCurs
             Econ cur2 = eM.curEcon.selectPlanet(getWildCurs((int) eM.wildCursCnt[0][0],shipsLoop));
-            System.out.println(eM.curEcon.getName() + " select planet=" + cur2.getName());
+            System.out.println("Ship loop " + eM.curEcon.getName() + " select planet=" + cur2.getName() + " distance=" + eM.curEcon.mf(calcLY(eM.curEcon,cur2)));
             double distance = calcLY(eM.curEcon, cur2);
             clearHist(eM.logEnvirn[1]);
             setLogEnvirn(1, cur2);  // set start2
