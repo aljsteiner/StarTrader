@@ -6663,15 +6663,18 @@ public class Assets {
         hist.add(new History(aPre, 5, name + " initT C", c.balance));
         hist.add(new History(aPre, 5, name + " initT G", g.balance));
         preTradeSum4 = bals.sum4();
-        hist.add(new History(aPre, 5, " " + name + " now instantiate", " a new", " trades"));
+        hist.add(new History(aPre, 5, " " + name + " now instantiate", ">>>>>>>"," a new", " trades","<<<<<<<"));
         myTrade = new Trades();
-       } // end myTrade == null
-      // test for a new visitor
-      if(!inOffer.getOName().equals(tradingShipName) ){
-        tradingShipName = inOffer.getOName();
         inOffer.setMyIx(ec);
         myTrade.initTrade(inOffer, this);
-        hist.add(new History(aPre, 5, " " + name + " after init", " a new", " trades"));
+        hist.add(new History(aPre, 5, " " + name + " after init",">>>>>>", " a new", " trades"));
+       } // end myTrade == null
+      // test for a new visitor
+      if(!inOffer.getOName().equals(tradingShipName) && entryTerm > 0 && myTrade != null){
+        tradingShipName = inOffer.getOName();
+        inOffer.setMyIx(ec);
+       // myTrade.initTrade(inOffer, this);
+        hist.add(new History(aPre, 5, " " + name + " after init2",">>>>>>>",">>>>>>>", " a new", " trades"));
         EM.porsClanVisited[pors][clan]++;
         EM.porsVisited[pors]++;
         EM.clanVisited[clan]++;
@@ -6756,7 +6759,10 @@ public class Assets {
           double criticalNominalRequestsFracFirst = criticalNominalRequests / criticalNominalRequestsFirst;
           double criticalNominalRequestsFracStrategicRequests = criticalNominalRequests/sumStrategicRequests;
           // at 0 -1 -2 -3 -5 always xit
+          if(myTrade != null) {
           myTrade.xitTrade(); // term= 0 mytrade,-1 my reject,-2 other traded,-3o reject
+          System.out.println(as.name + " xitTrade term=" + ret.getTerm());
+          }
           //pretrade are initTrade values for this trade
           // frac of availiable units -mtgNeeds6.sum/bals.
           double fracPreTrade = preTradeAvail*100 / preTradeSum4;
@@ -6765,8 +6771,10 @@ public class Assets {
           double tradeAvailIncrPercent = fracPostTrade*100 / fracPreTrade;
           tW = new DoTotalWorths();
           tWTotWorth = tW.getTotWorth();
-          double worthincrPercent = (tW.sumTotWorth - btW.sumTotWorth)*100 / btW.sumTotWorth;
-          ret.set2Values(ec,btW.sumTotWorth,tW.sumTotWorth); // needed in TradeRecord SearchRecord
+          btW = btW;
+         // double bTotalWorth = btW.getTotWorth();
+          double worthincrPercent = (tWTotWorth - btWTotWorth)*100 / btWTotWorth;
+          ret.set2Values(ec,btWTotWorth,tWTotWorth); // needed in TradeRecord SearchRecord
           // Desired stats 
           if (fav >= 5.) {
             // gameRes.WTRADEDINCRF5.wet(pors, clan, worthincrPercent, 1);
@@ -6838,7 +6846,7 @@ public class Assets {
           ec.addOHist(ohist, new History(aPre, 5, name + "CF.barter t=" + ret.getTerm(), "before", "xitTrade", "do null", "<<<<<<<<<", "<<<<<<<<<"));
           //  myTrade.xitTrade(); // term= 0 mytrade,-1 my reject,-2 other traded,-3o reject
           myTrade = null;  // terminate mytrade
-          ret.setTerm(newTerm - 3);  //
+         // ret.setTerm(newTerm - 3);  //
           hist.add(new History(aPre, 5, name + "xit CF.barter t=" + ret.getTerm(), "after", "myTrade", "nulled", "<<<<<<<", "<<<<<<<<<"));
           ec.addOHist(ohist, new History(aPre, 5, name + "xit CFbarter t=" + ret.getTerm(), "after", "myTrade", "nulled", "<<<<<<<", "<<<<<<<<<"));
         }

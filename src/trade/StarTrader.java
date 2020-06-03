@@ -5655,8 +5655,11 @@ public class StarTrader extends javax.swing.JFrame {
 
   /**
    * get Wild Current Planets for possible selection by a ship
+   * There will be duplicates if needed to fill the array
    *
    * @param n number of planets in the return Econ array
+   * @param shipsLoop position in the ships loop 0 -> max ships
+   * 
    * @return new Econ array
    */
   public Econ[] getWildCurs(int n,int shipsLoop) {
@@ -5664,6 +5667,7 @@ public class StarTrader extends javax.swing.JFrame {
     int lShips = eM.ships.size();
     int j = 0; // counter for planets in ret;
     // planetsStart = start of search for planets
+    // start with older bigger planets, ships start with bigger
     int planetsStart =  Math.floorDiv(shipsLoop * lPlanets,lShips) - Math.floorDiv(shipsLoop,3);
     Econ[] ret = new Econ[n];
     ret[0] = eM.planets.get(0);   // start with the oldest planet
@@ -5672,18 +5676,22 @@ public class StarTrader extends javax.swing.JFrame {
     }
     double lsel, maxsel;
     // find planets older to newer
-    for (int m = 0; m < 12 && m < ret.length; m++) {
-      for (int i=planetsStart; i < lPlanets-1&& j < ret.length; i--) {
+  
+      for (int i=planetsStart,m=j=0; i < lPlanets && j < ret.length && m < 10; i++) {
         Econ planet = eM.planets.get(i);
         if (!planet.getDie() && (planet.planetCanTrade()  && (lsel = planet.calcLY(planet, eM.curEcon)) < eM.maxLY[0])) {
           if (j < ret.length) {
             ret[j++] = planet;
             //    System.out.println(eM.curEcon.getName() + " build select list=" + planet.getName());
             System.out.printf("build select list #%d for %s, dist=%5.2f < max=%5.2f planet %s\n", j - 1, eM.curEcon.getName(), lsel, eM.maxLY[0], planet.getName());
+          if(i >= (lPlanets -1)){
+            i = 0; // restart the loop
+            m++; // count the restarted loop
+          }
           }
         }
       }
-    }
+    
     return ret;
   }
 
@@ -6737,7 +6745,9 @@ public class StarTrader extends javax.swing.JFrame {
   /**
    * this string holds pointers to longer explanations for given results
    */
-  String resExt[] = new String[105];
+  long testlist = EM.LIST3;
+  String resExt[] = new String[200];
+  long lists[] = {EM.LIST0,EM.LIST1,EM.LIST2,EM.LIST3,EM.LIST4,EM.LIST5,EM.LIST6,EM.LIST7,EM.LIST8,EM.LIST9,EM.LIST10,EM.LIST11,EM.LIST12,EM.LIST13,EM.LIST14,EM.LIST15,EM.LIST16,EM.LIST17,EM.LIST18,EM.LIST19,EM.LIST20};
 
   /**
    * this set array of arrays match the 20 radio buttons on the stats tab The
@@ -6748,7 +6758,7 @@ public class StarTrader extends javax.swing.JFrame {
    * matches The methods in Assets and associated classes invoke a selection of
    * EM.gameRes to store a value
    */
-  long resLoops[][] = {{EM.list0 | EM.thisYr | EM.sum | EM.skipUnset, EM.list0 | EM.ROWS1 | EM.thisYr | EM.both | EM.skipUnset, EM.list0 | EM.CUMUNITS | EM.CUM | EM.both | EM.skipUnset, EM.ROWS2 | EM.list0 | EM.THISYEARUNITS |  EM.skipUnset | EM.BOTH , EM.ROWS3 | EM.list0 | EM.CUMUNITS | EM.CUM | EM.skipUnset | EM.BOTH },
+  long resLoops[][] = {{EM.list0 | EM.thisYr | EM.sum | EM.skipUnset, EM.list0 | EM.ROWS1 | EM.thisYr | EM.both | EM.skipUnset, EM.ROWS2 | EM.list0 | EM.CUMUNITS | EM.CUM | EM.both | EM.skipUnset, EM.ROWS3 | EM.list0 | EM.THISYEARUNITS |  EM.skipUnset | EM.BOTH },
   {EM.list1 | EM.CURUNITAVE | EM.CURUNITS | EM.skipUnset, EM.list1 | EM.cum | EM.CUMUNITS | EM.both, EM.skipUnset},
   {EM.list2 | EM.cur | EM.curUnitAve | EM.curUnits | EM.both | EM.skipUnset, EM.list2 | EM.cum | EM.cumUnits | EM.both | EM.skipUnset},
   {EM.list3 | EM.cur | EM.curAve | EM.curUnits | EM.both | EM.skipUnset},
@@ -6766,7 +6776,7 @@ public class StarTrader extends javax.swing.JFrame {
   {EM.LIST15},
   {EM.LIST16},
   {EM.LIST17 | EM.cur | EM.curUnitAve | EM.curUnits | EM.both | EM.skipUnset, EM.LIST17 | EM.cum | EM.cumUnits | EM.both | EM.skipUnset},
-  {EM.LIST18},
+  {EM.LIST18 | EM.CUMUNITS | EM.SKIPUNSET | EM.BOTH,EM.ROWS1, EM.LIST18 | EM.CUMUNITS | EM.ROWS2 | EM.BOTH},
   {EM.LIST19},
   {EM.LIST20}
   };
@@ -6784,26 +6794,43 @@ public class StarTrader extends javax.swing.JFrame {
   void listRes(int list, long resLoops[][], double[] fullRes) {
     arow = 0;
     statsField2.setText("year" + eM.year);
+    boolean rowsOk = false;
     int lrows = statsTable1.getRowCount();
     int cntLoops = 0;
     int [] rowsCnts = {100,0,0,0};
+    int mm = 0; // count of selected rows
+    int ii=0;
+    int r=0;
     long [] rowsMasks = {0L,eM.ROWS1,eM.ROWS2,eM.ROWS3};
-      for(int r=0;r < 3;r++){
-    for (long i : resLoops[list]) {  // do loops with resLoops as ops;
-      System.out.printf("StarTrador.listRes list%d, cntLoops%d key%o row%d", list, cntLoops, i, arow);
-    
-    
-      for (m = 0; m < EM.rende4; m++) {
-        boolean rowsOk = (((i & EM.ROWSMASK) == 0L) && r == 0) || ((( i & rowsMasks[r]) > 0L) && r > 0);
-        arow = eM.putRows(statsTable1, resExt, m, arow, i);
-      }
+    for(r=0;r < 3;r++){
+      ii=0; //line in res
+      
+      for (long i : resLoops[list]) {  // do loops with resLoops as ops;
+      
+        
+        rowsOk = (( r == 0 && (i & EM.ROWSMASK) == 0L)) || (( r > 0 &&( i & rowsMasks[r]) > 0L));
+        boolean listsOk = (EM.LMASK & i & lists[list]) > 0L;
+        if((ii >= 0 && ii <= 10) || ii == 100){
+       System.out.printf("StarTrader.listRes resLoops[%d][%d], %s, %s, key%o row%d, ROWS%d\n", list, ii,rowsOk?"rowsOK":"notROWS",listsOk?"listsOK":"notListsOK", i, arow,r);
+         }
+       if(rowsOk && listsOk){
+        if(ii == 0 || ii == 10 || ii == 100){
+       System.out.printf("StarTrader.listRes #2 resLoops[%d][%d], key%o row%d, ROWS%d", list, ii, i, arow,r);
+         }
+         
+         mm++;
+        arow = eM.putRows(statsTable1, resExt, arow, i);
+        }
+       ii++;
+     }
+      
     }
     // now blank the rest of the table
-    System.out.println("listRes blank rest of table arow=" + arow);
+    System.out.println("listRes blank rest of table arow=" + arow + ", r=" + r);
     for (; arow < statsTable1.getRowCount() - 1; arow++) {
       statsTable1.setValueAt("----mt---", arow, 0);
-      for (int mm = 1; mm < E.lclans * 2 + 1; mm++) {
-        statsTable1.setValueAt(":", arow, mm);
+      for (int mmm = 1; mmm < E.lclans * 2 + 1; mmm++) {
+        statsTable1.setValueAt(":", arow, mmm);
       }
     }
     statsTable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -6834,8 +6861,6 @@ public class StarTrader extends javax.swing.JFrame {
     } // end ListSelectionListener
     ); // end addListSelectionListener
   }// for reslooops
-  }// for 
-
   /*  void resetRes(EM.gameRes[] fRes) {
     for (m = 0; m < lGameRes; m++) {
       fRes[m].reset();

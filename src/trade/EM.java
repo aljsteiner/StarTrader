@@ -76,6 +76,30 @@ class EM {
   static int clanVisited[] = {0, 0, 0, 0, 0};
   static int porsVisited[] = {0,0};
   static int visitedCnt = 0;
+  
+  static final public String statsButton0Tip = "0: Current Game Worths";
+  static final public String statsButton1Tip = "1: Favors and trade effects";
+  static final public String statsButton2Tip = "2: Catastrophies, deaths, randoms, forwardfund";
+  static final public String statsButton3Tip = "3: years 0,1,2,3 worth inc, costs, efficiency,knowledge,phe";
+  static final public String statsButton4Tip = "4: years 4,5,6,7 worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton5Tip = "5: years 8->15 worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton6Tip = "6: years 16->31 worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton7Tip = "7: years 32+ worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton8Tip = "8: swap factors";
+  static final public String statsButton9Tip = "9: Resource, staff values";
+  static final public String statsButton10Tip = "10: growth and costs details";
+  static final public String statsButton11Tip = "11: Fertility, health and effects";
+  static final public String statsButton12Tip = "12: Swaps years incr skips, redos and dos";
+  static final public String statsButton13Tip = "13: Swaps years decr skips, redos and dos";
+  static final public String statsButton14Tip = "14: Swaps years xfer skips, redos and dos";
+  static final public String statsButton15Tip = "15: Swaps years Forward Fund imbalance or save";
+  static final public String statsButton16Tip = "16: Swaps cumulative values";
+  static final public String statsButton17Tip = "17: Deaths";
+  static final public String statsButton18Tip = "18: Trades";
+  static final public String statsButton19Tip = "19: Swaps decr skips and does";
+  static final public String statsButton20Tip = "20: Swaps incr skips and does";
+  
+  
   static double mEconLimits1[][] = {{200., 500.}, {200., 500.}};
   double econLimits2[] = {350.}; // more limiting of econs
   static double mEconLimits2[][] = {{275., 550.}};
@@ -450,6 +474,12 @@ class EM {
   static final long list6 = 00010000000000L;
   static final long list7 = 00020000000000L;
   static final long list8 = 00040000000000L;
+  static final long LIST3 = list3;
+  static final long LIST4 = list4;
+  static final long LIST5 = list5;
+ // Long LIST3a = LIST3;
+  static final long LIST6 = list6;
+  static final long LIST7 = list7;
   static final long LIST8 = list8;
   static final long list9 = 00100000000000L;
   static final long LIST9 = list9;
@@ -493,29 +523,7 @@ class EM {
   static final long LFORFUND = LIST234567 | LIST15;
   static final long LISTALL = lmask;
   static final long listall = lmask;
-  // copy of StarTrader stats button strings
-  static final public String statsButton0Tip = "0: Current Game Worths";
-  static final public String statsButton1Tip = "1: Favors and trade effects";
-  static final public String statsButton2Tip = "2: Catastrophies, deaths, randoms, forwardfund";
-  static final public String statsButton3Tip = "3: years 0,1,2,3 worth inc, costs, efficiency,knowledge,phe";
-  static final public String statsButton4Tip = "4: years 4,5,6,7 worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton5Tip = "5: years 8->15 worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton6Tip = "6: years 16->31 worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton7Tip = "7: years 32+ worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton8Tip = "8: swap factors";
-  static final public String statsButton9Tip = "9: Resource, staff values";
-  static final public String statsButton10Tip = "10: growth and costs details";
-  static final public String statsButton11Tip = "11: Fertility, health and effects";
-  static final public String statsButton12Tip = "12: Swaps years incr skips, redos and dos";
-  static final public String statsButton13Tip = "13: Swaps years decr skips, redos and dos";
-  static final public String statsButton14Tip = "14: Swaps years xfer skips, redos and dos";
-  static final public String statsButton15Tip = "15: Swaps years Forward Fund imbalance or save";
-  static final public String statsButton16Tip = "16: Swaps cumulative values";
-  static final public String statsButton17Tip = "17: Deaths";
-  static final public String statsButton18Tip = "18: Trades";
-  static final public String statsButton19Tip = "19: Swaps decr skips and does";
-  static final public String statsButton20Tip = "20: Swaps incr skips and does";
-
+  
   static final public String gameTextFieldText = "This is to be filled with descriptions of the field over which the mouse hovers";
 
   //  values for doRes
@@ -2214,7 +2222,7 @@ class EM {
     doRes("WTRADEDINCRSOS", "incrWorthAtSOS", "Percent Years worth increase at an planet SOS flag trade this year/start year worth", 4, 4, 1, (LIST134567 | curAve | skipUnset), 0, 0, 0);
     doRes("WREJTRADEDPINCR", "WRejectedTrade", "Percent Worth incr if the other rejected the trade/start yr worth", 4, 4, 1, (LIST134567 | curAve | skipUnset), 0, 0, 0);
     doRes("WLOSTTRADEDINCR", "incrWLostTrade", "Percent Worth incr if other rejected the trade/start yr worth", 4, 4, 1, (LIST134567 | curAve | skipUnset), 0, 0, 0);
-    doRes("UNTRADEDWINCR", "incrWorthNoTrade", "Percent no trade offered yearly growth including working, reserve: resource, staff, knowledge", 4, 4, 1, (LIST134567 | curAve | skipUnset), 0, 0, 0);
+    doRes("UNTRADEDWINCR", "incrWorthNoTrade", "Percent no trade offered yearly growth including working, reserve: resource, staff, knowledge", 3, 2, 1, (LIST18 |LIST134567 | curAve | skipUnset),LIST18 | LIST034567 | ROWS2 | CUMUNITS | BOTH , 0, 0);
     doRes("WTRADEDF5", "finalTradeFracFavr5", "Percent initial offer at favor 5 trade/initial offer", 4, 4, 1, (LIST134567 | curAve | skipUnset), 0, 0, 0);
     doRes("WTRADEDF4", "finalTradeFracFavr4", "Percent initial offer at favor 5 trade/initial offer", 4, 4, 1, (LIST134567 | curAve | skipUnset), 0, 0, 0);
     //   doRes("WTRADEDF4", "finalTradeFracFavr4","Frac initial offer at favor 4 trade/initial offer", 4, 4,1, ( LIST134567 | curAve| skipUnset),0, 0, 0);
@@ -2971,11 +2979,29 @@ class EM {
     return row;
   }
 
+    /**
+   * possibly put a row into table if the key aop matches a lock in rn
+   *
+   * @param table table in Stats
+   * @param resExt this is the detail and (tip text)
+   * @param row next row in the display table
+   * @param aop the key to fit locks in resI
+   * @return next row
+   */
+  public int putRows(JTable table, String[] resExt, int row, long aop) {
+    int rrow = 0;
+    int rn=0;
+    for(rn=0;rn < rende4;rn++){
+      rrow = putRows(table,resExt,rn,row,aop);
+    }
+    return rrow;
+  }
+  
   /**
    * possibly put a row into table if the key aop matches a lock in rn
    *
    * @param table table in Stats
-   * @param resExt this is the detail (tip text)
+   * @param resExt this is the detail and (tip text)
    * @param rn defined number of the stat called in order
    * @param row next row in the display table
    * @param aop the key to fit locks in resI
@@ -2986,6 +3012,7 @@ class EM {
       return row;
     }
     try {
+      int tend = table.getSize().height;
       long opr = 0;
       //int opx = 0;
       boolean myUnset;

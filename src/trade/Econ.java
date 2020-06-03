@@ -335,11 +335,14 @@ public class Econ {
     int myVisits = getTradedShipsTried();
     double shipsPerPlanets = EM.porsCnt[E.S] /EM.porsCnt[E.P];
     if(myVisits > Math.floor(shipsPerPlanets)) return false;
-    double visitedShipsPerPlanets = EM.porsVisited[E.S]/EM.porsVisited[E.P];
+    double visitedShipsPerPlanets = EM.porsVisited[E.P] == 0?0.0:EM.porsVisited[E.S]/EM.porsVisited[E.P];
     if(visitedShipsPerPlanets > shipsPerPlanets) return false;
-    double clanShipsPerClanPlanets = EM.porsClanCnt[E.S][clan]/EM.porsClanCnt[E.P][clan];
+    //double clanShipsPerClanPlanets = EM.porsClanCnt[E.S][clan]/EM.porsClanCnt[E.P][clan];
+    double clanShipsPerClanPlanets = EM.porsClanCnt[E.S][clan] == 0?0.0:EM.porsClanCnt[E.S][clan]/EM.porsClanCnt[E.P][clan];
     if(myVisits > Math.floor(clanShipsPerClanPlanets)) return false;
-    double visitedClanShipsPerClanPlanets = EM.porsClanVisited[E.S][clan] /EM.porsClanVisited[E.P][clan];
+    //double visitedClanShipsPerClanPlanets2 = EM.porsClanVisited[E.S][clan] /EM.porsClanVisited[E.P][clan];
+    double visitedClanShipsPerClanPlanets = EM.porsClanVisited[E.S][clan] == 0?0.0:EM.porsClanVisited[E.S][clan] /EM.porsClanVisited[E.S][clan];
+
     if(visitedClanShipsPerClanPlanets > clanShipsPerClanPlanets) return false;
     return true; //OK past all limits
   }
