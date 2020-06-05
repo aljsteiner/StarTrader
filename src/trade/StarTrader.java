@@ -6791,6 +6791,7 @@ public class StarTrader extends javax.swing.JFrame {
     listRes(0, resLoops, fullRes);
   }
 
+  static int listResNoteCount = 0;
   void listRes(int list, long resLoops[][], double[] fullRes) {
     arow = 0;
     statsField2.setText("year" + eM.year);
@@ -6802,22 +6803,19 @@ public class StarTrader extends javax.swing.JFrame {
     int ii=0;
     int r=0;
     long [] rowsMasks = {0L,eM.ROWS1,eM.ROWS2,eM.ROWS3};
-    for(r=0;r < 3;r++){
+    for(r=0;r < 4;r++){
       ii=0; //line in res
       
       for (long i : resLoops[list]) {  // do loops with resLoops as ops;
       
         
-        rowsOk = (( r == 0 && (i & EM.ROWSMASK) == 0L)) || (( r > 0 &&( i & rowsMasks[r]) > 0L));
-        boolean listsOk = (EM.LMASK & i & lists[list]) > 0L;
-        if((ii >= 0 && ii <= 10) || ii == 100){
+        rowsOk = (( r == 0 && ((i & EM.ROWSMASK) == 0L))) || (( r > 0 &&(( i & rowsMasks[r]) > 0L)));
+       // boolean listsOk = (EM.LMASK & i & lists[list]) > 0L;
+        boolean listsOk = (EM.LMASK & i) > 0L;
+        if((listResNoteCount++ < 10)){
        System.out.printf("StarTrader.listRes resLoops[%d][%d], %s, %s, key%o row%d, ROWS%d\n", list, ii,rowsOk?"rowsOK":"notROWS",listsOk?"listsOK":"notListsOK", i, arow,r);
          }
-       if(rowsOk && listsOk){
-        if(ii == 0 || ii == 10 || ii == 100){
-       System.out.printf("StarTrader.listRes #2 resLoops[%d][%d], key%o row%d, ROWS%d", list, ii, i, arow,r);
-         }
-         
+       if(rowsOk  && listsOk ){      
          mm++;
         arow = eM.putRows(statsTable1, resExt, arow, i);
         }

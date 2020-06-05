@@ -2958,10 +2958,10 @@ class EM {
           table.setValueAt(description + suffix + powers, row, 0);
           resExt[row] = detail + powers;
           row++;
-        }
+        } 
         if (doBoth) {
           boolean didSum = doSum;
-          doSum = false; // preven getD1 from suming values
+          doSum = false; // prevent getD1 from suming values
           table.setValueAt(description + suffix + " both", row, 0);
           resExt[row] = detail;
           for (long ij : d) {
@@ -2978,7 +2978,15 @@ class EM {
     }
     return row;
   }
-
+static int putRowsPrint1Count=0;
+static int putRowsPrint2Count=0;
+static int putRowsPrint3Count=0;
+static int putRowsPrint4Count=0;
+static int putRowsPrint5Count=0;
+static int putRowsPrint6Count=0;
+static int putRowsPrint7Count=0;
+static int putRowsPrint8Count=0;
+static int putRowsPrint9Count=0;
     /**
    * possibly put a row into table if the key aop matches a lock in rn
    *
@@ -2989,14 +2997,18 @@ class EM {
    * @return next row
    */
   public int putRows(JTable table, String[] resExt, int row, long aop) {
-    int rrow = 0;
+    if(putRowsPrint1Count++ < 10){
+    System.out.println(">>>>>>putRows1 count=" + putRowsPrint1Count + "<<<<<<");
+    }
     int rn=0;
     for(rn=0;rn < rende4;rn++){
-      rrow = putRows(table,resExt,rn,row,aop);
+      if(putRowsPrint2Count++ < 10){
+    System.out.println(">>>>>>putRows2 count=" + putRowsPrint2Count + " rn=" + rn + " row=" + row +  " <<<<<<");
     }
-    return rrow;
+      row = putRows(table,resExt,rn,row,aop);
+    }
+    return row;
   }
-  
   /**
    * possibly put a row into table if the key aop matches a lock in rn
    *
@@ -3008,6 +3020,9 @@ class EM {
    * @return next row
    */
   public int putRows(JTable table, String[] resExt, int rn, int row, long aop) {
+    if(putRowsPrint3Count++ < 12){
+    System.out.println(">>>>>>putRows3 count=" + putRowsPrint3Count + " rn=" + rn + " row=" + row +  " <<<<<<");
+    }
     if (resV[rn] == null) { // skip undefined rows
       return row;
     }
@@ -3020,9 +3035,12 @@ class EM {
       long[][] resiii = resI[rn][ICUM];
       long[] resiic = resI[rn][ICUM][CCONTROLD];
       long allLocks = resiic[LOCKS0] | resiic[LOCKS1] | resiic[LOCKS2] | resiic[LOCKS3];
-      long haveDM = aop & allLocks & dmask;
+      long haveDM = (aop & allLocks) & dmask;
       long haveLM = (aop & allLocks) & lmask;
-      if (haveDM == 0L || haveLM == 0L) { // check if missing list or do (command)
+       if(putRowsPrint4Count++ < 12){
+    System.out.println(">>>>>>putRows4 count=" + putRowsPrint4Count + " haveDM=" + haveDM + " haveLM=" + haveLM + " rn=" + rn + " row=" + row +  " <<<<<<");
+       }
+      if (haveDM == 0L || haveLM == 0L) { // check if EM rn missing list or do (command)
         return row;
       }
       int c = 0, ageIx = 0;
@@ -3031,23 +3049,27 @@ class EM {
       didSum = false; // initialize didSum, remember sum across locks
       // process each LOCKS0-3 thru each command and list not zero
       // use previous hlMp if this lock has no list
+       if(putRowsPrint5Count++ < 12){
+    System.out.println(">>>>>>putRows5 count=" + putRowsPrint5Count + " haveDM=" + haveDM + " haveLM=" + haveLM + " rn=" + rn + " <<<<<<");
+    }
       for (int d = 0; d < 4; d++) {
         hLM1 = (long) (aop & resI[rn][ICUM][CCONTROLD][LOCKS0 + d]) & lmask;
-        long aRows = aop & ROWSMASK;
-        long lRows = (resI[rn][ICUM][CCONTROLD][LOCKS0 + d] & ROWSMASK);
+        long aRows = aop & ROWSMASK;  //StarTrader rows key
+        long lRows = resI[rn][ICUM][CCONTROLD][LOCKS0 + d] & ROWSMASK;
         boolean okRows = (aRows == 0L && lRows == 0L) || ((aRows & lRows)  >  0L);
         //use previous if none present.
         hLM = (resI[rn][ICUM][CCONTROLD][LOCKS0 + d] & lmask) > 0L ? hLM1 : hLM;
-        long hDM = aop & resI[rn][ICUM][CCONTROLD][LOCKS0 + d] & d1mask;
+        long hDM = (aop & resI[rn][ICUM][CCONTROLD][LOCKS0 + d]) & d1mask;
         opr = hDM;
+        
         // must have at least 1 matching list and 1 matching do type
         if (hLM > 0L && hDM > 0L && okRows) {
           hLMp = hLM; // save a good list option
           // now process the selected age group by the first match
           // aop should containt no more than 1 age list
           for (c = 0, ageIx = 0; c < 6 && ageIx == 0; c++) {
-            if ((aop & resI[rn][ICUM][CCONTROLD][LOCKS0 + d] & AGELISTS[c]) > 0) {
-              ageIx = c;
+            if (((aop & resI[rn][ICUM][CCONTROLD][LOCKS0 + d]) & AGELISTS[c]) > 0) {
+              ageIx = c; // this misses 3 only notices 4
             }
           }
           myUnset = unset = resI[rn][ICUR0 + ageIx * 7][CCONTROLD][ISSET] < 1; // flag for age
@@ -3066,25 +3088,28 @@ class EM {
           // now determine type to pick a suffix and set boolean flags
           //  int cop = (int)(aop & opx & 017);
 
+          if ((resS[rn][rDesc].contains("WORTH") || resS[rn][rDesc].contains("KNOWLEDGE") || resS[rn][rDesc].contains("Create") ||(aop & LIST17) > 0L || putRowsPrint6Count < 10) && (putRowsPrint6Count < 12)) {
+              System.out.flush();
+              System.out.printf("EM.putrow6 rn=%d %s, %s,list%d, depth%d, valid%d, ageIx%d putRowsPrint6Count= " + putRowsPrint6Count++ + " \n",rn,( unset? "UNSET":"ISSET"),resS[rn][0], ((aop & list0) > 0 ? 0 : (aop & list1) > 0 ? 1 : (aop & list2) > 0 ? 2 : (aop & LIST17) > 0 ? 17 : aop), depth, valid, ageIx);
+            }
           if (unset) {
             suffix = " cur yr:";
-            if (resS[rn][rDesc].contains("WORTH") || resS[rn][rDesc].contains("KNOWLEDGE") || (aop & LIST17) > 0L) {
-              System.out.flush();
-              System.out.printf("EM.putrow unset %s,list%d, depth%d, valid%d, ageIx%d\n", resS[rn][0], (aop & list0) > 0 ? 0 : (aop & list1) > 0 ? 1 : (aop & list2) > 0 ? 2 : (aop & LIST17) > 0 ? 17 : -1, depth, valid, ageIx);
-
-            }
+            
+            
+          }
+          if((opr & CUM) > 0L) {
             for (int m = 0; m < valid; m++) {
-              suffix = " cur yr:" + wh(m + 1) + "/" + wh(valid);
+              suffix = " cum:" + wh(m + 1) + "/" + wh(valid);
               lStart = m;
               lEnd = m + 1;
               row = getD(table, resExt, rn, cur, row, suffix, ageIx);
             }
           }
-          if ((opr & cur) > 0) {
+          if ((opr & cur) > 0L) {
             suffix = " cur yr:";
-            if (resS[rn][rDesc].contains("WORTH") || resS[rn][rDesc].contains("KNOWLEDGE")) {
+            if((resS[rn][rDesc].contains("WORTH") || resS[rn][rDesc].contains("KNOWLEDGE")|| resS[rn][rDesc].contains("Create") || true) && (putRowsPrint7Count < 12) ) {
               System.out.flush();
-              System.out.printf("EM.putrow %s,list%d, depth%d, valid%d, ageIx%d\n", resS[rn][0], (aop & list0) > 0 ? 0 : (aop & list1) > 0 ? 1 : (aop & list2) > 0 ? 2 : -1, depth, valid, ageIx);
+              System.out.printf("EM.putrow7=%d %s,list%d, depth%d, valid%d, ageIx%d\n",rn, resS[rn][0],putRowsPrint7Count++, (aop & list0) > 0 ? 0 : (aop & list1) > 0 ? 1 : (aop & list2) > 0 ? 2 : -1, depth, valid, ageIx,putRowsPrint7Count++);
               //  System.out.println("rWORTH putrow =" + row + " aop=" + Integer.toOctalString(aop) + ((aop & list0) > 0 ? " list0" : "") + ((aop & list1) > 0 ? " list1" : "") + ((aop & list2) > 0 ? " list2" : ""));
             }
             for (int m = 0; m < valid; m++) {
@@ -3115,19 +3140,20 @@ class EM {
               lEnd = m + 1;
               row = getD(table, resExt, rn, curUnitAve, row, suffix, ageIx);
             }
+            break;
           }
 
           // do not process thisYear if cur was already processed
-          //if ((opr & (myOp = thisYearUnitAve)) > 0 && !unset) {
           if (((opr & curUnitAve) == 0) && ((opr & thisYearUnitAve) > 0)) {
             suffix = " This year sum/units";
             lStart = 0;
             lEnd = 1;
             row = getD(table, resExt, rn, thisYearUnitAve, row, suffix, ageIx);
+            break;
           }
 
           if ((opr & cum) > 0) {
-            suffix = " Cumulative";
+            suffix = " CUM";
             lStart = 0;
             lEnd = 1;
             row = getD(table, resExt, rn, cum, row, suffix, ageIx);
@@ -3165,8 +3191,9 @@ class EM {
           }
         }
       } // end of loop on doRes locks0-3
-
-//      System.out.println("xit row=" + row + ", desc=" + description + " " + dFrac.format(values[0][0]) + " " + dFrac.format(values[0][6]));
+       if(putRowsPrint9Count < 12){
+      System.out.println("xit rn=" + rn + " row=" + row + ", desc=" + resS[rn][0] + " suffix=" + suffix + " putRowsPrint9Count" + putRowsPrint9Count++ );
+       }
       return row;
     }
     catch (java.lang.Error ex) {
