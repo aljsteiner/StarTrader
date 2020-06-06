@@ -9028,7 +9028,16 @@ public class Assets {
       // exit only if goals are met and rawProspect (worst balance problem > 0
       if ((n > eM.maxn[pors] *.5 && rawProspects2.curMin() > eM.minProspects[0] )|| (rawFertilities2.curMin() > curGrowGoal && rawProspects2.curMin() > curMaintGoal && rawProspects2.curMin() > eM.mtgWEmergency[pors][clan])) {
         done = true;  // terminate looping
-        hist.add(new History("GR", History.loopIncrements3, nTitle("TERM ") + cmd.toString() + srcIx + "->" + destIx, "mov=" + df(mov), "src=" + df(balances.get(ixWRSrc, srcIx)), "r$" + rChrgIx + "=" + df(rcost), "s$" + sChrgIx + "=" + df(scost), "dst=" + df(balances.get(ixWRSrc, destIx)), "Hl" + rawProspects2.curMinIx() + "=" + df(rawProspects2.curMin()), "HlB" + rawProspects2.curMinIx() + "=" + df(rawProspects2.get(rawProspects2.curMinIx())), "Ha" + "=" + df(rawProspects2.ave()), "mtgC=" + df(mtgCosts10.curSum()), "bals=" + df(bals.curSum()), "<<<<<<<"));
+        hist.add(new History("GR", History.loopIncrements3, nTitle("TERM ") + cmd.toString() + srcIx + "->" + destIx,
+            "mov=" + df(mov),
+            "src=" + df(balances.get(ixWRSrc, srcIx)),
+            "r$" + rChrgIx + "=" + df(rcost), 
+            "s$" + sChrgIx + "=" + df(scost), 
+            "dst=" + df(balances.get(ixWRSrc, destIx)),
+            "Hl" + rawProspects2.curMinIx() + "=" + df(rawProspects2.curMin()),
+            "HlB" + rawProspects2.curMinIx() + "=" + df(rawProspects2.get(rawProspects2.curMinIx())), "Ha" + "=" + df(rawProspects2.ave()),
+            "mtgC=" + df(mtgCosts10.curSum()), 
+            "bals=" + df(bals.curSum()), "<<<<<<<"));
         EM.wasHere = " CashFlow.swaps just before return if done aaad=" + ++aaad + " n=" + n;
         return swapped = false;  // terminate looping success
       } // exit if we have satisfied END health
