@@ -6099,8 +6099,8 @@ public class Assets {
      */
    
     void aStartCashFlow(Assets aas) { //Assets.CashFlow.initCashFlow
-      histTitles("initCashFlow");
-      EM.wasHere = "CashFlow.init... before HSwaps eeea=" + ++eeea;
+      histTitles("aStartCashFlow");
+      EM.wasHere = "aStartCashFlow... before HSwaps eeea=" + ++eeea;
       prevns = new HSwaps[lPrevns];
       // set balances sub ARows to reference in bals
       balances.A[BALANCESIX + RCIX] = bals.A[BALANCESIX + RCIX];
@@ -6112,7 +6112,7 @@ public class Assets {
       for (int i = didCashFlowInit ? E.LSECS : 0; i < E.lsecs; i++) {
         commonKnowledge.set(i, E.knowledgeForPriority * aknowledge * ypriorityYr.get(i) / ypriorityYr.sum() + E.knowledgeByDefault * aknowledge, "set initial knowledge per econ sector");
       }
-      //Assets.CashFlow.initCashFlow
+      //Assets.CashFlow.aStartCashFlow
       knowledge.set(commonKnowledge, newKnowledge);
       cash = wealth;
       term = -4;

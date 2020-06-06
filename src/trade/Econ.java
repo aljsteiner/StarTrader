@@ -334,7 +334,7 @@ public class Econ {
     boolean ret=false;
     int myVisits = getTradedShipsTried();
     double shipsPerPlanets = EM.porsCnt[E.S] /EM.porsCnt[E.P];
-    if(myVisits > Math.floor(shipsPerPlanets)) return false;
+    if(myVisits > Math.floor(shipsPerPlanets  - .7)) return false;
     double visitedShipsPerPlanets = EM.porsVisited[E.P] == 0?0.0:EM.porsVisited[E.S]/EM.porsVisited[E.P];
     if(visitedShipsPerPlanets > shipsPerPlanets) return false;
     //double clanShipsPerClanPlanets = EM.porsClanCnt[E.S][clan]/EM.porsClanCnt[E.P][clan];
@@ -665,8 +665,9 @@ public class Econ {
     for (Econ ww : wilda) {
       wildS += " " + ww.name + " distance=" + calcLY(this, ww);
     }
-    int r = (int) Math.floor(Math.random() * 5.3 % wilda.length);
-    wildS += " selected:" + wilda[r].name;
+    double wildar = Math.random() * 5.3 % wilda.length;
+    int r = (int) Math.floor(wildar);
+    wildS += " selected:" + mf(wildar) + " :" + wilda[r].name;
     System.out.println(wildS);
     return wilda[r];
   }
@@ -819,10 +820,9 @@ public class Econ {
   }
   
   Offer barter(Offer aOffer,Econ otherEcon){
-    
     Offer ret = as.barter(aOffer);
     if(ret.getTerm() < 1){
-    planetList = mergeLists(planetList,otherEcon.planetList,aOffer);
+    planetList = mergeLists(planetList,otherEcon.planetList,ret);
     }
     return ret;
   }
