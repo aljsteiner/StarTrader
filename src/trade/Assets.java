@@ -9033,7 +9033,7 @@ public class Assets {
             "src=" + df(balances.get(ixWRSrc, srcIx)),
             "r$" + rChrgIx + "=" + df(rcost), 
             "s$" + sChrgIx + "=" + df(scost), 
-            "dst=" + df(balances.get(ixWRSrc, destIx)),
+            "dst=" + (destIx < 0 || destIx > E.LSECS ? "none": df(balances.get(ixWRSrc, destIx))),
             "Hl" + rawProspects2.curMinIx() + "=" + df(rawProspects2.curMin()),
             "HlB" + rawProspects2.curMinIx() + "=" + df(rawProspects2.get(rawProspects2.curMinIx())), "Ha" + "=" + df(rawProspects2.ave()),
             "mtgC=" + df(mtgCosts10.curSum()), 
