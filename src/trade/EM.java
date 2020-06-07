@@ -118,6 +118,7 @@ class EM {
   static double[][] mSendHistLim = {{5., 50}, {-1, -1}};
   double[] nominalWealthPerCommonKnowledge = {.2, .3}; // was .9
   double[][] mNominalWealthPerCommonKnowledge = {{.15, .5}, {.15, .8}};
+  // worth = Wealth/ frac ??
   double[] fracCommonKnowledge = {1.5};//value CommonKnowledge/Worth
   double[][] mFracCommonKnowledge = {{.5, 3.5}, {-1, -1}};
   double[] fracNewKnowledge = {1.5};//value newKnowledge/nominalWealthPerCommonKnowledge
@@ -2074,7 +2075,7 @@ class EM {
 
   void defRes() {
 
-    doRes(LIVEWORTH, "Live Worth", "Live Worth Value including year end working, reserve: resource, staff, knowledge", 6, 2, 0, list9 | list10 | list11 | LIST034567 | thisYr |THISYEARUNITS | sum, ROWS1 | list0 |THISYEAR | thisYrAve | both, ROWS2 |ROWS3 | LIST034567 |THISYEAR | cur | curUnits | both, ROWS2 | ROWS3 | LIST0 | LIST17 |THISYEARUNITS | BOTH | CUMUNITS |THISYEAR);
+    doRes(LIVEWORTH, "Live Worth", "Live Worth Value including year end working, reserve: resource, staff, knowledge", 6, 2, 0, list9 | list10 | list11 | LIST034567 | thisYr |THISYEARUNITS | sum, ROWS1 | ROWS2 | ROWS3| list0 |THISYEAR | thisYrAve | CUM | CUMUNITS | THISYEARUNITS ,0,0);
     doRes(STARTWORTH, "Starting Worth", "Starting Worth Value including working, reserve: resource, staff, knowledge", 2, 2, 0, CURAVE | LIST34567 | LIST10 | sum, 0, 0, 0);
     doRes(WORTHIFRAC, "PercInitWorth ", "Percent of Initial Worth Value including working, reserve: resource, staff, knowledge", 2, 1, 4,LIST10 | curAve  | both, thisYrAve | both | thisYr , 0, 0);
 
@@ -2240,13 +2241,15 @@ class EM {
     doRes("TRADEDRCDF2", "W rcd fav2", "Percent Worth received when trade at fav2/initial worth", 6, 2, (list1 | thisYr | sum), (list1 | curUnitAve | curUnits), 0, 0);
     doRes("TRADEDRCDF1", "W rcd fav1", "Percent Worth received when trade at fav1/initial worth", 6, 2, (list1 | thisYr | sum), (list1 | curUnitAve | curUnits), 0, 0);
     doRes("TRADEDRCDF0", "W rcd fav0", "Percent Worth received when trade at fav 0/initial worth", 6, 2, (list1 | thisYr | sum), (list1 | curUnitAve | curUnits), 0, 0);
-    doRes("RCTBAL", "RCBal", "Percent RC balance/worth", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
+    doRes("RCTBAL", "RCBal/TBal", "Percent RC balance/tbal", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
+     doRes("RCBAL", "RCBal", "RC balance", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
     doRes("SGTBAL", "SG Balance", "Percent SG balance/worth", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
     doRes("RBAL", "RBal", "Percent R balance/ worth", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
     doRes("SBAL", "S Balance", "Percent S balance/worth", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
     doRes("CBAL", "CBal", "Percent C balance/worth", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
     doRes("GBAL", "G Balance", "G balance/worth", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
-    doRes("RCTWORTH", "RCWorth", "RC Worth", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
+    doRes("RCTWORTH", "RCWorth", "RC Worth/TWorth", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
+    doRes("RCWORTH", "RCWorth", "RC Worth", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
     doRes("SGTWORTH", "SGWorth", "SG Worth", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
     doRes("RWORTH", "RWorth", "R Worth", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
     doRes("SWORTH", "AWorth", "S Worth", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
@@ -2257,12 +2260,18 @@ class EM {
     doRes("RCTREQGROWTHCOSTS3", "RCReqGCosts ", "RC Required Growth Cost/RC Bal", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
     doRes("SGTREQGROWTHCOSTS3", "SGReqGCosts ", "SG Required Growth Cost/SG Bal", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
     doRes("RCTGROWTHCOSTS3", "RCGCosts ", "Percent RC Growth Cost/RC Bal", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
-    doRes("RCTGROWTHPERCENT", "RCGrowth% ", "Percent RC Growth /year first RC Bal", 1, 1, 0, (list10 | skipUnset | curAve), 0, 0, 0);
+    doRes("RCTGROWTHPERCENT", "RCGrowth% ", "Percent RC Growth /year first RC Bal", 1, 1, 0, (LIST10 | skipUnset | curAve), 0, 0, 0);
+    doRes("RCWORTHGROWTHPERCENT", "RCWorthGrowth% ", "Percent RC Worth Growth /year first RC Worth", 1, 1, 0, (LIST10 | skipUnset | curAve), 0, 0, 0);
     doRes("RCGLT5PERCENT","RCGrowthLT5%","Percent RC growth LT 5 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
     doRes("RCGLT10PERCENT","RCGrowthLT10%","Percent RC growth LT 10 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
     doRes("RCGLT25PERCENT","RCGrowthLT25%","Percent RC growth LT 25 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
     doRes("RCGLT50PERCENT","RCGrowthLT50%","Percent RC growth LT 50 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
     doRes("RCGLT100PERCENT","RCGrowthLT100%","Percent RC growth LT 100 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
+     doRes("RCWGLT5PERCENT","RCWorthGrowthLT5%","Percent RC Worth growth LT 5 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
+    doRes("RCWGLT10PERCENT","RCGrowthLT10%","Percent RC Worth growth LT 10 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
+    doRes("RCWGLT25PERCENT","RCWorthGrowthLT25%","Percent Worth RC growth LT 25 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
+    doRes("RCWGLT50PERCENT","RCWorthGrowthLT50%","Percent RC Worth growth LT 50 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
+    doRes("RCWGLT100PERCENT","RCWorthGrowthLT100%","Percent RC Worth growth LT 100 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
     doRes("SGTGROWTHCOSTS3", "SGGCosts ", "SG Growth Cost/SG Bal", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
     doRes("RCTREQMAINTC3", "RcRQMCosts ", "rc req maintCsts / bal", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
     doRes("SGTREQMAINTC3", "SgRQMCosts ", "sg req maintCsts / bal", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);

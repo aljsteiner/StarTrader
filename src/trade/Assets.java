@@ -235,7 +235,7 @@ public class Assets {
   ARow manuals;
   ARow moreK; // in doGrow incr knowledge
   ARow lessM; // in doGrow The manual made commonKnowledge
-  ARow ydifficulty;
+  ARow ydifficulty = new ARow();;
   double initialSumWorth = -200.;
   double startYrSumWorth = -200.;
   double prevYrSumWorth = -300.;
@@ -414,7 +414,7 @@ public class Assets {
   manuals = new ARow();
   moreK = new ARow(); // in doGrow incr knowledge
   lessM = new ARow(); // in doGrow The manual made commonKnowledge
-  ydifficulty = new ARow();
+  //ydifficulty = new ARow();  set by priority
     double sumWealth = res * eM.nominalWealthPerResource[pors] + colonists * eM.nominalWealthPerStaff[pors] + aknowledge*eM.nominalWealthPerCommonKnowledge[pors] + wealth;
     hist.add(new History("aa", History.valuesMajor6, "Init" + year + " i$" + df(iwealth),"r" + df(res),"r$" + df(res * eM.nominalWealthPerResource[pors]), "s" + df(colonists),"s$" + df(colonists * eM.nominalWealthPerStaff[pors]), "K" + df(aknowledge),"K$" + df(aknowledge*eM.nominalWealthPerCommonKnowledge[pors]),"$" + df(wealth),"i$" + df(iwealth), "difficulty=", df(percentDifficulty)));
     //  System.out.println("Assets() 623 end constructor");
@@ -938,6 +938,21 @@ public class Assets {
     eM.setStat(o1, pors, clan, val, cnt, ec.age);
     EM.addlErr = "";
   }
+  
+  
+  /**
+   * set a statistical value for later viewing
+   *
+   * @param dname name of the statistic
+   * @param val the value of the statistic
+   * @param cnt the count of units 1 or 0 in certain comditions
+   */
+   void setStat(String dname, double val, int cnt) {
+    EM.addlErr = "setStat dname=" + dname;
+    int o1 = eM.resMap.get(dname);
+    eM.setStat(o1, pors, clan, val, cnt, ec.age);
+    EM.addlErr = "";
+  }
 
   /**
    * set a result statistical value for later viewing
@@ -974,6 +989,24 @@ public class Assets {
     }
     eM.setStat(rN, pors, clan, val, cnt, ec.age);
   }
+  
+   /**
+   * set a result statistical value for later viewing
+   *
+   * @param rN number of the stat
+   * @param val value of the stat
+   * @param cnt count 1 or 0 if another setStat will set cnt
+   * @param age age of the economy Econ
+   */
+   void setStat(int rN,  double val, int cnt) {
+    if (rN < NZERO) {
+      eM.bErr("unknown result Name");
+      return;
+    }
+    eM.setStat(rN, pors, clan, val, cnt, ec.age);
+  }
+
+  
 
   /**
    * return the old ARow or a new zero ARow if old is null This allows declaring
@@ -1799,7 +1832,7 @@ public class Assets {
       ;
       A6Row totGrowths = bals.getGrowths(History.valuesMinor7, "totGrowths");
       double sumTotGrowths = totGrowths.curSum();
-      A6Row totRawGrowths; // = A6Rowa.copy6(ABalRows.rawGrowths, "rawGrowths").copy(History.valuesMinor7);
+      //A6Row totRawGrowths; // = A6Rowa.copy6(ABalRows.rawGrowths, "rawGrowths").copy(History.valuesMinor7);
       //    double difGrowthsWorth;
       double sumTotGrowthCosts = make10(growthCosts10, "growthCosts10").curSum();
       double difWorth;
@@ -2062,6 +2095,16 @@ public class Assets {
       double getCBal() {
         return totBalances.getRow(3).sum();
       }
+      /** get sum of RC Worth
+       * 
+       * @return sum RC Worth
+       */
+      double getRCWorth() { return sumRCWorth;}
+      /** get sum of SG Worth
+       * 
+       * @return sum SG Worth
+       */
+      double getSGWorth() { return sumSGWorth;}
 
       /**
        * get RC sum difference from the prev instance
@@ -2676,8 +2719,9 @@ public class Assets {
        *
        */
       protected void calcEfficiency() {  // Assets.CashFlow.SubAsset
-        // working Efficiency Bias is a function of E.effBias and percentDifficulty
         // never less than .5 E.effBias[pors] or more tnan 1.5 E.effBias
+        // larger workEffBias make for more efficiency
+        // larger percentDifficulty reduces workEffBias
         double workEffBias = eM.effBias[pors] * .5 + eM.effBias[pors] * (100 - percentDifficulty) * .01;
 // define temporary internal variables
         ARow GroReqSum = new ARow();
@@ -2713,6 +2757,8 @@ public class Assets {
                   * additionToKnowledgeBiasForSumKnowledge + (pors == E.S ? manuals.sum() : 0.) * eM.manualEfficiencyMult[pors][0]
                   + knowledge.get(i)) / eM.nominalKnowledgeForBonus[0]) + eM.additionToKnowledgeBiasSqrt[0]);
           // the higher difficulty the lower the efficiency
+          // workEffBias lower if difficulty is higher
+          // ydifficulty set in calcPriority called in aStartCashFlow before this
           maintEfficiency.add(i, Math.sqrt(workEffBias + (1. - workEffBias) * (ydifficulty.get(1) < PZERO ? 0. : KnowledgeMaintMultiplier.get(i)) / ydifficulty.get(i)));
           groEfficiency.add(i, Math.sqrt(eM.effBias[pors] + (1. - eM.effBias[pors]) * (ydifficulty.get(1) < PZERO ? 0. : KnowledgeGroMultiplier.get(i)) / ydifficulty.get(i)));
 
@@ -7252,15 +7298,27 @@ public class Assets {
       EM.wasHere = "CashFlow.yearEnd before many setStat ccci=" + ++ccci;
       setStat(EM.LIVEWORTH, pors, clan, fyW.sumTotWorth, 1);
       setStat(EM.STARTWORTH, pors, clan, initialSumWorth, 1);
-      eM.setStat(EM.WORTHIFRAC, (fyW.sumTotWorth - iyW.sumTotWorth)*100 / iyW.sumTotWorth, 1);
-      eM.setStat(EM.WORTHINCR, (fyW.sumTotWorth - (tprev = syW.sumTotWorth))*100 / tprev, 1);
-      double rcPercentInc = (fyW.getRCBal() - syW.getRCBal()) *100/syW.getRCBal();
+      setStat(EM.WORTHIFRAC, (fyW.sumTotWorth - iyW.sumTotWorth)*100 / iyW.sumTotWorth, 1);
+      setStat(EM.WORTHINCR, (fyW.sumTotWorth - (tprev = syW.sumTotWorth))*100 / tprev, 1);
+      double rcPercentInc = (fyW.getRCBal() - syW.getRCBal()) *100./syW.getRCBal();
+      setStat("RCTBAL",fyW.getRCBal()*100./fyW.getRCBal()+fyW.getSGBal(),1);
+      setStat("RCBAL",fyW.getRCBal(),1);
       setStat("RCTGROWTHPERCENT",pors,clan,rcPercentInc ,1);
       setStat("RCGLT10PERCENT",pors,clan,rcPercentInc < 10?1.:0.,1);
       setStat("RCGLT25PERCENT",pors,clan,rcPercentInc < 25?1.:0.,1);
       setStat("RCGLT5PERCENT",pors,clan,rcPercentInc < 5?1.:0.,1);
       setStat("RCGLT50PERCENT",pors,clan,rcPercentInc < 50?1.:0.,1);
       setStat("RCGLT100PERCENT",pors,clan,rcPercentInc < 100?1.:0.,1);
+      
+      double rcWorthPercentInc = (fyW.getRCWorth() - syW.getRCWorth()) *100/syW.getRCWorth();
+      setStat("RCTWORTH",fyW.getRCWorth()*100/fyW.sumTotWorth,1);
+      setStat("RCWorth",fyW.getRCWorth(),1);
+      setStat("RCWORTHGROWTHPERCENT",pors,clan,rcPercentInc ,1);
+      setStat("RCWGLT10PERCENT",pors,clan,rcWorthPercentInc < 10?1.:0.,1);
+      setStat("RCWGLT25PERCENT",pors,clan,rcWorthPercentInc < 25?1.:0.,1);
+      setStat("RCWGLT5PERCENT",pors,clan,rcWorthPercentInc < 5?1.:0.,1);
+      setStat("RCWGLT50PERCENT",pors,clan,rcWorthPercentInc < 50?1.:0.,1);
+      setStat("RCWGLT100PERCENT",pors,clan,rcWorthPercentInc < 100?1.:0.,1);
 
       double bcurSum = bals.curSum();
       double totWorth = fyW.getTotWorth();
