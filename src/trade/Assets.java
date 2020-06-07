@@ -7475,7 +7475,12 @@ public class Assets {
       // }
       //  if (notDoing() && isDoNots <= 0) {
       if (notDoing()) {
-        hist.add(new History("FL", History.loopIncrements3, nTitle("FAIL") + cmd.toString() + srcIx + "->" + destIx, "mov=" + df(mov), "src=" + df(balances.get(ixWRSrc, srcIx)), "r$" + rChrgIx + "=" + df(rcost), "s$" + sChrgIx + "=" + df(scost), "dst=" + df(balances.get(ixWRSrc, destIx)), "H" + rawProspects2.curMinIx() + "=" + df(rawProspects2.curMin()), "NR" + df(mtgNeeds6.getRow(0).sum()), "NS" + df(mtgNeeds6.getRow(1).sum()), "mtg=" + df(mtgNeeds6.curSum()), "bals=" + df(bals.curSum()), "<<<<<<<"));
+        hist.add(new History("FL", History.loopIncrements3, nTitle("FAIL") + cmd.toString() + srcIx + "->" + destIx, "mov=" + df(mov), 
+            "src=" + (srcIx < 0 || srcIx > E.LSECS ? "none": df(balances.get(ixWRSrc, srcIx))),
+            "r$=" + (rChrgIx < 0 || rChrgIx > E.LSECS ? "none": df(balances.get(ixWRSrc, rChrgIx))),
+            "s$=" + (sChrgIx < 0 || sChrgIx > E.LSECS ? "none": df(balances.get(ixWRSrc, sChrgIx))),
+            "dst=" + (destIx < 0 || destIx > E.LSECS ? "none": df(balances.get(ixWRSrc, destIx))),
+            "H" + rawProspects2.curMinIx() + "=" + df(rawProspects2.curMin()), "NR" + df(mtgNeeds6.getRow(0).sum()), "NS" + df(mtgNeeds6.getRow(1).sum()), "mtg=" + df(mtgNeeds6.curSum()), "bals=" + df(bals.curSum()), "<<<<<<<"));
         doNot = doNot.zero();
         if (preveHr) {
           emergHr = false;
