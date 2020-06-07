@@ -2260,7 +2260,6 @@ class EM {
     doRes("RCTGROWTHPERCENT", "RCGrowth% ", "Percent RC Growth /year first RC Bal", 1, 1, 0, (list10 | skipUnset | curAve), 0, 0, 0);
     doRes("RCGLT5PERCENT","RCGrowthLT5%","Percent RC growth LT 5 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
     doRes("RCGLT10PERCENT","RCGrowthLT10%","Percent RC growth LT 10 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
-    doRes("RCGLT25PERCENT","RCGrowthLT10%","Percent RC growth LT 10 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
     doRes("RCGLT25PERCENT","RCGrowthLT25%","Percent RC growth LT 25 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
     doRes("RCGLT50PERCENT","RCGrowthLT50%","Percent RC growth LT 50 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
     doRes("RCGLT100PERCENT","RCGrowthLT100%","Percent RC growth LT 100 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 

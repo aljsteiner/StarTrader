@@ -7256,11 +7256,11 @@ public class Assets {
       eM.setStat(EM.WORTHINCR, (fyW.sumTotWorth - (tprev = syW.sumTotWorth))*100 / tprev, 1);
       double rcPercentInc = (fyW.getRCBal() - syW.getRCBal()) *100/syW.getRCBal();
       setStat("RCTGROWTHPERCENT",pors,clan,rcPercentInc ,1);
-      setStat("RCTGLT10PERCENT",pors,clan,rcPercentInc < 10?1.:0.,1);
-      setStat("RCTGLT25PERCENT",pors,clan,rcPercentInc < 25?1.:0.,1);
-      setStat("RCTGLT500PERCENT",pors,clan,rcPercentInc < 5?1.:0.,1);
-      setStat("RCTGLT5PERCENT",pors,clan,rcPercentInc < 50?1.:0.,1);
-      setStat("RCTGLT100PERCENT",pors,clan,rcPercentInc < 100?1.:0.,1);
+      setStat("RCGLT10PERCENT",pors,clan,rcPercentInc < 10?1.:0.,1);
+      setStat("RCGLT25PERCENT",pors,clan,rcPercentInc < 25?1.:0.,1);
+      setStat("RCGLT5PERCENT",pors,clan,rcPercentInc < 5?1.:0.,1);
+      setStat("RCGLT50PERCENT",pors,clan,rcPercentInc < 50?1.:0.,1);
+      setStat("RCGLT100PERCENT",pors,clan,rcPercentInc < 100?1.:0.,1);
 
       double bcurSum = bals.curSum();
       double totWorth = fyW.getTotWorth();
@@ -9037,9 +9037,9 @@ public class Assets {
         done = true;  // terminate looping
         hist.add(new History("GR", History.loopIncrements3, nTitle("TERM ") + cmd.toString() + srcIx + "->" + destIx,
             "mov=" + df(mov),
-            "src=" + df(balances.get(ixWRSrc, srcIx)),
-            "r$" + rChrgIx + "=" + df(rcost), 
-            "s$" + sChrgIx + "=" + df(scost), 
+            "src=" + (srcIx < 0 || srcIx > E.LSECS ? "none": df(balances.get(ixWRSrc, srcIx))),
+            "r$=" + (rChrgIx < 0 || rChrgIx > E.LSECS ? "none": df(balances.get(ixWRSrc, rChrgIx))),
+            "s$=" + (sChrgIx < 0 || sChrgIx > E.LSECS ? "none": df(balances.get(ixWRSrc, sChrgIx))),
             "dst=" + (destIx < 0 || destIx > E.LSECS ? "none": df(balances.get(ixWRSrc, destIx))),
             "Hl" + rawProspects2.curMinIx() + "=" + df(rawProspects2.curMin()),
             "HlB" + rawProspects2.curMinIx() + "=" + df(rawProspects2.get(rawProspects2.curMinIx())), "Ha" + "=" + df(rawProspects2.ave()),
