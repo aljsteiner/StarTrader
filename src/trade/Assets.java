@@ -7254,6 +7254,13 @@ public class Assets {
       setStat(EM.STARTWORTH, pors, clan, initialSumWorth, 1);
       eM.setStat(EM.WORTHIFRAC, (fyW.sumTotWorth - iyW.sumTotWorth)*100 / iyW.sumTotWorth, 1);
       eM.setStat(EM.WORTHINCR, (fyW.sumTotWorth - (tprev = syW.sumTotWorth))*100 / tprev, 1);
+      double rcPercentInc = (fyW.getRCBal() - syW.getRCBal()) *100/syW.getRCBal();
+      setStat("RCTGROWTHPERCENT",pors,clan,rcPercentInc ,1);
+      setStat("RCTGLT10PERCENT",pors,clan,rcPercentInc < 10?1.:0.,1);
+      setStat("RCTGLT25PERCENT",pors,clan,rcPercentInc < 25?1.:0.,1);
+      setStat("RCTGLT500PERCENT",pors,clan,rcPercentInc < 5?1.:0.,1);
+      setStat("RCTGLT5PERCENT",pors,clan,rcPercentInc < 50?1.:0.,1);
+      setStat("RCTGLT100PERCENT",pors,clan,rcPercentInc < 100?1.:0.,1);
 
       double bcurSum = bals.curSum();
       double totWorth = fyW.getTotWorth();

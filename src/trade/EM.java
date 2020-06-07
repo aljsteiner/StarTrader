@@ -2256,7 +2256,14 @@ class EM {
     doRes("SGTWINC", "SGWInc", "SG Worth Inc", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
     doRes("RCTREQGROWTHCOSTS3", "RCReqGCosts ", "RC Required Growth Cost/RC Bal", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
     doRes("SGTREQGROWTHCOSTS3", "SGReqGCosts ", "SG Required Growth Cost/SG Bal", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
-    doRes("RCTGROWTHCOSTS3", "RCGCosts ", "RC Growth Cost/RC Bal", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
+    doRes("RCTGROWTHCOSTS3", "RCGCosts ", "Percent RC Growth Cost/RC Bal", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
+    doRes("RCTGROWTHPERCENT", "RCGrowth% ", "Percent RC Growth /year first RC Bal", 1, 1, 0, (list10 | skipUnset | curAve), 0, 0, 0);
+    doRes("RCGLT5PERCENT","RCGrowthLT5%","Percent RC growth LT 5 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
+    doRes("RCGLT10PERCENT","RCGrowthLT10%","Percent RC growth LT 10 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
+    doRes("RCGLT25PERCENT","RCGrowthLT10%","Percent RC growth LT 10 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
+    doRes("RCGLT25PERCENT","RCGrowthLT25%","Percent RC growth LT 25 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
+    doRes("RCGLT50PERCENT","RCGrowthLT50%","Percent RC growth LT 50 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
+    doRes("RCGLT100PERCENT","RCGrowthLT100%","Percent RC growth LT 100 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
     doRes("SGTGROWTHCOSTS3", "SGGCosts ", "SG Growth Cost/SG Bal", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
     doRes("RCTREQMAINTC3", "RcRQMCosts ", "rc req maintCsts / bal", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
     doRes("SGTREQMAINTC3", "SgRQMCosts ", "sg req maintCsts / bal", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);

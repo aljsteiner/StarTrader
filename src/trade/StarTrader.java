@@ -4406,7 +4406,7 @@ public class StarTrader extends javax.swing.JFrame {
     boolean bid = statsButton12.isSelected();
     if (bid) {
       statsField.setText(statsButton11Tip);
-      statsButton11.setToolTipText(statsButton11Tip);
+      statsButton11.setToolTipText(statsButton12Tip);
       listRes(12, resLoops, fullRes);
     }
   }//GEN-LAST:event_statsButton12ItemStateChanged
@@ -4418,7 +4418,7 @@ public class StarTrader extends javax.swing.JFrame {
   private void statsButton13ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_statsButton13ItemStateChanged
     boolean bid = statsButton13.isSelected();
     if (bid) {
-      statsField.setText(statsButton11Tip);
+      statsField.setText(statsButton13Tip);
       statsButton11.setToolTipText(statsButton11Tip);
       listRes(13, resLoops, fullRes);
     }
@@ -4431,7 +4431,7 @@ public class StarTrader extends javax.swing.JFrame {
   private void statsButton14ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_statsButton14ItemStateChanged
     boolean bid = statsButton14.isSelected();
     if (bid) {
-      statsField.setText(statsButton11Tip);
+      statsField.setText(statsButton14Tip);
       statsButton11.setToolTipText(statsButton11Tip);
       listRes(14, resLoops, fullRes);
     }
@@ -4444,7 +4444,7 @@ public class StarTrader extends javax.swing.JFrame {
   private void statsButton15ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_statsButton15ItemStateChanged
     boolean bid = statsButton15.isSelected();
     if (bid) {
-      statsField.setText(statsButton11Tip);
+      statsField.setText(statsButton15Tip);
       statsButton11.setToolTipText(statsButton11Tip);
       listRes(15, resLoops, fullRes);
     }
@@ -4457,7 +4457,7 @@ public class StarTrader extends javax.swing.JFrame {
   private void statsButton16ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_statsButton16ItemStateChanged
     boolean bid = statsButton16.isSelected();
     if (bid) {
-      statsField.setText(statsButton11Tip);
+      statsField.setText(statsButton16Tip);
       statsButton11.setToolTipText(statsButton11Tip);
       listRes(16, resLoops, fullRes);
     }
@@ -4470,7 +4470,7 @@ public class StarTrader extends javax.swing.JFrame {
   private void statsButton17ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_statsButton17ItemStateChanged
     boolean bid = statsButton17.isSelected();
     if (bid) {
-      statsField.setText(statsButton11Tip);
+      statsField.setText(statsButton17Tip);
       statsButton11.setToolTipText(statsButton11Tip);
       listRes(17, resLoops, fullRes);
     }
@@ -4483,7 +4483,7 @@ public class StarTrader extends javax.swing.JFrame {
   private void statsButton18ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_statsButton18ItemStateChanged
     boolean bid = statsButton18.isSelected();
     if (bid) {
-      statsField.setText(statsButton11Tip);
+      statsField.setText(statsButton18Tip);
       statsButton11.setToolTipText(statsButton11Tip);
       listRes(18, resLoops, fullRes);
     }
@@ -4496,7 +4496,7 @@ public class StarTrader extends javax.swing.JFrame {
   private void statsButton19ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_statsButton19ItemStateChanged
     boolean bid = statsButton19.isSelected();
     if (bid) {
-      statsField.setText(statsButton11Tip);
+      statsField.setText(statsButton19Tip);
       statsButton11.setToolTipText(statsButton11Tip);
       listRes(19, resLoops, fullRes);
     }
@@ -4510,7 +4510,7 @@ public class StarTrader extends javax.swing.JFrame {
     boolean bid = statsButton20.isSelected();
     if (bid) {
       statsField.setText(statsButton11Tip);
-      statsButton11.setToolTipText(statsButton11Tip);
+      statsButton11.setToolTipText(statsButton20Tip);
       listRes(20, resLoops, fullRes);
     }
   }//GEN-LAST:event_statsButton20ItemStateChanged
