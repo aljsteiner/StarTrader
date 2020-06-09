@@ -134,12 +134,35 @@ public class ABalRows extends A6Rowa {
     return this;
   }
 
+  /** get the balances A6Row from bals, including copy grades
+   * only move reverence for the A[2] thru A[4]
+   * 
+   * @param lev  level of the copied A6Row
+   * @param atitl title of the A6Row
+   * @return the A6Row
+   */
   public A6Row getBalances(int lev, String atitl) {
     A6Row rtn = new A6Row(tbal, lev, atitl);
     for (int i = 0; i < 6; i++) {
       rtn.A[i] = A[i];
       rtn.A[i].setCnt++;
     }
+    return rtn;
+  }
+  
+  /** copy the balances A6Row from bals,
+   * grades must be copied separately
+   * 
+   * @param lev  level of the copied A6Row
+   * @param atitl title of the A6Row
+   * @return the A6Row all values copied not references moved
+   */
+   public A6Row copyBalances(int lev, String atitl) {
+    A6Row rtn = new A6Row(tbal, lev, atitl);
+    for (int m = 2; m < 6; m++) {
+      rtn.A[m] = A[m].copy();
+      rtn.A[m].setCnt++;
+    }// end m
     return rtn;
   }
 
@@ -158,11 +181,11 @@ public class ABalRows extends A6Rowa {
     resum(0);
     resum(1);
     for (int m : I03) {
-      rtn.A[m + 2] = A[iX + m];
+      rtn.A[m + 2] = A[iX + m].copy();
       rtn.aCnt[m]++;
     }
-    rtn.A[0] = new ARow().setAdd(A[iX], A[iX + 1]);
-    rtn.A[1] = new ARow().setAdd(A[iX + 2], A[iX + 3]);
+    rtn.A[0] = new ARow().setAdd(rtn.A[2] , rtn.A[3]);
+    rtn.A[1] = new ARow().setAdd(rtn.A[4] , rtn.A[5]);
     return rtn;
   }
 

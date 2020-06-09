@@ -217,7 +217,7 @@ public class Assets {
   boolean didGoods = false;
   //Assets do decay in calcGrowth only first time each year, set false in endYear
   boolean didStart = false, didDecay = false, didCashFlowInit = false;
-  A6Row balances;   //Assets a subset of ABalRows
+  A6Row balances; // balances
   A6Row cashFlowSubAssetBalances; // assume no recreate of each ARow
   A6Row growths;  // Subset of ABalRows
   A6Row cashFlowSubAssetsGrowths;
@@ -235,7 +235,7 @@ public class Assets {
   ARow manuals;
   ARow moreK; // in doGrow incr knowledge
   ARow lessM; // in doGrow The manual made commonKnowledge
-  ARow ydifficulty = new ARow();;
+  ARow ydifficulty ;
   double initialSumWorth = -200.;
   double startYrSumWorth = -200.;
   double prevYrSumWorth = -300.;
@@ -377,6 +377,7 @@ public class Assets {
     whole = NumberFormat.getNumberInstance();
     dfo = dFrac;
     difficulty = new ARow();
+    ydifficulty = new ARow();
     //   startYrs = new HCashFlow[7]; // might use instead of name 1,2 ...
     //   prevns = new HCashFlow[7];
     double sumPri = 0.;
@@ -1239,6 +1240,9 @@ public class Assets {
       cur.aStartCashFlow(this);
     }
     cur.yearEnd();
+    if(syW != null){
+      throw new MyErr("CashFlow.yearEnd did not null syW, probably skipped some code");
+    }
     cur = null; // release all CashFlow storage
     // decrement cumulativeDecay, bonus years and bonus units
     for (int m : balsIxA) {
@@ -1816,7 +1820,7 @@ public class Assets {
       double sumRCWorth = sumRWorth + sumCWorth;
       double sumSGWorth = sumSWorth + sumGWorth;
       double[] sumWorths = {sumRCWorth, sumSGWorth, sumRWorth, sumCWorth, sumSWorth, sumGWorth};
-      A6Row totBalances = bals.getBalances(History.valuesMinor7, "balances");
+      A6Row totBalances = bals.copyBalances(History.valuesMinor7, "balances");
       //  double[] worthPerSubBal = {eM.nominalWealthPerResource[pors], eM.nominalWealthPerResource[pors] * eM.cargoWorthBias[0], .3, .3}; //finish at instantiation
       double cash;
       double sumCommonKnowledgeBal = make(commonKnowledge).sum();
@@ -2410,7 +2414,8 @@ public class Assets {
       //  ARow cumtcosts = new ARow();
       //    ARow hpmtCosts;
       //   ARow npmtCosts;
-       // Assets.CashFlow.SubAsset
+      
+       // Assets.CashFlow.SubAsset  just staff, guests have grades
       int lgrades2 = E.lgrades;
       double[][] grades = new double[E.lsecs][lgrades2];
       ARow work;
@@ -7243,66 +7248,19 @@ public class Assets {
         ec.saveHist = false;
         hist.add(new History(History.loopMinorConditionals5, ">>>>end Health", "H=" + df(health), (fFlag ? "f" : "!f") + whole(eM.maxn[pors] * eM.fFrac[pors]), (gfFlag ? "gf" : "!gf") + whole(eM.maxn[pors] * eM.gfFrac[pors]), (gFlag ? "g" : "!g") + whole(eM.maxn[pors] * eM.gFrac[pors]), (hFlag ? "h" : "!h") + whole(eM.maxn[pors] * eM.hFrac[pors]), (emergHr || emergHs ? "eh" : "!eh") + whole(eM.maxn[pors] * eM.heFrac[pors]), "max=" + whole(eM.maxn[pors]), "<<<<"));
         //     hist.add(new History(4, ">>>end swap loop", "<<<<"));
-      }
-      else // end skip if already dead
-      { // dead, be sure died is set
-        /*   static final int LIVEWORTH = ++e4;
-       static final int MISSINGNAME = ++e4;
-       static final int DEADRATIO = ++e4;
-       static final int DEADHEALTH = ++e4;
-       static final int DEADFERTILITY = ++e4;
-       static final int DEADSWAPSMOVED = ++e4;
-       static final int DEADSWAPSCOSTS = ++e4;
-       static final int DEADTRADED = ++e4;
-       static final int DEADSWAPSNCOUNT = ++e4; */
-        EM.wasHere = " CashFlow.yearEnd start of dead cccg=" + ++cccg;
-        if (!died) {  // list only once
-          // DoTotalWorths iyW, syW, tW, gSwapW, gGrowW, gCostW, fyW;
-          double tt3 = 0;
-          fyW = new DoTotalWorths();
-          fyW.setPrev(syW);
-          setStat("died", pors, clan, fyW.sumTotWorth, 1);
-          EM.wasHere = " CashFlow.yearEnd into deac, and died ccch=" + ++ccch;
-          if (swapsN < 0) {
-            setStat("DeadNegN", pors, clan, fyW.sumTotWorth, 1);
-          }
-          else if (swapsN < 10) {
-            setStat("DeadLt10", pors, clan, fyW.sumTotWorth, 1);
-          }
-          if (rawProspects2.curMin() < E.NZERO) {
-            setStat("DeadNegProsp", pors, clan, fyW.sumTotWorth, 1);
-          }
-          setStat(EM.DEADHEALTH, pors, clan, rawProspects2.curMin(), 1);
-          if ((tt3 = bals.getRow(1).sum() / bals.getRow(0).sum()) > 1.5) {
-            setStat("DeadRatioS", pors, clan, tt3, 1);
-          }
-          if ((tt3 = bals.getRow(0).sum() / bals.getRow(1).sum()) > 1.5) {
-            setStat("DeadRatioR", pors, clan, tt3, 1);
-          }
-          setStat(EM.DEADRATIO, pors, clan, bals.getRow(1).sum() / bals.getRow(0).sum(), 1);
-          setStat(EM.DEADFERTILITY, pors, clan, rawFertilities2.curMin(), 1);
-          setStat(EM.DEADSWAPSMOVED, pors, clan, swapsN, 1);
-        }
-        died = true;
-        eM.clanFutureFunds[clan] += yearsFutureFund;
-        yearsFutureFund = 0.;
-        yearsFutureFundTimes = 0;
-        hist.add(new History(aPre, 1, "n" + n + ">>>>>> aDEAD=" + df(health), "*dead*", "*dead*", "*dead*", "*dead*", "*dead*", "*dead*", "*dead*", "*dead*", "*dead*", "<<<<<<"));
-        EM.wasHere = "CashFlow.yearEnd in dead just before return cccg=" + ++cccg;
-        return rawProspects2.curMin();
-      }
-
-      //  startYearTotWorth = syW.getTotWorth();
+         //  startYearTotWorth = syW.getTotWorth();
       double tprev = 0.;
-      // gameRes.LIVEWORTH.wet(pors, clan, sumTotWorth);
       EM.wasHere = "CashFlow.yearEnd before many setStat ccci=" + ++ccci;
       setStat(EM.LIVEWORTH, pors, clan, fyW.sumTotWorth, 1);
       setStat(EM.STARTWORTH, pors, clan, initialSumWorth, 1);
-      setStat(EM.WORTHIFRAC, (fyW.sumTotWorth - iyW.sumTotWorth)*100 / iyW.sumTotWorth, 1);
+      setStat(EM.WORTHIFRAC, (fyW.sumTotWorth - (tprev = iyW.sumTotWorth))*100 / tprev,1);
       setStat(EM.WORTHINCR, (fyW.sumTotWorth - (tprev = syW.sumTotWorth))*100 / tprev, 1);
-      double rcPercentInc = (fyW.getRCBal() - syW.getRCBal()) *100./syW.getRCBal();
+      double rcPercentInc = (fyW.getRCBal() - (tprev = syW.getRCBal())) *100./tprev;
       setStat("RCTBAL",fyW.getRCBal()*100./fyW.getRCBal()+fyW.getSGBal(),1);
       setStat("RCBAL",fyW.getRCBal(),1);
+      if(E.debugMisc && (rcPercentInc < PZERO)){
+        throw new MyErr("zero rcPercentInc=" + ec.mf(rcPercentInc));
+      }
       setStat("RCTGROWTHPERCENT",pors,clan,rcPercentInc ,1);
       setStat("RCGLT10PERCENT",pors,clan,rcPercentInc < 10?1.:0.,1);
       setStat("RCGLT25PERCENT",pors,clan,rcPercentInc < 25?1.:0.,1);
@@ -7311,8 +7269,11 @@ public class Assets {
       setStat("RCGLT100PERCENT",pors,clan,rcPercentInc < 100?1.:0.,1);
       
       double rcWorthPercentInc = (fyW.getRCWorth() - syW.getRCWorth()) *100/syW.getRCWorth();
+      if(E.debugMisc && (rcWorthPercentInc < PZERO)){
+        throw new MyErr("rcWorthPercentInc=" + ec.mf(rcWorthPercentInc));
+      }
       setStat("RCTWORTH",fyW.getRCWorth()*100/fyW.sumTotWorth,1);
-      setStat("RCWorth",fyW.getRCWorth(),1);
+      setStat("RCWORTH",fyW.getRCWorth(),1);
       setStat("RCWORTHGROWTHPERCENT",pors,clan,rcPercentInc ,1);
       setStat("RCWGLT10PERCENT",pors,clan,rcWorthPercentInc < 10?1.:0.,1);
       setStat("RCWGLT25PERCENT",pors,clan,rcWorthPercentInc < 25?1.:0.,1);
@@ -7413,7 +7374,57 @@ public class Assets {
         // gameRes.UNTRADEDWINCR.wet(pors, clan, worthincrPercent, 1);
         setStat("UNTRADEDWINCR", pors, clan, worthincrPercent, 1);
       }
+// ---------------------- end of live stats ---------------------------------
+      }
+      else // end skip if already dead
+      { // dead, be sure died is set
+        /*   static final int LIVEWORTH = ++e4;
+       static final int MISSINGNAME = ++e4;
+       static final int DEADRATIO = ++e4;
+       static final int DEADHEALTH = ++e4;
+       static final int DEADFERTILITY = ++e4;
+       static final int DEADSWAPSMOVED = ++e4;
+       static final int DEADSWAPSCOSTS = ++e4;
+       static final int DEADTRADED = ++e4;
+       static final int DEADSWAPSNCOUNT = ++e4; */
+        EM.wasHere = " CashFlow.yearEnd start of dead cccg=" + ++cccg;
+        if (!died) {  // list only once
+          // DoTotalWorths iyW, syW, tW, gSwapW, gGrowW, gCostW, fyW;
+          double tt3 = 0;
+          fyW = new DoTotalWorths();
+          fyW.setPrev(syW);
+          setStat("died", pors, clan, fyW.sumTotWorth, 1);
+          EM.wasHere = " CashFlow.yearEnd into deac, and died ccch=" + ++ccch;
+          if (swapsN < 0) {
+            setStat("DeadNegN", pors, clan, fyW.sumTotWorth, 1);
+          }
+          else if (swapsN < 10) {
+            setStat("DeadLt10", pors, clan, fyW.sumTotWorth, 1);
+          }
+          if (rawProspects2.curMin() < E.NZERO) {
+            setStat("DeadNegProsp", pors, clan, fyW.sumTotWorth, 1);
+          }
+          setStat(EM.DEADHEALTH, pors, clan, rawProspects2.curMin(), 1);
+          if ((tt3 = bals.getRow(1).sum() / bals.getRow(0).sum()) > 1.5) {
+            setStat("DeadRatioS", pors, clan, tt3, 1);
+          }
+          if ((tt3 = bals.getRow(0).sum() / bals.getRow(1).sum()) > 1.5) {
+            setStat("DeadRatioR", pors, clan, tt3, 1);
+          }
+          setStat(EM.DEADRATIO, pors, clan, bals.getRow(1).sum() / bals.getRow(0).sum(), 1);
+          setStat(EM.DEADFERTILITY, pors, clan, rawFertilities2.curMin(), 1);
+          setStat(EM.DEADSWAPSMOVED, pors, clan, swapsN, 1);
+        }
+        died = true;
+        eM.clanFutureFunds[clan] += yearsFutureFund;
+        yearsFutureFund = 0.;
+        yearsFutureFundTimes = 0;
+        hist.add(new History(aPre, 1, "n" + n + ">>>>>> aDEAD=" + df(health), "*dead*", "*dead*", "*dead*", "*dead*", "*dead*", "*dead*", "*dead*", "*dead*", "*dead*", "<<<<<<"));
+        EM.wasHere = "CashFlow.yearEnd in dead just before return cccg=" + ++cccg;
+        return rawProspects2.curMin();
+      }
 
+     
       didGoods = false;
       // sLoops[0] = 
       n = 0;

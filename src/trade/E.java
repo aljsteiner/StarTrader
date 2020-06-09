@@ -66,6 +66,7 @@ public class E {
   static final boolean debugCosts = debugMaster;  // check that cost processing ok
   static final boolean debugDouble = debugMaster; //doubleTrouble and infinity or NaN
   static final boolean debugTradeRecord = debugMaster; // or false
+  static final boolean debugMisc = debugMaster; // other debug tests
   /* Start Global data, set in tab init
    * [pors]
    */

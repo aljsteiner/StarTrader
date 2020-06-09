@@ -2067,11 +2067,11 @@ class EM {
   static final int INCRAVAILFRACb = ++e4;
   static final int INCRAVAILFRACc = ++e4;
 
-  static final int TESTWORTH4 = ++e4;
-  static final int TESTWORTH5 = ++e4;
-  static final int TESTWORTH6 = ++e4;
-  static final int TESTWORTH7 = ++e4;
-  static final int TESTWORTH8 = ++e4;
+ // static final int TESTWORTH4 = ++e4;
+ /// static final int TESTWORTH5 = ++e4;
+//  static final int TESTWORTH6 = ++e4;
+ // static final int TESTWORTH7 = ++e4;
+ // static final int TESTWORTH8 = ++e4;
 
   void defRes() {
 
@@ -2242,14 +2242,14 @@ class EM {
     doRes("TRADEDRCDF1", "W rcd fav1", "Percent Worth received when trade at fav1/initial worth", 6, 2, (list1 | thisYr | sum), (list1 | curUnitAve | curUnits), 0, 0);
     doRes("TRADEDRCDF0", "W rcd fav0", "Percent Worth received when trade at fav 0/initial worth", 6, 2, (list1 | thisYr | sum), (list1 | curUnitAve | curUnits), 0, 0);
     doRes("RCTBAL", "RCBal/TBal", "Percent RC balance/tbal", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
-     doRes("RCBAL", "RCBal", "RC balance", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
-    doRes("SGTBAL", "SG Balance", "Percent SG balance/worth", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
+     doRes("RCBAL", "RCBal", "RC balance", 1, 1, 0, (list9  | curAve), 0, 0, 0);
+    doRes("SGTBAL", "SG Balance", "Percent SG balance/worth", 1, 1, 0, (list9 | curAve), 0, 0, 0);
     doRes("RBAL", "RBal", "Percent R balance/ worth", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
     doRes("SBAL", "S Balance", "Percent S balance/worth", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
     doRes("CBAL", "CBal", "Percent C balance/worth", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
     doRes("GBAL", "G Balance", "G balance/worth", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
     doRes("RCTWORTH", "RCWorth", "RC Worth/TWorth", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
-    doRes("RCWORTH", "RCWorth", "RC Worth", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
+    doRes("RCWORTH", "RCWorth", "RC Worth", 1, 1, 0, (list9 |  curAve), 0, 0, 0);
     doRes("SGTWORTH", "SGWorth", "SG Worth", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
     doRes("RWORTH", "RWorth", "R Worth", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
     doRes("SWORTH", "AWorth", "S Worth", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
@@ -2261,17 +2261,17 @@ class EM {
     doRes("SGTREQGROWTHCOSTS3", "SGReqGCosts ", "SG Required Growth Cost/SG Bal", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
     doRes("RCTGROWTHCOSTS3", "RCGCosts ", "Percent RC Growth Cost/RC Bal", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
     doRes("RCTGROWTHPERCENT", "RCGrowth% ", "Percent RC Growth /year first RC Bal", 1, 1, 0, (LIST10 | skipUnset | curAve), 0, 0, 0);
-    doRes("RCWORTHGROWTHPERCENT", "RCWorthGrowth% ", "Percent RC Worth Growth /year first RC Worth", 1, 1, 0, (LIST10 | skipUnset | curAve), 0, 0, 0);
-    doRes("RCGLT5PERCENT","RCGrowthLT5%","Percent RC growth LT 5 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
-    doRes("RCGLT10PERCENT","RCGrowthLT10%","Percent RC growth LT 10 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
-    doRes("RCGLT25PERCENT","RCGrowthLT25%","Percent RC growth LT 25 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
+    doRes("RCWORTHGROWTHPERCENT", "RCWorthGrowth% ", "Percent RC Worth Growth /year first RC Worth", 5, 1, 0, (LIST10 | skipUnset | curAve), 0, 0, 0);
+    doRes("RCGLT5PERCENT","RCGrowthLT5%","Percent RC growth LT 5 %",5,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
+    doRes("RCGLT10PERCENT","RCGrowthLT10%","Percent RC growth LT 10 %",5,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
+    doRes("RCGLT25PERCENT","RCGrowthLT25%","Percent RC growth LT 25 %",5,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
     doRes("RCGLT50PERCENT","RCGrowthLT50%","Percent RC growth LT 50 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
     doRes("RCGLT100PERCENT","RCGrowthLT100%","Percent RC growth LT 100 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
-     doRes("RCWGLT5PERCENT","RCWorthGrowthLT5%","Percent RC Worth growth LT 5 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
-    doRes("RCWGLT10PERCENT","RCGrowthLT10%","Percent RC Worth growth LT 10 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
-    doRes("RCWGLT25PERCENT","RCWorthGrowthLT25%","Percent Worth RC growth LT 25 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
-    doRes("RCWGLT50PERCENT","RCWorthGrowthLT50%","Percent RC Worth growth LT 50 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
-    doRes("RCWGLT100PERCENT","RCWorthGrowthLT100%","Percent RC Worth growth LT 100 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
+     doRes("RCWGLT5PERCENT","RCWorthGrowthLT5%","Percent RC Worth growth LT 5 %",5,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
+    doRes("RCWGLT10PERCENT","RCGrowthLT10%","Percent RC Worth growth LT 10 %",5,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
+    doRes("RCWGLT25PERCENT","RCWorthGrowthLT25%","Percent Worth RC growth LT 25 %",5,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
+    doRes("RCWGLT50PERCENT","RCWorthGrowthLT50%","Percent RC Worth growth LT 50 %",5,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
+    doRes("RCWGLT100PERCENT","RCWorthGrowthLT100%","Percent RC Worth growth LT 100 %",5,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
     doRes("SGTGROWTHCOSTS3", "SGGCosts ", "SG Growth Cost/SG Bal", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
     doRes("RCTREQMAINTC3", "RcRQMCosts ", "rc req maintCsts / bal", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
     doRes("SGTREQMAINTC3", "SgRQMCosts ", "sg req maintCsts / bal", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
@@ -2999,9 +2999,13 @@ static int putRowsPrint3Count=0;
 static int putRowsPrint4Count=0;
 static int putRowsPrint5Count=0;
 static int putRowsPrint6Count=0;
+static int putRowsPrint6aCount=0;
 static int putRowsPrint7Count=0;
 static int putRowsPrint8Count=0;
 static int putRowsPrint9Count=0;
+static int prpc1 = 0;
+static int prpc2 = 0;
+static int prpc3 = 0;
     /**
    * possibly put a row into table if the key aop matches a lock in rn
    *
@@ -3013,14 +3017,43 @@ static int putRowsPrint9Count=0;
    */
   public int putRows(JTable table, String[] resExt, int row, long aop) {
     if(putRowsPrint1Count++ < 10){
-    System.out.println(">>>>>>putRows1 count=" + putRowsPrint1Count + "<<<<<<");
+    System.out.println(">>>>>>putRows1 remde4=" + rende4 + ", count=" + putRowsPrint1Count + "<<<<<<");
+    
     }
     int rn=0;
+    String desc = "none";
+    long depth = -2, hLM = 0, hLM1 = 0, hLMp = 0, myValid = 0;
     for(rn=0;rn < rende4;rn++){
       if(putRowsPrint2Count++ < 10){
     System.out.println(">>>>>>putRows2 count=" + putRowsPrint2Count + " rn=" + rn + " row=" + row +  " <<<<<<");
     }
+      if(resI[rn] == null){
+        System.out.println("null resI[" + rn + "] prev desc=" + desc);
+        
+      } else { // not null
+      desc = resS[rn][0];
+      boolean myUnset;
+      long[][][] resii = resI[rn];
+      long[][] resiii = resI[rn][ICUM];
+      long[] resiic = resI[rn][ICUM][CCONTROLD];
+      int c = 0, ageIx = 0;
+       for (c = 0, ageIx = 0; c < 6 && ageIx == 0; c++) {
+            if (((aop & resI[rn][ICUM][CCONTROLD][LOCKS0 + 0]) & AGELISTS[c]) > 0) {
+              ageIx = c; // this misses 3 only notices 4
+            }
+          }
+       myUnset = unset = resI[rn][ICUR0 + ageIx * 7][CCONTROLD][ISSET] < 1; // flag for age
+          myValid = valid = resI[rn][ICUR0 + ageIx * 7][CCONTROLD][IVALID];
+          depth = resI[rn][ICUR0 + ageIx * 7][CCONTROLD][IVALID];
+        boolean lla = ( rn > (rende4 -2)?true:
+              ((aop & (LIST10 | LIST0 | LIST17) ) > 0l)? (prpc2++ > 6)? (prpc2=0) == 0:false:false);
+
+          if( (lla || ((putRowsPrint6aCount % 75) == 0 )) && (putRowsPrint6aCount++ < 12)) {
+              System.out.flush();
+              System.out.printf("EM.putrow6a rn=%d %s, %s, list%d, depth%d, valid%d, cum%d, rende4=%d putRowsPrint6aCount= " + putRowsPrint6aCount + " \n",rn,( unset? "UNSET":"ISSET"),resS[rn][0], ((aop & list0) > 0 ? 0 : (aop & list1) > 0 ? 1 : (aop & list10) > 10 ? 2 : (aop & LIST17) > 0 ? 17 : aop), depth, valid, resI[rn][ICUM][0][0],rende4);
+            }
       row = putRows(table,resExt,rn,row,aop);
+      } // end not null
     }
     return row;
   }
@@ -3036,7 +3069,7 @@ static int putRowsPrint9Count=0;
    */
   public int putRows(JTable table, String[] resExt, int rn, int row, long aop) {
     if(putRowsPrint3Count++ < 12){
-    System.out.println(">>>>>>putRows3 count=" + putRowsPrint3Count + " rn=" + rn + " row=" + row +  " <<<<<<");
+    System.out.println(">>>>>>putRows3 count=" + putRowsPrint3Count + " rn=" + rn + " row=" + row + ", rende4=" + rende4 + " <<<<<<");
     }
     if (resV[rn] == null) { // skip undefined rows
       return row;
@@ -3102,10 +3135,14 @@ static int putRowsPrint9Count=0;
           didUnset = false;
           // now determine type to pick a suffix and set boolean flags
           //  int cop = (int)(aop & opx & 017);
+          // lla true if rn>rend4-1 or prpc1 > 6
+          boolean lla = ( rn > (rende4 -2) &&
+              ((aop & (LIST10 | LIST0 | LIST17) ) > 0l)? (prpc1++ > 6)? (prpc1=0) == 0:false:false);
 
-          if ((resS[rn][rDesc].contains("WORTH") || resS[rn][rDesc].contains("KNOWLEDGE") || resS[rn][rDesc].contains("Create") ||(aop & LIST17) > 0L || putRowsPrint6Count < 10) && (putRowsPrint6Count < 12)) {
+       //   if ((resS[rn][rDesc].contains("WORTH") || resS[rn][rDesc].contains("KNOWLEDGE") || resS[rn][rDesc].contains("Create") || lla || ((putRowsPrint6Count % 75) == 0 )) && (putRowsPrint6Count < 200)) {
+         if ((lla || ((putRowsPrint6Count % 75) == 0 )) && (putRowsPrint6Count++ < 200)) {
               System.out.flush();
-              System.out.printf("EM.putrow6 rn=%d %s, %s,list%d, depth%d, valid%d, ageIx%d putRowsPrint6Count= " + putRowsPrint6Count++ + " \n",rn,( unset? "UNSET":"ISSET"),resS[rn][0], ((aop & list0) > 0 ? 0 : (aop & list1) > 0 ? 1 : (aop & list2) > 0 ? 2 : (aop & LIST17) > 0 ? 17 : aop), depth, valid, ageIx);
+              System.out.printf("EM.putrow6 rn=%d %s, %s,list%d, depth%d, valid%d, ageIx%d, cum%d, rende4=%d putRowsPrint6Count= " + putRowsPrint6Count + " \n",rn,( unset? "UNSET":"ISSET"),resS[rn][0], ((aop & list0) > 0 ? 0 : (aop & list1) > 0 ? 1 : (aop & list10) > 10 ? 2 : (aop & LIST17) > 0 ? 17 : aop), depth, valid, ageIx,resI[rn][ICUM][0][0],rende4);
             }
           if (unset) {
             suffix = " cur yr:";
