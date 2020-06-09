@@ -2052,7 +2052,7 @@ public class Assets {
        * @return SG Balance Sum
        */
       double getSGBal() {
-        return totBalances.getRow(1).sum();
+        return sumSGBal;
       }
 
       /**
@@ -2061,7 +2061,7 @@ public class Assets {
        * @return S Balance Sum
        */
       double getSBal() {
-        return totBalances.getRow(4).sum();
+        return sumSBal;
       }
 
       /**
@@ -2070,7 +2070,7 @@ public class Assets {
        * @return G Balance Sum
        */
       double getGBal() {
-        return totBalances.getRow(5).sum();
+        return sumGBal;
       }
 
       /**
@@ -2079,7 +2079,10 @@ public class Assets {
        * @return RC Balance Sum
        */
       double getRCBal() {
-        return totBalances.getRow(0).sum();
+        if(E.debugMisc && sumRCBal == 0.0){
+          throw new MyErr("sumRCBal should not be zero = " + E.mf(sumRCBal));
+        }
+        return sumRCBal;
       }
 
       /**
@@ -2088,7 +2091,7 @@ public class Assets {
        * @return R Balance Sum
        */
       double getRBal() {
-        return totBalances.getRow(2).sum();
+        return sumRBal;
       }
 
       /**
@@ -2097,7 +2100,7 @@ public class Assets {
        * @return C Balance Sum
        */
       double getCBal() {
-        return totBalances.getRow(3).sum();
+        return sumCBal;
       }
       /** get sum of RC Worth
        * 
@@ -7256,26 +7259,26 @@ public class Assets {
       setStat(EM.WORTHIFRAC, (fyW.sumTotWorth - (tprev = iyW.sumTotWorth))*100 / tprev,1);
       setStat(EM.WORTHINCR, (fyW.sumTotWorth - (tprev = syW.sumTotWorth))*100 / tprev, 1);
       double rcPercentInc = (fyW.getRCBal() - (tprev = syW.getRCBal())) *100./tprev;
-      setStat("RCTBAL",fyW.getRCBal()*100./fyW.getRCBal()+fyW.getSGBal(),1);
-      setStat("RCBAL",fyW.getRCBal(),1);
-      if(E.debugMisc && (rcPercentInc < PZERO)){
-        throw new MyErr("zero rcPercentInc=" + ec.mf(rcPercentInc));
+      setStat(EM.RCTBAL,fyW.getRCBal()*100./fyW.getRCBal()+fyW.getSGBal(),1);
+      setStat(EM.RCBAL,fyW.getRCBal(),1);
+      if(E.debugMisc && (syW.getRCBal() == 0.0)){
+        throw new MyErr("zero syW.getRCBal()=" + ec.mf(syW.getRCBal()));
       }
-      setStat("RCTGROWTHPERCENT",pors,clan,rcPercentInc ,1);
-      setStat("RCGLT10PERCENT",pors,clan,rcPercentInc < 10?1.:0.,1);
+      setStat(EM.RCTGROWTHPERCENT,rcPercentInc ,1);
+      setStat(EM.RCGLT10PERCENT,rcPercentInc < 10?1.:0.,1);
       setStat("RCGLT25PERCENT",pors,clan,rcPercentInc < 25?1.:0.,1);
       setStat("RCGLT5PERCENT",pors,clan,rcPercentInc < 5?1.:0.,1);
       setStat("RCGLT50PERCENT",pors,clan,rcPercentInc < 50?1.:0.,1);
-      setStat("RCGLT100PERCENT",pors,clan,rcPercentInc < 100?1.:0.,1);
+      setStat(EM.RCGLT100PERCENT,pors,clan,rcPercentInc < 100?1.:0.,1);
       
       double rcWorthPercentInc = (fyW.getRCWorth() - syW.getRCWorth()) *100/syW.getRCWorth();
-      if(E.debugMisc && (rcWorthPercentInc < PZERO)){
-        throw new MyErr("rcWorthPercentInc=" + ec.mf(rcWorthPercentInc));
+      if(E.debugMisc && (syW.getRCWorth() == 0.0)){
+        throw new MyErr("syW.getRCWorth() =" + ec.mf(syW.getRCWorth()));
       }
-      setStat("RCTWORTH",fyW.getRCWorth()*100/fyW.sumTotWorth,1);
-      setStat("RCWORTH",fyW.getRCWorth(),1);
-      setStat("RCWORTHGROWTHPERCENT",pors,clan,rcPercentInc ,1);
-      setStat("RCWGLT10PERCENT",pors,clan,rcWorthPercentInc < 10?1.:0.,1);
+      setStat(EM.RCTWORTH,fyW.getRCWorth()*100/fyW.sumTotWorth,1);
+      setStat(EM.RCWORTH,fyW.getRCWorth(),1);
+      setStat(EM.RCWORTHGROWTHPERCENT,pors,clan,rcPercentInc ,1);
+      setStat(EM.RCWGLT10PERCENT,pors,clan,rcWorthPercentInc < 10?1.:0.,1);
       setStat("RCWGLT25PERCENT",pors,clan,rcWorthPercentInc < 25?1.:0.,1);
       setStat("RCWGLT5PERCENT",pors,clan,rcWorthPercentInc < 5?1.:0.,1);
       setStat("RCWGLT50PERCENT",pors,clan,rcWorthPercentInc < 50?1.:0.,1);
@@ -7293,7 +7296,7 @@ public class Assets {
       eM.setStat(EM.SGREQGC, pors, clan, reqMaintCosts10.getRow(1).sum() / bcurSum, 1);
       eM.setStat(EM.RCREQMC, pors, clan, reqGrowthCosts10.getRow(0).sum() / bcurSum, 1);
       eM.setStat(EM.SGREQMC, pors, clan, reqGrowthCosts10.getRow(1).sum() / bcurSum, 1);
-      setStat("RCTBAL", pors, clan, fyW.getRCBal() / totWorth, 1);
+      setStat(EM.RCTBAL, pors, clan, fyW.getRCBal() / totWorth, 1);
 
       setStat("SGTBAL", pors, clan, fyW.getSGBal() / totWorth, 1);
       setStat("SBAL", pors, clan, fyW.getSBal() / totWorth, 1);
