@@ -66,6 +66,7 @@ public class E {
   static final boolean debugCosts = debugMaster;  // check that cost processing ok
   static final boolean debugDouble = debugMaster; //doubleTrouble and infinity or NaN
   static final boolean debugTradeRecord = debugMaster; // or false
+  static final boolean debugStats = debugMaster; // why stats aren't showing
   static final boolean debugMisc = debugMaster; // other debug tests
   /* Start Global data, set in tab init
    * [pors]
@@ -1585,10 +1586,10 @@ public class E {
  * @return value as a string
  */
  static public  String mf(double v){
-      if(v%1 > E.NZERO && v%1 < E.PZERO){
+      if(v%1 > E.NZERO && v%1 < E.PZERO){  //very close to zero
         return whole.format(v);
       }
-      if(v ==.0 || v == -0){
+      if(v ==.0 || v == -0){  // actual zero
         dFrac.setMinimumFractionDigits(0);
         dFrac.setMaximumFractionDigits(1);
       return dFrac.format(v);

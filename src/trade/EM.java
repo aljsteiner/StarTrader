@@ -356,6 +356,35 @@ class EM {
   NumberFormat exp = new DecimalFormat("0.######E0");
 
   static public int dfN = 2;
+  
+      /** format the value
+ * 
+ * @param v input value
+ * @return value as a string
+ */
+ static public  String mf(double v){
+    NumberFormat dFrac = NumberFormat.getNumberInstance();
+    NumberFormat whole = NumberFormat.getNumberInstance();
+    NumberFormat exp = new DecimalFormat("0.######E0");
+      if(v%1 > E.NZERO && v%1 < E.PZERO){  //very close to zero
+        return whole.format(v);
+      }
+      if(v ==.0 || v == -0){  // actual zero
+        dFrac.setMinimumFractionDigits(0);
+        dFrac.setMaximumFractionDigits(1);
+      return dFrac.format(v);
+      } else if((v > -999999. && v < -.001) || (v > .001 && v < 999999.)){
+       dFrac.setMinimumFractionDigits(0);
+      dFrac.setMaximumFractionDigits(3);
+      return dFrac.format(v);
+      } else if((v > -.001 && v < -.0000001) || (v > .0000001 && v < .001)){
+       dFrac.setMinimumFractionDigits(0);
+      dFrac.setMaximumFractionDigits(7);
+      return dFrac.format(v);
+    } else {
+      return exp.format(v);
+    }
+   }
 
   /**
    * format the value
@@ -363,7 +392,7 @@ class EM {
    * @param v input value
    * @return value as a string
    */
-  public String mf(double v) {
+  public String mf2(double v) {
     if (v == .0 || v == -0) {
       NumberFormat dFrac = NumberFormat.getNumberInstance();
       dFrac.setMinimumFractionDigits(0);
@@ -2495,7 +2524,7 @@ class EM {
         cnt++;  // count valid rN entries
         // move each age up 1 5->6,4->5...0->1 skip 6->0,
         // we are moving the Ivector2, Dvector2
-        // i iterates 6,5,4,3,2,1,6,5
+        // jj iterates 6,5,4,3,2,1,6,5
         //create new array for each ICUR0,DCUR0
         /**
          * resI [resNum][ICUM,ICUR0,...ICUR6(7*6rounds
@@ -2504,26 +2533,35 @@ class EM {
          * ICUM,CCONTROLD}LOCKS0,LOCKS1,L0CKS2,LOCKS3,IFRACS,IDEPTH] valid
          * number of valid entries 0=unset,1=cur0,2=cur1,7=cur6
          */
-        int bvector2lim = resV[rN].length - 1; // length of vector 
+        int bvector2lim = resV[rN].length - 1; // length of vector 45, maxIx=44
 
         // start moving things up if they are the same depth
         valid = 0;
+     //YEARS 0-99999   0,   4,   8,    16,    32,   999999}; // + over 31+ group
+        //  CUM CUR0  CUR1 CUR2  CUR3  CUR4  CUR5
+    //spots  0   1     8    15    22    29    36       43(44)<45>   
+        //   LIST012 LIST3 LIST4 LIST5 LIST6 LIST7
+        // LIST8-20        
+        //              44                0
         for (int jj = bvector2lim; jj >= ICUM; jj--) {
-          new0 = jj + 1;
-          newIx = new0 % 7; // if newIx==0, this is row0 of age
-          yearsGrp = (jj - ICUR0) / 7;
-          curIx = (jj - ICUR0) % 7; //index in relation to 0 of yr grp
-          cur0 = jj - curIx;
-          if ((cur0 - ICUR0) % 7 != 0) {
+          new0 = jj + 1; // 45
+          newIx = new0 % 7; // if newIx==0, this is row0 of an agegrp =45%7 = 3
+          yearsGrp = (jj - ICUR0) / 7; // (44-1)= 43/7=1 =6,5...0 should be depth
+          curIx = (jj - ICUR0) % 7; //index in relation to 0 of yr grp 43%7 =1
+          cur0 = jj - curIx;  //43 - 1 = 42
+          if ((cur0 - ICUR0) % 7 != 0) { // (42 -1) = 41%7 = 
             bErr("rN=%2d,resV[Rn]=%5s, resI[rn].length=%3d, curIx=%1d, cur0=%1d, cur0 not index of 0, cur0=%2d, ICUR0=%2d, curIx=%2d,jj=%3d\n", rN, resS[rN][0], resI[rN].length, curIx, cur0, cur0, ICUR0, curIx, jj);
           }
+          // choose depth = YDEPTH if yearsGrp !=0 , IDEPTH if == 0 using ICUM
           depth = resI[rN][ICUM][CCONTROLD][(yearsGrp == 0 ? IDEPTH : IYDEPTH)];
           if (resI[rN][jj] != null) { // don't try to mov null up one
             // each yearAge has its own isset and valid and power
 
             // copy only if the higher cur is valid for this age
+            // depth must be 2 for a copy
             if ((curIx + 1) <= (depth)) {
               // copy if source is not null and isset
+              // #7 in agegrp is always null
               if (resI[rN][jj] != null
                       && resI[rN][jj][CCONTROLD][ISSET] > 0) {
                 // isset and within depth, keep larger val or set depth nexIx
@@ -2531,19 +2569,19 @@ class EM {
                 //copy reference up, including the current values
                 // overwrite any previous reference 
                 // ensure that each reference is in one ICURO+JJ
-                resI[rN][jj + 1] = resI[rN][jj];
+                resI[rN][jj + 1] = resI[rN][jj];  //moving up by 1 to depth
                 resV[rN][jj + 1] = resV[rN][jj];
                 if ((rN == -96 || rN <= -3) && jj < 10 && resI[rN] != null && resI[rN][ICUR0] != null) {
                   System.out.printf("In doStartYear move at %s rN%d, jj%d, idepth%d, ydepth%d, valid%d, isseta%d, issetb%d\n", resS[rN][0], rN, jj, resI[rN][ICUM][CCONTROLD][IDEPTH], resI[rN][ICUM][CCONTROLD][IYDEPTH], resI[rN][ICUR0][CCONTROLD][IVALID], resI[rN][ICUR0][CCONTROLD][ISSET], resI[rN][ICUR0 + 1] == null ? -2 : resI[rN][ICUR0 + 1][CCONTROLD][ISSET]);
 
                 }// end print if
               }
-              else {  // put null there
+              else {  // put null there at the next one
                 resI[rN][jj + 1] = null;
                 resV[rN][jj + 1] = null;
               }
             }
-            if (curIx == 0) {// is this the 0 element of a year
+            if (curIx == 0) {// is this the 0 element of a ageGrp
               // create a new 0'th element, overwrite old reference
               // jj still at 0 element of age
               resV[rN][jj] = new double[2][]; // p,s
@@ -2617,13 +2655,19 @@ class EM {
          * number of valid entries 0=unset,1=cur0,2=cur1,7=cur6
          */
         int bvector2lim = resI[rN].length; // length of jj vector I think
-        int[] spots = {0, 1};  // ICUM,ICUR0 short spots
+        int[] spots = {0, 1};  // ICUM,ICUR0 short spots no LIST34567
+        // 8 for LIST3 
         int[] spotsl = {0, 1, 8, 15, 22, 29, 36};// long cur0 index
         spots = bvector2lim > 8 ? spotsl : spots; // pick the right spots
         boolean doYears = bvector2lim > 8;
         boolean didPower = false;
         int maxCumP = -10;
-
+        
+     //YEARS 0-99999   0,   4,   8,    16,    32,   999999}; // + over 31+ group
+        //  CUM CUR0  CUR1 CUR2  CUR3  CUR4  CUR5
+    //spots  0   1     8    15    22    29    36       43(44)    
+        //   LIST012 LIST3 LIST4 LIST5 LIST6 LIST7
+        // LIST8-20
         for (int jj : spots) {
           newIx = (jj + 1) % 7;
           yearsGrp = jj / 7;
@@ -2637,20 +2681,21 @@ class EM {
             double maxCum = -99999999.;
             maxCumP = -10;
             int maxCumKK = 0, m;
+            // find the largest abs value in all values in resV
             for (int kk = 0; kk < 2; kk++) {
               for (int ll = 0; ll < E.lclans; ll++) {
                 maxCum = Math.max(maxCum, Math.abs(resV[rN][jj][kk][ll]));
               }
             }
 
-            m = -10;
+            m = maxCumP = -12;
             if (maxCum > E.PZERO) {
               for (m = MAX_PRINT.length - 1, maxCumP = -10; m > -1 && maxCumP < -1; m--) {
                 if (MAX_PRINT[m] < maxCum) {
                   maxCumP = m;   // -1,0 for no reduction in  value
                 }
               }
-              if (maxCumP < 0) {  // bigger than the largest print divisor
+              if (maxCumP < 0) {  // -10 bigger than the largest print divisor
                 //     System.out.print("in doEndYear:" + resS[rN][0] + ", maxCumP=" + maxCumP + " choose largest = ");
                 maxCumP = 0;
               }
@@ -2688,7 +2733,7 @@ class EM {
           if (didEndYear < 3) {
             // System.out.printf("in doEndYear econ rN=%3d, desc=%5s, MAX_PRINT[0]=%6f,%8.2e,%e,%e, (MAX_PRINT[m=%d]= < maxCum=%5f   < MAX_PRINT[m+1=%3d]=\n", rN, resS[rN][0], 729845219.331, 729845219.331, 8729845219.331, 57729845219.331, m, maxCum, m + 1);
           }
-        }
+        }// end jj
 
         int rn = rN;
         if ((rN == 96 || rN < 1) && resI[rN] != null && resI[rN][ICUR0] != null) {
@@ -2755,6 +2800,10 @@ class EM {
     if (resI[rn].length > DVECTOR2A) {
       int a = -5, b = -5;
       for (a = 1; a < 6 && b < 0; a++) {
+     //YEARS 0-99999   0,   4,   8,    16,    32,   999999}; // + over 31+ group
+        //  CUM CUR0  CUR1 CUR2  CUR3  CUR4  CUR5
+        //   LIST012 LIST3 LIST4 LIST5 LIST6 LIST7
+        // LIST8-20
         if (age < AGEBREAKS[a]) {
           b = a;
         }
@@ -2935,6 +2984,10 @@ class EM {
     double sums;
     dFrac.setMaximumFractionDigits(doUnits || doPower > 0 ? 0 : (int) resI[rn][ICUM][CCONTROLD][IFRACS]);
     dd[1] = doSum ? sum : getS; // force D1 request to sum for second round
+    if(doPower > 0) {
+      detail += "/n powers mean the number display should have " + doPower + " zero digits at the end of the number, because it is very large";
+      
+    }
     if (unset) {
       suffix = ">>>UNSET<<<<";
     }
@@ -3059,10 +3112,10 @@ static int prpc3 = 0;
        myUnset = unset = resI[rn][ICUR0 + ageIx * 7][CCONTROLD][ISSET] < 1; // flag for age
           myValid = valid = resI[rn][ICUR0 + ageIx * 7][CCONTROLD][IVALID];
           depth = resI[rn][ICUR0 + ageIx * 7][CCONTROLD][IVALID];
-        boolean lla = ( rn > (rende4 -2)?true:
+        boolean lla = ( rn > (rende4 -2)?true:(rn == RCTGROWTHPERCENT)?true:
               ((aop & (LIST10 | LIST0 | LIST17) ) > 0l)? (prpc2++ > 6)? (prpc2=0) == 0:false:false);
 
-          if( (lla || ((putRowsPrint6aCount % 75) == 0 )) && (putRowsPrint6aCount++ < 12)) {
+          if( (lla || ((putRowsPrint6aCount % 75) == 0 )) && (putRowsPrint6aCount++ < 20)) {
               System.out.flush();
               System.out.printf("EM.putrow6a rn=%d %s, %s, list%d, depth%d, valid%d, cum%d, rende4=%d putRowsPrint6aCount= " + putRowsPrint6aCount + " \n",rn,( unset? "UNSET":"ISSET"),resS[rn][0], ((aop & list0) > 0 ? 0 : (aop & list1) > 0 ? 1 : (aop & list10) > 10 ? 2 : (aop & LIST17) > 0 ? 17 : aop), depth, valid, resI[rn][ICUM][0][0],rende4);
             }

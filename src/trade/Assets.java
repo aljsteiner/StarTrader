@@ -7261,6 +7261,9 @@ public class Assets {
       double rcPercentInc = (fyW.getRCBal() - (tprev = syW.getRCBal())) *100./tprev;
       setStat(EM.RCTBAL,fyW.getRCBal()*100./fyW.getRCBal()+fyW.getSGBal(),1);
       setStat(EM.RCBAL,fyW.getRCBal(),1);
+      if(E.debugStats){
+        System.out.println("print rcPercentInc =" + E.mf(rcPercentInc));
+      }
       if(E.debugMisc && (syW.getRCBal() == 0.0)){
         throw new MyErr("zero syW.getRCBal()=" + ec.mf(syW.getRCBal()));
       }
