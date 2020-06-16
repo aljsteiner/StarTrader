@@ -4538,14 +4538,16 @@ public class StarTrader extends javax.swing.JFrame {
     try {
 
       PrintStream o, er, console, errNew;
-      o = new PrintStream(new File("C:/Users/albert/Desktop/NetbeansOut/myOut.txt"));
+      if(E.debugOutput){    
+          o = new PrintStream(new File("C:/Users/albert/Desktop/NetbeansOut/myOut.txt"));
+      
       console = System.out;
       er = new PrintStream(new File("C:/Users/albert/Desktop/NetbeansOut/MyErr.txt"));
       errNew = System.err;
       if (resetOut) {
         System.setOut(o);
         System.setErr(er);
-      }
+      }}
 
       for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
 
@@ -5007,7 +5009,7 @@ public class StarTrader extends javax.swing.JFrame {
   void runYears2() {
     try {
       Econ curEc = eM.curEcon;;
-      System.out.println("$$$$$$$$$$$$$ runYears;" + since() + " at start stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year);
+      E.sysmsg("$$$$$$$$$$$$$ runYears;" + since() + " at start stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year);
       E.myTest(javax.swing.SwingUtilities.isEventDispatchThread(), "is eventDispatchThread");
       paintCurDisplay(eM.curEcon);
       System.out.println("###################runYears;" + since() + " stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year);
@@ -5039,7 +5041,7 @@ public class StarTrader extends javax.swing.JFrame {
           
           if(curEc != null){prevEconName = curEc.name;}
          */
-        System.out.println("$$$$$$$$$$$$$ " + since() + " " + stateStringNames[stateConst] + sameEconState + " " + EM.wasHere);
+        E.sysmsg("$$$$$$$$$$$$$ " + since() + " " + stateStringNames[stateConst] + sameEconState + " " + EM.wasHere);
         paintCurDisplay(eM.curEcon);
         switch (stateConst) {
           case WAITING:
@@ -5086,7 +5088,7 @@ public class StarTrader extends javax.swing.JFrame {
             break;
           case STATS:
             done = true;
-            System.out.println("$$$$$$$$$$$$$$$runYears;" + since() + " STATS stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year);
+            E.sysmsg("$$$$$$$$$$$$$$$runYears;" + since() + " STATS stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year);
             listRes(fullRes);
             break;
           default:
@@ -5096,7 +5098,7 @@ public class StarTrader extends javax.swing.JFrame {
             else {
               Thread.sleep(blip30);
             }
-            System.out.println("$$$$$$$$$$$$$runYears  default; stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year);
+            E.sysmsg("$$$$$$$$$$$$$$$runYears;" + since() + " DEFAULT; stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year);
 
         }
       }
@@ -5283,7 +5285,7 @@ public class StarTrader extends javax.swing.JFrame {
     long now = (new Date()).getTime();
     double nu = (now - startTime);
     String sAge = (eM.curEcon == null ? " " : " " + eM.curEcon.name + " age=" + eM.curEcon.age);
-    return prefix + sAge + " secs=" + E.mf(nu * .001);
+    return prefix  + " secs=" + E.mf(nu * .001)+ sAge;
   }
 
   protected double mapHealth(double h) {
@@ -5677,7 +5679,7 @@ public class StarTrader extends javax.swing.JFrame {
     }
     double lsel, maxsel;
     // find planets older to newer
-  
+      // go around the loop m only 10 times to fill list
       for (int i=planetsStart,m=j=0; i < lPlanets && j < ret.length && m < 10; i++) {
         Econ planet = eM.planets.get(i);
         if (!planet.getDie() && (planet.planetCanTrade()  && (lsel = planet.calcLY(planet, eM.curEcon)) < eM.maxLY[0])) {
@@ -5937,6 +5939,7 @@ public class StarTrader extends javax.swing.JFrame {
 
           if (!eM.curEcon.getDie()) {
             // ship selects its next planet, from offer list and wildCurs
+            Econ cur1 = eM.curEcon;
             Econ cur2 = eM.curEcon.selectPlanet(getWildCurs((int) eM.wildCursCnt[0][0],shipsLoop));
             System.out.println("Ship loop " + eM.curEcon.getName() + " select planet=" + cur2.getName() + " distance=" + eM.curEcon.mf(calcLY(eM.curEcon,cur2)));
             double distance = calcLY(eM.curEcon, cur2);
@@ -5945,13 +5948,16 @@ public class StarTrader extends javax.swing.JFrame {
             eM.hists[1] = eM.logEnvirn[1].hist;
 
             clearHist(eM.logEnvirn[0]);
+            eM.curEcon = cur1;
             setLogEnvirn(0, eM.curEcon);  // set start1
             eM.hists[0] = eM.logEnvirn[0].hist;
             distance = distance < .01 ? eM.nominalDistance[0] : distance; // add arbitrary distance if none
+            eM.curEcon = cur1;
             E.msgcnt = 0;
             paintEconYearStart(eM.curEcon);
             eM.curEcon.yearStart(distance);
             E.msgcnt = 0;
+            eM.curEcon = cur1;
             paintTrade(eM.curEcon, cur2);
             startEconState = (new Date()).getTime();
             eM.curEcon.sStartTrade(eM.curEcon, cur2);
@@ -5997,6 +6003,7 @@ public class StarTrader extends javax.swing.JFrame {
           eM.hists[0] = eM.logEnvirn[0].hist;
           E.msgcnt = 0;
           eM.curEcon.yearEnd();
+          EM.wasHere = "after eM.curEcon.yearEnd()";
           //   paintEconEndYear(eM.curEcon);
 
           //   System.out.print(new Date().toString() + " after year end" + eM.curEcon.name + "=ship " + (eM.curEcon.getDie() ? " is dead" : " is alive ") + groupNames[eM.curEcon.clan] + " " + eM.curEcon.name + " h=" + eM.curEcon.df(eM.curEcon.getHealth()) + ", age=" + eM.curEcon.getAge() + ", w=" + eM.curEcon.df(eM.curEcon.getWorth()));
@@ -6011,7 +6018,9 @@ public class StarTrader extends javax.swing.JFrame {
         long[][][] resii1 = eM.resI[0];
         long[][] resi2 = resii1[1];
         long[] resi23 = resi2[2];
+        EM.wasHere = "before eM.doEndYear()";
         eM.doEndYear();
+        EM.wasHere = "after eM.doEndYear()";
         long[][][] resii = eM.resI[0];
         long[][] resii2 = resii[1];
         long[] resi3 = resii2[2];
@@ -6020,6 +6029,7 @@ public class StarTrader extends javax.swing.JFrame {
         System.out.print(EM.curEcon.name + " aince " + EM.sinceStartTime() + " after gamePanelChange");
         printMem3();
       }
+      EM.wasHere = "at end of doY&ear try";
 
     } // try
     catch (WasFatalError ex) {
@@ -6759,27 +6769,34 @@ public class StarTrader extends javax.swing.JFrame {
    * matches The methods in Assets and associated classes invoke a selection of
    * EM.gameRes to store a value
    */
-  long resLoops[][] = {{EM.list0 | EM.thisYr | EM.sum | EM.skipUnset, EM.list0 | EM.ROWS1 | EM.THISYEAR | EM.both | EM.skipUnset, EM.ROWS2 | EM.list0 | EM.CUMUNITS | EM.CUM | EM.both | EM.skipUnset, EM.ROWS3 | EM.list0 | EM.THISYEARUNITS |  EM.skipUnset | EM.BOTH },
-  {EM.list1 | EM.CURUNITAVE | EM.CURUNITS | EM.skipUnset, EM.list1 | EM.cum | EM.CUMUNITS | EM.both, EM.skipUnset},
-  {EM.list2 | EM.cur | EM.curUnitAve | EM.curUnits | EM.both | EM.skipUnset, EM.list2 | EM.cum | EM.cumUnits | EM.both | EM.skipUnset},
-  {EM.list3 | EM.cur | EM.curAve | EM.curUnits | EM.both | EM.skipUnset},
-  {EM.list4 | EM.cur | EM.curAve | EM.curUnits | EM.both | EM.skipUnset},
-  {EM.list5 | EM.cur | EM.curAve | EM.curUnits | EM.both | EM.skipUnset},
-  {EM.list6 | EM.cur | EM.curAve | EM.curUnits | EM.both | EM.skipUnset},
-  {EM.list7 | EM.cur | EM.curAve | EM.curUnits | EM.both | EM.skipUnset},
-  {EM.list8 | EM.cur | EM.curAve | EM.curUnits | EM.both | EM.skipUnset},
-  {EM.list9 | EM.cur | EM.curAve | EM.curUnits | EM.both | EM.skipUnset},
-  {EM.list10 | EM.cur | EM.curAve | EM.curUnits | EM.both },
-  {EM.list11 | EM.cur | EM.curAve | EM.curUnits | EM.both },
-  {EM.LIST12},
-  {EM.LIST13},
-  {EM.LIST14},
-  {EM.LIST15},
-  {EM.LIST16},
-  {EM.LIST17 | EM.cur | EM.curUnitAve | EM.curUnits | EM.both | EM.skipUnset, EM.LIST17 | EM.cum | EM.cumUnits | EM.both | EM.skipUnset},
-  {EM.LIST18 | EM.CUMUNITS | EM.SKIPUNSET | EM.BOTH,EM.ROWS1, EM.LIST18 | EM.CUMUNITS | EM.ROWS2 | EM.BOTH},
-  {EM.LIST19},
-  {EM.LIST20}
+  long [] rowsm = {0L,
+    0L | EM.THISYEAR | EM.THISYEARAVE | EM.THISYEARUNITS | EM.SUM |EM.BOTH | EM.CUMAVE | EM.CUM 
+    ,eM.ROWS1 | EM.BOTH | EM.THISYEAR | EM.THISYEARAVE | EM.THISYEARUNITS | EM.CUMAVE | EM.CURUNITS
+    ,eM.ROWS2 | EM.BOTH | EM.CUR | EM.CURAVE | EM.CURUNITS | EM.THISYEAR | EM.THISYEARAVE | EM.THISYEARUNITS | EM.CUM | EM.CUMAVE 
+    ,eM.ROWS3 | EM.BOTH | EM.THISYEARUNITS | EM.CUR | EM.CURAVE | EM.CUMUNITS
+  };
+  long resLoops[][] = {
+    {EM.list0 | EM.skipUnset,0L ,0L,0L,0L },
+  {EM.list1| EM.skipUnset, EM.list1 , 0L ,0L,0L},
+  {EM.list2| EM.skipUnset,0L ,0L,0L,0L },
+  {EM.list3 |EM.skipUnset,0L ,0L },
+  {EM.list4 | EM.skipUnset,0L ,0L},
+  {EM.list5| EM.skipUnset,0L ,0L},
+  {EM.list6 | EM.skipUnset,0L ,0L},
+  {EM.list7 | EM.skipUnset,0L ,0L},
+  {EM.list8 | EM.skipUnset,0L ,0L,0L,0L },
+  {EM.list9 |EM.skipUnset,0L ,0L,0L,0L },
+  {EM.list10 | EM.skipUnset,0L ,0L,0L,0L },
+  {EM.list11 |EM.skipUnset,0L ,0L,0L,0L },
+  {EM.LIST12 |EM.skipUnset,0L ,0L,0L,0L },
+  {EM.LIST13 |EM.skipUnset,0L ,0L,0L,0L },
+  {EM.LIST14 |EM.skipUnset,0L ,0L,0L,0L },
+  {EM.LIST15 |EM.skipUnset,0L ,0L,0L,0L },
+  {EM.LIST16 |EM.skipUnset,0L ,0L,0L,0L },
+  {EM.LIST17  |EM.skipUnset,0L ,0L,0L,0L },
+  {EM.LIST18  |EM.skipUnset,0L ,0L,0L,0L },
+  {EM.LIST19 |EM.skipUnset,0L ,0L,0L,0L },
+  {EM.LIST20 |EM.skipUnset,0L ,0L,0L,0L },
   };
   int m = 0, arow = 0;
 
@@ -6796,36 +6813,27 @@ public class StarTrader extends javax.swing.JFrame {
   void listRes(int list, long resLoops[][], double[] fullRes) {
     arow = 0;
     statsField2.setText("year" + eM.year);
-    boolean rowsOk = false;
     int lrows = statsTable1.getRowCount();
     int cntLoops = 0;
     int [] rowsCnts = {100,0,0,0};
     int mm = 0; // count of selected rows
     int ii=0;
-    int r=0;
-    long [] rowsMasks = {0L,eM.ROWS1,eM.ROWS2,eM.ROWS3};
-    for(r=0;r < 4;r++){
-      ii=0; //line in res
-      
-      for (long i : resLoops[list]) {  // do loops with resLoops as ops;
-      
-        
-        rowsOk = (( r == 0 && ((i & EM.ROWSMASK) == 0L))) || (( r > 0 &&(( i & rowsMasks[r]) > 0L)));
-       // boolean listsOk = (EM.LMASK & i & lists[list]) > 0L;
-        boolean listsOk = (EM.LMASK & i) > 0L;
+    long i = 0l;
+    long i1 = resLoops[list][0];
+    for (int aa=1;aa<5 && aa < resLoops[list].length; aa++) { 
+        i = i1 | lists[list] | rowsm[aa] | resLoops[list][aa];
+
         if((listResNoteCount++ < 10)){
-       System.out.printf("StarTrader.listRes resLoops[%d][%d], %s, %s, key%o row%d, ROWS%d\n", list, ii,rowsOk?"rowsOK":"notROWS",listsOk?"listsOK":"notListsOK", i, arow,r);
+       System.out.printf("StarTrader.listRes resLoops[%d][%d] key%o row%d\n", list, aa,  i, arow);
          }
-       if(rowsOk  && listsOk ){      
-         mm++;
         arow = eM.putRows(statsTable1, resExt, arow, i);
         }
-       ii++;
-     }
+
+     
       
-    }
+   
     // now blank the rest of the table
-    System.out.println("listRes blank rest of table arow=" + arow + ", r=" + r);
+    System.out.println("listRes blank rest of table arow=" + arow );
     for (; arow < statsTable1.getRowCount() - 1; arow++) {
       statsTable1.setValueAt("----mt---", arow, 0);
       for (int mmm = 1; mmm < E.lclans * 2 + 1; mmm++) {
@@ -6860,9 +6868,5 @@ public class StarTrader extends javax.swing.JFrame {
     } // end ListSelectionListener
     ); // end addListSelectionListener
   }// for reslooops
-  /*  void resetRes(EM.gameRes[] fRes) {
-    for (m = 0; m < lGameRes; m++) {
-      fRes[m].reset();
-    }
-  }*/
+
 }

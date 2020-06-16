@@ -68,6 +68,8 @@ public class E {
   static final boolean debugTradeRecord = debugMaster; // or false
   static final boolean debugStats = debugMaster; // why stats aren't showing
   static final boolean debugMisc = debugMaster; // other debug tests
+  static final boolean debugCanTrade = debugMaster; // planet can trade
+  static final boolean debugOutput = false;
   /* Start Global data, set in tab init
    * [pors]
    */
@@ -1755,11 +1757,11 @@ static double doubleTrouble(Double trouble, String vs){
       }
     // StringBuffer m = "Exception";
     //throw MyTestException()
-    int sl = Thread.currentThread().getStackTrace().length;
-    System.out.println(" length Thread.currentThread()=" + sl);
+    int ss = Thread.currentThread().getStackTrace().length;
+    System.out.println(" length Thread.currentThread()=" + ss);
     StackTraceElement aa = Thread.currentThread().getStackTrace()[3];
-    StackTraceElement ab = (sl < 4 ?aa:Thread.currentThread().getStackTrace()[4]);
-    StackTraceElement ac = (sl < 5?aa:Thread.currentThread().getStackTrace()[5]);
+    StackTraceElement ab = (ss < 5 ?aa:Thread.currentThread().getStackTrace()[4]);
+    StackTraceElement ac = (ss < 6?aa:Thread.currentThread().getStackTrace()[5]);
 
     String Fname = aa.getFileName();
     int Fline = aa.getLineNumber();
@@ -1780,7 +1782,7 @@ static double doubleTrouble(Double trouble, String vs){
     if (msgcnt > msgs) {
       new Throwable().printStackTrace();
       sysmsgDone = true;
-      throw new MyMsgException();
+      throw new MyErr(">>>>>>>> ERR msgcnt" + msgcnt + " exceeds limit msgs" + msgs);
     }
     // System.exit(5);
     //return 0.;

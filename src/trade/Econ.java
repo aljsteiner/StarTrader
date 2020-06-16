@@ -329,12 +329,38 @@ public class Econ {
    * @return true if planet can have a visit to trade
    */
   boolean planetCanTrade(){
-    if(pors > 0) return true; // any ship trades
-    if(EM.econCnt < 11) return true;
+    boolean go = true; // can go to trade
+    go &= pors > 0; // any ship trades
+    boolean go1 = EM.porsCnt[E.P] < 3;  //allow go beginnning of game
+    if(E.debugCanTrade && (go || go1)){
+     E.sysmsg("in planetCanTrade " + (go?"yes to ship":"maybe" ) + (go1?"yes in firstYear":"check more"));
+    }
+    if((go || go1)) return true;
     boolean ret=false;
     int myVisits = getTradedShipsTried();
-    double shipsPerPlanets = EM.porsCnt[E.S] /EM.porsCnt[E.P];
-    if(myVisits > Math.floor(shipsPerPlanets  - .7)) return false;
+    double planetsVisitedPerEcon = EM.visitedCnt == 0?0.0:EM.porsCnt[E.P] /EM.visitedCnt;
+    double planetsFrac = 1.0 - eM.gameShipFrac[E.P];
+    go = planetsVisitedPerEcon < (planetsFrac *1.1);  // allow a little extra planets
+    if(E.debugCanTrade && !go){ 
+      System.out.print("Not planetCanTrade planetsVisitedPerEcon=" + planetsVisitedPerEcon  + " planetsFrac *1.1=" + mf(planetsFrac *1.1));
+    }
+    return go;
+    /*
+    go = myVisits < (int)Math.floor(shipsPerPlanets  - .7);
+    if(E.debugCanTrade && !go){ 
+      E.sysmsg("in planetCanTrade myVisits=" + myVisits + "
+    }
+    */
+     /*
+     double[] gameShipFrac = {.501, .498};
+  static double[][] mGameShipFrac = {{.35, .65}, {.35, .65}};
+  double[][] clanShipFrac = {{.501, .501, .501, .501, .6}, {.498, .498, .498, .498, .6}}; // .3-.7 clan choice of clan ships /econs
+  static double[][] mClanShipFrac = {{.3, .7}, {.3, .7}};
+  double[][] clanAllShipFrac = {{.501, .501, .501, .501, .501}, {.5, .5, .5, .5, .5}};
+     */
+    
+    
+     /*
     double visitedShipsPerPlanets = EM.porsVisited[E.P] == 0?0.0:EM.porsVisited[E.S]/EM.porsVisited[E.P];
     if(visitedShipsPerPlanets > shipsPerPlanets) return false;
     //double clanShipsPerClanPlanets = EM.porsClanCnt[E.S][clan]/EM.porsClanCnt[E.P][clan];
@@ -345,6 +371,7 @@ public class Econ {
 
     if(visitedClanShipsPerClanPlanets > clanShipsPerClanPlanets) return false;
     return true; //OK past all limits
+    */
   }
 
   ;
@@ -431,6 +458,23 @@ public class Econ {
       return 1.;
     }
     
+    int ix = randx%trand.length;
+    double myCent = rCent*rMult;
+    double myRand = trand[ix]*rMult; // now centered around myCent
+    double uRand = Math.max(eM.randMin,Math.min(eM.randMax,myRand + (1.0 - myCent))); // randMin < rand < randMax
+    return uRand;
+  } // cRand
+  
+  /**
+   * get a preassigned random value at randx,  reduce randomicity by
+   * mRand %lt; 1.0
+   *
+   * @param randx index folded into the length of array trand so for length=50
+   * randx 55 = 5
+   * @param mRand multiplier %lt; 1.0 reducing the difference from 1.0 of the random value
+   * @return  a random number centered around 1.0, possibly reduced by rMult
+   */
+  protected double doRand(int randx, double rMult) {
     int ix = randx%trand.length;
     double myCent = rCent*rMult;
     double myRand = trand[ix]*rMult; // now centered around myCent
@@ -572,7 +616,7 @@ public class Econ {
       logLen[0] = E.logDefaultLen[0];
       logLen[1] = E.logDefaultLen[1];
     }
-    newRand(trand);  // generate the random array
+    trand = newRand(trand);  // generate the random array
 
     as.yearStart(trand, hist,lightYears);
     // health = R.yearStart(lightYears,trand);
@@ -599,7 +643,7 @@ public class Econ {
     }
     return false;
   }
-  
+  int yyyee1=0,yyyee2=0,yyyee3=0,yyyee4=0;
   /** pass yearEnd on to trade.Assets
    * But only do it once a year
    * Ignore a second or more call to yearEnd in a given year
@@ -609,13 +653,16 @@ public class Econ {
     if(!didYearEnd){
       didYearEnd = true;
     as.yearEnd();
+    EM.wasHere = "after as.yearEnd yyyee1=" + yyyee1++;
     if (as.getDie()) {
       dage++;
     }
+    EM.wasHere = "after as.getDie() yyyee2=" + yyyee2++;
     if (clearHist()) {
       hist.clear(); // wipe out previous hist
     }
     }
+    EM.wasHere = "at econ.yearEnd end yyyee3=" + yyyee3++;
   }
   
   /** add a line of History to ohist unless
@@ -808,6 +855,7 @@ public class Econ {
         cn[0].hist.add(new History(History.loopMinorConditionals5,"T" + aOffer.getTerm() + " " + cn[bb].getName() +  " loop>>>>> ",  "i=" + i, "bb=" + bb1, "cur name=" ,cn[bb1].getName(), "ship=" + ship.getName(), "planet=" , planet.getName(),"<<<<<<<<<<<<<<<<<"));
         cn[1].hist.add(new History(History.loopMinorConditionals5, "**loop aOffer=", wh(aOffer.getTerm()), "i=" + i, "bb=" + bb1, "name=" + cn[bb1].getName(), "ship=" + ship.getName(), "planet=" + planet.getName()));
         eM.curEcon = cn[bb1];
+        E.sysmsg("in " + cn[1].name + ".sStartTrade , " + cn[bb1].name + ".barter term=" + aOffer.getTerm() + "\n");
         aOffer = cn[bb1].barter(aOffer,cn[bb]);
        // aOffer = cn[bb1].as.barter(aOffer); // first barter with planet
         //   ship.hist.add(new History(3,"Env finish ship Trade"));

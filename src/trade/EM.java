@@ -72,7 +72,6 @@ class EM {
   static int porsTraded[] = {0,0};
   static int tradedCnt = 0;
   static int porsClanVisited[][] = {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}};
-
   static int clanVisited[] = {0, 0, 0, 0, 0};
   static int porsVisited[] = {0,0};
   static int visitedCnt = 0;
@@ -536,7 +535,7 @@ class EM {
   static final long ROWSMASK = 07000000000000000L;
   static final long LMASK = lmask;
   static final long LIST34567 = list3 | list4 | list5 | list6 | list7;
-  static long list34567 = LIST34567;
+  static final long list34567 = LIST34567;
   static final long LIST134567 = list1 | LIST34567;
   static final long LTRADE = LIST134567 | LIST18;
   static final long LIST234567 = list2 | LIST34567;
@@ -551,6 +550,7 @@ class EM {
   static final long LDECR = LIST234567 | LIST13;
   static final long LINCR = LIST234567 | LIST12;  
   static final long LFORFUND = LIST234567 | LIST15;
+  static final long LSWAPSA = LIST34567 | LIST17;
   static final long LISTALL = lmask;
   static final long listall = lmask;
   
@@ -1038,15 +1038,22 @@ class EM {
   final static public double[] swapTGtoSGcost = {.1, .1};
   final static public double[] swapTGtoGCcost = {.005, .005};
   final static public double[] swapTGtoGGcost = {.1, .1};
-  final static public double[] swapXRtoRRcost = {17., 17.};
-  final static public double[] swapXRtoCRcost = {18., 18.};
-  final static public double[] swapXRtoRScost = {.05, .05};
-  final static public double[] swapXRtoCScost = {.05, .05};
-  final static public double[] swapXCtoRCcost = {18., 18.};
-  final static public double[] swapXCtoCCcost = {17., 17.};
+  static double [][] mXferCosts = {{10.,60.},{10,60}};
+  public double xferrC = 45.;
+ // final static public double[] swapXRtoRRcost = {17., 17.};
+ // final static public double[] swapXRtoCRcost = {18., 18.};
+  double[] swapXRtoRRcost = {xferrC,xferrC};
+  double[] swapXRtoCRcost = {xferrC,xferrC};
+  double[] swapXCtoRCcost = {xferrC,xferrC};
+  double[] swapXCtoCCcost = {xferrC,xferrC};
+  double xfersC = .5;
+  double[] swapXRtoRScost = {xfersC,xfersC};
+ // final static public double[] swapXRtoCScost = {.05, .05};
+  double[] swapXRtoCScost = {xfersC, xfersC};
+  double[] swapXStoSScost = {xfersC, xfersC};
   final static public double[] swapXCtoRGcost = {.05, .05};
   final static public double[] swapXCtoCGcost = {.05, .05};
-  final static public double[] swapXStoSScost = {.001, .001};
+  
   final static public double[] swapXStoSRcost = {.005, .005};
   final static public double[] swapXStoGRcost = {.005, .005};
   final static public double[] swapXStoGScost = {.001, .001};
@@ -1104,7 +1111,7 @@ class EM {
   /**
    * index [iEl][oEl][pors] costs of xmute (transmute) Rswap
    */
-  final static public double[][][] swapRtransRcost = {{swapXRtoRRcost, swapXRtoCRcost}, {swapXCtoRCcost, swapXCtoCCcost}};
+ // final static public double[][][] swapRtransRcost = {{swapXRtoRRcost, swapXRtoCRcost}, {swapXCtoRCcost, swapXCtoCCcost}};
 
   /**
    * index [iEl][oEl][pors] costs of regular Sswap
@@ -1113,7 +1120,7 @@ class EM {
   /**
    * index [iEl][oEl][pors] costs of Xmute Sswap
    */
-  final static public double[][][] swapStransScost = {{swapXStoSScost, swapXStoGScost}, {swapXGtoSGcost, swapXGtoGGcost}};
+ // final static public double[][][] swapStransScost = {{swapXStoSScost, swapXStoGScost}, {swapXGtoSGcost, swapXGtoGGcost}};
 
   double rawHealthsSOS = .05;  // rawHealths below this cause sos
   int maxEconHist = Econ.keepHist; // Econs later than 5 null hist to save heap space
@@ -1124,14 +1131,14 @@ class EM {
   /**
    * [TR,TX,TT][iW,iR][oW,oR][P,S]
    */
-  static final public double[][][][] swapRrxtcost = {swapRregRcost, swapRtransRcost, swapRtradeRcost};  // res cargo cost
-  final static public double[][][][] swapSrxtcost = {swapSregScost, swapStransScost, swapStradeScost};  // staff guests cost
+ // static final public double[][][][] swapRrxtcost = {swapRregRcost, swapRtransRcost, swapRtradeRcost};  // res cargo cost
+//  final static public double[][][][] swapSrxtcost = {swapSregScost, swapStransScost, swapStradeScost};  // staff guests cost
   static final public int CR = 0;  // class resource
   static final public int CS = 1;  // class staff
   /**
    * [CRes,CStaf][TR,TX,TT][iW,iR][oW,oR][Plan,Ship]
    */
-  static final public double[][][][][] swapcosts = {swapRrxtcost, swapSrxtcost};
+ // static final public double[][][][][] swapcosts = {swapRrxtcost, swapSrxtcost};
 
   double swapResourcesAveMinMult = .3;  //use AssetsYr inline values
   double swapSubAssetMinSwap = .01;
@@ -2118,13 +2125,13 @@ class EM {
 
   void defRes() {
 
-    doRes(LIVEWORTH, "Live Worth", "Live Worth Value including year end working, reserve: resource, staff, knowledge", 6, 2, 0, list9 | list10 | list11 | LIST034567 | thisYr |THISYEARUNITS | sum, ROWS1 | ROWS2 | ROWS3| list0 |THISYEAR | thisYrAve | CUM | CUMUNITS | THISYEARUNITS ,0,0);
-    doRes(STARTWORTH, "Starting Worth", "Starting Worth Value including working, reserve: resource, staff, knowledge", 2, 2, 0, CURAVE | LIST34567 | LIST10 | sum, 0, 0, 0);
-    doRes(WORTHIFRAC, "PercInitWorth ", "Percent of Initial Worth Value including working, reserve: resource, staff, knowledge", 6, 1, 4,LIST10 | curAve  | both, thisYrAve | both | thisYr , 0, 0);
+    doRes(LIVEWORTH, "Live Worth", "Live Worth Value including year end working, reserve: resource, staff, knowledge", 6, 2, 0, list9 | list10 | list11 | LIST034567 | thisYr | sum, ROWS1 |list9 | list10 | list11 | LIST034567 |THISYEAR | thisYrAve  | THISYEARUNITS | BOTH,ROWS2,ROWS3 | list9 | list10 | list11 | LIST034567 | CUMUNITS);
+    doRes(STARTWORTH, "Starting Worth", "Starting Worth Value including working, reserve: resource, staff, knowledge",6, 2, 0, list9 | list10 | list11 | LIST034567 | thisYr | sum, ROWS1 |list9 | list10 | list11 | LIST034567 |THISYEAR | thisYrAve  | THISYEARUNITS | BOTH,ROWS2,ROWS3 | list9 | list10 | list11 | LIST034567 | CUMUNITS);
+    doRes(WORTHIFRAC, "PercInitWorth ", "Percent of Initial Worth Value including working, reserve: resource, staff, knowledge",6, 2, 0, list9 | list10 | list11 | LIST034567 | thisYr | sum, ROWS1 |list9 | list10 | list11 | LIST034567 |THISYEAR | thisYrAve  | THISYEARUNITS | BOTH,ROWS2,ROWS3 | list9 | list10 | list11 | LIST034567 | CUMUNITS);
 
-    doRes("yearCreate", "yearCreations", "new Econs ceated from year initial funds", 2, 2, 0, LIST034567 | THISYEAR | THISYEARUNITS  | both,ROWS2 |ROWS1 |LIST034567 | THISYEAR | THISYEARUNITS |  both  ,LIST034567 | cumUnits  | both | ROWS2,  0);
-    doRes("FutureCreate", "FutureFund Create", "Econs created from Future Funds", 2, 2, 0, LIST034567 | THISYEAR | THISYEARUNITS | ROWS1 | ROWS2 | both ,LIST034567 | cumUnits  | both | ROWS2 | ROWS3, 0, 0);
-    doRes("bothCreate", "bothCreations", "new Econs ceated from  initial funds and future funds", 2, 2, 0, LIST034567 | THISYEAR | THISYEARUNITS | ROWS1 | both ,LIST034567 | cumUnits  | both | ROWS2, 0, 0);
+    doRes("yearCreate", "yearCreations", "new Econs ceated from year initial funds",6, 2, 0,  ROWS1 |list9 | list10 | list11 | LIST034567  | THISYEARUNITS | BOTH,ROWS3 | list9 | list10 | list11 | LIST034567 | CUMUNITS | BOTH,0L,0L);
+    doRes("FutureCreate", "FutureFund Create", "Econs created from Future Funds",6, 2, 0,  ROWS1 |list9 | list10 | list11 | LIST034567  | THISYEARUNITS | BOTH,ROWS3 | list9 | list10 | list11 | LIST034567 | CUMUNITS | BOTH,0L,0L);
+    doRes("bothCreate", "bothCreations", "new Econs ceated from  initial funds and future funds",6, 2, 0,  ROWS1 |list9 | list10 | list11 | LIST034567  | THISYEARUNITS | BOTH,ROWS3 | list9 | list10 | list11 | LIST034567 | CUMUNITS | BOTH,0L,0L);
     doRes("swapRIncr", "swapRIncr", "Uses of R Incr Swap percent of RC", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
     doRes("swapSIncr", "swapSIncr", "Uses of S Incr Swap percent of SG", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
     doRes("swapSDecr", "swapSDecr", "Uses of S Decr Swap percent of SG", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
@@ -2135,21 +2142,21 @@ class EM {
     doRes("swapSRXchg", "swapSRXchg", "Uses of S Xchg Rcost Swap percent of RC", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
 
 
-    doRes("DeadNegN", "DeadNegSwapN", "Dead Swaps never entered", 3, 2, 0, list0 | LIST17 | cumUnits | THISYEARUNITS | ROWS2 |ROWS3 | both,0, 0, 0);
-    doRes("DeadLt10", "DeadLt10", "no more than 10 swaps", 2, 2, 0, ROWS2 |list0 | LIST17 | cumUnits |THISYEAR | both | SKIPUNSET, list2 | LIST17 | cumUnits | CUR | both | SKIPUNSET, 0, 0);
-    doRes("DeadNegProsp", "DeadNegProsp", "Never was able to get healthy", 2, 2, 0, ROWS2 |list0 | LIST17 | cumUnits |THISYEAR | both | SKIPUNSET, list2 | LIST17 | cumUnits | CUR | both | SKIPUNSET, 0, 0);
-    doRes("DeadRatioS", "DeadRatioS", "Resource values simply too small", 2, 2, 0, ROWS2 |list0 | LIST17 | cumUnits |THISYEAR | both | SKIPUNSET, list2 | LIST17 | cumUnits | CUR | both | SKIPUNSET, 0, 0);
-    doRes("DeadRatioR", "DeadRatioR", "Staff values simply too small", 2, 2, 0, ROWS2 |list0 | LIST17 | cumUnits |THISYEAR | both | SKIPUNSET, list2 | LIST17 | cumUnits | CUR | both | SKIPUNSET, 0, 0);
-    doRes("died", "died", "died from any set of causes", 2, 2, 0, ROWS2 |list0 | LIST17 | cumUnits |THISYEAR | both | SKIPUNSET, list2 | LIST17 | cumUnits | CUR | both | SKIPUNSET, 0, 0);
+    doRes("DeadNegN", "DeadNegSwapN", "Dead Swaps never entered", 6, 2, 0,  ROWS1 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | LIST034567 |  THISYEARUNITS | BOTH | SKIPUNSET,ROWS3 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);
+    doRes("DeadLt10", "DeadLt10", "no more than 10 swaps",6, 2, 0,  ROWS1 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | LIST034567 |  THISYEARUNITS | BOTH | SKIPUNSET,ROWS3 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);
+    doRes("DeadNegProsp", "DeadNegProsp", "Never was able to get healthy", 6, 2, 0,  ROWS1 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | LIST034567 |  THISYEARUNITS | BOTH | SKIPUNSET,ROWS3 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);;
+    doRes("DeadRatioS", "DeadRatioS", "Resource values simply too small", 6, 2, 0,  ROWS1 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | LIST034567 |  THISYEARUNITS | BOTH | SKIPUNSET,ROWS3 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);
+    doRes("DeadRatioR", "DeadRatioR", "Staff values simply too small", 6, 2, 0,  ROWS1 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | LIST034567 |  THISYEARUNITS | BOTH | SKIPUNSET,ROWS3 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);
+    doRes("died", "died", "died from any set of causes", 6, 2, 0,  ROWS1 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | LIST034567 |  THISYEARUNITS | BOTH | SKIPUNSET,ROWS3 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);
     doRes(MISSINGNAME, "missing name", "tried an unknown name", 6, 0, list0 | cumUnits | curUnits | curAve | cumAve | both, 0, 0, 0);
-    doRes(DEADRATIO, "diedRatio", "died,average mult year last/initial worth death", 2, 2, 0, ROWS2 |list0 | LIST17 | cumUnits |THISYEAR | both | SKIPUNSET, list2 | LIST17 | cumUnits | CUR | both | SKIPUNSET, 0, 0);
-    doRes(DEADHEALTH, "died health", "died,average negative minimum health at death",  2, 2, 0, ROWS2 |list0 | LIST17 | cumUnits |THISYEAR | both | SKIPUNSET, list2 | LIST17 | cumUnits | CUR | both | SKIPUNSET, 0, 0);
-    doRes(DEADFERTILITY, "died fertility", "died,average negative minimum fertility at death",  2, 2, 0, ROWS2 |list0 | LIST17 | cumUnits |THISYEAR | both | SKIPUNSET, list2 | LIST17 | cumUnits | CUR | both | SKIPUNSET, 0, 0);
-    doRes(DEADSWAPSMOVED, "diedSwapMoves", "died,average Swap Moves at death", 2, 2, 0, ROWS2 |list0 | LIST17 | cumUnits |THISYEAR | both | SKIPUNSET, list2 | LIST17 | cumUnits | CUR | both | SKIPUNSET, 0, 0);
-    doRes(DEADSWAPSCOSTS, "diedSwapCosts", "died,average SwapCosts at death", 2, 2, 0, ROWS2 |list0 | LIST17 | cumUnits |THISYEAR | both | SKIPUNSET, list2 | LIST17 | cumUnits | CUR | both | SKIPUNSET, 0, 0);
-    doRes(DEADTRADED, "diedTraded", "died,even after trading", 2, 2, 0, ROWS2 |list0 | LIST17 | cumUnits |THISYEAR | both | SKIPUNSET, list2 | LIST17 | cumUnits | CUR | both | SKIPUNSET, 0, 0);
+    doRes(DEADRATIO, "diedRatio", "died,average mult year last/initial worth death",6, 2, 0,  ROWS1 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | LIST034567 |  THISYEARUNITS | BOTH | SKIPUNSET,ROWS3 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);
+    doRes(DEADHEALTH, "died health", "died,average negative minimum health at death",6, 2, 0,  ROWS1 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | LIST034567 |  THISYEARUNITS | BOTH | SKIPUNSET,ROWS3 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);
+    doRes(DEADFERTILITY, "died fertility", "died,average negative minimum fertility at death",6, 2, 0,  ROWS1 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | LIST034567 |  THISYEARUNITS | BOTH | SKIPUNSET,ROWS3 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);
+    doRes(DEADSWAPSMOVED, "diedSwapMoves", "died,average Swap Moves at death",6, 2, 0,  ROWS1 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | LIST034567 |  THISYEARUNITS | BOTH | SKIPUNSET,ROWS3 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);
+    doRes(DEADSWAPSCOSTS, "diedSwapCosts", "died,average SwapCosts at death", 6, 2, 0,  ROWS1 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | LIST034567 |  THISYEARUNITS | BOTH | SKIPUNSET,ROWS3 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);
+    doRes(DEADTRADED, "diedTraded", "died,even after trading",6, 2, 0,  ROWS1 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | LIST034567 |  THISYEARUNITS | BOTH | SKIPUNSET,ROWS3 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);
 
-    doRes(SGMTGC, "SGmtgCosts", "SG Maintenance,Travel,Growth Costs / RCSGBal", 2, 1, 1, (LIST034567| list10 | ROWS2 | ROWS3 | curAve | both), 0, 0, 0);
+    doRes(SGMTGC, "SGmtgCosts", "SG Maintenance,Travel,Growth Costs / RCSGBal", 6, 1, 1, (LIST034567| list10 | ROWS2 | ROWS3 | curAve | both), 0, 0, 0);
     doRes(RCMTGC, "RCmtgCosts", "RC Maintenance,Travel,Growth Costs / RCSGBal", 2, 1, 1, (LIST034567| list10 | ROWS2 | ROWS3 | curAve | both), 0, 0, 0);
     doRes(SGREQGC, "SGREQGCosts", "SG REQ G Costs / RCSGBal",  2, 1, 1, (LIST034567| list10 | ROWS2 | ROWS3 | curAve | both), 0, 0, 0);
     doRes(RCREQGC, "RCREQGCosts", "RC REQ M Costs / RCSGBal", 2, 1, 1, (LIST034567| list10 | ROWS2 | ROWS3 | curAve | both), 0, 0, 0);
@@ -2305,16 +2312,18 @@ class EM {
     doRes("RCTGROWTHCOSTS3", "RCGCosts ", "Percent RC Growth Cost/RC Bal", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
     doRes(RCTGROWTHPERCENT, "RCGrowth% ", "Percent RC Growth /year first RC Bal", 1, 1, 0, (LIST10 | skipUnset | curAve), 0, 0, 0);
     doRes(RCWORTHGROWTHPERCENT, "RCWorthGrowth% ", "Percent RC Worth Growth /year first RC Worth", 5, 1, 0, (LIST10 | skipUnset | curAve), 0, 0, 0);
-    doRes("RCGLT5PERCENT","RCGrowthLT5%","Percent RC growth LT 5 %",5,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
-    doRes(EM.RCGLT10PERCENT,"RCGrowthLT10%","Percent RC growth LT 10 %",5,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
-    doRes("RCGLT25PERCENT","RCGrowthLT25%","Percent RC growth LT 25 %",5,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
-    doRes("RCGLT50PERCENT","RCGrowthLT50%","Percent RC growth LT 50 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
-    doRes(RCGLT100PERCENT,"RCGrowthLT100%","Percent RC growth LT 100 %",1,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
-     doRes("RCWGLT5PERCENT","RCWorthGrowthLT5%","Percent RC Worth growth LT 5 %",5,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
-    doRes(RCWGLT10PERCENT,"RCGrowthLT10%","Percent RC Worth growth LT 10 %",5,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
-    doRes("RCWGLT25PERCENT","RCWorthGrowthLT25%","Percent Worth RC growth LT 25 %",5,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
-    doRes("RCWGLT50PERCENT","RCWorthGrowthLT50%","Percent RC Worth growth LT 50 %",5,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
-    doRes("RCWGLT100PERCENT","RCWorthGrowthLT100%","Percent RC Worth growth LT 100 %",5,1,0,LIST10 |THISYEARAVE | BOTH ,0,0,0); 
+    doRes("RCGLT5PERCENT","RCGrowthLT5%","Percent RC growth LT 5 %",5,1,0,LIST10 |THISYEARUNITS | BOTH ,0,0,0); 
+    doRes(EM.RCGLT10PERCENT,"RCGrowthLT10%","Percent RC growth LT 10 %",5,1,0,LIST10 |THISYEARUNITS | BOTH ,0,0,0); 
+    doRes("RCGLT25PERCENT","RCGrowthLT25%","Percent RC growth LT 25 %",5,1,0,LIST10 |THISYEARUNITS | BOTH ,0,0,0); 
+    doRes("RCGLT50PERCENT","RCGrowthLT50%","Percent RC growth LT 50 %",5,1,0,LIST10 |THISYEARUNITS | BOTH ,0,0,0); 
+    doRes(RCGLT100PERCENT,"RCGrowthLT100%","Percent RC growth LT 100 %",5,1,0,LIST10 |THISYEARUNITS | BOTH ,0,0,0); 
+    doRes("RCGGT100PERCENT","RCGrowthGE100%","Percent RC growth GE 100 %",5,1,0,LIST10 |THISYEARUNITS | BOTH ,0,0,0); 
+     doRes("RCWGLT5PERCENT","RCWorthGrowthLT5%","Percent RC Worth growth LT 5 %",5,1,0,LIST10 |THISYEARUNITS | BOTH ,0,0,0); 
+    doRes(RCWGLT10PERCENT,"RCGrowthLT10%","Percent RC Worth growth LT 10 %",5,1,0,LIST10 |THISYEARUNITS | BOTH ,0,0,0); 
+    doRes("RCWGLT25PERCENT","RCWorthGrowthLT25%","Percent Worth RC growth LT 25 %",5,1,0,LIST10 |THISYEARUNITS | BOTH ,0,0,0); 
+    doRes("RCWGLT50PERCENT","RCWorthGrowthLT50%","Percent RC Worth growth LT 50 %",5,1,0,LIST10 |THISYEARUNITS | BOTH ,0,0,0); 
+    doRes("RCWGLT100PERCENT","RCWorthGrowthLT100%","Percent RC Worth growth LT 100 %",5,1,0,LIST10 |THISYEARUNITS | BOTH ,0,0,0); 
+    doRes("RCWGGT100PERCENT","RCWorthGrowthGE100%","Percent RC Worth growth GE 100 %",5,1,0,LIST10 |THISYEARUNITS | BOTH ,0,0,0); 
     doRes("SGTGROWTHCOSTS3", "SGGCosts ", "SG Growth Cost/SG Bal", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
     doRes("RCTREQMAINTC3", "RcRQMCosts ", "rc req maintCsts / bal", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
     doRes("SGTREQMAINTC3", "SgRQMCosts ", "sg req maintCsts / bal", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
@@ -2905,12 +2914,12 @@ class EM {
           }
           else if (resV[rn][ICUR0 + ii] == null) {
             if (pors == 0 && dClan == 0) {
-              bErr(">>>>>>in Getd1 null at resV[" + rn + "] desc=" + resS[rn][0]);
+              bErr(">>>>>>in Getd1 null at resV[" + rn + "] [cur0+ " + ii +"] desc=" + resS[rn][0]);
             }
             return -97.;
           }
           else if (resV[rn][ICUR0 + ii][0] == null) {
-            bErr(">>>>>>in Getd1 null at resV[" + rn + "] desc=" + resS[rn][0]);
+            bErr(">>>>>>in Getd1 null at resV[" + rn + "] [cur0 + " + ii + "][0] desc=" + resS[rn][0]);
             return -98.78;
           }
           if ((rn == 96 || rn == 0 || rn == 2 || rn == 3) && pors == 0 && dClan == 0) {
@@ -2919,7 +2928,7 @@ class EM {
           sum += doSum ? resV[rn][ICUR0 + ii][0][dClan] + resV[rn][ICUR0 + ii][1][dClan] : resV[rn][ICUR0 + ii][pors][dClan];
           cnts += doSum ? resI[rn][ICUR0 + ii][0][dClan] + resI[rn][ICUR0 + ii][1][dClan] : resI[rn][ICUR0 + ii][pors][dClan];
         }
-        if (((thisYr | cur) & opr) > 0 && sum > 0) {   // values/yrs
+        if (((thisYr | cur) & opr) > 0 && sum != 0.0) {   // values/yrs
           ops = "cur";
           sum = sum / (lEnd - lStart);
           if (doPower > 0) {
@@ -2928,8 +2937,7 @@ class EM {
           }
           return sum;
         }
-
-        else if (((thisYearUnitAve | curUnitAve) & opr) > 0 && sum > 0 && cnts > 0) {
+        else if ((((thisYearUnitAve | curUnitAve) & opr) > 0) && (sum != 0.0) && (cnts > 0)) {
           ops = "curUnitAve";
           sum = sum / cnts; // values / units  for whatever years
           if (doPower > 0) {
@@ -2948,16 +2956,17 @@ class EM {
             sum = sum / Math.pow(10., doPower);
             powers = " *10**" + doPower + " ";
           }
-          return sum > 0 ? sum : -7788.66; // sum or cnts 0
+         // return sum > 0 ? sum : -7788.66; // sum or cnts 0
+            return sum;
         }
 
       }
-      return -96;  // if a strange option
+      return -93456789.;  // if a strange option
     }
     catch (Exception e) {
       e.printStackTrace(System.err);
       bErr(" Caught Exception" + e.toString() + ", " + e.getMessage() + " ," + resS[rn][rDesc] + " ," + ops + ", ii= %2d sum=%5.2f, cnts=%4d", ii, sum, cnts);
-      return -95;
+      return -94567895.;
     }
   }
 
@@ -3032,7 +3041,7 @@ class EM {
             }
             else { // second half of sum
               for (int m = 0; m < E.lclans; m++) {
-                table.setValueAt(((sums += aVal = getD1(rn, dd[(int) i] + aop, m, ageIx)) < -997788.0 ? "------" : dFrac.format(aVal)), row, (int) i * E.lclans + m + 1);
+                table.setValueAt(((sums += aVal = getD1(rn, dd[(int) i] + aop, m, ageIx)) < -93456789.0 ? "------" : dFrac.format(aVal)), row, (int) i * E.lclans + m + 1);
               }
               table.setValueAt(dFrac.format(sums / 5.), row, 1);
             }
@@ -3048,7 +3057,7 @@ class EM {
           resExt[row] = detail;
           for (long ij : d) {
             for (int m = 0; m < E.lclans; m++) {
-              table.setValueAt((((aVal = getD1(rn, (int) dd[(int) ij] + aop, m, ageIx)) < -7788.0 ? aVal < -99988. ? "--------" : "----" : dFrac.format(aVal))), row, (int) ij * E.lclans + m + 1);
+              table.setValueAt((((aVal = getD1(rn, (int) dd[(int) ij] + aop, m, ageIx)) < -93456789. ? aVal < -94567895. ? "--------" : "-----" : dFrac.format(aVal))), row, (int) ij * E.lclans + m + 1);
             }
           }
           table.setValueAt(description + suffix + powers, row, 0);
@@ -3112,10 +3121,13 @@ static int prpc3 = 0;
        myUnset = unset = resI[rn][ICUR0 + ageIx * 7][CCONTROLD][ISSET] < 1; // flag for age
           myValid = valid = resI[rn][ICUR0 + ageIx * 7][CCONTROLD][IVALID];
           depth = resI[rn][ICUR0 + ageIx * 7][CCONTROLD][IVALID];
-        boolean lla = ( rn > (rende4 -2)?true:(rn == RCTGROWTHPERCENT)?true:
-              ((aop & (LIST10 | LIST0 | LIST17) ) > 0l)? (prpc2++ > 6)? (prpc2=0) == 0:false:false);
+        boolean lla = ( rn > (rende4 -2)?true:
+            (rn == RCGLT10PERCENT)?true:
+            (rn == RCTGROWTHPERCENT)?true:
+            ((aop & (LIST10 | LIST0 | LIST17) ) > 0l)? 
+            (prpc2++ > 6)? (prpc2=0) == 0:false:false);
 
-          if( (lla || ((putRowsPrint6aCount % 75) == 0 )) && (putRowsPrint6aCount++ < 20)) {
+          if( (lla || ((putRowsPrint6aCount % 75) == 0 )) && (putRowsPrint6aCount++ < 200)) {
               System.out.flush();
               System.out.printf("EM.putrow6a rn=%d %s, %s, list%d, depth%d, valid%d, cum%d, rende4=%d putRowsPrint6aCount= " + putRowsPrint6aCount + " \n",rn,( unset? "UNSET":"ISSET"),resS[rn][0], ((aop & list0) > 0 ? 0 : (aop & list1) > 0 ? 1 : (aop & list10) > 10 ? 2 : (aop & LIST17) > 0 ? 17 : aop), depth, valid, resI[rn][ICUM][0][0],rende4);
             }
@@ -3216,7 +3228,7 @@ static int prpc3 = 0;
             
             
           }
-          if((opr & CUM) > 0L) {
+          if(false && (opr & CUM) > 0L) {
             for (int m = 0; m < valid; m++) {
               suffix = " cum:" + wh(m + 1) + "/" + wh(valid);
               lStart = m;
@@ -3241,7 +3253,7 @@ static int prpc3 = 0;
 
           if (tstr) { // tstring is not used
             //        row = getT(table, rn, resExt, row);
-            return row;
+          //  return row;
           }
 
           // do not process thisYear if cur was already processed
@@ -3259,16 +3271,16 @@ static int prpc3 = 0;
               lEnd = m + 1;
               row = getD(table, resExt, rn, curUnitAve, row, suffix, ageIx);
             }
-            break;
+           // break;
           }
 
           // do not process thisYear if cur was already processed
           if (((opr & curUnitAve) == 0) && ((opr & thisYearUnitAve) > 0)) {
-            suffix = " This year sum/units";
+            suffix = " This yr ave val/units";
             lStart = 0;
             lEnd = 1;
             row = getD(table, resExt, rn, thisYearUnitAve, row, suffix, ageIx);
-            break;
+           // break;
           }
 
           if ((opr & cum) > 0) {

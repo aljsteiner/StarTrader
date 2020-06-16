@@ -170,7 +170,7 @@ public class Assets {
   double tradingOfferWorth; // valid if didGoods;
   // if multiple ships trade in a year, this is for the last ship
   int tradedShipOrdinal; // count of ships traded this year
-  int tradedShipsTried; // count of ships trying trade this year
+  int shipsVisited; // count of ships trying trade this year
   String tradingShipName= "none";
   int prevBarterYear = -20;  // set by Assets.barter
   boolean newTradeYear1 = false; // set by Assets.barter
@@ -685,7 +685,7 @@ public class Assets {
    * @return trades tried this year
    */
   int getTradedShipsTried() {
-    return tradedShipsTried;
+    return shipsVisited;
   }
 
   /**
@@ -1230,6 +1230,8 @@ public class Assets {
     listBids(lev, pre);
   }
 
+  
+  int aaadd1=0,aaadd2=0,aaadd3=0,aaadd4=0;
   /**
    * year end, for end of year from Econ from StarTrader
    *
@@ -1240,11 +1242,13 @@ public class Assets {
       cur.aStartCashFlow(this);
     }
     cur.yearEnd();
+    EM.wasHere = "after CashFlow.yearEnd aaadd1 " + aaadd1++;
     if(syW != null){
       throw new MyErr("CashFlow.yearEnd did not null syW, probably skipped some code");
     }
     cur = null; // release all CashFlow storage
     // decrement cumulativeDecay, bonus years and bonus units
+    EM.wasHere = "after cur aaadd2=" + aaadd2++;
     for (int m : balsIxA) {
       for (int n : ASECS) {
         // decrement bonusRawUnits
@@ -1255,6 +1259,7 @@ public class Assets {
         bals.getRow(ABalRows.cumulativeDecayIx + m).add(n, bals.getRow(ABalRows.GROWTHSIX + m).get(n) * eM.decay[m][pors]);
       }
     }
+    EM.wasHere = "after decrement of decay etc aaadd3=" + aaadd3++;
     // Assets.yearEnd, zero yearly counters before yearStart
     tradedSuccessTrades = 0; // successful trades this year
     tradedStrategicWorths = 0.; // positive strategic worths
@@ -1265,7 +1270,7 @@ public class Assets {
     tradingOfferWorth = 0;
     // if multiple ships trade in a year, this is for the last ship
     tradedShipOrdinal = 0;
-    tradedShipsTried = 0;
+    shipsVisited = 0;
     // yrTradesStarted = -1;  // -1 if no trade this year
     // int[] tradedShipAccepted = new int[E.hcnt];
     tradedFav = 0.;
@@ -1289,6 +1294,7 @@ public class Assets {
     tradedMoreManuals = null;
   //  String tradedShipNames1[][] = {{"A", "B", "C", "D", "E"}, {"A", "B", "C", "D", "E"}, {"A", "B", "C", "D", "E"}, {"A", "B", "C", "D", "E"}, {"A", "B", "C", "D", "E"}};
 //    tradedShipNames = tradedShipNames1;
+EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
   }
 
   /**
@@ -1354,7 +1360,6 @@ public class Assets {
     if (prevBarterYear != eM.year) { //a new year barter
       yrTradesStarted = eM.year;
       tradedShipOrdinal = 0;
-      tradedShipsTried = 0;
       prevBarterYear = eM.year;
     }
     if (cur == null) {
@@ -1766,7 +1771,7 @@ public class Assets {
       StackTraceElement a2 = Thread.currentThread().getStackTrace()[2];
       StackTraceElement a3 = Thread.currentThread().getStackTrace()[3];
       StackTraceElement a4 = Thread.currentThread().getStackTrace()[4];
-      System.out.println("CF construct " + name + " at " + a4.getMethodName() + ", " + a3.getMethodName() + ", " + a2.getMethodName() + " wealth=" + df(wealth));
+      E.sysmsg("CF construct " + name + " at " + a4.getMethodName() + ", " + a3.getMethodName() + ", " + a2.getMethodName() + " wealth=" + df(wealth));
       //    System.out.println("CashFlow(Assets) " + name + " constructor");
       as = aas;
 
@@ -6690,6 +6695,7 @@ public class Assets {
      * @return a new offer for the other economy
      */
     Offer barter(Offer inOffer) { //Assets.CashFlow.barter
+      boolean firstVisit = false; // for counting unique planets visited 
       aPre = "b&";
       hist.add(new History(aPre, 5, name + " Y Barter R", resource.balance));
       hist.add(new History(aPre, 5, name + " B T=" + inOffer.getTerm() + " S", staff.balance));
@@ -6716,6 +6722,16 @@ public class Assets {
         hist.add(new History(aPre, 5, name + " initT S", staff.balance));
         hist.add(new History(aPre, 5, name + " initT C", c.balance));
         hist.add(new History(aPre, 5, name + " initT G", g.balance));
+        //only count unique planets visited, count once for each planet
+        if(pors == E.P && shipsVisited == 0){
+        EM.porsClanVisited[pors][clan]++;
+        EM.porsVisited[pors]++;
+        EM.clanVisited[clan]++;
+        EM.visitedCnt++;
+        firstVisit = true;
+        }
+        // new year barter in Assets.CashFlow.barter
+        if(pors == 0) shipsVisited++;
         preTradeSum4 = bals.sum4();
         hist.add(new History(aPre, 5, " " + name + " now instantiate", ">>>>>>>"," a new", " trades","<<<<<<<"));
         myTrade = new Trades();
@@ -6728,13 +6744,7 @@ public class Assets {
         tradingShipName = inOffer.getOName();
         inOffer.setMyIx(ec);
        // myTrade.initTrade(inOffer, this);
-        hist.add(new History(aPre, 5, " " + name + " after init2",">>>>>>>",">>>>>>>", " a new", " trades"));
-        EM.porsClanVisited[pors][clan]++;
-        EM.porsVisited[pors]++;
-        EM.clanVisited[clan]++;
-        EM.visitedCnt++;
-        // new year barter in Assets.CashFlow.barter
-        tradedShipsTried++;
+        hist.add(new History(aPre, 5, " " + name + " after init2",">>>>>>>",">>>>>>>", " a new", " trades"));      
         aPre = "c&";
         hist.add(new History(aPre, 5, name + " cur.Bar R", resource.balance));
         hist.add(new History(aPre, 5, name + " cur.Bar S", staff.balance));
@@ -6784,12 +6794,34 @@ public class Assets {
             tradeAccepted = true;
             tradeRejected = tradeLost = false;
             EM.tradedCnt++;
-            EM.porsTraded[pors]++;
+            if(pors == 0 && firstVisit) {
+              EM.porsTraded[pors]++;
+            }
             EM.porsClanTraded[pors][clan]++;
             EM.clanTraded[clan]++;
             // leave fav set 5 to 0
             if(entryTerm == 0) ret.setTerm(-2); // other so no more return
             // else leave ret.term 0 for the other cn
+          } else if(newTerm == -2){  // the other ship traded
+            tradedShipOrdinal++; // set ordinal of the next ship if any
+            tradedSuccessTrades++;
+            tradeAccepted = true;
+            tradeRejected = tradeLost = false;
+            EM.tradedCnt++;
+            EM.porsTraded[pors]++;
+            EM.porsClanTraded[pors][clan]++;
+            EM.clanTraded[clan]++;
+            ret.setTerm(-4); 
+           } else if(entryTerm == -2){  // the other ship traded
+            tradedShipOrdinal++; // set ordinal of the next ship if any
+            tradedSuccessTrades++;
+            tradeAccepted = true;
+            tradeRejected = tradeLost = false;
+            EM.tradedCnt++;
+            EM.porsTraded[pors]++;
+            EM.porsClanTraded[pors][clan]++;
+            EM.clanTraded[clan]++;
+            ret.setTerm(-4); 
           }
           else if (newTerm == -1) {
             tradeRejected = entryTerm == -1 ? false:true; // rejectd by this econ
@@ -6799,7 +6831,7 @@ public class Assets {
             if(entryTerm == -1) ret.setTerm(-3);
             // else leave ret.ter -1 for the other cn
           }
-          else if (newTerm < -1) { // should stop in econ
+          else if (entryTerm < -1) { // should stop in econ
             tradeLost = false; // shouldn't get here
             tradeRejected = false;
             tradeAccepted = false;
@@ -7078,7 +7110,7 @@ public class Assets {
      * start if this is a ship
      *
      */
-    double yearEnd() {  // after trading done
+    double yearEnd() {  // Assets.CashFlow.yearEnd() after trading done
 
       String aPre = "E@";
       curGrowGoal = eM.goalGrowth[pors][clan];
@@ -7268,24 +7300,41 @@ public class Assets {
         throw new MyErr("zero syW.getRCBal()=" + ec.mf(syW.getRCBal()));
       }
       setStat(EM.RCTGROWTHPERCENT,rcPercentInc ,1);
-      setStat(EM.RCGLT10PERCENT,rcPercentInc < 10?1.:0.,1);
-      setStat("RCGLT25PERCENT",pors,clan,rcPercentInc < 25?1.:0.,1);
-      setStat("RCGLT5PERCENT",pors,clan,rcPercentInc < 5?1.:0.,1);
-      setStat("RCGLT50PERCENT",pors,clan,rcPercentInc < 50?1.:0.,1);
-      setStat(EM.RCGLT100PERCENT,pors,clan,rcPercentInc < 100?1.:0.,1);
+      if(rcPercentInc <5){
+           setStat("RCGLT5PERCENT",pors,clan,rcPercentInc,1);
+      } else if (rcPercentInc < 10){
+      setStat(EM.RCGLT10PERCENT,rcPercentInc ,1);
+      } else if(rcPercentInc < 25){
+      setStat("RCGLT25PERCENT",pors,clan,rcPercentInc,1);
+      } else if(rcPercentInc < 50){
+      setStat("RCGLT50PERCENT",pors,clan,rcPercentInc,1);
+      } else if(rcPercentInc < 100){
+      setStat(EM.RCGLT100PERCENT,pors,clan,rcPercentInc,1);
+      } else {
+        setStat("RCGGT100PERCENT",pors,clan,rcPercentInc,1);
+      }
       
       double rcWorthPercentInc = (fyW.getRCWorth() - syW.getRCWorth()) *100/syW.getRCWorth();
+      double rcwp = rcWorthPercentInc;
       if(E.debugMisc && (syW.getRCWorth() == 0.0)){
         throw new MyErr("syW.getRCWorth() =" + ec.mf(syW.getRCWorth()));
       }
       setStat(EM.RCTWORTH,fyW.getRCWorth()*100/fyW.sumTotWorth,1);
       setStat(EM.RCWORTH,fyW.getRCWorth(),1);
-      setStat(EM.RCWORTHGROWTHPERCENT,pors,clan,rcPercentInc ,1);
-      setStat(EM.RCWGLT10PERCENT,pors,clan,rcWorthPercentInc < 10?1.:0.,1);
-      setStat("RCWGLT25PERCENT",pors,clan,rcWorthPercentInc < 25?1.:0.,1);
-      setStat("RCWGLT5PERCENT",pors,clan,rcWorthPercentInc < 5?1.:0.,1);
-      setStat("RCWGLT50PERCENT",pors,clan,rcWorthPercentInc < 50?1.:0.,1);
-      setStat("RCWGLT100PERCENT",pors,clan,rcWorthPercentInc < 100?1.:0.,1);
+      setStat(EM.RCWORTHGROWTHPERCENT,pors,clan,rcWorthPercentInc ,1);
+      if(rcwp < 5){
+      setStat("RCWGLT5PERCENT",pors,clan,rcWorthPercentInc,1);
+      } else if(rcwp < 10){
+      setStat(EM.RCWGLT10PERCENT,pors,clan,rcWorthPercentInc,1);
+      }else if(rcwp < 25){
+      setStat("RCWGLT25PERCENT",pors,clan,rcWorthPercentInc,1);
+      }else if(rcwp< 50){
+      setStat("RCWGLT50PERCENT",pors,clan,rcWorthPercentInc,1);
+      }else if(rcwp<100){
+      setStat("RCWGLT100PERCENT",pors,clan,rcWorthPercentInc,1);
+      }else{
+       setStat("RCWGGT100PERCENT",pors,clan,rcWorthPercentInc,1); 
+      }
 
       double bcurSum = bals.curSum();
       double totWorth = fyW.getTotWorth();
@@ -7442,7 +7491,7 @@ public class Assets {
       //   sLoops[n] = 0;
       clanRisk = eM.clanRisk[pors][clan];
       tradedShipOrdinal = 0;  // reset for both planet and ship
-      tradedShipsTried = 0; // total trades tried
+      shipsVisited = 0; // total trades tried
       didTrade = false;
       lostTrade = false;
       fav = -4;
@@ -9674,10 +9723,10 @@ public class Assets {
         double dSNeedSum = maxNeed - sNeedSum;
         boolean sNeedy = false; // false: force possible r xfer
 
-        double swaprr = EM.swapXRtoRRcost[pors];
-        double swaprs = EM.swapXRtoRScost[pors];
-        double swapsr = EM.swapXStoSRcost[pors];
-        double swapss =EM.swapXStoSScost[pors];
+        double swaprr = eM.swapXRtoRRcost[pors];
+        double swaprs = eM.swapXRtoRScost[pors];
+        double swapsr = eM.swapXStoSRcost[pors];
+        double swapss = eM.swapXStoSScost[pors];
 
         // now compute possible avails
         // find the max stratVars
