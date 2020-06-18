@@ -2156,28 +2156,28 @@ class EM {
     doRes(DEADSWAPSCOSTS, "diedSwapCosts", "died,average SwapCosts at death", 6, 2, 0,  ROWS1 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | LIST034567 |  THISYEARUNITS | BOTH | SKIPUNSET,ROWS3 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);
     doRes(DEADTRADED, "diedTraded", "died,even after trading",6, 2, 0,  ROWS1 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | LIST034567 |  THISYEARUNITS | BOTH | SKIPUNSET,ROWS3 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);
 
-    doRes(SGMTGC, "SGmtgCosts", "SG Maintenance,Travel,Growth Costs / RCSGBal", 6, 1, 1, (LIST034567| list10 | ROWS2 | ROWS3 | curAve | both), 0, 0, 0);
-    doRes(RCMTGC, "RCmtgCosts", "RC Maintenance,Travel,Growth Costs / RCSGBal", 2, 1, 1, (LIST034567| list10 | ROWS2 | ROWS3 | curAve | both), 0, 0, 0);
-    doRes(SGREQGC, "SGREQGCosts", "SG REQ G Costs / RCSGBal",  2, 1, 1, (LIST034567| list10 | ROWS2 | ROWS3 | curAve | both), 0, 0, 0);
-    doRes(RCREQGC, "RCREQGCosts", "RC REQ M Costs / RCSGBal", 2, 1, 1, (LIST034567| list10 | ROWS2 | ROWS3 | curAve | both), 0, 0, 0);
-    doRes(SGREQMC, "SGREQMCosts", "SG REQ M Costs / RCSGBal", 2, 1, 1, (LIST034567| list10 | ROWS2 | ROWS3 | curAve | both), 0, 0, 0);
-    doRes(RCREQMC, "RCREQMCosts", "RC REQ G Costs / RCSGBal", 2, 1, 1, (LIST034567| list10 | ROWS2 | ROWS3 | curAve | both), 0, 0, 0);
+    doRes(SGMTGC, "SGmtgCosts", "SG Maintenance,Travel,Growth Costs / RCSGBal", 6, 1, 1, (LIST34567| list10 | ROWS2 | curAve | both), 0, 0, 0);
+    doRes(RCMTGC, "RCmtgCosts", "RC Maintenance,Travel,Growth Costs / RCSGBal", 6, 1, 1, (LIST34567| list10 | ROWS2 | curAve | both), 0, 0, 0);
+    doRes(SGREQGC, "SGREQGCosts", "SG REQ G Costs / RCSGBal", 6, 1, 1, (LIST34567| list10 | ROWS2 | curAve | both), 0, 0, 0);
+    doRes(RCREQGC, "RCREQGCosts", "RC REQ M Costs / RCSGBal", 6, 1, 1, (LIST34567| list10 | ROWS2 | curAve | both), 0, 0, 0);
+    doRes(SGREQMC, "SGREQMCosts", "SG REQ M Costs / RCSGBal",  6, 1, 1, (LIST34567| list10 | ROWS2 | curAve | both), 0, 0, 0);
+    doRes(RCREQMC, "RCREQMCosts", "RC REQ G Costs / RCSGBal", 6, 1, 1, (LIST34567| list10 | ROWS2 | curAve | both), 0, 0, 0);
 
-    doRes(RRAWMC, "RMaintCosts", "R Maintenance Costs/ RCSGBal",  2, 1, 1, (LIST034567| list10 | ROWS2 | ROWS3 | curAve | both), 0, 0, 0);
-    doRes(CRAWMC, "CMaintCosts", "C Maintenance Costs/ RCSGbal", 2, 1, 1, (LIST034567| list10 | ROWS2 | ROWS3 | curAve | both), 0, 0, 0);
-    doRes(RCRAWMC, "RCMaintCosts", "RC Maintenance Costs/ RCSGBal",  2, 1, 1, (LIST034567| list10 | ROWS2 | ROWS3 | curAve | both), 0, 0, 0);
-    doRes(SRAWMC, "SMaintCosts", "S Maintenance Costs/ RCSGBal",  2, 1, 1, (LIST034567| list10 | ROWS2 | ROWS3 | curAve | both), 0, 0, 0);
-    doRes(GRAWMC, "GMaintCosts", "G Maintenance Costs/ RCSGBal", 2, 1, 1, (LIST034567| list10 | ROWS2 | ROWS3 | curAve | both), 0, 0, 0);
+    doRes(RRAWMC, "RMaintCosts", "R Maintenance Costs/ RCSGBal",  6, 1, 1, (LIST34567| list10 | ROWS2 | curAve | both), 0, 0, 0);
+    doRes(CRAWMC, "CMaintCosts", "C Maintenance Costs/ RCSGbal",  6, 1, 1, (LIST34567| list10 | ROWS2 | curAve | both), 0, 0, 0);
+    doRes(RCRAWMC, "RCMaintCosts", "RC Maintenance Costs/ RCSGBal",  6, 1, 1, (LIST34567| list10 | ROWS2 | curAve | both), 0, 0, 0);
+    doRes(SRAWMC, "SMaintCosts", "S Maintenance Costs/ RCSGBal",  6, 1, 1, (LIST34567| list10 | ROWS2 | curAve | both), 0, 0, 0);
+    doRes(GRAWMC, "GMaintCosts", "G Maintenance Costs/ RCSGBal", 6, 1, 1, (LIST34567| list10 | ROWS2 | curAve | both), 0, 0, 0);
     doRes(SGRAWMC, "SGMaintCosts", "SG Maintenance Costs/ RCSGBal", 2, 1, 1, (LIST034567| list10 | ROWS2 | ROWS3 | curAve | both), 0, 0, 0);
-    doRes(RCRAWMC, "RCRawMaintCosts", "RC Maintenance Costs/ RCSGBal", 2, 1, 1, (LIST034567| list10 | ROWS2 | ROWS3 | curAve | both), 0, 0, 0);
-    doRes(RCfrac, "RC/yr Worth", "RC / yr Worth", 2, 1, 1, (LIST034567| list10 | ROWS2 | ROWS3 | curAve | both), 0, 0, 0);
-    doRes(SGfrac, "SG/yr Worth", "SG / yr Worth",  2, 1, 1, (LIST034567| list10 | ROWS2 | ROWS3 | curAve | both), 0, 0, 0);
+    doRes(RCRAWMC, "RCRawMaintCosts", "RC Maintenance Costs/ RCSGBal",  6, 1, 1, (LIST34567| list10 | ROWS2 | curAve | both), 0, 0, 0);
+    doRes(RCfrac, "RC/yr Worth", "RC / yr Worth", 6, 1, 1, (LIST34567| list10 | ROWS2 | curAve | both), 0, 0, 0);
+    doRes(SGfrac, "SG/yr Worth", "SG / yr Worth",  6, 1, 1, (LIST34567| list10 | ROWS2 | curAve | both), 0, 0, 0);
     //chgd KNOWLEDGEB MANUALSfrac NEWKNOWLEDGEfrac COMMONKNOWLEDGEfrac KNOWLEDGEINCR NEWKNOWLEDGEINCR MANUALSINCR COMMONKNOWLEDGEINCR
-    doRes(POORKNOWLEDGEEFFECT, "Knowledge Effect", "Increase in costs due to limited knowledge(ignorance)", 2, 1, 1, (LIST034567| list10 | ROWS2 | ROWS3 | curAve | both), 0, 0, 0);
-    doRes(POORHEALTHEFFECT, "Health Effect", "Increase in costs due to limited Health", 2, 1, 1, (LIST034567| list10 | ROWS2 | ROWS3 | curAve | both), 0, 0, 0);
-    doRes(NEWKNOWLEDGEFRAC, "New KnowledgeFrac", "New knowledge / Knowledge ", 2, 3, 1, (LIST34567 | curAve | both), 0, 0, 0);
-    doRes(KNOWLEDGEFRAC, "Knowledge Frac", "Knowledge worth / year worth", 3, 3, 1, (LIST034567 | curAve | both), 0, 0, 0);
-    doRes(COMMONKNOWLEDGEFRAC, "Common Knowledge", "Common knowledge/knowledge", 4, 3, 1, (list9 | LIST34567 | curAve | both), 0, 0, 0);
+    doRes(POORKNOWLEDGEEFFECT, "Knowledge Effect", "Increase in costs due to limited knowledge(ignorance)", 2, 1, 1, (LIST034567| list10 | ROWS2 | curAve | both), 0, 0, 0);
+    doRes(POORHEALTHEFFECT, "Health Effect", "Increase in costs due to limited Health", 2, 1, 1, (LIST034567| list10 | ROWS2 | curAve | both), 0, 0, 0);
+    doRes(NEWKNOWLEDGEFRAC, "New KnowledgeFrac", "New knowledge / Knowledge ", 2, 3, 1, (LIST034567 | curAve | both), 0, 0, 0);
+    doRes(KNOWLEDGEFRAC, "Knowledge Frac", "Knowledge worth / year worth", 2, 3, 1, (LIST034567 | curAve | both), 0, 0, 0);
+    doRes(COMMONKNOWLEDGEFRAC, "Common Knowledge", "Common knowledge/knowledge", 2, 3, 1, (list9 | LIST034567 | curAve | both), 0, 0, 0);
 
     doRes(MANUALSFRAC, "Manualsfrac", "Manuals /knowledge", 4, 3, 1, (LIST34567 | list9 | curAve | both), 0, 0, 0);
     doRes(WORTHINCR, "PercIncWorth", "Percent worth increase per year", 3, 4, 1, (LIST034567 | curAve | both), 0, 0, 0);

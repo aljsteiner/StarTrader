@@ -172,7 +172,10 @@ public class StarTrader extends javax.swing.JFrame {
 
   static final public String[] statsButtonsTips = {statsButton0Tip, statsButton1Tip, statsButton2Tip, statsButton3Tip, statsButton4Tip, statsButton5Tip, statsButton6Tip, statsButton7Tip, statsButton8Tip, statsButton9Tip, statsButton10Tip, statsButton11Tip, statsButton12Tip, statsButton13Tip, statsButton14Tip, statsButton15Tip, statsButton16Tip, statsButton17Tip, statsButton18Tip, statsButton19Tip, statsButton20Tip, gameTextFieldText};
   static final public String versionText = "     Version 19.01";
-  static final public String storyText = "This game is about trading not fighting. Trading is done between planets and Starships which move between planets.  There are 5 clans and a gamemaster, all of which can change some priorities or values for the game.You can choose one of several winning goals, highest worth, highest trades received, highest trades given, highest number of planets and ships etc.  Planets and ships are each economies with 7 sectors.  Each sector has working resources, reserve resources (cargo), working staff and reserve staff (guests).\n\nThere is also knowledge.  As knowledge in a sector increases, the annual cost per unit in each sector decreases and in some sectors new units of resource, staff, and knowledge increase. As in any game, random factors influence many aspects of the game.\n\nPlanets mine resources and grow staff, but deliberately have surpluses in some financial sectors, and famines in some other sectors.  Ships move resources between planets, often trading the resources that are lacking at a given planet in exchange for other resources and staff and knowledge.  But ships generally cannot increase staff or mine/find resources, they must receive significant resources and staff in each trade to grow at a rate that allows them to be productive trade partners.\n\nThe game proceeds either 1 year at a time or 5 years at a time depending on the chice by the gamemaster.  At the end of each 1 year or 5 years, clan masters may look at their statistices and decide to change some clan priorities.  The gamemaster can also make changes, but probably should not.  It is possible in some systems to have multiple games running, each game with different priorities.  The initial priorities are set to make the game interesting with possibilities of growth.  Some priority changes by gamemaster or clanmaster may increase growth, but may also decrease growth causing a death of all or most ships and planets.  The balancing of economies is not simple or easy.  It is more possible to crash an economy than to grow it, so don't be greedy, make small changes until you understand the game better.\n\n"
+  static final public String storyText = "This game is about trading not fighting. Trading is done between planets and Starships which move between planets.  There are 5 clans and a gamemaster, all of which can change some priorities or values for the game.You can choose one of several winning goals, highest worth, highest trades received, highest trades given, highest number of planets and ships etc.  Planets and ships are each economies with 7 sectors.  Each sector has working resources, reserve resources (cargo), working staff and reserve staff (guests).\n\nThere is also knowledge.  As knowledge in a sector increases, the annual cost per unit in each sector decreases and in some sectors new units of resource, staff, and knowledge increase. As in any game, random factors influence many aspects of the game.\n\nPlanets mine resources and grow staff, but deliberately have surpluses in some financial sectors, and famines in some other sectors.  Ships move resources between planets, often trading the resources that are lacking at a given planet in exchange for other resources and staff and knowledge.  But ships generally cannot increase staff or mine/find resources, they must receive significant resources and staff in each trade to grow at a rate that allows them to be productive trade partners.\n\nThe game proceeds either 1 year at a time or 5 years at a time depending on the choice by the gamemaster.  At the end of each 1 year or 5 years, clan masters may look at their statistices and decide to change some clan priorities.  The gamemaster can also make changes, but probably should not.  It is possible in some systems to have multiple games running, each game with different gamemaster priorities.  The initial priorities are set to make the game interesting with possibilities of growth.  Some priority changes by gamemaster or clanmaster may increase growth, but may also decrease growth causing a death of all or most ships and planets.  The balancing of economies is not simple or easy.  It is more possible to crash an economy than to grow it, so don\'t be greedy, make small changes until you understand the game better.\n\n "
+  + "Click on the tab labled \"game\" to change game parameters.  Click the first gray radio button master, to change overall game parameters as the \"gamemaster\". "
+      + "The next 5 radio buttons are for the 5 clans, \"red\", \"orange\", \"yellow\", \"green\" and \"blue\".  When you click on the parameter name," 
+  + " the green field on the right side is set to a description of what that parameter does.  You can then move the slides to change the parameter.  Careful, economies are touchy, and  changes can make stop working, all the planets and ships start dieing.  At the initial difficulty, about 1 in 10 ships or plaets should die each year.  The forward fund taken from the other ships and planets is used to finance new ships or planets.\n\n Each year creates costs of all sectors of both resources and staff.  Costs increase as the game difficulty increases. Costs decrease as the knowledge increases.  Knowledge increases with each years growth, also manuals are studied and some become knowledge each year.  When trades occur, knowledge is also traded between ships and planets as manuals, depending on the higher grade staff of each ship or planet and the amount of knowledge with that economy.  Each of the 7 financial sectors have their own knowledge. their own priority, their own resources and staff, but costs that as each sector uses every sector each year.  Random factors occur with costs, growths and trading.\n\n"
           + "As each year begins some ships and planets encounter catastrophies.  Clanmasters that choose higher random activity encountor more catastrophies.  Catastrophies remove some resources and some staff, but they also reveal additional resources that planets can mine, they can increase resources that ships can find while traveling between planets, they can ships to uncover caches of  manuals for techniques in one or more sectors.  In each case, a trade is very useful to get back resources and/or staff in crippled sectors.\n\nAfter catastrophies ships and planets do trading.  For planets the goal is to even out resources and staff as much as possible, and to gain tech manuals to be turned into knowledge.  For ships the goal is to pick friendly planets which will do reasonable trades, and to try to grow in all resources and staff, whle also getting cargo and guests that can be traded to some other planet, the ship also gets manuals from the planet of new technologies that have not been found elsewhere.  The gamemaster sets the amount of new knowledge that can be turned into manuals for trade.\n\nAfter zero to 15 ships trade with a planet, and ships trade with up to 5 ships at the same planet.\n\nThe next activity is swapping resources to prevent death, reduce costs and to enhance growth.  Units of resource or staff can be moved between working and reserve status at a modest cost.  Moving resorces between sectors has a much higher cost, you can call the move transmuting a resource or repurposing a resource depending on you view of magic and economic theory.  The gamemaster can change the costs of movement.\n\nAfter the swapping the planet dies if some sector does not have enough working staff or resources.  Each year has a requirment for there to be enough buildings to survive winter, enough food production to not starve etc.  The required working units are higher than the cost of units for a given year, and growth is done before taking costs.<p>The stregth of sectors may influence some operations, E.G. a strong defense may reduce the size of catastrophies, a strong, strong lifeneed may aid staff growth and decreas staff deaths, strong transportation may decrease cost of moving staff and resources."
           + "\n\nClanmasters can change priorities that influence how the robots runing each clan ship and clan planet make decisions.  The gamemaster sets overall parameters that can change the nature of the game in some way for all of the clans.\n\nThe window for the game has a number of named tabs.\n\nThe \"game\" tab displays ways for the gamemaster and each clanmaster to change priorities. \n\n Planets and ships make increasing contributions to the forward fund as their worth increases.  At the beginning of each yaar, new planets and ships are created from the forward fund and/or from the game initialization.  As the game reaches the maximum number of plaets and ships, contributions to the forward fund are reduced.  The memory assigned to the game limits the number of planets and ships.\n\nThe \"stats\" tab shows many different values about the position of each clan.  The stats can be used to decide how to change input values at the \"game\" tab.<p>The \"display\" tab will change as the game progresses each year.\n\n" +
       "To start game, go to the game tab, click 1 year or 5 years of activity";
@@ -441,7 +444,7 @@ public class StarTrader extends javax.swing.JFrame {
     gameButtonUp.setMaximumSize(new java.awt.Dimension(70, 55));
     gameButtonUp.setMinimumSize(new java.awt.Dimension(30, 45));
 
-    setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+    setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
     setBounds(new java.awt.Rectangle(0, 0, 1200, 1200));
     setMaximizedBounds(new java.awt.Rectangle(0, 0, 1, 0));
     setMinimumSize(new java.awt.Dimension(800, 600));
@@ -452,6 +455,11 @@ public class StarTrader extends javax.swing.JFrame {
       }
       public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
         formInputMethodTextChanged(evt);
+      }
+    });
+    addWindowListener(new java.awt.event.WindowAdapter() {
+      public void windowClosed(java.awt.event.WindowEvent evt) {
+        formWindowClosed(evt);
       }
     });
     getContentPane().setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
@@ -531,9 +539,10 @@ public class StarTrader extends javax.swing.JFrame {
     gameMaster.setForeground(new java.awt.Color(102, 102, 102));
     gameMaster.setText("master");
     gameMaster.setToolTipText("");
+    gameMaster.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
     gameMaster.setMaximumSize(new java.awt.Dimension(150, 21));
-    gameMaster.setMinimumSize(new java.awt.Dimension(59, 20));
-    gameMaster.setPreferredSize(new java.awt.Dimension(119, 21));
+    gameMaster.setMinimumSize(new java.awt.Dimension(90, 20));
+    gameMaster.setPreferredSize(new java.awt.Dimension(125, 21));
     gameMaster.addItemListener(new java.awt.event.ItemListener() {
       public void itemStateChanged(java.awt.event.ItemEvent evt) {
         gameMasterItemStateChanged(evt);
@@ -580,9 +589,9 @@ public class StarTrader extends javax.swing.JFrame {
     gameButtonGroup.add(clanOrange);
     clanOrange.setForeground(new java.awt.Color(102, 51, 0));
     clanOrange.setText("orange");
-    clanOrange.setMaximumSize(new java.awt.Dimension(90, 45));
-    clanOrange.setMinimumSize(new java.awt.Dimension(59, 21));
-    clanOrange.setPreferredSize(new java.awt.Dimension(90, 21));
+    clanOrange.setMaximumSize(new java.awt.Dimension(120, 45));
+    clanOrange.setMinimumSize(new java.awt.Dimension(69, 21));
+    clanOrange.setPreferredSize(new java.awt.Dimension(120, 21));
     clanOrange.addItemListener(new java.awt.event.ItemListener() {
       public void itemStateChanged(java.awt.event.ItemEvent evt) {
         clanOrangeItemStateChanged(evt);
@@ -821,9 +830,9 @@ public class StarTrader extends javax.swing.JFrame {
 
     gameTextField0.setEditable(false);
     gameTextField0.setText("tb set");
-    gameTextField0.setMaximumSize(new java.awt.Dimension(350, 55));
-    gameTextField0.setMinimumSize(new java.awt.Dimension(100, 55));
-    gameTextField0.setPreferredSize(new java.awt.Dimension(200, 55));
+    gameTextField0.setMaximumSize(new java.awt.Dimension(300, 55));
+    gameTextField0.setMinimumSize(new java.awt.Dimension(150, 35));
+    gameTextField0.setPreferredSize(new java.awt.Dimension(200, 45));
     gameTextField0.setRequestFocusEnabled(false);
     gameTextField0.addMouseListener(new java.awt.event.MouseAdapter() {
       public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -926,9 +935,9 @@ public class StarTrader extends javax.swing.JFrame {
     gameTextField1.setHorizontalAlignment(javax.swing.JTextField.LEFT);
     gameTextField1.setText("tb set");
     gameTextField1.setMargin(new java.awt.Insets(0, 0, 0, 0));
-    gameTextField1.setMaximumSize(new java.awt.Dimension(250, 55));
-    gameTextField1.setMinimumSize(new java.awt.Dimension(100, 35));
-    gameTextField1.setPreferredSize(new java.awt.Dimension(200, 55));
+    gameTextField1.setMaximumSize(new java.awt.Dimension(300, 45));
+    gameTextField1.setMinimumSize(new java.awt.Dimension(150, 35));
+    gameTextField1.setPreferredSize(new java.awt.Dimension(200, 35));
     gameTextField1.addMouseListener(new java.awt.event.MouseAdapter() {
       public void mouseEntered(java.awt.event.MouseEvent evt) {
         gameTextField1MouseEntered(evt);
@@ -1013,9 +1022,9 @@ public class StarTrader extends javax.swing.JFrame {
 
     gameTextField2.setEditable(false);
     gameTextField2.setText("tb set");
-    gameTextField2.setMaximumSize(new java.awt.Dimension(300, 65));
+    gameTextField2.setMaximumSize(new java.awt.Dimension(300, 45));
     gameTextField2.setMinimumSize(new java.awt.Dimension(150, 35));
-    gameTextField2.setPreferredSize(new java.awt.Dimension(200, 55));
+    gameTextField2.setPreferredSize(new java.awt.Dimension(200, 35));
     gameTextField2.addMouseListener(new java.awt.event.MouseAdapter() {
       public void mouseEntered(java.awt.event.MouseEvent evt) {
         gameTextField2MouseEntered(evt);
@@ -4523,6 +4532,10 @@ public class StarTrader extends javax.swing.JFrame {
   private void statsField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statsField2ActionPerformed
     // TODO add your handling code here:
   }//GEN-LAST:event_statsField2ActionPerformed
+
+  private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+    System.exit(1);
+  }//GEN-LAST:event_formWindowClosed
   static Boolean resetOut = false;
 
   /**
@@ -5046,41 +5059,41 @@ public class StarTrader extends javax.swing.JFrame {
         switch (stateConst) {
           case WAITING:
           case STARTING:
-            paintCurDisplay(eM.curEcon);
+           // paintCurDisplay(eM.curEcon);
              {
               Thread.sleep(500);
             }
             break;
           case CREATING:
-            paintCurDisplay(eM.curEcon);
+           // paintCurDisplay(eM.curEcon);
             Thread.sleep(blip10);
             break;
           case FUTUREFUNDCREATE:
-            paintCurDisplay(eM.curEcon);
+           // paintCurDisplay(eM.curEcon);
             Thread.sleep(blip);
             break;
           case STARTYR:
-            paintCurDisplay(eM.curEcon);
+           // paintCurDisplay(eM.curEcon);
             Thread.sleep(blip);
             did = true;
             break;
           case SEARCH:
-            paintCurDisplay(eM.curEcon);
+           // paintCurDisplay(eM.curEcon);
             Thread.sleep(blip);
             did = false;
             break;
           case SWAPS:
-            paintCurDisplay(eM.curEcon);
+          //  paintCurDisplay(eM.curEcon);
             Thread.sleep(blip5);
             did = false;
             break;
           case TRADING:
-            paintCurDisplay(eM.curEcon);
+           // paintCurDisplay(eM.curEcon);
             Thread.sleep(blip10);
             did = false;
             break;
           case ENDYR:
-            paintCurDisplay(eM.curEcon);
+          //  paintCurDisplay(eM.curEcon);
              {
               Thread.sleep(blip);
             }
@@ -6235,7 +6248,7 @@ public class StarTrader extends javax.swing.JFrame {
       econCnt = curEc.econCnt;
      // controlPanels.setSelectedIndex(5);
       int blip = 5;
-      String linez = sinceRunYear() + " curEc=" + curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine;
+      String linez =  "both=" + curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine  + since () + sinceRunYear() + newLine;
       line0 = line1 = line2 = line3 = line4 = line5 = "";
       line0 = stateStringNames[stateConst];
       displayPanel0Text.setBackground(E.clan.values()[curEc.clan].getColor(curEc.pors));
@@ -6243,42 +6256,42 @@ public class StarTrader extends javax.swing.JFrame {
         case WAITING:
         case STARTING:
           displayPanel0Text.setText(
-          sinceRunYear() + " curEc=" + curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine);
+          "STARTING both=" + curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine + "year" + eM.year +" " +  since() + sinceRunYear());
           break;
         case CREATING:
+           displayPanel0Text.setText(
+          "CREATING both=" + curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine + "year" + eM.year +" " +  since() + sinceRunYear());
         case FUTUREFUNDCREATE:
           rN = eM.getStatrN( "bothCreate");
-          displayPanel0Text.append(
-          "year " + eM.year + newLine);
-          displayPanel0Text.setText(
-         " Creating both " + eM.getCurCumPorsClanUnitSum(rN,EM.ICUR0,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rN,EM.ICUR0,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum(rN,EM.ICUR0,E.S,E.S+1,0,5) + newLine) ;
-          displayPanel0Text.append(
-          sinceRunYear() + " curEc=" + curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine);
          
+          displayPanel0Text.setText(
+         " Creating " + eM.getCurCumPorsClanUnitSum(rN,EM.ICUR0,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rN,EM.ICUR0,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum(rN,EM.ICUR0,E.S,E.S+1,0,5) + newLine + "both " + curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine + "year" + eM.year +" " +  since() + sinceRunYear()) ;
+
           break;
         case STARTYR:
-         displayPanel0Text.setText(
-          sinceRunYear() + " curEc=" + curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine);
+          displayPanel0Text.setText(
+         " START YEAR " + eM.getCurCumPorsClanUnitSum(rN,EM.ICUR0,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rN,EM.ICUR0,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum(rN,EM.ICUR0,E.S,E.S+1,0,5) + newLine + "both " + curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine + "year" + eM.year +" " +  since() + sinceRunYear()) ;
           break;
         case SEARCH:
            displayPanel0Text.setText(
-          sinceRunYear() + " curEc=" + curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine);
+         " SEARCH " + curEc.name + newLine + "both " + curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine + "year" + eM.year +" " +  since() + sinceRunYear()) ;
           break;
         case SWAPS:
          displayPanel0Text.setText(
-          sinceRunYear() + " curEc=" + curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine);
+         " SWAPS " + curEc.name + newLine + "both " + curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine + "year" + eM.year +" " +  since() + sinceRunYear()) ;
           break;
         case TRADING:
           displayPanel1EconName.setBackground(E.clan.values()[curEc.clan].getColor(curEc.pors));
       displayPanel1EconName.setText(curEc.name);
           displayPanel0Text1.setText(eM.otherEcon.name);
           displayPanel0Text1.setBackground(E.clan.values()[eM.otherEcon.clan].getColor(eM.otherEcon.pors));
-          displayPanel0Text.setText(
-          sinceRunYear() + " curEc=" + curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine);
+         displayPanel0Text.setText(
+         " TRADING " + curEc.name + newLine + "both " + curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine + "year" + eM.year +" " +  since() + sinceRunYear()) ;
+         
           break;
         case ENDYR:
           displayPanel0Text.setText(
-          sinceRunYear() + " curEc=" + curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine);
+         " ENDYEAR " + curEc.name + newLine + "both " + curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine + "year" + eM.year + " " + since() + sinceRunYear()) ;
           break;
         case STATS:
           controlPanels.setSelectedIndex(4);
