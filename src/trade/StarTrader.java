@@ -830,9 +830,9 @@ public class StarTrader extends javax.swing.JFrame {
 
     gameTextField0.setEditable(false);
     gameTextField0.setText("tb set");
-    gameTextField0.setMaximumSize(new java.awt.Dimension(300, 55));
+    gameTextField0.setMaximumSize(new java.awt.Dimension(300, 45));
     gameTextField0.setMinimumSize(new java.awt.Dimension(150, 35));
-    gameTextField0.setPreferredSize(new java.awt.Dimension(200, 45));
+    gameTextField0.setPreferredSize(new java.awt.Dimension(200, 35));
     gameTextField0.setRequestFocusEnabled(false);
     gameTextField0.addMouseListener(new java.awt.event.MouseAdapter() {
       public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -850,10 +850,10 @@ public class StarTrader extends javax.swing.JFrame {
     gameSliderP0.setPaintTicks(true);
     gameSliderP0.setSnapToTicks(true);
     gameSliderP0.setToolTipText("Slider1");
-    gameSliderP0.setMaximumSize(new java.awt.Dimension(400, 45));
-    gameSliderP0.setMinimumSize(new java.awt.Dimension(250, 45));
+    gameSliderP0.setMaximumSize(new java.awt.Dimension(400, 55));
+    gameSliderP0.setMinimumSize(new java.awt.Dimension(150, 35));
     gameSliderP0.setName("Slider1"); // NOI18N
-    gameSliderP0.setPreferredSize(new java.awt.Dimension(300, 45));
+    gameSliderP0.setPreferredSize(new java.awt.Dimension(300, 35));
     gameSliderP0.setValueIsAdjusting(true);
     gameSliderP0.addMouseListener(new java.awt.event.MouseAdapter() {
       public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -877,8 +877,9 @@ public class StarTrader extends javax.swing.JFrame {
     gameSliderS0.setPaintTicks(true);
     gameSliderS0.setSnapToTicks(true);
     gameSliderS0.setToolTipText("hello1");
-    gameSliderS0.setMaximumSize(new java.awt.Dimension(400, 45));
-    gameSliderS0.setMinimumSize(new java.awt.Dimension(250, 45));
+    gameSliderS0.setMaximumSize(new java.awt.Dimension(450, 45));
+    gameSliderS0.setMinimumSize(new java.awt.Dimension(150, 45));
+    gameSliderS0.setOpaque(false);
     gameSliderS0.setPreferredSize(new java.awt.Dimension(300, 45));
     gameSliderS0.setValueIsAdjusting(true);
     gameSliderS0.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -6558,10 +6559,10 @@ public class StarTrader extends javax.swing.JFrame {
       eM.gameClanStatus = clan;
     }
     if (eM.gameClanStatus == 5) {
-      System.out.print("clan master panel=" + eM.gPntr);
+      System.out.print("game master panel=" + eM.gPntr);
     }
     else {
-      System.out.print("clan" + eM.gameClanStatus + "=" + eM.cPntr);
+      System.out.print("clan panel" + eM.gameClanStatus + "=" + eM.cPntr);
     }
     System.out.println(" " + new Date().toString());
     /**
@@ -6599,20 +6600,20 @@ public class StarTrader extends javax.swing.JFrame {
       System.out.print("Move to the next ");
       if (eM.gameClanStatus == 5) {
         if (eM.gStart[eM.gPntr + 1] < 0) {
-          System.out.print("Remain at the current game master no additional panel" + eM.gPntr + " ");
+          if(E.debugGameTab)System.out.print("Remain at the current game master no additional panel" + eM.gPntr + " ");
         }
         else {
           eM.gPntr++;
-          System.out.print("Move to the next game master panel");
+          if(E.debugGameTab)System.out.print("Move to the next game master panel=" + eM.gPntr + " ");
         }
       }
       else {
         if (eM.cStart[eM.cPntr + 1] < 0) {
-          System.out.print("Remain at current user panel, not additonal panel" + eM.cPntr);
+          if(E.debugGameTab)System.out.print("Remain at current user panel, not additonal panel=" + eM.cPntr);
         }
         else {
           eM.cPntr++;
-          System.out.print("Advance to the next user panel" + eM.cPntr);
+         if(E.debugGameTab) System.out.print("Advance to the next user panel" + eM.cPntr);
         }
       }
     }
@@ -6620,7 +6621,7 @@ public class StarTrader extends javax.swing.JFrame {
 
     if (eM.gameClanStatus == 5) {
       eM.vv = eM.gStart[eM.gPntr];
-      System.out.print("Start the next game master panel at " + eM.vv + "=" + eM.valS[eM.vv][0]);
+      if(E.debugGameTab)System.out.print("Start the next game master panel at " + eM.vv + "=" + eM.valS[eM.vv][0]);
     }
     else {
       eM.vv = eM.cStart[eM.cPntr];
@@ -6629,25 +6630,29 @@ public class StarTrader extends javax.swing.JFrame {
       if (iy <= eM.valS.length && eM.valS[iy] != null) {
         ix = iy;
       }
-      System.out.print("Start the next user panel at cPntr=" + eM.cPntr + iy + ":" + ix + "=" + eM.valS[ix][0]);
+      if(E.debugGameTab)System.out.println("Start the next user panel at cPntr=" + eM.cPntr + " " + iy + ":" + ix + "=" + eM.valS[ix][0]);
     }
     nn = 0;
     int aclan = eM.gameClanStatus;
     while (eM.vv < eM.vvend && nn < 10) {
-      System.out.print("see nn=");
-      System.out.print(nn);
-      System.out.print(" clan=");
-      System.out.print(eM.gameClanStatus);
-      System.out.print(" ??displaying??=" + eM.vv + " = " + eM.valS[eM.vv][0]);
-      System.out.print(" nn=" + nn + " gc=" + eM.valI[eM.vv][eM.modeC][0][0]);
-      // is this vv the match the gameClanStatus
+      if(E.debugGameTab){
+      System.out.println("line nn=" + nn  + " gc=" + eM.valI[eM.vv][eM.modeC][0][0] + " clan=" + eM.gameClanStatus + " ??displaying??=" + eM.vv + "=" + eM.valS[eM.vv][0] );
+     // System.out.print(nn);
+     // System.out.print("nn=" + nn + " gc=" + eM.valI[eM.vv][eM.modeC][0][0]);
+     // System.out.print(eM.gameClanStatus);
+     // System.out.print(" ??displaying??=" + eM.vv + " = " + eM.valS[eM.vv][0]);
+     // System.out.print(" nn=" + nn + " gc=" + eM.valI[eM.vv][eM.modeC][0][0]);
+      }
+      // is this vv  match the gameClanStatus
       if (eM.matchGameClanStatus(eM.vv)) {
-        System.out.println(" <<<<<DISPLAY clan=" + eM.gameClanStatus);
+        if(E.debugGameTab)System.out.println(" <<<<<DISPLAY clan planet=" + eM.gameClanStatus);
         // E.sysmsg(" <<<<<DISPLAY clan=" + eM.gameClanStatus);
         currentVals1[nn] = eM.vv;  // the display values
         panelAr[nn].setEnabled(true);
         panelAr[nn].setVisible(true);
         // gamePanel0.removeMouseListener(l);
+        // add listeners for mouse entered and exited
+        // do these end being duplicates?
         panelAr[nn].addMouseListener(new java.awt.event.MouseAdapter() {
           public void mouseEntered(java.awt.event.MouseEvent evt) {
             gamePanel0MouseEntered(evt);
@@ -6670,10 +6675,14 @@ public class StarTrader extends javax.swing.JFrame {
         gamePSliders[nn].setSnapToTicks(false);
         gamePSliders[nn].setVisible(true);
         gamePSliders[nn].setValue(eM.valI[currentVals1[nn]][eM.sliderC][eM.gamePorS][0]);
+        
         eM.gamePorS = E.S;
+        // is there an s entry, check valI
         int v = eM.valI[currentVals1[nn]][eM.sliderC].length > 1 ? eM.valI[currentVals1[nn]][eM.sliderC][eM.gamePorS][0] : -1;
-        // enable staff slider if value > -1
+        int w = (int)Math.floor(eM.valD[currentVals1[nn]][eM.sliderC].length > 1 ? eM.valD[currentVals1[nn]][eM.sliderC][eM.gamePorS][0] : -1.0);
+        // enable staff slider if value > -1 the staff values exist as positive slider vals
         if (v > -1) {
+          if(E.debugGameTab)System.out.println(" <<<<<DISPLAY ship valI=" + v + ", valD=" + E.mf(w)  + "line=" + nn + ", vv=" + currentVals1[nn] + ", desc=" + eM.valS[currentVals1[nn]][0] + ", clan=" + eM.gameClanStatus);
           // gamePSliders[nn].setForeground(Color.blue);
           gameSSliders[nn].setSnapToTicks(false);
           gameSSliders[nn].setForeground(Color.blue);
@@ -6689,11 +6698,12 @@ public class StarTrader extends javax.swing.JFrame {
         else {
           gameSSliders[nn].setEnabled(false);
           gameSSliders[nn].setVisible(false);
+          if(E.debugGameTab)System.out.println(" <<<<< NO DISPLAY ship valI=" + v + ", valD=" + E.mf(w)  + "line=" + nn + ", vv=" + currentVals1[nn] + ", desc=" + eM.valS[currentVals1[nn]][0] + ", clan=" + eM.gameClanStatus);
         }
         nn++;
       }
       else {
-        System.out.println(" >>>>SKIP");
+       if(E.debugGameTab)System.out.println(" >>>>SKIP line=" + nn);
       }
 
       eM.vv++;

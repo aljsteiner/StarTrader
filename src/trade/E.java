@@ -69,6 +69,7 @@ public class E {
   static final boolean debugStats = debugMaster; // why stats aren't showing
   static final boolean debugMisc = debugMaster; // other debug tests
   static final boolean debugCanTrade = debugMaster; // planet can trade
+  static final boolean debugGameTab = debugMaster; // output from game output
   static final boolean debugOutput = false;
   /* Start Global data, set in tab init
    * [pors]

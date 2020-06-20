@@ -592,11 +592,11 @@ class EM {
   static int lDisp = 10;  // 0-9 = last of display for game or clan
   int gCntr = -1; //counts number of game doVals
   int cCntr = -1; //counts number of clan doVal s
-  // gStart,cStart are arrays of page start points in dovals
+  // gStart,cStart are arrays of tab game page start points in dovals valD, valI valS
   int gStart[] = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
   int cStart[] = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}; // start c displays
-  int gPntr = 0;  // pointer int which value of gStart
-  int cPntr = 0;
+  int gPntr = 0;  //vv value of current start of game gamemaster display of gStart
+  int cPntr = 0;  //vv value of current start of game clanmaster display of cStart
   // int vgc = 0; // game cpde game(vone,vtwo) or clan (vten)
   static int vone = 1;  // only one value difficulty -game {n}
   static int v1 = vone;
@@ -1207,7 +1207,7 @@ class EM {
 
   // static double gameMaxRandomSum = .7;
   /**
-   * status values input from game tab
+   * status values input for the game tab
    */
   static int gameClanStatus = 5; // 0-4 regular clans, 5 = gameMaster\
   int gameDisplayNumber[] = {-1, -1, -1, -1, -1, -1};//-1=not set, 0-nn start of current disp in the array of game or clan enums
@@ -1308,7 +1308,7 @@ class EM {
     gc = vaddr.length == 2 ? vtwo : vone;
     vv = doVal1(gc, vdesc, lims, vdetail);
     double[][] vacc = {vaddr};
-    valD[vv][gameAddrC] = vacc;
+    valD[vv][gameAddrC] = vacc; //valD[vv][0][vaddr] //valD[vv][0][0]{addr0,addr1}
     doVal3(vv);
     return vv;
   }
@@ -1327,14 +1327,19 @@ class EM {
     gc = vaddr.length == 7 ? vseven : 11;
     vv = doVal1(gc, vdesc, lims, vdetail);
     double[][] vacc = {vaddr};
-    valD[vv][gameAddrC] = vacc;
-    valI[vv][vFill][vFill][sevenC] = vindex;
+    valD[vv][gameAddrC] = vacc; //valD[vv][0][vaddr] //valD[vv][0][0]{addr0,addr1}
+    valI[vv][vFill][vFill][sevenC] = vindex; //valI[vv][0][0][vindex] (0-6)
     doVal3(vv);
     return vv;
   }
 
   /**
    * doVal with vaddr full double val[][p,s] = {{.5}} or {{.5},{.5}}
+   * gc v1 valD[vv][0][0]{val}
+   * gc vtwo valD[vv][0][0]{val0,val1}
+   * gc vthree valD[vv][0][[0]{val<pzero}
+   * gc vfour valD[vv][0][0]{val &ge;pzero}
+   * gc vten valD[vv][0][pors]{val0..val4}
    *
    * @param vdesc title of the input
    * @param vaddr address of the input
@@ -1345,7 +1350,7 @@ class EM {
   int doVal(String vdesc, double[][] vaddr, double[][] lims, String vdetail) {
     gc = vaddr.length == 1 ? vaddr[0].length == 1 ? vone : vtwo : vaddr[1].length == 1 ? vaddr[1][0] < E.pzero ? vthree : vfour : vaddr[1].length == 5 ? vten : 11;
     vv = doVal1(gc, vdesc, lims, vdetail);
-    valD[vv][gameAddrC] = vaddr;
+    valD[vv][gameAddrC] = vaddr; //valD[vv][0][pors][valu]
     doVal3(vv);
     return vv;
   }
@@ -1364,7 +1369,7 @@ class EM {
     vv = v4++;
     valI[vv] = new int[prev3SliderC + 1][][];
     valD[vv] = new double[dPrevRealC + 1][][];
-    valD[vv][gameLim] = lims;
+    valD[vv][gameLim] = lims; //valD[vv][1]...
     // int[][] val7 = {{-1}};  unused
     // valI[vv][sevenC] = val7;un used
     System.out.printf("in doVal1 vv=%2d, gc=%1d, desc=%7s, detail=%7s, %n", vv, gc, vdesc, vdetail);
@@ -1372,8 +1377,7 @@ class EM {
     String[] valSn = {vdesc, vdetail, "change detail" + vv};
     valS[vv] = valSn;
     int[][] mode = {{gc}};
-    valI[vv][modeC] = mode;
-
+    valI[vv][modeC] = mode;  //valI[vv][0][0]{gc}
     return vv;
   }
 
@@ -1464,6 +1468,8 @@ class EM {
         valI[vv][prev3SliderC][pors][0] = svalp;
         doVal5(vv, gCntr, gStart, gc, svalp, pors, 5, vR, lL, lH);
       }
+      // for vone vthree the valI[vv][0-4][E.S]{-1} not {svalp}
+      // for vtwo vfour the valI[vv][0-4][E.P]{svalp} display value
     }
 
     else if (gc == vten) {
@@ -1485,23 +1491,22 @@ class EM {
           valI[vv][prev3SliderC][pors][klan] = svalp;
           doVal5(vv, cCntr, cStart, gc, svalp, pors, klan, vR, lL, lH);
         }
-      }
+      }// for vten all of the valI[vv][0-4][0-1]{svalp[0-4]} set &gt; 0
     }
-    else { // case 11 etc
+    else { // case 11 etc fatal error
       int[][] slidern = {{-1, -1}};
       int[][] prev2Slidern = {{-1, -1}};
       int[][] prevSlidern = {{-1, -1}};
       int[][] prev3Slidern = {{-1, -1}};
       System.out.flush();
       System.err.flush();
-      System.out.format("illegal " + valS[vv][vDesc] + " doVal3 " + valS[vv][vDesc] + " vv=%d gc=%2d, vv=%d, pors=%d, clan=%d%n", vv, gc, pors, klan);
+      String verr = "illegal " + valS[vv][vDesc] + " doVal3 " + valS[vv][vDesc] + " vv=%d gc=%2d, vv=" + vv + ", pors=" + pors + ", clan=" + klan;
       new Throwable().printStackTrace(System.out);
       System.err.flush();
       System.out.flush();
       myTestDone = true;
-      throw new MyTestException();
+      throw new MyErr(verr);
     }
-
     return vv;
   }
 
