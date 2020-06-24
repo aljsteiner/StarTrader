@@ -2745,6 +2745,8 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
         ARow KnowledgeMaintMultiplier = new ARow();
         ARow meff = new ARow();
         ARow geff = new ARow();
+        ARow rsefficiencyGMin = new ARow();
+        ARow rsefficiencyMMin = new ARow();
         GroReqSum = makeZero(GroReqSum);
         MaintReqSum = makeZero(MaintReqSum);
         GroReqMultiplier = makeZero(GroReqMultiplier);
@@ -2772,9 +2774,11 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
           // the higher difficulty the lower the efficiency
           // workEffBias lower if difficulty is higher
           // ydifficulty set in calcPriority called in aStartCashFlow before this
-          maintEfficiency.add(i, Math.sqrt(workEffBias + (1. - workEffBias) * (ydifficulty.get(1) < PZERO ? 0. : KnowledgeMaintMultiplier.get(i)) / ydifficulty.get(i)));
-          groEfficiency.add(i, Math.sqrt(eM.effBias[pors] + (1. - eM.effBias[pors]) * (ydifficulty.get(1) < PZERO ? 0. : KnowledgeGroMultiplier.get(i)) / ydifficulty.get(i)));
-
+          maintEfficiency.add(i, Math.sqrt(workEffBias + (1. - workEffBias) * (ydifficulty.get(i) < PZERO ? 0. : KnowledgeMaintMultiplier.get(i)) / ydifficulty.get(i)));
+          groEfficiency.add(i, Math.sqrt(eM.effBias[pors] + (1. - eM.effBias[pors]) * (ydifficulty.get(i) < PZERO ? 0. : KnowledgeGroMultiplier.get(i)) / ydifficulty.get(i)));
+            //(z-99)*y = ,15  (x-25)*y=.3  x=148, y=0.002439 
+        rsefficiencyGMin.set(i,eM.rsefficiencyGMin[pors][0] * (148 - percentDifficulty) * .001739);
+        rsefficiencyMMin.set(i, eM.rsefficiencyMMin[pors][0] * (148 - percentDifficulty) * .001739);
         }// end loop on i
         meff = copy(maintEfficiency);
         geff = copy(groEfficiency);
@@ -2784,15 +2788,19 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
           StackTraceElement aa = Thread.currentThread().getStackTrace()[2];
           StackTraceElement ab = Thread.currentThread().getStackTrace()[3];
           hist.add(new History(History.debuggingMajor10, ">>>", a0.getMethodName(), "at", a0.getFileName(), wh(a0.getLineNumber()), "from=", aa.getFileName(), wh(aa.getLineNumber()), "ffrom", ab.getFileName(), wh(ab.getLineNumber())));
+        
         }
+
         hist.add(new History(History.headers20, aschar + " efficiency", "0LifeSup", "1Struct", "2Energy", "3Propel", "4Defense", "5Gov", "6Col", "Min", "Sum", "Ave"));
         invMaintEfficiency = make(invMaintEfficiency);
-        invMaintEfficiency.invertA(maintEfficiency.limVal(maintEfficiency, eM.rsefficiencyMMin[pors][0], eM.rsefficiencyMMax[pors][0]));
+        invMaintEfficiency.invertA(maintEfficiency.setLimVal( rsefficiencyMMin, eM.rsefficiencyMMax[pors][0]));
         poorKnowledgeAveEffect = invMaintEfficiency.ave();
         ARow tt1 = invMEfficiency.getRow(sIx + 2);
         invMEfficiency.getRow(sIx + 2).set(invMaintEfficiency);
         invGroEfficiency = make(invGroEfficiency);
-        invGroEfficiency.invertA(groEfficiency.setLimVal(groEfficiency, eM.rsefficiencyGMin[pors][0], eM.rsefficiencyGMax[pors][0]));
+        // low limit  at diff 100 = .25, at diff 50 .5 .25= .25 * (1 - 1.)*m .5 =(1 - .5)*m
+        //
+        invGroEfficiency.invertA(groEfficiency.setLimVal(rsefficiencyGMin, eM.rsefficiencyGMax[pors][0]));
         //  invGroEfficiency = invGroEfficiency.set(invMaintEfficiency);
         invGEfficiency.getRow(sIx + 2).set(invGroEfficiency);
 
@@ -2815,6 +2823,8 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
           hist.add(new History("&&", 9, aschar + " difficulty", ydifficulty));
           hist.add(new History("&&", 9, aschar + " mEfficiency", maintEfficiency));
           hist.add(new History("&&", 9, aschar + " gEfficiency", groEfficiency));
+          hist.add(new History("&&", 9, aschar + " rsefficMMin", rsefficiencyMMin));
+          hist.add(new History("&&", 9, aschar + " rsefficGMin", rsefficiencyGMin));
           hist.add(new History("&&", 9, aschar + " invMEfficiency", invMaintEfficiency));
           hist.add(new History("&&", 9, aschar + " invGEfficiency", invGroEfficiency));
 
@@ -6296,7 +6306,8 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
       //     ypriorityYr.setReValuedA(10., 18., ypriorityYr);//  values 10 - 18
 //      hist.add(new History("&&", 9, "re priorityYr", ypriorityYr));
       for (int i = 0; i < E.lsecs; i++) {
-        // note that the following code is to increase difficulty as priority decreases
+        // note that the following code is to increase ydifficulty as priority decreases
+        // increase as difficulty increases
         // sector difficulty is a function of economy difficulty and priority
         ydifficulty.set(i, percentDifficulty * (eM.difficultyByPriorityMin[pors] + (ypriorityYr.get(i) < PZERO ? 0. : (eM.difficultyByPriorityMult[pors]) / ypriorityYr.get(i))), "difficulty for each sector");
         // or just ignore the ypriorityYr, just use percentDifficulty

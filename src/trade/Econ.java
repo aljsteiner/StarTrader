@@ -239,7 +239,7 @@ public class Econ {
 
     //   System.out.println("Econ.init 200 did new Assets");
     as.assetsInit(econCnt, this, st, eM, name, clan, planetOrShip, hist, tworth,wealth, sectorPri, res, colonists, knowledge, percentDifficulty, trand);
-    System.out.println(new Date().toString() + "Econ.init 202 did AssetsInit");
+    System.out.println(new Date().toString() + "Econ.init 242 did assetsInit");
     //  as.calcEfficiency();
   }
   

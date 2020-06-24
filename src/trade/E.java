@@ -37,18 +37,27 @@ public class E {
   // it also holds tables used to calculate growth etc.
   /** StarTrader contains the used set of stats descriptors
    * 
-  static public String statsButton0Tip = "0: Current Game Worths";
-  static public String statsButton1Tip = "1: Favors and trade effects";
-  static public String statsButton2Tip = "2: Catastrophies, deaths, randoms, forward fund";
-  static public String statsButton3Tip = "3: years 0,1,2,3 worth inc, costs, efficiency,knowledge,phe";
-  static public String statsButton4Tip = "4: years 4,5,6,7 worth inc, costs, efficiency,knowledge,phe ";
-  static public String statsButton5Tip = "5: years 8->15 worth inc, costs, efficiency,knowledge,phe ";
-  static public String statsButton6Tip = "6: years 16->31 worth inc, costs, efficiency,knowledge,phe ";
-  static public String statsButton7Tip = "7: years 32+ worth inc, costs, efficiency,knowledge,phe ";
-  static public String statsButton8Tip = "8: swap factors";
-  static public String statsButton9Tip = "9: Resource, staff values";
-  static public String statsButton10Tip = "10: growth and costs details";
-  static public String statsButton11Tip = "11: Fertility, health and effects";
+    static final public String statsButton0Tip = "0: Current Game Worths";
+  static final public String statsButton1Tip = "1: Favors and trade effects";
+  static final public String statsButton2Tip = "2: Catastrophies, deaths, randoms, forwardfund";
+  static final public String statsButton3Tip = "3: years 0,1,2,3 worth inc, costs, efficiency,knowledge,phe";
+  static final public String statsButton4Tip = "4: years 4,5,6,7 worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton5Tip = "5: years 8->15 worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton6Tip = "6: years 16->31 worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton7Tip = "7: years 32+ worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton8Tip = "8: swap factors";
+  static final public String statsButton9Tip = "9: Resource, staff, knowledge values";
+  static final public String statsButton10Tip = "10: growth and costs details";
+  static final public String statsButton11Tip = "11: Fertility, health and effects";
+  static final public String statsButton12Tip = "12: Swaps years incr skips, redos and dos";
+  static final public String statsButton13Tip = "13: Swaps years decr skips, redos and dos";
+  static final public String statsButton14Tip = "14: Swaps years xfer skips, redos and dos";
+  static final public String statsButton15Tip = "15: Swaps years Forward Fund imbalance or save";
+  static final public String statsButton16Tip = "16: Swaps cumulative values";
+  static final public String statsButton17Tip = "17: Deaths";
+  static final public String statsButton18Tip = "18: Trades";
+  static final public String statsButton19Tip = "19: Creates";
+  static final public String statsButton20Tip = "20: ForwardFund";
   0:worths,1:trade favor,2:random,deaths,forward,34567 ages,8:swap,9 rcsg bal,10:growth,cost,11:fertility health effect
 */
   /**

@@ -1741,6 +1741,8 @@ public class ARow {
     }
     return this;
   }
+  
+  
 
   /**
    * set each sector between min and max inclusive
@@ -1749,11 +1751,13 @@ public class ARow {
    * @param max
    * @return each min <= a <= max
    */
-  public ARow setLimVal(double min, double max) {
+  public ARow setLimVal(ARow min, double max) {
     double am;
+    double amin;
     for (int m = 0; m < E.lsecs; m++) {
       am = get(m);
-      set(m, am < min ? min : am > max ? max : am);
+      amin = min.get(m);
+      set(m, am < amin ? amin : am > max ? max : am);
     }
     return this;
   }
@@ -1762,7 +1766,9 @@ public class ARow {
    * tmp = min <= tmp <= max @
    *
    *
-   * param min @param max @return tmp
+   * @param min 
+   * @param max 
+   * @return tmp
    *
    */
   public ARow limVal(double min, double max) {

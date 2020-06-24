@@ -85,7 +85,7 @@ class EM {
   static final public String statsButton6Tip = "6: years 16->31 worth inc, costs, efficiency,knowledge,phe ";
   static final public String statsButton7Tip = "7: years 32+ worth inc, costs, efficiency,knowledge,phe ";
   static final public String statsButton8Tip = "8: swap factors";
-  static final public String statsButton9Tip = "9: Resource, staff values";
+  static final public String statsButton9Tip = "9: Resource, staff, knowledge values";
   static final public String statsButton10Tip = "10: growth and costs details";
   static final public String statsButton11Tip = "11: Fertility, health and effects";
   static final public String statsButton12Tip = "12: Swaps years incr skips, redos and dos";
@@ -95,9 +95,8 @@ class EM {
   static final public String statsButton16Tip = "16: Swaps cumulative values";
   static final public String statsButton17Tip = "17: Deaths";
   static final public String statsButton18Tip = "18: Trades";
-  static final public String statsButton19Tip = "19: Swaps decr skips and does";
-  static final public String statsButton20Tip = "20: Swaps incr skips and does";
-  
+  static final public String statsButton19Tip = "19: Creates";
+  static final public String statsButton20Tip = "20: ForwardFund";
   
   static double mEconLimits1[][] = {{200., 500.}, {200., 500.}};
   double econLimits2[] = {350.}; // more limiting of econs
@@ -111,8 +110,8 @@ class EM {
   static Econ otherEcon;  // other Econ when trading
   double[][] wildCursCnt = {{7}};
   static double[][] mWildCursCnt = {{3., 10.}};
-  double[] difficultyPercent = {50.};
-  double[][] mDifficultyPercent = {{5., 80.}, {-1, -1}};
+  double[] difficultyPercent = {25.,25.};
+  double[][] mDifficultyPercent = {{5., 99.}, {5., 99.}};
   double[] sendHistLim = {20};
   static double[][] mSendHistLim = {{5., 50}, {-1, -1}};
   double[] nominalWealthPerCommonKnowledge = {.2, .3}; // was .9
@@ -194,10 +193,10 @@ class EM {
   static double[][] mGameStartSizeRestrictions = {{300., 5000.}, {300., 5000.}};
   // double[] effMax = {2., 2.}; // 170309
   // double[][] mEffMax = {{.5, 3.}, {.5, 3.}}; // 170309
-  double[][] rsefficiencyMMin = {{.3}, {.3}};
-  double[][] mRsefficiencyMMin = {{.15, .8}, {.15, .8}};
-  double[][] rsefficiencyGMin = {{.3}, {.3}};
-  double[][] mRsefficiencyGMin = {{.15, .8}, {.15, .8}};
+  double[][] rsefficiencyMMin = {{.15}, {.15}};  // .3 => .15
+  double[][] mRsefficiencyMMin = {{.1, .8}, {.1, .8}};
+  double[][] rsefficiencyGMin = {{.15}, {.15}};
+  double[][] mRsefficiencyGMin = {{.1, .8}, {.1, .8}};
   double[][] rsefficiencyMMax = {{2.}, {2.}};
   double[][] mRsefficiencyMMax = {{1., 5.}, {1., 5.}};
   double[][] rsefficiencyGMax = {{2.}, {2.}};
@@ -697,7 +696,7 @@ class EM {
   // users adjust priority random additions
   double[][] priorityRandAdditions = {{1., 1., 1., 1., 1.}, {1., 1., 1., 1., 1.}};
   static double[][] mPriorityRandAdditions = {{.3, 2.}, {.3, 2.}};
-  double[][] manualEfficiencyMult = {{.05}, {.05}}; // .01 - .08
+  double[][] manualEfficiencyMult = {{.02}, {.02}}; // .01 - .08
   static double[][] mManualEfficiencyMult = {{.01, .09}, {.01, 2.}}; // .01 - .08
   double[][] gRGrowthMult1 = {{.05}, {.05}}; // higher growth .03 - .1
   static double[][] mGRGrowthMult1 = {{.03, .1}, {.01, .05}}; // higher growth .03 - .1
@@ -838,7 +837,7 @@ class EM {
 
   static double[][] mNominalKnowledgeForBonus = {{60000., 1900000.}, {60000., 1900000}};
   double[] nominalKnowledgeForBonus = {900000.};
-  double[] additionalKnowledgeGrowthForBonus = {.2};
+  double[] additionalKnowledgeGrowthForBonus = {.1}; // .2=>.1 reduce 200624
   double[] additionToKnowledgeBiasSqrt = {.6};
   double[] nominalDistance = {7.};
   double[] nominalStrategicDif = {3.};
@@ -976,7 +975,7 @@ class EM {
   double randMin = .1;
   double randMult = .3;
   double[][] randFrac = {{0.0}, {0.0}};  // range 0. - .7
-  static double[][] mRandFrac = {{.0, .9}, {0., .7}};  // range 0. - .7
+  static double[][] mRandFrac = {{.0, .9}, {0., .7}};  // range 0. - .9,.7
   double[][] ssFrac = {{1.2, 1., .9, 1.1, 1.2}};
   static double mSsFrac[][] = {{.7, 1.4}};
   // [pors][clan]
@@ -1315,6 +1314,9 @@ class EM {
 
   /**
    * doVal with vaddr a 7 sector array
+   * {0.3} => vpme
+   * {0.1,0.2} => vtwo
+   * { 0.,1.,2.,3.,4.,5.,6.} = vseven not used I think
    *
    * @param vdesc title of the input
    * @param vaddr address of the input
@@ -1324,7 +1326,7 @@ class EM {
    * @return vv the number of the input in valI,valD,valS
    */
   int doVal(String vdesc, double[] vaddr, int vindex, double[][] lims, String vdetail) {
-    gc = vaddr.length == 7 ? vseven : 11;
+    gc = vaddr.length == 1? vone : vaddr.length == 2? vtwo : vaddr.length == 7 ? vseven : 11;
     vv = doVal1(gc, vdesc, lims, vdetail);
     double[][] vacc = {vaddr};
     valD[vv][gameAddrC] = vacc; //valD[vv][0][vaddr] //valD[vv][0][0]{addr0,addr1}
@@ -1348,7 +1350,7 @@ class EM {
    * @return vv the number of the input in valI,valD,valS
    */
   int doVal(String vdesc, double[][] vaddr, double[][] lims, String vdetail) {
-    gc = vaddr.length == 1 ? vaddr[0].length == 1 ? vone : vtwo : vaddr[1].length == 1 ? vaddr[1][0] < E.pzero ? vthree : vfour : vaddr[1].length == 5 ? vten : 11;
+    gc = vaddr.length == 1 ? vaddr[0].length == 1 ? vone : vtwo : vaddr[1].length == 1 ?  vfour : vaddr[1].length == 5 ? vten : 11; // allow 0.0,0.0 as valid, {{0.0}} = 1
     vv = doVal1(gc, vdesc, lims, vdetail);
     valD[vv][gameAddrC] = vaddr; //valD[vv][0][pors][valu]
     doVal3(vv);
@@ -1372,7 +1374,7 @@ class EM {
     valD[vv][gameLim] = lims; //valD[vv][1]...
     // int[][] val7 = {{-1}};  unused
     // valI[vv][sevenC] = val7;un used
-    System.out.printf("in doVal1 vv=%2d, gc=%1d, desc=%7s, detail=%7s, %n", vv, gc, vdesc, vdetail);
+    if(E.debugGameTab)System.out.printf("in doVal1 vv=%2d, gc=%1d, desc=%7s, detail=%7s, %n", vv, gc, vdesc, vdetail);
 
     String[] valSn = {vdesc, vdetail, "change detail" + vv};
     valS[vv] = valSn;
@@ -1784,7 +1786,7 @@ class EM {
     double sliderFrac = slider * invSliderExtent;
     double val1 = (sliderFrac * gameValueExtent);
     double val2 = val1 + gameLow;
-    System.out.format("sliderToVal slider=%3d, gameLow=%7.5f,gameHigh=%7.5f, gamevalueExtent= %7.5f,sliderExtent=%7.5f, invSliderExtent=%7.5f, sliderFrac=%5.3f, val1=%7.2f, val2=%7.2f", slider, gameLow, gameHigh, gameValueExtent, sliderExtent, invSliderExtent, sliderFrac, val1, val2);
+    if(E.debugGameTab)System.out.format("sliderToVal slider=%3d, gameLow=%7.5f,gameHigh=%7.5f, gamevalueExtent= %7.5f,sliderExtent=%5.2f, invSliderExtent=%5.2f, sliderFrac=%5.2f, val add=%5.2f, val result=%5.2f\n", slider, gameLow, gameHigh, gameValueExtent, sliderExtent, invSliderExtent, sliderFrac, val1, val2);
     return val2;
   }
 
@@ -2130,13 +2132,13 @@ class EM {
 
   void defRes() {
 
-    doRes(LIVEWORTH, "Live Worth", "Live Worth Value including year end working, reserve: resource, staff, knowledge", 6, 2, 0, list9 | list10 | list11 | LIST034567 | thisYr | sum, ROWS1 |list9 | list10 | list11 | LIST034567 |THISYEAR | thisYrAve  | THISYEARUNITS | BOTH,ROWS2,ROWS3 | list9 | list10 | list11 | LIST034567 | CUMUNITS);
-    doRes(STARTWORTH, "Starting Worth", "Starting Worth Value including working, reserve: resource, staff, knowledge",6, 2, 0, list9 | list10 | list11 | LIST034567 | thisYr | sum, ROWS1 |list9 | list10 | list11 | LIST034567 |THISYEAR | thisYrAve  | THISYEARUNITS | BOTH,ROWS2,ROWS3 | list9 | list10 | list11 | LIST034567 | CUMUNITS);
-    doRes(WORTHIFRAC, "PercInitWorth ", "Percent of Initial Worth Value including working, reserve: resource, staff, knowledge",6, 2, 0, list9 | list10 | list11 | LIST034567 | thisYr | sum, ROWS1 |list9 | list10 | list11 | LIST034567 |THISYEAR | thisYrAve  | THISYEARUNITS | BOTH,ROWS2,ROWS3 | list9 | list10 | list11 | LIST034567 | CUMUNITS);
+    doRes(LIVEWORTH, "Live Worth", "Live Worth Value including year end working, reserve: resource, staff, knowledge", 6, 2, 0, list9 | list10 | list11 | LIST034567 | thisYr | sum, ROWS1 |list9 | list10 | list11 | LIST034567 |THISYEAR | thisYrAve  | THISYEARUNITS | BOTH,ROWS2,ROWS3 );
+    doRes(STARTWORTH, "Starting Worth", "Starting Worth Value including working, reserve: resource, staff, knowledge",6, 2, 0, list9 | list10 | list11 | LIST034567 | thisYr | sum, ROWS1 |list9 | list10 | list11 | LIST034567 |THISYEAR | thisYrAve  | THISYEARUNITS | BOTH,ROWS2,ROWS3 );
+    doRes(WORTHIFRAC, "PercInitWorth ", "Percent of Initial Worth Value including working, reserve: resource, staff, knowledge",6, 2, 0, list9 | list10 | list11 | LIST034567 | thisYr | sum, ROWS1 |list9 | list10 | list11 | LIST034567 |THISYEAR | thisYrAve  | THISYEARUNITS | BOTH,ROWS2,ROWS3 );
 
-    doRes("yearCreate", "yearCreations", "new Econs ceated from year initial funds",6, 2, 0,  ROWS1 |list9 | list10 | list11 | LIST034567  | THISYEARUNITS | BOTH,ROWS3 | list9 | list10 | list11 | LIST034567 | CUMUNITS | BOTH,0L,0L);
-    doRes("FutureCreate", "FutureFund Create", "Econs created from Future Funds",6, 2, 0,  ROWS1 |list9 | list10 | list11 | LIST034567  | THISYEARUNITS | BOTH,ROWS3 | list9 | list10 | list11 | LIST034567 | CUMUNITS | BOTH,0L,0L);
-    doRes("bothCreate", "bothCreations", "new Econs ceated from  initial funds and future funds",6, 2, 0,  ROWS1 |list9 | list10 | list11 | LIST034567  | THISYEARUNITS | BOTH,ROWS3 | list9 | list10 | list11 | LIST034567 | CUMUNITS | BOTH,0L,0L);
+    doRes("yearCreate", "yearCreations", "new Econs ceated from year initial funds",6, 2, 0,  ROWS1 | list10 |  LIST034567  | THISYEARUNITS | BOTH,ROWS3 | list10 |  LIST034567 | CUMUNITS | BOTH,0L,0L);
+    doRes("FutureCreate", "FutureFund Create", "Econs created from Future Funds",6, 2, 0,  ROWS1 | list10 |  LIST034567  | THISYEARUNITS | BOTH,ROWS3 | list10 |  LIST034567 | CUMUNITS | BOTH,0L,0L);
+    doRes("bothCreate", "bothCreations", "new Econs ceated from  initial funds and future funds",6, 2, 0,  ROWS1 | list10 |  LIST034567  | THISYEARUNITS | BOTH,ROWS3 | list10 |  LIST034567 | CUMUNITS | BOTH,0L,0L);
     doRes("swapRIncr", "swapRIncr", "Uses of R Incr Swap percent of RC", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
     doRes("swapSIncr", "swapSIncr", "Uses of S Incr Swap percent of SG", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
     doRes("swapSDecr", "swapSDecr", "Uses of S Decr Swap percent of SG", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
@@ -2205,27 +2207,26 @@ class EM {
     doRes(SWAPSDECRCOST, "Swap SDecr Cost", "Fraction of S Decr swap cost/sum of S units", 3, 4, 1, list8 | curAve | curUnits | both | skipUnset, 0, 0, 0);
     doRes(SWAPRXFERCOST, "Swap RXfer Cost", "Fraction of R XFER swap cost/sum of R units", 3, 4, 1, list8 | curAve | curUnits | both | skipUnset, 0, 0, 0);
     doRes(SWAPSXFERCOST, "Swap SXfer Cost", "Fraction of S XFER swap cost/sum of R units", 3, 4, 1, list8 | curAve | curUnits | both | skipUnset, 0, 0, 0);
-    doRes("EmergFF", "EmergFF", "emergency resource/staff sums tranfer resource to FutureFund", 2, 2, 1, LIST2 | CURUNITAVE | BOTH | SKIPUNSET | CURUNITS | CUR | CUM | CUMUNITS, LIST034567 | SKIPUNSET | BOTH | CUM | THISYEAR | THISYEARUNITS, 0, 0);
-    doRes("SizeFF", "SizeFF", "Size resource/staff sums tranfer resource to FutureFund", 2, 2, 1, LIST2 | CURUNITAVE | BOTH | SKIPUNSET | CURUNITS | CUR | CUM | CUMUNITS, LIST034567 | SKIPUNSET | BOTH | CUM | THISYEAR | THISYEARUNITS, 0, 0);
-    doRes("FutureFundSaved", "FutureFundsSaved", "Total resource/staff sums tranfered to FutureFund", 2, 2, 1, LIST2 | CURUNITAVE | BOTH | SKIPUNSET | CURUNITS | CUR | CUM | CUMUNITS, LIST034567 | SKIPUNSET | BOTH | CUM | THISYEAR | THISYEARUNITS, 0, 0);
-    doRes("REmergFF1", "R Emerg FutureFund1", "At emergency1 level of resource/staff sums tranfer resource to FutureFund", 2, 2, 1, LIST2 | CURUNITAVE | BOTH | SKIPUNSET | CURUNITS | CUR | CUM | CUMUNITS, 0, 0, 0);
-    doRes("SEmergFF1", "S Emerg FutureFund1", "At emergency1 level of staff/resource sums tranfer resource to FutureFund", 2, 2, 1, LIST2 | CURUNITAVE | BOTH | SKIPUNSET | CURUNITS | CUR | CUM | CUMUNITS, 0, 0, 0);
-    doRes("REmergFF2", "R Emerg FutureFund2", "At emergency2 level of resource/staff sums tranfer resource to FutureFund", 2, 2, 1, LIST2 | CURUNITAVE | BOTH | SKIPUNSET | CURUNITS | CUR | CUM | CUMUNITS, 0, 0, 0);
-    doRes("SEmergFF2", "S Emerg FutureFund2", "At emergency2 level of staff/resource sums tranfer Staff to FutureFund", 2, 2, 1, LIST2 | CURUNITAVE | BOTH | SKIPUNSET | CURUNITS | CUR | CUM | CUMUNITS, 0, 0, 0);
-    doRes("RcEmergFF1", "Rc Emerg FutureFund1", "At emergency1 level of resource/staff sums tranfer resource to FutureFund", 2, 2, 1, LIST2 | CURUNITAVE | BOTH | SKIPUNSET | CURUNITS | CUR | CUM | CUMUNITS, 0, 0, 0);
-    doRes("SgEmergFF1", "Sg Emerg FutureFund1", "At emergency1 level of staff/resource sums tranfer resource to FutureFund", 2, 2, 1, LIST2 | CURUNITAVE | BOTH | SKIPUNSET | CURUNITS | CUR | CUM | CUMUNITS, 0, 0, 0);
-    doRes("RcEmergFF2", "Rc Emerg FutureFund2", "At emergency2 level of resource/staff sums tranfer resource to FutureFund", 2, 2, 1, LIST2 | CURUNITAVE | BOTH | SKIPUNSET | CURUNITS | CUR | CUM | CUMUNITS, 0, 0, 0);
-    doRes("SgEmergFF2", "Sg Emerg FutureFund2", "At emergency2 level of staff/resource sums tranfer Staff to FutureFund", 2, 2, 1, LIST2 | CURUNITAVE | BOTH | SKIPUNSET | CURUNITS | CUR | CUM | CUMUNITS, 0, 0, 0);
-    doRes("SizeFFr", "SizeFutureFund", "At size level of resource/staff sums tranfer resource  to FutureFund", 2, 2, 1, LIST2 | CURUNITAVE | BOTH | SKIPUNSET | CURUNITS | CUR | CUM | CUMUNITS, 0, 0, 0);
-    doRes("SizeFFs", "SizeFutureFund", "At size level of resource/staff sums tranfer staff  to FutureFund", 2, 2, 1, LIST2 | CURUNITAVE | BOTH | SKIPUNSET | CURUNITS | CUR | CUM | CUMUNITS, 0, 0, 0);
-    doRes("RSwapFF", "R SwapEmergFF", "At emergency level of resource/staff sums during swaps tranfer resource to FutureFund", 3, 2, 1, LIST234567 | curAve | both | skipUnset | curUnits | cur | cum | cumUnits, 0, 0, 0);
-    doRes("SSwapFF", "S SwapEmergFF", "At emergency level of staff/resource sums during swaps tranfer Staff to FutureFund", 3, 2, 1, LIST234567 | curAve | both | skipUnset | curUnits, 0, 0, 0);
-    doRes("CRITICALRECEIPTSFRAC", "CritReceiptsFrac", "Fraction of Critical receipts Worth/start totWorth ", 3, 4, 1, LIST134567 | curAve | both | skipUnset, 0, 0, 0);
-    
+    doRes("EmergFF", "EmergFF", "emergency resource/staff sums tranfer resource to FutureFund", 2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST20 | THISYEARUNITS , 0);
+    doRes("SizeFF", "SizeFF", "Size resource/staff sums tranfer resource to FutureFund",2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | THISYEARUNITS , 0);
+    doRes("FutureFundSaved", "FutureFundsSaved", "Total resource/staff sums tranfered to FutureFund",2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST20 | THISYEARUNITS , 0);
+    doRes("REmergFF1", "R Emerg FutureFund1", "At emergency1 level of resource/staff sums tranfer resource to FutureFund",2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST20 | THISYEARUNITS , 0);;
+    doRes("SEmergFF1", "S Emerg FutureFund1", "At emergency1 level of staff/resource sums tranfer resource to FutureFund",2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST20 | THISYEARUNITS , 0);
+    doRes("REmergFF2", "R Emerg FutureFund2", "At emergency2 level of resource/staff sums tranfer resource to FutureFund",2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST20 | THISYEARUNITS , 0);
+    doRes("SEmergFF2", "S Emerg FutureFund2", "At emergency2 level of staff/resource sums tranfer Staff to FutureFund",2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST20 | THISYEARUNITS , 0);
+    doRes("RcEmergFF1", "Rc Emerg FutureFund1", "At emergency1 level of resource/staff sums tranfer resource to FutureFund",2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST20 | THISYEARUNITS , 0);
+    doRes("SgEmergFF1", "Sg Emerg FutureFund1", "At emergency1 level of staff/resource sums tranfer resource to FutureFund", 2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST20 | THISYEARUNITS , 0);
+    doRes("RcEmergFF2", "Rc Emerg FutureFund2", "At emergency2 level of resource/staff sums tranfer resource to FutureFund",2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST20 | THISYEARUNITS , 0);
+    doRes("SgEmergFF2", "Sg Emerg FutureFund2", "At emergency2 level of staff/resource sums tranfer Staff to FutureFund", 2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST20 | THISYEARUNITS , 0);
+    doRes("SizeFFr", "SizeFutureFund", "At size level of resource/staff sums tranfer resource  to FutureFund",2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST20 | THISYEARUNITS , 0);
+    doRes("SizeFFs", "SizeFutureFund", "At size level of resource/staff sums tranfer staff  to FutureFund",2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST20 | THISYEARUNITS , 0);
+    doRes("RSwapFF", "R SwapEmergFF", "At emergency level of resource/staff sums during swaps tranfer resource to FutureFund",2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST20 | THISYEARUNITS , 0);
+    doRes("SSwapFF", "S SwapEmergFF", "At emergency level of staff/resource sums during swaps tranfer Staff to FutureFund",2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST20 | THISYEARUNITS , 0);
+    doRes("CRITICALRECEIPTSFRAC", "CritReceiptsFrac", "Fraction of Critical receipts Worth/start totWorth ",2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST18 | THISYEARUNITS , 0);
     //   doRes("CRITICALRECEIPTSFRACWORTHMULT", "CritTradeFracMult", "Fraction of critical units received with Multiple Trades this /start totWorth  ", 3, 4,1, LIST134567 | curAve | both | skipUnset, 0, 0, 0);
-    doRes("CRITICALRECEIPTSFRACSYFAV5", "CritReceiptsFracYF5", "Percent of critical receipts worth favor5 Trades/start year worth", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, 0, 0, 0);
-    doRes("CRITICALRECEIPTSFRACSYFAV4", "CritReceiptsFracYF4", "Percent of critical receipts worth favor4 Trades/start year worth", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, 0, 0, 0);
-    doRes("CRITICALRECEIPTSFRACSYFAV3", "CritReceiptsFracYF3", "Percent of critical receipts worth favor3 Trades/start year worth", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, 0, 0, 0);
+    doRes("CRITICALRECEIPTSFRACSYFAV5", "CritReceiptsFracYF5", "Percent of critical receipts worth favor5 Trades/start year worth",2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST18 | THISYEARUNITS , 0);
+    doRes("CRITICALRECEIPTSFRACSYFAV4", "CritReceiptsFracYF4", "Percent of critical receipts worth favor4 Trades/start year worth", 2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST18 | THISYEARUNITS , 0);
+    doRes("CRITICALRECEIPTSFRACSYFAV3", "CritReceiptsFracYF3", "Percent of critical receipts worth favor3 Trades/start year worth",2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST18 | THISYEARUNITS , 0);
     /*static final long LIST134567 = list1 | LIST34567;
   static final long LTRADE = LIST134567 | LIST18;
   static final long LIST234567 = list2 | LIST34567;
@@ -2241,25 +2242,25 @@ class EM {
   static final long LINCR = LIST234567 | LIST12;  
   static final long LFORFUND = LIST234567 | LIST15;
     */
-    doRes("CRITICALRECEIPTSFRACSYFAV2", "CritReceiptsFracYF2", "Percent of critical receipts worth favor2 Trades/start year worth", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, 0, 0, 0);
-    doRes("CRITICALRECEIPTSFRACSYFAV1", "CritReceiptsFracYF1", "Percent of critical receipts worth favor1 Trades/start year worth", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, 0, 0, 0);
-    doRes("CRITICALRECEIPTSFRACSYFAV0", "CritReceiptsFracYF0", "Percent of critical receipts worth favor0 Trades/start year worth", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, 0, 0, 0);
-     doRes("CRITICALRECEIPTSFRACSYFAVA", "CritReceiptsFracYF0", "Percent of critical receipts worth favor0-5 Trades/start year worth", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, LIST0 | THISYEARAVE | SKIPUNSET | BOTH , 0, 0);
-    doRes("CRITICALRECEIPTSFRADROPT5", "CritTradeFracDropF5", "Percent of traded critical receipts worth favor5 Trades/start barter C receipts  ", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, 0, 0, 0);
-    doRes("CRITICALRECEIPTSFRADROPT4", "CritTradeFracDropF4", "Percent of traded critical receipts worth favor4 Trades/start barter C receipts  ", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, 0, 0, 0);;
+    doRes("CRITICALRECEIPTSFRACSYFAV2", "CritReceiptsFracYF2", "Percent of critical receipts worth favor2 Trades/start year worth",2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST18 | THISYEARUNITS , 0);
+    doRes("CRITICALRECEIPTSFRACSYFAV1", "CritReceiptsFracYF1", "Percent of critical receipts worth favor1 Trades/start year worth",2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST18 | THISYEARUNITS , 0);
+    doRes("CRITICALRECEIPTSFRACSYFAV0", "CritReceiptsFracYF0", "Percent of critical receipts worth favor0 Trades/start year worth", 2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST18 | THISYEARUNITS , 0);
+    doRes("CRITICALRECEIPTSFRACSYFAVA", "CritReceiptsFracYF0", "Percent of critical receipts worth favor0-5 Trades/start year worth",2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST18 | THISYEARUNITS , 0);;
+    doRes("CRITICALRECEIPTSFRADROPT5", "CritTradeFracDropF5", "Percent of traded critical receipts worth favor5 Trades/start barter C receipts  ", 2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST18 | THISYEARUNITS , 0);
+    doRes("CRITICALRECEIPTSFRADROPT4", "CritTradeFracDropF4", "Percent of traded critical receipts worth favor4 Trades/start barter C receipts  ",2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST18 | THISYEARUNITS , 0);
     doRes("CRITICALRECEIPTSFRADROPT3", "CritTradeFracDropF3", "Percent of traded critical receipts worth favor3 Trades/start barter C receipts  ", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, 0, 0, 0);
-    doRes("CRITICALRECEIPTSFRADROPT2", "CritTradeFracDropF2", "Percent of traded critical receipts worth favor2 Trades/start barter C receipts  ", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, 0, 0, 0);
-    doRes("CRITICALRECEIPTSFRADROPT1", "CritTradeFracDropF1", "Percent of traded critical receipts worth favor1 Trades/start barter C receipts  ", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, 0, 0, 0);;
-    doRes("CRITICALRECEIPTSFRADROPT0", "CritTradeFracDropF0", "Percent of traded critical receipts worth favor0 Trades/start barter C receipts  ", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, 0, 0, 0);
-    doRes("CRITICALRECEIPTSFRACWORTHF3", "CritTradeFracF3", "Percent of critical receipts worth favor3 Trades/start totWorth  ", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, 0, 0, 0);
-    doRes("CRITICALRECEIPTSFRACWORTHF2", "CritTradeFracF2", "Percent of critical receipts worth favor2 Trades/start totWorth  ", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, 0, 0, 0);
-    doRes("CRITICALRECEIPTSFRACWORTHF1", "CritTradeFracF1", "Percent of critical receipts worth favor1 Trades/start totWorth  ", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, 0, 0, 0);
-    doRes("WORTH0YRNOTRADEINCR", "IncWorth 0Yr NoTrade", "Percent Year increase Worrth/worth if no trades this year", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, 0, 0, 0);
-    doRes("WORTH1YRTRADEINCR", "IncWorth 1Yr Trade", "Percent Year increase Worrth/worth if at least 1 succesive year of trades", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, 0, 0, 0);
-    doRes("WORTH2YRTRADEINCR", "IncWorth 2Yr Trade", "Percent Year increase Worrth/worth if at least 2 succesive year of trades", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, 0, 0, 0);
-    doRes("WORTH3YRTRADEINCR", "IncWorth 3Yr Trade", "Percent Year increase Worrth/worth if at least 3 succesive year of trades", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, 0, 0, 0);
-    doRes("WORTH1YRNOTRADEINCR", "IncWorth 1Yr No Trade", "Percent Year increase Worrth/worth if at least 1 succesive year of trades", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, 0, 0, 0);
-    doRes("WORTH2YRNOTRADEINCR", "IncWorth 2Yr No Trade", "Percent Year increase Worrth/worth if at least 2 succesive year of trades", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, 0, 0, 0);
+    doRes("CRITICALRECEIPTSFRADROPT2", "CritTradeFracDropF2", "Percent of traded critical receipts worth favor2 Trades/start barter C receipts  ", 2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST18 | THISYEARUNITS , 0);
+    doRes("CRITICALRECEIPTSFRADROPT1", "CritTradeFracDropF1", "Percent of traded critical receipts worth favor1 Trades/start barter C receipts  ", 2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST18 | THISYEARUNITS , 0);
+    doRes("CRITICALRECEIPTSFRADROPT0", "CritTradeFracDropF0", "Percent of traded critical receipts worth favor0 Trades/start barter C receipts  ", 2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST18 | THISYEARUNITS , 0);
+    doRes("CRITICALRECEIPTSFRACWORTHF3", "CritTradeFracF3", "Percent of critical receipts worth favor3 Trades/start totWorth  ",2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST18 | THISYEARUNITS , 0);
+    doRes("CRITICALRECEIPTSFRACWORTHF2", "CritTradeFracF2", "Percent of critical receipts worth favor2 Trades/start totWorth  ",2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST18 | THISYEARUNITS , 0);
+    doRes("CRITICALRECEIPTSFRACWORTHF1", "CritTradeFracF1", "Percent of critical receipts worth favor1 Trades/start totWorth  ",2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST18 | THISYEARUNITS , 0);
+    doRes("WORTH0YRNOTRADEINCR", "IncWorth 0Yr NoTrade", "Percent Year increase Worrth/worth if no trades this year",2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST18 | THISYEARUNITS , 0);
+    doRes("WORTH1YRTRADEINCR", "IncWorth 1Yr Trade", "Percent Year increase Worrth/worth if at least 1 succesive year of trades", 2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST18 | THISYEARUNITS , 0);
+    doRes("WORTH2YRTRADEINCR", "IncWorth 2Yr Trade", "Percent Year increase Worrth/worth if at least 2 succesive year of trades",2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST18 | THISYEARUNITS , 0);
+    doRes("WORTH3YRTRADEINCR", "IncWorth 3Yr Trade", "Percent Year increase Worrth/worth if at least 3 succesive year of trades", 2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST18 | THISYEARUNITS , 0);
+    doRes("WORTH1YRNOTRADEINCR", "IncWorth 1Yr No Trade", "Percent Year increase Worrth/worth if at least 1 succesive year of trades", 2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST18 | THISYEARUNITS , 0);
+    doRes("WORTH2YRNOTRADEINCR", "IncWorth 2Yr No Trade", "Percent Year increase Worrth/worth if at least 2 succesive year of trades",2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LIST34567 | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST18 | THISYEARUNITS , 0);
     doRes("WORTH3YRNOTRADEINCR", "IncWorth 3Yr No Trade", "Percent Year increase Worrth/worth if at least 3 succesive year of trades", 2, 3, 1, LTRADE | curAve | both | CURUNITS | skipUnset, 0, 0, 0);
     /* 0:worths,1:trade favor,2:random,crisis,deaths,forward,34567 ages,8:swap,9 rcsg bal,10:growth,cost,11:fertility health effect
      */
