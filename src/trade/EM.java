@@ -837,7 +837,7 @@ class EM {
 
   static double[][] mNominalKnowledgeForBonus = {{60000., 1900000.}, {60000., 1900000}};
   double[] nominalKnowledgeForBonus = {900000.};
-  double[] additionalKnowledgeGrowthForBonus = {.1}; // .2=>.1 reduce 200624
+  double[] additionalKnowledgeGrowthForBonus = {.05}; // .2=>.05 reduce 200624
   double[] additionToKnowledgeBiasSqrt = {.6};
   double[] nominalDistance = {7.};
   double[] nominalStrategicDif = {3.};

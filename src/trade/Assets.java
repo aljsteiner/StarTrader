@@ -400,7 +400,8 @@ public class Assets {
     percentDifficulty = aapercentDifficulty;
     // move the definitions here so they can reference a defined Assets
     bals = new ABalRows(ABalRows.balsLength, ABalRows.tbal, History.valuesMajor6, "bals");
-     balances = new A6Row(History.valuesMajor6, "balances");
+    balances = new A6Row(History.valuesMajor6, "balances");
+  if(true){ // I think unneeded
   cashFlowSubAssetBalances = balances; // assume no recreate of each ARow
   growths = new A6Row(History.valuesMajor6, "growths");
   cashFlowSubAssetsGrowths = growths;
@@ -408,6 +409,7 @@ public class Assets {
   cashFlowSubAssetUnitsNeededToSurvive = mtgNeeds6;
   mtgAvails6 = new A6Row(lev, "mtgAvails6");
   cashFlowSubAssetUnitsAvailableToSwap = mtgAvails6;
+  }
   bids = new A2Row(History.valuesMajor6, "bids");
   commonKnowledge = new ARow();
   newKnowledge = new ARow();
@@ -2510,6 +2512,7 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
         oPartner = guests;
          
         initSubAsset(sIx, reserve, partner);
+        // at start of econ, allocate resources according to ypriorityYr
         if(!assetsInitialized)for (int m = 0; m < E.lsecs; m++) {
           balance.set(m, resources * ypriorityYr.get(m) / ypriorityYr.sum(), "initial balance for each sector");
         }
@@ -2538,13 +2541,16 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
         // for the grades sum to math the staff for that sector
 
         grades = bals.getStaffGrades(); // reset ref grades from bals
+        // only init grades at the start of econ, but with tests below
         boolean initedGrades = didCashFlowInit || grades[0][0] > 0. || grades[0][1] > 0 || grades[0][5] > 0.;
         if (!initedGrades) {
           double sumAssignments = 0.;
+          // first get sum total of grade assignments same all sectors
           for (int j = 0; j < E.lgrades; j++) {
             sumAssignments += E.initStaffAssignmentPerEcon[pors][j];
           }
           
+          // initial grades at start of Econ and Assets
           if(!assetsInitialized){
           for (int i = 0;  i< E.lsecs; i++) {
             balance.set(i, (initCol * ypriorityYr.get(i) / ypriorityYr.sum()), "total value for staff per sector");
@@ -2572,6 +2578,7 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
         oPartner = resource;
         // ARow resourceStaff = new ARow();
         grades = bals.getGuestGrades(); // reset ref grades into bals
+        // initial grades at start of Econ and Assets
         if(!assetsInitialized){
         boolean initedGrades = grades[0][0] > 0. || grades[0][1] > 0 || grades[0][5] > 0.;
         if (!initedGrades) {
@@ -2610,8 +2617,8 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
         aschar = aChar[asIx];
         this.partner = apartner;
         // make sure balance
-        balance = bals.getRow(ABalRows.BALANCESIX + asIx);
-        growths.A[asIx + 2] = sys[asIx].growth = growths.A[2 + asIx] = bals.getRow(GROWTHSIX + asIx);
+        balances.A[asIx+2] = balance = bals.getRow(ABalRows.BALANCESIX + asIx);
+        sys[asIx].growth = growth = growths.A[2 + asIx] = bals.getRow(GROWTHSIX + asIx);
         growths.aCnt[2 + asIx]++;
         //  growth = bals.getRow(ABalRows.GROWTHSIX + asIx);
         //         growth = growths.A[2 + asIx];
@@ -2625,8 +2632,8 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
         prevFertility = makeZero(prevFertility);
         prevNeed = makeZero(prevNeed);
         prevMaxLeft = makeZero(prevMaxLeft);
-        bonusYears = bals.getRow(ABalRows.bonusYearsIx + asIx);
-        bonusUnitGrowth = bals.getRow(ABalRows.bonusUnitsIx + asIx);
+        //bonusYears = bals.getRow(ABalRows.bonusYearsIx + asIx);
+       // bonusUnitGrowth = bals.getRow(ABalRows.bonusUnitsIx + asIx);
         grades = bals.getGrades()[sIx]; // of mpt staff
         yearlyUnitGrowth = new ARow();
         rawUnitGrowth = new ARow();
@@ -2878,6 +2885,7 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
         ARow rg3 = new ARow();
         ARow rg4 = new ARow();
         ARow uG1 = new ARow();
+        double [] yuGrow = new double[LSECS];
         double bonusLeft = 0;
         if (sstaff) {
           sumGrades();// get recompute for work
@@ -2891,7 +2899,7 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
         for (int n = 0; n < LSECS; n++) {
           // double a1 = balance.get(n);
           // double a2 = partner.balance.get(n);
-         // yuGrow[n] = yearlyUnitGrowth.set(n, eM.growth[sIx][pors] * growthFrac - cumulativeDecay.get(n) + (bonusLeft = (bonusYears.get(n) > PZERO ? bonusUnitGrowth.get(n) : 0.)));
+         yuGrow[n] = yearlyUnitGrowth.set(n, eM.growth[sIx][pors] * growthFrac - cumulativeDecay.get(n) + (bonusLeft = (bonusYears.get(n) > PZERO ? bonusUnitGrowth.get(n) : 0.)));
 
           //get unitGrowth1, step one in final unit growth
           double rawUnitGrowthd = uG1.set(n, rawBiasedUnitGrowth.set(n, (1.1 * yearlyUnitGrowth.get(n) * (eM.fracBiasInGrowth[pors])) + rawPriorityUnitGrowth.set(n, (yearlyUnitGrowth.get(n) * eM.fracPriorityInGrowth[pors] * ypriorityYr.get(n)) * groEfficiency.get(n) * cRand(3 * sIx + n + 30))));
@@ -2941,196 +2949,6 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
           //        hist.add(new History("&&", 9, aschar + " balWPartner", balanceWithPartner));
         }
       }// end Assets.CashFlow.SubAsset.calcGrowth
-
-      /**
-       * OBSOLETE calculate costs for each SubAsset
-       *
-       * @param balances
-       * @param rawGrowths
-       * @param invMEfficiency
-       * @param invGEfficiency
-       * @param RIX
-       * @param sIx
-       * @param tIx
-       * @param iReqMaint
-       * @param jReqMaint
-       * @param ix
-       * @param consumerReqMaintCosts10
-       * @param nReqMaint
-       * @param iReqGrowth
-       * @param jReqGrowth
-       * @param consumerReqGrowthCosts10
-       * @param nReqGrowth
-       * @param iMaint
-       * @param jMaint
-       * @param consumerMaintCosts10
-       * @param nMaint
-       * @param iTravel1Yr
-       * @param jTravel1Yr
-       * @param mTravel1Yr
-       * @param nTravel1Yr
-       * @param iGrowth
-       * @param jGrowth
-       * @param consumerGrowthCosts10
-       * @param nGrowth
-       * @param swork
-       * @param lightYearsTraveled
-       */
-      void calcRawCostsNot(A6Row balances, A6Row rawGrowths, A6Row invMEfficiency, A6Row invGEfficiency, int RIX, int sIx, int tIx, A6Row iReqMaint, A6Row jReqMaint, int ix, A10Row consumerReqMaintCosts10, A10Row nReqMaint, A6Row iReqGrowth, A6Row jReqGrowth, A10Row consumerReqGrowthCosts10, A10Row nReqGrowth, A6Row iMaint, A6Row jMaint, A10Row consumerMaintCosts10, A10Row nMaint, A6Row iTravel1Yr, A6Row jTravel1Yr, A10Row mTravel1Yr, A10Row nTravel1Yr, A6Row iGrowth, A6Row jGrowth, A10Row consumerGrowthCosts10, A10Row nGrowth, ARow swork, double lightYearsTraveled) {  // Assets.CashFlow.SubAsset
-        double t1, t2, t3, t4 = -999., t5, t6;
-        int rcorsg = ix / 2;
-        /**
-         * now loop through i = consumer aspect of financial sectors j is the
-         * supplier section of the financial sectors In general we measure the
-         * demands on the financial sector, against the resource availability of
-         * the financial sector. This process also gathers year totals yj... of
-         * service requirements. The health of an economy is how close the
-         * weakest sector is to supplying the demands from the consumers. Random
-         * factors change relationships each year. The fertility of an economy
-         * is measured by how close the service financial sectors, meet the
-         * demands from all consumer aspects.
-         */
-        if (n < 999 && (ix == 0 || ix == 2)) {
-          hist.add(new History("#a", History.valuesMajor6, "s balance", balances.A[4]));
-          hist.add(new History("#a", History.valuesMajor6, "nMaint i=" + i, nMaint.A[6]));
-          hist.add(new History("#a", History.valuesMajor6, "consumerMaintCosts10 i=" + i, consumerMaintCosts10.A[6]));
-        }
-        for (i = 0; i < E.lsecs; i++) {
-          ARow kMaint = new ARow();
-          for (j = 0; j < E.lsecs; j++) {
-            // !crand          iRConsumerRequiredForMaintenance.add(i, t1 = balance.get(i) *maintRequired[pors][i][j] * E.maintReqAdj[pors][sIx] * (E.maintReqTabRow[sIx] == 0 ? 1. :maintRequired[pors][E.maintReqTabRow[sIx]][j]) / maintEfficiency.get(i));
-            //  t1 = balances.get(RIX, i) * cRand(i * E.lsecs + j) * E.maintRequired[pors][i][j] * E.maintReqAdj[0][pors][ix] * (tIx == 0 ? 1. : E.maintRequired[pors][tIx][j]) * invMaintEfficiency.get(i);
-            // these values are all staff counts, converted from work counts by bal/swork
-            //     t2 = balance.get(i) * cRand(i * E.lsecs + 8 + j) * E.maintRequired[pors][i][j + E.lsecs] * E.maintReqAdj[1][pors][ix] * (tIx == 0 ? 1. : E.maintRequired[pors][tIx][j + E.lsecs]) * invMaintEfficiency.get(i) * balances.get(4, j) / swork.get(j);
-
-            t1 = bals.get(BALANCESIX + ix, i) * cRand(i * E.lsecs + j) * E.maintRequired[pors][i][j] * eM.rs[0][0][pors][rcorsg] * eM.ps[pors][ix] * (tIx == 0 ? 1. : E.maintRequired[pors][tIx][i]) * invMaintEfficiency.get(i);
-            // these values are all staff counts, converted from work counts by bal/swork
-            t2 = bals.get(BALANCESIX + ix, i) * cRand(i * E.lsecs + 8 + j) * E.maintRequired[pors][i][j + E.lsecs] * eM.rs[0][1][pors][rcorsg] * eM.ps[pors][ix] * (tIx == 0 ? 1. : E.maintRequired[pors][tIx][i + E.lsecs]) * invMaintEfficiency.get(i) * bals.get(BALANCESIX + SIX, j) / swork.get(j);
-            // gather 7 service requests to i  (7 j values, service by i
-            iReqMaint.add(0, i, t1);
-            iReqMaint.add(RIX, i, t1);
-            // gather 7 requests for service for j (7 i values, service by i
-            jReqMaint.add(0, j, t1);
-            jReqMaint.add(RIX, j, t1);
-            iReqMaint.add(1, i, t2);
-            iReqMaint.add(sIx, i, t2);
-            jReqMaint.add(1, j, t2);
-            jReqMaint.add(sIx, j, t2);
-            consumerReqMaintCosts10.add(2 + ix, i, t1);
-            consumerReqMaintCosts10.add(0, i, t1);
-            consumerReqMaintCosts10.add(6 + ix, i, t2);
-            consumerReqMaintCosts10.add(1, i, t2);
-            nReqMaint.add(2 + ix, j, t1);
-            nReqMaint.add(6 + ix, j, t2);
-            nReqMaint.add(0, j, t1);
-            nReqMaint.add(1, j, t2);
-
-            if (sIx == 1) {
-              double aa = balance.get(i);
-              double ab = groEfficiency.get(i);
-            }
-
-            //         t1 = balances.get(RIX, i) * cRand(i * E.lsecs + j) * E.maintRequired[pors][i][j] * eM.maintReqAdj[0][pors][ix] * (tIx == 0 ? 1. : E.maintRequired[pors][tIx][j]) * invMaintEfficiency.get(i);
-            // these values are all staff counts, converted from work counts by bal/swork
-            //         t2 = balance.get(i) * cRand(i * E.lsecs + 8 + j) * E.maintRequired[pors][i][j + E.lsecs] * eM.maintReqAdj[1][pors][ix] * (tIx == 0 ? 1. : E.maintRequired[pors][tIx][j + E.lsecs]) * invMaintEfficiency.get(i) * balances.get(4, j) / swork.get(j);
-            t1 = balances.get(2 + ix, i) * cRand(i * E.lsecs + j) * E.resourceGrowthRequirementBySourcePerConsumer[pors][i][j] * eM.rs[1][0][pors][rcorsg] * eM.ps[pors][ix] * (tIx == 0 ? 1. : E.resourceGrowthRequirementBySourcePerConsumer[pors][tIx][i]) * invMaintEfficiency.get(i);
-            // these values are all staff costs, converted from work counts by bal/swork
-            t2 = balances.get(2 + ix, i) * cRand(i * E.lsecs + 8 + j) * E.resourceGrowthRequirementBySourcePerConsumer[pors][i][j + E.lsecs] * eM.rs[1][1][pors][rcorsg] * eM.ps[pors][ix] * (tIx == 0 ? 1. : E.resourceGrowthRequirementBySourcePerConsumer[pors][tIx][i + E.lsecs]) * invMaintEfficiency.get(i) * balances.get(4, j) / swork.get(j);
-            iReqGrowth.add(0, i, t1);
-            iReqGrowth.add(RIX, i, t1);
-            jReqGrowth.add(0, j, t1);
-            jReqGrowth.add(RIX, j, t1);
-            iReqGrowth.add(1, i, t2);
-            iReqGrowth.add(sIx, i, t2);
-            jReqGrowth.add(1, j, t2);
-            jReqGrowth.add(sIx, j, t2);
-            consumerReqGrowthCosts10.add(ix + 2, i, t1);
-            consumerReqGrowthCosts10.add(ix + 6, i, t2);
-            nReqGrowth.add(ix + 2, j, t1);
-            nReqGrowth.add(ix + 6, j, t2);
-            consumerReqGrowthCosts10.add(0, i, t1);
-            consumerReqGrowthCosts10.add(1, i, t2);
-            nReqGrowth.add(0, j, t1);
-            nReqGrowth.add(1, j, t2);
-
-            if (n < 5 && i == 6 && j == 6) {
-              hist.add(new History("#b", History.valuesMajor6, "s balance", balances.A[4]));
-              hist.add(new History("#b", History.valuesMajor6, "mRGrowthC6 i=" + i + " ix" + ix + " n" + n, consumerReqGrowthCosts10.A[6]));
-              hist.add(new History("#b", History.valuesMajor6, "nRGrowth6 i=" + i, nReqGrowth.A[6]));
-              hist.add(new History("#b", History.valuesMajor6, "rawUnitGrowth", rawUnitGrowth));
-              hist.add(new History("#b", History.valuesMajor6, "rawGrowth", rawGrowth));
-            }
-
-            t1 = balances.get(2 + ix, i) * cRand(i * E.lsecs + j + 31) * E.maintCost[pors][i][j] * eM.rs[2][0][pors][rcorsg] * eM.ps[pors][ix] * (tIx == 0 ? 1. : E.maintCost[pors][tIx][i]) * invMEfficiency.get(ix, i);
-            t4 = t2 = balances.get(2 + ix, i) * cRand(i * E.lsecs + j + 41) * E.maintCost[pors][i][j + E.lsecs] * eM.rs[2][1][pors][rcorsg] * eM.ps[pors][ix] * (tIx == 0 ? 1. : E.maintCost[pors][tIx][i + E.lsecs]) * invMEfficiency.get(ix, i) * balances.get(4, j) / swork.get(j);
-            iMaint.add(0, i, t1);
-            iMaint.add(RIX, i, t1);
-            jMaint.add(0, j, t1);
-            jMaint.add(RIX, j, t1);
-            iMaint.add(1, i, t2);
-            iMaint.add(sIx, i, t2);
-            jMaint.add(1, j, t2);
-            jMaint.add(sIx, j, t2);
-            consumerMaintCosts10.add(ix + 2, i, t1);
-            consumerMaintCosts10.add(ix + 6, i, t2);
-            nMaint.add(ix + 2, j, t1);
-            nMaint.add(ix + 6, j, t2);
-            consumerMaintCosts10.add(0, i, t1);
-            consumerMaintCosts10.add(1, i, t2);
-            nMaint.add(0, j, t1);
-            nMaint.add(1, j, t2);
-            kMaint.add(j, t2);
-            if (n < 5 && i == 6 && j == 6) {
-              hist.add(new History("#c", History.valuesMajor6, "nM i=" + i + " ix" + ix + " n" + n, nMaint.A[6]));
-              hist.add(new History("#c", History.valuesMajor6, "mM v=" + df(t2), consumerMaintCosts10.A[6]));
-              hist.add(new History("#c", History.valuesMajor6, "kM i=" + i + " j=" + j, kMaint));
-            }
-
-            t1 = balances.get(2 + ix, i) * cRand(i * E.lsecs + j + 46) * tCosts[pors][i][j] * eM.rs[3][0][pors][rcorsg] * eM.ps[pors][ix] * (tIx == 0 ? 1. : tCosts[pors][tIx][i]) * invMEfficiency.get(ix, i);
-            t2 = balances.get(2 + ix, i) * cRand(i * E.lsecs + j + 55) * tCosts[pors][i][j + E.lsecs] * eM.rs[3][1][pors][rcorsg] * eM.ps[pors][ix] * (tIx == 0 ? 1. : tCosts[pors][tIx][i + E.lsecs]) * invMEfficiency.get(ix, i) * balances.get(4, j) / swork.get(j);
-            iTravel1Yr.add(0, i, t1);
-            iTravel1Yr.add(RIX, i, t1);
-            jTravel1Yr.add(0, j, t1);
-            jTravel1Yr.add(RIX, j, t1);
-            iTravel1Yr.add(1, i, t2);
-            iTravel1Yr.add(sIx, i, t2);
-            jTravel1Yr.add(1, j, t2);
-            jTravel1Yr.add(sIx, j, t2);
-            mTravel1Yr.add(ix + 2, i, t1);
-            mTravel1Yr.add(ix + 6, i, t2);
-            nTravel1Yr.add(ix + 2, j, t1);
-            nTravel1Yr.add(ix + 6, j, t2);
-            mTravel1Yr.add(0, i, t1);
-            mTravel1Yr.add(1, i, t2);
-            nTravel1Yr.add(0, j, t1);
-            nTravel1Yr.add(1, j, t2);
-
-            t1 = swork.get(i) * rawUnitGrowths.get(2 + ix, i) * cRand(i * E.lsecs + j + 65) * gCosts[pors][i][j] * eM.rs[4][0][pors][rcorsg] * eM.ps[pors][ix] * (tIx == 0 ? 1. : gCosts[pors][tIx][i]) * invGEfficiency.get(ix, i);
-            t2 = swork.get(i) * cRand(i * E.lsecs + j + 70) * gCosts[pors][i][j + E.lsecs] * eM.rs[4][1][pors][rcorsg] * eM.ps[pors][ix] * (tIx == 0 ? 1. : gCosts[pors][tIx][i + E.lsecs]) * invGEfficiency.get(ix, i) * balances.get(4, j) / swork.get(j);
-            iGrowth.add(0, i, t1);
-            iGrowth.add(RIX, i, t1);
-            jGrowth.add(0, j, t1);
-            jGrowth.add(RIX, j, t1);
-            iGrowth.add(1, i, t2);
-            iGrowth.add(sIx, i, t2);
-            jGrowth.add(1, j, t2);
-            jGrowth.add(sIx, j, t2);
-            consumerGrowthCosts10.add(ix + 2, i, t1);
-            consumerGrowthCosts10.add(ix + 6, i, t2);
-            nGrowth.add(ix + 2, j, t1);
-            nGrowth.add(ix + 6, j, t2);
-            consumerGrowthCosts10.add(0, i, t1);
-            consumerGrowthCosts10.add(1, i, t2);
-            nGrowth.add(0, j, t1);
-            nGrowth.add(1, j, t2);
-
-          } // end j
-          if (n < -999 && ix == 0) {
-            hist.add(new History("#d", History.valuesMajor6, "nM i=" + i + " " + df(t4), nMaint.A[6]));
-            hist.add(new History("#d", History.valuesMajor6, "mM i=" + i, consumerMaintCosts10.A[6]));
-          }
-        } // end i  in SubAsset
-      }  // Assets.CashFlow.SubAsset.calcRawCosts (2) end
 
     
       protected double setGrade(int sector, int grade, double value) {
@@ -6177,8 +5995,8 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
       //    System.out.println(name + " " + new Date().toString() + "start initCashFlow");
       calcPriority(percentDifficulty);// get yprorityYr
       // now initialize knowledge subs from bals references
-      EM.wasHere = "CashFlow.init... before for loop eeeb=" + ++eeeb;
-      for (int i = didCashFlowInit ? E.LSECS : 0; i < E.lsecs; i++) {
+      EM.wasHere = "CashFlow.aStartCashFlow before for loop eeeb=" + ++eeeb;
+      for (int i = (didCashFlowInit ? E.LSECS : 0); i < E.lsecs; i++) { //first time 
         commonKnowledge.set(i, E.knowledgeForPriority * aknowledge * ypriorityYr.get(i) / ypriorityYr.sum() + E.knowledgeByDefault * aknowledge, "set initial knowledge per econ sector");
       }
       //Assets.CashFlow.aStartCashFlow
@@ -6227,7 +6045,7 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
       EM.wasHere = "CashFlow.init... before calc Priority eeef=" + ++eeef;
       calcPriority(percentDifficulty); // calc this years piority into priorityYr and as.difficulty
       EM.wasHere = "CashFlow.init... before calcCatastrophy eeeg=" + ++eeeg;
-      calcCatastrophy();
+      if(!didCashFlowInit)calcCatastrophy();
       EM.wasHere = "CashFlow.init... before calcEfficiency loop eeeh" + ++eeeh;
       for (k = 0; k < 4; k++) {
         sys[k].calcEfficiency();
@@ -7081,7 +6899,7 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
     void start() {  // Assets.CashFlow.start called from initCashFlow
       EM.wasHere = "CashFlow.start() just after entry bbba=" + ++bbba + " didStart=" + didStart;
       if (!didStart) {
-        if (iyW == null) {
+        if (iyW == null) { //first year initial only
           iyW = new DoTotalWorths();
           //    iyWTotWorth = iyW.getTotWorth();
           startYrSumWorth = initialSumWorth = iyW.getTotWorth();
@@ -8145,7 +7963,7 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
       //  mtgEmergNeeds.setNeeds(hist, History.valuesMajor6, balances, maintCosts, travelCosts, rawGrowthCosts, rawGrowths, reqMaintCosts, reqGrowthCosts, rawFertilities, fertilities, rawHealths, mtgCosts, growthCosts, growths, heResults, eM.emergHealth[pors][clan], eM.emergGrowth[pors][clan], 0., 0.);
       //     mtgEmergNeeds.setNeeds10c(hist, History.valuesMajor6, balances, maintCosts10, travelCosts10, rawGrowthCosts10, rawGrowths, reqMaintCosts10, reqGrowthCosts10, consumerReqMaintCosts10, consumerReqGrowthCosts10,consumerMaintCosts10,consumerTravelCosts10,consumerRawGrowthCosts10,consumerHealthEMTGCosts10,consumerFertilityEMTGCosts10,rawFertilities2,rawProspects2,rawHealths2,mtgCosts10,growthCosts10, growths, mtgResults, eM.emergHealth[pors][clan], eM.emergGrowth[pors][clan], 0., 0.);
       growths.sendHist(hist, "C@");
-      hist.add(new History("C@", History.valuesMajor6, "r.growth", r.growth));
+      hist.add(new History("C*", History.valuesMajor6, "r.growth", r.growth));
       //   if (r.growth != growths.A[2]) {
       //      E.myTest(true, "r.growth not the same as growths.A[0]");
       //    }
@@ -8160,9 +7978,9 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
       mtgNeeds6 = getNeeds("mtgNeeds6", "goals and  nyear,fracGrowth", yphase, n, n < 2 && !ec.clearHist() ? History.debuggingMinor11 : History.loopMinorConditionals5, bals, maintCosts10, travelCosts10, rawGrowthCosts10, rawGrowths, reqMaintCosts10, reqGrowthCosts10, rawFertilities2, rawProspects2, mtCosts10, growthCosts10, mtgCosts10, growths, curMaintGoal, curGrowthGoal, eM.futGrowthFrac[pors][clan], eM.futGrowthYrMult[pors][clan], mtggNeeds6, mtNeeds6, mtgAvails6, mtGNeeds6, goalmtg1Needs6, goalmtg1Neg10);
       //    hist.add(new History(aPre, History.loopMinorConditionals5, "mtgNeeds6", "set all the costs etc, poorHealthEfft, fertility, health"));
       // mtgNeeds6.setNeeds(hist, History.debuggingMinor11, balances, maintCosts, travelCosts, rawGrowthCosts, rawGrowths, reqMaintCosts, reqGrowthCosts, rawFertilities, fertilities, rawHealths, mtgCosts, growthCosts, growths, mtgResults, -999., -999., 0., 0.);
-      histTitles("C@", "rtd yCalcRawCosts");
-      growths.sendHist(hist, "C@");
-      hist.add(new History("C@", History.valuesMajor6, "r.growth", r.growth));
+      histTitles("C%", "rtd yCalcRawCosts");
+      growths.sendHist(hist, "C%");
+      hist.add(new History((aPre="C%"), History.valuesMajor6, "r.growth", r.growth));
       //    if (r.growth != growths.A[2]) {
       //      E.myTest(true, "r.growth not the same as growths.A[2]");
       //   }
@@ -8174,8 +7992,8 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
       //  mtgNeeds6 = makeZero(mtgNeeds6, "mtgNeeds6");
       //    mtgNeeds6 = getNeeds("mtgNeeds6", "current needs, no goals, not future years of growth", yphase, n, n < 8 && ec.age < 2 && econCnt < 10 ? History.debuggingMinor11 : 2, bals, maintCosts10, travelCosts10, rawGrowthCosts10, rawGrowths, reqMaintCosts10, reqGrowthCosts10, rawFertilities2, rawProspects2, rawHealths2, mtgCosts10, growthCosts10, growths, -999., -999., 0., 0.);
       mNeeds.setMax(mtgNeeds6, mtggNeeds6); // largest need, smallest available
-      growths.sendHist(hist, "C@");
-      hist.add(new History("C@", History.valuesMajor6, "r.growth", r.growth));
+      growths.sendHist(hist, aPre);
+      hist.add(new History(aPre, History.valuesMajor6, "r.growth", r.growth));
       if (r.growth != growths.A[2]) {
         E.myTest(true, "r.growth not the same as growths.A[2]");
       }
@@ -8192,9 +8010,9 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
       rlev = History.valuesMajor6;
       if (bLev < History.dl) {
         lev = rlev;
-        ec.aPre = aPre = "c&";
+        ec.aPre = aPre = "c#";
         //  hist.add(new History(aPre, rlev, "reqMaintFractions", "mtgg=" + df(mtggResults[0]), "he=" + df(heResults[0]), "hg=" + df(hgResults[0]), "H=" + df(health), "fertility", "mtgg=" + df(mtggResults[2]), "fe=" + df(heResults[2]), "fg=" + df(hgResults[2]), "F=" + df(mtgResults[2]), df(eM.maintMinPriority)));
-        hist.add(new History("c$", rlev, "health=", df(health), "fertility=", df(fertility)));
+        hist.add(new History(aPre, rlev, "health=", df(health), "fertility=", df(fertility)));
         balances.sendHist(bLev, aPre, rlev, "balances");
         mtggNeeds6.sendHist(bLev, aPre, rlev, "mtggN6");
         //     mtgEmergNeeds.sendHist(bLev, rlev, aPre, "emergN");
