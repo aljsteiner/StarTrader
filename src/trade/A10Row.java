@@ -809,9 +809,10 @@ public class A10Row extends A6Rowa {
   }
 
   /**
-   * send 10 rows to the hist log do not list if econCnt &gt; E.maxEconHist do
-   * not list if econCnt &gt; 10 do not list if History.dl &gt; blev and blev
-   * &ge lev
+   * send 10 rows to the hist log 
+   * do not list if econCnt &gt; E.maxEconHist 
+   * do not list if econCnt &gt; 10 
+   * do not list if History.dl &lt; blev and blev &le lev
    *
    * @param hist the log array
    * @param lev the level of this log

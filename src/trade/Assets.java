@@ -1660,6 +1660,8 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
     A10Row consumerReqGrowthCosts10, consumerReqMaintCosts10, consumerTravelCosts10, consumerFertilityMTGCosts10;
     A10Row consumerHealthEMTGCosts10, consumerFertilityEMTGCosts10;
     A10Row consumerRawGrowthCosts10;
+    A10Row pmNegs = new A10Row(History.valuesMajor6,"pmNegs");
+    A10Row ptNegs = new A10Row(History.valuesMajor6,"ptNegs");
     // A2Row rawHealths2;
     A2Row fertilities2;
     A2Row mtggRawProspects2;
@@ -6929,7 +6931,7 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
 
     /**
      * yearEnd is the final routine in the cash flow. It is called after all
-     * trades have happened, for ships it is invoked ater the one to five trades
+     * trades have happened, for ships it is invoked after the one to five trades
      * have been finished, the didYearEnd is set in econ preventing a repeat
      * yearEnd. prepare then do swaps to get the best rawProspects2 a possible
      * trade, to first do any growth, and then costs payments. Costs payments
@@ -7023,6 +7025,8 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
       }
       yCalcCosts(aPre, lightYearsTraveled, curGrowGoal, curMaintGoal); //renew rawProspects2 etc.
       sos = rawProspects2.curMin() < E.rawHealthsSOS;
+      
+      // choose only the living for these results/ deaths stats are later
       EM.wasHere = "before do live cccac=" + ++cccac;
       if (rawProspects2.curMin() > PZERO) { //proceed only if live,skip if dead
        
@@ -7051,6 +7055,7 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
         if (r.growth != growths.A[2]) {
           eM.aErr("r.growth not the same as growths.A[0] ccca=" + ++ccca);
         }
+        // do growths of knowledge and each SubAsset
         doGrowth(aPre);
         EM.wasHere = "CashFlow.endYear after doGrowth cccae" + ++cccae;
         gGrowW = new DoTotalWorths();
@@ -7146,7 +7151,7 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
       double rcWorthPercentInc = (fyW.getRCWorth() - syW.getRCWorth()) *100/syW.getRCWorth();
       double rcwp = rcWorthPercentInc;
       if(E.debugMisc && (syW.getRCWorth() == 0.0)){
-        throw new MyErr("syW.getRCWorth() =" + ec.mf(syW.getRCWorth()));
+        throw new MyErr("syW.getRCWorth() =" + E.mf(syW.getRCWorth()));
       }
       setStat(EM.RCTWORTH,fyW.getRCWorth()*100/fyW.sumTotWorth,1);
       setStat(EM.RCWORTH,fyW.getRCWorth(),1);
@@ -7171,8 +7176,6 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
       eM.setStat(EM.SGMTGC, pors, clan, mtgCosts10.getRow(1).sum() / bcurSum, 1);
       eM.setStat(EM.RRAWMC, pors, clan, maintCosts10.getRow(0).sum() / bcurSum, 1);
       eM.setStat(EM.SRAWMC, pors, clan, maintCosts10.getRow(1).sum() / bcurSum, 1);
-      eM.setStat(EM.RRAWMC, pors, clan, maintCosts10.getRow(0).sum() / bcurSum, 1);
-      eM.setStat(EM.SRAWMC, pors, clan, maintCosts10.getRow(1).sum() / bcurSum, 1);
       eM.setStat(EM.RCREQGC, pors, clan, reqMaintCosts10.getRow(0).sum() / bcurSum, 1);
       eM.setStat(EM.SGREQGC, pors, clan, reqMaintCosts10.getRow(1).sum() / bcurSum, 1);
       eM.setStat(EM.RCREQMC, pors, clan, reqGrowthCosts10.getRow(0).sum() / bcurSum, 1);
@@ -7188,11 +7191,11 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
       eM.setStat(EM.POORKNOWLEDGEEFFECT, poorKnowledgeAveEffect, 1);
       eM.setStat(EM.POORHEALTHEFFECT, poorHealthAveEffect, 1);
       // gameRes.MANUALSB.wet(pors, clan, manuals.sum(), 1);
-      eM.setStat(EM.MANUALSFRAC, pors, clan, manuals.sum(), 1);
+      eM.setStat(EM.MANUALSFRAC, pors, clan, manuals.sum()*100.*eM.nominalWealthPerTradeManual[pors]/totWorth, 1);
       // gameRes.NEWKNOWLEDGEB.wet(pors, clan, newKnowledge.sum() / knowledge.sum(), 1);
-      setStat(EM.NEWKNOWLEDGEFRAC, pors, clan, newKnowledge.sum(), 1);
+      setStat(EM.NEWKNOWLEDGEFRAC, pors, clan, newKnowledge.sum()*100.*eM.nominalWealthPerNewKnowledge[pors][0]/totWorth, 1);
       // gameRes.COMMONKNOWLEDGEB.wet(pors, clan, commonKnowledge.sum() / knowledge.sum(), 1);
-      setStat(EM.COMMONKNOWLEDGEFRAC, pors, clan, commonKnowledge.sum(), 1);
+      setStat(EM.COMMONKNOWLEDGEFRAC, pors, clan, commonKnowledge.sum()*100.*eM.nominalWealthPerCommonKnowledge[pors]/totWorth, 1);
       // gameRes.KNOWLEDGEINCR.wet(pors, clan, (knowledge.sum() - (tprev = asyW.getKnowledgeBal())) / tprev, 1);
       setStat(EM.KNOWLEDGEINCR, pors, clan, (knowledge.sum() - (tprev = syW.getKnowledgeBal()))*100 / tprev, 1);
       // gameRes.NEWKNOWLEDGEINCR.wet(pors, clan, (newKnowledge.sum() - (tprev = asyW.getNewKnowledgeBal())) / tprev);
@@ -8382,13 +8385,15 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
         ec.aPre = aPre = "*C";
         rqNeedGG.sendHist(alev, aPre);
         rqNeedGM.sendHist(alev, aPre);
-        rawGrowthCosts.sendHist(alev, aPre);
+        rawGrowthCosts.sendHist(alev, aPre);//rawGCosts10
       }
 
       A10Row mtCosts10 = new A10Row(alev, "mtCosts10").setAdd(maintCosts, travelCosts);
       //  mtNegs.setAmultV(mtCosts10, PHE);  // output
       // apply the poor health penalty to mt costs
       A10Row pmtC = new A10Row(alev, "pmtC").setAmultV(mtCosts10, PHE);
+      pmNegs.setAmultV(maintCosts,PHE);
+      ptNegs.setAmultV(travelCosts,PHE);
       mtNegs.set(pmtC);
       A10Row pRawGC = new A10Row(alev, "pRawGC").setAmultV(rawGC, PHE);
       
@@ -8477,7 +8482,7 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
       // - growth*growMult*growYears
       ec.aPre = aPre = "#d";
       if (alev <= bLev) {
-        pmtC.sendHist(hist, blev, aPre, alev, "pmtC");
+        pmtC.sendHist(hist, blev, aPre, alev, "pmtC"); 
         pRawGC.sendHist(blev, aPre, alev, "pRawGC");
         pRemMT.sendHist(blev, aPre, alev, "pRemMT");
         mtgFrac.sendHist(alev, aPre);
@@ -10055,7 +10060,6 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
       cargo.doGrow(aPre);
       guests.doGrow(aPre);
       staff.doGrow(aPre);
-
     }
 
     void doMaintCost(String aPre
