@@ -50,6 +50,13 @@ class EM {
   static EM eM;  // EM.eM
   EM myEM;  // This is the this of an instance
   static StarTrader st;
+  
+  // The following is a start of the capability to save and instance of
+  // a game at the current level with new referents for arrays etc.
+  // the cureent game could continue or another EM instance could be made active
+  // could be reloded onto the active instance of 
+  EM copyTo; // during a copy, doVal, doRes etc must copy
+  boolean doingCopy = false;
 
 //  Econ ec;
   ArrayList<Econ> ships = new ArrayList<Econ>();
@@ -212,8 +219,8 @@ class EM {
   static double[][] mClanRisk = {{.0, .7}, {.0, .7}};
   double[][] catastrophyUnitReduction = {{.6}, {.6}}; // reductions .2 - 6.
   static double[][] mCatastrophyUnitReduction = {{.1, .9}, {.1, .9}};
-  double[][] catastrophyBonusYears = {{5.}, {10.}};  // 2 - 25
-  static double[][] mCatastrophyBonusYears = {{02., 25.0}, {1., 25.}};  // 5 - 25
+  double[][] catastrophyBonusYears = {{8.}, {12.}};  // 2 - 25
+  static double[][] mCatastrophyBonusYears = {{02., 25.0}, {1., 25.}};  // 
   double[][] catastrophyBonusYearsBias = {{1.6}, {1.9}}; // adds to the divisor year into bonus units
   static double[][] mCatastrophyBonusYearsBias = {{.5, 5.}, {5.}};
   double[][] catastrophyBonusGrowthValue = {{.4}, {.4}};  // unit values .2 - .7  *.5,
@@ -231,6 +238,7 @@ class EM {
   int yearErrCnt = 0;
   static String addlErr = "";
   static String wasHere = "before start";
+  static String wasHere2 = "before start2";
   int year = -1;  // year of StarTrader, updated in StarTrader runYear;
   int keepHistsByYear[] = {99, 4, 2};
 
@@ -252,9 +260,10 @@ class EM {
    * @return the possible line
    */
   protected static String andMore() {
-    String rtn = (addlErr.isEmpty() && wasHere.isEmpty() ? "" : "\n")
+    String rtn = (addlErr.isEmpty() && wasHere.isEmpty() && wasHere2.isEmpty() ? "" : "\n")
             + (addlErr.isEmpty() ? "" : " :" + addlErr)
-            + (wasHere.isEmpty() ? "" : " :" + wasHere);
+            + (wasHere.isEmpty() ? "" : " :" + wasHere)
+            + (wasHere2.isEmpty() ? "" : " :" + wasHere2);
     return rtn;
   }
 
@@ -277,7 +286,7 @@ class EM {
     flushes();
     //  System.err.println(aLine + andMore()); //later
     // new Throwable().printStackTrace(System.err); // later
-    throw new MyErr(aLine + andMore());
+    throw new MyErr(aLine);
   }
 
   static long startTime;
@@ -974,7 +983,8 @@ class EM {
   double randMax = 1.95;
   double randMin = .1;
   double randMult = .3;
-  double[][] randFrac = {{0.0}, {0.0}};  // range 0. - .7
+ // double[][] randFrac = {{0.0}, {0.0}};  // range 0. - .7
+  double[][] randFrac = {{0.3}, {0.3}};  // range 0. - .7
   static double[][] mRandFrac = {{.0, .9}, {0., .7}};  // range 0. - .9,.7
   double[][] ssFrac = {{1.2, 1., .9, 1.1, 1.2}};
   static double mSsFrac[][] = {{.7, 1.4}};
@@ -1037,29 +1047,38 @@ class EM {
   final static public double[] swapTGtoSGcost = {.1, .1};
   final static public double[] swapTGtoGCcost = {.005, .005};
   final static public double[] swapTGtoGGcost = {.1, .1};
-  static double [][] mXferCosts = {{10.,60.},{10,60}};
+  //static double [][] mXferCosts = {{10.,60.},{10,60}};
   public double xferrC = 45.;
  // final static public double[] swapXRtoRRcost = {17., 17.};
  // final static public double[] swapXRtoCRcost = {18., 18.};
-  double[] swapXRtoRRcost = {xferrC,xferrC};
-  double[] swapXRtoCRcost = {xferrC,xferrC};
-  double[] swapXCtoRCcost = {xferrC,xferrC};
-  double[] swapXCtoCCcost = {xferrC,xferrC};
-  double xfersC = .5;
-  double[] swapXRtoRScost = {xfersC,xfersC};
- // final static public double[] swapXRtoCScost = {.05, .05};
-  double[] swapXRtoCScost = {xfersC, xfersC};
-  double[] swapXStoSScost = {xfersC, xfersC};
-  final static public double[] swapXCtoRGcost = {.05, .05};
-  final static public double[] swapXCtoCGcost = {.05, .05};
+  // swapXRtoRRcost, swapXRtoCRcost, swapXStoSRcost, swapXStoGRcost
+  // swapXRtoRScost, swapXRtoCScost, swapXStoSScost, swapXStoGScost;
+  static double [][] mSwapXRtoRRcost = {{5.0,35.0},{5.0,35.0}};
+  double[] swapXRtoRRcost = {18.,18.};
+  double[] swapXCtoCCcost = swapXRtoRRcost;
+  static double[][]mSwapXRtoCRcost = {{.3,5.},{.3,5.}};
+  double[] swapXRtoCRcost = {.5,.5};
+  double[] swapXCtoRCcost = swapXRtoCRcost;
+  static double[][] mSwapXStoSRcost = {{.03,5.},{.03,5.}};
+  public double[] swapXStoSRcost = {.005, .005};
+  public double[] swapXStoGRcost =  swapXStoSRcost;
   
-  final static public double[] swapXStoSRcost = {.005, .005};
-  final static public double[] swapXStoGRcost = {.005, .005};
-  final static public double[] swapXStoGScost = {.001, .001};
-  final static public double[] swapXGtoSCcost = {.005, .005};
-  final static public double[] swapXGtoSGcost = {.001, .001};
-  final static public double[] swapXGtoGCcost = {.005, .005};
-  final static public double[] swapXGtoGGcost = {.001, .001};
+  static double [][] mSwapXRtoRScost = {{.3,15.},{.3,15.}};
+  double[] swapXRtoRScost = {.5,.5};
+  double[] swapXCtoCScost = swapXRtoRScost;
+  double[] swapXCtoCGcost = swapXRtoRScost;
+  static double[][] mSwapXRtoCScost = {{.03,5.},{.03,5.}};
+  double[] swapXRtoCScost = {.05,.05};
+  double[] swapXCtoRScost = swapXRtoCScost;
+  double[] swapXCtoRGcost = swapXRtoCScost;
+  static double[][]mSwapXStoSScost = {{.03,5.},{.03,5.}};
+  double[] swapXStoSScost = {.1, .1};
+  static double[][]mSwapXSgoGScost = {{.003,.5},{.003,.5}};
+  public double[] swapXStoGScost = {.01, .01};
+  public double[] swapXGtoSCcost = swapXStoGScost;
+  public double[] swapXGtoSGcost = {.001, .001};
+  public double[] swapXGtoGCcost = {.005, .005};
+  public double[] swapXGtoGGcost = {.001, .001};
   final static public double[] swapRtoRRcost = {.005, .005};
   final static public double[] swapRtoCRcost = {.005, .005};
   final static public double[] swapRtoRScost = {.002, .002};
@@ -2087,6 +2106,7 @@ class EM {
   static final int RCfrac = ++e4;
   static final int SGfrac = ++e4;
   static final int MISSINGNAME = ++e4;
+  static final int DIED = ++e4;
   static final int DEADRATIO = ++e4;
   static final int DEADHEALTH = ++e4;
   static final int DEADFERTILITY = ++e4;
@@ -2134,11 +2154,13 @@ class EM {
 
     doRes(LIVEWORTH, "Live Worth", "Live Worth Value including year end working, reserve: resource, staff, knowledge", 6, 2, 0, list9 | list10 | list11 | LIST034567 | thisYr | sum, ROWS1 |list9 | list10 | list11 | LIST034567 |THISYEAR | thisYrAve  | THISYEARUNITS | BOTH,ROWS2,ROWS3 );
     doRes(STARTWORTH, "Starting Worth", "Starting Worth Value including working, reserve: resource, staff, knowledge",6, 2, 0, list9 | list10 | list11 | LIST034567 | thisYr | sum, ROWS1 |list9 | list10 | list11 | LIST034567 |THISYEAR | thisYrAve  | THISYEARUNITS | BOTH,ROWS2,ROWS3 );
-    doRes(WORTHIFRAC, "PercInitWorth ", "Percent of Initial Worth Value including working, reserve: resource, staff, knowledge",6, 2, 0, list9 | list10 | list11 | LIST034567 | thisYr | sum, ROWS1 |list9 | list10 | list11 | LIST034567 |THISYEAR | thisYrAve  | THISYEARUNITS | BOTH,ROWS2,ROWS3 );
+    doRes(WORTHIFRAC, "PercInitWorth ", "Percent of Initial Worth Value including working, reserve: resource, staff, knowledge",6, 2, 0, 
+        list9 | list10 | list11 | LIST034567 | thisYr | sum, 
+        ROWS1 |list9 | list10 | list11 | LIST034567 |THISYEAR | thisYrAve  | BOTH,0,0);
 
-    doRes("yearCreate", "yearCreations", "new Econs ceated from year initial funds",6, 2, 0,  ROWS1 | list10 |  LIST034567  | THISYEARUNITS | BOTH,ROWS3 | list10 |  LIST034567 | CUMUNITS | BOTH,0L,0L);
-    doRes("FutureCreate", "FutureFund Create", "Econs created from Future Funds",6, 2, 0,  ROWS1 | list10 |  LIST034567  | THISYEARUNITS | BOTH,ROWS3 | list10 |  LIST034567 | CUMUNITS | BOTH,0L,0L);
-    doRes("bothCreate", "bothCreations", "new Econs ceated from  initial funds and future funds",6, 2, 0,  ROWS1 | list10 |  LIST034567  | THISYEARUNITS | BOTH,ROWS3 | list10 |  LIST034567 | CUMUNITS | BOTH,0L,0L);
+    doRes("yearCreate", "yearCreations", "new Econs ceated from year initial funds",6, 2, 0,  ROWS1 | list10 |  LIST034567  | THISYEARUNITS | SKIPUNSET| BOTH,ROWS3 | list10 |  LIST034567 | CUMUNITS | SKIPUNSET | BOTH,0L,0L);
+    doRes("FutureCreate", "FutureFund Create", "Econs created from Future Funds",6, 2, 0,  ROWS1 | list10 |  LIST034567  | THISYEARUNITS | SKIPUNSET | BOTH,0,0L,0L);
+    doRes("bothCreate", "bothCreations", "new Econs ceated from  initial funds and future funds",6, 2, 0,  ROWS1 | list10 |  LIST034567  | THISYEARUNITS | BOTH,ROWS3 | list10 |  LIST034567 | CUMUNITS | SKIPUNSET | BOTH,0L,0L);
     doRes("swapRIncr", "swapRIncr", "Uses of R Incr Swap percent of RC", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
     doRes("swapSIncr", "swapSIncr", "Uses of S Incr Swap percent of SG", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
     doRes("swapSDecr", "swapSDecr", "Uses of S Decr Swap percent of SG", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
@@ -2147,21 +2169,25 @@ class EM {
     doRes("swapRSXchg", "swapRSXchg", "Uses of R Xchg Scost Swap percent of RC", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
     doRes("swapSSXchg", "swapSSXchg", "Uses of S Xchg Scost Swap percent of RC", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
     doRes("swapSRXchg", "swapSRXchg", "Uses of S Xchg Rcost Swap percent of RC", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
-
+ doRes(DIED, "died per year", "planets or ships died in a year", 6, 2, 3, 
+     ROWS1 | list11 | LIST234567 | THISYEAR | BOTH | SKIPUNSET, 
+     ROWS2 |list9 | list10 | list11 | LIST034567 | CUR |  CURAVE | BOTH | SKIPUNSET,
+     ROWS3 | list9 | list10 | list11 | LIST234567 | CUMAVE | SKIPUNSET, 
+     0L);
 
     doRes("DeadNegN", "DeadNegSwapN", "Dead Swaps never entered", 6, 2, 0,  ROWS1 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | LIST034567 |  THISYEARUNITS | BOTH | SKIPUNSET,ROWS3 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);
     doRes("DeadLt10", "DeadLt10", "no more than 10 swaps",6, 2, 0,  ROWS1 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | LIST034567 |  THISYEARUNITS | BOTH | SKIPUNSET,ROWS3 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);
     doRes("DeadNegProsp", "DeadNegProsp", "Never was able to get healthy", 6, 2, 0,  ROWS1 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | LIST034567 |  THISYEARUNITS | BOTH | SKIPUNSET,ROWS3 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);;
     doRes("DeadRatioS", "DeadRatioS", "Resource values simply too small", 6, 2, 0,  ROWS1 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | LIST034567 |  THISYEARUNITS | BOTH | SKIPUNSET,ROWS3 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);
     doRes("DeadRatioR", "DeadRatioR", "Staff values simply too small", 6, 2, 0,  ROWS1 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | LIST034567 |  THISYEARUNITS | BOTH | SKIPUNSET,ROWS3 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);
-    doRes("died", "died", "died from any set of causes", 6, 2, 0,  ROWS1 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | LIST034567 |  THISYEARUNITS | BOTH | SKIPUNSET,ROWS3 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);
+    doRes("died", "died", "died from any set of causes", 6, 2, 0,  ROWS1 | LIST0 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | CUMUNITS | LIST34567 | BOTH | SKIPUNSET,ROWS3 | LIST0 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);
     doRes(MISSINGNAME, "missing name", "tried an unknown name", 6, 0, list0 | cumUnits | curUnits | curAve | cumAve | both, 0, 0, 0);
-    doRes(DEADRATIO, "diedRatio", "died,average mult year last/initial worth death",6, 2, 0,  ROWS1 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | LIST034567 |  THISYEARUNITS | BOTH | SKIPUNSET,ROWS3 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);
-    doRes(DEADHEALTH, "died health", "died,average negative minimum health at death",6, 2, 0,  ROWS1 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | LIST034567 |  THISYEARUNITS | BOTH | SKIPUNSET,ROWS3 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);
-    doRes(DEADFERTILITY, "died fertility", "died,average negative minimum fertility at death",6, 2, 0,  ROWS1 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | LIST034567 |  THISYEARUNITS | BOTH | SKIPUNSET,ROWS3 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);
+    doRes(DEADRATIO, "diedRatio", "died,average mult year last/initial worth death",6, 2, 0,  ROWS1 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | LIST34567  | BOTH | SKIPUNSET,ROWS3 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);
+    doRes(DEADHEALTH, "died health", "died,average negative minimum health at death",6, 2, 0,  ROWS1 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | LIST34567  | BOTH | SKIPUNSET,ROWS3 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);
+    doRes(DEADFERTILITY, "died fertility", "died,average negative minimum fertility at death",6, 2, 0,  ROWS1 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | LIST34567  | BOTH | SKIPUNSET,ROWS3 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);
     doRes(DEADSWAPSMOVED, "diedSwapMoves", "died,average Swap Moves at death",6, 2, 0,  ROWS1 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | LIST034567 |  THISYEARUNITS | BOTH | SKIPUNSET,ROWS3 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);
-    doRes(DEADSWAPSCOSTS, "diedSwapCosts", "died,average SwapCosts at death", 6, 2, 0,  ROWS1 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | LIST034567 |  THISYEARUNITS | BOTH | SKIPUNSET,ROWS3 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);
-    doRes(DEADTRADED, "diedTraded", "died,even after trading",6, 2, 0,  ROWS1 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | LIST034567 |  THISYEARUNITS | BOTH | SKIPUNSET,ROWS3 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);
+    doRes(DEADSWAPSCOSTS, "diedSwapCosts", "died,average SwapCosts at death",6, 2, 0,  ROWS1 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | LIST34567  | BOTH | SKIPUNSET,ROWS3 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);
+    doRes(DEADTRADED, "diedTraded", "died,even after trading",6, 2, 0,  ROWS1 | list11 | LIST234567 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |list9 | list10 | list11 | LIST34567  | BOTH | SKIPUNSET,ROWS3 | list9 | list10 | list11 | LIST234567 | CUMUNITS | SKIPUNSET, 0L);
 
     doRes(SGMTGC, "SGmtgCosts", "SG Maintenance,Travel,Growth Costs / RCSGBal", 6, 1, 1, (LIST34567| list10 | ROWS2 | curAve | both), 0, 0, 0);
     doRes(RCMTGC, "RCmtgCosts", "RC Maintenance,Travel,Growth Costs / RCSGBal", 6, 1, 1, (LIST34567| list10 | ROWS2 | curAve | both), 0, 0, 0);
@@ -2269,6 +2295,7 @@ class EM {
     doRes("1YRNOCRISISINCR", "IncWorth 1Yr No Crisis", "Percent Year increase Worrth/Year initial worth if at least 1  year of no catastrophy", 3, 4, 1, LIST134567 | curAve | both | skipUnset, 0, 0, 0);
     doRes("2YRNOCRISISINCR", "IncWorth 2Yr No Crisis", "Percent Year increase Worrth/Year initial worth if at least 2 succesive year of No catastrophy", 3, 4, 1, LIST134567 | curAve | both | skipUnset, 0, 0, 0);
     doRes("3YRNOCRISISINCR", "IncWorth 3Yr No Crisis", "Percent Year increase Worrth/Year initial worth if at least 3 succesive year of No catastrophy", 3, 4, 1, LIST134567 | curAve | both | skipUnset, 0, 0, 0);
+     doRes("WTRADEDINCR", "WIncr", "Percent Years worth increase/start year worth", 4, 4, 1, (LIST134567 | curAve | skipUnset), 0, 0, 0);
     doRes("WTRADEDINCRF5", "Favor5WIncr", "Percent Years worth increase at Favor5/start year worth", 4, 4, 1, (LIST134567 | curAve | skipUnset), 0, 0, 0);
     doRes("WTRADEDINCRF4", "Favor4WIncr", "Percent Years worth increase at Favor4/start year worth", 4, 4, 1, (LIST134567 | curAve | skipUnset), 0, 0, 0);
     doRes("WTRADEDINCRF3", "Favor3WIncr", "Percent Years worth increase at Favor3/start year worth", 4, 4, 1, (LIST134567 | curAve | skipUnset), 0, 0, 0);
@@ -2291,12 +2318,14 @@ class EM {
     doRes("WTRADEDOS", "worthAtSOS", "Percent worthAtSOS/initial worth", 6, 2, (list1 | curUnitAve | curUnits | both), 0, 0, 0);
     doRes("WREJTRADED", "wRejectedTrade", "Percent lost worth  if econ rejected the trade", 6, 2, (list1 | curUnitAve | curUnits | both), 0, 0, 0);
     doRes("WLOSTTRADED", "wLostTrade", "Percent lost worth if other clan rejected the trade", 6, 2, (list1 | curUnitAve | curUnits | both), 0, 0, 0);
-    doRes("TRADEDRCDF5", "W rcd fav5", "Percent Worth received when trade at fav5/initial worth", 6, 2, (list1 | thisYr | sum), 0, 0, 0);
-    doRes("TRADEDRCDF4", " W rcd fav4", "Percent Worth received when trade at fav4/initial worth", 6, 2, (list1 | thisYr | sum), 0, 0, 0);
-    doRes("TRADEDRCDF3", "rcd fav3", "Percent Worth received when trade at fav3/initial worth", 6, 2, (list1 | thisYr | sum), 0, 0, 0);
-    doRes("TRADEDRCDF2", "W rcd fav2", "Percent Worth received when trade at fav2/initial worth", 6, 2, (list1 | thisYr | sum), (list1 | curUnitAve | curUnits), 0, 0);
-    doRes("TRADEDRCDF1", "W rcd fav1", "Percent Worth received when trade at fav1/initial worth", 6, 2, (list1 | thisYr | sum), (list1 | curUnitAve | curUnits), 0, 0);
-    doRes("TRADEDRCDF0", "W rcd fav0", "Percent Worth received when trade at fav 0/initial worth", 6, 2, (list1 | thisYr | sum), (list1 | curUnitAve | curUnits), 0, 0);
+    doRes("TRADEDRCDF5", "W rcd fav5", "Percent Worth received when trade at fav5/initial worth", 6, 2, (list1 | thisYr | sum), (list1 | curUnitAve | curUnits |BOTH | SKIPUNSET), 0, 0);
+    doRes("TRADEDRCDF4", " W rcd fav4", "Percent Worth received when trade at fav4/initial worth", 6, 2, (list1 | thisYr | sum), (list1 | curUnitAve | curUnits |BOTH | SKIPUNSET), 0, 0);
+    doRes("TRADEDRCDF3", "W rcd fav3", "Percent Worth received when trade at fav3/initial worth", 6, 2, (list1 | thisYr | sum), (list1 | curUnitAve | curUnits |BOTH | SKIPUNSET), 0, 0);
+    doRes("TRADEDRCDF2", "W rcd fav2", "Percent Worth received when trade at fav2/initial worth", 6, 2, (list1 | thisYr | sum), (list1 | curUnitAve | curUnits |BOTH | SKIPUNSET), 0, 0);
+    doRes("TRADEDRCDF1", "W rcd fav1", "Percent Worth received when trade at fav1/initial worth", 6, 2, (list1 | thisYr | sum), (list1 | curUnitAve | curUnits |BOTH | SKIPUNSET), 0, 0);
+    doRes("TRADEDRCDF0", "W rcd fav0", "Percent Worth received when trade at fav 0/initial worth", 6, 2, (list1 | thisYr | sum), (list1 | curUnitAve | curUnits |BOTH | SKIPUNSET), 0, 0);
+     doRes("TRADEDRCD", "W rcd", "Percent Worth received when trade/initial worth", 6, 2, (list1 | thisYr | sum), (list1 | curUnitAve | curUnits | BOTH | SKIPUNSET), LIST0 | SKIPUNSET | CUMAVE | BOTH, 0);
+     doRes("TRADES%", "TRADES %", "Percent of trades per economy", 6, 2, (list1 | thisYr | BOTH | SKIPUNSET), (list1 | curUnitAve | CUMAVE | BOTH | SKIPUNSET), LIST0 | SKIPUNSET | CUMAVE | BOTH, 0);
     doRes(RCTBAL, "RCBal/TBal", "Percent RC balance/tbal", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
      doRes(RCBAL, "RCBal", "RC balance", 1, 1, 0, (list9  | curAve), 0, 0, 0);
     doRes("SGTBAL", "SG Balance", "Percent SG balance/worth", 1, 1, 0, (list9 | curAve), 0, 0, 0);
@@ -2319,7 +2348,7 @@ class EM {
     doRes(RCTGROWTHPERCENT, "RCGrowth% ", "Percent RC Growth /year start RC Bal", 1, 1, 0, (LIST10 | skipUnset | curAve), 0, 0, 0);
     doRes(RCWORTHGROWTHPERCENT, "RCWorthGrowth% ", "Percent RC Worth Growth /year start RC Worth", 5, 1, 0, (LIST10 | skipUnset | curAve), 0, 0, 0);
     doRes("RCGLT5PERCENT","RCGrowthLT5%","Percent RC growth LT 5 %",5,1,0,LIST10 |THISYEARUNITS | BOTH ,0,0,0); 
-    doRes(EM.RCGLT10PERCENT,"RCGrowthLT10%","Percent RC growth LT 10 %",5,1,0,LIST10 |THISYEARUNITS | BOTH ,0,0,0); 
+    doRes(RCGLT10PERCENT,"RCGrowthLT10%","Percent RC growth LT 10 %",5,1,0,LIST10 |THISYEARUNITS | BOTH ,0,0,0); 
     doRes("RCGLT25PERCENT","RCGrowthLT25%","Percent RC growth LT 25 %",5,1,0,LIST10 |THISYEARUNITS | BOTH ,0,0,0); 
     doRes("RCGLT50PERCENT","RCGrowthLT50%","Percent RC growth LT 50 %",5,1,0,LIST10 |THISYEARUNITS | BOTH ,0,0,0); 
     doRes(RCGLT100PERCENT,"RCGrowthLT100%","Percent RC growth LT 100 %",5,1,0,LIST10 |THISYEARUNITS | BOTH ,0,0,0); 
@@ -2330,6 +2359,7 @@ class EM {
     doRes("RCWGLT50PERCENT","RCWorthGrowthLT50%","Percent RC Worth growth GT 25 LT 50 %",5,1,0,LIST10 |THISYEARUNITS | BOTH ,0,0,0); 
     doRes("RCWGLT100PERCENT","RCWorthGrowthLT100%","Percent RC Worth growth GT 50 LT 100 %",5,1,0,LIST10 |THISYEARUNITS | BOTH ,0,0,0); 
     doRes("RCWGGT100PERCENT","RCWorthGrowthGE100%","Percent RC Worth growth GE 100 %",5,1,0,LIST10 |THISYEARUNITS | BOTH ,0,0,0); 
+    doRes("RCWGPERCENT","RCWorthGrowth%","Percent RC Worth growth",5,1,0,LIST10 |THISYEARUNITS | BOTH ,0,0,0); 
     doRes("SGTGROWTHCOSTS3", "SGGCosts ", "SG Growth Cost/SG Bal", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
     doRes("RCTREQMAINTC3", "RcRQMCosts ", "rc req maintCsts / bal", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
     doRes("SGTREQMAINTC3", "SgRQMCosts ", "sg req maintCsts / bal", 1, 1, 0, (list9 | skipUnset | curAve), 0, 0, 0);
@@ -2349,7 +2379,8 @@ class EM {
     doRes("sCatBonusVal", "s Catast B Yr ", "staff catastrophy bonus unit value added ave per catastrophy", 1, 1, 3, (list2 | skipUnset | curAve), 0, 0, 0);
     doRes("rCatNegDecay", "r Catast ReduceDecay", "resource catastrophy bonus neg unit value ave per catastrophy", 1, 1, 3, (list2 | skipUnset | curAve), 0, 0, 0);
     doRes("sCatNegDecay", "s Catast ReduceDecay", "staff catastrophy bonus neg unit value  ave per catastrophy", 1, 1, 3, (list2 | skipUnset | curAve), 0, 0, 0);
-    doRes("sCatBonusManuals", "s Catast ReduceDecay", "catastrophy bonus manuals add value ave per catastrophy", 1, 1, 0, (list2 | skipUnset | curAve), 0, 0, 0);
+    doRes("sCatBonusManuals", "s Catast Bonus Manuals", "catastrophy bonus manuals add value ave per catastrophy", 1, 1, 0, (list2 | skipUnset | curAve), 0, 0, 0);
+    doRes("sCatBonusNewKnowledge", "s Catast Bonus New Knowledge", "catastrophy bonus newKnowledge add value ave per catastrophy", 1, 1, 0, (list2 |  skipUnset | THISYEARAVE ), LIST10 | SKIPUNSET | CURAVE, 0, 0);
     doRes("INCRGSWAPCOSTSB3", "SwapBalCosts", "balance cost involved in repurposing material by Incr to help sectors with inadequate resources", 6, 2, (list4 | curUnits | skipUnset), 0, 0, 0);
     doRes("DECRGSWAPCOSTS", "DecrSwapBalCosts", "balance cost involved in repurposing material by Decr to help sectors with inadequate resources", 6, 2, (list4 | curUnits | skipUnset), 0, 0, 0);
     doRes("RXFERGSWAPCOSTS", "RXferSwapCosts", "balance cost involved in repurposing material by Xfer to help sectors with inadequate resources", 6, 2, (list4 | curUnits | skipUnset), 0, 0, 0);

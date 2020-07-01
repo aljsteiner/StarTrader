@@ -1244,8 +1244,8 @@ public class Assets {
       cur.aStartCashFlow(this);
     }
     cur.yearEnd();
-    EM.wasHere = "after CashFlow.yearEnd aaadd1 " + aaadd1++;
-    if(syW != null){
+    EM.wasHere2 = "after CashFlow.yearEnd aaadd1 " + aaadd1++;
+    if(E.debugMisc && syW != null){
       throw new MyErr("CashFlow.yearEnd did not null syW, probably skipped some code");
     }
     cur = null; // release all CashFlow storage
@@ -3733,7 +3733,7 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
       // A2Row stratV,stratCV,stratF,nominalV,nominalCV;
       // use curPlusSum
       A2Row stratV = new A2Row(13, "stratV");
-      A2Row stratCV = new A2Row(13, "stratCV");
+      A2Row stratCV = new A2Row(13, "stratCV"); // critical strat values
       A2Row stratF = new A2Row(13, "stratF"); // stratFraction*stratWeight
       A2Row nominalV = new A2Row(13, "nominalV");
       A2Row nominalCV = new A2Row(13, "nominalCV");
@@ -4248,7 +4248,7 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
         hist.add(new History("**", 5, name + " ntr tBartr t=" + prevOffer.getTerm(), "before", "any test"));
         changes = 0; // restart count each barter
         newBarter = true;
-        myOffer = prevOffer; // move Offer reference to xit name
+        myOffer = prevOffer; // add myOffer as xit reference
         term = prevOffer.getTerm();
         ohist = prevOffer.getOHist();
         oname = prevOffer.getOName();
@@ -4299,14 +4299,14 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
 // Assets.CashFlow.Trades.barter
         }
 
-        // ====================17,16,15,14 =================================
-        else if (term > eM.barterStart - 5) { // ship > 13
+        // ====================S17,P16,S15,P14 =================================
+        else if (term > eM.barterStart - 5) { // p18 s17 p16 s15 p14 ship > 13
           int myIx1 = prevOffer.myIx;
           ARow cc1 = prevOffer.cargos[0];       
 
-          bids = prevOffer.getGoods();
-          if (term > eM.barterStart - 3) { // 17 ship,16 planet only 
-            oFirstBid = bids.copy(); // save copy of first planet and ship at exit 
+          bids = prevOffer.getGoods();  // S17 get P18 bids
+          if (term > eM.barterStart - 3) { // p18 s17 P16
+            oFirstBid = bids.copy(); // save xit p18 s17 
           }
           bids.sendHistt("ntr bid c", "ntr bid g");
           hist.add(new History(aPre, mRes, name + "ntr barter" + ">>>>>>>>>>", "myIx" + prevOffer.myIx, "c" + (prevOffer.cargos[prevOffer.myIx] == c.balance ? "c == cargos" : " c != cargos"), "<<<<<<<<<<<<<"));
@@ -4370,8 +4370,8 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
             // strategicValue = calcStrategicSums();
             // strategicGoal = calcStrategicGoal();
 
-            hist.add(new History(aPre, lRes, "T" + term + " " + name + " REJa" + changes, "sv=" + ec.mf(sv1), "->" + ec.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
-            ec.addOHist(ohist, new History(aPre, lRes, "T" + term + " " + name + " REJa" + changes, "sv=" + ec.mf(sv1), "->" + ec.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
+            hist.add(new History(aPre, lRes, "T" + term + " " + name + " REJ1" + changes, "sv=" + ec.mf(sv1), "->" + ec.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
+            ec.addOHist(ohist, new History(aPre, lRes, "T" + term + " " + name + " REJO" + changes, "sv=" + ec.mf(sv1), "->" + ec.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
             xitBarter();
             //         listCG(balances, 4, "bsx", myOffer);
             return myOffer;
@@ -4386,8 +4386,8 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
           //         sendStats(tSend, tReceipts, tStratValue, tBid, (int) E.fav[clan][myOffer.getOClan()]);
           //     strategicValue = calcStrategicSums();
           //   strategicGoal = calcStrategicGoal();
-          hist.add(new History(aPre, lRes, "T" + term + " " + name + " ACCa" + changes, "sv=" + ec.mf(sv1), "->" + ec.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
-          ec.addOHist(ohist, new History(aPre, 3, "T" + term + " " + name + " ACCa" + changes, "sv=" + ec.mf(sv1), "->" + ec.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
+          hist.add(new History(aPre, lRes, "T" + term + " " + name + " ACC1" + changes, "sv=" + ec.mf(sv1), "->" + ec.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
+          ec.addOHist(ohist, new History(aPre, 3, "T" + term + " " + name + " ACC3" + changes, "sv=" + ec.mf(sv1), "->" + ec.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
           myOffer.accepted(ec); // the bid becomes a move
           didTrade = true;
           rejectTrade = false;
@@ -4403,15 +4403,15 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
           E.myTest(true, "Error: barter error term < 1");
 
         }
-        //========================= 13 -> 2 ===============================
-        else if (term < eM.barterStart - 3) {  // Now the rest
+        //========================= S13 P12 -> P2 ===============================
+        else if (term < eM.barterStart - 3) {  // Now the rest S15 P14 ...
           bids = prevOffer.getGoods();
           listGoods(mRes, "@a");
           hist.add(new History(aPre, mRes, name + "ntr barter" + ">>>>>>>>>>", "myIx" + prevOffer.myIx, "c" + (prevOffer.cargos[prevOffer.myIx] == c.balance ? "c == cargos" : " c not cargos"), "<<<<<<<<<<<<<"));
           myOffer = prevOffer.flipOffer(ec); // set up for our process
 
           //    oprev1Goods = oprevGoods;
-          hist.add(new History(aPre, mRes, name + "ntr barter" + ">>>>>>>>>>", "myIx" + myOffer.myIx, "c" + (myOffer.cargos[myOffer.myIx] == c.balance ? "c == cargos" : " c not cargos"), "<<<<<<<<<<<<<"));
+          hist.add(new History(aPre, mRes, name + "flipped barter" + ">>>>>>>>>>", "myIx" + myOffer.myIx, "c" + (myOffer.cargos[myOffer.myIx] == c.balance ? "c == cargos" : " c not cargos"), "<<<<<<<<<<<<<"));
           int myIx = myOffer.myIx;
           ARow ccc = myOffer.cargos[myIx];
           //     E.myTest(ccc != cargo.balance, "ccc != cargo.balance myIx=" + myIx);
@@ -4437,8 +4437,8 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
             myOffer.setTerm(1);
             term = 1;
 
-            E.sysmsg(" Trades.barter acceped term=" + myOffer.getTerm());
-            listGoods(mRes, " acpt t=");
+            E.sysmsg(" Trades.barter accepted term=" + myOffer.getTerm());
+            listGoods(mRes, " acptd t=" + myOffer.getTerm());
             //        sendStats(tSend, tReceipts, tStratValue, tBid, (int) E.fav[clan][myOffer.getOClan()]);
             listDifBid(History.valuesMajor6, "acpt" + term, oprevGoods);
             //     myOffer.accepted(ec);
@@ -4530,7 +4530,7 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
           listGoods(3, "TT");
           hist.add(new History(aPre, lRes, "T" + term + " " + name + " CONTINUE", "sv=" + ec.mf(sv1), "->" + ec.mf(sv), df(strategicValue / isv1), "sf=" + df(sf1), "->" + df(sf), df(sf / isf1), "ofr=" + df(offers), "rqst=" + df(requests), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
           ec.addOHist(ohist, new History(aPre, lRes, "T" + term + " " + name + " CONTINUE", "sv=" + ec.mf(sv1), "->" + ec.mf(sv), df(strategicValue / isv1), "sf=" + df(sf1), "->" + df(sf), df(sf / isf1), "ofr=" + df(offers), "rqst=" + df(requests), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
-          //         sendStats(tSend, tReceipts, tStratValue, tBid, (int) E.fav[clan][myOffer.getOClan()]);
+       //   sendStats(tSend, tReceipts, tStratValue, tBid, (int) E.fav[clan][myOffer.getOClan()]);
           myOffer.accepted(ec);
           didTrade = true;
           rejectTrade = false;
@@ -4912,6 +4912,7 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
               int favr
       ) {
         //percent tReceipts/strtYearTotWorth per favr, per ship#,tot, sumtot list1?
+        setStat("TRADEDRCD", pors, clan, tReceipts / startYrSumWorth, 1);
         switch (favr) {
           case 5:
             // gameRes.TRADEDRCDF5.wet(pors, clan, tReceipts / strtYearTotWorth, 1);
@@ -6185,7 +6186,8 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
         int rBonusX2 = (int) (4 + cRand(29) * 4.) % 7;
         int sBonusX1 = (int) (3 + cRand(30) * 5.) % 7;
         int sBonusX2 = (int) (4 + cRand(31) * 4.) % 7;
-        double sBonusManuals = cRand(32) * cc * eM.catastrophyManualsMultSumKnowledge[pors][0] * 1.6 * knowledge.sum();
+        double sBonusManuals = cRand(32) * cc * eM.catastrophyManualsMultSumKnowledge[pors][0] * 2.6 * knowledge.sum();
+        double sBonusNewKnowledge = cRand(45) * cc * eM.catastrophyManualsMultSumKnowledge[pors][0]* 5.6 * knowledge.sum();
 
         double c1, c2, c3;
         r.cost3((c1 = balances.get(0, r1) * rReduce1), r1, 0);  // apply costs to P and S
@@ -6215,6 +6217,8 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
         else {  // ships
           manuals.add(sBonusX2, sBonusManuals);  // Adds into value of trades
           setStat("sCatBonusManuals", pors, clan, sBonusManuals, 1);
+          newKnowledge.add(sBonusX1,sBonusNewKnowledge);
+          setStat("sCatBonusNewKnowledge", pors, clan, sBonusNewKnowledge, 1);
         }
 
       }
@@ -7024,18 +7028,19 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
         hist.add(new History(aPre, 5, "n" + n + "set preCosts", ">>>", a0.getMethodName(), "at", a0.getFileName(), wh(a0.getLineNumber()), (swapped ? "swapped" : "!swapped"), "n=" + wh(n), "yCalcCosts", "next", "<<<<<<"));
       }
       yCalcCosts(aPre, lightYearsTraveled, curGrowGoal, curMaintGoal); //renew rawProspects2 etc.
+      EM.wasHere = "CashFlow.endYear after yCalcCosts cccad=" + ++cccad;
       sos = rawProspects2.curMin() < E.rawHealthsSOS;
       
       // choose only the living for these results/ deaths stats are later
       EM.wasHere = "before do live cccac=" + ++cccac;
-      if (rawProspects2.curMin() > PZERO) { //proceed only if live,skip if dead
+      if (rawProspects2.curMin() > PZERO) { //proceed  if live,skip if dead
        
 //        prevSwapResults(aPre);  // for the last loop
 
         /**
          * for the prevXn treat grow n Costs as a swap
          */
-        EM.wasHere = "CashFlow.endYear after yCalcCosts cccad=" + ++cccad;
+        
         n = 0;
 
         if (History.dl > History.informationMinor9) {
@@ -7169,6 +7174,7 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
       }else{
        setStat("RCWGGT100PERCENT",pors,clan,rcWorthPercentInc,1); 
       }
+      setStat("RCWGPERCENT",pors,clan,rcWorthPercentInc,1); 
 
       double bcurSum = bals.curSum();
       double totWorth = fyW.getTotWorth();
@@ -7225,6 +7231,8 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
       double criticalNominalRequestsFracFirst = criticalNominalRequests / criticalNominalRequestsFirst;
       tW = new DoTotalWorths();
       double worthincr1 = (fyW.sumTotWorth - syW.sumTotWorth)*100 / syW.sumTotWorth;
+      setStat("WTRADEDINCR", pors, clan, worthincrPercent, 1);
+      setStat("TRADES%", pors, clan, fav > NZERO?100.:0., 1);
       if (fav >= 5.) {
         // gameRes.WTRADEDINCRF5.wet(pors, clan, worthincrPercent, 1);
         setStat("WTRADEDINCRF5", pors, clan, worthincrPercent, 1);
@@ -7308,7 +7316,6 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
         yearsFutureFundTimes = 0;
         hist.add(new History(aPre, 1, "n" + n + ">>>>>> aDEAD=" + df(health), "*dead*", "*dead*", "*dead*", "*dead*", "*dead*", "*dead*", "*dead*", "*dead*", "*dead*", "<<<<<<"));
         EM.wasHere = "CashFlow.yearEnd in dead just before return cccg=" + ++cccg;
-        return rawProspects2.curMin();
       }
 
      
@@ -7336,6 +7343,9 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
       syW = null; // get rid of hanging DoTotalWorths
       EM.wasHere = "CashFlow.yearEnd just before final return cccj=" + ++cccj;
       //     yDestroyFiles();  no longer needed, Assets.yearEnd() nulls cur
+      if(E.debugMisc && syW != null){
+        throw new MyErr("in CF.yearEnd end, syW != null");
+      }
       return health = rawProspects2.curMin();
     }
 

@@ -342,7 +342,7 @@ public class Econ {
     double planetsFrac = 1.0 - eM.gameShipFrac[E.P];
     go = planetsVisitedPerEcon < (planetsFrac *1.1);  // allow a little extra planets
     if(E.debugCanTrade && !go){ 
-      System.out.print("Not planetCanTrade planetsVisitedPerEcon=" + planetsVisitedPerEcon  + " planetsFrac *1.1=" + mf(planetsFrac *1.1));
+      System.out.println(name + " Not planetCanTrade planetsVisitedPerEcon=" + planetsVisitedPerEcon  + " planetsFrac *1.1=" + mf(planetsFrac *1.1));
     }
     return go;
     /*
@@ -715,7 +715,7 @@ public class Econ {
     double wildar = Math.random() * 5.3 % wilda.length;
     int r = (int) Math.floor(wildar);
     wildS += " selected:" + mf(wildar) + " :" + wilda[r].name;
-    System.out.println(wildS);
+    E.sysmsg(wildS);
     return wilda[r];
   }
 
@@ -866,11 +866,17 @@ public class Econ {
       eM.curEcon = myCur; // reset curEcon to its entry value
     }
   }
-  
+  /** pass barter on to Assets but do planetList at term equal 0 or -1
+   * 
+   * @param aOffer  The current offer
+   * @param otherEcon  the econ with which we traded
+   * @return 
+   */
   Offer barter(Offer aOffer,Econ otherEcon){
     Offer ret = as.barter(aOffer);
-    if(ret.getTerm() < 1){
+    if(ret.getTerm() == 0 || ret.getTerm() == -1){
     planetList = mergeLists(planetList,otherEcon.planetList,ret);
+    E.sysmsg(" @@@@@@@econ.barter after mergeLists length=" +  planetList.size());
     }
     return ret;
   }

@@ -80,6 +80,7 @@ public class E {
   static final boolean debugCanTrade = debugMaster; // planet can trade
   static final boolean debugGameTab = debugMaster; // output from game output
   static final boolean debugOutput = false;
+  static final boolean debugThreads = debugMaster;
   /* Start Global data, set in tab init
    * [pors]
    */
@@ -108,6 +109,8 @@ public class E {
   }
  
   static final protected String[] contextName = {"planet", "ship"};
+  static final protected String[] contextNameAlpha = {"P","S"};
+  static final protected String[] cna = {"P","S"};
   public static final int planet = 0;
   public static final int P = 0;
   public static final int ship = 1;
@@ -1747,7 +1750,7 @@ static double doubleTrouble(Double trouble, String vs){
   }
 
   public static boolean sysmsgDone = false;
-  static public int dmsgs = 500;
+  static public int dmsgs = 1900;
   static public int msgs = dmsgs;
   static public int msgcnt = 0;
   
@@ -1768,12 +1771,16 @@ static double doubleTrouble(Double trouble, String vs){
     // StringBuffer m = "Exception";
     //throw MyTestException()
     int ss = Thread.currentThread().getStackTrace().length;
-    System.out.println(" length Thread.currentThread()=" + ss);
+    System.out.println(" length Thread.currentThread().StackTraceLength=" + ss);
     StackTraceElement aa = Thread.currentThread().getStackTrace()[3];
     StackTraceElement ab = (ss < 5 ?aa:Thread.currentThread().getStackTrace()[4]);
     StackTraceElement ac = (ss < 6?aa:Thread.currentThread().getStackTrace()[5]);
+    StackTraceElement ad = (ss < 7?aa:Thread.currentThread().getStackTrace()[6]);
+    StackTraceElement ae = (ss < 8?aa:Thread.currentThread().getStackTrace()[7]);
 
     String Fname = aa.getFileName();
+    String Cname = aa.getClassName();
+    String Mname = aa.getMethodName();
     int Fline = aa.getLineNumber();
     String Fname2 = ab.getFileName();
     int Fline2 = ab.getLineNumber();
@@ -1781,18 +1788,16 @@ static double doubleTrouble(Double trouble, String vs){
     String Fname3 = ac.getFileName();
     int Fline3 = ac.getLineNumber();
     String Mname3 = ac.getMethodName();
-    String Cname = aa.getClassName();
-    String Mname = aa.getMethodName();
+    
     String aDate = new Date().toString();
-    System.out.println(new Date().toString() +">>>>>>>>>");
+    System.out.println(new Date().toString() + " : " + EM.st.since() + ">>>>>>>>>");
     msgcnt++;
-    System.out.format("sysmsg " + msgcnt + "<" + msgs + ":" + Fname3 + "." + Fline3 + "." + Mname3 + ";" + Fname2 + "." + Fline2 + "." + Mname2 + ";" + Fname + "." + Fline + "." + Cname + "." + Mname +
-            ";econ=" + (EM.curEcon == null?" nullEcon" :EM.curEcon.name )
-            + ">>>>>>>>>\n>>>>>>>>>> " + form + "%n",v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7], v[8], v[9], v[10], v[11], v[12], v[13], v[14], v[15], v[16], v[17], v[18], v[19], v[20]);
+    System.out.format("sysmsg " + msgcnt + "<" + msgs + ";econ=" + (EM.curEcon == null?" nullEcon" :EM.curEcon.name ) + ":" + Fname3 + "." + Fline3 + "." + Mname3 + ";" + Fname2 + "." + Fline2 + "." + Mname2 + ";" + Fname + "." + Fline + "." + Cname + "." + Mname 
+            + "<<<<<<<<<<\n>>>>>>>>>> " + form + "%n",v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7], v[8], v[9], v[10], v[11], v[12], v[13], v[14], v[15], v[16], v[17], v[18], v[19], v[20]);
     if (msgcnt > msgs) {
       new Throwable().printStackTrace();
       sysmsgDone = true;
-      throw new MyErr(">>>>>>>> ERR msgcnt" + msgcnt + " exceeds limit msgs" + msgs);
+      throw new MyErr(">>>>>>>> ERR msgcnt=" + msgcnt + " exceeds limit msgs" + msgs);
     }
     // System.exit(5);
     //return 0.;
