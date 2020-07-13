@@ -322,13 +322,21 @@ public class Econ {
   
   /** decide is this planet is available for another visit to attempt a trade
    * Check the number of tradedShipsTried against several requirements.
+   * try to ensure that new ships and planets are candidates for a trade.  
+   * but pay attention to the settings for this clan to not use more ships than
+   * the number they build.
+   * There are several rounds trying to find planets to trade, each round accepting
+   * more planets.
    * check against:<ul><li>ships per planet--visited ships per visited planets</li>
    * <li>clan ships per clan planets -- visited clan ships -- visited clan planets</li>
    * <li>clan ships per all planets -- clan ship visits per all planets</li></ul>
+   * @param round 0-4 which round, increase options as round increases
    * 
    * @return true if planet can have a visit to trade
+   * false planets are not save, true results mean save this planet again in the 
+   * list of tradable planets.  a planet may appear for each round.
    */
-  boolean planetCanTrade(){
+  boolean planetCanTrade(int round){
     boolean go = true; // can go to trade
     go &= pors > 0; // any ship trades
     boolean go1 = EM.porsCnt[E.P] < 3;  //allow go beginnning of game
@@ -338,19 +346,30 @@ public class Econ {
     if((go || go1)) return true;
     boolean ret=false;
     int myVisits = getTradedShipsTried();
-    double planetsVisitedPerEcon = EM.visitedCnt == 0?0.0:EM.porsCnt[E.P] /EM.visitedCnt;
-    double planetsFrac = 1.0 - eM.gameShipFrac[E.P];
-    go = planetsVisitedPerEcon < (planetsFrac *1.1);  // allow a little extra planets
-    if(E.debugCanTrade && !go){ 
-      System.out.println(name + " Not planetCanTrade planetsVisitedPerEcon=" + planetsVisitedPerEcon  + " planetsFrac *1.1=" + mf(planetsFrac *1.1));
+    double planetsVisitedPerEcon = EM.visitedCnt == 0?0.0:EM.porsVisited[E.P]/EM.visitedCnt;
+    
+   // double shipsVisitedPerPlanetVisited = EM.porsVisited[E.P] == 0? 0
+    double planetsGoalFrac = 1.0 - eM.gameShipFrac[E.P];
+    // increase allowed as round increases
+    go = planetsVisitedPerEcon < (planetsGoalFrac *1.1 + planetsGoalFrac * 0.25 * round) ;  // allow a little extra planets
+    if(!go){
+    if(E.debugCanTrade){ 
+   //   E.sysmsg(name + " Not planetCanTrade planetsVisitedPerEcon=" + planetsVisitedPerEcon  + " round=" + round + " planetsFrac *1.1=" + mf(planetsFrac *1.1  + planetsFrac * 0.25 * round));
+      return go;  // exit false
+    }  
+    } else {
+      if(E.debugCanTrade){ 
+  //    System.out.println(name + " planetCanTrade planetsVisitedPerEcon=" + planetsVisitedPerEcon  + " planetsFrac *1.1=" + mf(planetsFrac *1.1  + planetsFrac * 0.25 * round));
     }
-    return go;
-    /*
-    go = myVisits < (int)Math.floor(shipsPerPlanets  - .7);
-    if(E.debugCanTrade && !go){ 
-      E.sysmsg("in planetCanTrade myVisits=" + myVisits + "
     }
-    */
+
+   // next test
+  //  double shipsPerPlanets = EM.shipsPerPlanets[pors][clan];
+   // go = myVisits < (int)Math.floor(shipsPerPlanets  - .7  + planetsFrac * 0.25 * round);
+    if(E.debugCanTrade && !go){ 
+   //   E.sysmsg("in planetCanTrade myVisits=" + myVisits + "
+    }
+    
      /*
      double[] gameShipFrac = {.501, .498};
   static double[][] mGameShipFrac = {{.35, .65}, {.35, .65}};
@@ -372,6 +391,7 @@ public class Econ {
     if(visitedClanShipsPerClanPlanets > clanShipsPerClanPlanets) return false;
     return true; //OK past all limits
     */
+     return true; //OK past all limits
   }
 
   ;

@@ -37,27 +37,27 @@ public class E {
   // it also holds tables used to calculate growth etc.
   /** StarTrader contains the used set of stats descriptors
    * 
-    static final public String statsButton0Tip = "0: Current Game Worths";
+  static final public String statsButton0Tip = "0: Current Game Worths";
   static final public String statsButton1Tip = "1: Favors and trade effects";
   static final public String statsButton2Tip = "2: Catastrophies, deaths, randoms, forwardfund";
-  static final public String statsButton3Tip = "3: years 0,1,2,3 worth inc, costs, efficiency,knowledge,phe";
-  static final public String statsButton4Tip = "4: years 4,5,6,7 worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton5Tip = "5: years 8->15 worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton6Tip = "6: years 16->31 worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton7Tip = "7: years 32+ worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton8Tip = "8: swap factors";
-  static final public String statsButton9Tip = "9: Resource, staff, knowledge values";
-  static final public String statsButton10Tip = "10: growth and costs details";
-  static final public String statsButton11Tip = "11: Fertility, health and effects";
-  static final public String statsButton12Tip = "12: Swaps years incr skips, redos and dos";
-  static final public String statsButton13Tip = "13: Swaps years decr skips, redos and dos";
-  static final public String statsButton14Tip = "14: Swaps years xfer skips, redos and dos";
-  static final public String statsButton15Tip = "15: Swaps years Forward Fund imbalance or save";
-  static final public String statsButton16Tip = "16: Swaps cumulative values";
-  static final public String statsButton17Tip = "17: Deaths";
-  static final public String statsButton18Tip = "18: Trades";
-  static final public String statsButton19Tip = "19: Creates";
-  static final public String statsButton20Tip = "20: ForwardFund";
+  static final public String statsButton17Tip = "3: Deaths";
+  static final public String statsButton18Tip = "4: Trades";
+  static final public String statsButton19Tip = "5: Creates";
+  static final public String statsButton20Tip = "6: ForwardFund";
+  static final public String statsButton9Tip = "7: Resource, staff, knowledge values";
+  static final public String statsButton10Tip = "8: growth and costs details";
+  static final public String statsButton11Tip = "9: Fertility, health and effects";
+  static final public String statsButton3Tip = "10: years 0,1,2,3 worth inc, costs, efficiency,knowledge,phe";
+  static final public String statsButton4Tip = "11: years 4,5,6,7 worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton5Tip = "12: years 8->15 worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton6Tip = "13: years 16->31 worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton7Tip = "14: years 32+ worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton8Tip = "15: swap factors";
+  static final public String statsButton12Tip = "16: Swaps years incr skips, redos and dos";
+  static final public String statsButton13Tip = "17: Swaps years decr skips, redos and dos";
+  static final public String statsButton14Tip = "18: Swaps years xfer skips, redos and dos";
+  static final public String statsButton15Tip = "19: Swaps years Forward Fund imbalance or save";
+  static final public String statsButton16Tip = "20: Swaps cumulative values";
   0:worths,1:trade favor,2:random,deaths,forward,34567 ages,8:swap,9 rcsg bal,10:growth,cost,11:fertility health effect
 */
   /**
@@ -1761,17 +1761,17 @@ static double doubleTrouble(Double trouble, String vs){
 
   static public Object sysmsg(String form,Object... dargs) {
 
-    Object v[] = new Object[21];
+    Object v[] = new Object[31];
       for (int i = 0; i < v.length; i++) {
-        v[i] = 0.;
+        v[i] = 0.; //preset all v to 0
       }
       for (int i = 0; i < dargs.length && i < v.length; i++) {
-        v[i] = dargs[i];
+        v[i] = dargs[i]; // move object
       }
     // StringBuffer m = "Exception";
     //throw MyTestException()
     int ss = Thread.currentThread().getStackTrace().length;
-    System.out.println(" length Thread.currentThread().StackTraceLength=" + ss);
+    //System.out.println(" length Thread.currentThread().StackTraceLength=" + ss);
     StackTraceElement aa = Thread.currentThread().getStackTrace()[3];
     StackTraceElement ab = (ss < 5 ?aa:Thread.currentThread().getStackTrace()[4]);
     StackTraceElement ac = (ss < 6?aa:Thread.currentThread().getStackTrace()[5]);
@@ -1790,10 +1790,10 @@ static double doubleTrouble(Double trouble, String vs){
     String Mname3 = ac.getMethodName();
     
     String aDate = new Date().toString();
-    System.out.println(new Date().toString() + " : " + EM.st.since() + ">>>>>>>>>");
+    //System.out.println(EM.st.since() + ">>>>>>>>>sysmsg" + EM.st.since());
     msgcnt++;
-    System.out.format("sysmsg " + msgcnt + "<" + msgs + ";econ=" + (EM.curEcon == null?" nullEcon" :EM.curEcon.name ) + ":" + Fname3 + "." + Fline3 + "." + Mname3 + ";" + Fname2 + "." + Fline2 + "." + Mname2 + ";" + Fname + "." + Fline + "." + Cname + "." + Mname 
-            + "<<<<<<<<<<\n>>>>>>>>>> " + form + "%n",v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7], v[8], v[9], v[10], v[11], v[12], v[13], v[14], v[15], v[16], v[17], v[18], v[19], v[20]);
+    System.out.format( ">>>>>>>>>sysmsg" + msgcnt + "<" + msgs + EM.st.since() + ";econ=" + (EM.curEcon == null?" nullEcon" :EM.curEcon.name ) + ":" + Fname3 + "." + Fline3 + "." + Mname3 + ";" + Fname2 + "." + Fline2 + "." + Mname2 + ";" + Fname + "." + Fline + "." + Cname + "." + Mname 
+            + "<<<<<<<<<<\n>>>>>>>>>> " + form + "%n",v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7], v[8], v[9], v[10], v[11], v[12], v[13], v[14], v[15], v[16], v[17], v[18], v[19], v[20], v[21], v[22], v[23], v[24], v[25], v[26], v[27], v[28], v[29], v[30]);
     if (msgcnt > msgs) {
       new Throwable().printStackTrace();
       sysmsgDone = true;

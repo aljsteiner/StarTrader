@@ -148,24 +148,24 @@ public class StarTrader extends javax.swing.JFrame {
   static final public String statsButton0Tip = "0: Current Game Worths";
   static final public String statsButton1Tip = "1: Favors and trade effects";
   static final public String statsButton2Tip = "2: Catastrophies, deaths, randoms, forwardfund";
-  static final public String statsButton3Tip = "3: years 0,1,2,3 worth inc, costs, efficiency,knowledge,phe";
-  static final public String statsButton4Tip = "4: years 4,5,6,7 worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton5Tip = "5: years 8->15 worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton6Tip = "6: years 16->31 worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton7Tip = "7: years 32+ worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton8Tip = "8: swap factors";
-  static final public String statsButton9Tip = "9: Resource, staff, knowledge values";
-  static final public String statsButton10Tip = "10: growth and costs details";
-  static final public String statsButton11Tip = "11: Fertility, health and effects";
-  static final public String statsButton12Tip = "12: Swaps years incr skips, redos and dos";
-  static final public String statsButton13Tip = "13: Swaps years decr skips, redos and dos";
-  static final public String statsButton14Tip = "14: Swaps years xfer skips, redos and dos";
-  static final public String statsButton15Tip = "15: Swaps years Forward Fund imbalance or save";
-  static final public String statsButton16Tip = "16: Swaps cumulative values";
-  static final public String statsButton17Tip = "17: Deaths";
-  static final public String statsButton18Tip = "18: Trades";
-  static final public String statsButton19Tip = "19: Creates";
-  static final public String statsButton20Tip = "20: ForwardFund";
+  static final public String statsButton17Tip = "3: Deaths";
+  static final public String statsButton18Tip = "4: Trades";
+  static final public String statsButton19Tip = "5: Creates";
+  static final public String statsButton20Tip = "6: ForwardFund";
+  static final public String statsButton9Tip = "7: Resource, staff, knowledge values";
+  static final public String statsButton10Tip = "8: growth and costs details";
+  static final public String statsButton11Tip = "9: Fertility, health and effects";
+  static final public String statsButton3Tip = "10: years 0,1,2,3 worth inc, costs, efficiency,knowledge,phe";
+  static final public String statsButton4Tip = "11: years 4,5,6,7 worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton5Tip = "12: years 8->15 worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton6Tip = "13: years 16->31 worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton7Tip = "14: years 32+ worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton8Tip = "15: swap factors";
+  static final public String statsButton12Tip = "16: Swaps years incr skips, redos and dos";
+  static final public String statsButton13Tip = "17: Swaps years decr skips, redos and dos";
+  static final public String statsButton14Tip = "18: Swaps years xfer skips, redos and dos";
+  static final public String statsButton15Tip = "19: Swaps years Forward Fund imbalance or save";
+  static final public String statsButton16Tip = "20: Swaps cumulative values";
 
   static final public String gameTextFieldText = "This is to be filled with descriptions of the field over which the mouse hovers";
   /* 0:worths,1:trade favor,2:random,crisis,deaths,forward,34567 ages,8:swap,9 rcsg bal,10:growth,cost,11:fertility health effect
@@ -5688,44 +5688,51 @@ public class StarTrader extends javax.swing.JFrame {
     int j = 0; // counter for planets in ret;
     // planetsStart = start of search for planets
     // start with older bigger planets, ships start with bigger
+  
     int planetsStart =  Math.floorDiv(shipsLoop * lPlanets,lShips) - Math.floorDiv(shipsLoop,3);
     Econ[] ret = new Econ[n];
     ret[0] = eM.planets.get(lPlanets-1); // last one assigned
     Econ planet = eM.planets.get(0);
-    for(int planetLoop=0;planetLoop < lPlanets;planetLoop++){
-      planet = eM.planets.get(planetLoop);
-      if(!planet.getDie() 
-          && ((lsel = planet.calcLY(planet, eM.curEcon)) < eM.maxLY[0]) 
-          && !planet.getDie() 
-          && planet.planetCanTrade()){
-      ret[0] = planet; 
-      planetLoop = lPlanets;  // search no more
-    }
-    }
-      // start looking with the oldest planet
-    for (int m = 0; m < ret.length; m++) {
-      ret[m] = ret[0];   // set everything to the oldest planet
-    }
+       
+    double shipsVisitedPerPlanetVisited = EM.porsVisited[E.P] == 0? 0.:EM.porsVisited[E.S]/EM.porsVisited[E.P];
+    double planetsGameGoalFrac = 1.0 - eM.gameShipFrac[E.P];
+    double goalGameShipsPerPlanet = planetsGameGoalFrac == 0.0? 0.0:eM.gameShipFrac[E.P] / planetsGameGoalFrac;
+    double clanPlanetFrac[] = {1.0 - eM.clanShipFrac[E.P][0],1.0 - eM.clanShipFrac[E.P][1],1.0 - eM.clanShipFrac[E.P][2],1.0 - eM.clanShipFrac[E.P][3],1.0 - eM.clanShipFrac[E.P][4]};
+    double clanGoalShipsPerPlanet[] = {eM.clanShipFrac[E.P][0]/clanPlanetFrac[0],eM.clanShipFrac[E.P][1]/clanPlanetFrac[1],eM.clanShipFrac[E.P][2]/clanPlanetFrac[2],eM.clanShipFrac[E.P][3]/clanPlanetFrac[3],eM.clanShipFrac[E.P][4]/clanPlanetFrac[4]};
+    double clanCurShipsPerPlanet[] = {eM.porsClanVisited[E.S][0]/eM.porsClanVisited[E.P][0],eM.porsClanVisited[E.S][1]/eM.porsClanVisited[E.P][1],eM.porsClanVisited[E.S][2]/eM.porsClanVisited[E.P][2],eM.porsClanVisited[E.S][3]/eM.porsClanVisited[E.P][3],eM.porsClanVisited[E.S][4]/eM.porsClanVisited[E.P][4]};
     
-    // find planets older to newer
-      // go around the loop m only 10 times to fill list
-      for (int i=planetsStart,m=j=0; i < lPlanets && j < ret.length && m < 10; i++) {
+        ;
+    int loops=0,rtns=0;
+    double lse1 =0.,lse2=0.;
+    boolean lla=true,llb=true;
+    // find planets new to old
+      for(loops = 0;loops<4;loops++){
+        boolean okClanSovrP[] = {
+        };
+      for (int i=lPlanets-1; i >= 0 && rtns < ret.length ; i--) {
         planet = eM.planets.get(i);
-        if (((lsel = planet.calcLY(planet, eM.curEcon)) < eM.maxLY[0]) && !planet.getDie() && planet.planetCanTrade()  ) {
-          if (j < ret.length) {
-            ret[j++] = planet;
+        if(!planet.getDie()){
+          if((lsel = planet.calcLY(planet, eM.curEcon )) 
+              < (lse2 = eM.maxLY[0] 
+              + eM.addLY[0]*eM.addLYM[loops]))  {
+            if((lla = loops < 1 && planet.getAge() < 3 && planet.getTradedShipsTried() < 1) 
+              || ( llb = loops > 0 && planet.getTradedShipsTried()<  1  ) ) {
+            
+          if (rtns < ret.length) {
+            ret[rtns++] = planet;
+          }
             //    System.out.println(eM.curEcon.getName() + " build select list=" + planet.getName());
-            System.out.printf("build select list #%d for %s, dist=%5.2f < max=%5.2f planet %s\n", j - 1, eM.curEcon.getName(), lsel, eM.maxLY[0], planet.getName());
-          if(i >= (lPlanets -1)){
-            i = 0; // restart the loop
-            m++; // count the restarted loop
-          }
-          }
+            E.sysmsg("build select list #%d for %s, dist=%5.2f < max=%5.2f planet %s\n", j - 1, eM.curEcon.getName(), lsel, eM.maxLY[0] + eM.addLY[0]*loops, planet.getName());
+          
+              }
+              }  
         }
-      }
+          }
+        }// loops
+     
     
     return ret;
-  }
+  }// getWildCurs
 
   boolean clearHist(Econ myCur) {
     if (myCur.econCnt >= eM.keepHistsByYear[eM.year > eM.keepHistsByYear.length - 1 ? eM.keepHistsByYear.length - 1 : eM.year] && myCur.hist.size() > 20) {
