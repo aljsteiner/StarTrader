@@ -727,16 +727,16 @@ public class Econ {
     
   }
 
-  protected Econ selectPlanet(Econ[] wilda) {
+  protected Econ selectPlanet(ArrayList<Econ> wilda) {
     String wildS = "in selectPlanet for:" + name + " names=";
     for (Econ ww : wilda) {
       wildS += " " + ww.name + " distance=" + calcLY(this, ww);
     }
-    double wildar = Math.random() * 5.3 % wilda.length;
+    double wildar = Math.random() * 5.3 % wilda.size();
     int r = (int) Math.floor(wildar);
-    wildS += " selected:" + mf(wildar) + " :" + wilda[r].name;
+    wildS += " selected:" + mf(wildar) + " :" + wilda.get(r).name;
     E.sysmsg(wildS);
-    return wilda[r];
+    return wilda.get(r);
   }
 
   protected double calcLY(Econ cur, Econ cur2) {

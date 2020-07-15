@@ -58,6 +58,29 @@ class EM {
   EM copyTo; // during a copy, doVal, doRes etc must copy
   boolean doingCopy = false;
 
+   static final public String statsButton0Tip = "0: Current Game Worths";
+  static final public String statsButton1Tip = "1: Favors and trade effects";
+  static final public String statsButton2Tip = "2: Catastrophies, deaths, randoms, forwardfund";
+  static final public String statsButton17Tip = "3: Deaths";
+  static final public String statsButton18Tip = "4: Trades";
+  static final public String statsButton19Tip = "5: Creates";
+  static final public String statsButton20Tip = "6: ForwardFund";
+  static final public String statsButton9Tip = "7: Resource, staff, knowledge values";
+  static final public String statsButton10Tip = "8: growth and costs details";
+  static final public String statsButton11Tip = "9: Fertility, health and effects";
+  static final public String statsButton3Tip = "10: years 0,1,2,3 worth inc, costs, efficiency,knowledge,phe";
+  static final public String statsButton4Tip = "11: years 4,5,6,7 worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton5Tip = "12: years 8->15 worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton6Tip = "13: years 16->31 worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton7Tip = "14: years 32+ worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton8Tip = "15: swap factors";
+  static final public String statsButton12Tip = "16: Swaps years incr skips, redos and dos";
+  static final public String statsButton13Tip = "17: Swaps years decr skips, redos and dos";
+  static final public String statsButton14Tip = "18: Swaps years xfer skips, redos and dos";
+  static final public String statsButton15Tip = "19: Swaps years Forward Fund imbalance or save";
+  static final public String statsButton16Tip = "20: Swaps cumulative values";
+
+  
 //  Econ ec;
   ArrayList<Econ> ships = new ArrayList<Econ>();
   ArrayList<Econ> deadPlanets = new ArrayList<Econ>();
@@ -84,32 +107,17 @@ class EM {
   static int visitedCnt = 0;
   double[] maxLY = {15.};// ship max light years for search
   static double[][] mMaxLY = {{.5, 25.}};//planet or ship max light years
-  double[] addLY = {.7}; // add to ly in planet search per round of search
+  double[] addLY = {.9}; // add to ly in planet search per round of search
   static double[][] mAddLY = {{.3,5.}};
-  double[] addLYM = {1.0,1.15,1.15,1.3,1.6};
-  
-  static final public String statsButton0Tip = "0: Current Game Worths";
-  static final public String statsButton1Tip = "1: Favors and trade effects";
-  static final public String statsButton2Tip = "2: Catastrophies, deaths, randoms, forwardfund";
-  static final public String statsButton17Tip = "3: Deaths";
-  static final public String statsButton18Tip = "4: Trades";
-  static final public String statsButton19Tip = "5: Creates";
-  static final public String statsButton20Tip = "6: ForwardFund";
-  static final public String statsButton9Tip = "7: Resource, staff, knowledge values";
-  static final public String statsButton10Tip = "8: growth and costs details";
-  static final public String statsButton11Tip = "9: Fertility, health and effects";
-  static final public String statsButton3Tip = "10: years 0,1,2,3 worth inc, costs, efficiency,knowledge,phe";
-  static final public String statsButton4Tip = "11: years 4,5,6,7 worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton5Tip = "12: years 8->15 worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton6Tip = "13: years 16->31 worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton7Tip = "14: years 32+ worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton8Tip = "15: swap factors";
-  static final public String statsButton12Tip = "16: Swaps years incr skips, redos and dos";
-  static final public String statsButton13Tip = "17: Swaps years decr skips, redos and dos";
-  static final public String statsButton14Tip = "18: Swaps years xfer skips, redos and dos";
-  static final public String statsButton15Tip = "19: Swaps years Forward Fund imbalance or save";
-  static final public String statsButton16Tip = "20: Swaps cumulative values";
-
+  double[]multLYM = {1.1,1.2,1.4,1.6,1.9,2.2,2.7,3.5}; //8
+  // multiplier of the ship goals.
+  double[] addGoal = {0.0,0.015,.025,.045,.06,.08,2.0,2.3};//9
+  double[] gameShipFrac = {.501, .498};
+  static double[][] mGameShipFrac = {{.35, .65}, {.35, .65}};
+  double[][] clanShipFrac = {{.501, .501, .501, .501, .6}, {.498, .498, .498, .498, .6}}; // .3-.7 clan choice of clan ships /econs
+  static double[][] mClanShipFrac = {{.3, .7}, {.3, .7}};
+  double[][] clanAllShipFrac = {{.501, .501, .501, .501, .501}, {.5, .5, .5, .5, .5}};
+  static double[][] mClanAllShipFrac = {{.3, .8}, {.3, .8}};
   
   static double mEconLimits1[][] = {{200., 500.}, {200., 500.}};
   double econLimits2[] = {350.}; // more limiting of econs
@@ -721,12 +729,6 @@ class EM {
   static double[][] mGameUserCatastrophyMult = {{.0, .7}, {.0, .8}};
   double[][] gameClanRiskMult = {{.5}, {.5}};  // range .0 - .6
   static double[][] mGameClanRiskMult = {{.0, .6}, {.0, .6}};  // range .0 - .6
-  double[] gameShipFrac = {.501, .498};
-  static double[][] mGameShipFrac = {{.35, .65}, {.35, .65}};
-  double[][] clanShipFrac = {{.501, .501, .501, .501, .6}, {.498, .498, .498, .498, .6}}; // .3-.7 clan choice of clan ships /econs
-  static double[][] mClanShipFrac = {{.3, .7}, {.3, .7}};
-  double[][] clanAllShipFrac = {{.501, .501, .501, .501, .501}, {.5, .5, .5, .5, .5}};
-  static double[][] mClanAllShipFrac = {{.3, .8}, {.3, .8}};
   // multiply table guest cost by guestBias when calculating Maint Travel Growth Req costs and worth
   double[] guestWorthBias = {1.};
   static double[][] mGuestWorthBias = {{.2, 1.5}, {.2, 1.5}};

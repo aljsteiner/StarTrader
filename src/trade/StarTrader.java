@@ -5672,6 +5672,7 @@ public class StarTrader extends javax.swing.JFrame {
     System.out.println();
   }
 
+  int[] clanShipsDone = {0,0,0,0,0};
   /**
    * get Wild Current Planets for possible selection by a ship
    * There will be duplicates if needed to fill the array
@@ -5681,57 +5682,63 @@ public class StarTrader extends javax.swing.JFrame {
    * 
    * @return new Econ array
    */
-  public Econ[] getWildCurs(int n,int shipsLoop) {
+  boolean getWildCurs(int shipsDone,ArrayList<Econ> tradablePlanets) {
     int lPlanets = eM.planets.size();
     int lShips = eM.ships.size();
+    int lTradablePlanets = tradablePlanets.size();
     double lsel, maxsel;
-    int j = 0; // counter for planets in ret;
-    // planetsStart = start of search for planets
-    // start with older bigger planets, ships start with bigger
-  
-    int planetsStart =  Math.floorDiv(shipsLoop * lPlanets,lShips) - Math.floorDiv(shipsLoop,3);
-    Econ[] ret = new Econ[n];
-    ret[0] = eM.planets.get(lPlanets-1); // last one assigned
+    int rtns = -1; // counter for planets in ret;
+    clanShipsDone[eM.curEcon.clan]++;
     Econ planet = eM.planets.get(0);
+
        
     double shipsVisitedPerPlanetVisited = EM.porsVisited[E.P] == 0? 0.:EM.porsVisited[E.S]/EM.porsVisited[E.P];
     double planetsGameGoalFrac = 1.0 - eM.gameShipFrac[E.P];
     double goalGameShipsPerPlanet = planetsGameGoalFrac == 0.0? 0.0:eM.gameShipFrac[E.P] / planetsGameGoalFrac;
+    
     double clanPlanetFrac[] = {1.0 - eM.clanShipFrac[E.P][0],1.0 - eM.clanShipFrac[E.P][1],1.0 - eM.clanShipFrac[E.P][2],1.0 - eM.clanShipFrac[E.P][3],1.0 - eM.clanShipFrac[E.P][4]};
     double clanGoalShipsPerPlanet[] = {eM.clanShipFrac[E.P][0]/clanPlanetFrac[0],eM.clanShipFrac[E.P][1]/clanPlanetFrac[1],eM.clanShipFrac[E.P][2]/clanPlanetFrac[2],eM.clanShipFrac[E.P][3]/clanPlanetFrac[3],eM.clanShipFrac[E.P][4]/clanPlanetFrac[4]};
     double clanCurShipsPerPlanet[] = {eM.porsClanVisited[E.S][0]/eM.porsClanVisited[E.P][0],eM.porsClanVisited[E.S][1]/eM.porsClanVisited[E.P][1],eM.porsClanVisited[E.S][2]/eM.porsClanVisited[E.P][2],eM.porsClanVisited[E.S][3]/eM.porsClanVisited[E.P][3],eM.porsClanVisited[E.S][4]/eM.porsClanVisited[E.P][4]};
     
         ;
-    int loops=0,rtns=0;
+    int loops=0;
     double lse1 =0.,lse2=0.;
     boolean lla=true,llb=true;
     // find planets new to old
       for(loops = 0;loops<4;loops++){
         boolean okClanSovrP[] = {
         };
-      for (int i=lPlanets-1; i >= 0 && rtns < ret.length ; i--) {
+      for (int i=lPlanets-1; i >= 0 && rtns < lTradablePlanets ; i--) {
         planet = eM.planets.get(i);
         if(!planet.getDie()){
-          if((lsel = planet.calcLY(planet, eM.curEcon )) 
+          // if shipsDone/EconsDone  <= eM.gameShipFrac[E.P] + eM.addGoal[loops]
+          // always allow trade to planets < age 3 with no ship visited
+          if((lla = loops < 2 && planet.getAge() < 3 && planet.getTradedShipsTried() < 1) 
+              || (shipsDone/(shipsDone + EM.porsVisited[E.P])  <=  eM.gameShipFrac[E.P] + eM.addGoal[loops])){
+            if((lla = loops < 2 && planet.getAge() < 3 && planet.getTradedShipsTried() < 1) 
+              || ( llb = loops > 1 && planet.getTradedShipsTried()<  1  ) ) {
+              if((lsel = planet.calcLY(planet, eM.curEcon )) 
               < (lse2 = eM.maxLY[0] 
-              + eM.addLY[0]*eM.addLYM[loops]))  {
-            if((lla = loops < 1 && planet.getAge() < 3 && planet.getTradedShipsTried() < 1) 
-              || ( llb = loops > 0 && planet.getTradedShipsTried()<  1  ) ) {
-            
-          if (rtns < ret.length) {
-            ret[rtns++] = planet;
+              + eM.addLY[0]*eM.multLYM[loops]))  {
+            boolean goPrev = true;   
+            for(int prev=0; prev < rtns && goPrev == true;prev++){
+              if(planet == tradablePlanets.get(prev) ) goPrev = false;
+            }
+            if(goPrev){
+          if (rtns < lTradablePlanets) {
+            tradablePlanets.set(rtns++,planet);
           }
             //    System.out.println(eM.curEcon.getName() + " build select list=" + planet.getName());
-            E.sysmsg("build select list #%d for %s, dist=%5.2f < max=%5.2f planet %s\n", j - 1, eM.curEcon.getName(), lsel, eM.maxLY[0] + eM.addLY[0]*loops, planet.getName());
+            E.sysmsg("build planets list #%d for %s, dist=%5.2f < max=%5.2f planet %s\n", rtns, eM.curEcon.getName(), lsel, eM.maxLY[0] + eM.addLY[0]*loops, planet.getName());
           
-              }
+              }}}
               }  
         }
           }
         }// loops
      
     
-    return ret;
+    return rtns > 0;
   }// getWildCurs
 
   boolean clearHist(Econ myCur) {
@@ -5968,7 +5975,8 @@ public class StarTrader extends javax.swing.JFrame {
         stateConst = STOPPED;
       }
       else {
-        for (shipsLoop = 0; shipsLoop < eM.ships.size() - 1; shipsLoop++) {
+        // go latest to earliest, smallest to largest
+        for (shipsLoop = eM.ships.size() - 1; shipsLoop >= 0; shipsLoop--) {
           eM.curEcon = eM.ships.get(shipsLoop);
           startEconState = (new Date()).getTime();
           //paintCurDisplay(eM.curEcon);
@@ -5976,7 +5984,10 @@ public class StarTrader extends javax.swing.JFrame {
           if (!eM.curEcon.getDie()) {  //live
             // ship selects its next planet, from offer list and wildCurs
             Econ cur1 = eM.curEcon;
-            Econ cur2 = eM.curEcon.selectPlanet(getWildCurs((int) eM.wildCursCnt[0][0],shipsLoop));
+            ArrayList<Econ> tradablePlanets = new ArrayList<Econ>((int)eM.wildCursCnt[0][0]);
+            Econ [] tradableShips = new Econ[5];
+            getWildCurs(eM.ships.size()- 1 - shipsLoop,tradablePlanets);
+            Econ cur2 = eM.curEcon.selectPlanet(tradablePlanets);
             System.out.println(" @@@@@@Ship=" + eM.curEcon.getName() + ", loop select planet=" + cur2.getName() + " distance=" + eM.curEcon.mf(calcLY(eM.curEcon,cur2)));
             double distance = calcLY(eM.curEcon, cur2);
             clearHist(eM.logEnvirn[1]);
