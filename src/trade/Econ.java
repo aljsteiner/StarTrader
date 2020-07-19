@@ -19,11 +19,7 @@ package trade;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 /**
  *
@@ -48,7 +44,7 @@ import java.util.Set;
  * numbers remain constant until the start of the next year cycle.
  * 
  */
-public class Econ {
+public class Econ{
 
   StarTrader st;
   E eE = new E();
@@ -317,6 +313,7 @@ public class Econ {
    * @return the number of trades tried this year
    */
   int getTradedShipsTried() {
+    int jjj = as.getTradedShipsTried();
     return as.getTradedShipsTried();
   }
   
@@ -727,16 +724,28 @@ public class Econ {
     
   }
 
-  protected Econ selectPlanet(ArrayList<Econ> wilda) {
-    String wildS = "in selectPlanet for:" + name + " names=";
+  Econ selectPlanet(ArrayList<Econ> wilda) {
+    String wildS = "in selectPlanet for:" + name + " ";
+    int n=0,r=-1;
     for (Econ ww : wilda) {
-      wildS += " " + ww.name + " distance=" + calcLY(this, ww);
+      wildS += (n++ > 0?", ":"");
+      wildS += " " + ww.name + "@" + calcLY(this, ww);
     }
+    if(n > 0){
     double wildar = Math.random() * 5.3 % wilda.size();
-    int r = (int) Math.floor(wildar);
+    r = (int) Math.floor(wildar);
     wildS += " selected:" + mf(wildar) + " :" + wilda.get(r).name;
+    }
+  
+    Econ ret = null;
+  if(n>0) {
     E.sysmsg(wildS);
-    return wilda.get(r);
+    sStartTrade(this,ret=wilda.get(r));
+  
+     } else {
+  E.sysmsg("no planet available to trade");
+}
+  return ret;
   }
 
   protected double calcLY(Econ cur, Econ cur2) {
@@ -820,11 +829,10 @@ public class Econ {
     // put new offer at the end
     ownerList.add(new TradeRecord(aOffer));
     
-    Iterator<TradeRecord> iterOther = otherList.iterator();
+   Iterator<TradeRecord>  iterOther = otherList.iterator();
    TradeRecord otherRec;
      for(TradeRecord ownerRec:ownerList){
-       while( iterOther.hasNext() && 
-      (otherRec = iterOther.next()).isOlderThan(ownerRec)){
+       while( iterOther.hasNext() && (otherRec = iterOther.next()).isOlderThan(ownerRec)){
          
          if(otherRec.year > yearsTooEarly && otherRec.cnName.startsWith("P"))
          { 

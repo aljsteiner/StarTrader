@@ -172,7 +172,7 @@ public class StarTrader extends javax.swing.JFrame {
    */
 
   static final public String[] statsButtonsTips = {statsButton0Tip, statsButton1Tip, statsButton2Tip, statsButton3Tip, statsButton4Tip, statsButton5Tip, statsButton6Tip, statsButton7Tip, statsButton8Tip, statsButton9Tip, statsButton10Tip, statsButton11Tip, statsButton12Tip, statsButton13Tip, statsButton14Tip, statsButton15Tip, statsButton16Tip, statsButton17Tip, statsButton18Tip, statsButton19Tip, statsButton20Tip, gameTextFieldText};
-  static final public String versionText = "     Version 19.01";
+  static final public String versionText = "     Version 19.02";
   static final public String storyText = "This game is about trading not fighting. Trading is done between planets and Starships which move between planets.  There are 5 clans and a gamemaster, all of which can change some priorities or values for the game.You can choose one of several winning goals, highest worth, highest trades received, highest trades given, highest number of planets and ships etc.  Planets and ships are each economies with 7 sectors.  Each sector has working resources, reserve resources (cargo), working staff and reserve staff (guests).\n\nThere is also knowledge.  As knowledge in a sector increases, the annual cost per unit in each sector decreases and in some sectors new units of resource, staff, and knowledge increase. As in any game, random factors influence many aspects of the game.\n\nPlanets mine resources and grow staff, but deliberately have surpluses in some financial sectors, and famines in some other sectors.  Ships move resources between planets, often trading the resources that are lacking at a given planet in exchange for other resources and staff and knowledge.  But ships generally cannot increase staff or mine/find resources, they must receive significant resources and staff in each trade to grow at a rate that allows them to be productive trade partners.\n\nThe game proceeds either 1 year at a time or 5 years at a time depending on the choice by the gamemaster.  At the end of each 1 year or 5 years, clan masters may look at their statistices and decide to change some clan priorities.  The gamemaster can also make changes, but probably should not.  It is possible in some systems to have multiple games running, each game with different gamemaster priorities.  The initial priorities are set to make the game interesting with possibilities of growth.  Some priority changes by gamemaster or clanmaster may increase growth, but may also decrease growth causing a death of all or most ships and planets.  The balancing of economies is not simple or easy.  It is more possible to crash an economy than to grow it, so don\'t be greedy, make small changes until you understand the game better.\n\n "
   + "Click on the tab labled \"game\" to change game parameters.  Click the first gray radio button master, to change overall game parameters as the \"gamemaster\". "
       + "The next 5 radio buttons are for the 5 clans, \"red\", \"orange\", \"yellow\", \"green\" and \"blue\".  When you click on the parameter name," 
@@ -5682,10 +5682,11 @@ public class StarTrader extends javax.swing.JFrame {
    * 
    * @return new Econ array
    */
-  boolean getWildCurs(int shipsDone,ArrayList<Econ> tradablePlanets) {
+ ArrayList<Econ> getWildCurs(int shipsDone,int psize) {
     int lPlanets = eM.planets.size();
     int lShips = eM.ships.size();
-    int lTradablePlanets = tradablePlanets.size();
+    ArrayList<Econ> tradablePlanets = new ArrayList();
+    int lTradablePlanets = psize;
     double lsel, maxsel;
     int rtns = -1; // counter for planets in ret;
     clanShipsDone[eM.curEcon.clan]++;
@@ -5698,7 +5699,7 @@ public class StarTrader extends javax.swing.JFrame {
     
     double clanPlanetFrac[] = {1.0 - eM.clanShipFrac[E.P][0],1.0 - eM.clanShipFrac[E.P][1],1.0 - eM.clanShipFrac[E.P][2],1.0 - eM.clanShipFrac[E.P][3],1.0 - eM.clanShipFrac[E.P][4]};
     double clanGoalShipsPerPlanet[] = {eM.clanShipFrac[E.P][0]/clanPlanetFrac[0],eM.clanShipFrac[E.P][1]/clanPlanetFrac[1],eM.clanShipFrac[E.P][2]/clanPlanetFrac[2],eM.clanShipFrac[E.P][3]/clanPlanetFrac[3],eM.clanShipFrac[E.P][4]/clanPlanetFrac[4]};
-    double clanCurShipsPerPlanet[] = {eM.porsClanVisited[E.S][0]/eM.porsClanVisited[E.P][0],eM.porsClanVisited[E.S][1]/eM.porsClanVisited[E.P][1],eM.porsClanVisited[E.S][2]/eM.porsClanVisited[E.P][2],eM.porsClanVisited[E.S][3]/eM.porsClanVisited[E.P][3],eM.porsClanVisited[E.S][4]/eM.porsClanVisited[E.P][4]};
+//    double clanCurShipsPerPlanet[] = {eM.porsClanVisited[E.S][0]/eM.porsClanVisited[E.P][0],eM.porsClanVisited[E.S][1]/eM.porsClanVisited[E.P][1],eM.porsClanVisited[E.S][2]/eM.porsClanVisited[E.P][2],eM.porsClanVisited[E.S][3]/eM.porsClanVisited[E.P][3],eM.porsClanVisited[E.S][4]/eM.porsClanVisited[E.P][4]};
     
         ;
     int loops=0;
@@ -5713,8 +5714,45 @@ public class StarTrader extends javax.swing.JFrame {
         if(!planet.getDie()){
           // if shipsDone/EconsDone  <= eM.gameShipFrac[E.P] + eM.addGoal[loops]
           // always allow trade to planets < age 3 with no ship visited
-          if((lla = loops < 2 && planet.getAge() < 3 && planet.getTradedShipsTried() < 1) 
-              || (shipsDone/(shipsDone + EM.porsVisited[E.P])  <=  eM.gameShipFrac[E.P] + eM.addGoal[loops])){
+          int jjj = planet.as.shipsVisited; // == null ? 0:planet.as.shipsVisited;
+          jjj = shipsDone;
+          jjj = EM.porsVisited[E.P];
+          jjj = planet.getAge();
+          jjj = planet.getAge() < 3? 5:7;
+          jjj = (int)(shipsDone + 
+              EM.porsVisited[E.P]+.0001);
+          // jjj = 0;
+          jjj = (int)(shipsDone
+              /(jjj +.0001) );
+           jjj =(int)(shipsDone
+              /(shipsDone + 
+              EM.porsVisited[E.P] + .0001));
+          jjj = planet.getTradedShipsTried();
+          
+          // check new planet always can trade
+          boolean q0 = planet.getTradedShipsTried() < 1; // no visit 
+          boolean q1 = loops < 2 && planet.getAge() < 3; //age 0,1,2 first loop
+          boolean t0 = q0 && q1; // force accept planet
+          
+          //test 1 the limit clan planets per clan ships 
+          double r1 = (1.-eM.gameShipFrac[E.P])/eM.gameShipFrac[E.P];//goal P/s
+          double r2 = (eM.porsClanVisited[E.P][planet.clan] + .0001)/(clanShipsDone[planet.clan] +.0001);
+          boolean t1 = r2 <= r1; //ok more planet
+          
+          // test2 
+          double p2 = (shipsDone/5.)/(1. - eM.clanShipFrac[E.P][planet.clan]); // planets
+          boolean t2 = (p2 + .0001 + eM.addGoal[loops]) >= EM.porsClanVisited[E.P][planet.clan];
+       
+          double p3 = (shipsDone);
+          double j1 = (shipsDone + EM.porsVisited[E.P]+.0001);
+          double j2 = shipsDone/j1; // cur gameShipFrac
+          double j3 = eM.gameShipFrac[E.P] + eM.addGoal[loops];
+          boolean t3 = j2 <= j3; // cur <= gameShipFrac+addGoal planet ok
+          
+          //test2 clan ships per planet 
+         
+          
+          if(t0 || (t1)){
             if((lla = loops < 2 && planet.getAge() < 3 && planet.getTradedShipsTried() < 1) 
               || ( llb = loops > 1 && planet.getTradedShipsTried()<  1  ) ) {
               if((lsel = planet.calcLY(planet, eM.curEcon )) 
@@ -5726,7 +5764,8 @@ public class StarTrader extends javax.swing.JFrame {
             }
             if(goPrev){
           if (rtns < lTradablePlanets) {
-            tradablePlanets.set(rtns++,planet);
+            tradablePlanets.add(planet);
+            rtns++;
           }
             //    System.out.println(eM.curEcon.getName() + " build select list=" + planet.getName());
             E.sysmsg("build planets list #%d for %s, dist=%5.2f < max=%5.2f planet %s\n", rtns, eM.curEcon.getName(), lsel, eM.maxLY[0] + eM.addLY[0]*loops, planet.getName());
@@ -5738,7 +5777,7 @@ public class StarTrader extends javax.swing.JFrame {
         }// loops
      
     
-    return rtns > 0;
+    return tradablePlanets;
   }// getWildCurs
 
   boolean clearHist(Econ myCur) {
@@ -5783,11 +5822,29 @@ public class StarTrader extends javax.swing.JFrame {
   }
 
   Date dnow = new Date();
+  //int clanShipsDone[] = {0,0,0,0,0}; // new every doYear
 
-  ;
+  /** process another year for each of the ships and planets
+   * settings may have been changed before this year
+   * do any initial creations and then forward fund creations
+   * start planets presetting some variables to 0
+   * start ships tradings starting with the newest ships and planets
+   * limit number planet trades to the goal of ships for the clan
+   * allow multiple ships to trade with a planet and each other if 
+   * more ships than planets
+   * after all ships done, do endYear of all economies
+   * some economies experience catastrophies, losses and gains
+   * economies without enough infrastructure die
+   * planets with enough infrastructure grow, 
+   * the more surplus the more growth
+   * statisics are gathered through out the year, 
+   * but most statistics at end of endYear
+   * statistics are prepared for display, then end of year for all
+   * mouse clicks are enabled and statistics can be read and
+   * priorities changed.
+   */
   public synchronized void doYear() {
-   
-
+ 
     try {
        NumberFormat df = NumberFormat.getNumberInstance();
     df.setMinimumFractionDigits(2);
@@ -5976,6 +6033,8 @@ public class StarTrader extends javax.swing.JFrame {
       }
       else {
         // go latest to earliest, smallest to largest
+       
+        for(int n=0;n< E.lclans;n++){ clanShipsDone[n] = 0; }
         for (shipsLoop = eM.ships.size() - 1; shipsLoop >= 0; shipsLoop--) {
           eM.curEcon = eM.ships.get(shipsLoop);
           startEconState = (new Date()).getTime();
@@ -5984,21 +6043,26 @@ public class StarTrader extends javax.swing.JFrame {
           if (!eM.curEcon.getDie()) {  //live
             // ship selects its next planet, from offer list and wildCurs
             Econ cur1 = eM.curEcon;
-            ArrayList<Econ> tradablePlanets = new ArrayList<Econ>((int)eM.wildCursCnt[0][0]);
-            Econ [] tradableShips = new Econ[5];
-            getWildCurs(eM.ships.size()- 1 - shipsLoop,tradablePlanets);
+            clanShipsDone[cur1.clan]++; // count clan of ship
+            double distance = 0.0;
+            ArrayList<Econ> tradablePlanets = new ArrayList<Econ>();
+            int lTPlanets = (int)(eM.wildCursCnt[0][0]);
+            int shipCnt = eM.ships.size()- 1 - shipsLoop;
+             tradablePlanets = getWildCurs(shipCnt,lTPlanets);
+             if(tradablePlanets.size() > 0){
             Econ cur2 = eM.curEcon.selectPlanet(tradablePlanets);
-            System.out.println(" @@@@@@Ship=" + eM.curEcon.getName() + ", loop select planet=" + cur2.getName() + " distance=" + eM.curEcon.mf(calcLY(eM.curEcon,cur2)));
-            double distance = calcLY(eM.curEcon, cur2);
+            if(cur2 != null){
+          //  System.out.println(" @@@@@@Ship=" + eM.curEcon.getName() + ", loop select planet=" + cur2.getName() + " distance=" + eM.curEcon.mf(calcLY(eM.curEcon,cur2)));
+            distance = calcLY(eM.curEcon, cur2);
             clearHist(eM.logEnvirn[1]);
             setLogEnvirn(1, cur2);  // set start2
             eM.hists[1] = eM.logEnvirn[1].hist;
-
+            }
             clearHist(eM.logEnvirn[0]);
             eM.curEcon = cur1;
             setLogEnvirn(0, eM.curEcon);  // set start1
             eM.hists[0] = eM.logEnvirn[0].hist;
-            distance = distance < .01 ? eM.nominalDistance[0] : distance; // add arbitrary distance if none
+          //  distance = distance < .01 ? eM.nominalDistance[0] : distance; // add arbitrary distance if none
             eM.curEcon = cur1;
          //   E.msgcnt = 0;
             paintEconYearStart(eM.curEcon);
@@ -6007,12 +6071,13 @@ public class StarTrader extends javax.swing.JFrame {
             eM.curEcon = cur1;
             paintTrade(eM.curEcon, cur2);
             startEconState = (new Date()).getTime();
-            eM.curEcon.sStartTrade(eM.curEcon, cur2);
+       //     eM.curEcon.sStartTrade(eM.curEcon, cur2);
             // paintTrade(eM.curEcon,cur2);
           }
           else {
             //       EM.gameRes.DEAD.set(eM.curEcon.pors, eM.curEcon.clan, 1.);
 
+          }
           }
 
           System.out.println("================" + since() + " after ship barter year =" + eM.year + ", ship=" + eM.curEcon.name + (eM.curEcon.getDie() ? " is dead" : " is live"));

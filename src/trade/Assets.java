@@ -170,7 +170,7 @@ public class Assets {
   double tradingOfferWorth; // valid if didGoods;
   // if multiple ships trade in a year, this is for the last ship
   int tradedShipOrdinal; // count of ships traded this year
-  int shipsVisited; // count of ships trying trade this year
+  int shipsVisited=0; // count of ships trying trade this year
   String tradingShipName= "none";
   int prevBarterYear = -20;  // set by Assets.barter
   boolean newTradeYear1 = false; // set by Assets.barter
@@ -687,6 +687,7 @@ public class Assets {
    * @return trades tried this year
    */
   int getTradedShipsTried() {
+    int jjj = shipsVisited;
     return shipsVisited;
   }
 
@@ -9735,7 +9736,7 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
             rChrgIx = sAvail.getRow(0).maxIx();
             srcIx = sChrgIx = sAvail.getRow(1).maxIx();
             // never xfer from the destination (should have been a INCR)
-            if((srcIx == destIx || sAvail.get(1,destIx) != nFlag ||  doNot.get(4+1,destIx) < PZERO)) {
+            if(false && (srcIx == destIx || sAvail.get(1,destIx) != nFlag ||  doNot.get(4+1,destIx) < PZERO)) {
               sAvail.sendHistcg();
                throw new MyErr(String.format("Error3 xfer source==dest strt s, srcIx=%d,destIx=%d,sAvail[1][%d] %7.5g, doNot xFer,s,destIx %3.1g %n",srcIx,destIx,destIx,sAvail.get(1,destIx),doNot.get(4+1,destIx)));
             }
