@@ -5714,7 +5714,7 @@ public class StarTrader extends javax.swing.JFrame {
         if(!planet.getDie()){
           // if shipsDone/EconsDone  <= eM.gameShipFrac[E.P] + eM.addGoal[loops]
           // always allow trade to planets < age 3 with no ship visited
-          int jjj = planet.as.shipsVisited; // == null ? 0:planet.as.shipsVisited;
+          int jjj = planet.as.econVisited; // == null ? 0:planet.as.shipsVisited;
           jjj = shipsDone;
           jjj = EM.porsVisited[E.P];
           jjj = planet.getAge();

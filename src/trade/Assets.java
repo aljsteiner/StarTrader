@@ -170,12 +170,19 @@ public class Assets {
   double tradingOfferWorth; // valid if didGoods;
   // if multiple ships trade in a year, this is for the last ship
   int tradedShipOrdinal; // count of ships traded this year
-  int shipsVisited=0; // count of ships trying trade this year
+  int econVisited=0; // count of econs trying trade this year
   String tradingShipName= "none";
-  int prevBarterYear = -20;  // set by Assets.barter
+  int prevBarterYear = -20;  // set by Assets.barter, detect new year
   boolean newTradeYear1 = false; // set by Assets.barter
+  
+  // save ship maint and travel cost of pre barter, for year end costs
   boolean newTradeYear2 = false; // set after maint  & travel saved
-  int yrTradesStarted;  // -1 if no trade this year, set at newTradeYear
+  
+  // save by yearEnd for years and increment by years
+  int yrTradesStarted=-20;  // -1 if no trade this year, set in yearEnd
+  int yrTradedMissedStarted=-20;
+  double worthFirstTradedYear = -70.;
+  double worthFirstMissedYear = -50.;
   // int[] tradedShipAccepted = new int[E.hcnt];
   int oClan = -5, oPors = -6;
   int lTradedEcons = 20;
@@ -195,6 +202,7 @@ public class Assets {
   boolean tradeAccepted = false;
   boolean tradeRejected = false;
   boolean tradeLost = false;
+  boolean tradeMissed = false; // no trade tried
   // int acceptedTrade = -5;  // barter number of tradeOK
   // int rejectedTrade = -6; // barter number of rejected trad
   A2Row tradedBid;
@@ -687,8 +695,8 @@ public class Assets {
    * @return trades tried this year
    */
   int getTradedShipsTried() {
-    int jjj = shipsVisited;
-    return shipsVisited;
+    int jjj = econVisited;
+    return econVisited;
   }
 
   /**
@@ -1262,6 +1270,7 @@ public class Assets {
         bals.getRow(ABalRows.cumulativeDecayIx + m).add(n, bals.getRow(ABalRows.GROWTHSIX + m).get(n) * eM.decay[m][pors]);
       }
     }
+    // in Assets.yearEnd
     EM.wasHere = "after decrement of decay etc aaadd3=" + aaadd3++;
     // Assets.yearEnd, zero yearly counters before yearStart
     tradedSuccessTrades = 0; // successful trades this year
@@ -1273,7 +1282,7 @@ public class Assets {
     tradingOfferWorth = 0;
     // if multiple ships trade in a year, this is for the last ship
     tradedShipOrdinal = 0;
-    shipsVisited = 0;
+    econVisited = 0;
     // yrTradesStarted = -1;  // -1 if no trade this year
     // int[] tradedShipAccepted = new int[E.hcnt];
     tradedFav = 0.;
@@ -1361,8 +1370,8 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
   
     newTradeYear1 = prevBarterYear == eM.year ? false : true;
     if (prevBarterYear != eM.year) { //a new year barter
-      yrTradesStarted = eM.year;
-      tradedShipOrdinal = 0;
+     // yrTradesStarted = eM.year;
+     // tradedShipOrdinal = 0;
       prevBarterYear = eM.year;
     }
     if (cur == null) {
@@ -3797,6 +3806,8 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
           sys[k].calcEfficiency();
           sys[k].calcGrowth();
         }
+        
+        // belongs in CashFlow.barter
         if (pors == E.P) {
           //      tradedShipOrdinal++;  // 1st trade this year=1, second=2 etc
           //    inOffer.setShipOrdinal(tradedShipOrdinal);
@@ -4435,11 +4446,11 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
             //   strategicGoal = calcStrategicGoal();
             hist.add(new History(aPre, lRes, "T" + term + " " + name + " ACCc" + changes, "sv=" + ec.mf(sv1), "->" + ec.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
             ec.addOHist(ohist, new History(aPre, lRes, "T" + term + " " + name + " ACCc" + changes, "sv=" + ec.mf(sv1), "->" + ec.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
-            myOffer.setTerm(1);
-            term = 1;
+            myOffer.setTerm(0);
+            term = 0;
 
             E.sysmsg(" Trades.barter accepted term=" + myOffer.getTerm());
-            listGoods(mRes, " acptd t=" + myOffer.getTerm());
+            listGoods(mRes, "acptd" + myOffer.getTerm());
             //        sendStats(tSend, tReceipts, tStratValue, tBid, (int) E.fav[clan][myOffer.getOClan()]);
             listDifBid(History.valuesMajor6, "acpt" + term, oprevGoods);
             //     myOffer.accepted(ec);
@@ -6538,7 +6549,7 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
       hist.add(new History(aPre, 5, name + " initT C", c.balance));
       hist.add(new History(aPre, 5, name + " initT G", g.balance));
       //   inOffer.setMyIx(ec); // done later screws up flipOffer
-      Offer ret = inOffer; // ret replaced if barter
+      Offer retOffer = inOffer; // retOffer replaced if barter
       Trades eTrad = myTrade;  //Assets.myTrade
       int entryTerm = inOffer.getTerm();
       int newTerm = entryTerm; // until barter runs, then post barter value
@@ -6547,7 +6558,7 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
       hist.add(new History(aPre, 5, "entr CashFlow barter", (eTrad == null ? " !eTrad" : " eTrad"), "entryTerm=" , wh(entryTerm), "$=" + df(sumTotWorth), "l=" + hist.size() + "======================<<<<<<<<<<"));
       int lhist = hist.size();
       int lhista = lhist;
-      ret = inOffer;
+      retOffer = inOffer;
       // barter of a new trade, instantiate Trades, remember other hist for possible copy
       yphase = yrphase.TRADE;
       if (myTrade == null && entryTerm > 0) {
@@ -6559,15 +6570,15 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
         hist.add(new History(aPre, 5, name + " initT C", c.balance));
         hist.add(new History(aPre, 5, name + " initT G", g.balance));
         //only count unique planets visited, count once for each planet
-        if(pors == E.P && shipsVisited == 0){
-        EM.porsClanVisited[pors][clan]++;
-        EM.porsVisited[pors]++;
-        EM.clanVisited[clan]++;
-        EM.visitedCnt++;
-        firstVisit = true;
+        // Count each ship first entry also
+        if(econVisited++ == 0){
+          EM.porsClanVisited[pors][clan]++;
+          EM.porsVisited[pors]++;
+          EM.clanVisited[clan]++;
+          EM.visitedCnt++;
+          firstVisit = true;
         }
         // new year barter in Assets.CashFlow.barter
-        if(pors == 0) shipsVisited++;
         preTradeSum4 = bals.sum4();
         hist.add(new History(aPre, 5, " " + name + " now instantiate", ">>>>>>>"," a new", " trades","<<<<<<<"));
         myTrade = new Trades();
@@ -6595,13 +6606,13 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
         inOffer.setMyIx(ec);  //Assets.CashFlow.barter
 
         // now barter =====================================
-        ret = myTrade.barter(inOffer); // get entryTerm-1, 0, -1
+        retOffer = myTrade.barter(inOffer); // get entryTerm-1, 0, -1
 
-        newTerm = ret.getTerm();
+        newTerm = retOffer.getTerm();
         hist.add(new History(aPre, 5, name + " inCF" + newTerm, "newTerm=" + newTerm, "entryTerm=" + entryTerm, "copy to other", "history"));
         ehist = hist.size();
-        ArrayList<History> ohist = ret.getOtherHist();
-        String oname = ret.getOtherName();
+        ArrayList<History> ohist = retOffer.getOtherHist();
+        String oname = retOffer.getOtherName();
         E.myTest(myTrade == null, "xit CF.barter " + (eTrad == null ? " !eTrad" : " eTrad") + " entryTerm=" + entryTerm + (myTrade == null ? " !myTrade" : " myTrade"));
         // copy all of the history to ohist, if eM.trade2HistOutputs for all newTerms
         if (eM.trade2HistOutputs && !ec.clearHist()) {  ///Assets.CashFlow.barter
@@ -6628,53 +6639,53 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
             tradedShipOrdinal++; // set ordinal of the next ship if any
             tradedSuccessTrades++;
             tradeAccepted = true;
-            tradeRejected = tradeLost = false;
+            tradeMissed = tradeRejected = tradeLost = false;
             EM.tradedCnt++;
-            if(pors == 0 && firstVisit) {
+            if(firstVisit) {
               EM.porsTraded[pors]++;
             }
             EM.porsClanTraded[pors][clan]++;
             EM.clanTraded[clan]++;
             // leave fav set 5 to 0
-            if(entryTerm == 0) ret.setTerm(-2); // other so no more return
-            // else leave ret.term 0 for the other cn
+            if(entryTerm == 0) retOffer.setTerm(-2); // other so no more return
+            // else leave retOffer.term 0 for the other cn
           } else if(newTerm == -2){  // the other ship traded
             tradedShipOrdinal++; // set ordinal of the next ship if any
             tradedSuccessTrades++;
             tradeAccepted = true;
-            tradeRejected = tradeLost = false;
+            tradeMissed = tradeRejected = tradeLost = false;
             EM.tradedCnt++;
             EM.porsTraded[pors]++;
             EM.porsClanTraded[pors][clan]++;
             EM.clanTraded[clan]++;
-            ret.setTerm(-4); 
+            retOffer.setTerm(-4); 
            } else if(entryTerm == -2){  // the other ship traded
             tradedShipOrdinal++; // set ordinal of the next ship if any
             tradedSuccessTrades++;
             tradeAccepted = true;
-            tradeRejected = tradeLost = false;
+            tradeMissed = tradeRejected = tradeLost = false;
             EM.tradedCnt++;
             EM.porsTraded[pors]++;
             EM.porsClanTraded[pors][clan]++;
             EM.clanTraded[clan]++;
-            ret.setTerm(-4); 
+            retOffer.setTerm(-4); 
           }
           else if (newTerm == -1) {
             tradeRejected = entryTerm == -1 ? false:true; // rejectd by this econ
             tradeLost = entryTerm == -1 ? true:false; // rejected by othre econ
-            tradeAccepted  = false;
+            tradeMissed = tradeAccepted  = false;
             fav = -2.;
-            if(entryTerm == -1) ret.setTerm(-3);
-            // else leave ret.ter -1 for the other cn
+            if(entryTerm == -1) retOffer.setTerm(-3);
+            // else leave retOffer.ter -1 for the other cn
           }
           else if (entryTerm < -1) { // should stop in econ
-            tradeLost = false; // shouldn't get here
-            tradeRejected = false;
+            tradeMissed = tradeLost = 
+            tradeRejected =
             tradeAccepted = false;
-            ret.setTerm(-5);
+            retOffer.setTerm(-5);
             fav = -3.;
           } //exitif   Assets.CashFlow.barter
-          hist.add(new History("%v", 5, "inCF", " term was=" + entryTerm, "now=" + ret.getTerm(), "fav=" + df(fav)));
+          hist.add(new History("%v", 5, "inCF", " term was=" + entryTerm, "now=" + retOffer.getTerm(), "fav=" + df(fav)));
           double criticalStrategicRequestsPercentTWorth = criticalStrategicRequests*100 / startYrSumWorth;
           double criticalStrategicRequestsPercentFirst = (criticalStrategicRequests) / criticalStrategicRequestsFirst;
           double criticalNominalReceiptsFracWorth = sumNominalRequests / startYrSumWorth;
@@ -6683,74 +6694,73 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
           // at 0 -1 -2 -3 -5 always xit
           if(myTrade != null) {
           myTrade.xitTrade(); // term= 0 mytrade,-1 my reject,-2 other traded,-3o reject
-          System.out.println(as.name + " xitTrade term=" + ret.getTerm());
+          System.out.println(as.name + " xitTrade term=" + retOffer.getTerm());
           }
           //pretrade are initTrade values for this trade
           // frac of availiable units -mtgNeeds6.sum/bals.
           double fracPreTrade = preTradeAvail*100 / preTradeSum4;
           double fracPostTrade = postTradeAvail*100 / postTradeSum4;
           // see if/how much frac avail increases
-          double tradeAvailIncrPercent = fracPostTrade*100 / fracPreTrade;
-          tW = new DoTotalWorths();
+          double tradeAvailIncrPercent = ( postTradeAvail - preTradeAvail)*100 / preTradeAvail;
+          tW = new DoTotalWorths();  // in Assets.CashFlow.Barter
           tWTotWorth = tW.getTotWorth();
           btW = btW;
          // double bTotalWorth = btW.getTotWorth();
-          double worthincrPercent = (tWTotWorth - btWTotWorth)*100 / btWTotWorth;
-          ret.set2Values(ec,btWTotWorth,tWTotWorth); // needed in TradeRecord SearchRecord
+          double worthIncrPercent = (tWTotWorth - btWTotWorth)*100 / btWTotWorth;
+          
+          retOffer.set2Values(ec,btWTotWorth,tWTotWorth); // needed in TradeRecord SearchRecord
           // Desired stats 
-          if (fav >= 5.) {
-            // gameRes.WTRADEDINCRF5.wet(pors, clan, worthincrPercent, 1);
+          if (fav >= 4.5) {
+            // gameRes.WTRADEDINCRF5.wet(pors, clan, worthIncrPercent, 1);
             setStat("CRITICALRECEIPTSFRACSYFAV5", pors, clan, criticalStrategicRequestsPercentTWorth, 1);
             setStat("CRITICALRECEIPTSFRADROPT5", pors, clan, criticalStrategicRequestsPercentFirst, 1);
             setStat(EM.INCRAVAILFRAC5, pors, clan, tradeAvailIncrPercent, 1);
           }
-          else if (fav >= 4.) {
+          else if (fav >= 3.7) {
             // gameRes.WTRADEDINCRF4.wet(pors, clan, criticalStrategicRequestsPercentTWorth, 1);
             setStat("CRITICALRECEIPTSFRACSYFAV4", pors, clan, criticalStrategicRequestsPercentTWorth, 1);
             setStat("CRITICALRECEIPTSFRADROPT4", pors, clan, criticalStrategicRequestsPercentFirst, 1);
             setStat(EM.INCRAVAILFRAC4, pors, clan, tradeAvailIncrPercent, 1);
           }
-          else if (fav >= 3.) {
-            // gameRes.WTRADEDINCRF3.wet(pors, clan, worthincrPercent, 1);
+          else if (fav >= 2.7) {
+            // gameRes.WTRADEDINCRF3.wet(pors, clan, worthIncrPercent, 1);
             setStat("CRITICALRECEIPTSFRACSYFAV3", pors, clan, criticalStrategicRequestsPercentTWorth, 1);
             setStat("CRITICALRECEIPTSFRADROPT3", pors, clan, criticalStrategicRequestsPercentFirst, 1);
             setStat(EM.INCRAVAILFRAC3, pors, clan, tradeAvailIncrPercent, 1);
           }
-          else if (fav >= 2.) {
-            // gameRes.WTRADEDINCRF2.wet(pors, clan, worthincrPercent, 1);
+          else if (fav >= 1.8) {
+            // gameRes.WTRADEDINCRF2.wet(pors, clan, worthIncrPercent, 1);
             setStat("CRITICALRECEIPTSFRACSYFAV2", pors, clan, criticalStrategicRequestsPercentTWorth, 1);
             setStat("CRITICALRECEIPTSFRADROPT2", pors, clan, criticalStrategicRequestsPercentFirst, 1);
             setStat(EM.INCRAVAILFRAC2, pors, clan, tradeAvailIncrPercent, 1);
           }
-          else if (fav >= 1.) {
-            // gameRes.WTRADEDINCRF1.wet(pors, clan, worthincrPercent, 1);
+          else if (fav >= .9) {
+            // gameRes.WTRADEDINCRF1.wet(pors, clan, worthIncrPercent, 1);
             setStat("CRITICALRECEIPTSFRACSYFAV1", pors, clan, criticalStrategicRequestsPercentTWorth, 1);
             setStat("CRITICALRECEIPTSFRADROPT1", pors, clan, criticalStrategicRequestsPercentFirst, 1);
             setStat(EM.INCRAVAILFRAC1, pors, clan, tradeAvailIncrPercent, 1);
           }
           else if (fav >= 0.) {
-            // gameRes.WTRADEDINCRF0.wet(pors, clan, worthincrPercent, 1);
             setStat("CRITICALRECEIPTSFRACSYFAV0", pors, clan, criticalStrategicRequestsPercentTWorth, 1);
             setStat("CRITICALRECEIPTSFRADROPT0", pors, clan, criticalStrategicRequestsPercentFirst, 1);
             setStat(EM.INCRAVAILFRAC0, pors, clan, tradeAvailIncrPercent, 1);
           }
-          else if (fav >= -1.) {
-            // gameRes.WREJTRADEDPINCR.wet(pors, clan, worthincrPercent, 1);
-            setStat("WREJTRADEDPINCR", pors, clan, worthincrPercent, 1);
+          else if (fav >= -1.){
+            setStat("WREJTRADEDPINCR", pors, clan, worthIncrPercent, 1);
             setStat(EM.INCRAVAILFRACa, pors, clan, tradeAvailIncrPercent, 1);
              eM.porsVisited[pors]++;
             eM.porsClanVisited[pors][clan]++;
           }
           else if (fav >= -2.) {
-            // gameRes.WLOSTTRADEDINCR.wet(pors, clan, worthincrPercent, 1);
-            setStat("WLOSTTRADEDINCR", pors, clan, worthincrPercent, 1);
+            // gameRes.WLOSTTRADEDINCR.wet(pors, clan, worthIncrPercent, 1);
+            setStat("WLOSTTRADEDINCR", pors, clan, worthIncrPercent, 1);
             setStat(EM.INCRAVAILFRACb, pors, clan, tradeAvailIncrPercent, 1);
              eM.porsVisited[pors]++;
             eM.porsClanVisited[pors][clan]++;
           }
           else {
-            // gameRes.UNTRADEDWINCR.wet(pors, clan, worthincrPercent, 1);
-            setStat("UNTRADEDWINCR", pors, clan, worthincrPercent, 1);
+            // gameRes.UNTRADEDWINCR.wet(pors, clan, worthIncrPercent, 1);
+            setStat("UNTRADEDWINCR", pors, clan, worthIncrPercent, 1);
             setStat(EM.INCRAVAILFRACc, pors, clan, tradeAvailIncrPercent, 1);
             eM.porsVisited[pors]++;
             eM.porsClanVisited[pors][clan]++;
@@ -6764,16 +6774,16 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
              eM.porsTraded[pors]++;
              eM.porsVisited[pors]++;
           }
-          hist.add(new History(aPre, 5, name + "CF.barter t=" + ret.getTerm(), "before", "xitTrade", "do null", "<<<<<<<<<", "<<<<<<<<<"));
-          ec.addOHist(ohist, new History(aPre, 5, name + "CF.barter t=" + ret.getTerm(), "before", "xitTrade", "do null", "<<<<<<<<<", "<<<<<<<<<"));
+          hist.add(new History(aPre, 5, name + "CF.barter t=" + retOffer.getTerm(), "before", "xitTrade", "do null", "<<<<<<<<<", "<<<<<<<<<"));
+          ec.addOHist(ohist, new History(aPre, 5, name + "CF.barter t=" + retOffer.getTerm(), "before", "xitTrade", "do null", "<<<<<<<<<", "<<<<<<<<<"));
           //  myTrade.xitTrade(); // term= 0 mytrade,-1 my reject,-2 other traded,-3o reject
           myTrade = null;  // terminate mytrade
-         // ret.setTerm(newTerm - 3);  //
-          hist.add(new History(aPre, 5, name + "xit CF.barter t=" + ret.getTerm(), "after", "myTrade", "nulled", "<<<<<<<", "<<<<<<<<<"));
-          ec.addOHist(ohist, new History(aPre, 5, name + "xit CFbarter t=" + ret.getTerm(), "after", "myTrade", "nulled", "<<<<<<<", "<<<<<<<<<"));
+         // retOffer.setTerm(newTerm - 3);  //
+          hist.add(new History(aPre, 5, name + "xit CF.barter t=" + retOffer.getTerm(), "after", "myTrade", "nulled", "<<<<<<<", "<<<<<<<<<"));
+          ec.addOHist(ohist, new History(aPre, 5, name + "xit CFbarter t=" + retOffer.getTerm(), "after", "myTrade", "nulled", "<<<<<<<", "<<<<<<<<<"));
         }
         hist.add(new History(aPre, 5, "xit2 CF.barter", "o=" + oname, "newTerm=" + newTerm, "entryTerm=" + entryTerm,(myTrade == null?"!myTrade":"myTrade"), (eTrad == null ? "!eTrad" : "eTrad"), "lhist" + lhista, "ehist" + ehist, "$=" + df(sumTotWorth)));
-        return ret;
+        return retOffer;
     }
 
     /**
@@ -7084,9 +7094,9 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
         doGrowthCost(aPre);
         //      DoTotalWorths syW, tW, gSwapW, gGrowW, gCostW, fyW;
         gCostW = new DoTotalWorths();
-        sumTotWorth = gCostW.getTotWorth();
+        sumTotWorth = gCostW.getTotWorth();  //after costs taken
 
-        EM.wasHere = "CashFlow.YearEnd after doGrowthCost ccce=" + ++ccce;
+        EM.wasHere = "CashFlow.YearEnd after doGrowth & do...Cost ccce=" + ++ccce;
         if (History.dl > History.informationMinor9) {
           StackTraceElement a0 = Thread.currentThread().getStackTrace()[1];
           //       hist.add(new History(aPre, History.informationMajor8, "post nCosts", ">>>at", wh(a0.getLineNumber()), "H=" + df(yearStartHealth), "$$ didCosts", df(postGrowthTotalWorths[0] - postMTGCostsTotalWorths[0]), "pretrade$$", df(startYearTotalWorths[0]), df(sumTotWorth - preTradeTotalWorths[0]), df(sumTotWorth)));
@@ -7119,7 +7129,7 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
           hist.add(new History(aPre, History.valuesMinor7, "n" + n + "post Health", ">>> at", wh(a0.getLineNumber()), "H=" + df(rawProspects2.curMin()), "Ntrade$$", df(startYrSumWorth), df(sumTotWorth - startYrSumWorth), df(sumTotWorth)));
 
         }
-        EM.wasHere = " CashFlow.yearEnd ner end of routine cccf=" + ++cccf;;
+        EM.wasHere = " CashFlow.yearEnd near end before stats=" + ++cccf;;
         ec.saveHist = false;
         hist.add(new History(History.loopMinorConditionals5, ">>>>end Health", "H=" + df(health), (fFlag ? "f" : "!f") + whole(eM.maxn[pors] * eM.fFrac[pors]), (gfFlag ? "gf" : "!gf") + whole(eM.maxn[pors] * eM.gfFrac[pors]), (gFlag ? "g" : "!g") + whole(eM.maxn[pors] * eM.gFrac[pors]), (hFlag ? "h" : "!h") + whole(eM.maxn[pors] * eM.hFrac[pors]), (emergHr || emergHs ? "eh" : "!eh") + whole(eM.maxn[pors] * eM.heFrac[pors]), "max=" + whole(eM.maxn[pors]), "<<<<"));
         //     hist.add(new History(4, ">>>end swap loop", "<<<<"));
@@ -7129,7 +7139,9 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
       setStat(EM.LIVEWORTH, pors, clan, fyW.sumTotWorth, 1);
       setStat(EM.STARTWORTH, pors, clan, initialSumWorth, 1);
       setStat(EM.WORTHIFRAC, (fyW.sumTotWorth - (tprev = iyW.sumTotWorth))*100 / tprev,1);
-      setStat(EM.WORTHINCR, (fyW.sumTotWorth - (tprev = syW.sumTotWorth))*100 / tprev, 1);
+      
+      double worthIncrPercent = (sumTotWorth - startYrSumWorth)*100 / startYrSumWorth;
+      setStat(EM.WORTHINCR, worthIncrPercent, 1);
       double rcPercentInc = (fyW.getRCBal() - (tprev = syW.getRCBal())) *100./tprev;
       setStat(EM.RCTBAL,fyW.getRCBal()*100./fyW.getRCBal()+fyW.getSGBal(),1);
       setStat(EM.RCBAL,fyW.getRCBal(),1);
@@ -7218,8 +7230,8 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
         setStat(EM.MANUALSINCR, pors, clan, (manuals.sum() - (tprev = syW.getManualsBal()))*100 / tprev, 1);
       }
      
-      double worthincrPercent = (sumTotWorth - startYrSumWorth)*100 / startYrSumWorth;
-      setStat(EM.WORTHINCR, pors, clan, worthincrPercent, 1);
+      //double worthIncrPercent = (sumTotWorth - startYrSumWorth)*100 / startYrSumWorth;
+      setStat(EM.WORTHINCR, pors, clan, worthIncrPercent, 1);
       // gameRes.RCTBAL.wet(pors, clan, fyW.sumRCBal, 1);
       setStat(EM.RCfrac, pors, clan, fyW.sumRCWorth*100 / fyW.sumTotWorth, 1);
       // gameRes.SGTBAL.wet(pors, clan, fyW.sumSG, 1);
@@ -7232,44 +7244,44 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
       double criticalNominalRequestsFracFirst = criticalNominalRequests / criticalNominalRequestsFirst;
       tW = new DoTotalWorths();
       double worthincr1 = (fyW.sumTotWorth - syW.sumTotWorth)*100 / syW.sumTotWorth;
-      setStat("WTRADEDINCR", pors, clan, worthincrPercent, 1);
+      setStat("WTRADEDINCR", pors, clan, worthincr1, 1);
       setStat("TRADES%", pors, clan, fav > NZERO?100.:0., 1);
-      if (fav >= 5.) {
-        // gameRes.WTRADEDINCRF5.wet(pors, clan, worthincrPercent, 1);
-        setStat("WTRADEDINCRF5", pors, clan, worthincrPercent, 1);
+      // fav was set in Assets.CashFlow.barter
+      if (fav >= 4.7) {
+        // gameRes.WTRADEDINCRF5.wet(pors, clan, worthincr1, 1);
+        setStat("WTRADEDINCRF5", pors, clan, worthincr1, 1);
       }
-      else if (fav >= 4.) {
-        // gameRes.WTRADEDINCRF4.wet(pors, clan, worthincrPercent, 1);
-        setStat("WTRADEDINCRF4", pors, clan, worthincrPercent, 1);
+      else if (fav >= 3.7) {
+        // gameRes.WTRADEDINCRF4.wet(pors, clan, worthincr1, 1);
+        setStat("WTRADEDINCRF4", pors, clan, worthincr1, 1);
       }
-      else if (fav >= 3.) {
-        // gameRes.WTRADEDINCRF3.wet(pors, clan, worthincrPercent, 1);
-        setStat("WTRADEDINCRF3", pors, clan, worthincrPercent, 1);
+      else if (fav >= 2.8) {
+        // gameRes.WTRADEDINCRF3.wet(pors, clan, worthincr1, 1);
+        setStat("WTRADEDINCRF3", pors, clan, worthincr1, 1);
       }
-      else if (fav >= 2.) {
-        // gameRes.WTRADEDINCRF2.wet(pors, clan, worthincrPercent, 1);
-        setStat("WTRADEDINCRF2", pors, clan, worthincrPercent, 1);
+      else if (fav >= 1.8) {
+        // gameRes.WTRADEDINCRF2.wet(pors, clan, worthincr1, 1);
+        setStat("WTRADEDINCRF2", pors, clan, worthincr1, 1);
       }
-      else if (fav >= 1.) {
-        // gameRes.WTRADEDINCRF1.wet(pors, clan, worthincrPercent, 1);
-        setStat("WTRADEDINCRF1", pors, clan, worthincrPercent, 1);
+      else if (fav >= .9) {
+        // gameRes.WTRADEDINCRF1.wet(pors, clan, worthincr1, 1);
+        setStat("WTRADEDINCRF1", pors, clan, worthincr1, 1);
       }
       else if (fav >= 0.) {
-        // gameRes.WTRADEDINCRF0.wet(pors, clan, worthincrPercent, 1);
-        setStat("WTRADEDINCRF0", pors, clan, worthincrPercent, 1);
+        // gameRes.WTRADEDINCRF0.wet(pors, clan, worthincr1, 1);
+        setStat("WTRADEDINCRF0", pors, clan, worthincr1, 1);
       }
       else if (fav >= -1.) {
-        // gameRes.WREJTRADEDPINCR.wet(pors, clan, worthincrPercent, 1);
-        setStat("WREJTRADEDPINCR", pors, clan, worthincrPercent, 1);
+       
+        setStat("WREJTRADEDPINCR", pors, clan, worthincr1, 1);
       }
       else if (fav >= -2.) {
-        // gameRes.WLOSTTRADEDINCR.wet(pors, clan, worthincrPercent, 1);
-        setStat("WLOSTTRADEDINCR", pors, clan, worthincrPercent, 1);
+        setStat("WLOSTTRADEDINCR", pors, clan, worthincr1, 1);
       }
       else {
-        // gameRes.UNTRADEDWINCR.wet(pors, clan, worthincrPercent, 1);
-        setStat("UNTRADEDWINCR", pors, clan, worthincrPercent, 1);
-      }
+        // gameRes.UNTRADEDWINCR.wet(pors, clan, worthincr1, 1);
+        setStat("UNTRADEDWINCR", pors, clan, worthincr1, 1);
+      } //--- do year missed stats, years traded stats
 // ---------------------- end of live stats ---------------------------------
       }
       else // end skip if already dead
@@ -7288,17 +7300,56 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
           // DoTotalWorths iyW, syW, tW, gSwapW, gGrowW, gCostW, fyW;
           double tt3 = 0;
           fyW = new DoTotalWorths();
-          fyW.setPrev(syW);
-          setStat("died", pors, clan, fyW.sumTotWorth, 1);
+          
+      double worthincr1 = (fyW.sumTotWorth - syW.sumTotWorth)*100 / syW.sumTotWorth;
+      setStat("DEADWTRADEDINCR", pors, clan, worthincr1, 1);
+      setStat("DEADTRADES%", pors, clan, fav > NZERO?100.:0., 1);
+      // fav was set in Assets.CashFlow.barter
+      if (fav >= 4.7) {
+        // gameRes.WTRADEDINCRF5.wet(pors, clan, worthincr1, 1);
+        setStat("DEADWTRADEDINCRF5", pors, clan, worthincr1, 1);
+      }
+      else if (fav >= 3.7) {
+        // gameRes.WTRADEDINCRF4.wet(pors, clan, worthincr1, 1);
+        setStat("DEADWTRADEDINCRF4", pors, clan, worthincr1, 1);
+      }
+      else if (fav >= 2.8) {
+        // gameRes.WTRADEDINCRF3.wet(pors, clan, worthincr1, 1);
+        setStat("DEADWTRADEDINCRF3", pors, clan, worthincr1, 1);
+      }
+      else if (fav >= 1.8) {
+        // gameRes.WTRADEDINCRF2.wet(pors, clan, worthincr1, 1);
+        setStat("DEADWTRADEDINCRF2", pors, clan, worthincr1, 1);
+      }
+      else if (fav >= .9) {
+        // gameRes.WTRADEDINCRF1.wet(pors, clan, worthincr1, 1);
+        setStat("DEADWTRADEDINCRF1", pors, clan, worthincr1, 1);
+      }
+      else if (fav >= 0.) {
+        // gameRes.WTRADEDINCRF0.wet(pors, clan, worthincr1, 1);
+        setStat("DEADWTRADEDINCRF0", pors, clan, worthincr1, 1);
+      }
+      else if (fav >= -1.) {
+       
+        setStat("DEADWREJTRADEDPINCR", pors, clan, worthincr1, 1);
+      }
+      else if (fav >= -2.) {
+        setStat("DEADWLOSTTRADEDINCR", pors, clan, worthincr1, 1);
+      }
+      else {
+        // gameRes.UNTRADEDWINCR.wet(pors, clan, worthincr1, 1);
+        setStat("DEADUNTRADEDWINCR", pors, clan, worthincr1, 1);
+      }
+          setStat("died", pors, clan,worthincr1, 1);
           EM.wasHere = " CashFlow.yearEnd into deac, and died ccch=" + ++ccch;
           if (swapsN < 0) {
-            setStat("DeadNegN", pors, clan, fyW.sumTotWorth, 1);
+            setStat("DeadNegN", pors, clan,worthincr1, 1);
           }
           else if (swapsN < 10) {
-            setStat("DeadLt10", pors, clan, fyW.sumTotWorth, 1);
+            setStat("DeadLt10", pors, clan, worthincr1, 1);
           }
           if (rawProspects2.curMin() < E.NZERO) {
-            setStat("DeadNegProsp", pors, clan, fyW.sumTotWorth, 1);
+            setStat("DeadNegProsp", pors, clan,worthincr1, 1);
           }
           setStat(EM.DEADHEALTH, pors, clan, rawProspects2.curMin(), 1);
           if ((tt3 = bals.getRow(1).sum() / bals.getRow(0).sum()) > 1.5) {
@@ -7331,7 +7382,7 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
       //   sLoops[n] = 0;
       clanRisk = eM.clanRisk[pors][clan];
       tradedShipOrdinal = 0;  // reset for both planet and ship
-      shipsVisited = 0; // total trades tried
+      econVisited = 0; // total trades tried
       didTrade = false;
       lostTrade = false;
       fav = -4;
