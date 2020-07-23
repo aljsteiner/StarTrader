@@ -4392,7 +4392,7 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
           myOffer.setTerm(0);  //accept trade
 
           E.sysmsg(" Trades.barter acceped");
-          listGoods(mRes, "B+");
+          listGoods(mRes, "G+");
           //    listCG(balances, 4, "byes", myOffer);
           // stats are already saved in cur = Assets.CashFlow by calcStrategicSums
           //         sendStats(tSend, tReceipts, tStratValue, tBid, (int) E.fav[clan][myOffer.getOClan()]);
@@ -4450,12 +4450,12 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
             term = 0;
 
             E.sysmsg(" Trades.barter accepted term=" + myOffer.getTerm());
-            listGoods(mRes, "acptd" + myOffer.getTerm());
+            listGoods(mRes, "Y+" + myOffer.getTerm());
             //        sendStats(tSend, tReceipts, tStratValue, tBid, (int) E.fav[clan][myOffer.getOClan()]);
-            listDifBid(History.valuesMajor6, "acpt" + term, oprevGoods);
-            //     myOffer.accepted(ec);
-            //    didTrade = true;
-            //    rejectTrade = false;
+            myOffer.accepted(ec);
+            didTrade = true;
+            rejectTrade = false;
+            listDifBid(History.valuesMajor6, "Z+" + term, oprevGoods);
             hist.add(new History("B+", History.informationMinor9, "aftr accpt term=" + term, "abcde fgh ijk"));
             xitBarter();
             //     hist.add(new History("B+", History.informationMinor9, "aftr xBartr term=" + term, "abcde fgh ijk"));

@@ -58,27 +58,27 @@ class EM {
   EM copyTo; // during a copy, doVal, doRes etc must copy
   boolean doingCopy = false;
 
-   static final public String statsButton0Tip = "0: Current Game Worths";
+  static final public String statsButton0Tip = "0: Current Game Worths";
   static final public String statsButton1Tip = "1: Favors and trade effects";
   static final public String statsButton2Tip = "2: Catastrophies, deaths, randoms, forwardfund";
-  static final public String statsButton17Tip = "3: Deaths";
-  static final public String statsButton18Tip = "4: Trades";
-  static final public String statsButton19Tip = "5: Creates";
-  static final public String statsButton20Tip = "6: ForwardFund";
-  static final public String statsButton9Tip = "7: Resource, staff, knowledge values";
-  static final public String statsButton10Tip = "8: growth and costs details";
-  static final public String statsButton11Tip = "9: Fertility, health and effects";
-  static final public String statsButton3Tip = "10: years 0,1,2,3 worth inc, costs, efficiency,knowledge,phe";
-  static final public String statsButton4Tip = "11: years 4,5,6,7 worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton5Tip = "12: years 8->15 worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton6Tip = "13: years 16->31 worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton7Tip = "14: years 32+ worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton8Tip = "15: swap factors";
-  static final public String statsButton12Tip = "16: Swaps years incr skips, redos and dos";
-  static final public String statsButton13Tip = "17: Swaps years decr skips, redos and dos";
-  static final public String statsButton14Tip = "18: Swaps years xfer skips, redos and dos";
-  static final public String statsButton15Tip = "19: Swaps years Forward Fund imbalance or save";
-  static final public String statsButton16Tip = "20: Swaps cumulative values";
+  static final public String statsButton3Tip = "3: Deaths";
+  static final public String statsButton4Tip = "4: Trades";
+  static final public String statsButton5Tip = "5: Creates";
+  static final public String statsButton6Tip = "6: ForwardFund";
+  static final public String statsButton7Tip = "7: Resource, staff, knowledge values";
+  static final public String statsButton8Tip = "8: growth and costs details";
+  static final public String statsButton9Tip = "9: Fertility, health and effects";
+  static final public String statsButton10Tip = "10: years 0,1,2,3 worth inc, costs, efficiency,knowledge,phe";
+  static final public String statsButton11Tip = "11: years 4,5,6,7 worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton12Tip = "12: years 8->15 worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton13Tip = "13: years 16->31 worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton14Tip = "14: years 32+ worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton15Tip = "15: swap factors";
+  static final public String statsButton16Tip = "16: Swaps years incr skips, redos and dos";
+  static final public String statsButton17Tip = "17: Swaps years decr skips, redos and dos";
+  static final public String statsButton18Tip = "18: Swaps years xfer skips, redos and dos";
+  static final public String statsButton19Tip = "19: Swaps years Forward Fund imbalance or save";
+  static final public String statsButton20Tip = "20: Swaps cumulative values";
 
   
 //  Econ ec;
