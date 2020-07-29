@@ -1484,6 +1484,23 @@ public class A6Rowa {
   void sendHist() {
     sendHistBal(ec.blev, aPre, lev, titl, 0, 5);
   }
+  
+  /** create a history line from a String 
+   * use econ aPre and lev
+   * use title from the title of the calling A6Rowa
+   * 
+   * @param aString this string will be broken into 13 character columns
+   */
+  void sendHist(String aString){
+    int alen = aString.length();
+    String atitl = aString.substring(0,Math.min(alen,10));
+    String bbb = " ";
+    if(alen > 10){
+      bbb = aString.substring(11,alen);
+    }
+    hist.add(new History(ec.aPre,ec.lev," " + ec.name + " " + atitl,bbb));
+  }
+  
 
   /**
    * send listing to hist for the first 2 balance rows if econCnt for this Econ

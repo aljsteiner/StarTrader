@@ -6888,20 +6888,21 @@ public class StarTrader extends javax.swing.JFrame {
   /**
    * this set array of arrays match the 20 radio buttons on the stats tab The
    * 0'th array is invoked by the 0 radio button etc. Each array contains an
-   * array of one or more numbers that are filters for the response ENUM's in
-   * class EM Each ENUM has up to 4 filters that must match at one "listx" in a
+   * array of one or more numbers that are filters for the response doRes's in
+   * class EM Each doRes has up to 4 filters that must match at least one "listx" in a
    * number the rest of the number specifies one or more outputs when a listx
    * matches The methods in Assets and associated classes invoke a selection of
    * EM.gameRes to store a value
+   * The display for each list consists of 4 rounds (no ROWS,ROWS1,ROWS2,ROWS3)
    */
   long [] rowsm = {0L,
     0L | EM.THISYEAR | EM.THISYEARAVE | EM.THISYEARUNITS | EM.SUM |EM.BOTH | EM.CUMAVE | EM.CUM 
-    ,eM.ROWS1 | EM.BOTH | EM.THISYEAR | EM.THISYEARAVE | EM.THISYEARUNITS | EM.CUMAVE | EM.CURUNITS
-    ,eM.ROWS2 | EM.BOTH | EM.CUR | EM.CURAVE | EM.CURUNITS | EM.THISYEAR | EM.THISYEARAVE | EM.THISYEARUNITS | EM.CUM | EM.CUMAVE 
-    ,eM.ROWS3 | EM.BOTH | EM.THISYEARUNITS | EM.CUR | EM.CURAVE | EM.CUMUNITS
+    ,EM.ROWS1 | EM.BOTH | EM.THISYEAR | EM.THISYEARAVE | EM.THISYEARUNITS | EM.CUM | EM.CUMAVE | EM.CURUNITS
+    ,EM.ROWS2 | EM.BOTH | EM.CUR | EM.CURAVE | EM.CURUNITS | EM.THISYEAR | EM.THISYEARAVE | EM.THISYEARUNITS | EM.CUM | EM.CUMAVE |EM.CUMUNITS
+    ,EM.ROWS3 | EM.BOTH | EM.THISYEARUNITS | EM.CUR | EM.CURAVE | EM.CUM | EM.CUMAVE |EM.CUMUNITS
   };
   long resLoops[][] = {
-    {EM.list0 | EM.skipUnset,0L ,0L,0L,0L },
+  {EM.list0 | EM.skipUnset,0L ,0L,0L,0L },
   {EM.list1| EM.skipUnset, EM.list1 , 0L ,0L,0L},
   {EM.list2| EM.skipUnset,EM.THISYEARAVE,0L,0L,0L },
   {EM.list3 |EM.skipUnset,0L ,0L },

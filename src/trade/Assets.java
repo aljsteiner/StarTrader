@@ -4381,6 +4381,7 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
             listGoods(5, "!R");
             // strategicValue = calcStrategicSums();
             // strategicGoal = calcStrategicGoal();
+            lRes = History.loopIncrements3; // leave a loop result
 
             hist.add(new History(aPre, lRes, "T" + term + " " + name + " REJ1" + changes, "sv=" + ec.mf(sv1), "->" + ec.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
             ec.addOHist(ohist, new History(aPre, lRes, "T" + term + " " + name + " REJO" + changes, "sv=" + ec.mf(sv1), "->" + ec.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
@@ -4389,10 +4390,11 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
             return myOffer;
           }
           // if trade was not rejected than it was accepted
-          myOffer.setTerm(0);  //accept trade
+          myOffer.setTerm(0);  //flag accept trade
 
-          E.sysmsg(" Trades.barter acceped");
-          listGoods(mRes, "G+");
+          E.sysmsg(" Trades.barter accepted");
+          lRes = History.loopIncrements3; // leave a loop result
+          listGoods(lRes, "G+");
           //    listCG(balances, 4, "byes", myOffer);
           // stats are already saved in cur = Assets.CashFlow by calcStrategicSums
           //         sendStats(tSend, tReceipts, tStratValue, tBid, (int) E.fav[clan][myOffer.getOClan()]);
@@ -4444,19 +4446,10 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
           if (testTrade(myOffer)) {
             // already fixed  strategicValue = calcStrategicSums(); 
             //   strategicGoal = calcStrategicGoal();
+            if(term==0){
             hist.add(new History(aPre, lRes, "T" + term + " " + name + " ACCc" + changes, "sv=" + ec.mf(sv1), "->" + ec.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
             ec.addOHist(ohist, new History(aPre, lRes, "T" + term + " " + name + " ACCc" + changes, "sv=" + ec.mf(sv1), "->" + ec.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
-            myOffer.setTerm(0);
-            term = 0;
-
-            E.sysmsg(" Trades.barter accepted term=" + myOffer.getTerm());
-            listGoods(mRes, "Y+" + myOffer.getTerm());
-            //        sendStats(tSend, tReceipts, tStratValue, tBid, (int) E.fav[clan][myOffer.getOClan()]);
-            myOffer.accepted(ec);
-            didTrade = true;
-            rejectTrade = false;
-            listDifBid(History.valuesMajor6, "Z+" + term, oprevGoods);
-            hist.add(new History("B+", History.informationMinor9, "aftr accpt term=" + term, "abcde fgh ijk"));
+            }
             xitBarter();
             //     hist.add(new History("B+", History.informationMinor9, "aftr xBartr term=" + term, "abcde fgh ijk"));
             //     listCG(balances, 4, "bsx", myOffer);
@@ -4532,20 +4525,24 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
         double tr1 = totalReceipts;
         listGoods(5, aPre2);
 
+        // either do no, or set Term=1 or accept and Term=0
         if (testTrade(myOffer)) {
-          myOffer.setTerm(0);
-          term = 0;
-          strategicValue = calcStrategicSums();
+          //myOffer.setTerm(0);
+         // term = 0;
+          if(term == 1){
+         strategicValue = calcStrategicSums();
           strategicGoal = calcStrategicGoal();
           double ts2 = totalSend;
           double tr2 = totalReceipts;
-          listGoods(3, "TT");
+       //   listGoods(3, "TT");
+      
           hist.add(new History(aPre, lRes, "T" + term + " " + name + " CONTINUE", "sv=" + ec.mf(sv1), "->" + ec.mf(sv), df(strategicValue / isv1), "sf=" + df(sf1), "->" + df(sf), df(sf / isf1), "ofr=" + df(offers), "rqst=" + df(requests), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
           ec.addOHist(ohist, new History(aPre, lRes, "T" + term + " " + name + " CONTINUE", "sv=" + ec.mf(sv1), "->" + ec.mf(sv), df(strategicValue / isv1), "sf=" + df(sf1), "->" + df(sf), df(sf / isf1), "ofr=" + df(offers), "rqst=" + df(requests), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
        //   sendStats(tSend, tReceipts, tStratValue, tBid, (int) E.fav[clan][myOffer.getOClan()]);
-          myOffer.accepted(ec);
-          didTrade = true;
-          rejectTrade = false;
+         // myOffer.accepted(ec);
+         // didTrade = true;
+         // rejectTrade = false;
+          }
           xitBarter();
           return myOffer;
         }
@@ -4909,9 +4906,26 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
           hist.add(new History("@i", 5, term + " CHANGES", "changes=" + changes, "sv=" + ec.mf(strategicValue), "sf=" + ec.mf(strategicGoal), "ts=" + ec.mf(offers), "tr=" + ec.mf(requests)));
           return false; // no trade if changes
         }
-        if (sv > sf || (sv > rGoal0 && term < eM.barterStart * .5)) {
-          hist.add(new History("@g", 3, "T" + term + " " + name + " doTRADE", "sv" + ec.mf(strategicValue), "sf" + ec.mf(strategicGoal), "ofrs" + ec.mf(offers), "rqst" + ec.mf(requests)));
+        if (sv > sf || (sv > rGoal0 && term < eM.barterStart * .75)) {
+          hist.add(new History("@g", 3, "T" + term + " " + name + " doTrm 1", "sv" + ec.mf(strategicValue), "sf" + ec.mf(strategicGoal), "ofrs" + ec.mf(offers), "rqst" + ec.mf(requests)));
+          term = 1;
+          myOffer.setTerm(1);
           //   myOffer.accepted(ec);
+          return true;
+        }
+        if (sv > sf || (sv > rGoal0 )) {
+          hist.add(new History("@g", 3, "T" + term + " " + name + " Acpt", "sv" + ec.mf(strategicValue), "sf" + ec.mf(strategicGoal), "ofrs" + ec.mf(offers), "rqst" + ec.mf(requests)));
+          term = 0;
+          myOffer.setTerm(0);
+          String aSss=" ";
+           E.sysmsg(aSss = " Trades.barter accepted term=" + myOffer.getTerm());
+           listGoods(mRes, "Y+" + myOffer.getTerm());
+           //        sendStats(tSend, tReceipts, tStratValue, tBid, (int) E.fav[clan][myOffer.getOClan()]);
+           myOffer.accepted(ec);
+           didTrade = true;
+           rejectTrade = false;
+           listDifBid(History.valuesMajor6, "Z+" + term, oprevGoods);
+           hist.add(new History("B+", History.informationMinor9, "aftr accpt term=" + term, "abcde fgh ijk"));
           return true;
         }
         else {
@@ -6546,8 +6560,8 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
       aPre = "b&";
       hist.add(new History(aPre, 5, name + " Y Barter R", resource.balance));
       hist.add(new History(aPre, 5, name + " B T=" + inOffer.getTerm() + " S", staff.balance));
-      hist.add(new History(aPre, 5, name + " initT C", c.balance));
-      hist.add(new History(aPre, 5, name + " initT G", g.balance));
+      hist.add(new History(aPre, 5, name + " ntrB C", c.balance));
+      hist.add(new History(aPre, 5, name + " ntrBa G", g.balance));
       //   inOffer.setMyIx(ec); // done later screws up flipOffer
       Offer retOffer = inOffer; // retOffer replaced if barter
       Trades eTrad = myTrade;  //Assets.myTrade
@@ -6765,8 +6779,10 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
             eM.porsVisited[pors]++;
             eM.porsClanVisited[pors][clan]++;
           }
+          setStat("TRADES%", pors, clan, fav > NZERO?100.:0., 1);
           if(fav >= 0){
              setStat("CRITICALRECEIPTSFRACSYFAVA", pors, clan, criticalStrategicRequestsPercentTWorth, 1);
+             
              eM.clanTraded[clan]++;
              eM.porsClanTraded[pors][clan]++;
              eM.clanVisited[clan]++;
@@ -7245,7 +7261,7 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
       tW = new DoTotalWorths();
       double worthincr1 = (fyW.sumTotWorth - syW.sumTotWorth)*100 / syW.sumTotWorth;
       setStat("WTRADEDINCR", pors, clan, worthincr1, 1);
-      setStat("TRADES%", pors, clan, fav > NZERO?100.:0., 1);
+      
       // fav was set in Assets.CashFlow.barter
       if (fav >= 4.7) {
         // gameRes.WTRADEDINCRF5.wet(pors, clan, worthincr1, 1);
@@ -7303,7 +7319,7 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
           
       double worthincr1 = (fyW.sumTotWorth - syW.sumTotWorth)*100 / syW.sumTotWorth;
       setStat("DEADWTRADEDINCR", pors, clan, worthincr1, 1);
-      setStat("DEADTRADES%", pors, clan, fav > NZERO?100.:0., 1);
+      setStat("TRADES%", pors, clan, fav > NZERO?100.:0., 1);
       // fav was set in Assets.CashFlow.barter
       if (fav >= 4.7) {
         // gameRes.WTRADEDINCRF5.wet(pors, clan, worthincr1, 1);
@@ -9114,7 +9130,7 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
         hist.add(new History("##", History.loopMinorConditionals5, n + "OLD " + cmd + " " + E.rNsIx(ixWRSrc, srcIx), "m" + df(mov), "src" + E.rNsIx(ixWRSrc, srcIx) + df(bals.get(ixWRSrc, srcIx)), "d" + E.rNsIx(ixWRSrc, destIx) + "=" + df(bals.get(ixWRSrc, destIx)), "bres=" + bres, "reDo=" + reDo, "st=" + "<<<<<<<<<<"));
         // input is the current bad, to the current good`
         prevns[0].restoreUpdate(cur, prevgood[0]);
-        hist.add(new History("##", History.loopMinorConditionals5, n + "RESTORD " + cmd + " " + E.rNsIx(ixWRSrc, srcIx), "m" + df(mov), "src" + E.rNsIx(ixWRSrc, srcIx) + df(bals.get(ixWRSrc, srcIx)), "d" + E.rNsIx(ixWRSrc, destIx) + "=" + df(bals.get(ixWRSrc, destIx)), "bres=" + bres, "reDo=" + reDo, "st=" + "<<<<<<<<<<"));
+        hist.add(new History("##", History.loopIncrements3, n + "RESTORD " + cmd + " " + E.rNsIx(ixWRSrc, srcIx), "m" + df(mov), "src" + E.rNsIx(ixWRSrc, srcIx) + df(bals.get(ixWRSrc, srcIx)), "d" + E.rNsIx(ixWRSrc, destIx) + "=" + df(bals.get(ixWRSrc, destIx)), "bres=" + bres, "reDo=" + reDo, "st=" + "<<<<<<<<<<"));
         balances.checkBalances(this);
         // now recalculate costs, may be slightly different than original
         yCalcCosts("X*", lightYearsTraveled, curGrowGoal, curMaintGoal);

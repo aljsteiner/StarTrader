@@ -198,14 +198,14 @@ public class History {
 
     int columnStringLength = 13;
     String str = "";
-    if (sssLen == 0) {
+    if (sssLen == 0) {   // no title no body
       title = "undefined";
     }
     else if (sssLen == 1) { // title then string segments
       strLen = sss[sssIx].length();
-      //   strIx = Math.min(strLen, 20);
-      //    title = sss[sssIx].substring(0, strIx);
-      //   str = sss[sssIx].substring(strIx, strLen);
+      strIx = Math.min(strLen, 20);
+      title = sss[sssIx].substring(0, strIx);
+      str = sss[sssIx].substring(strIx, strLen);
       strLen = str.length();
       strIx = 0;
       endSepColumns = 0;
@@ -293,9 +293,9 @@ public class History {
    */
   public History(int alev, String... sss) {
     // use a previous constructor
-    this.shist("#", alev, sss);
+    this.shist(ec.aPre, alev, sss);
   }
-
+  
   /**
    * a constructor that uses double values converted to strings for Ss
    *
