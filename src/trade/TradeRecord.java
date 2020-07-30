@@ -14,11 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- Offer is the communication object between 2 bartering economies.  They revise
- the offer, and return it so that the ship Econ process moves to the
- next barter.   Offer contains a lot of helper data,
- Some data for the final trade if the offer is accepted.
- Some data to enable a ship to select the next trading partner
+* TradeRecord is the result of a trade between 2 bartering economies. 
+* TradeRecord contains the data needed to evaluate trades to enable
+* deriving the projected value of a repeated trade.
 */
 package trade;
 
@@ -33,17 +31,17 @@ import java.util.Iterator;
  * @author albert
  */
 public class TradeRecord {
-  Econ cn; //0=planet or ship,1=primaryShip
+  Econ cn; //0=planet or ship,1=primaryShip no part of copy record
   String cnName = "aPlanetOther";
   A2Row goods = new A2Row(); //only one instance of goods, for both cn's  
  // int prevTerm = 60;
-  int age = 1;
-  int year = -10;  // year of the offer **
- double[] xyzs = {-40, -41, -42}; //**
- double startWorth = 0.;// worth before the trade.
- double endWorth = 0.; // worth after trade
+  int age = 1;  // age of planet, we don't calc for ships
+  int year = -10;  // year of the offer for the planet
+ double[] xyzs = {-40, -41, -42}; // location of planet
+ double startWorth = 0.;// planet worth before the trade.
+ double endWorth = 0.; // planet worth after trade
  double strategicValue = 0.; // received/sent;
-  int clan = 0;
+  int clan = 0; // clan of planet
   NumberFormat dFrac = NumberFormat.getNumberInstance();
   NumberFormat whole = NumberFormat.getNumberInstance();
   NumberFormat dfo = dFrac;
@@ -60,14 +58,14 @@ public class TradeRecord {
  */
    TradeRecord(Offer aa){
     eM = StarTrader.eM;
-    cn = aa.cn[0];
+    cn = aa.cn[0];  // planet
     cnName = aa.cnName[0];
     goods = aa.goods;
    // prevTerm = aa.prevTerm[[0];
     age = aa.age[0];
     year = aa.year;
-    xyzs = aa.xyzs[0];
-    clan = aa.clans[0];
+    xyzs = aa.xyzs[0];  // an array of 3 location numbers
+    clan = aa.clans[0];  // planet
     dFrac = aa.dFrac;
     whole = aa.whole;
     dfo = aa.dfo;

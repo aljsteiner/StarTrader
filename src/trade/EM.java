@@ -1005,8 +1005,8 @@ class EM {
   double[][] ssFrac = {{1.2, 1., .9, 1.1, 1.2}};
   static double mSsFrac[][] = {{.7, 1.4}};
   // [pors][clan]
-  static double mTradeFrac[][] = {{.12, .4}, {2.0, 5.0}};
-  double[][] tradeFrac = {{.15, .15, .15, .18, .2}, {2., 1.8, 1.7, 1.8, 1.6, 1.9}, ssFrac[0]};
+  static double mTradeFrac[][] = {{.12, .4}, {.7, 3.0}};
+  double[][] tradeFrac = {{.15, .15, .15, .18, .2}, {1., .9, .85,.9,.8, .95}, ssFrac[0]};
   // termFrac = (goalTermBias )/(goalTermBias + barterStart - term)
   //    gtb=18 t=18  18/18 = 1;  t=9  18/(18 + 18-9=27) = .6666; t=`0 18/36 = .5
   double goalTermBias[] = {18., 18.};
