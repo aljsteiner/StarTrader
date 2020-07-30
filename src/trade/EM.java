@@ -565,6 +565,7 @@ class EM {
   static final long LIST42YRS = list4 | LIST2YRS;
   static final long LIST432YRS = list3 | LIST42YRS;
   static final long LIST4320YRS = list0 | LIST432YRS;
+  static final long LIST43210YRS = list1 | LIST4320YRS;
   static final long LIST32YRS = list2 | LIST3YRS;
   static final long LIST320YRS = list0 | LIST32YRS;
   static final long LTRADE = LIST1YRS | LIST4;
@@ -2124,6 +2125,7 @@ class EM {
   static final int SGfrac = ++e4;
   static final int MISSINGNAME = ++e4;
   static final int DIED = ++e4;
+  static final int DIEDPERCENT = ++e4;
   static final int DEADRATIO = ++e4;
   static final int DEADHEALTH = ++e4;
   static final int DEADFERTILITY = ++e4;
@@ -2169,11 +2171,11 @@ class EM {
 
   void defRes() {
 
-    doRes(LIVEWORTH, "Live Worth", "Live Worth Value including year end working, reserve: resource, staff, knowledge", 6, 2, 0, LIST7 | LIST8 | LIST9 | LIST0YRS | thisYr | sum, ROWS1 |LIST7 | LIST8 | LIST9 | LIST0YRS |THISYEAR | thisYrAve  | THISYEARUNITS | BOTH,ROWS2,ROWS3 );
+    doRes(LIVEWORTH, "Live Worth", "Live Worth Value including year end working, reserve: resource, staff, knowledge", 6, 2, 0, LIST7 | LIST8 | LIST9 | LIST43210YRS | thisYr | sum,LIST7 | LIST8 | LIST9 | LIST43210YRS |THISYEAR | thisYrAve  | THISYEARUNITS | BOTH,ROWS2,ROWS3 );
     doRes(STARTWORTH, "Starting Worth", "Starting Worth Value including working, reserve: resource, staff, knowledge",6, 2, 0, LIST7 | LIST8 | LIST9 | LIST0YRS | thisYr | sum, ROWS1 |LIST7 | LIST8 | LIST9 | LIST0YRS |THISYEAR | thisYrAve  | THISYEARUNITS | BOTH,ROWS2,ROWS3 );
     doRes(WORTHIFRAC, "PercInitWorth ", "Percent of Initial Worth Value including working, reserve: resource, staff, knowledge",6, 2, 0, 
-        LIST7 | LIST8 | LIST9 | LIST0YRS | thisYr | sum, 
-        ROWS1 |LIST7 | LIST8 | LIST9 | LIST0YRS |THISYEAR | thisYrAve  | BOTH,0,0);
+        LIST7 | LIST8 | LIST9 | LIST43210YRS | thisYr | SUM, 
+        LIST7 | LIST8 | LIST9 | LIST43210YRS |THISYEAR | thisYrAve  | BOTH,0,0);
 
     doRes("yearCreate", "yearCreations", "new Econs ceated from year initial funds",6, 2, 0,  ROWS1 | LIST8 |  LIST0YRS  | THISYEARUNITS | SKIPUNSET| BOTH,ROWS3 | LIST8 |  LIST0YRS | CUMUNITS | SKIPUNSET | BOTH,0L,0L);
     doRes("FutureCreate", "FutureFund Create", "Econs created from Future Funds",6, 2, 0,  ROWS1 | LIST8 |  LIST0YRS  | THISYEARUNITS | SKIPUNSET | BOTH,0,0L,0L);
@@ -2187,9 +2189,14 @@ class EM {
     doRes("swapSSXchg", "swapSSXchg", "Uses of S Xchg Scost Swap percent of RC", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
     doRes("swapSRXchg", "swapSRXchg", "Uses of S Xchg Rcost Swap percent of RC", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
  doRes(DIED, "died per year", "planets or ships died in a year", 6, 2, 3, 
-     ROWS1 | LIST9 | LIST2YRS | THISYEAR | BOTH | SKIPUNSET, 
+      LIST9 | LIST43210YRS | THISYEAR | BOTH | SKIPUNSET, 
      ROWS2 |LIST7 | LIST8 | LIST9 | LIST0YRS | CUR |  CURAVE | BOTH | SKIPUNSET,
      ROWS3 | LIST7 | LIST8 | LIST9 | LIST2YRS | CUMAVE | SKIPUNSET, 
+     0L);
+ doRes(DIEDPERCENT, "DIED %", "Percent planets or ships died", 2, 2, 3, 
+     LIST9 | LIST43210YRS | CUMAVE | BOTH | SKIPUNSET, 
+     ROWS2 |LIST7 | LIST8 | LIST9 | LIST0YRS | CUR |  CURAVE | BOTH | SKIPUNSET,
+     ROWS3 | LIST7 | LIST8 | LIST9 | LIST2YRS | CUM | SKIPUNSET, 
      0L);
 
     doRes("DeadNegN", "DeadNegSwapN", "Dead Swaps never entered", 6, 2, 0,  ROWS1 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |LIST7 | LIST8 | LIST9 | LIST0YRS |  THISYEARUNITS | BOTH | SKIPUNSET,ROWS3 | LIST7 | LIST8 | LIST9 | LIST2YRS | CUMUNITS | SKIPUNSET, 0L);
@@ -2916,226 +2923,7 @@ class EM {
     return setStat(rn, pors, clan, v, cnt, age);
   }
 
-  /**
-   * return value of one value, value designated by opr
-   *
-   * @param rn the index of the statistic being listed
-   * @param opr key flags for pors
-   * @param dClan the dClan to be processed
-   * @param ageIx index of age in request
-   * @return value a value sumsV, sumsI or sumsV/sumsI
-   */
-  public double getD1(int rn, long opr, int dClan, int ageIx) {
-    double sum = 0.;
-    double cnts = 0;
-    // doSum doBoth global variables
-    String ops = "unset";
-    String doingSum = (doSum ? "doingSum" : "notDoingSum");
-    doPower = resI[rn][ICUM][CCONTROLD][IPOWER];
-    powers = "";
-    int pors = (int) (opr & psmask);
-    int ii = 0;
-    try {
-      if (((cum | cumUnitAve | cumUnits) & opr) > 0) {
-        if ((cum & opr) > 0) {
-          ops = "cum";
-          //              sum                                            both
-          sum = doSum ? resV[rn][ICUM][0][dClan] + resV[rn][ICUM][1][dClan] : resV[rn][ICUM][pors][dClan];
-        }
-        else if ((cumUnits & opr) > 0) {
-          sum = doSum ? resI[rn][ICUM][0][dClan] + resI[rn][ICUM][1][dClan] : resI[rn][ICUM][pors][dClan];
-          ops = "cumUnits";
 
-          if (doPower > 0) {
-            sum = sum / Math.pow(10., doPower);
-            powers = " *10**" + doPower + " ";
-          }
-        }
-        else if ((cumUnitAve & opr) > 0) {
-          sum = (doSum ? resV[rn][ICUM][0][dClan] + resV[rn][ICUM][1][dClan] : resV[rn][ICUM][pors][dClan]) / (doSum ? resI[rn][ICUM][0][dClan] + resI[rn][ICUM][1][dClan] : resI[rn][ICUM][pors][dClan]);
-          ops = "cumUnitAve";
-        }
-        if (doPower > 0) {
-          sum = sum / Math.pow(10., doPower);
-          powers = " *10**" + doPower + " ";
-        }
-        return sum;
-      }
-      else {  // cur current values for up to 6 successive years
-        sum = 0.;
-        cnts = 0.;
-        if (resI[rn] == null) {
-          bErr(">>>>>>in Getd1 null at resI[" + rn);
-          System.err.println("desc=" + resS[rn][0]);
-        }
-        doPower = resI[rn][ICUR0 + (int) lStart][CCONTROLD][IPOWER];
-        powers = "";
-        lEnd = Math.min(lEnd, valid); //restrict year 0 to 1 year,1 prior reset
-        ops = "some Cur";
-        for (ii = (int) lStart + ageIx * 7; ii < lEnd + ageIx * 7; ii++) {
-          if (resV[rn] == null) {
-            if (pors == 0 && dClan == 0) { //complain only once
-              bErr(">>>>>>in Getd1 null at resV[" + rn + "] desc=" + resS[rn][0]);
-            }
-            return -98.;
-          }
-          else if (resV[rn][ICUR0 + ii] == null) {
-            if (pors == 0 && dClan == 0) {
-              bErr(">>>>>>in Getd1 null at resV[" + rn + "] [cur0+ " + ii +"] desc=" + resS[rn][0]);
-            }
-            return -97.;
-          }
-          else if (resV[rn][ICUR0 + ii][0] == null) {
-            bErr(">>>>>>in Getd1 null at resV[" + rn + "] [cur0 + " + ii + "][0] desc=" + resS[rn][0]);
-            return -98.78;
-          }
-          if ((rn == 96 || rn == 0 || rn == 2 || rn == 3) && pors == 0 && dClan == 0) {
-            //  System.out.println(">>>>>>in Getd1  at resV[" + rn + "][rcur0 +" + ii + "]" + ", desc=" + resS[rn][0]);
-          }
-          sum += doSum ? resV[rn][ICUR0 + ii][0][dClan] + resV[rn][ICUR0 + ii][1][dClan] : resV[rn][ICUR0 + ii][pors][dClan];
-          cnts += doSum ? resI[rn][ICUR0 + ii][0][dClan] + resI[rn][ICUR0 + ii][1][dClan] : resI[rn][ICUR0 + ii][pors][dClan];
-        }
-        if (((thisYr | cur) & opr) > 0 && sum != 0.0) {   // values/yrs
-          ops = "cur";
-          sum = sum / (lEnd - lStart);
-          if (doPower > 0) {
-            sum = sum / Math.pow(10., doPower);
-            powers = " *10**" + doPower + " ";
-          }
-          return sum;
-        }
-        else if ((((thisYearUnitAve | curUnitAve) & opr) > 0) && (sum != 0.0) && (cnts > 0)) {
-          ops = "curUnitAve";
-          sum = sum / cnts; // values / units  for whatever years
-          if (doPower > 0) {
-            sum = sum / Math.pow(10., doPower);
-            powers = " *10**" + doPower + " ";
-          }
-          return sum;
-        }
-        else if (((curUnits | thisYearUnits) & opr) > 0) {
-          ops = "curUnits";
-          return cnts;
-        }
-        else if (((thisYr | curUnits | thisYearUnitAve | curUnitAve) & opr) > 0) {
-          ops = "sum or cnts 0";
-          if (doPower > 0) {
-            sum = sum / Math.pow(10., doPower);
-            powers = " *10**" + doPower + " ";
-          }
-         // return sum > 0 ? sum : -7788.66; // sum or cnts 0
-            return sum;
-        }
-
-      }
-      return -93456789.;  // if a strange option
-    }
-    catch (Exception e) {
-      e.printStackTrace(System.err);
-      bErr(" Caught Exception" + e.toString() + ", " + e.getMessage() + " ," + resS[rn][rDesc] + " ," + ops + ", ii= %2d sum=%5.2f, cnts=%4d", ii, sum, cnts);
-      return -94567895.;
-    }
-  }
-
-  /**
-   * set values into the row of the table
-   *
-   * @param table where rows are stored
-   * @param resExit reference for the detail string
-   * @param rn the index of the value being written
-   * @param aop part of the key being offered for the type of line element
-   * @param row the row in the table to receive a line
-   * @param desc the description line for the start of the line
-   * @param ageIx the index to the cur agegroup to use
-   * @return the row
-   */
-  public int getD(JTable table, String resExt[], int rn, long aop, int row, String suffix, int ageIx) {
-    // String s[] = {"planets ", "ships ", "sum "};
-    String ss[] = {"999999.", "ave of the", "P and S", "sums", ">>>>>>>>>>"};
-    long d[] = {getP, getS};
-    long dd[] = {getP, getS};
-    String description = resS[rn][rDesc];
-    String detail = resS[rn][rDetail];
-    double aVal;
-    double sums;
-    dFrac.setMaximumFractionDigits(doUnits || doPower > 0 ? 0 : (int) resI[rn][ICUM][CCONTROLD][IFRACS]);
-    dd[1] = doSum ? sum : getS; // force D1 request to sum for second round
-    if(doPower > 0) {
-      detail += "/n powers mean the number display should have " + doPower + " zero digits at the end of the number, because it is very large";
-      
-    }
-    if (unset) {
-      suffix = ">>>UNSET<<<<";
-    }
-    else if (row > 96) {
-      suffix = "full";
-    }
-    if (row < 98) {
-      table.setValueAt(description + suffix, row, 0);
-      resExt[row] = detail;
-      //      System.out.println("in gamRes." + name() + ".getD" + (doSum ? " doSum" : "") + (doBoth ? " doBoth" : "") + " aop=" + Integer.toOctalString(aop) + " dClan=" + dClan + ", values.length=" + values.length + " lStart=" + lStart + " lEnd=" + lEnd + ", valid=" + valid + ", length=" + values.length);
-
-      //   System.out.println("in EM.gameRes." + toString() + ".getD" + dFrac.format(values[0][0]) + " " + dFrac.format(values[0][6]));
-      // process values never set, particularly skip adding row if unset
-      if (unset && (doSkipUnset || didUnset)) {
-        return row;  // do not update row, do not write row
-      }
-      // or set a zero row if stat is unset
-      else if (unset && doZeroUnset) {
-        for (int mm = 1; mm < 11; mm++) {
-          table.setValueAt("0.0", row, mm);
-        }
-        row++;
-        didUnset = true;
-      }
-      // or set row values to ---
-      else if (unset) {
-        for (int mm = 1; mm < 11; mm++) {
-          table.setValueAt("---", row, mm);
-        }
-        row++;
-        didUnset = true;
-      }
-      else {
-        if (doSum) {
-          sums = 0.;
-          for (long i : d) {
-            if (doSum && (i == getP)) { // only do the first half of sums
-              for (int mm = 1; mm < E.lclans; mm++) {
-                //String ss[] = {">>>This", "row sums", "planets", "and ships", ">>>>>>>>>>"};
-                table.setValueAt(ss[mm], row, mm + 1);
-              }
-            }
-            else { // second half of sum
-              for (int m = 0; m < E.lclans; m++) {
-                table.setValueAt(((sums += aVal = getD1(rn, dd[(int) i] + aop, m, ageIx)) < -93456789.0 ? "------" : dFrac.format(aVal)), row, (int) i * E.lclans + m + 1);
-              }
-              table.setValueAt(dFrac.format(sums / 5.), row, 1);
-            }
-          }
-          table.setValueAt(description + suffix + powers, row, 0);
-          resExt[row] = detail + powers;
-          row++;
-        } 
-        if (doBoth) {
-          boolean didSum = doSum;
-          doSum = false; // prevent getD1 from suming values
-          table.setValueAt(description + suffix + " both", row, 0);
-          resExt[row] = detail;
-          for (long ij : d) {
-            for (int m = 0; m < E.lclans; m++) {
-              table.setValueAt((((aVal = getD1(rn, (int) dd[(int) ij] + aop, m, ageIx)) < -93456789. ? aVal < -94567895. ? "--------" : "-----" : dFrac.format(aVal))), row, (int) ij * E.lclans + m + 1);
-            }
-          }
-          table.setValueAt(description + suffix + powers, row, 0);
-          resExt[row] = detail + powers;
-          row++;
-          doSum = didSum;
-        }
-      }
-    }
-    return row;
-  }
 static int putRowsPrint1Count=0;
 static int putRowsPrint2Count=0;
 static int putRowsPrint3Count=0;
@@ -3151,6 +2939,7 @@ static int prpc2 = 0;
 static int prpc3 = 0;
     /**
    * possibly put a row into table if the key aop matches a lock in rn
+   * Called from StarTrader
    *
    * @param table table in Stats
    * @param resExt this is the detail and (tip text)
@@ -3204,7 +2993,7 @@ static int prpc3 = 0;
     return row;
   }
   /**
-   * possibly put a row into table if the key aop matches a lock in rn
+   * possibly put a row into table if the key aop matches a lock in rn 
    *
    * @param table table in Stats
    * @param resExt this is the detail and (tip text)
@@ -3423,6 +3212,228 @@ static int prpc3 = 0;
     return row;
   }
 
+   /**
+   * set values into a row of the table
+   *
+   * @param table where rows are stored
+   * @param resExit reference for the detail string
+   * @param rn the index of the value being written
+   * @param aop part of the key being offered for the type of line element
+   * @param row the row in the table to receive a line
+   * @param desc the description line for the start of the line
+   * @param ageIx the index to the cur agegroup to use
+   * @return the row
+   */
+  public int getD(JTable table, String resExt[], int rn, long aop, int row, String suffix, int ageIx) {
+    // String s[] = {"planets ", "ships ", "sum "};
+    String ss[] = {"999999.", "ave of the", "P and S", "sums", ">>>>>>>>>>"};
+    long d[] = {getP, getS};
+    long dd[] = {getP, getS};
+    String description = resS[rn][rDesc];
+    String detail = resS[rn][rDetail];
+    double aVal;
+    double sums;
+    dFrac.setMaximumFractionDigits(doUnits || doPower > 0 ? 0 : (int) resI[rn][ICUM][CCONTROLD][IFRACS]);
+    dd[1] = doSum ? sum : getS; // force D1 request to sum for second round
+    if(doPower > 0) {
+      detail += "/n powers mean the number display should have " + doPower + " zero digits at the end of the number, because it is very large";
+      
+    }
+    if (unset) {
+      suffix = ">>>UNSET<<<<";
+    }
+    else if (row > 96) {
+      suffix = "full";
+    }
+    if (row < 98) {
+      table.setValueAt(description + suffix, row, 0);
+      resExt[row] = detail;
+      //      System.out.println("in gamRes." + name() + ".getD" + (doSum ? " doSum" : "") + (doBoth ? " doBoth" : "") + " aop=" + Integer.toOctalString(aop) + " dClan=" + dClan + ", values.length=" + values.length + " lStart=" + lStart + " lEnd=" + lEnd + ", valid=" + valid + ", length=" + values.length);
+
+      //   System.out.println("in EM.gameRes." + toString() + ".getD" + dFrac.format(values[0][0]) + " " + dFrac.format(values[0][6]));
+      // process values never set, particularly skip adding row if unset
+      if (unset && (doSkipUnset || didUnset)) {
+        return row;  // do not update row, do not write row
+      }
+      // or set a zero row if stat is unset
+      else if (unset && doZeroUnset) {
+        for (int mm = 1; mm < 11; mm++) {
+          table.setValueAt("0.0", row, mm);
+        }
+        row++;
+        didUnset = true;
+      }
+      // or set row values to ---
+      else if (unset) {
+        for (int mm = 1; mm < 11; mm++) {
+          table.setValueAt("---", row, mm);
+        }
+        row++;
+        didUnset = true;
+      }
+      else {
+        if (doSum) {
+          sums = 0.;
+          for (long i : d) {
+            if (doSum && (i == getP)) { // only do the first half of sums
+              for (int mm = 1; mm < E.lclans; mm++) {
+                //String ss[] = {">>>This", "row sums", "planets", "and ships", ">>>>>>>>>>"};
+                table.setValueAt(ss[mm], row, mm + 1);
+              }
+            }
+            else { // second half of sum
+              for (int m = 0; m < E.lclans; m++) {
+                table.setValueAt(((sums += aVal = getD1(rn, dd[(int) i] + aop, m, ageIx)) < -93456789.0 ? "------" : dFrac.format(aVal)), row, (int) i * E.lclans + m + 1);
+              }
+              table.setValueAt(dFrac.format(sums / 5.), row, 1);
+            }
+          }
+          table.setValueAt(description + suffix + powers, row, 0);
+          resExt[row] = detail + powers;
+          row++;
+        } 
+        if (doBoth) {
+          boolean didSum = doSum;
+          doSum = false; // prevent getD1 from suming values
+          table.setValueAt(description + suffix + " both", row, 0);
+          resExt[row] = detail;
+          for (long ij : d) {
+            for (int m = 0; m < E.lclans; m++) {
+              table.setValueAt((((aVal = getD1(rn, (int) dd[(int) ij] + aop, m, ageIx)) < -93456789. ? aVal < -94567895. ? "--------" : "-----" : dFrac.format(aVal))), row, (int) ij * E.lclans + m + 1);
+            }
+          }
+          table.setValueAt(description + suffix + powers, row, 0);
+          resExt[row] = detail + powers;
+          row++;
+          doSum = didSum;
+        }
+      }
+    }
+    return row;
+  }
+  
+    /**
+   * return value of one value, value designated by opr
+   *
+   * @param rn the index of the statistic being listed
+   * @param opr key flags for pors
+   * @param dClan the dClan to be processed
+   * @param ageIx index of age in request
+   * @return value a value sumsV, sumsI or sumsV/sumsI
+   */
+  public double getD1(int rn, long opr, int dClan, int ageIx) {
+    double sum = 0.;
+    double cnts = 0;
+    // doSum doBoth global variables
+    String ops = "unset";
+    String doingSum = (doSum ? "doingSum" : "notDoingSum");
+    doPower = resI[rn][ICUM][CCONTROLD][IPOWER];
+    powers = "";
+    int pors = (int) (opr & psmask);
+    int ii = 0;
+    try {
+      if (((cum | cumUnitAve | cumUnits) & opr) > 0) {
+        if ((cum & opr) > 0) {
+          ops = "cum";
+          //              sum                                            both
+          sum = doSum ? resV[rn][ICUM][0][dClan] + resV[rn][ICUM][1][dClan] : resV[rn][ICUM][pors][dClan];
+        }
+        else if ((cumUnits & opr) > 0) {
+          sum = doSum ? resI[rn][ICUM][0][dClan] + resI[rn][ICUM][1][dClan] : resI[rn][ICUM][pors][dClan];
+          ops = "cumUnits";
+
+          if (doPower > 0) {
+            sum = sum / Math.pow(10., doPower);
+            powers = " *10**" + doPower + " ";
+          }
+        }
+        else if ((cumUnitAve & opr) > 0) {
+          sum = (doSum ? resV[rn][ICUM][0][dClan] + resV[rn][ICUM][1][dClan] : resV[rn][ICUM][pors][dClan]) / (doSum ? resI[rn][ICUM][0][dClan] + resI[rn][ICUM][1][dClan] : resI[rn][ICUM][pors][dClan]);
+          ops = "cumUnitAve";
+        }
+        if (doPower > 0) {
+          sum = sum / Math.pow(10., doPower);
+          powers = " *10**" + doPower + " ";
+        }
+        return sum;
+      }
+      else {  // cur current values for up to 6 successive years
+        sum = 0.;
+        cnts = 0.;
+        if (resI[rn] == null) {
+          bErr(">>>>>>in Getd1 null at resI[" + rn);
+          System.err.println("desc=" + resS[rn][0]);
+        }
+        doPower = resI[rn][ICUR0 + (int) lStart][CCONTROLD][IPOWER];
+        powers = "";
+        lEnd = Math.min(lEnd, valid); //restrict year 0 to 1 year,1 prior reset
+        ops = "some Cur";
+        for (ii = (int) lStart + ageIx * 7; ii < lEnd + ageIx * 7; ii++) {
+          if (resV[rn] == null) {
+            if (pors == 0 && dClan == 0) { //complain only once
+              bErr(">>>>>>in Getd1 null at resV[" + rn + "] desc=" + resS[rn][0]);
+            }
+            return -98.;
+          }
+          else if (resV[rn][ICUR0 + ii] == null) {
+            if (pors == 0 && dClan == 0) {
+              bErr(">>>>>>in Getd1 null at resV[" + rn + "] [cur0+ " + ii +"] desc=" + resS[rn][0]);
+            }
+            return -97.;
+          }
+          else if (resV[rn][ICUR0 + ii][0] == null) {
+            bErr(">>>>>>in Getd1 null at resV[" + rn + "] [cur0 + " + ii + "][0] desc=" + resS[rn][0]);
+            return -98.78;
+          }
+          if ((rn == 96 || rn == 0 || rn == 2 || rn == 3) && pors == 0 && dClan == 0) {
+            //  System.out.println(">>>>>>in Getd1  at resV[" + rn + "][rcur0 +" + ii + "]" + ", desc=" + resS[rn][0]);
+          }
+          sum += doSum ? resV[rn][ICUR0 + ii][0][dClan] + resV[rn][ICUR0 + ii][1][dClan] : resV[rn][ICUR0 + ii][pors][dClan];
+          cnts += doSum ? resI[rn][ICUR0 + ii][0][dClan] + resI[rn][ICUR0 + ii][1][dClan] : resI[rn][ICUR0 + ii][pors][dClan];
+        }
+        if (((thisYr | cur) & opr) > 0 && sum != 0.0) {   // values/yrs
+          ops = "cur";
+          sum = sum / (lEnd - lStart);
+          if (doPower > 0) {
+            sum = sum / Math.pow(10., doPower);
+            powers = " *10**" + doPower + " ";
+          }
+          return sum;
+        }
+        else if ((((thisYearUnitAve | curUnitAve) & opr) > 0) && (sum != 0.0) && (cnts > 0)) {
+          ops = "curUnitAve";
+          sum = sum / cnts; // values / units  for whatever years
+          if (doPower > 0) {
+            sum = sum / Math.pow(10., doPower);
+            powers = " *10**" + doPower + " ";
+          }
+          return sum;
+        }
+        else if (((curUnits | thisYearUnits) & opr) > 0) {
+          ops = "curUnits";
+          return cnts;
+        }
+        else if (((thisYr | curUnits | thisYearUnitAve | curUnitAve) & opr) > 0) {
+          ops = "sum or cnts 0";
+          if (doPower > 0) {
+            sum = sum / Math.pow(10., doPower);
+            powers = " *10**" + doPower + " ";
+          }
+         // return sum > 0 ? sum : -7788.66; // sum or cnts 0
+            return sum;
+        }
+
+      }
+      return -93456789.;  // if a strange option
+    }
+    catch (Exception e) {
+      e.printStackTrace(System.err);
+      bErr(" Caught Exception" + e.toString() + ", " + e.getMessage() + " ," + resS[rn][rDesc] + " ," + ops + ", ii= %2d sum=%5.2f, cnts=%4d", ii, sum, cnts);
+      return -94567895.;
+    }
+  }
+
+ 
   /**
    * set the columns of a title row, and end the row as needed commands colAdd
    * colAddBrk colBrkAdd colHlfAddBrk colHlfBrkAdd colBrkEnd String nextCol =

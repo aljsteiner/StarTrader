@@ -7061,13 +7061,6 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
       // choose only the living for these results/ deaths stats are later
       EM.wasHere = "before do live cccac=" + ++cccac;
       if (rawProspects2.curMin() > PZERO) { //proceed  if live,skip if dead
-       
-//        prevSwapResults(aPre);  // for the last loop
-
-        /**
-         * for the prevXn treat grow n Costs as a swap
-         */
-        
         n = 0;
 
         if (History.dl > History.informationMinor9) {
@@ -7261,7 +7254,7 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
       tW = new DoTotalWorths();
       double worthincr1 = (fyW.sumTotWorth - syW.sumTotWorth)*100 / syW.sumTotWorth;
       setStat("WTRADEDINCR", pors, clan, worthincr1, 1);
-      
+      setStat(EM.DIEDPERCENT,pors,clan,0.0,1);
       // fav was set in Assets.CashFlow.barter
       if (fav >= 4.7) {
         // gameRes.WTRADEDINCRF5.wet(pors, clan, worthincr1, 1);
@@ -7317,6 +7310,7 @@ EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
           double tt3 = 0;
           fyW = new DoTotalWorths();
           
+      setStat(EM.DIEDPERCENT,pors,clan,100. ,1);
       double worthincr1 = (fyW.sumTotWorth - syW.sumTotWorth)*100 / syW.sumTotWorth;
       setStat("DEADWTRADEDINCR", pors, clan, worthincr1, 1);
       setStat("TRADES%", pors, clan, fav > NZERO?100.:0., 1);
