@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 albert Steiner
+ * Copyright (C) 2020 Albert Steiner
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,39 +14,46 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- Assets hold the assets for each economy.  The economies are divided into 7
- sectors, E.lsecs,  The log displays only hold 7 sectors width.  Assets hold the values that continue from one year to the next, it also hold temporary values between the multiple times that CashFlow is instantiated for bartering with different ecconomies, and finally to swap or repurposing values from one financial sector to another and determining the possible survival and possible growth of an economy.  Year temporary values are deleted at the end of year in method yearEnd, preparing Assets for starting the next year.
+ Assets holds the assets for each economy.  The economies are divided into 7
+ sectors, E.lsecs,  The log displays only hold 7 sectors width.  Assets hold the values that continue from one year to the next, it also hold temporary values between the multiple times that CashFlow is instantiated for bartering with different ecconomies, and finally to swap or repurposing values from one financial sector to another and determining the possible survival and possible growth of an economy.  Year temporary values are deleted at the end of year in method Assets.yearEnd, preparing Assets for starting the next year.
 
  Assets contains a subClass  CashFlow  which contains the yearly processing of assets.  CashFlow instances are also used to contain values for previous years and previous "n" in the swap or rearrange asset sectors process.
 
  CashFlow  contains subclasses SubAssets for the resource and reserved resoure cargo, and for staff and reserved staff guests.  In addition, CashFlow contains the subclass Trades, this class uses many members of CashFlow, but is only instantiated during the trading process this economy and another economy.  Within the game no more than 2 Economies are in the process of trade at any one time.  
 
+Assets.CashFlow.DoTotalWorths saves worths for a later comparison
+
+Assets.CashFlow.HSwaps holds history of swaps to be used in an udo,redo of the swap over with different vals
+
 The game attempts to minimize the storage used by the game by allocatting full storage for no more than two economies at a time.
+*/
 
- classs and subclasses within this file
- Assets
- Assets.HCashFlow:startYr1..StartYr7,xitCalcCosts..prev7n,startYrs[7],prevns[7],ysgLooped,ysgCosts,ysGrowed,ysEndyr,traded,growLooped, growCosts,growed,endyr;
- Assets.HCashFlow.SubAssets:r=resource,c=cargo,s=staff,g=guests
- Assets.CashFlow:cur
- Assets.CashFlow.SubAssets:r=resource,c=cargo,s=staff,g=guests
- Assets.CashFlow.Trades:myTrade
-
- /** StarTrader contains the used set of stats descriptors
+ /** EM, E, StarTrader contains this set of stats descriptors
    * 
-  static public String statsButton0Tip = "0: Current Game Worths";
-  static public String statsButton1Tip = "1: Favors and trade effects";
-  static public String statsButton2Tip = "2: Catastrophies, deaths, randoms, forward fund";
-  static public String statsButton3Tip = "3: years 0,1,2,3 worth inc, costs, efficiency,knowledge,phe";
-  static public String statsButton4Tip = "4: years 4,5,6,7 worth inc, costs, efficiency,knowledge,phe ";
-  static public String statsButton5Tip = "5: years 8->15 worth inc, costs, efficiency,knowledge,phe ";
-  static public String statsButton6Tip = "6: years 16->31 worth inc, costs, efficiency,knowledge,phe ";
-  static public String statsButton7Tip = "7: years 32+ worth inc, costs, efficiency,knowledge,phe ";
-  static public String statsButton8Tip = "8: swap factors";
-  static public String statsButton9Tip = "9: Health, poor Health effect";
-  static public String statsButton10Tip = "10: Knowledge, low knowledge effectss";
-  static public String statsButton11Tip = "11: Fertility and Growth";
+  static final public String statsButton0Tip = "0: Current Game Worths";
+  static final public String statsButton1Tip = "1: Favors and trade effects";
+  static final public String statsButton2Tip = "2: Catastrophies, deaths, randoms, forwardfund";
+  static final public String statsButton3Tip = "3: Deaths";
+  static final public String statsButton4Tip = "4: Trades";
+  static final public String statsButton5Tip = "5: Creates";
+  static final public String statsButton6Tip = "6: ForwardFund";
+  static final public String statsButton7Tip = "7: Resource, staff, knowledge values";
+  static final public String statsButton8Tip = "8: growth and costs details";
+  static final public String statsButton9Tip = "9: Fertility, health and effects";
+  static final public String statsButton10Tip = "10: years 0,1,2,3 worth inc, costs, efficiency,knowledge,phe";
+  static final public String statsButton11Tip = "11: years 4,5,6,7 worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton12Tip = "12: years 8->15 worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton13Tip = "13: years 16->31 worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton14Tip = "14: years 32+ worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton15Tip = "15: swap factors";
+  static final public String statsButton16Tip = "16: Swaps years incr skips, redos and dos";
+  static final public String statsButton17Tip = "17: Swaps years decr skips, redos and dos";
+  static final public String statsButton18Tip = "18: Swaps years xfer skips, redos and dos";
+  static final public String statsButton19Tip = "19: Swaps years Forward Fund imbalance or save";
+  static final public String statsButton20Tip = "20: Swaps cumulative values";
+
  */
- /* 0:worths,1:trade favor,2:random,crisis,deaths,forward,34567 ages,8:swap,9 rcsg bal,10:growth,cost,11:fertility health effect
+ /* 0:worths,1:trade favor,2:random,crisis,deaths,forward,3:deaths,4:trades,5:creates,6:forwardFund,7:resource,staff,knowledge,8:growth,costs,9:Fertility,health,effects,10 11 12 13 14 1years,15:swaps,16:swapincr,17:swapdecr,18:xfer, 19:swap forwardFund balance orsave, 20:Swaps cum 
  */
 package trade;
 
