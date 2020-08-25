@@ -33,14 +33,17 @@ import java.util.Iterator;
 public class TradeRecord {
   Econ cn; //0=planet or ship,1=primaryShip no part of copy record
   String cnName = "aPlanetOther";
-  A2Row goods = new A2Row(); //only one instance of goods, for both cn's  
+  int lastGoodsIx = 0;
+  A2Row lastGoods = new A2Row(); //only planet instance of goods 
+  A2Row initialGoods = new A2Row();
  // int prevTerm = 60;
   int age = 1;  // age of planet, we don't calc for ships
   int year = -10;  // year of the offer for the planet
  double[] xyzs = {-40, -41, -42}; // location of planet
- double startWorth = 0.;// planet worth before the trade.
- double endWorth = 0.; // planet worth after trade
+ //double startWorth = 0.;// planet worth before the trade.
+// double endWorth = 0.; // planet worth after trade
  double strategicValue = 0.; // received/sent;
+ double manuals = 0.; // manuals offered by the planet
   int clan = 0; // clan of planet
   NumberFormat dFrac = NumberFormat.getNumberInstance();
   NumberFormat whole = NumberFormat.getNumberInstance();
@@ -58,20 +61,33 @@ public class TradeRecord {
  */
    TradeRecord(Offer aa){
     eM = StarTrader.eM;
-    cn = aa.cn[0];  // planet
-    cnName = aa.cnName[0];
-    goods = aa.goods;
+    cn = aa.cn[E.P];  // planet
+    cnName = aa.cnName[E.P];
+    lastGoodsIx = aa.goodIx;
+    if(E.debutNoLastGoods){
+      A2Row t2 = aa.goods;
+      A2Row t1 = aa.initialGoods[0];
+      A2Row tt = aa.lastGoods[0];
+      if( aa.lastGoods[0] == null){
+        throw new MyErr("in TradeRecord lastGoods[E.P] was null");
+      }
+    }
+    lastGoods = aa.lastGoods[E.P];
+    // if the last saved goods was for Ship than flip goods
+    if(lastGoodsIx == 1){lastGoods = aa.lastGoods[1].flip(); }
+    initialGoods = aa.initialGoods[E.P];
    // prevTerm = aa.prevTerm[[0];
-    age = aa.age[0];
+    age = aa.age[E.P];
     year = aa.year;
-    xyzs = aa.xyzs[0];  // an array of 3 location numbers
-    clan = aa.clans[0];  // planet
+    xyzs = aa.xyzs[E.P];  // an array of 3 location numbers
+    clan = aa.clans[E.P];  // planet
     dFrac = aa.dFrac;
     whole = aa.whole;
     dfo = aa.dfo;
-    startWorth = aa.startWorth[0];
-    endWorth = aa.endWorth[0];
-    strategicValue = aa.strategicValue[0];
+   // startWorth = aa.startWorth[E.P];
+   // endWorth = aa.endWorth[E.P];
+    strategicValue = aa.strategicValue[E.P];
+    manuals = aa.getSumValueMoreManuals(E.P);
   }
    
    /** constructor Make a copy) from TradeRecord
@@ -82,7 +98,8 @@ public class TradeRecord {
     eM = StarTrader.eM;
     cn = aa.cn;
     cnName = aa.cnName;
-    goods = aa.goods;
+    lastGoods = aa.lastGoods;
+    initialGoods = aa.initialGoods;
     age = aa.age;
     year = aa.year;
     xyzs = aa.xyzs;
@@ -90,18 +107,26 @@ public class TradeRecord {
     dFrac = aa.dFrac;
     whole = aa.whole;
     dfo = aa.dfo;
-    startWorth = aa.startWorth;
-    endWorth = aa.endWorth;
+   // startWorth = aa.startWorth;
+   // endWorth = aa.endWorth;
     strategicValue = aa.strategicValue;
+    manuals = aa.manuals;
   }
    
    // list to output a record for checking correctness
    void listRec(){
      if((eM.year == 5 || eM.year == 6) && (year == 1 || year == 2  || year == 6) ){
-     System.out.println(eM.year + ":" + year + ":" + age + " " + cn.getName() + ", clan" + clan + ", g=" + cn.mf(goods.plusSum() - goods.negSum()) + ", w=" + cn.mf(startWorth) + ":" + cn.mf(endWorth) + ", sv=" + cn.mf(strategicValue) + ", xyz=" + cn.mf(xyzs[0]) + ":" + cn.mf(xyzs[1]) + ":" + cn.mf(xyzs[2]));
+     System.out.println(eM.year + ":" + year + ":" + age + " " + cn.getName() + ", clan" + clan + ", g=" + cn.mf(lastGoods.plusSum() - lastGoods.negSum()) +  ", sv=" + cn.mf(strategicValue) + ", xyz=" + cn.mf(xyzs[0]) + ":" + cn.mf(xyzs[1]) + ":" + cn.mf(xyzs[2]));
      
-         }}
+     }
+   }
    
+   /**get the name of this TradeRecord
+   * 
+   * @return name
+   */
+  String getName(){ return cnName; }
+  
    /** this is older than ownrR
     * Year 8 &lt; Year 10  Year 8 Is older 
     * P00009 &lt; S00008 P00009 is older
@@ -116,7 +141,20 @@ public class TradeRecord {
      ret |=  year == ownR.year && (cnName.compareTo(ownR.cnName) > 0);
      return ret;
    }
-  
+   
+   /** compare this to otherR if ret %gt; 0 this older than otherR
+    *  otherR year6 older year8 %gt; year6 rtn +2
+    *  otherR P00006 older P00008 &gt; P00006 rtn +2
+    *  otherR year5 equal this year5 return 0 duplicate keep this
+    * @param otherR
+    * @return &gt; 0 other older, &lt 0 this older, == 0 duplicate
+    */
+    int compareAge(TradeRecord otherR){
+    //    2      6             8   
+     int ret = otherR.year - year; 
+     if(ret == 0) { ret = otherR.cnName.compareTo(cnName); }
+     return ret;
+   }
    /** merge lists in descending order older t0 new, z to a, return a newShipList, in the new lists leave an original copy of any TradeRecord from the destination previous list, (E.G. entries from the old ownerList are moved to the newOwnerList but are copied from the otherList.
     * 
     * @param ownerList owner econ for which list is being made.
@@ -129,21 +167,40 @@ public class TradeRecord {
     ArrayList<TradeRecord> newOwnerList = new ArrayList<TradeRecord>();
     int lOwnerList = ownerList.size();
     int yearsTooEarly = (int)(eM.year - eM.yearsToKeepTradeRecord[0][0]);
-    // put new offer at the end
-    ownerList.add(new TradeRecord(aOffer));
+    // put new offer at the end of existing owner list, pick the E.P version
+     ownerList.add(new TradeRecord(aOffer));
     
     Iterator<TradeRecord> iterOther = otherList.iterator();
-   TradeRecord otherRec;
-     for(TradeRecord ownerRec:ownerList){
-       while( iterOther.hasNext() && 
-      (otherRec = iterOther.next()).isOlderThan(ownerRec)){
-         
-         if(year > yearsTooEarly && otherRec.cnName.startsWith("P"))
-         { 
+   TradeRecord otherRec = null;
+     for(TradeRecord ownerRec:ownerList){ // get next ownerRec
+       if(otherRec != null && otherRec.compareAge(ownerRec) > 0){
+         if(otherRec.year > yearsTooEarly && otherRec.cnName.startsWith("P")) {
            newOwnerList.add(new TradeRecord(otherRec));
-         }       
+         }
+         otherRec = null; // clear to allow a next other record
+       }
+       // dup falls through
+       // insert the older otherRec s before the current ownerRec
+       //if there is no next otherRec skip while
+       //if otherRec is null get next otherRec
+       //if otherRec age < ownerRec (otherRec newer) skip while
+       while( null != (otherRec == null ? (iterOther.hasNext()) ? 
+       (otherRec = iterOther.next()): null : otherRec) && (otherRec.compareAge(ownerRec)> 0)){
+         
+         if(otherRec.year > yearsTooEarly && otherRec.cnName.startsWith("P"))
+         { // otherRec is planet and is new enough to keep else skip otherRec
+           newOwnerList.add(new TradeRecord(otherRec));
+         }   
+         otherRec = null;  // in any case otherRec used, null it
     }// end while
-       if(year > yearsTooEarly && ownerRec.cnName.startsWith("P")){ newOwnerList.add(ownerRec);}
+       if(otherRec != null){
+       int otherCompare = otherRec.compareAge(ownerRec);
+         if( otherCompare == 0) { // dup
+           otherRec = null; // destroy duplicate
+         }
+       }
+       //either save or skip ownerRec
+       if(ownerRec.year > yearsTooEarly && ownerRec.cnName.startsWith("P")){ newOwnerList.add(ownerRec);}
      } // end for
     return newOwnerList;
   }

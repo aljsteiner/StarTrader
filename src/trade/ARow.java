@@ -226,8 +226,8 @@ public class ARow {
    *
    * @param ix index of value to set
    * @param val value to set
-   * @param titl = titl of calling A6Rowa
-   * @param m = which row this is 
+   * @param titl = unused titl of calling A6Rowa
+   * @param m = unused which row this is 
    * @return val
    */
   public double set2(int ix, double val,String titl,int m) {

@@ -264,6 +264,7 @@ class EM {
     eE = aE;
     st = aST;
     eM = this;
+    myEM = this;
   }
 
   /**
@@ -834,13 +835,41 @@ class EM {
   double growthCostAdj1[][][] = {{gCstAdjPRes1, gCstAdjSRes1}, {gCstAdjPStf1, gCstAdjSStf1}};
   double travelCostAdj1[][][] = {{tCstAdjPRes1, tCstAdjSRes1}, {tCstAdjPStf1, tCstAdjSStf1}};
   //[reqM reqG m,t,g][r or s][p or s][rc sg]
-  double rs[][][][] = {maintReqAdj1, growthReqAdj1, maintCostAdj1, travelCostAdj1, growthCostAdj1};
+  double rs4[][][][] = {maintReqAdj1, growthReqAdj1, maintCostAdj1, travelCostAdj1, growthCostAdj1};
+  double rs[][][][]; //[5 reqM reqG m t g][2 r s][2 p s][2 rc sg]
   int maintReqTabRow[] = {0, 9, 7, 8};
   int growthReqTabRow[] = {0, 9, 7, 8};
   int maintCostTabRow[] = {0, 0, 7, 7};
   int growthCostTabRow[] = {0, 0, 7, 7};
   int travelCostTabRow[] = {0, 0, 7, 7};
-
+  
+  double maa[] = {1.,1.,1.,1.,1.}; //c type
+  double mab[] = {1.,1.}; // resource, staff cost
+  double mac[] = {1.,1.}; //planet or ship
+  double mad[] = {1.,1.}; //rc costs, sg costs
+  // multiply the rs4 above by the above maa to mad
+  void makeRS(double[][][][] rs4){
+    rs = new double[5][][][];
+    for(int aa = 0; aa < 5; aa++){
+      rs[aa] = new double[2][][];
+      for(int ab = 0;ab < 2; ab++){
+        rs[aa][ab] = new double[2][];
+        for(int ac= 0; ac < 2; ac++){
+          rs[aa][ab][ac] = new double[2];
+        }
+      }
+    }
+    for(int aa = 0;aa < 5; aa++){
+      for(int ab=0;ab<2;ab++){
+        for(int ac=0;ac<2;ac++){
+          for(int ad=0;ad<2;ad++){
+            rs[aa][ab][ac][ad] = rs4[aa][ab][ac][ad]*maa[aa]*mab[ab]*mac[ac]*mad[ad];
+          }
+        }
+      }
+    }
+  }
+  
   /**
    * the following variables are used to calculate the knowledgeBias which is
    * used to calculate the SEfficiency and REfficiency in CalcReq see CalcReq
@@ -951,6 +980,8 @@ class EM {
   double[][] tradeNominalFrac = {{.1, .1, .1, .1, .1}, {.1, .1, .1, .1, .1}};
   // at the start of search or trade,use trade as the frac of rc,sg for reserve
   double[][] searchStartTradeCFrac = {{.7, .7, .7, .7, .7}, {3, .3, .3, .3, .3}};
+  double[][] searchYearBias = {{.05,.05,.05,.05,.05},{.05,.05,.05,.05,.05}};
+  static double [][] mSearchYearBias = {{.005,.5},{.005,.5}};
   double[][] tradeStartTradeCFrac = {{.7, .7, .7, .7, .7}, {.3, .3, .3, .3, .3}};
   double[][] searchStartTradeGFrac = {{.7, .7, .7, .7, .7}, {.3, .3, .3, .3, .3}};
   double[][] tradeStartTradeGFrac = {{.7, .7, .7, .7, .7}, {.3, .3, .3, .3, .3}};
@@ -1013,7 +1044,7 @@ class EM {
   double[] sosTrigger = {1.1, -.1}; // sos = rawFertilities2.min() < sosTrigger
   double sosfrac[] = {.3, .35};
   static final double msosfrac[][] = {{.2, .4}, {.25, .45}};
-  int barterStart = 18; // initial term for bartering
+  static int barterStart = 18; // initial term for bartering
   static double[][] mTradeEmergFrac = {{.03, .4}, {.03, .4}};
   // emergency if min rawProspects2 lt tradeEmergFrac
   // [pors][clan]
@@ -1092,22 +1123,22 @@ class EM {
   static double[][]mSwapXSgoGScost = {{.003,.5},{.003,.5}};
   public double[] swapXStoGScost = {.01, .01};
   public double[] swapXGtoSCcost = swapXStoGScost;
-  public double[] swapXGtoSGcost = {.001, .001};
-  public double[] swapXGtoGCcost = {.005, .005};
-  public double[] swapXGtoGGcost = {.001, .001};
-  final static public double[] swapRtoRRcost = {.005, .005};
+  public double[] swapXGtoSGcost = swapXStoGScost;
+  public double[] swapXGtoGCcost = swapXStoGScost;
+  public double[] swapXGtoGGcost = swapXStoGScost;
+  public double[] swapRtoRRcost = swapXRtoRRcost;
   final static public double[] swapRtoCRcost = {.005, .005};
-  final static public double[] swapRtoRScost = {.002, .002};
+  public double[] swapRtoRScost = swapXRtoRScost;
   final static public double[] swapRtoCScost = {.002, .002};
-  final static public double[] swapCtoRCcost = {.001, .001};
   final static public double[] swapCtoRRcost = {.001, .001};
-  final static public double[] swapCtoCCcost = {.001, .001};
-  final static public double[] swapCtoRGcost = {.002, .002};
+  final static public double[] swapCtoRCcost = swapCtoRRcost;
+  public double[] swapCtoCCcost = swapXRtoRRcost;
   final static public double[] swapCtoRScost = {.002, .002};
-  final static public double[] swapCtoCGcost = {.002, .002};
-  final static public double[] swapStoSScost = {.01, .01};
-  final static public double[] swapStoSRcost = {.005, .005};
-  final static public double[] swapStoGRcost = {.005, .005};
+  final static public double[] swapCtoRGcost = swapCtoRScost ;
+  public double[] swapCtoCGcost = swapXRtoRScost;
+  public double[] swapStoSScost = swapXStoSScost;
+  public double[] swapStoSRcost = swapXStoSRcost;
+  public double[] swapStoGRcost = swapXStoSRcost;
   final static public double[] swapStoGScost = {.001, .001};
   final static public double[] swapGtoSCcost = {.005, .005};
   final static public double[] swapGtoSScost = {.005, .005};
@@ -1141,7 +1172,7 @@ class EM {
   /**
    * index [iEl][oEl][pors] costs of regular Rswap
    */
-  final static public double[][][] swapRregRcost = {{swapRtoRRcost, swapRtoCRcost}, {swapCtoRCcost, swapCtoCCcost}};
+  public double[][][] swapRregRcost = {{swapRtoRRcost, swapRtoCRcost}, {swapCtoRCcost, swapCtoCCcost}};
   /**
    * index [iEl][oEl][pors] costs of xmute (transmute) Rswap
    */
@@ -1150,7 +1181,7 @@ class EM {
   /**
    * index [iEl][oEl][pors] costs of regular Sswap
    */
-  final static public double[][][] swapSregScost = {{swapStoSScost, swapStoGScost}, {swapGtoSGcost, swapGtoGGcost}};
+ public double[][][] swapSregScost = {{swapStoSScost, swapStoGScost}, {swapGtoSGcost, swapGtoGGcost}};
   /**
    * index [iEl][oEl][pors] costs of Xmute Sswap
    */
@@ -1238,6 +1269,13 @@ class EM {
   double[] hFrac = {.50, .50};   //  health frac
   double[] hmFrac = {.7, .7};  // h more from 0
   double[] heFrac = {.85, .85};// health emergency above this value
+  
+  /** set values dependent on some values set by StarTrader.getGameValues
+   * 
+   */
+  void setMoreValues(){
+      makeRS(rs4);
+  }
 
   // static double gameMaxRandomSum = .7;
   /**
@@ -1915,7 +1953,8 @@ class EM {
 
   }
 
-  /* run the initialization of the valD, valI, valS arrays that set the sliders
+  /** run the initialization of the valD, valI, valS arrays that set the sliders
+  * also run settings adjustments at the end
    */
   void runVals() {
     doVal("difficulty", difficultyPercent, mDifficultyPercent, "For ships as well as  Planets , set the difficulty of the game, more difficulty increases costs of  resources and colonists each year, increases the possibility of economy death.  More difficulty requires more clan boss expertise.");
@@ -1924,6 +1963,7 @@ class EM {
     doVal("tradeReservFrac", tradeReservFrac, mTradeReservFrac, "raise the amount of resource or staff to reserve during a trade, higher reduces risk and reduces gain");
     doVal("Max LY", maxLY, mMaxLY, "adjust the max Light Years distance of planets for trades");
     doVal("Add LY", addLY, mAddLY, "adjust addition per round to the max Light Years distance of planets for traded");
+    doVal("SearchYearlyBias",searchYearBias,mSearchYearBias,"increase,increase discount of prospective trade for earlier years");
     doVal("econLimits1", econLimits1, mEconLimits1, "Increase the max number of econs (planets+ships) in this game");
     doVal("econLimits2", econLimits2, mEconLimits2, "Increase the max number of econs (planets+ships) in this game");
     doVal("maxEcons", econLimits3, mEconLimits3, "Increase the max number of econs (planets+ships) in this game");
@@ -2010,6 +2050,8 @@ class EM {
     doVal("futtMTGCostsMult", futtMTGCostsMult, mFuttMTGCostsMult, "unused, probably a bad idea. adjust the growth");
 
     vvend = vv;
+    // now settings adjustments
+  
   }
 
   static int abc;

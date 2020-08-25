@@ -67,8 +67,10 @@ public class E {
   /** start debug flags, it is possible if static final boolean is false the code enclosed by an if on this flag will never be compiled.
    * In any case execution speeds up if the debugging code is not reached
    */
+  static final boolean distributable = false;
   static final boolean debugMaster = true;
   static final boolean debugNoTerm = debugMaster; // term undefined in assets, find whyu
+  static final boolean debutNoLastGoods = debugMaster; //error open TradeRecord
   static final boolean debugOfferCargos = debugMaster; //cargos in offer == cargo.balance
   static final boolean debugSumGrades = debugMaster; //sum of grades = sum of staff/guests
   static final boolean debugPutValue = debugMaster; //test putValue processing
@@ -79,7 +81,8 @@ public class E {
   static final boolean debugMisc = debugMaster; // other debug tests
   static final boolean debugCanTrade = debugMaster; // planet can trade
   static final boolean debugGameTab = debugMaster; // output from game output
-  static final boolean debugOutput = false;
+  static final boolean debugOutput = distributable;
+  static final boolean resetOut = distributable;
   static final boolean debugThreads = debugMaster;
   /* Start Global data, set in tab init
    * [pors]

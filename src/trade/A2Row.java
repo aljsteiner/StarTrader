@@ -265,15 +265,6 @@ public class A2Row {
   }
 
   /**
-   * return the array of ordered index of min to max values
-   *
-   * @return ix
-   */
-  int[] getIxArray() {
-    return ix;
-  }
-
-  /**
    * return the index of entry m,n
    *
    * @param m 0,1 row number
@@ -529,6 +520,45 @@ public class A2Row {
       return A[1].get(n - E.lsecs);
     }
   }
+  
+  /** return sum of positive values selected by indexes in getIxs
+   * 
+   * @param getIxs  an array of index values
+   * @return positive sum of indexed values
+   */
+  double arrayIxPlusSum(int[] getIxs){
+    double rtn=0.;
+   
+    for(int n:getIxs){
+       if (n < E.lsecs) {
+          rtn += (A[0].values[n] > -0.0 ? A[0].values[n]:0.0);
+        }
+        else {
+          rtn += (A[1].values[n-E.lsecs]> -0.0 ? A[1].values[n-E.lsecs] : 0.0) ;
+        }
+    }
+    return rtn;
+  }
+
+ /** return sum of negative values selected by indexes in getIxs
+   * 
+   * @param getIxs  an array of index values
+   * @return positive sum of indexed values
+   */
+  double arrayIxNegSum(int[] getIxs){
+    double rtn=0.;
+   
+    for(int n:getIxs){
+       if (n < E.lsecs) {
+          rtn += (A[0].values[n] < +0.0 ? A[0].values[n]:0.0);
+        }
+        else {
+          rtn += (A[1].values[n-E.lsecs] < +0.0 ? A[1].values[n-E.lsecs] : 0.0) ;
+        }
+    }
+    return rtn;
+  }
+ 
 
   /**
    * get entry n in the 2 rows compatible with other multARows
@@ -600,15 +630,16 @@ public class A2Row {
   }
 
   /**
-   * make a new A2Row and make the 2 ARows from the invoking A2Row
+   * copy: make A2Row with new instances of the 2 ARows from the invoking A2Row
    *
    * @return the copy of of this
    */
   A2Row copy() {
-    ARow nCargo = new ARow().set(getARow(0));
-    ARow nGuests = new ARow().set(getARow(1));
-    A2Row tmp = new A2Row(nCargo, nGuests);
-    return tmp;
+    A2Row rtn = new A2Row(this.A[0].copy(),this.A[1].copy());
+   // ARow nCargo = new ARow().set(getARow(0));
+   // ARow nGuests = new ARow().set(getARow(1));
+   // A2Row tmp = new A2Row(nCargo, nGuests);
+    return rtn;
   }
 
   /**

@@ -1129,7 +1129,6 @@ public class A6Rowa {
    * @return ARow B
    */
   public ARow set2(int m, ARow b) {
-
     return A[m].set2(b,this.titl,m);
   }
 

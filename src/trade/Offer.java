@@ -239,8 +239,8 @@ public class Offer {
     prev3Goods = null;
     prev2Goods = null; // rows at entry to prev prev barter
     prevGoods = null;  // rows at entry to prev barter
-    lastGoods = null;  // rows at entry to barter
-    initialGoods = null;  // **keep in list
+   // lastGoods = null;  // rows at entry to barter
+   // initialGoods = null;  // **keep in list
     
     cargos = null;
     guestGrades = null;
@@ -360,6 +360,11 @@ public class Offer {
    */
   ARow getValueMoreManuals(int ix){
     return valueMoreManuals[ix];
+  }
+  
+  double getSumValueMoreManuals(int ix){
+    calcValueMoreManuals(ix);
+    return getValueMoreManuals(ix).sum();
   }
 
   /**
@@ -540,13 +545,25 @@ public class Offer {
 
   /**
    * set the existing ARows to the values of the parameter
+   * if term %gt; barterStart-2 set initialGoods[term%2] to goods.copy()
+   * always set lastGoods[term%2] to goods.copy()
+   * assume barterStart is always an even number so %2 gives 0
    *
    * @param goods
-   * @return this self
+   * @return reference to goods
    */
   A2Row set2Goods(A2Row goods
   ) {
     goodIx = myIx;
+    lastGoods[term%2] = goods.copy();
+    if(term > EM.barterStart -2){ // 18, 17
+      initialGoods[term%2] = lastGoods[term%2];
+    }
+    if(E.debutNoLastGoods){
+      if(term%2 == E.P && lastGoods[term%2] == null){
+        throw new MyErr("in set2Goods lastGoods was null");
+      }
+    }
     // set the reference only
     return this.goods = goods;
   }
@@ -564,7 +581,7 @@ public class Offer {
   }
 
   /**
-   * set planet goods after goods have been limited by the ship, set the other
+   * at term = eM.barterStart set planet goods after goods have been limited by the ship, set the other
    * values also
    *
    * @param goods
@@ -608,7 +625,13 @@ public class Offer {
       this.totalReceipts[myIx] = totalReceipts;
       this.strategicFrac[myIx] = strategicFrac;
       this.strategicValue[myIx] = strategicValue;
-    return set2Goods(goods);
+      set2Goods(goods);
+      if(E.debutNoLastGoods){
+        if (term % 2 == E.P && lastGoods[term % 2] == null) {
+          throw new MyErr("in set2Values lastGoods was null");
+        }
+      }
+      return lastGoods[term%2];
   }
   
   void set2Values(Econ ec, double startWorth, double endWorth){

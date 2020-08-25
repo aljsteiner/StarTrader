@@ -168,11 +168,11 @@ public class StarTrader extends javax.swing.JFrame {
   static final public String statsButton20Tip = "20: Swaps cumulative values";
 
   static final public String gameTextFieldText = "This is to be filled with descriptions of the field over which the mouse hovers";
-  /* 0:worths,1:trade favor,2:random,crisis,deaths,forward,34567 ages,8:swap,9 rcsg bal,10:growth,cost,11:fertility health effect
-   */
+  /* 0:worths,1:trade favor,2:random,crisis,deaths,forward,3:deaths,4:trades,5:creates,6:forwardFund,7:resource,staff,knowledge,8:growth,costs,9:Fertility,health,effects,10 11 12 13 14 1years,15:swaps,16:swapincr,17:swapdecr,18:xfer, 19:swap forwardFund balance orsave, 20:Swaps cum 
+ */
 
   static final public String[] statsButtonsTips = {statsButton0Tip, statsButton1Tip, statsButton2Tip, statsButton3Tip, statsButton4Tip, statsButton5Tip, statsButton6Tip, statsButton7Tip, statsButton8Tip, statsButton9Tip, statsButton10Tip, statsButton11Tip, statsButton12Tip, statsButton13Tip, statsButton14Tip, statsButton15Tip, statsButton16Tip, statsButton17Tip, statsButton18Tip, statsButton19Tip, statsButton20Tip, gameTextFieldText};
-  static final public String versionText = "     Version 19.03";
+  static final public String versionText = "     Version 19.04";
   static final public String storyText = "This game is about trading not fighting. Trading is done between planets and Starships which move between planets.  There are 5 clans and a gamemaster, all of which can change some priorities or values for the game.You can choose one of several winning goals, highest worth, highest trades received, highest trades given, highest number of planets and ships etc.  Planets and ships are each economies with 7 sectors.  Each sector has working resources, reserve resources (cargo), working staff and reserve staff (guests).\n\nThere is also knowledge.  As knowledge in a sector increases, the annual cost per unit in each sector decreases and in some sectors new units of resource, staff, and knowledge increase. As in any game, random factors influence many aspects of the game.\n\nPlanets mine resources and grow staff, but deliberately have surpluses in some financial sectors, and famines in some other sectors.  Ships move resources between planets, often trading the resources that are lacking at a given planet in exchange for other resources and staff and knowledge.  But ships generally cannot increase staff or mine/find resources, they must receive significant resources and staff in each trade to grow at a rate that allows them to be productive trade partners.\n\nThe game proceeds either 1 year at a time or 5 years at a time depending on the choice by the gamemaster.  At the end of each 1 year or 5 years, clan masters may look at their statistices and decide to change some clan priorities.  The gamemaster can also make changes, but probably should not.  It is possible in some systems to have multiple games running, each game with different gamemaster priorities.  The initial priorities are set to make the game interesting with possibilities of growth.  Some priority changes by gamemaster or clanmaster may increase growth, but may also decrease growth causing a death of all or most ships and planets.  The balancing of economies is not simple or easy.  It is more possible to crash an economy than to grow it, so don\'t be greedy, make small changes until you understand the game better.\n\n "
   + "Click on the tab labled \"game\" to change game parameters.  Click the first gray radio button master, to change overall game parameters as the \"gamemaster\". "
       + "The next 5 radio buttons are for the 5 clans, \"red\", \"orange\", \"yellow\", \"green\" and \"blue\".  When you click on the parameter name," 
@@ -446,6 +446,7 @@ public class StarTrader extends javax.swing.JFrame {
     gameButtonUp.setMinimumSize(new java.awt.Dimension(30, 45));
 
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+    setBackground(new java.awt.Color(240, 180, 240));
     setBounds(new java.awt.Rectangle(0, 0, 1200, 1200));
     setMaximizedBounds(new java.awt.Rectangle(0, 0, 1, 0));
     setMinimumSize(new java.awt.Dimension(800, 600));
@@ -4555,12 +4556,12 @@ public class StarTrader extends javax.swing.JFrame {
 
       PrintStream o, er, console, errNew;
       if(E.debugOutput){    
-          o = new PrintStream(new File("C:/Users/albert/Desktop/NetbeansOut/myOut.txt"));
+          o = new PrintStream(new File("StarTraderOutput.txt"));
       
       console = System.out;
-      er = new PrintStream(new File("C:/Users/albert/Desktop/NetbeansOut/MyErr.txt"));
+      er = new PrintStream(new File("StarTraderErrors.txt"));
       errNew = System.err;
-      if (resetOut) {
+      if (E.resetOut) {
         System.setOut(o);
         System.setErr(er);
       }}
@@ -5136,6 +5137,7 @@ public class StarTrader extends javax.swing.JFrame {
 
   protected void runBackgroundYears(int nYears) {
     getGameValues(curVals, gamePanels, gameTextFields, gameSlidersP, gameSlidersS);
+    eM.setMoreValues();
     stateConst = STARTING;
     E.myTest(javax.swing.SwingUtilities.isEventDispatchThread(), "is eventDispatchThread");
     for (int nn = 0; nn < nYears && !eM.fatalError && !eM.stopExe && !doStop && !fatalError; nn++) {

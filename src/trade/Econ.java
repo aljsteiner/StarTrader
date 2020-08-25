@@ -86,13 +86,13 @@ public class Econ{
   protected int logLen[] = {E.logDefaultLen[0], E.logDefaultLen[1]};
   protected ArrayList<History>[] hists = new ArrayList[1];
   protected ArrayList<History> hist;
-  protected ArrayList<Offer> offers = new ArrayList<Offer>();  // planet veriable
+//  protected ArrayList<Offer> offers = new ArrayList<Offer>();  // planet veriable
   // ArrayList<ArrayList<Offer>> planetOffers
  //                              = new ArrayList<ArrayList<Offer>>(); // ships list of planets
    ArrayList<TradeRecord> planetList = new ArrayList<TradeRecord>();
 
   ARow sectorPri;
-  ArrayList<Offer> myPlanetOffers; // list of offers for this planet
+//  ArrayList<Offer> myPlanetOffers; // list of offers for this planet
   static int yearsKeep[] = {7, 7, 7, 7, 7};  // keep others offers by clan
   static int myYearsKeep[] = {12, 12, 12, 12, 12}; // keep my offers
   // int yearLeast = eM.year - yearsKeep[clan]; // oldest (least) year we keep
@@ -747,6 +747,64 @@ public class Econ{
 }
   return ret;
   }
+  
+  Econ selectPlanet(Econ[] wilda,int wLen) {
+    TradePriority[] tPriority = new TradePriority[wLen];
+    String[] sPriority = new String[wLen];
+    Econ ret;
+    A2Row tradeStrategicVars = as.getTradeStrategicVars();
+     double sumTrade1YearTravelMaintCosts = as.getSumTrade1YearTravelMaintCosts();
+    A2Row tradeGoodsNeeds = as.getTradeGoodsNeeds();
+    int[] topStratSectors = {tradeStrategicVars.curMaxIx(0),tradeStrategicVars.curMaxIx(0),tradeStrategicVars.curMaxIx(0)};
+    double lYears = 0.;
+    String wildS = "in selectPlanet for:" + name + " ";
+    int n=0,r=-1,pSize = -2;
+    // establish the parallel TradePriority arrays;
+    for (n=0;n<wLen;n++) {
+      Econ ww = wilda[n];
+      tPriority[n] = new TradePriority(ww,topStratSectors,sumTrade1YearTravelMaintCosts,(calcLY(this, ww)));
+      sPriority[n] = ww.getName();
+      wildS += (n > 0?", ":"");
+      wildS += " " + ww.name + "@" + (lYears = calcLY(this, ww));
+    }
+    if(n > 0){
+      if((pSize = planetList.size()) > 0){ // if some TradeRecord s
+        // scan the planetList of TradeRecord
+      for(int pl =0; pl < pSize;pl++){
+        TradeRecord tr = planetList.get(pl);
+       // String trName = tr.getName();
+        Econ trCn = tr.cn;
+       // int nTradePriority = -3;
+        // look for a tradePriority name in sPriority 
+        for(int nn=0;nn<wLen ;nn++){
+          if(wilda[nn] == trCn){
+            tPriority[nn].updateValues(tr);
+            nn = wLen; // end loop
+          }
+        }// nn
+      }// pl
+      double tPri= -999.,aPri =0.;; // top priority found
+      int nPri=-10; // count of top priority
+      for(int nn = 0;nn< wLen;nn++){
+        aPri = tPriority[nn].getPriority();
+        if(aPri > tPri){ tPri = aPri; nPri = nn; }
+      }
+        r = nPri;
+        
+      } else { // some n but no TradeRecords
+       double wildar = Math.random() * 5.3 % wLen;
+       r = (int) Math.floor(wildar);
+        
+      }
+      wildS += " selected:" + r + " :" + wilda[r].name;
+       E.sysmsg(wildS);
+      sStartTrade(this,ret=wilda[r]);
+    } else { // no Econs
+      E.sysmsg("no planet available to trade");
+      ret = null;
+    }
+  return ret;
+  }
 
   protected double calcLY(Econ cur, Econ cur2) {
     double x = (cur.xpos - cur2.xpos);
@@ -832,6 +890,7 @@ public class Econ{
    Iterator<TradeRecord>  iterOther = otherList.iterator();
    TradeRecord otherRec;
      for(TradeRecord ownerRec:ownerList){
+       // insert older TradeRecords from the otherList before next ownerRec
        while( iterOther.hasNext() && (otherRec = iterOther.next()).isOlderThan(ownerRec)){
          
          if(otherRec.year > yearsTooEarly && otherRec.cnName.startsWith("P"))
@@ -840,11 +899,12 @@ public class Econ{
            if(E.debugTradeRecord) { otherRec.listRec(); }
          }       
     }// end while
+       // now for more ownerList records
        if(ownerRec.year > yearsTooEarly && ownerRec.cnName.startsWith("P")){ 
          newOwnerList.add(ownerRec); 
          if(E.debugTradeRecord) { ownerRec.listRec();}
        }
-     } // end for
+     } // end for on ownerList
     return newOwnerList;
   }
 
@@ -902,9 +962,9 @@ public class Econ{
    */
   Offer barter(Offer aOffer,Econ otherEcon){
     Offer ret = as.barter(aOffer);
-    if(ret.getTerm() == 0 || ret.getTerm() == -1){
+    if(ret.getTerm() == 0 || ret.getTerm() == -2){
     planetList = mergeLists(planetList,otherEcon.planetList,ret);
-    E.sysmsg(" @@@@@@@econ.barter after mergeLists length=" +  planetList.size());
+    E.sysmsg(" @@@@@@@econ.barter " + ret.getPlanetName() + " after mergeLists length=" +  planetList.size());
     }
     return ret;
   }
