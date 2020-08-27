@@ -7428,15 +7428,6 @@ public class Assets {
 // ---------------------- end of live stats ---------------------------------
       } else // end skip if already dead
       { // dead, be sure died is set
-        /*   static final int LIVEWORTH = ++e4;
-       static final int MISSINGNAME = ++e4;
-       static final int DEADRATIO = ++e4;
-       static final int DEADHEALTH = ++e4;
-       static final int DEADFERTILITY = ++e4;
-       static final int DEADSWAPSMOVED = ++e4;
-       static final int DEADSWAPSCOSTS = ++e4;
-       static final int DEADTRADED = ++e4;
-       static final int DEADSWAPSNCOUNT = ++e4; */
         EM.wasHere = " CashFlow.yearEnd start of dead cccg=" + ++cccg;
         if (!died) {  // list only once
           // DoTotalWorths iyW, syW, tW, gSwapW, gGrowW, gCostW, fyW;
@@ -7446,7 +7437,7 @@ public class Assets {
           setStat(EM.DIEDPERCENT, pors, clan, 100., 1);
           double worthincr1 = (fyW.sumTotWorth - syW.sumTotWorth) * 100 / syW.sumTotWorth;
           setStat("DEADWTRADEDINCR", pors, clan, worthincr1, 1);
-          setStat("TRADES%", pors, clan, fav > NZERO ? 100. : 0., 1);
+      //    setStat("TRADES%", pors, clan, fav > NZERO ? 100. : 0., 1);
           // fav was set in Assets.CashFlow.barter
           if (fav >= 4.7) {
             // gameRes.WTRADEDINCRF5.wet(pors, clan, worthincr1, 1);
@@ -7495,6 +7486,10 @@ public class Assets {
           setStat(EM.DEADRATIO, pors, clan, bals.getRow(1).sum() / bals.getRow(0).sum(), 1);
           setStat(EM.DEADFERTILITY, pors, clan, rawFertilities2.curMin(), 1);
           setStat(EM.DEADSWAPSMOVED, pors, clan, swapsN, 1);
+          eM.cntDead++;
+          eM.porsDead[pors]++;
+          eM.porsClanDead[pors][clan]++;
+          eM.clanDead[clan]++;
         }
         died = true;
         eM.clanFutureFunds[clan] += yearsFutureFund;

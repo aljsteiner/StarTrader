@@ -105,6 +105,10 @@ class EM {
   static int clanVisited[] = {0, 0, 0, 0, 0};
   static int porsVisited[] = {0,0};
   static int visitedCnt = 0;
+  int porsClanDead[][] = {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}};
+  int clanDead[] = {0, 0, 0, 0, 0};
+  int porsDead[] = {0,0};
+  int cntDead = 0;
   double[] maxLY = {15.};// ship max light years for search
   static double[][] mMaxLY = {{.5, 25.}};//planet or ship max light years
   double[] addLY = {.9}; // add to ly in planet search per round of search
@@ -844,8 +848,8 @@ class EM {
   int travelCostTabRow[] = {0, 0, 7, 7};
   
   double maa[] = {1.,1.,1.,1.,1.}; //c type
-  double mab[] = {1.,1.}; // resource, staff cost
-  double mac[] = {1.,1.}; //planet or ship
+  double mab[] = {.9,.9}; // resource, staff cost
+  double mac[] = {.5,1.}; //planet or ship
   double mad[] = {1.,1.}; //rc costs, sg costs
   // multiply the rs4 above by the above maa to mad
   void makeRS(double[][][][] rs4){
@@ -1957,15 +1961,15 @@ class EM {
   * also run settings adjustments at the end
    */
   void runVals() {
-    doVal("difficulty", difficultyPercent, mDifficultyPercent, "For ships as well as  Planets , set the difficulty of the game, more difficulty increases costs of  resources and colonists each year, increases the possibility of economy death.  More difficulty requires more clan boss expertise.");
-    doVal("randomActions", randFrac, mRandFrac, "increased random, increases possibility of gain, and of loss, including possibility of death");
-    doVal("userCatastrophyFreq", userCatastrophyFreq, mUserCatastrophyFreq, "increase catastrophies in each decade. Catastrophies reduce resources or staff, but then increases the possibility of growth, or ship manuals to trade");
-    doVal("tradeReservFrac", tradeReservFrac, mTradeReservFrac, "raise the amount of resource or staff to reserve during a trade, higher reduces risk and reduces gain");
-    doVal("Max LY", maxLY, mMaxLY, "adjust the max Light Years distance of planets for trades");
-    doVal("Add LY", addLY, mAddLY, "adjust addition per round to the max Light Years distance of planets for traded");
-    doVal("SearchYearlyBias",searchYearBias,mSearchYearBias,"increase,increase discount of prospective trade for earlier years");
-    doVal("econLimits1", econLimits1, mEconLimits1, "Increase the max number of econs (planets+ships) in this game");
-    doVal("econLimits2", econLimits2, mEconLimits2, "Increase the max number of econs (planets+ships) in this game");
+    doVal("difficulty  ", difficultyPercent, mDifficultyPercent, "For ships as well as  Planets , set the difficulty of the game, more difficulty increases costs of  resources and colonists each year, increases the possibility of economy death.  More difficulty requires more clan boss expertise.");
+    doVal("randomActions  ", randFrac, mRandFrac, "increased random, increases possibility of gain, and of loss, including possibility of death");
+    doVal("userCatastrophyFreq  ", userCatastrophyFreq, mUserCatastrophyFreq, "increase catastrophies in each decade. Catastrophies reduce resources or staff, but then increases the possibility of growth, or ship manuals to trade");
+    doVal("tradeReservFrac  ", tradeReservFrac, mTradeReservFrac, "raise the amount of resource or staff to reserve during a trade, higher reduces risk and reduces gain");
+    doVal("Max LY  ", maxLY, mMaxLY, "adjust the max Light Years distance of planets for trades");
+    doVal("Add LY  ", addLY, mAddLY, "adjust addition per round to the max Light Years distance of planets for traded");
+    doVal("SearchYearlyBias  ",searchYearBias,mSearchYearBias,"increase,increase discount of prospective trade for earlier years");
+    doVal("econLimits1  ", econLimits1, mEconLimits1, "Increase the max number of econs (planets+ships) in this game");
+    doVal("econLimits2  ", econLimits2, mEconLimits2, "Increase the max number of econs (planets+ships) in this game");
     doVal("maxEcons", econLimits3, mEconLimits3, "Increase the max number of econs (planets+ships) in this game");
     doVal("resourceGrowth", resourceGrowth, mResourceGrowth, "increase amount of resource growth per year, dependent on units of staff");
     doVal("cargoGrowth", cargoGrowth, mCargoGrowth, "increase amount of cargo growth per year dependent of units of staff");
