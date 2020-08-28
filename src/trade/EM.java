@@ -135,7 +135,7 @@ class EM {
   static Econ otherEcon;  // other Econ when trading
   double[][] wildCursCnt = {{7}};
   static double[][] mWildCursCnt = {{3., 10.}};
-  double[] difficultyPercent = {25.,25.};
+  double[] difficultyPercent = {50.,50.};
   double[][] mDifficultyPercent = {{5., 99.}, {5., 99.}};
   double[] sendHistLim = {20};
   static double[][] mSendHistLim = {{5., 50}, {-1, -1}};
@@ -660,19 +660,19 @@ class EM {
   int valI[][][][] = new int[lvals][][][];
   static int modeC = 0; // gc in valI
   static int sevenC = 1;  //unused index into a 7 sector array
-  static int divByC = 2;  // unused number of entry7 to divide by
-  static int sliderC = modeC + 2; // [][] slider values of valD[vv][gameAddrC];
-  //static int sliderC = modeC;// [][] active real values of valD[vv][mode][p|s}[clan]
-  // valI[vv][mode][p!s][1|2] slider values for V1,2,3,4
-  // vali[vv][mode][p|s][0-d] slider values for v10
-  static int prevSliderC = sliderC + 1; // [][] previous slider values
-  static int prev2SliderC = prevSliderC + 1; // prevprev slider val
-  static int prev3SliderC = prev2SliderC + 1; // prevprevprev slider values
-  static int prevOriginalC = prev3SliderC;
-  static final double sliderExtent = 100.;// 0 - 99, 0 - 100
-  static final double invSliderExtent = 1. / sliderExtent;
-  static int gameAddrC = 0;  // valV
-  static int gameLim = 1; // valD[rn][gameLim]<==lims[pors][clan]{{vLowLim},{vHighLim}}
+ // static int divByC = 2;  // unused number of entry7 to divide by
+  static int sliderC = modeC + 2; //2 [][] slider values of valD[vv][gameAddrC];
+  //static int sliderC = modeC;// [][] active real values of valD[vv][modeC][p|s}[clan]
+  // valI[vv][sliderC][p!s][1|2] slider values for V1,2,3,4
+  // vali[vv][sliderC][p|s][0-d] slider values for v10
+  static int prevSliderC = sliderC + 1; //3 [][] previous slider values
+  static int prev2SliderC = prevSliderC + 1; //4 prevprev slider val
+  static int prev3SliderC = prev2SliderC + 1; //5 prevprevprev slider values
+  static int prevOriginalC = prev3SliderC; //5
+  static final double sliderExtent = 100.;// 0 - 99
+  static final double invSliderExtent = 1. / sliderExtent;//.01
+  static int gameAddrC = 0;  // valD[rn][0 gameAddrC]
+  static int gameLim = 1; // valD[rn][1 gameLim]  lims[pors]{{vLowLim},{vHighLim}}
   static int vLowLim = 0;
   static int vHighLim = 1;
   static int dPrevRealC = 2; // original value of vaddr
@@ -1449,8 +1449,8 @@ class EM {
     valI[vv] = new int[prev3SliderC + 1][][];
     valD[vv] = new double[dPrevRealC + 1][][];
     valD[vv][gameLim] = lims; //valD[vv][1]...
-    // int[][] val7 = {{-1}};  unused
-    // valI[vv][sevenC] = val7;un used
+     int[][] val7 = {{-1}}; // unused
+    valI[vv][sevenC] = val7; //unused
     if(E.debugGameTab)System.out.printf("in doVal1 vv=%2d, gc=%1d, desc=%7s, detail=%7s, %n", vv, gc, vdesc, vdetail);
 
     String[] valSn = {vdesc, vdetail, "change detail" + vv};
@@ -1900,7 +1900,7 @@ class EM {
    * @return
    */
   String getDetail(int vv) {
-    return valS[vv][0] + valS[vv][1];
+    return valS[vv][0] + "  " + valS[vv][1];
   }
 
   void checkLims(double v, double[][] lims, String sDesc, String sDetail) {
@@ -2223,9 +2223,9 @@ class EM {
         LIST7 | LIST8 | LIST9 | LIST43210YRS | thisYr | SUM, 
         LIST7 | LIST8 | LIST9 | LIST43210YRS |THISYEAR | thisYrAve  | BOTH,0,0);
 
-    doRes("yearCreate", "yearCreations", "new Econs ceated from year initial funds",6, 2, 0,  ROWS1 | LIST8 |  LIST0YRS  | THISYEARUNITS | SKIPUNSET| BOTH,ROWS3 | LIST8 |  LIST0YRS | CUMUNITS | SKIPUNSET | BOTH,0L,0L);
-    doRes("FutureCreate", "FutureFund Create", "Econs created from Future Funds",6, 2, 0,  ROWS1 | LIST8 |  LIST0YRS  | THISYEARUNITS | SKIPUNSET | BOTH,0,0L,0L);
-    doRes("bothCreate", "bothCreations", "new Econs ceated from  initial funds and future funds",6, 2, 0,  ROWS1 | LIST8 |  LIST0YRS  | THISYEARUNITS | BOTH,ROWS3 | LIST8 |  LIST0YRS | CUMUNITS | SKIPUNSET | BOTH,0L,0L);
+    doRes("yearCreate", "yearCreations", "new Econs ceated from year initial funds",3, 2, 0,  ROWS1 | LIST8 |  LIST0YRS  | THISYEARUNITS | SKIPUNSET| BOTH,ROWS3 | LIST8 |  LIST0YRS | CUMUNITS | SKIPUNSET | BOTH,0L,0L);
+    doRes("FutureCreate", "FutureFund Create", "Econs created from Future Funds",3, 2, 0,  ROWS1 | LIST8 |  LIST0YRS  | THISYEARUNITS | SKIPUNSET| BOTH,ROWS3 | LIST8 |  LIST0YRS | CUMUNITS | SKIPUNSET | BOTH,0L,0L);
+    doRes("bothCreate", "bothCreations", "new Econs ceated from  initial funds and future funds",3, 2, 0,  ROWS1 | LIST8 |  LIST0YRS  | THISYEARUNITS | SKIPUNSET| BOTH,ROWS3 | LIST8 |  LIST0YRS | CUMUNITS | SKIPUNSET | BOTH,0L,0L);
     doRes("swapRIncr", "swapRIncr", "Uses of R Incr Swap percent of RC", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
     doRes("swapSIncr", "swapSIncr", "Uses of S Incr Swap percent of SG", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
     doRes("swapSDecr", "swapSDecr", "Uses of S Decr Swap percent of SG", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
@@ -2237,7 +2237,7 @@ class EM {
  doRes(DIED, "died per year", "planets or ships died in a year", 6, 2, 3, 
       LIST9 | LIST43210YRS | THISYEAR | BOTH | SKIPUNSET, 
      ROWS2 |LIST7 | LIST8 | LIST9 | LIST0YRS | CUR |  CURAVE | BOTH | SKIPUNSET,
-     ROWS3 | LIST7 | LIST8 | LIST9 | LIST2YRS | CUMAVE | SKIPUNSET, 
+     ROWS3 | LIST0 | LIST7 | LIST8 | LIST9 | LIST2YRS | CUMAVE | SKIPUNSET, 
      0L);
  doRes(DIEDPERCENT, "DIED %", "Percent planets or ships died", 2, 2, 3, 
      LIST9 | LIST43210YRS | CUMAVE | BOTH | SKIPUNSET, 

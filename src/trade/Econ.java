@@ -471,7 +471,7 @@ public class Econ{
    * @return  a random number centered around 1.0, possibly reduced by rMult
    */
   protected double cRand(int randx, double rMult) {
-    if (eM.randFrac[pors][0] <= E.pzero) {
+    if (eM.randFrac[pors][0] <= E.pzero) {  // not yet used
       return 1.;
     }
     
@@ -885,6 +885,7 @@ public class Econ{
     int lOwnerList = ownerList.size();
     int yearsTooEarly = (int)(eM.year - eM.yearsToKeepTradeRecord[0][0]);
     // put new offer at the end
+    if(aOffer.term == 0 || aOffer.term == -2)
     ownerList.add(new TradeRecord(aOffer));
     
    Iterator<TradeRecord>  iterOther = otherList.iterator();

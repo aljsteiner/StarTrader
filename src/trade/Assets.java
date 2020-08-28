@@ -6665,14 +6665,15 @@ public class Assets {
      *
      * @param inOffer The offer from the other economy<br>
      * if entryTerm and newTerm<ol>
-     * <li>entryTerm >1 newTerm=barter => entryTerm-1 </li>
+     * <li>entryTerm >1 newTerm=barter  entryTerm-1 </li>
      * <li>entryTerm >1 newTerm=barter => 1 force decision </li>
      * <li>entryTerm >1 newTerm=barter) => 0 traded xitTrade => 0</li>
      * <li>entryTerm >1 newTerm=barter => -1 rejected xitTrade => -1</li>
-     * <li>entryTerm == 1 newTerm=barter == 0 traded xitTrade => 0</li>
-     * <li>entryTerm == 1 newTerm=barter == -1 rejected xitTrade => -1</li>
+     * <li>entryTerm == 1 newTerm=barter => 0 traded xitTrade => 0</li>
+     * <li>entryTerm == 1 newTerm=barter => -1 rejected xitTrade => -1</li>
      * <li>entryTerm == 0 traded other xitTrade => -2 ndLoop</li>
      * <li>entryTerm == -1 lost other xitTrade => -3 ndLoop</li>
+     * <li>entryTerm == -2 traded 
      * </ol>
      *
      * @return a new offer for the other economy

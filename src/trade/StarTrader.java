@@ -174,10 +174,10 @@ public class StarTrader extends javax.swing.JFrame {
   static final public String[] statsButtonsTips = {statsButton0Tip, statsButton1Tip, statsButton2Tip, statsButton3Tip, statsButton4Tip, statsButton5Tip, statsButton6Tip, statsButton7Tip, statsButton8Tip, statsButton9Tip, statsButton10Tip, statsButton11Tip, statsButton12Tip, statsButton13Tip, statsButton14Tip, statsButton15Tip, statsButton16Tip, statsButton17Tip, statsButton18Tip, statsButton19Tip, statsButton20Tip, gameTextFieldText};
   static final public String versionText = "     Version 19.05";
   static final public String storyText = "This game is about trading not fighting. Trading is done between planets and starships which move between planets.  There are 5 clans and a gamemaster, all of which can change some priorities or values for the game.You can choose one of several winning goals, highest worth, highest trades received, highest trades given, highest number of planets and ships etc.\n\n"
-      + "To start the game, click the settings tab.  You can change settings for the whole game as the game master by clicking the first gray \"master\" radio buttion.  The options now have up to 10 rows of one or two sliders.  The options are each named.  If the mouse hovers over the name additional information about the option appears in the rightmost box.  The sliders set priorities or values for the option.  If a row has 2 sliders than there can be different for planets and ships.  Usually increasing a slider increases an option, but occasionally the additional information will say an increased slider decreases the option.\n\n"
+      + "Before you start the game, click the settings tab.  You can change settings for the whole game as the game master by clicking the first gray \"master\" radio buttion.  The options now have up to 10 rows of one or two sliders.  The options are each named.  If the mouse hovers over the name additional information about the option appears in the rightmost box.  The sliders set priorities or values for the option.  If a row has 2 sliders than there can be different for planets and ships.  Usually increasing a slider increases an option, but occasionally the additional information will say an increased slider decreases the option.\n\n"
       + "You can choose on the the next 5 radio buttons to set options for a clan."
-      + "Each clan has both planets and ships which are each economies with 7 sectors.  Each sector has working resources, reserve resources (cargo), working staff and reserve staff (guests)."
-      + "\n\nThere is also knowledge.  As knowledge in a sector increases, the annual cost per unit in each sector decreases and in some sectors new units of resource, staff, and knowledge increase. As in any game, random factors influence many aspects of the game."
+      + "Each clan has both planets and ships which are each economies with 7 sectors.  Each sector has working resources, reserve resources (cargo), working staff and reserve staff (guests).  "
+      + "Each financial sector of an economy also has knowledge.  As the knowledge in a sector increases the efficiency of that sector increases and the cost per unit in that sector decreases and in some sectors new units of resource, staff, and knowledge increase. As in any game, random factors influence costs and growths in the game."
       + "\n\nPlanets mine resources and grow staff, but deliberately have surpluses in some financial sectors, and famines in some other sectors.  Ships move resources between planets, often trading the resources that are lacking at a given planet in exchange for other resources and staff and knowledge.  But ships generally cannot increase staff or mine/find resources, they must receive significant resources and staff in each trade to grow at a rate that allows them to be productive trade partners.\n\nThe game proceeds either 1 year at a time or 5 years at a time depending on the choice by the gamemaster.  At the end of each 1 year or 5 years, clan masters may look at their statistices and decide to change some clan priorities.  The gamemaster can also make changes, but probably should not.  It is possible in some systems to have multiple games running, each game with different gamemaster priorities.  The initial priorities are set to make the game interesting with possibilities of growth.  Some priority changes by gamemaster or clanmaster may increase growth, but may also decrease growth causing a death of all or most ships and planets.  The balancing of economies is not simple or easy.  It is more possible to crash an economy than to grow it, so don\'t be greedy, make small changes until you understand the game better.\n\n "
   + "Click on the tab labled \"game\" to change game parameters.  Click the first gray radio button master, to change overall game parameters as the \"gamemaster\". "
       + "The next 5 radio buttons are for the 5 clans, \"red\", \"orange\", \"yellow\", \"green\" and \"blue\".  When you click on the parameter name," 
@@ -327,14 +327,13 @@ public class StarTrader extends javax.swing.JFrame {
         gameSliderS8 = new javax.swing.JSlider();
         gamePanel9 = new javax.swing.JPanel();
         gameTextField9 = new javax.swing.JTextField();
-        gamePanelRearPanel = new javax.swing.JPanel();
         gameSliderP9 = new javax.swing.JSlider();
         jSeparator16 = new javax.swing.JSeparator();
         gameSliderS9 = new javax.swing.JSlider();
-        gameButtonDown = new java.awt.Button();
         gamePanelBottomPanel = new javax.swing.JPanel();
         gameTextPane = new javax.swing.JScrollPane();
         gameTextField = new javax.swing.JTextArea();
+        gameButtonDown = new java.awt.Button();
         javax.swing.JPanel log = new javax.swing.JPanel();
         logTableScrollPanel = new javax.swing.JScrollPane();
         logDisplayTable = new javax.swing.JTable();
@@ -505,9 +504,10 @@ public class StarTrader extends javax.swing.JFrame {
         story.add(storyVersionField);
 
         storyTextPane.setAutoscrolls(true);
+        storyTextPane.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         storyTextPane.setMaximumSize(new java.awt.Dimension(1200, 1000));
         storyTextPane.setMinimumSize(new java.awt.Dimension(400, 500));
-        storyTextPane.setPreferredSize(new java.awt.Dimension(1200, 600));
+        storyTextPane.setPreferredSize(new java.awt.Dimension(1200, 900));
 
         storyTextField1.setEditable(false);
         storyTextField1.setColumns(200);
@@ -515,10 +515,10 @@ public class StarTrader extends javax.swing.JFrame {
         storyTextField1.setLineWrap(true);
         storyTextField1.setRows(30);
         storyTextField1.setWrapStyleWord(true);
-        storyTextField1.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        storyTextField1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        storyTextField1.setMargin(new java.awt.Insets(4, 5, 4, 4));
         storyTextField1.setMaximumSize(new java.awt.Dimension(1200, 1000));
         storyTextField1.setMinimumSize(new java.awt.Dimension(600, 400));
-        storyTextField1.setPreferredSize(new java.awt.Dimension(900, 800));
         storyTextPane.setViewportView(storyTextField1);
         storyTextField1.getAccessibleContext().setAccessibleParent(storyTextPane);
 
@@ -1598,21 +1598,6 @@ public class StarTrader extends javax.swing.JFrame {
         });
         gamePanel9.add(gameTextField9);
 
-        gamePanelRearPanel.setPreferredSize(new java.awt.Dimension(700, 45));
-
-        javax.swing.GroupLayout gamePanelRearPanelLayout = new javax.swing.GroupLayout(gamePanelRearPanel);
-        gamePanelRearPanel.setLayout(gamePanelRearPanelLayout);
-        gamePanelRearPanelLayout.setHorizontalGroup(
-            gamePanelRearPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        gamePanelRearPanelLayout.setVerticalGroup(
-            gamePanelRearPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        gamePanel9.add(gamePanelRearPanel);
-
         gameSliderP9.setMajorTickSpacing(10);
         gameSliderP9.setMinorTickSpacing(5);
         gameSliderP9.setPaintLabels(true);
@@ -1666,29 +1651,8 @@ public class StarTrader extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
         game.add(gamePanel9, gridBagConstraints);
 
-        gameButtonDown.setLabel("down");
-        gameButtonDown.setMaximumSize(new java.awt.Dimension(60, 55));
-        gameButtonDown.setMinimumSize(new java.awt.Dimension(30, 45));
-        gameButtonDown.setPreferredSize(new java.awt.Dimension(46, 55));
-        gameButtonDown.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                gameButtonDownMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameButtonDownMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameButtonDownMouseExited(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        game.add(gameButtonDown, gridBagConstraints);
-
         gamePanelBottomPanel.setMinimumSize(new java.awt.Dimension(100, 100));
+        gamePanelBottomPanel.setPreferredSize(new java.awt.Dimension(95, 300));
 
         gameTextPane.setBackground(new java.awt.Color(255, 204, 204));
         gameTextPane.setAlignmentX(0.0F);
@@ -1715,26 +1679,45 @@ public class StarTrader extends javax.swing.JFrame {
         gamePanelBottomPanelLayout.setHorizontalGroup(
             gamePanelBottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gamePanelBottomPanelLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(gameTextPane, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 887, Short.MAX_VALUE)
+                .addComponent(gameTextPane, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         gamePanelBottomPanelLayout.setVerticalGroup(
             gamePanelBottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(gamePanelBottomPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(gameTextPane, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(749, Short.MAX_VALUE))
+                .addContainerGap(309, Short.MAX_VALUE))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 25;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 11;
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.gridheight = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.5;
         gridBagConstraints.weighty = 0.5;
         game.add(gamePanelBottomPanel, gridBagConstraints);
+
+        gameButtonDown.setLabel("down");
+        gameButtonDown.setMaximumSize(new java.awt.Dimension(120, 110));
+        gameButtonDown.setMinimumSize(new java.awt.Dimension(30, 45));
+        gameButtonDown.setPreferredSize(new java.awt.Dimension(46, 55));
+        gameButtonDown.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                gameButtonDownMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                gameButtonDownMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                gameButtonDownMouseExited(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 10;
+        game.add(gameButtonDown, gridBagConstraints);
 
         controlPanels.addTab("Settings", game);
 
@@ -4686,7 +4669,6 @@ public class StarTrader extends javax.swing.JFrame {
     protected javax.swing.JPanel gamePanel8;
     protected javax.swing.JPanel gamePanel9;
     protected javax.swing.JPanel gamePanelBottomPanel;
-    protected javax.swing.JPanel gamePanelRearPanel;
     protected javax.swing.JSlider gameSliderP0;
     protected javax.swing.JSlider gameSliderP1;
     protected javax.swing.JSlider gameSliderP2;
@@ -5641,6 +5623,7 @@ public class StarTrader extends javax.swing.JFrame {
     //   TreeMap<Double, Econ> runOrder = new TreeMap<Double, Econ>();
     putInitValues();
     storyTextField1.setText(storyText);
+    storyTextField1.setCaretPosition(0);
     storyVersionField.setText(versionText);
 
     //  EM.clanVals.TEST.show();
@@ -6657,16 +6640,20 @@ public class StarTrader extends javax.swing.JFrame {
    */
   public void gamePanelChange(int clan, int action, JPanel[] panelAr, JTextField[] textFieldsAr, JSlider[] gamePSliders, JSlider[] gameSSliders, int[] unusedVals, int[] currentVals1) {
     System.out.print("Enter gamePanelChange clan=" + clan + " gameClanStatus=" + eM.gameClanStatus + " action=" + action + " ");
+    int v=-1; // sliderc value 0 to 99
+    int klan = -1;
     if (clan >= 0) {
       eM.gameClanStatus = clan;
     }
     if (eM.gameClanStatus == 5) {
-      System.out.print("game master panel=" + eM.gPntr);
+      if(E.debugGameTab)System.out.print("game master panel=" + eM.gPntr);
+      klan = 0;
     }
     else {
-      System.out.print("clan panel" + eM.gameClanStatus + "=" + eM.cPntr);
+      if(E.debugGameTab)System.out.print("clan panel" + eM.gameClanStatus + "=" + eM.cPntr);
+      klan = clan;
     }
-    System.out.println(" " + new Date().toString());
+    if(E.debugGameTab)System.out.println(" " + new Date().toString());
     /**
      * put any values in the display into appropriate places in E. using
      * getGameValues
@@ -6675,41 +6662,46 @@ public class StarTrader extends javax.swing.JFrame {
 
     nn = 9;
     if (action == -1) { // back up a panel if possible
-      System.out.print("backup a pannel if possible to ");
+      if(E.debugGameTab)System.out.print("backup a pannel if possible to ");
       if (eM.gameClanStatus == 5) {
         eM.gPntr = Math.max(0, eM.gPntr - 1);
       }
       else {
         eM.cPntr = Math.max(0, eM.cPntr - 1);
       }
-      System.out.println();
+      if(E.debugGameTab)System.out.println();
     }
     else if (action == -2) { // restart from the beginning
       if (eM.gameClanStatus == 5) {
         eM.gPntr = 0;  // rewind
-        System.out.print("Restart at the first game master panel ");
+        klan = 0;
+        if(E.debugGameTab)System.out.print("Restart at the first game master panel ");
       }
       else {
         eM.cPntr = 0;
-        System.out.print("Restart at the first user panel clan=" + clan);
+        klan = clan;
+        if(E.debugGameTab)System.out.print("Restart at the first user panel clan=" + clan);
       }
-      System.out.println(new Date().toString());
+      if(E.debugGameTab)System.out.println(new Date().toString());
     }
     // go to the next set of panels
     else if (action > 0) {
       int savGPntr = eM.gPntr;
       int savCPntr = eM.cPntr;
-      System.out.print("Move to the next ");
+      if(E.debugGameTab)System.out.print("Move to the next ");
       if (eM.gameClanStatus == 5) {
+        klan = 0;
         if (eM.gStart[eM.gPntr + 1] < 0) {
           if(E.debugGameTab)System.out.print("Remain at the current game master no additional panel" + eM.gPntr + " ");
         }
         else {
+          klan = 0;
           eM.gPntr++;
           if(E.debugGameTab)System.out.print("Move to the next game master panel=" + eM.gPntr + " ");
         }
       }
       else {
+        klan = clan;
         if (eM.cStart[eM.cPntr + 1] < 0) {
           if(E.debugGameTab)System.out.print("Remain at current user panel, not additonal panel=" + eM.cPntr);
         }
@@ -6722,10 +6714,12 @@ public class StarTrader extends javax.swing.JFrame {
     // in any case now display upto 10  panels
 
     if (eM.gameClanStatus == 5) {
+      klan = 0;
       eM.vv = eM.gStart[eM.gPntr];
       if(E.debugGameTab)System.out.println("Start the next game master panel at vv =" + eM.vv + " = " + eM.valS[eM.vv][0]);
     }
     else {
+      klan = clan;
       eM.vv = eM.cStart[eM.cPntr];
       int ix = 0;
       int iy = eM.vv;
@@ -6776,7 +6770,7 @@ public class StarTrader extends javax.swing.JFrame {
         gamePSliders[nn].setPaintLabels(true);
         gamePSliders[nn].setSnapToTicks(false);
         gamePSliders[nn].setVisible(true);
-        gamePSliders[nn].setValue(eM.valI[currentVals1[nn]][eM.sliderC][eM.gamePorS][0]);
+        gamePSliders[nn].setValue(eM.valI[currentVals1[nn]][eM.sliderC][eM.gamePorS][klan]);
         gamePSliders[nn].setMaximumSize(new java.awt.Dimension(350, 35));
         gamePSliders[nn].setMinimumSize(new java.awt.Dimension(150, 35));
         gamePSliders[nn].setPreferredSize(new java.awt.Dimension(250, 35));
@@ -6786,7 +6780,7 @@ public class StarTrader extends javax.swing.JFrame {
         // is there an s entry, check valI
         int vv=0,vl=0,wl=0;
         double ww=0.;
-        int v = (vl=eM.valI[currentVals1[nn]][eM.sliderC].length) > 1 ?(vv= eM.valI[currentVals1[nn]][eM.sliderC][eM.gamePorS][0] ): (vv= eM.valI[currentVals1[nn]][eM.sliderC][0][eM.gamePorS]);
+        v = (vl=eM.valI[currentVals1[nn]][eM.sliderC].length) > 1 ?(vv= eM.valI[currentVals1[nn]][eM.sliderC][eM.gamePorS][klan] ): (vv= eM.valI[currentVals1[nn]][eM.sliderC][0][eM.gamePorS]);
       //  int w = (int)Math.floor((wl=eM.valD[currentVals1[nn]][0].length) > 1 ?(ww= eM.valD[currentVals1[nn]][0][1][0] ): (ww = eM.valD[currentVals1[nn]][0][0][1]));
         // enable staff slider if value > -1 the staff values exist as positive slider vals
         if (v > -1) {
