@@ -6125,7 +6125,7 @@ public class StarTrader extends javax.swing.JFrame {
         long[] resi3 = resii2[2];
         //    gamePanelChange(5, -2, gamePanels, gameTextFields, gameSlidersP, gameSlidersS, fullVals, curVals);
 
-        System.out.print(EM.curEcon.name + since() + " after gamePanelChange");
+       // System.out.print(EM.curEcon.name + since() + " after gamePanelChange");
         printMem3();
       }
       EM.wasHere = "at end of doY&ear try";
@@ -6608,14 +6608,32 @@ public class StarTrader extends javax.swing.JFrame {
    * @param gameSSliders}
    */
   public void getGameValues(int[] currentVals1, JPanel[] panelAr, JTextField[] textFieldsAr, JSlider[] gamePSliders, JSlider[] gameSSliders) {
-    double val = 0.;
+    int val = 0,v=-1,oldval=0,gc=-1;
     for (int p : d10) { // go through elements in this panel
-      if (currentVals1[p] > -1 && panelAr[p].isEnabled()) {
+      if(E.debugGameTab)System.out.print("getGameValues #" + p + " vv=" + (v = currentVals1[p]) + ", clan =" + eM.gameClanStatus);
+      if (v > -1 && panelAr[p].isEnabled()) {
+        gc = eM.valI[v][eM.modeC][0][0];
         eM.gamePorS = E.P;
-        eM.putVal(gamePSliders[p].getValue(), currentVals1[p], E.P, eM.gameClanStatus);
+        if(gc <= 4){
+          oldval = eM.valI[v][eM.sliderC][0][0];  
+        } else {
+          oldval = eM.valI[v][eM.sliderC][eM.gamePorS][eM.gameClanStatus];
+        }
+        val = gamePSliders[p].getValue();
+        if(E.debugGameTab)System.out.println(" planet name=" + eM.valS[v][0] + ", gc=" + gc + " val=" + val + ", oldval=" + oldval); 
+        eM.putVal(val, currentVals1[p], E.P, eM.gameClanStatus);
         if (gameSSliders[p].isEnabled()) {
           eM.gamePorS = E.S;
-          eM.putVal(gameSSliders[p].getValue(), currentVals1[p], E.S, eM.gameClanStatus);
+          if(gc <= 2){
+          oldval = eM.valI[v][eM.sliderC][0][eM.gamePorS]; 
+          } else if(gc <= 4){
+           oldval = eM.valI[v][eM.sliderC][eM.gamePorS][0];  
+        } else {
+          oldval = eM.valI[v][eM.sliderC][eM.gamePorS][eM.gameClanStatus];
+        }
+          val = gameSSliders[p].getValue();
+           if(E.debugGameTab)System.out.println(" ship name=" + eM.valS[currentVals1[p]][0] + ", gc=" + gc + " val=" + val + ", oldval=" + oldval); 
+          eM.putVal(val, currentVals1[p], E.S, eM.gameClanStatus);
           // gameSSliders[p].setEnabled(false);
         }
         //  gamePSliders[p].setEnabled(false);
@@ -6639,7 +6657,13 @@ public class StarTrader extends javax.swing.JFrame {
    * @param currentVals1 the array of vv's at each of the 10 panels
    */
   public void gamePanelChange(int clan, int action, JPanel[] panelAr, JTextField[] textFieldsAr, JSlider[] gamePSliders, JSlider[] gameSSliders, int[] unusedVals, int[] currentVals1) {
+    /**
+     * put any values in the display into appropriate places in E. using
+     * getGameValues before changing the eM.eM.gameClanStatus
+     */
+    getGameValues(currentVals1, panelAr, textFieldsAr, gamePSliders, gameSSliders);
     System.out.print("Enter gamePanelChange clan=" + clan + " gameClanStatus=" + eM.gameClanStatus + " action=" + action + " ");
+    // now set the new clan
     int v=-1; // sliderc value 0 to 99
     int klan = -1;
     if (clan >= 0) {
@@ -6654,11 +6678,7 @@ public class StarTrader extends javax.swing.JFrame {
       klan = clan;
     }
     if(E.debugGameTab)System.out.println(" " + new Date().toString());
-    /**
-     * put any values in the display into appropriate places in E. using
-     * getGameValues
-     */
-    getGameValues(currentVals1, panelAr, textFieldsAr, gamePSliders, gameSSliders);
+    
 
     nn = 9;
     if (action == -1) { // back up a panel if possible
@@ -6692,22 +6712,22 @@ public class StarTrader extends javax.swing.JFrame {
       if (eM.gameClanStatus == 5) {
         klan = 0;
         if (eM.gStart[eM.gPntr + 1] < 0) {
-          if(E.debugGameTab)System.out.print("Remain at the current game master no additional panel" + eM.gPntr + " ");
+          if(E.debugGameTab)System.out.print("Remain at the current game-master no additional panel" + eM.gPntr + " ");
         }
         else {
           klan = 0;
           eM.gPntr++;
-          if(E.debugGameTab)System.out.print("Move to the next game master panel=" + eM.gPntr + " ");
+          if(E.debugGameTab)System.out.print("Move to the next game-master panel=" + eM.gPntr + " ");
         }
       }
       else {
         klan = clan;
         if (eM.cStart[eM.cPntr + 1] < 0) {
-          if(E.debugGameTab)System.out.print("Remain at current user panel, not additonal panel=" + eM.cPntr);
+          if(E.debugGameTab)System.out.print("Remain at current clan-master panel, not additonal panel=" + eM.cPntr);
         }
         else {
           eM.cPntr++;
-         if(E.debugGameTab) System.out.print("Advance to the next user panel" + eM.cPntr);
+         if(E.debugGameTab) System.out.print("Advance to the next clan-master panel" + eM.cPntr);
         }
       }
     }
@@ -6716,7 +6736,7 @@ public class StarTrader extends javax.swing.JFrame {
     if (eM.gameClanStatus == 5) {
       klan = 0;
       eM.vv = eM.gStart[eM.gPntr];
-      if(E.debugGameTab)System.out.println("Start the next game master panel at vv =" + eM.vv + " = " + eM.valS[eM.vv][0]);
+      if(E.debugGameTab)System.out.println("Start the next game-master panel at vv =" + eM.vv + " = " + eM.valS[eM.vv][0]);
     }
     else {
       klan = clan;
@@ -6726,13 +6746,13 @@ public class StarTrader extends javax.swing.JFrame {
       if (iy <= eM.valS.length && eM.valS[iy] != null) {
         ix = iy;
       }
-      if(E.debugGameTab)System.out.println("Start the next user panel at cPntr=" + eM.cPntr + " " + iy + ":" + ix + "=" + eM.valS[ix][0]);
+      if(E.debugGameTab)System.out.println("Start the next clan-master panel at cPntr=" + eM.cPntr + " " + iy + ":" + ix + "=" + eM.valS[ix][0]);
     }
     nn = 0;
     int aclan = eM.gameClanStatus;
     while (eM.vv < eM.vvend && nn < 10) {
       if(E.debugGameTab){
-      System.out.println("line nn=" + nn  + " gc=" + eM.valI[eM.vv][eM.modeC][0][0] + " clan=" + eM.gameClanStatus + " ??displaying??=" + eM.vv + " = " + eM.valS[eM.vv][0] );
+      System.out.println("line nn=" + nn  + " gc=" + eM.valI[eM.vv][eM.modeC][0][0] + " clan=" + eM.gameClanStatus + " ??displaying?? ww=" + eM.vv + " = " + eM.valS[eM.vv][0] );
      // System.out.print(nn);
      // System.out.print("nn=" + nn + " gc=" + eM.valI[eM.vv][eM.modeC][0][0]);
      // System.out.print(eM.gameClanStatus);
@@ -6740,10 +6760,12 @@ public class StarTrader extends javax.swing.JFrame {
      // System.out.print(" nn=" + nn + " gc=" + eM.valI[eM.vv][eM.modeC][0][0]);
       }
       // is this vv  match the gameClanStatus
+      eM.gamePorS = E.P;
+      currentVals1[nn] = eM.vv;  // the object to display
       if (eM.matchGameClanStatus(eM.vv)) {
-        if(E.debugGameTab)System.out.println(" <<<<<DISPLAY clan planet=" + eM.gameClanStatus);
+        if(E.debugGameTab)System.out.println(" <<<<<DISPLAY clan planet " + ", desc=" + eM.valS[currentVals1[nn]][0] +  ", klan=" + klan + ", line=" + nn + ", sliderV=" + eM.valI[ currentVals1[nn]][eM.sliderC][eM.gamePorS][klan] + ", ww=" + currentVals1[nn] + ", clan=" + eM.gameClanStatus);
         // E.sysmsg(" <<<<<DISPLAY clan=" + eM.gameClanStatus);
-        currentVals1[nn] = eM.vv;  // the display values
+
         panelAr[nn].setEnabled(true);
         panelAr[nn].setVisible(true);
         // gamePanel0.removeMouseListener(l);
@@ -6784,7 +6806,7 @@ public class StarTrader extends javax.swing.JFrame {
       //  int w = (int)Math.floor((wl=eM.valD[currentVals1[nn]][0].length) > 1 ?(ww= eM.valD[currentVals1[nn]][0][1][0] ): (ww = eM.valD[currentVals1[nn]][0][0][1]));
         // enable staff slider if value > -1 the staff values exist as positive slider vals
         if (v > -1) {
-          if(E.debugGameTab)System.out.println(" <<<<<DISPLAY ship valI=" + v + ", vl=" + vl + "line=" + nn + ", vv=" + currentVals1[nn] + ", desc=" + eM.valS[currentVals1[nn]][0] + ", clan=" + eM.gameClanStatus);
+          if(E.debugGameTab)System.out.println(" <<<<<DISPLAY ship sliderV=" + v +  ", klan=" + klan + ", length=" + vl + ", line=" + nn + ", sval=" + vv + ", ww=" + currentVals1[nn] + ", desc=" + eM.valS[currentVals1[nn]][0] + ", clan=" + eM.gameClanStatus);
           // gamePSliders[nn].setForeground(Color.blue);
           gameSSliders[nn].setSnapToTicks(false);
           gameSSliders[nn].setForeground(Color.blue);
@@ -6804,7 +6826,7 @@ public class StarTrader extends javax.swing.JFrame {
         else {
           gameSSliders[nn].setEnabled(false);
           gameSSliders[nn].setVisible(false);
-          if(E.debugGameTab)System.out.println(" <<<<< NO DISPLAY ship valI=" + v  + ", line=" + nn + ", vv=" + currentVals1[nn] + ", desc=" + eM.valS[currentVals1[nn]][0] + ", clan=" + eM.gameClanStatus);
+          if(E.debugGameTab)System.out.println(" <<<<< NO DISPLAY ship sliderv=" + v  + ", klan=" + klan + ", length=" + vl + "line=" + nn + "sval=" + vv + ", ww=" + currentVals1[nn] + ", desc=" + eM.valS[currentVals1[nn]][0] + ", clan=" + eM.gameClanStatus);
         }
         nn++;
       }

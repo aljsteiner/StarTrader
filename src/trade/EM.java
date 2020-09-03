@@ -109,6 +109,14 @@ class EM {
   int clanDead[] = {0, 0, 0, 0, 0};
   int porsDead[] = {0,0};
   int cntDead = 0;
+  
+  public final static int LSECS = E.LSECS;
+  public final static int L2SECS = E.L2SECS;
+  public final static double INVLSECS = E.INVLSECS;
+  public final static double INVL2SECS = E.INVL2SECS;
+  public  final static int[] ASECS = E.ASECS;
+  public final static int[] A2SECS = E.A2SECS;
+  
   double[] maxLY = {15.};// ship max light years for search
   static double[][] mMaxLY = {{.5, 25.}};//planet or ship max light years
   double[] addLY = {.9}; // add to ly in planet search per round of search
@@ -202,7 +210,7 @@ class EM {
   double[][] initStaffGrossAdjustmentPerEnvirn = {{2.}, {2.}};
   double[][] initGuestGrossAdjustmentPerEnvirn = {{0.2}, {0.7}};
   double[] effBias = {.5, .5}; // 170309 .25->.5
-  double[][] mEffBias = {{.25, .5}, {.25, .5}}; // 170309 .25->.5
+  double[][] mEffBias = {{.25, .75}, {.25, .75}}; // 170309 .25->.5
   // this value is in units or staff and resource not cash;
   double[] clanFutureFunds = {0., 0., 0., 0., 0.};
   double[][] clanStartFutureFundDues = {{7000., 7000., 7000., 7000., 7000.}, {7000., 7000., 7000., 7000., 7000.}};  //place to start future fund dues
@@ -641,6 +649,7 @@ class EM {
   static int v11 = vthree;
   static int vfour = 4; // [][] reference with 2 values [pors] {{m},{n}}
   static int v21 = vfour;
+  static int vfive = 5; // [] with 5 values
   static int vseven = 72; // [7] [lsecs][pors]
   static int v72 = vseven; // unused
   static int vten = 10; // p and s clan values -- clan values
@@ -669,6 +678,7 @@ class EM {
   static int prev2SliderC = prevSliderC + 1; //4 prevprev slider val
   static int prev3SliderC = prev2SliderC + 1; //5 prevprevprev slider values
   static int prevOriginalC = prev3SliderC; //5
+  static final int sliderLow = 0;  // lowest value of slider
   static final double sliderExtent = 100.;// 0 - 99
   static final double invSliderExtent = 1. / sliderExtent;//.01
   static int gameAddrC = 0;  // valD[rn][0 gameAddrC]
@@ -1373,6 +1383,7 @@ class EM {
 
   /**
    * doVal with vaddr only a double diff[] = {.5} or {.5,.5}
+   * Find gc=vone one value {val}, gc=vtwo {pVal,sVal}
    *
    * @param vdesc title of the input
    * @param vaddr address of the input
@@ -1381,7 +1392,13 @@ class EM {
    * @return vv the number of the input in valI,valD,valS
    */
   int doVal(String vdesc, double[] vaddr, double[][] lims, String vdetail) {
-    gc = vaddr.length == 2 ? vtwo : vone;
+      int vl = -1;
+     if(E.debugGameTab) {
+       if(vaddr.length > 2 && vaddr.length != 5) {
+          throw new MyErr("doVal {1} illegal length vdesc=" + vdesc + ", vaddr.length=" + vaddr.length); 
+       }
+     }
+    gc = (vl = vaddr.length) == 2 ? vtwo : vl == 1?vone: vl == 5?vfive: 11;
     vv = doVal1(gc, vdesc, lims, vdetail);
     double[][] vacc = {vaddr};
     valD[vv][gameAddrC] = vacc; //valD[vv][0][vaddr] //valD[vv][0][0]{addr0,addr1}
@@ -1391,7 +1408,7 @@ class EM {
 
   /**
    * doVal with vaddr a 7 sector array
-   * {0.3} => vpme
+   * {0.3} => vone
    * {0.1,0.2} => vtwo
    * { 0.,1.,2.,3.,4.,5.,6.} = vseven not used I think
    *
@@ -1403,10 +1420,15 @@ class EM {
    * @return vv the number of the input in valI,valD,valS
    */
   int doVal(String vdesc, double[] vaddr, int vindex, double[][] lims, String vdetail) {
+    if(E.debugGameTab) {
+       if(vaddr.length > 2 && vaddr.length != 7) {
+          throw new MyErr("doVal {1.1} vdesc=" + vdesc + ", vaddr.length=" + vaddr.length); 
+       }
+     }
     gc = vaddr.length == 1? vone : vaddr.length == 2? vtwo : vaddr.length == 7 ? vseven : 11;
     vv = doVal1(gc, vdesc, lims, vdetail);
-    double[][] vacc = {vaddr};
-    valD[vv][gameAddrC] = vacc; //valD[vv][0][vaddr] //valD[vv][0][0]{addr0,addr1}
+    double[][] vacc = {vaddr}; // {{val0}}  or {{val0,val1}} 
+    valD[vv][gameAddrC] = vacc; //valD[vv][vFill] {vaddr} //valD[vv][vFill][] {{addr0,addr1}}
     valI[vv][vFill][vFill][sevenC] = vindex; //valI[vv][0][0][vindex] (0-6)
     doVal3(vv);
     return vv;
@@ -1414,11 +1436,12 @@ class EM {
 
   /**
    * doVal with vaddr full double val[][p,s] = {{.5}} or {{.5},{.5}}
-   * gc v1 valD[vv][0][0]{val}
-   * gc vtwo valD[vv][0][0]{val0,val1}
-   * gc vthree valD[vv][0][[0]{val<pzero}
-   * gc vfour valD[vv][0][0]{val &ge;pzero}
-   * gc vten valD[vv][0][pors]{val0..val4}
+   * gc vone val[vv][0]{val},  valD {{val}}
+   * gc vtwo val[vv][0][pors] {pVal,sVal}, valD {{pVal,sVal}}
+   * gc vthree val[vv][0][val1] {{val}}, valD {{val}} same as vone
+   * gc vfour val[vv][pors][val1] {{pVal},{sVal}}. valD {{pVal},{sVal}}
+   * gc vfive val[vv][0][val5] {{1,2,3,4,5}},  valD{{1,2,3,4,5}};
+   * gc vten valD[vv][0][pors][val5] {{1,2,3,4,5},{6,7,8,9,10}}
    *
    * @param vdesc title of the input
    * @param vaddr address of the input
@@ -1427,7 +1450,26 @@ class EM {
    * @return vv the number of the input in valI,valD,valS
    */
   int doVal(String vdesc, double[][] vaddr, double[][] lims, String vdetail) {
-    gc = vaddr.length == 1 ? vaddr[0].length == 1 ? vone : vtwo : vaddr[1].length == 1 ?  vfour : vaddr[1].length == 5 ? vten : 11; // allow 0.0,0.0 as valid, {{0.0}} = 1
+      int v1 = -1,v2=-1,v3=-1;
+      if(E.debugGameTab) {
+       v1 = vaddr.length;
+       v2 = vaddr[0].length;
+       v3 = v1 == 2? vaddr[1].length: -1;
+       if((v1 <= 2 && v2 !=1 && v2 != 2 && v2 != 5) || (v1 == 2 && v3 != 1 && v3 != 2 && v3 != 5) ) {
+          throw new MyErr("doVal{2} illegal length vdesc=" + vdesc + ", vaddr.length=" + vaddr.length + ", vaddr[0].length=" + v2 + (v1 == 2 ? "vaddr[1].length =" + v3:"")); 
+       }
+     }
+      // 11 should create an error some where
+    gc = v1 == 1 ? v2 == 1 ? vone 
+            : v2 == 2? vtwo 
+            : v2 == 5? vfive : 11 
+            : v1 == 2 && v2 == 1 && v3 == 1 ?  vfour 
+            : v1 == 2 && v2 == 5 && v3 == 5 ? vten : 11; // 
+    if(E.debugGameTab){
+       if(gc == 11){ 
+         throw new MyErr("doval{3} illegal length vdesc=" + vdesc + ", vaddr.length=" + vaddr.length + ", vaddr[0].length=" + v2 + (v1 == 2 ? "vaddr[1].length =" + v3:""));
+       }
+    }
     vv = doVal1(gc, vdesc, lims, vdetail);
     valD[vv][gameAddrC] = vaddr; //valD[vv][0][pors][valu]
     doVal3(vv);
@@ -1435,7 +1477,8 @@ class EM {
   }
 
   /**
-   * sub doVal1 assign the next vv and the initial storage that will be filled
+   * sub doVal1 assign the next vv 
+   * and the initial storage that will be filled
    * in doVal3
    *
    * @param gc the storage type code
@@ -1471,19 +1514,21 @@ class EM {
   int doVal3(int vv) {
     int[][] slider, prevSlider, prev2Slider, prev3Slider;
     int svalp = -1, ib = -1;
-    int klan = 0;
+    int klan = 0,clan=0;
     int pors = E.P;
     double vR, lL, lH;
     int gc = valI[vv][modeC][0][0];
 
     if (gc >= vone && gc <= vfour) { // count display starts
       gCntr++;
+      clan = 5;
       //  System.out.format("doval3 vone tst1 +  vv=%3d,name=%5s,gCntr=%2d,cCntr=%2d%n",vv,valS[vv][0],gCntr,cCntr);
       if ((gCntr % lDisp) == 0) {
         gStart[(int) (gCntr / lDisp)] = vv;
       }
     }
-    else if (gc == vten) {
+    else if (gc == vten || gc == vfive) {
+        clan = 0;
       cCntr++;
       //  System.out.format("doval3 vten tst1 +  vv=%3d,name=%5s,gCntr=%2d,cCntr==%2d%n",vv,valS[vv][0],gCntr,cCntr);
       if ((cCntr % lDisp) == 0) {
@@ -1491,9 +1536,9 @@ class EM {
       }
     }
     else {
-      E.myTest(true, "doVal3 err, vDesc=" + valS[vv][vDesc] + ", vv=%1d, invalid gc= %1d, vaddr[1].length = %2d", vv, gc, valD[vv][gameAddrC][1].length);
+      throw new MyErr( "doVal3 err, vDesc=" + valS[vv][vDesc] + ", vv=" + vv + ", invalid gc=" + gc + ", vaddr[1].length =" + valD[vv][gameAddrC][1].length);
     }
-    // Save 4 copies of the values to go into the slider
+    // Save 4 different versions of the values to go into the slider
     if (vone == gc || gc == vtwo) { // gameMaster
       int[][] slidern = {{-1, -1}};
       valI[vv][sliderC] = slidern;
@@ -1501,24 +1546,24 @@ class EM {
       valI[vv][prev2SliderC] = slidern;
       valI[vv][prev3SliderC] = slidern;
       pors = E.P;
-      klan = 0;
-      svalp = valToSlider(vR = valD[vv][gameAddrC][0][pors], lL = valD[vv][gameLim][pors][vLowLim], lH = valD[vv][gameLim][pors][vHighLim]);
+      clan = 5;
+      klan = clan%5;
+      svalp = valToSlider(vR = valD[vv][gameAddrC][clan%5][pors], lL = valD[vv][gameLim][pors][vLowLim], lH = valD[vv][gameLim][pors][vHighLim]);
       valI[vv][sliderC][0][pors] = svalp;
       valI[vv][prevSliderC][0][pors] = svalp;
       valI[vv][prev2SliderC][0][pors] = svalp;
       valI[vv][prev3SliderC][0][pors] = svalp;
-      double[][] dPrevRealn = {{valD[vv][gameAddrC][vFill][pors]}, {-1}};
+      double[][] dPrevRealn = {{valD[vv][gameAddrC][0][pors]}, {-1}};
       valD[vv][dPrevRealC] = dPrevRealn;
-      doVal5(vv, gCntr, gStart, gc, svalp, pors, 5, vR, lL, lH);
+      doVal5(vv, gCntr, gStart, gc, svalp, pors, clan, vR, lL, lH);
       if (gc == vtwo) {  // double [] version of addrs'
         pors = E.S;
-        klan = 0;
         svalp = valToSlider(vR = valD[vv][gameAddrC][0][pors], lL = valD[vv][gameLim][pors][vLowLim], lH = valD[vv][gameLim][pors][vHighLim]);
         valI[vv][sliderC][0][pors] = svalp;
         valI[vv][prevSliderC][0][pors] = svalp;
         valI[vv][prev2SliderC][0][pors] = svalp;
         valI[vv][prev3SliderC][0][pors] = svalp;
-        doVal5(vv, gCntr, gStart, gc, svalp, pors, 5, vR, lL, lH);
+        doVal5(vv, gCntr, gStart, gc, svalp, pors, clan, vR, lL, lH);
       }
     }
     else if (gc == vthree || gc == vfour) { // more gameMaster
@@ -1528,7 +1573,7 @@ class EM {
       valI[vv][prev2SliderC] = slidern;
       valI[vv][prev3SliderC] = slidern;
       pors = E.P;
-      klan = 0;
+      clan=5;
       svalp = valToSlider(vR = valD[vv][gameAddrC][pors][0], lL = valD[vv][gameLim][pors][vLowLim], lH = valD[vv][gameLim][pors][vHighLim]);
       valI[vv][sliderC][pors][0] = svalp;
       valI[vv][prevSliderC][pors][0] = svalp;
@@ -1536,7 +1581,7 @@ class EM {
       valI[vv][prev3SliderC][pors][0] = svalp;
       double[][] dPrevRealn = {{vR}, {-1}};
       valD[vv][dPrevRealC] = dPrevRealn;
-      doVal5(vv, gCntr, gStart, gc, svalp, pors, 5, vR, lL, lH);
+      doVal5(vv, gCntr, gStart, gc, svalp, pors, clan, vR, lL, lH);
       if (gc == vfour) {  // double [pors][0] version of address
         pors = E.S;
         klan = 0;
@@ -1545,13 +1590,13 @@ class EM {
         valI[vv][prevSliderC][pors][0] = svalp;
         valI[vv][prev2SliderC][pors][0] = svalp;
         valI[vv][prev3SliderC][pors][0] = svalp;
-        doVal5(vv, gCntr, gStart, gc, svalp, pors, 5, vR, lL, lH);
+        doVal5(vv, gCntr, gStart, gc, svalp, pors, clan, vR, lL, lH);
       }
       // for vone vthree the valI[vv][0-4][E.S]{-1} not {svalp}
       // for vtwo vfour the valI[vv][0-4][E.P]{svalp} display value
     }
 
-    else if (gc == vten) {
+    else if (gc == vten || gc == vfive) {
       int[][] slidern = {{-1, -1, -1, -1, -1}, {-1, -1, -1, -1, -1}};
       int[][] prev2Slidern = {{-1, -1, -1, -1, -1}, {-1, -1, -1, -1, -1}};
       int[][] prevSlidern = {{-1, -1, -1, -1, -1}, {-1, -1, -1, -1, -1}};
@@ -1561,14 +1606,15 @@ class EM {
       valI[vv][prev2SliderC] = prev2Slidern;
       valI[vv][prev3SliderC] = prev3Slidern;
       //   System.out.format("doval3 vten tst2 +  vv=%3d,name=%5s,gCntr=%2d,cCntr==%2d%n",vv,valS[vv][0],gCntr,cCntr);
-      for (pors = 0; pors < 2; pors++) {
-        for (klan = 0; klan < 5; klan++) {
-          svalp = valToSlider(vR = valD[vv][gameAddrC][pors][klan], lL = valD[vv][gameLim][pors][vLowLim], lH = valD[vv][gameLim][pors][vHighLim]);
-          valI[vv][sliderC][pors][klan] = svalp;
-          valI[vv][prevSliderC][pors][klan] = svalp;
-          valI[vv][prev2SliderC][pors][klan] = svalp;
-          valI[vv][prev3SliderC][pors][klan] = svalp;
-          doVal5(vv, cCntr, cStart, gc, svalp, pors, klan, vR, lL, lH);
+      int porslim = gc == vfive? 1:2;
+      for (pors = 0; pors < porslim; pors++) {
+        for (clan = 0; clan < 5; clan++) {
+          svalp = valToSlider(vR = valD[vv][gameAddrC][pors][clan], lL = valD[vv][gameLim][pors][vLowLim], lH = valD[vv][gameLim][pors][vHighLim]);
+          valI[vv][sliderC][pors][clan] = svalp;
+          valI[vv][prevSliderC][pors][clan] = svalp;
+          valI[vv][prev2SliderC][pors][clan] = svalp;
+          valI[vv][prev3SliderC][pors][clan] = svalp;
+          doVal5(vv, cCntr, cStart, gc, svalp, pors, clan, vR, lL, lH);
         }
       }// for vten all of the valI[vv][0-4][0-1]{svalp[0-4]} set &gt; 0
     }
@@ -1579,10 +1625,7 @@ class EM {
       int[][] prev3Slidern = {{-1, -1}};
       System.out.flush();
       System.err.flush();
-      String verr = "illegal " + valS[vv][vDesc] + " doVal3 " + valS[vv][vDesc] + " vv=%d gc=%2d, vv=" + vv + ", pors=" + pors + ", clan=" + klan;
-      new Throwable().printStackTrace(System.out);
-      System.err.flush();
-      System.out.flush();
+      String verr = "doVal3 illegal gc =" + gc + ", name=" + valS[vv][vDesc] + ", vv=" + vv +  ", pors=" + pors + ", clan=" + clan;
       myTestDone = true;
       throw new MyErr(verr);
     }
@@ -1598,32 +1641,31 @@ class EM {
    * @param gc type of val
    * @param iinput the slider value for this entry
    * @param pors planet or ship
-   * @param klan clan being tested
+   * @param clan clan being tested
    * @param val the val that was set
    * @param low
    * @param high
    */
-  void doVal5(int vv, int xCntr, int[] xStart, int gc, int iinput, int pors, int klan, double val, double low, double high) {
-    double t1 = 0.;
+  void doVal5(int vv, int xCntr, int[] xStart, int gc, int iinput, int pors, int clan, double val, double low, double high) {
+    double t1 = 0.,t2=0.,t3=0.;
     int j1 = -3, j2 = -4, j3 = -5, j4 = -6, j5 = -7;
-    System.out.format("in doval5 gc=%1d, lmode=%1d, mode=%1d, vv=%3d =\"%5s\",xCnt=%1d, xStrt[xCnt]=%2d,  iinput=%3d, pors=%1d,klan=%1d,val=%7.2f, low=%7.2f,high=%7.2f%n", gc, valI[vv][modeC].length, valI[vv][modeC][0][0], vv, valS[vv][vDesc], xCntr, xCntr < 0 ? 9999 : xStart[(int) (xCntr / lDisp)], iinput, pors, klan, val, low, high);
+    int klan = clan < 5?clan:clan == 5? 0: clan%5;
+    System.out.format("in doval5 gc=%1d, lmode=%1d, mode=%1d, vv=%3d =\"%5s\",xCnt=%1d, xStrt[xCnt]=%2d,  iinput=%3d, pors=%1d,klan=%1d,val=%7.2f, low=%7.2f,high=%7.2f%n", gc, valI[vv][modeC].length, valI[vv][modeC][0][0], vv, valS[vv][vDesc], xCntr, xCntr < 0 ? 9999 : xStart[(int) (xCntr / lDisp)], iinput, pors, clan, val, low, high);
     // test for legal gc
-    if (!(gc == vone || gc == vtwo || gc == vthree || gc == vfour || gc == vten)) {
-      aErr("doVal5 " + valS[vv][vDesc] + " gc = %3d and illegal value", gc);
+    if ((gc != vone && gc != vtwo && gc != vthree && gc != vfour && gc != vfive && gc != vten)) {
+      throw new MyErr("doVal5 Illegal gc=" + gc + ", vv=" + vv + ", desc=" + valS[vv][vDesc] );
     }
-    // test value between low and high
-    double l1 = Math.min(low, high);
-    double h1 = Math.max(low, high);
-    if (!(val >= l1 && val <= h1)) {
-      aErr("doval5 " + valS[vv][vDesc] + " value out of limits high =%7.2f >= value=%7.2f >= low=%7.2f", h1, val, l1);
+    // test value between low and high. note high may be &lt; low
+    if (!((val >= low && val <= high) || (val >= high && val <= low))) {
+      throw new MyErr("doval5 " + valS[vv][vDesc] + " value=" + E.mf(val) + " out of limits high=" + E.mf(high) + " low=" + E.mf(low));        
     }
     // test gc == saved gc
     if (gc != valI[vv][modeC][vFill][0]) {
-      aErr("doval5 " + valS[vv][vDesc] + "gc = %f not equal stored gc=%f%", gc, valI[vv][modeC][vFill][0]);
+      throw new MyErr("doval5 " + valS[vv][vDesc] + "gc =" +  gc + "not equal stored gc=" + valI[vv][modeC][vFill][0]);
     }
-    // test getVal matches iinput(the converted game Value
-    if (iinput != (j1 = getVal(vv, pors, klan))) {
-      aErr("doval5 " + valS[vv][vDesc] + " iinput = %3d not getVal = %3d", iinput, j1);
+    // test getVal matches iinput(the converted game slider Value
+    if (iinput != (j1 = getVal(vv, pors, clan))) {
+      throw new MyErr("doval5 vv=" + vv + ", desc=" + valS[vv][vDesc] + " iinput=" + iinput + " not equal to saved slider  value =" + j1);
     }
     // test that input matches the value derived from the saved slider value
     if (gc == vone || gc == vtwo) {
@@ -1632,16 +1674,18 @@ class EM {
     else if (gc == vthree || gc == vfour) {
       j2 = valI[vv][sliderC][pors][vFill];
     }
-    else if (gc == vten) {
+    else if (gc == vten || gc == vfive) {
       j2 = valI[vv][sliderC][pors][klan];
     }
     if (iinput != j2) {
-      aErr("doval5 " + valS[vv][vDesc] + " iinput=%3d not equal to saved slider  value =%3d", iinput, j2);
+      throw new MyErr("doval5 vv=" + vv + ", desc=" + valS[vv][vDesc] + " iinput=" + iinput + " not equal to saved slider  value =" + j2);
     }
-    // now test that the value save in valI results in a real number within 1% of original value
-    double dif1 = (high - low) / (100. - 2.);
+    // now test that the value save in valI results in a real number about 5% of original value
+    double dif0 = Math.abs(high - low);
+    double dif1 = dif0 * .5;
     // overwrite the real number with the putVal value
-    j3 = putVal(iinput, vv, pors, klan);
+    // leave the original value without change
+    j3 = putVal(iinput, vv, pors, clan);
     if (gc == vone || gc == vtwo) {
       t1 = valD[vv][gameAddrC][vFill][pors];
       //   valD[vv][gameAddrC][vFill][pors] = val;
@@ -1653,40 +1697,42 @@ class EM {
     else if (gc == vseven) {
       t1 = valD[vv][gameAddrC][vFill][valI[vv][sevenC][vFill][vFill]];
     }
-    else if (gc == vten) {
+    else if (gc == vten || gc == vfive) {
       t1 = valD[vv][gameAddrC][pors][klan];
       //   valD[vv][gameAddrC][pors][klan] = val;
     }
     if (Math.abs(val - t1) > dif1) {
-      aErr("doVal5.6 " + valS[vv][vDesc] + " regenerated value too different gc=%1d, pors=%1d, klan=%1d, t1 addrVal=%7.2f, val=%7.2f, val-t1=%7.2f, dif1=%5.2f", gc, pors, klan, t1, val, val - t1, dif1);
+      throw new MyErr("doVal5.6 regenerated value too different=" + E.mf(val-t1) + ", allowed=" + E.mf(dif1) +", val=" +E.mf(val) + ", reval=" + E.mf(t1) + ", frac dif=" + E.mf((val-t1)/dif0)+ ", vv=" + vv + " name=" + valS[vv][vDesc] + ", gc=" + gc + ", pors=" + pors + ", clan=" + clan%5 );
+              
     }
 
     if (gc == vone || gc == vtwo) {
-      valI[vv][sliderC][vFill][pors] = -3;// force a different old value
-      j4 = putVal(iinput, vv, pors, klan);
+      j1 = valI[vv][sliderC][vFill][pors];  // j1 should be val
+      valI[vv][sliderC][vFill][pors] = -3;// force a different old gc value
+      j4 = putVal(iinput, vv, pors, klan); // change the gamefare to regen val
       t1 = valD[vv][gameAddrC][vFill][pors];
-      valD[vv][gameAddrC][vFill][pors] = val;
+      valD[vv][gameAddrC][vFill][pors] = val; // restore val
+      valI[vv][sliderC][vFill][pors] = j1; // restore sliderC val
     }
     else if (gc == vthree || gc == vfour) {
+      j1 = valI[vv][sliderC][pors][vFill];
       valI[vv][sliderC][pors][vFill] = -3;// force a different old value
-      j4 = putVal(iinput, vv, pors, klan);
+      j4 = putVal(iinput, vv, pors, klan); // change the gamefare to regen val
       t1 = valD[vv][gameAddrC][pors][vFill];
       valD[vv][gameAddrC][pors][vFill] = val;
+      valI[vv][sliderC][pors][vFill] = j1;
     }
-    else if (gc == vseven) {
-      valI[vv][sliderC][vFill][valI[vv][sevenC][vFill][vFill]] = -3; // different value
-      j4 = putVal(iinput, vv, pors, klan);
-      t1 = valD[vv][gameAddrC][vFill][valI[vv][sevenC][vFill][vFill]];
-      valD[vv][gameAddrC][vFill][valI[vv][sevenC][vFill][vFill]] = val; // restore val
-    }
-    else if (gc == vten) {
+   
+    else if (gc == vfive || gc == vten) {
+      j1 = valI[vv][sliderC][pors][klan]; // save iinput
       valI[vv][sliderC][pors][klan] = -3;// force a different old value
-      j4 = putVal(iinput, vv, pors, klan);
+      j4 = putVal(iinput, vv, pors, klan); // change the gamefare to regen val
       t1 = valD[vv][gameAddrC][pors][klan];
-      valD[vv][gameAddrC][pors][klan] = val;
+      valD[vv][gameAddrC][pors][klan] = val; // restore original
+      valI[vv][sliderC][pors][klan] = j1;
     }
     if (Math.abs(val - t1) > dif1) {
-      aErr("doVal5.7 " + valS[vv][vDesc] + " regenerated value too different gc=%1d, pors=%1d, klan=%1d, iinput=%3d, putval Res=%1d, t1 addrVal=%7.2f, val=%7.2f, low=%7.2f, high=%7.2f, val-t1=%7.2f, dif1=%5.2f", gc, pors, klan, iinput, j4, t1, val, low, high, val - t1, dif1);
+      throw new MyErr("doVal5.7 regenerated value too different=" + E.mf(val-t1) + ", allowed=" + E.mf(dif1) +", val=" +E.mf(val) + ", reval=" + E.mf(t1) + ", frac dif=" + E.mf((val-t1)/dif0)+ ", vv=" + vv + " name=" + valS[vv][vDesc] + ", gc=" + gc + ", pors=" + pors + ", clan=" + clan );
     }
 
   }
@@ -1704,67 +1750,63 @@ class EM {
     int slider1 = -1;
     int klan = clan % 5;
     int gc = valI[vv][modeC][0][0];
-    if (clan == 5 && gc <= vseven) {
+    if (clan == 5 && gc <= vfour) {
       if ((gc == vone && pors == E.P) || gc == vtwo) {
         return valToSlider(valD[vv][gameAddrC][0][pors], valD[vv][gameLim][pors][lowC], valD[vv][gameLim][pors][highC]);
       }
-      else if ((gc == 3 && pors == E.P) || gc == 4) {
+      else if ((gc == vthree && pors == E.P) || gc == vfour) {
         return valToSlider(valD[vv][gameAddrC][pors][0], valD[vv][gameLim][pors][lowC], valD[vv][gameLim][pors][highC]);
 
       }
-      else if (gc == vseven) {
+      else if (gc == vseven) { // ignored
         return valToSlider(valD[vv][gameAddrC][vFill][valI[vv][sevenC][vFill][vFill]], valD[vv][gameLim][vFill][lowC], valD[vv][gameLim][vFill][highC]);
       }
       else {  //problem with clan == 5, unknown gc
-        System.out.flush();
-        System.err.flush();
-        System.out.format("illegal " + valS[vv][vDesc] + " getVal vv=%d gc=%2d,  pors=%2d, clan=%2d%n", vv, gc, pors, klan);
-        new Throwable().printStackTrace(System.out);
-        System.err.flush();
-        System.out.flush();
-        myTestDone = true;
-        throw new MyTestException();
+       
+         String verr = "getVa; illegal clan =" + clan + " with gc=" + gc + ", desc=" + valS[vv][vDesc] + ", vv=" + vv +  ",  pors=" + pors ;
+        throw new MyErr(verr);
       }
     } // end of gameMaster clan == 5
     // now do clan entries gc == vten
-    else if (gc == vten && pors >= 0 && pors <= 1 && klan >= 0 && klan <= 4) {
+    else if ((gc == vfive ||gc == vten) && pors >= 0 && pors <= 1 && klan >= 0 && klan <= 4) {
       return valToSlider(valD[vv][gameAddrC][pors][klan], valD[vv][gameLim][pors][lowC], valD[vv][gameLim][pors][highC]);
 
     }
     else {
-      System.out.flush();
-      System.err.flush();
-      System.out.format("illegal " + valS[vv][vDesc] + " getVal vv=%4d gc=%2d, pors=%2d, clan=%2d%n", vv, gc, pors, klan);
-      new Throwable().printStackTrace(System.out);
-      System.err.flush();
-      System.out.flush();
-      myTestDone = true;
-      throw new MyTestException();
+      String verr = "getVa; illegal clan =" + clan + " with gc=" + gc + ", desc=" + valS[vv][vDesc] + ", vv=" + vv +  ",  pors=" + pors ;
+      throw new MyErr(verr);
     }
   }
 
   /**
-   * put value from slider to the gameValue if the slider value DID NOT CHANGE
+   * put value from slider to the gameValue in the EM. .. values for the game
+   * if the slider value DID NOT CHANGE
    * DO NOT CHANGE gameValue, do not change the prevs and return 0 that NOTHING
    * CHANGED
    *
    * @param slider new value from the slider, probably didn't change
-   * @param vv
-   * @param pors
-   * @param clan
+   * @param vv  position in the values arrays
+   * @param pors  planet or ship
+   * @param clan  0-4 a clan-master 5=game-master
    * @return 1 == change gameValue, 0=noChange
    */
   int putVal(int slider, int vv, int pors, int clan) {
+    int va=-1;
     int gc = valI[vv][modeC][vFill][0];
-    int klan = clan % 5;
-    if (gc <= vseven) {
+    int klan = clan < 5 ? clan : clan == 5 ? 0:clan%5;
+    if(E.debugPutValue2)System.out.print("EM putVal gc=" + gc + " " + ", vv=" + vv + " " + valS[vv][0] + ", pors=" + pors + ", clan=" + clan + ", klan=" + klan);
+     
+    if (gc <= vfour  || gc == vfive) {
       //double sosfrac[] = {.3, .35};
       if ((gc == vone && pors == E.P) || gc == vtwo) {
-        if (slider == valI[vv][sliderC][vFill][pors]) {
+        if (slider == (va = valI[vv][sliderC][vFill][pors])) {
+            if(E.debugPutValue2)System.out.println(" no change" );
           return 0; // no change
         }
         //value must change for vone and vtwo
+        double val0 = valD[vv][gameAddrC][vFill][pors];
         double val1 = valD[vv][gameAddrC][vFill][pors] = sliderToVal(slider, valD[vv][gameLim][pors][vLowLim], valD[vv][gameLim][pors][vHighLim]);
+        if(E.debugPutValue)System.out.println(", was=" + E.mf(val0) + ", to=" + E.mf(val1) );
         valI[vv][prev2SliderC][vFill][pors] = valI[vv][prevSliderC][vFill][pors];
         valI[vv][prevSliderC][vFill][pors] = valI[vv][sliderC][vFill][pors];
         valI[vv][sliderC][vFill][pors] = slider; // a new value for slider
@@ -1773,63 +1815,58 @@ class EM {
       // note different way gameMaster values stored
       //double[][] rsefficiencyGMax = {{2.}, {2.}}
       else if ((gc == vthree && pors == E.P) || gc == vfour) {
-        if (slider == valI[vv][sliderC][pors][vFill]) {
+        if (slider == (va = valI[vv][sliderC][pors][vFill])) {
+            if(E.debugPutValue2)System.out.println("no change");
           return 0; // no change
         }
+        double val0 = valD[vv][gameAddrC][pors][0];
         double val1 = valD[vv][gameAddrC][pors][0] = sliderToVal(slider, valD[vv][gameLim][pors][vLowLim], valD[vv][gameLim][pors][vHighLim]);
+        if(E.debugPutValue){      
+            System.out.println(" was=" + E.mf(val0) + ", to=" + E.mf(val1));
+        }
         valI[vv][prev2SliderC][pors][vFill] = valI[vv][prevSliderC][pors][vFill];
         valI[vv][prevSliderC][pors][vFill] = valI[vv][sliderC][pors][vFill];
         valI[vv][sliderC][pors][vFill] = slider; // a new value for slider
         return 1;
       }
       else if (gc == vseven) {
-        if (slider == valI[vv][sliderC][pors][vFill]) {
+        if (slider == (va = valI[vv][sliderC][pors][vFill])) {
+          if(E.debugPutValue2)System.out.println(" no change");
           return 0; // no change
         }
         // I think this address is wrong, but not used
-        if (gc == vseven) {
+
+          double val0 = valD[vv][gameAddrC][vFill][valI[vv][sevenC][vFill][vFill]];
           double val1 = valD[vv][gameAddrC][vFill][valI[vv][sevenC][vFill][vFill]] = sliderToVal(slider, valD[vv][gameLim][vFill][vLowLim], valD[vv][gameLim][vFill][vHighLim]);
+           if(E.debugPutValue1)System.out.println(", was=" + E.mf(val0) + ", to=" + E.mf(val1));
           valI[vv][prev2SliderC][vFill][valI[vv][sevenC][vFill][vFill]] = valI[vv][prevSliderC][vFill][valI[vv][sevenC][vFill][vFill]];
           valI[vv][prevSliderC][vFill][valI[vv][sevenC][vFill][vFill]] = valI[vv][sliderC][vFill][valI[vv][sevenC][vFill][vFill]];
           valI[vv][sliderC][vFill][valI[vv][sevenC][vFill][vFill]] = slider; // a new value for slider
-          return 1;
-        }
-        /*     else {  //problem with clan == 5
-        System.out.flush();
-        System.err.flush();
-        System.out.format("illegal " + valS[vv][vDesc] + " putVal vv=%d gc=%2d,  pors=%d, clan=%d%n", vv, gc, pors, klan);
-        new Throwable().printStackTrace(System.out);
-        System.err.flush();
-        System.out.flush();
-        myTestDone = true;
-        throw new MyTestException();
-      }*/
+          return 1;  
       }
     }
     //  double[][] clanStartFutureFundDues = {{700., 700., 700., 700., 700.}, {600., 600., 600., 600., 600.}};
-    else if (gc == vten && pors >= 0 && pors <= 1) {
-      if (slider == valI[vv][sliderC][pors][klan]) {
+    else if ((gc == vten || gc == vfive)) {
+        va = valI[vv][sliderC][pors][klan];
+        if(E.debugPutValue2)System.out.print(" old slider=" + va + ", new slider=" + slider);
+      if (slider == va) {   
+        if(E.debugPutValue2)System.out.println("no change");
         return 0; // no change
       }
-      if (gc == vten) {
-        double val2 = valD[vv][gameAddrC][pors][klan] = sliderToVal(slider, valD[vv][gameLim][pors][vLowLim], valD[vv][gameLim][pors][vHighLim]);
+      
+        double val0 = valD[vv][gameAddrC][pors][klan];
+        double val1 = valD[vv][gameAddrC][pors][klan] = sliderToVal(slider, valD[vv][gameLim][pors][vLowLim], valD[vv][gameLim][pors][vHighLim]);
+         if(E.debugPutValue)System.out.println(" was=" + E.mf(val0) + ", to=" + E.mf(val1) );
         valI[vv][prev2SliderC][pors][clan] = valI[vv][prevSliderC][pors][clan];
         valI[vv][prevSliderC][pors][clan] = valI[vv][sliderC][pors][clan];
         valI[vv][sliderC][pors][clan] = slider; // a new value for slider
         return 1;
       }
-      else {  //problem with clan <= 5
-        System.out.flush();
-        System.err.flush();
-        System.out.format("illegal " + valS[vv][vDesc] + " putVal vv=%d gc=%2d,  pors=%d, clan=%d%n", vv, gc, pors, klan);
-        new Throwable().printStackTrace(System.out);
-        System.err.flush();
-        System.out.flush();
-        myTestDone = true;
-        throw new MyTestException();
-
+      else {  //problem with gc
+        if(E.debugPutValue2)System.out.println("gc oops =" + valS[vv][0] + ", old slider=" + va + ", new slider=" + slider + ", gc=" + gc + ", pors=" + pors + ", clan=" + clan);
+        String verr = "putval illegal gc=" + gc + "  " + valS[vv][vDesc] + ", vv=" + vv  + ",  pors=" + pors + ", klan=" + klan;
+        throw new MyErr(verr);
       }
-    }
     return 1;
   }
 
@@ -1837,33 +1874,42 @@ class EM {
    * convert val to slider int
    *
    * @param val real value being converted
-   * @param low low limit from doVal initialization
-   * @param high high limit from doVal initialization
-   * @return int for the slider 0 %le; int %le; 100
+   * @param low 1st limit usually lowest from doVal initialization
+   * @param high 2nd limit usually highest from doVal initialization
+   * @return int for the slider 0 %le; int %le; 99 sliderExtend (100)
    */
   int valToSlider(double val, double low, double high) {
-    double dif = high - low;
-    int rtnVal = (int) ((val - low) * sliderExtent / dif);
-    return rtnVal;
+    // dif1 20 = 29-10+1  dif2 = -20 10 - 29-1
+    double gameValueExtent = high - low; // accept both limits
+    double gameFrac = (val - low)/gameValueExtent;
+    int sliderVal = sliderLow + (int)(sliderExtent * gameFrac);
+   // dif = dif < 0? dif -1: dif+1; // include both upper and lower limits
+    // dif1 rtn 25 = 15 -10 (5) *(5) 100 / 20
+    // dif2 rtn 75  = 14 - 29 (-15) * (-5) 100 / -20  75 = 3/4 from 1st lim
+    //int rtnVal = (int) ((val - low) * sliderExtent / dif);
+    return sliderVal;
   }
 
   /**
    * convert a slider value back to a real game value the full formula is
-   * sliderExtent = sliderMax-sliderMin (100-0) the gameValExtent =
-   * gameValMax-gameValMin. (100) invSliderExtend = 1./sliderExtent (.01)
-   * gameValExtent,invGameValExtent are different each value
+   * sliderExtent defined for slider 
+   * the gameValExtent = limit2 limit1
+   * sliderFrac = (slider -sliderLow)/sliderExtent or * invSliderExtent
+   * gameVal1 = sliderFrac * gameValueExtent
+   * result = val2 = gameVal1 + limit1
    *
    * @param slider value from the slider
-   * @param low low limit from doVal initialization
-   * @param high high limit from doVal initialization
-   * @return
+   * @param limit1 first game value limit usually low
+   * @param limit2 second game value limit usually high not included in extent
+   * @return result
    */
-  double sliderToVal(int slider, double gameLow, double gameHigh) {
-    double gameValueExtent = gameHigh - gameLow;
-    double sliderFrac = slider * invSliderExtent;
-    double val1 = (sliderFrac * gameValueExtent);
-    double val2 = val1 + gameLow;
-    if(E.debugGameTab)System.out.format("sliderToVal slider=%3d, gameLow=%7.5f,gameHigh=%7.5f, gamevalueExtent= %7.5f,sliderExtent=%5.2f, invSliderExtent=%5.2f, sliderFrac=%5.2f, val add=%5.2f, val result=%5.2f\n", slider, gameLow, gameHigh, gameValueExtent, sliderExtent, invSliderExtent, sliderFrac, val1, val2);
+  double sliderToVal(int slider, double limit1, double limit2) {
+    double gameValueExtent = limit2  -limit1;
+    double sliderFrac = (slider - sliderLow) * invSliderExtent;
+    double gameVal1 = (sliderFrac * gameValueExtent);
+    double val2 = gameVal1 + limit1; // if gameLow > gameHigh, val1 < 0, high + -val
+    if(E.debugGameTab)System.out.println("sliderToVal slider=" + slider + ", game limit1=" + E.mf(limit1) + ",game limit2=" + E.mf(limit2) + ", gameValueExtent=" + E.mf(gameValueExtent) +  ",sliderExtent=" + E.mf(sliderExtent) + ", invSliderExtent=" + E.mf(invSliderExtent) + ", sliderFrac=" + E.mf(sliderFrac) + ", gameVal1=" + E.mf(gameVal1) + ", game val2 result=" + E.mf(val2));
+    //if(E.debugGameTab)System.out.format("sliderToVal slider=%3d, gameLow=%7.5f,gameHigh=%7.5f, gamevalueExtent= %7.5f,sliderExtent=%5.2f, invSliderExtent=%5.2f, sliderFrac=%5.2f, val add=%5.2f, val result=%5.2f\n", slider, gameLow, gameHigh, gameValueExtent, sliderExtent, invSliderExtent, sliderFrac, val1, val2);
     return val2;
   }
 

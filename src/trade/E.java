@@ -73,7 +73,6 @@ public class E {
   static final boolean debutNoLastGoods = debugMaster; //error open TradeRecord
   static final boolean debugOfferCargos = debugMaster; //cargos in offer == cargo.balance
   static final boolean debugSumGrades = debugMaster; //sum of grades = sum of staff/guests
-  static final boolean debugPutValue = debugMaster; //test putValue processing
   static final boolean debugCosts = debugMaster;  // check that cost processing ok
   static final boolean debugDouble = debugMaster; //doubleTrouble and infinity or NaN
   static final boolean debugTradeRecord = debugMaster; // or false
@@ -81,6 +80,9 @@ public class E {
   static final boolean debugMisc = debugMaster; // other debug tests
   static final boolean debugCanTrade = debugMaster; // planet can trade
   static final boolean debugGameTab = debugMaster; // output from game output
+  static final boolean debugPutValue = debugMaster; //test putValue processing
+  static final boolean debugPutValue1 = debugMaster; //test putValue processing
+  static final boolean debugPutValue2 = debugMaster; //test putValue processing
   static final boolean debugOutput = distributable;
   static final boolean resetOut = distributable;
   static final boolean debugThreads = debugMaster;
