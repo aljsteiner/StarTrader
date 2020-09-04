@@ -2263,7 +2263,7 @@ class EM {
 
   void defRes() {
 
-    doRes(LIVEWORTH, "Live Worth", "Live Worth Value including year end working, reserve: resource, staff, knowledge", 6, 2, 0, LIST7 | LIST8 | LIST9 | LIST43210YRS | thisYr | sum,LIST7 | LIST8 | LIST9 | LIST43210YRS |THISYEAR | thisYrAve  | THISYEARUNITS | BOTH,ROWS2,ROWS3 );
+    doRes(LIVEWORTH, "Live Worth", "Live Worth Value including year end working, reserve: resource, staff, knowledge", 6, 2, 0, LIST7 | LIST8 | LIST9 | LIST43210YRS | thisYr | sum,LIST7 | LIST8 | LIST9 | LIST43210YRS |THISYEAR | thisYrAve   | BOTH,ROWS2,ROWS3 | THISYEARUNITS  | BOTH| SKIPUNSET);
     doRes(STARTWORTH, "Starting Worth", "Starting Worth Value including working, reserve: resource, staff, knowledge",6, 2, 0, LIST7 | LIST8 | LIST9 | LIST0YRS | thisYr | sum, ROWS1 |LIST7 | LIST8 | LIST9 | LIST0YRS |THISYEAR | thisYrAve  | THISYEARUNITS | BOTH,ROWS2,ROWS3 );
     doRes(WORTHIFRAC, "PercInitWorth ", "Percent of Initial Worth Value including working, reserve: resource, staff, knowledge",6, 2, 0, 
         LIST7 | LIST8 | LIST9 | LIST43210YRS | thisYr | SUM, 
@@ -2283,7 +2283,7 @@ class EM {
  doRes(DIED, "died per year", "planets or ships died in a year", 6, 2, 3, 
       LIST9 | LIST43210YRS | THISYEAR | BOTH | SKIPUNSET, 
      ROWS2 |LIST7 | LIST8 | LIST9 | LIST0YRS | CUR |  CURAVE | BOTH | SKIPUNSET,
-     ROWS3 | LIST0 | LIST7 | LIST8 | LIST9 | LIST2YRS | CUMAVE | SKIPUNSET, 
+     ROWS3 | LIST0 | LIST7 | LIST8 | LIST9 | LIST2YRS | CUMUNITS | SKIPUNSET, 
      0L);
  doRes(DIEDPERCENT, "DIED %", "Percent planets or ships died", 2, 2, 3, 
      LIST9 | LIST43210YRS | CUMAVE | BOTH | SKIPUNSET, 
@@ -3760,7 +3760,7 @@ static int prpc3 = 0;
   /** get a units sum from the stats database, it could be for the current year or for the cunulative sum of all the years
    * 
    * @param rN           the index into the stats database<br>
-   * use getStatrN(name) as rN to select by string name
+   *                     use getStatrN(name) as rN to select by string name
    * @param curCum       either ICUM or ICUR0 from EM
    * @param porsStart    0:start with planets, 1 start with ships
    * @param porsEnd      1. 0:1 sum just planets, 2. 0:2 sum planets & ships
