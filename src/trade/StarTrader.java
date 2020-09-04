@@ -5008,7 +5008,7 @@ public class StarTrader extends javax.swing.JFrame {
   void runYears2() {
     try {
       Econ curEc = eM.curEcon;;
-      if(E.debugThreads)E.sysmsg("$$$$$$$$$$$$$ runYears2;" + since() + " at start stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year);
+      if(E.debugThreads)System.out.println("$$$$$$$$$$$$$ runYears2;" + since() + " at start stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year);
       E.myTest(javax.swing.SwingUtilities.isEventDispatchThread(), "is eventDispatchThread");
       paintCurDisplay(eM.curEcon);
       System.out.println("###################runYears2;" + since() + " stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year);
@@ -5040,7 +5040,7 @@ public class StarTrader extends javax.swing.JFrame {
           
           if(curEc != null){prevEconName = curEc.name;}
          */
-        if(E.debugThreads)E.sysmsg("$$$$$$$$$$$$$runYears2 " + since() + " " + stateStringNames[stateConst] + sameEconState + " " + EM.wasHere);
+        if(E.debugThreads)System.out.println("$$$$$$$$$$$$$runYears2 " + since() + " " + stateStringNames[stateConst] + sameEconState + " " + EM.wasHere);
         paintCurDisplay(eM.curEcon);
         switch (stateConst) {
           case WAITING:
@@ -5087,7 +5087,7 @@ public class StarTrader extends javax.swing.JFrame {
             break;
           case STATS:
             done = true;
-            if(E.debugThreads)E.sysmsg("$$$$$$$$$$$$$$$runYears2;" + since() + " STATS stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year);
+            if(E.debugThreads)System.out.println("$$$$$$$$$$$$$$$runYears2;" + since() + " STATS stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year);
             listRes(fullRes);
             break;
           default:
@@ -5097,7 +5097,7 @@ public class StarTrader extends javax.swing.JFrame {
             else {
               Thread.sleep(blip30);
             }
-            if(E.debugThreads)E.sysmsg("$$$$$$$$$$$$$$$runYears2;" + since() + " DEFAULT; stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year);
+            if(E.debugThreads)System.out.println("$$$$$$$$$$$$$$$runYears2;" + since() + " DEFAULT; stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year);
 
         }
       }
@@ -5754,7 +5754,7 @@ public class StarTrader extends javax.swing.JFrame {
             rtns++;
           }
             //    System.out.println(eM.curEcon.getName() + " build select list=" + planet.getName());
-            E.sysmsg("build planets list #%d for %s, dist=%5.2f < max=%5.2f planet %s\n", rtns, eM.curEcon.getName(), lsel, eM.maxLY[0] + eM.addLY[0]*loops, planet.getName());
+          System.out.printf("build planets list #%d for %s, dist=%5.2f < max=%5.2f planet %s\n", rtns, eM.curEcon.getName(), lsel, eM.maxLY[0] + eM.addLY[0]*loops, planet.getName());
           
               }}}
               }  
@@ -5766,7 +5766,7 @@ public class StarTrader extends javax.swing.JFrame {
     return tradablePlanets;
   }// getWildCurs
  
- int getWildCurs(int shipsDone,int psize, Econ[] tradablePlanets) {
+  int getWildCurs(int shipsDone, Econ curShip, int psize, Econ[] tradablePlanets) {
     int lPlanets = eM.planets.size();
     int lShips = eM.ships.size();
     //int[] tradablePlanets = new int[psize];
@@ -5775,92 +5775,89 @@ public class StarTrader extends javax.swing.JFrame {
     int rtns = -1; // counter for planets in tradablePlanets
     // you only get to scan as many planets as you have ships
     clanShipsDone[eM.curEcon.clan]++;
-    Econ planet = eM.planets.get(0); 
-       
-    double shipsVisitedPerPlanetVisited = EM.porsVisited[E.P] == 0? 0.:EM.porsVisited[E.S]/EM.porsVisited[E.P];
+    Econ planet = eM.planets.get(0);
+
+    double shipsVisitedPerPlanetVisited = EM.porsVisited[E.P] == 0 ? 0. : EM.porsVisited[E.S] / EM.porsVisited[E.P];
     double planetsGameGoalFrac = 1.0 - eM.gameShipFrac[E.P]; // percent of econs planets
-    double goalGameShipsPerPlanet = planetsGameGoalFrac == 0.0? 0.0:eM.gameShipFrac[E.P] / planetsGameGoalFrac;
-    
-    double clanPlanetFrac[] = {1.0 - eM.clanShipFrac[E.P][0],1.0 - eM.clanShipFrac[E.P][1],1.0 - eM.clanShipFrac[E.P][2],1.0 - eM.clanShipFrac[E.P][3],1.0 - eM.clanShipFrac[E.P][4]};
-    double clanGoalShipsPerPlanet[] = {eM.clanShipFrac[E.P][0]/clanPlanetFrac[0],eM.clanShipFrac[E.P][1]/clanPlanetFrac[1],eM.clanShipFrac[E.P][2]/clanPlanetFrac[2],eM.clanShipFrac[E.P][3]/clanPlanetFrac[3],eM.clanShipFrac[E.P][4]/clanPlanetFrac[4]};
+    double goalGameShipsPerPlanet = planetsGameGoalFrac == 0.0 ? 0.0 : eM.gameShipFrac[E.P] / planetsGameGoalFrac;
+
+    double clanPlanetFrac[] = {1.0 - eM.clanShipFrac[E.P][0], 1.0 - eM.clanShipFrac[E.P][1], 1.0 - eM.clanShipFrac[E.P][2], 1.0 - eM.clanShipFrac[E.P][3], 1.0 - eM.clanShipFrac[E.P][4]};
+    double clanGoalShipsPerPlanet[] = {eM.clanShipFrac[E.P][0] / clanPlanetFrac[0], eM.clanShipFrac[E.P][1] / clanPlanetFrac[1], eM.clanShipFrac[E.P][2] / clanPlanetFrac[2], eM.clanShipFrac[E.P][3] / clanPlanetFrac[3], eM.clanShipFrac[E.P][4] / clanPlanetFrac[4]};
 //    double clanCurShipsPerPlanet[] = {eM.porsClanVisited[E.S][0]/eM.porsClanVisited[E.P][0],eM.porsClanVisited[E.S][1]/eM.porsClanVisited[E.P][1],eM.porsClanVisited[E.S][2]/eM.porsClanVisited[E.P][2],eM.porsClanVisited[E.S][3]/eM.porsClanVisited[E.P][3],eM.porsClanVisited[E.S][4]/eM.porsClanVisited[E.P][4]};
-    
-    int loops=0; // multiple scans of planets, each loop with higher limits
-    double lse1 =0.,lse2=0.;
-    boolean lla=true,llb=true;
+
+    int loops = 0; // multiple scans of planets, each loop with higher limits
+    double lse1 = 0., lse2 = 0.;
+    boolean lla = true, llb = true;
     // find planets new to old
-      for(loops = 0;loops<4;loops++){
-        boolean okClanSovrP[] = {
-        };
-        //newest planets to oldest planets
-      for (int i=lPlanets-1; i >= 0 && rtns < lTradablePlanets ; i--) {
+    for (loops = 0; loops < 4 && rtns < lTradablePlanets; loops++) {
+      boolean okClanSovrP[] = {};
+      //newest planets to oldest planets
+      for (int i = lPlanets - 1; i >= 0 && rtns < lTradablePlanets; i--) {
         planet = eM.planets.get(i); // pick a planet
-        if(!planet.getDie()){
+        if (!planet.getDie()) {
           // if shipsDone/EconsDone  <= eM.gameShipFrac[E.P] + eM.addGoal[loops]
           // always allow trade to planets < age 3 with no ship visited
           int jjj = planet.as.econVisited; // == null ? 0:planet.as.shipsVisited;
           jjj = shipsDone;  // test for null values in algorithim
           jjj = EM.porsVisited[E.P];
           jjj = planet.getAge();
-          jjj = planet.getAge() < 3? 5:7;
-          jjj = (int)(shipsDone + 
-              EM.porsVisited[E.P]+.0001); // force a double value
+          jjj = planet.getAge() < 3 ? 5 : 7;
+          jjj = (int) (shipsDone
+                  + EM.porsVisited[E.P] + .0001); // force a double value
           // jjj = 0;
-          jjj = (int)(shipsDone
-              /(jjj +.0001) ); // never divide by zero
-           jjj =(int)(shipsDone
-              /(shipsDone + 
-              EM.porsVisited[E.P] + .0001));
+          jjj = (int) (shipsDone
+                  / (jjj + .0001)); // never divide by zero
+          jjj = (int) (shipsDone
+                  / (shipsDone
+                  + EM.porsVisited[E.P] + .0001));
           jjj = planet.getTradedShipsTried();
-          
-          // check new planet always can trade
-          boolean q0 = planet.getTradedShipsTried() < 1; // no visit 
-          boolean q1 = loops < 2 && planet.getAge() < 3; //age 0,1,2 first 2 loops
-          boolean t0 = q0 || q1; // accept planet
-          
-          //test 1 the limit clan planets per clan ships 
-          double r1 = (1.-eM.gameShipFrac[E.P])/eM.gameShipFrac[E.S];//goal P/s
-          double r2 = (eM.porsClanVisited[E.P][planet.clan] + .0001)/(clanShipsDone[planet.clan] +.0001);
-          boolean t1 = r2 <= r1; //ok more planet
-          
-          // test2 
-          double p2 = (shipsDone/5.)/(1. - eM.clanShipFrac[E.P][planet.clan]); // planets
-          boolean t2 = (p2 + .0001 + eM.addGoal[loops]) >= EM.porsClanVisited[E.P][planet.clan];
-       
-          double p3 = shipsDone;
-          double j1 = (shipsDone + EM.porsVisited[E.P]+.0001);
-          double j2 = shipsDone/j1; // cur gameShipFrac
-          double j3 = eM.gameShipFrac[E.P] + eM.addGoal[loops];
-          boolean t3 = j2 <= j3; // cur <= gameShipFrac+addGoal planet ok
-          
-          //test2 clan ships per planet 
-          if(t0 || (t1)){
-            if((lla = loops < 2 && planet.getAge() < 3 && planet.getTradedShipsTried() < 1) 
-              || ( llb = loops > 1 && planet.getTradedShipsTried()<  1  ) ) {
-              if((lsel = planet.calcLY(planet, eM.curEcon )) 
-              < (lse2 = eM.maxLY[0] 
-              + eM.addLY[0]*eM.multLYM[loops]))  {
-            boolean goPrev = true; 
-            // see if planet already in the list
-            for(int prev=0; prev < rtns && goPrev == true;prev++){
-              if(planet == tradablePlanets[prev] ) goPrev = false;
-            }
-            if(goPrev){  // planet not yet in list
-              if (rtns < lTradablePlanets) {
-                tradablePlanets[++rtns] = planet;    
-              }
-            //    System.out.println(eM.curEcon.getName() + " build select list=" + planet.getName());
-            E.sysmsg("build planets list #%d for %s, dist=%5.2f < max=%5.2f planet %s\n", rtns, eM.curEcon.getName(), lsel, eM.maxLY[0] + eM.addLY[0]*loops, planet.getName());
 
+          // check that planet is close enough
+          if ((lsel = planet.calcLY(planet, curShip))
+                  < (lse2 = eM.maxLY[0]
+                  + eM.addLY[E.P] * eM.multLYM[loops])) {
+            // check new planet always can trade
+            boolean q0 = planet.getTradedShipsTried() < 1; // no visit 
+            boolean q1 = loops < 2 && planet.getAge() < 3; //age 0,1 first 2 loops
+            boolean q3 = loops == 4;  // no restriction at last loop
+            boolean t0 = q0 || q1 || q3; // accept planet
+
+            //test 1 the limit clan planets per clan ships 
+            double r1 = (1. - eM.gameShipFrac[E.P]) / eM.gameShipFrac[E.S];//goal P/s
+            double r2 = (eM.porsClanVisited[E.P][planet.clan] + .0001) / (clanShipsDone[planet.clan] + .0001);
+            boolean t1 = r2 <= r1; //ok more planet
+
+            // test2 
+            double p2 = (shipsDone / 5.) / (1. - eM.clanShipFrac[E.P][planet.clan]); // planets
+            boolean t2 = (p2 + .0001 + eM.addGoal[loops]) >= EM.porsClanVisited[E.P][planet.clan];
+
+            double p3 = shipsDone;
+            double j1 = (shipsDone + EM.porsVisited[E.P] + .0001);
+            double j2 = shipsDone / j1; // cur gameShipFrac
+            double j3 = eM.gameShipFrac[E.P] + eM.addGoal[loops];
+            boolean t3 = j2 <= j3; // cur <= gameShipFrac+addGoal planet ok
+
+            //combine tests 
+            if (t0 || (t1 && t2 && t3)) {
+              boolean goPrev = true;
+              // see if planet already in the list
+              for (int prev = 0; prev < rtns && goPrev == true; prev++) {
+                if (planet == tradablePlanets[prev]) {
+                  goPrev = false;
+                }
+              }
+              if (goPrev) {  // planet not yet in list
+                if (rtns < lTradablePlanets - 1) {
+                  tradablePlanets[++rtns] = planet;
+                }
+                //    System.out.println(eM.curEcon.getName() + " build select list=" + planet.getName());
+                System.out.printf("build planets list #%d for %s, dist=%5.2f < max=%5.2f planet %s\n", rtns, eM.curEcon.getName(), lsel, eM.maxLY[0] + eM.addLY[0] * loops, planet.getName());
               }
             }
           }
-        }  
+        }
       }
-     }
     }// loops
-     
-    
     return rtns;
   }// getWildCurs
 
@@ -6135,7 +6132,7 @@ public class StarTrader extends javax.swing.JFrame {
             int nTradablePlanets = (int)(eM.wildCursCnt[0][0]);
             Econ[] tradablePlanets = new Econ[nTradablePlanets];
             int shipCnt = eM.ships.size()- 1 - shipsLoop;
-             foundTradablePlanets = getWildCurs(shipCnt,nTradablePlanets,tradablePlanets);
+             foundTradablePlanets = getWildCurs(shipCnt,cur1,nTradablePlanets,tradablePlanets);
              if(foundTradablePlanets > 0){
             Econ cur2 = eM.curEcon.selectPlanet(tradablePlanets,foundTradablePlanets);
             if(cur2 != null){
@@ -6941,7 +6938,7 @@ public class StarTrader extends javax.swing.JFrame {
     }
     if (eM.vv >= eM.vvend) {
       int vv2 = eM.gameClanStatus == 5 ? eM.gStart[0] : eM.cStart[0];
-      if(E.debugOutput)E.sysmsg("start over from" + eM.vv + " panel clan=" + eM.gameClanStatus + " action=" + action + " start=" + (eM.vv = vv2) + " length=" + eM.vvend + " ");
+      if(E.debugOutput)System.out.println("start over from" + eM.vv + " panel clan=" + eM.gameClanStatus + " action=" + action + " start=" + (eM.vv = vv2) + " length=" + eM.vvend + " ");
       System.out.println(new Date().toString());
       eM.gameDisplayNumber[eM.gameClanStatus] = eM.prevGameDisplayNumber[eM.gameClanStatus] = 0; // start over
 

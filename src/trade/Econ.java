@@ -758,7 +758,7 @@ public class Econ{
     int[] topStratSectors = {tradeStrategicVars.curMaxIx(0),tradeStrategicVars.curMaxIx(0),tradeStrategicVars.curMaxIx(0)};
     double lYears = 0.;
     String wildS = "in selectPlanet for:" + name + " ";
-    int n=0,r=-1,pSize = -2;
+    int n=0,r=-5,pSize = -2;
     // establish the parallel TradePriority arrays;
     for (n=0;n<wLen;n++) {
       Econ ww = wilda[n];
@@ -775,14 +775,14 @@ public class Econ{
        // String trName = tr.getName();
         Econ trCn = tr.cn;
        // int nTradePriority = -3;
-        // look for a tradePriority name in sPriority 
+        // look for a tradePriority Econ in wilda, and update parallel tPriority 
         for(int nn=0;nn<wLen ;nn++){
           if(wilda[nn] == trCn){
             tPriority[nn].updateValues(tr);
             nn = wLen; // end loop
-          }
+          } // some TradeRecords are ignored
         }// nn
-      }// pl
+      }// pl to next TradeRecord
       double tPri= -999.,aPri =0.;; // top priority found
       int nPri=-10; // count of top priority
       for(int nn = 0;nn< wLen;nn++){
@@ -796,11 +796,13 @@ public class Econ{
        r = (int) Math.floor(wildar);
         
       }
+    }
+    if(r>=0){
       wildS += " selected:" + r + " :" + wilda[r].name;
        E.sysmsg(wildS);
       sStartTrade(this,ret=wilda[r]);
     } else { // no Econs
-      E.sysmsg("no planet available to trade");
+      E.sysmsg("no planet available to trade r=" + r);
       ret = null;
     }
   return ret;
