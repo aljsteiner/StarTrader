@@ -5533,7 +5533,7 @@ public class StarTrader extends javax.swing.JFrame {
   static int shipsLoop = 0;
   static int envsLoop2 = 0;
   // static int[] envsPerYear = {10, 20, 30, 40, 40, 40, 40, 40, 40, 40, 40, 40};
-  static int[] envsPerYear = {10, 20, 30, 40};
+  static int[] envsPerYear = {10, 20, 30, 40,50,60,30};
   JSlider[] gameSlidersP = {gameSliderP0, gameSliderP1, gameSliderP2, gameSliderP3, gameSliderP4, gameSliderP5, gameSliderP6, gameSliderP7, gameSliderP8, gameSliderP9};
   JSlider[] gameSlidersS = {gameSliderS0, gameSliderS1, gameSliderS2, gameSliderS3, gameSliderS4, gameSliderS5, gameSliderS6, gameSliderS7, gameSliderS8, gameSliderS9};
   JSlider[] clanSlidersP = {clanSliderP0, clanSliderP1, clanSliderP2, clanSliderP3, clanSliderP4};

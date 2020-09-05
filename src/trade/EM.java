@@ -577,6 +577,8 @@ class EM {
   static final long LIST2YRS = list2 | LISTYRS;
   static final long LIST42YRS = list4 | LIST2YRS;
   static final long LIST432YRS = list3 | LIST42YRS;
+  static final long LIST432 = LIST4 | LIST3 | LIST2;
+  static final long LIST4321YRS = LIST1 | LIST432YRS;
   static final long LIST4320YRS = list0 | LIST432YRS;
   static final long LIST43210YRS = list1 | LIST4320YRS;
   static final long LIST32YRS = list2 | LIST3YRS;
@@ -2263,8 +2265,8 @@ class EM {
 
   void defRes() {
 
-    doRes(LIVEWORTH, "Live Worth", "Live Worth Value including year end working, reserve: resource, staff, knowledge", 6, 2, 0, LIST7 | LIST8 | LIST9 | LIST43210YRS | thisYr | sum,LIST7 | LIST8 | LIST9 | LIST43210YRS |THISYEAR | thisYrAve   | BOTH,ROWS2,ROWS3 | THISYEARUNITS  | BOTH| SKIPUNSET);
-    doRes(STARTWORTH, "Starting Worth", "Starting Worth Value including working, reserve: resource, staff, knowledge",6, 2, 0, LIST7 | LIST8 | LIST9 | LIST0YRS | thisYr | sum, ROWS1 |LIST7 | LIST8 | LIST9 | LIST0YRS |THISYEAR | thisYrAve  | THISYEARUNITS | BOTH,ROWS2,ROWS3 );
+    doRes(LIVEWORTH, "Live Worth", "Live Worth Value including year end working, reserve: resource, staff, knowledge", 6, 2, 0, LIST7 | LIST8 | LIST9 | LIST43210YRS | thisYr | sum,ROWS1 | LIST7 | LIST8 | LIST9 | LIST43210YRS |THISYEAR | thisYrAve | BOTH,ROWS2,ROWS3 | THISYEARUNITS  | BOTH| SKIPUNSET);
+    doRes(STARTWORTH, "Starting Worth", "Starting Worth Value including working, reserve: resource, staff, knowledge",6, 2, 0, LIST7 | LIST8 | LIST9 | LIST0YRS | thisYr | sum, ROWS1 |LIST7 | LIST8 | LIST9 | LIST0YRS |THISYEAR | thisYrAve | BOTH,ROWS2,ROWS3 | THISYEARUNITS );
     doRes(WORTHIFRAC, "PercInitWorth ", "Percent of Initial Worth Value including working, reserve: resource, staff, knowledge",6, 2, 0, 
         LIST7 | LIST8 | LIST9 | LIST43210YRS | thisYr | SUM, 
         LIST7 | LIST8 | LIST9 | LIST43210YRS |THISYEAR | thisYrAve  | BOTH,0,0);
@@ -2286,9 +2288,9 @@ class EM {
      ROWS3 | LIST0 | LIST7 | LIST8 | LIST9 | LIST2YRS | CUMUNITS , 
      0L);
  doRes(DIEDPERCENT, "DIED %", "Percent planets or ships died", 2, 2, 3, 
-     LIST9 | LIST43210YRS | BOTH | SKIPUNSET, 
-     ROWS2 |LIST7 | LIST8 | LIST9 | LIST0YRS | CUR |  CURAVE | CUMAVE | CUM | BOTH | SKIPUNSET,
-     ROWS3 | LIST7 | LIST8 | LIST9 | LIST2YRS | SKIPUNSET, 
+     LIST9 | LIST4321YRS | BOTH | SKIPUNSET, 
+     ROWS2 |LIST7 | LIST8 | LIST9 | LISTYRS | CUR |  CURAVE |  CUM | BOTH | SKIPUNSET,
+     0L, 
      0L);
 
     doRes("DeadNegN", "DeadNegSwapN", "Dead Swaps never entered", 6, 2, 0,  ROWS1 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |LIST7 | LIST8 | LIST9 | LIST0YRS |  THISYEARUNITS | BOTH | SKIPUNSET,ROWS3 | LIST7 | LIST8 | LIST9 | LIST2YRS | CUMUNITS | SKIPUNSET, 0L);
@@ -2411,49 +2413,49 @@ class EM {
     doRes("1YRNOCRISISINCR", "IncWorth 1Yr No Crisis", "Percent Year increase Worrth/Year initial worth if at least 1  year of no catastrophy", 3, 4, 1, LIST1YRS | curAve | both | skipUnset, 0, 0, 0);
     doRes("2YRNOCRISISINCR", "IncWorth 2Yr No Crisis", "Percent Year increase Worrth/Year initial worth if at least 2 succesive year of No catastrophy", 3, 4, 1, LIST1YRS | curAve | both | skipUnset, 0, 0, 0);
     doRes("3YRNOCRISISINCR", "IncWorth 3Yr No Crisis", "Percent Year increase Worrth/Year initial worth if at least 3 succesive year of No catastrophy", 3, 4, 1, LIST1YRS | curAve | both | skipUnset, 0, 0, 0);
-     doRes("WTRADEDINCR", "WIncr", "Percent Years worth increase/start year worth", 2, 2, 1, LIST41YRS | curAve | skipUnset, LIST4 | ROWS1 | THISYEARUNITS | CUMAVE | SKIPUNSET,  LIST4 | ROWS3 | CUMUNITS | SKIPUNSET, 0);
-    doRes("WTRADEDINCRF5", "Favor5WIncr", "Percent Years worth increase at Favor5/start year worth",  2, 2, 1, LIST41YRS | curAve | skipUnset, LIST4 | ROWS1 | THISYEARUNITS | CUMAVE | SKIPUNSET,  LIST4 | ROWS3 | CUMUNITS | SKIPUNSET, 0);
-    doRes("WTRADEDINCRF4", "Favor4WIncr", "Percent Years worth increase at Favor4/start year worth", 2, 2, 1, LIST41YRS | curAve | skipUnset, LIST4 | ROWS1 | THISYEARUNITS | CUMAVE | SKIPUNSET,  LIST4 | ROWS3 | CUMUNITS | SKIPUNSET, 0);
-    doRes("WTRADEDINCRF3", "Favor3WIncr", "Percent Years worth increase at Favor3/start year worth",  2, 2, 1, LIST41YRS | curAve | skipUnset, LIST4 | ROWS1 | THISYEARUNITS | CUMAVE | SKIPUNSET,  LIST4 | ROWS3 | CUMUNITS | SKIPUNSET, 0);
-    doRes("WTRADEDINCRF2", "Favor2WIncr", "Percent Years worth increase at Favor2/start year worth", 2, 2, 1, LIST41YRS | curAve | skipUnset, LIST4 | ROWS1 | THISYEARUNITS | CUMAVE | SKIPUNSET,  LIST4 | ROWS3 | CUMUNITS | SKIPUNSET, 0);
-    doRes("WTRADEDINCRF1", "Favor1WIncr", "Years worth increase at Favor1/start year worth",  2, 2, 1, LIST41YRS | curAve | skipUnset, LIST4 | ROWS1 | THISYEARUNITS | CUMAVE | SKIPUNSET,  LIST4 | ROWS3 | CUMUNITS | SKIPUNSET, 0);
-    doRes("WTRADEDINCRF0", "Favor0WIncr", "Percent Years worth increase at Favor0/start year worth", 2, 2, 1, LIST41YRS | curAve | skipUnset, LIST4 | ROWS1 | THISYEARUNITS | CUMAVE | SKIPUNSET,  LIST4 | ROWS3 | CUMUNITS | SKIPUNSET, 0);
-    doRes("WTRADEDINCRMULT", "MultTradeWIncr", "Percent Years worth increase at multiple trades this year/start year worth",  2, 2, 1, LIST41YRS | curAve | skipUnset, LIST4 | ROWS1 | THISYEARUNITS | CUMAVE | SKIPUNSET,  LIST4 | ROWS3 | CUMUNITS | SKIPUNSET, 0);
-    doRes("WTRADEDINCRSOS", "incrWorthAtSOS", "Percent Years worth increase at an planet SOS flag trade this year/start year worth",  2, 2, 1, LIST41YRS | curAve | skipUnset, LIST4 | ROWS1 | THISYEARUNITS | CUMAVE | SKIPUNSET,  LIST4 | ROWS3 | CUMUNITS | SKIPUNSET, 0);
-    doRes("WREJTRADEDPINCR", "WRejectedTrade", "Percent Worth incr if the other rejected the trade/start yr worth", 2, 2, 1, LIST41YRS | curAve | skipUnset, LIST4 | ROWS1 | THISYEARUNITS | CUMAVE | SKIPUNSET,  LIST4 | ROWS3 | CUMUNITS | SKIPUNSET, 0);
-    doRes("WLOSTTRADEDINCR", "incrWLostTrade", "Percent Worth incr if other rejected the trade/start yr worth",  2, 2, 1, LIST41YRS | curAve | skipUnset, LIST4 | ROWS1 | THISYEARUNITS | CUMAVE | SKIPUNSET,  LIST4 | ROWS3 | CUMUNITS | SKIPUNSET, 0);
-    doRes("UNTRADEDWINCR", "incrWorthNoTrade", "Percent no trade offered yearly growth including working, reserve: resource, staff, knowledge", 2, 2, 1, LIST41YRS | curAve | skipUnset, LIST4 | ROWS1 | THISYEARUNITS | CUMAVE | SKIPUNSET,  LIST4 | ROWS3 | CUMUNITS | SKIPUNSET, 0);
-    doRes("DEADWTRADEDINCR", "DEAD WIncr", "DEAD Percent Years worth increase/start year worth",  2, 2, 1, LIST432YRS | curAve | skipUnset, LIST4 | LIST3 | ROWS1 | THISYEARUNITS | CUMAVE | SKIPUNSET,  LIST4 | LIST3 | ROWS3 | CUMUNITS | SKIPUNSET, 0);
-    doRes("DEADWTRADEDINCRF5", "DEAD Favor5WIncr", "DEAD Percent Years worth increase at Favor5/start year worth",  2, 2, 1, LIST432YRS | curAve | skipUnset, LIST4 | LIST3 | ROWS1 | THISYEARUNITS | CUMAVE | SKIPUNSET,  LIST4 | LIST3 | ROWS3 | CUMUNITS | SKIPUNSET, 0);
-    doRes("DEADWTRADEDINCRF4", "DEAD Favor4WIncr", "Percent Years worth increase at Favor4/start year worth", 2, 2, 1, LIST432YRS | curAve | skipUnset, LIST4 | LIST3 | ROWS1 | THISYEARUNITS | CUMAVE | SKIPUNSET,  LIST4 | LIST3 | ROWS3 | CUMUNITS | SKIPUNSET, 0);
-    doRes("DEADWTRADEDINCRF3", "DEAD Favor3WIncr", "Percent Years worth increase at Favor3/start year worth",  2, 2, 1, LIST432YRS | curAve | skipUnset, LIST4 | LIST3 | ROWS1 | THISYEARUNITS | CUMAVE | SKIPUNSET,  LIST4 | LIST3 | ROWS3 | CUMUNITS | SKIPUNSET, 0);
-    doRes("DEADWTRADEDINCRF2", "DEAD Favor2WIncr", "Percent Years worth increase at Favor2/start year worth",  2, 2, 1, LIST432YRS | curAve | skipUnset, LIST4 | LIST3 | ROWS1 | THISYEARUNITS | CUMAVE | SKIPUNSET,  LIST4 | LIST3 | ROWS3 | CUMUNITS | SKIPUNSET, 0);
-    doRes("DEADWTRADEDINCRF1", "DEAD Favor1WIncr", "Years worth increase at Favor1/start year worth", 2, 2, 1, LIST432YRS | curAve | skipUnset, LIST4 | LIST3 | ROWS1 | THISYEARUNITS | CUMAVE | SKIPUNSET,  LIST4 | LIST3 | ROWS3 | CUMUNITS | SKIPUNSET, 0);
-    doRes("DEADWTRADEDINCRF0", "DEAD Favor0WIncr", "Percent Years worth increase at Favor0/start year worth", 2, 2, 1, LIST432YRS | curAve | skipUnset, LIST4 | LIST3 | ROWS1 | THISYEARUNITS | CUMAVE | SKIPUNSET,  LIST4 | LIST3 | ROWS3 | CUMUNITS | SKIPUNSET, 0);
-    doRes("DEADWTRADEDINCRMULT", "DEAD MultTradeWIncr", "Percent Years worth increase at multiple trades this year/start year worth", 2, 2, 1, LIST432YRS | curAve | skipUnset, LIST4 | LIST3 | ROWS1 | THISYEARUNITS | CUMAVE | SKIPUNSET,  LIST4 | LIST3 | ROWS3 | CUMUNITS | SKIPUNSET, 0);
-    doRes("DEADWTRADEDINCRSOS", "DEAD incrWorthAtSOS", "Percent Years worth increase at an planet SOS flag trade this year/start year worth", 2, 2, 1, LIST432YRS | curAve | skipUnset, LIST4 | LIST3 | ROWS1 | THISYEARUNITS | CUMAVE | SKIPUNSET,  LIST4 | LIST3 | ROWS3 | CUMUNITS | SKIPUNSET, 0);
-    doRes("DEADWREJTRADEDPINCR", "DEAD WRejectedTrade", "Percent Worth incr if the other rejected the trade/start yr worth",  2, 2, 1, LIST432YRS | curAve | skipUnset, LIST4 | LIST3 | ROWS1 | THISYEARUNITS | CUMAVE | SKIPUNSET,  LIST4 | LIST3 | ROWS3 | CUMUNITS | SKIPUNSET, 0);
-    doRes("DEADWLOSTTRADEDINCR", "DEAD incrWLostTrade", "Percent Worth incr if other rejected the trade/start yr worth", 2, 2, 1, LIST41YRS | curAve | skipUnset, LIST4 | ROWS1 | THISYEARUNITS | CUMAVE | SKIPUNSET,  LIST4 | ROWS3 | CUMUNITS | SKIPUNSET, 0);
-    doRes("DEADUNTRADEDWINCR", "DEAD incrWorthNoTrade", "Percent no trade offered yearly growth including working, reserve: resource, staff, knowledge",  2, 2, 1, LIST432YRS | curAve | skipUnset, LIST4 | LIST3 | ROWS1 | THISYEARUNITS | CUMAVE | SKIPUNSET,  LIST4 | LIST3 | ROWS3 | CUMUNITS | SKIPUNSET, 0);
-    doRes("WTRADEDF5", "finalTradeFracFavr5", "Percent final offer at favor 5 trade/initial offer", 4, 4, 1, (LIST1YRS | curAve | skipUnset), 0, 0, 0);
-    doRes("WTRADEDF4", "finalTradeFracFavr4", "Percent final offer at favor 5 trade/initial offer", 4, 4, 1, (LIST1YRS | curAve | skipUnset), 0, 0, 0);
-    //   doRes("WTRADEDF4", "finalTradeFracFavr4","Frac initial offer at favor 4 trade/initial offer", 4, 4,1, ( LIST1YRS | curAve| skipUnset),0, 0, 0);
-    doRes("WTRADEDF3", "finalTradeFracFavr3", "Percent final offer at favor 5 trade/initial offer", 4, 4, 1, (LIST1YRS | curAve | skipUnset), 0, 0, 0);
-    doRes("WTRADEDF2", "finalTradeFracFavr2", "Percent final offer at favor 2 trade/initial offer", 4, 4, 1, (LIST1YRS | curAve | skipUnset), 0, 0, 0);
-    doRes("WTRADEDF1", "finalTradeFracFavr1", "Percent final offer at favor 1 trade/initial offer", 6, 2, (list1 | curUnitAve | curUnits | both), 0, 0, 0);
+     doRes("WTRADEDINCR", "WIncr", "Percent Years worth increase/start year worth", 2, 2, 1,(LIST431YRS | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST431YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("WTRADEDINCRF5", "Favor5WIncr", "Percent Years worth increase at Favor5/start year worth", 2, 2, 1,(LIST431YRS | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST431YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("WTRADEDINCRF4", "Favor4WIncr", "Percent Years worth increase at Favor4/start year worth", 2, 2, 1,(LIST431YRS | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST431YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("WTRADEDINCRF3", "Favor3WIncr", "Percent Years worth increase at Favor3/start year worth",  2, 2, 1,(LIST431YRS | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST431YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("WTRADEDINCRF2", "Favor2WIncr", "Percent Years worth increase at Favor2/start year worth", 2, 2, 1,(LIST431YRS | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST431YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("WTRADEDINCRF1", "Favor1WIncr", "Years worth increase at Favor1/start year worth", 2, 2, 1,(LIST431YRS | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST431YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("WTRADEDINCRF0", "Favor0WIncr", "Percent Years worth increase at Favor0/start year worth", 2, 2, 1,(LIST431YRS | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST431YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("WTRADEDINCRMULT", "MultTradeWIncr", "Percent Years worth increase at multiple trades this year/start year worth", 2, 2, 1,(LIST431YRS | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST431YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("WTRADEDINCRSOS", "incrWorthAtSOS", "Percent Years worth increase at an planet SOS flag trade this year/start year worth",2, 2, 1,(LIST431YRS | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST431YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("WREJTRADEDPINCR", "WRejectedTrade", "Percent Worth incr if the other rejected the trade/start yr worth", 2, 2, 1,(LIST431YRS | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST431YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("WLOSTTRADEDINCR", "incrWLostTrade", "Percent Worth incr if other rejected the trade/start yr worth", 2, 2, 1,(LIST431YRS | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST431YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("UNTRADEDWINCR", "incrWorthNoTrade", "Percent no trade offered yearly growth including working, reserve: resource, staff, knowledge",2, 2, 1,(LIST431YRS | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST431YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("DEADWTRADEDINCR", "DEAD WIncr", "DEAD Percent Years worth increase/start year worth",  2, 2, 2,(LIST4321YRS | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST4321YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("DEADWTRADEDINCRF5", "DEAD Favor5WIncr", "DEAD Percent Years worth increase at Favor5/start year worth",2, 2, 2,(LIST4321YRS | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST4321YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("DEADWTRADEDINCRF4", "DEAD Favor4WIncr", "Percent Years worth increase at Favor4/start year worth",2, 2, 2,(LIST4321YRS | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST4321YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("DEADWTRADEDINCRF3", "DEAD Favor3WIncr", "Percent Years worth increase at Favor3/start year worth", 2, 2, 2,(LIST4321YRS | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST4321YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("DEADWTRADEDINCRF2", "DEAD Favor2WIncr", "Percent Years worth increase at Favor2/start year worth",  2, 2, 2,(LIST4321YRS | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST4321YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);;
+    doRes("DEADWTRADEDINCRF1", "DEAD Favor1WIncr", "Years worth increase at Favor1/start year worth",2, 2, 2,(LIST4321YRS | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST4321YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("DEADWTRADEDINCRF0", "DEAD Favor0WIncr", "Percent Years worth increase at Favor0/start year worth",2, 2, 2,(LIST4321YRS | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST4321YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("DEADWTRADEDINCRMULT", "DEAD MultTradeWIncr", "Percent Years worth increase at multiple trades this year/start year worth",2, 2, 2,(LIST4321YRS | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST4321YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);;
+    doRes("DEADWTRADEDINCRSOS", "DEAD incrWorthAtSOS", "Percent Years worth increase at an planet SOS flag trade this year/start year worth", 2, 2, 2,(LIST4321YRS | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST4321YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("DEADWREJTRADEDPINCR", "DEAD WRejectedTrade", "Percent Worth incr if the other rejected the trade/start yr worth", 2, 2, 2,(LIST4321YRS | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST4321YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("DEADWLOSTTRADEDINCR", "DEAD incrWLostTrade", "Percent Worth incr if other rejected the trade/start yr worth",2, 2, 2,(LIST4321YRS | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST4321YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("DEADUNTRADEDWINCR", "DEAD incrWorthNoTrade", "Percent no trade offered yearly growth including working, reserve: resource, staff, knowledge", 2, 2, 2,(LIST4321YRS | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST4321YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("WTRADEDF5", "finalTradeFracFavr5", "Percent final offer at favor 5 trade/initial offer",2, 2, 2,(LIST431YRS | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST431YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("WTRADEDF4", "finalTradeFracFavr4", "Percent final offer at favor 5 trade/initial offer",2, 2, 2,(LIST431YRS | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST431YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    //   doRes("WTRADEDF4", "finalTradeFracFavr4","Frac initial offer at favor 4 trade/initial offer",2, 2, 2,(list1 |LIST4 | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);;
+    doRes("WTRADEDF3", "finalTradeFracFavr3", "Percent final offer at favor 5 trade/initial offer",2, 2, 2,(list1 |LIST4 | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("WTRADEDF2", "finalTradeFracFavr2", "Percent final offer at favor 2 trade/initial offer",2, 2, 2,(list1 |LIST4 | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("WTRADEDF1", "finalTradeFracFavr1", "Percent final offer at favor 1 trade/initial offer",2, 2, 2,(list1 |LIST4 | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
 
-    doRes("WTRADED0", "worthAtFavr0", "Percent worthAtFavr0/initial worth", 6, 2, (list1 | curUnitAve | curUnits | both), 0, 0, 0);
-    doRes("WTRADEDOS", "worthAtSOS", "Percent worthAtSOS/initial worth", 6, 2, (list1 | curUnitAve | curUnits | both), 0, 0, 0);
-    doRes("WREJTRADED", "wRejectedTrade", "Percent lost worth  if econ rejected the trade", 6, 2, (list1 | curUnitAve | curUnits | both), 0, 0, 0);
-    doRes("WLOSTTRADED", "wLostTrade", "Percent lost worth if other clan rejected the trade", 6, 2, (list1 | curUnitAve | curUnits | both), 0, 0, 0);
-    doRes("TRADEDRCDF5", "W rcd fav5", "Percent Worth received when trade at fav5/initial worth", 6, 2, (list1 | thisYr | sum), (list1 | curUnitAve | curUnits |BOTH | SKIPUNSET), 0, 0);
-    doRes("TRADEDRCDF4", " W rcd fav4", "Percent Worth received when trade at fav4/initial worth", 6, 2, (list1 | thisYr | sum), (list1 | curUnitAve | curUnits |BOTH | SKIPUNSET), 0, 0);
-    doRes("TRADEDRCDF3", "W rcd fav3", "Percent Worth received when trade at fav3/initial worth", 6, 2, (list1 | thisYr | sum), (list1 | curUnitAve | curUnits |BOTH | SKIPUNSET), 0, 0);
-    doRes("TRADEDRCDF2", "W rcd fav2", "Percent Worth received when trade at fav2/initial worth", 6, 2, (list1 | thisYr | sum), (list1 | curUnitAve | curUnits |BOTH | SKIPUNSET), 0, 0);
-    doRes("TRADEDRCDF1", "W rcd fav1", "Percent Worth received when trade at fav1/initial worth", 6, 2, (list1 | thisYr | sum), (list1 | curUnitAve | curUnits |BOTH | SKIPUNSET), 0, 0);
-    doRes("TRADEDRCDF0", "W rcd fav0", "Percent Worth received when trade at fav 0/initial worth", 6, 2, (list1 | thisYr | sum), (list1 | curUnitAve | curUnits |BOTH | SKIPUNSET), 0, 0);
-     doRes("TRADEDRCD", "W rcd", "Percent Worth received when trade/initial worth", 2, 2, (list1 | thisYr | sum), (list1 | curUnitAve | curUnits | BOTH | SKIPUNSET), LIST0 | SKIPUNSET | CUMAVE | BOTH, 0);
-     doRes("TRADES%", "TRADES %", "Percent of trades per economy", 2, 2, (list1 | thisYr | BOTH | SKIPUNSET), (list1 | curUnitAve | CUMAVE | BOTH | SKIPUNSET), LIST0 | SKIPUNSET | CUMAVE | BOTH, 0);
+    doRes("WTRADED0", "worthAtFavr0", "Percent worthAtFavr0/initial worth", 2, 2, 2,(list1 |LIST4 | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("WTRADEDOS", "worthAtSOS", "Percent worthAtSOS/initial worth",2, 2, 2,(list1 |LIST4 | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("WREJTRADED", "wRejectedTrade", "Percent lost worth  if econ rejected the trade", 2, 2, 2,(list1 |LIST4 | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("WLOSTTRADED", "wLostTrade", "Percent lost worth if other clan rejected the trade",2, 2, 2,(list1 |LIST4 | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("TRADEDRCDF5", "W rcd fav5", "Percent Worth received when trade at fav5/initial worth",2, 2, 2,(list1 |LIST4 | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("TRADEDRCDF4", " W rcd fav4", "Percent Worth received when trade at fav4/initial worth",2, 2, 2,(list1 |LIST4 | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("TRADEDRCDF3", "W rcd fav3", "Percent Worth received when trade at fav3/initial worth",2, 2, 2,(list1 |LIST4 | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("TRADEDRCDF2", "W rcd fav2", "Percent Worth received when trade at fav2/initial worth",2, 2, 2,(list1 |LIST4 | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("TRADEDRCDF1", "W rcd fav1", "Percent Worth received when trade at fav1/initial worth",2, 2, 2,(list1 |LIST4 | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+    doRes("TRADEDRCDF0", "W rcd fav0", "Percent Worth received when trade at fav 0/initial worth",2, 2, 2,(list1 |LIST4 | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+     doRes("TRADEDRCD", "W rcd", "Percent Worth received when trade/initial worth",2, 2, 2,(list1 |LIST4 | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
+     doRes("TRADES%", "TRADES %", "Percent of trades per economy", 2, 2, 2,(list1 |LIST4 | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);
       doRes("DEADTRADES%", "Dead Trades %", "Percent of trades per dead economy", 6, 2, (list1 | thisYr | BOTH | SKIPUNSET), (list1 | curUnitAve | CUMAVE | BOTH | SKIPUNSET), LIST0 | SKIPUNSET | CUMAVE | BOTH, 0);
     doRes(RCTBAL, "RCBal/TBal", "Percent RC balance/tbal", 1, 1, 0, (LIST7 | skipUnset | curAve), 0, 0, 0);
      doRes(RCBAL, "RCBal", "RC balance", 1, 1, 0, (LIST7  | curAve), 0, 0, 0);
