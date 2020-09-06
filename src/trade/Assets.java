@@ -174,10 +174,12 @@ public class Assets {
   double tradedManualsWorths;  // worth of manuals received in trades
   double tradingOfferWorth; // valid if didGoods;
   // if multiple ships trade in a year, this is for the last ship
-  int tradedShipOrdinal; // count of ships traded this year
+  int tradedShipOrdinal=0; // count of ships traded this year
+  int visitedShipOrdinal=0;
   int econVisited = 0; // count of econs trying trade this year
   String tradingShipName = "none";
-  int prevBarterYear = -20;  // set by Assets.barter, detect new year
+  int prevBarterYear = -20;  // set near end of endYear
+  int prevNoBarterYear = -20;
   boolean newTradeYear1 = false; // set by Assets.barter
 
   // save ship maint and travel cost of pre barter, for year end costs
@@ -222,7 +224,8 @@ public class Assets {
   double tradedStrategicFrac;
   ARow tradedMoreManuals;
   double lightYearsTraveled = 0.;
-  String tradedShipNames[][] = {{"A", "B", "C", "D", "E"}, {"A", "B", "C", "D", "E"}, {"A", "B", "C", "D", "E"}, {"A", "B", "C", "D", "E"}, {"A", "B", "C", "D", "E"}};
+  // up to 10 visited ship names
+  String visitedShipNames[][] = {{"A", "B", "C", "D", "E","f","g","h","i","j"}, {"A", "B", "C", "D", "E"}, {"A", "B", "C", "D", "E"}, {"A", "B", "C", "D", "E"}, {"A", "B", "C", "D", "E"}};
   double strategicGoal = 0., rGoal0 = 0., strategicValue = 0., goodFrac = 0.;
   double endTradeWorth = -200.;
   /**
@@ -1346,6 +1349,7 @@ public class Assets {
     tradeGoodsNeeds = null;
     // if multiple ships trade in a year, this is for the last ship
     tradedShipOrdinal = 0;
+    visitedShipOrdinal=0;
     econVisited = 0;
     // yrTradesStarted = -1;  // -1 if no trade this year
     // int[] tradedShipAccepted = new int[E.hcnt];
@@ -1368,8 +1372,14 @@ public class Assets {
     tradedStrategicValue = 0.;
     tradedStrategicFrac = 0.;
     tradedMoreManuals = null;
-    //  String tradedShipNames1[][] = {{"A", "B", "C", "D", "E"}, {"A", "B", "C", "D", "E"}, {"A", "B", "C", "D", "E"}, {"A", "B", "C", "D", "E"}, {"A", "B", "C", "D", "E"}};
-//    tradedShipNames = tradedShipNames1;
+    // move names of traded ships up one year
+   visitedShipNames[4] = visitedShipNames[3];
+   visitedShipNames[3] = visitedShipNames[2];
+   visitedShipNames[2] = visitedShipNames[1];
+   visitedShipNames[1] = visitedShipNames[0];
+   String ttt[] = {"a","b","c","d","e","f","g","h","i","j"};
+   visitedShipNames[0] = ttt;
+
     EM.wasHere = "end Assets.yearEnd aaadd4=" + aaadd4++;
   }
 
@@ -1436,12 +1446,14 @@ public class Assets {
    */
   Offer barter(Offer inOffer) {  // Assets.barter
 
-    newTradeYear1 = prevBarterYear == eM.year ? false : true;
+    newTradeYear1 = prevBarterYear != eM.year;
     if (prevBarterYear != eM.year) { //a new year barter
-      // yrTradesStarted = eM.year;
-      // tradedShipOrdinal = 0;
+      newTradeYear1 = true;
       prevBarterYear = eM.year;
+      tradingShipName = inOffer.getOName();
+      visitedShipNames[0][visitedShipOrdinal++] = tradingShipName;
     }
+     prevBarterYear = eM.year;
     if (cur == null) {
       cur = new CashFlow(this);
       cur.aStartCashFlow(this);
@@ -1462,7 +1474,6 @@ public class Assets {
      // tradeStrategicVars = null;
      // tradeGoodsNeeds = null;
     }
-    prevBarterYear = eM.year;
 //    otherName = myIn.getOtherName();
     return myIn;
   }
@@ -6603,7 +6614,6 @@ public class Assets {
       return failed = !swapped;  // remove doFailed
     }
 
-    // String tradedShipNames[][] = as.tradedShipNames; //{{"A", "B", "C", "D", "E"}, {"A", "B", "C", "D", "E"}, {"A", "B", "C", "D", "E"}, {"A", "B", "C", "D", "E"}, {"A", "B", "C", "D", "E"}};
     /**
      * Assets.AssetYr variables used by Assets.AssetYr.Trades These are the
      * values of the last trade in an AssetYr, and are used to set statistics
@@ -6746,6 +6756,9 @@ public class Assets {
         retOffer = myTrade.barter(inOffer); // get entryTerm-1, 0, -1
 
         newTerm = retOffer.getTerm();
+        oClan = retOffer.getOClan();
+        Econ oEcon = retOffer.getOEcon();
+        oPors = oEcon.pors;
         hist.add(new History(aPre, 5, name + " inCF" + newTerm, "newTerm=" + newTerm, "entryTerm=" + entryTerm, "copy to other", "history"));
         ehist = hist.size();
         ArrayList<History> ohist = retOffer.getOtherHist();
@@ -6826,7 +6839,7 @@ public class Assets {
         hist.add(new History("%v", 5, "inCF", " term was=" + entryTerm, "now=" + retOffer.getTerm(), "fav=" + df(fav)));
         double criticalStrategicRequestsPercentTWorth = criticalStrategicRequests * 100 / startYrSumWorth;
         double criticalStrategicRequestsPercentFirst = (criticalStrategicRequests) / criticalStrategicRequestsFirst;
-        double criticalNominalReceiptsFracWorth = sumNominalRequests / startYrSumWorth;
+        double nominalReceiptsFracWorth = sumNominalRequests / startYrSumWorth;
         double criticalNominalRequestsFracFirst = criticalNominalRequests / criticalNominalRequestsFirst;
         double criticalNominalRequestsFracStrategicRequests = criticalNominalRequests / sumStrategicRequests;
         // at 0 -1 -2 -3 -5 always xit
@@ -7395,37 +7408,58 @@ public class Assets {
         double criticalNominalReceiptsFracWorth = sumNominalRequests / startYrSumWorth;
         double criticalNominalRequestsFracFirst = criticalNominalRequests / criticalNominalRequestsFirst;
         tW = new DoTotalWorths();
-        double worthincr1 = (fyW.sumTotWorth - syW.sumTotWorth) * 100 / syW.sumTotWorth;
-        setStat("WTRADEDINCR", pors, clan, worthincr1, 1);
+       // double worthincr1 = (fyW.sumTotWorth - syW.sumTotWorth) * 100 / syW.sumTotWorth;
+        setStat("WTRADEDINCR", pors, clan, worthIncrPercent, 1);
         setStat(EM.DIEDPERCENT, pors, clan, 0.0, 1);
         // fav was set in Assets.CashFlow.barter
         if (fav >= 4.7) {
           // gameRes.WTRADEDINCRF5.wet(pors, clan, worthincr1, 1);
-          setStat("WTRADEDINCRF5", pors, clan, worthincr1, 1);
+          setStat("WTRADEDINCRF5", pors, clan, worthIncrPercent, 1);
         } else if (fav >= 3.7) {
           // gameRes.WTRADEDINCRF4.wet(pors, clan, worthincr1, 1);
-          setStat("WTRADEDINCRF4", pors, clan, worthincr1, 1);
+          setStat("WTRADEDINCRF4", pors, clan, worthIncrPercent, 1);
         } else if (fav >= 2.8) {
           // gameRes.WTRADEDINCRF3.wet(pors, clan, worthincr1, 1);
-          setStat("WTRADEDINCRF3", pors, clan, worthincr1, 1);
+          setStat("WTRADEDINCRF3", pors, clan, worthIncrPercent, 1);
         } else if (fav >= 1.8) {
           // gameRes.WTRADEDINCRF2.wet(pors, clan, worthincr1, 1);
-          setStat("WTRADEDINCRF2", pors, clan, worthincr1, 1);
+          setStat("WTRADEDINCRF2", pors, clan, worthIncrPercent, 1);
         } else if (fav >= .9) {
           // gameRes.WTRADEDINCRF1.wet(pors, clan, worthincr1, 1);
-          setStat("WTRADEDINCRF1", pors, clan, worthincr1, 1);
+          setStat("WTRADEDINCRF1", pors, clan, worthIncrPercent, 1);
         } else if (fav >= 0.) {
           // gameRes.WTRADEDINCRF0.wet(pors, clan, worthincr1, 1);
-          setStat("WTRADEDINCRF0", pors, clan, worthincr1, 1);
+          setStat("WTRADEDINCRF0", pors, clan, worthIncrPercent, 1);
         } else if (fav >= -1.) {
 
-          setStat("WREJTRADEDPINCR", pors, clan, worthincr1, 1);
+          setStat("WREJTRADEDPINCR", pors, clan, worthIncrPercent, 1);
         } else if (fav >= -2.) {
-          setStat("WLOSTTRADEDINCR", pors, clan, worthincr1, 1);
+          setStat("WLOSTTRADEDINCR", pors, clan, worthIncrPercent, 1);
         } else {
-          // gameRes.UNTRADEDWINCR.wet(pors, clan, worthincr1, 1);
-          setStat("UNTRADEDWINCR", pors, clan, worthincr1, 1);
+          if(prevBarterYear == eM.year){
+            throw new MyErr("Illegal prev and noPrev barter for the same year=" + eM.year + ", ship=" + tradingShipName); 
+          }
+          if(prevNoBarterYear != eM.year){
+            prevNoBarterYear = eM.year;
+          } 
+          if(eM.year - prevBarterYear == 1){
+            setStat("WORTHAYRNOTRADEINCR", pors, clan, worthIncrPercent, 1);
+          }else if(eM.year - prevBarterYear == 2) {
+            setStat("WORTH2YRNOTRADEINCR", pors, clan, worthIncrPercent, 1);
+          } else if(eM.year - prevBarterYear >= 3) {
+            setStat("WORTH3YRNOTRADEINCR", pors, clan, worthIncrPercent, 1);
+          }
+          setStat("UNTRADEDWINCR", pors, clan, worthIncrPercent, 1);
         } //--- do year missed stats, years traded stats
+        if(prevNoBarterYear != eM.year){ // had a barter
+          if(eM.year - prevNoBarterYear == 1){
+            setStat("WORTHAYRTRADEINCR", pors, clan, worthIncrPercent, 1);
+          }else if(eM.year - prevNoBarterYear == 2) {
+            setStat("WORTH2YRTRADEINCR", pors, clan, worthIncrPercent, 1);
+          } else if(eM.year - prevNoBarterYear >= 3) {
+            setStat("WORTH3YRTRADEINCR", pors, clan, worthIncrPercent, 1);
+          }
+        }
 // ---------------------- end of live stats ---------------------------------
       } else // end skip if already dead
       { // dead, be sure died is set
@@ -7503,8 +7537,6 @@ public class Assets {
       didGoods = false;
       // sLoops[0] = 
       n = 0;
-      String aa[] = {"", "", "", "", ""};
-      tradedShipNames[n] = aa;
       catastrophyBalIncr[n] = catastrophyPBalIncr[n] = 0.;
       catastrophyBalIncr[n]
           = catastrophyDecayBalDecr[n] = catastrophyDecayPBalDecr[n] = 0.;
