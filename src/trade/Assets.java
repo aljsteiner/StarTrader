@@ -1450,8 +1450,11 @@ public class Assets {
     if (prevBarterYear != eM.year) { //a new year barter
       newTradeYear1 = true;
       prevBarterYear = eM.year;
-      tradingShipName = inOffer.getOName();
-      visitedShipNames[0][visitedShipOrdinal++] = tradingShipName;
+      tradingShipName = inOffer.cnName[1]; // the ship name
+      visitedShipNames[0][visitedShipOrdinal] = tradingShipName;
+      int vl = visitedShipNames[0].length-1;
+      // don't overfill the array of names;
+      visitedShipOrdinal = visitedShipOrdinal < vl?visitedShipOrdinal+1:vl;
     }
      prevBarterYear = eM.year;
     if (cur == null) {
@@ -6666,7 +6669,6 @@ public class Assets {
     // EM.multTotalStaticFrac[][],EM.gameMultTotalStrategicFrac
     double tradedMoreManuals = 0., tradedCash = 0.;
     int doingSearchOrTrade = yphase == yrphase.SEARCH ? EM.DOINGSEARCH : EM.DOINGTRADE;
-    double fav = -5, oFav = -5, computeFav = -5;
 
     /**
      * process the offer to barter in CashFlow create the trade class, pass on

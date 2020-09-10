@@ -889,9 +889,6 @@ public class Offer {
 
     flipOffer(cn[1]); // flip to ship, no flip if ship
     // now save ship name in planet assets
-    cn[0].as.tradedShipNames[0][cn[0].as.tradedShipOrdinal] = cn[1].getName();
-    // arrays can only contain 3 names
-    cn[0].as.tradedShipOrdinal = cn[0].as.tradedShipOrdinal < 2 ? cn[0].as.tradedShipOrdinal++ : 2;
     ARow goodCargo = goods.getARow(0);
     ARow goodGuests = goods.getARow(E.lsecs);
     if (History.dl > 3) {
