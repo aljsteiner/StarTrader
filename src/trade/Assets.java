@@ -6844,6 +6844,7 @@ public class Assets {
         double nominalReceiptsFracWorth = sumNominalRequests / startYrSumWorth;
         double criticalNominalRequestsFracFirst = criticalNominalRequests / criticalNominalRequestsFirst;
         double criticalNominalRequestsFracStrategicRequests = criticalNominalRequests / sumStrategicRequests;
+  //      setStat("
         // at 0 -1 -2 -3 -5 always xit
         if (myTrade != null) {
           myTrade.xitTrade(); // term= 0 mytrade,-1 my reject,-2 other traded,-3o reject
@@ -6862,6 +6863,19 @@ public class Assets {
         double worthIncrPercent = (tWTotWorth - btWTotWorth) * 100 / btWTotWorth;
 
         retOffer.set2Values(ec, btWTotWorth, tWTotWorth); // needed in TradeRecord SearchRecord
+         /*
+    TRADEFIRSTRECEIVE = ++e4;
+        setStat(EM.TRADEFIRSTRECEIVE, pors, clan, worthincr1, 1);
+  setStat(EM.TRADELASTRECEIVE, pors, clan, worthincr1, 1);
+  setStat(EM.TRADEFIRSTGAVE, pors, clan, worthincr1, 1);
+  setStat(EM.TRADELASTGAVE, pors, clan, worthincr1, 1);
+  setStat(EM.TRADESTRATFIRSTRECEIVE, pors, clan, worthincr1, 1);
+  setStat(EM.TRADESTRATLASTRECEIVE, pors, clan, worthincr1, 1);
+  setStat(EM.TRADESTRATFIRSTGAVE, pors, clan, worthincr1, 1);
+  setStat(EM.TRADESTRATLASTGAVE, pors, clan, worthincr1, 1);
+  setStat(EM.BEFORETRADEWORTH, pors, clan, worthincr1, 1);
+  setStat(EM.AFTERTRADEWORTH, pors, clan, worthincr1, 1);
+    */
         // Desired stats 
         if (fav >= 4.5) {
           // gameRes.WTRADEDINCRF5.wet(pors, clan, worthIncrPercent, 1);
@@ -7503,6 +7517,110 @@ public class Assets {
             // gameRes.UNTRADEDWINCR.wet(pors, clan, worthincr1, 1);
             setStat("DEADUNTRADEDWINCR", pors, clan, worthincr1, 1);
           }
+   if((mtgNeeds6.getRow(4).min(2) < -0.0) && (mtgNeeds6.getRow(2).min(2) < -0.0)){  
+           setStat(EM.DIEDSN3RN3, pors, clan, worthincr1, 1);
+   } else if((mtgNeeds6.getRow(4).min(2) < -0.0) && (mtgNeeds6.getRow(2).min(1) < -0.0)){      
+  setStat(EM.DIEDSN3RN2, pors, clan, worthincr1, 1);
+  } else if((mtgNeeds6.getRow(4).min(2) < -0.0) && (mtgNeeds6.getRow(2).max(2) > mtgAvails6.getRow(4).ave()* 4.)){  
+  setStat(EM.DIEDSN3RM3X4, pors, clan, worthincr1, 1);
+  } else if((mtgNeeds6.getRow(4).min(2) < -0.0) && (mtgNeeds6.getRow(2).max(2) > mtgAvails6.getRow(4).ave()* 3.)){
+  setStat(EM.DIEDSN3RM3X3, pors, clan, worthincr1, 1);
+  } else if((mtgNeeds6.getRow(4).min(2) < -0.0) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+  setStat(EM.DIEDSN3RN1, pors, clan, worthincr1, 1);
+  
+    /*
+  setStat(EM.DIEDSN3RM3X2, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN3RM3X1, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN3RM2X4, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN3RM2X3, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN3RM2X2, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN3RM2X1, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN3RM1X4, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN3RM1X3, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN3RM1X2, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN3RM1X1, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN2RN3, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN2RN2, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN2RM3X4, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN2RM3X3, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN2RN1, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN2RM3X2, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN2RM3X1, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN2RM2X4, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN2RM2X3, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN2RM2X2, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN2RM2X1, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN2RM1X4, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN2RM1X3, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN2RM1X2, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN2RM1X1, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN1RN3, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN1RN2, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN1RM3X4, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN1RM3X3, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN1RN1, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN1RM3X2, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN1RM3X1, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN1RM2X4, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN1RM2X3, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN1RM2X2, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN1RM2X1, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN1RM1X4, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN1RM1X3, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSN1RM1X2, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSM3X4RN3, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSM3X3RN3, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSM3X2RN3, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSM3X1RN3, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSM2X4RN3, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSM2X3RN3, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSM2X2RN3, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSM2X1RN3, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSM1X4RN3, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSM1X3RN3, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSM1X2RN3, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSM1X1RN3, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSM3X4RN2, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSM3X3RN2, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSM3X2RN2, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSM3X1RN2, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSM2X4RN2, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSM2X3RN2, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSM2X2RN2, pors, clan, worthincr1, 1);
+  setStat(EM.DIEDSM2X1RN2, pors, clan, worthincr1, 1);
+   */
+   } else if((mtgNeeds6.getRow(4).max(0) * 4.> mtgNeeds6.getRow(2).max(0)) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+  setStat(EM.DIEDSM1X4RN2, pors, clan, worthincr1, 1);
+   } else if((mtgNeeds6.getRow(4).max(0) * 3.> mtgNeeds6.getRow(2).max(0)) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+  setStat(EM.DIEDSM1X3RN2, pors, clan, worthincr1, 1);
+   } else if((mtgNeeds6.getRow(4).max(0) * 2.> mtgNeeds6.getRow(2).max(0)) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+  setStat(EM.DIEDSM1X2RN2, pors, clan, worthincr1, 1);
+   } else if((mtgNeeds6.getRow(4).max(0) * 1.> mtgNeeds6.getRow(2).max(0)) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+  setStat(EM.DIEDSM1X1RN1, pors, clan, worthincr1, 1);
+   } else if((mtgNeeds6.getRow(4).max(2) * 4.> mtgNeeds6.getRow(2).max(0)) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+  setStat(EM.DIEDSM3X4RN1, pors, clan, worthincr1, 1);
+   } else if((mtgNeeds6.getRow(4).max(2) * 3.> mtgNeeds6.getRow(2).max(0)) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+  setStat(EM.DIEDSM3X3RN1, pors, clan, worthincr1, 1);
+   } else if((mtgNeeds6.getRow(4).max(2) * 2.> mtgNeeds6.getRow(2).max(0)) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+  setStat(EM.DIEDSM3X2RN1, pors, clan, worthincr1, 1);
+   } else if((mtgNeeds6.getRow(4).max(2) * 1.> mtgNeeds6.getRow(2).max(0)) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+  setStat(EM.DIEDSM3X1RN1, pors, clan, worthincr1, 1);
+   } else if((mtgNeeds6.getRow(4).max(1) * 4.> mtgNeeds6.getRow(2).max(0)) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+  setStat(EM.DIEDSM2X4RN1, pors, clan, worthincr1, 1);
+   } else if((mtgNeeds6.getRow(4).max(1) * 3.> mtgNeeds6.getRow(2).max(0)) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+  setStat(EM.DIEDSM2X3RN1, pors, clan, worthincr1, 1);
+   } else if((mtgNeeds6.getRow(4).max(1) * 2.> mtgNeeds6.getRow(2).max(0)) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+  setStat(EM.DIEDSM2X2RN1, pors, clan, worthincr1, 1);
+   } else if((mtgNeeds6.getRow(4).max(1) * 1.> mtgNeeds6.getRow(2).max(0)) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+  setStat(EM.DIEDSM2X1RN1, pors, clan, worthincr1, 1);
+   } else if((mtgNeeds6.getRow(4).max(0) * 4.> mtgNeeds6.getRow(2).max(0)) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+  setStat(EM.DIEDSM1X4RN1, pors, clan, worthincr1, 1);
+   } else if((mtgNeeds6.getRow(4).max(0) * 3. > mtgNeeds6.getRow(2).max(0)) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+  setStat(EM.DIEDSM1X3RN1, pors, clan, worthincr1, 1);
+   } else if((mtgNeeds6.getRow(4).max(0) * 2. > mtgNeeds6.getRow(2).max(0)) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+  setStat(EM.DIEDSM1X2RN1, pors, clan, worthincr1, 1);
+   }
+ 
           setStat("died", pors, clan, worthincr1, 1);
           EM.wasHere = " CashFlow.yearEnd into deac, and died ccch=" + ++ccch;
           if (swapsN < 0) {

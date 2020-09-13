@@ -2247,7 +2247,96 @@ class EM {
   static final int INCRAVAILFRACa = ++e4;
   static final int INCRAVAILFRACb = ++e4;
   static final int INCRAVAILFRACc = ++e4;
-  
+  static final int TRADEFIRSTRECEIVE = ++e4;
+  static final int TRADELASTRECEIVE= ++e4;
+  static final int TRADEFIRSTGAVE = ++e4;
+  static final int TRADELASTGAVE = ++e4;
+  static final int TRADESTRATFIRSTRECEIVE = ++e4;
+  static final int TRADESTRATLASTRECEIVE= ++e4;
+  static final int TRADESTRATFIRSTGAVE = ++e4;
+  static final int TRADESTRATLASTGAVE = ++e4;
+  static final int DIEDSN3RN3 = ++e4;
+  static final int DIEDSN3RN2 = ++e4;
+  static final int DIEDSN3RM3X4 = ++e4;
+  static final int DIEDSN3RM3X3 = ++e4;
+  static final int DIEDSN3RN1 = ++e4;
+  static final int DIEDSN3RM3X2 = ++e4;
+  static final int DIEDSN3RM3X1 = ++e4;
+  static final int DIEDSN3RM2X4 = ++e4;
+  static final int DIEDSN3RM2X3= ++e4;
+  static final int DIEDSN3RM2X2 = ++e4;
+  static final int DIEDSN3RM2X1 = ++e4;
+  static final int DIEDSN3RM1X4 = ++e4;
+  static final int DIEDSN3RM1X3= ++e4;
+  static final int DIEDSN3RM1X2 = ++e4;
+  static final int DIEDSN3RM1X1 = ++e4;
+  static final int DIEDSN2RN3 = ++e4;
+  static final int DIEDSN2RN2= ++e4;
+  static final int DIEDSN2RM3X4 = ++e4;
+  static final int DIEDSN2RM3X3 = ++e4;
+  static final int DIEDSN2RN1 = ++e4;
+  static final int DIEDSN2RM3X2 = ++e4;
+  static final int DIEDSN2RM3X1 = ++e4;
+  static final int DIEDSN2RM2X4 = ++e4;
+  static final int DIEDSN2RM2X3= ++e4;
+  static final int DIEDSN2RM2X2 = ++e4;
+  static final int DIEDSN2RM2X1 = ++e4;
+  static final int DIEDSN2RM1X4 = ++e4;
+  static final int DIEDSN2RM1X3= ++e4;
+  static final int DIEDSN2RM1X2 = ++e4;
+  static final int DIEDSN2RM1X1 = ++e4;
+  static final int DIEDSN1RN3 = ++e4;
+  static final int DIEDSN1RN2= ++e4;
+  static final int DIEDSN1RM3X4 = ++e4;
+  static final int DIEDSN1RM3X3 = ++e4;
+  static final int DIEDSN1RN1 = ++e4;
+  static final int DIEDSN1RM3X2 = ++e4;
+  static final int DIEDSN1RM3X1 = ++e4;
+  static final int DIEDSN1RM2X4 = ++e4;
+  static final int DIEDSN1RM2X3= ++e4;
+  static final int DIEDSN1RM2X2 = ++e4;
+  static final int DIEDSN1RM2X1 = ++e4;
+  static final int DIEDSN1RM1X4 = ++e4;
+  static final int DIEDSN1RM1X3= ++e4;
+  static final int DIEDSN1RM1X2 = ++e4;
+  static final int DIEDSM3X4RN3 = ++e4;
+  static final int DIEDSM3X3RN3 = ++e4;
+  static final int DIEDSM3X2RN3 = ++e4;
+  static final int DIEDSM3X1RN3 = ++e4;
+  static final int DIEDSM2X4RN3 = ++e4;
+  static final int DIEDSM2X3RN3 = ++e4;
+  static final int DIEDSM2X2RN3 = ++e4;
+  static final int DIEDSM2X1RN3 = ++e4;
+  static final int DIEDSM1X4RN3 = ++e4;
+  static final int DIEDSM1X3RN3 = ++e4;
+  static final int DIEDSM1X2RN3 = ++e4;
+  static final int DIEDSM1X1RN3 = ++e4;
+  static final int DIEDSM3X4RN2 = ++e4;
+  static final int DIEDSM3X3RN2 = ++e4;
+  static final int DIEDSM3X2RN2 = ++e4;
+  static final int DIEDSM3X1RN2 = ++e4;
+  static final int DIEDSM2X4RN2 = ++e4;
+  static final int DIEDSM2X3RN2 = ++e4;
+  static final int DIEDSM2X2RN2 = ++e4;
+  static final int DIEDSM2X1RN2 = ++e4;
+  static final int DIEDSM1X4RN2 = ++e4;
+  static final int DIEDSM1X3RN2 = ++e4;
+  static final int DIEDSM1X2RN2 = ++e4;
+  static final int DIEDSM1X1RN1 = ++e4;
+  static final int DIEDSM3X4RN1 = ++e4;
+  static final int DIEDSM3X3RN1 = ++e4;
+  static final int DIEDSM3X2RN1 = ++e4;
+  static final int DIEDSM3X1RN1 = ++e4;
+  static final int DIEDSM2X4RN1 = ++e4;
+  static final int DIEDSM2X3RN1 = ++e4;
+  static final int DIEDSM2X2RN1 = ++e4;
+  static final int DIEDSM2X1RN1 = ++e4;
+  static final int DIEDSM1X4RN1 = ++e4;
+  static final int DIEDSM1X3RN1 = ++e4;
+  static final int DIEDSM1X2RN1 = ++e4;
+  static final int DIEDSN1RM1X1 = ++e4;
+  static final int BEFORETRADEWORTH = ++e4;
+  static final int AFTERTRADEWORTH = ++e4;
   static final int RCTWORTH = ++e4;
   static final int RCWORTH = ++e4;
   static final int RCTBAL = ++e4;
@@ -2297,7 +2386,144 @@ class EM {
      LIST2 | LIST3YRS | BOTH | SKIPUNSET,0, 
      ROWS2 | LIST3YRS | CUR |  CURAVE |  CUM | BOTH | SKIPUNSET,
      0L);
-
+ doRes(DIEDSN3RN3, "diedSN3RN3", "died", 2, 2, 3, 
+      LIST20 | CUMUNITS | BOTH | SKIPUNSET, 
+     0L,0L,0L);
+ doRes(DIEDSN3RN2, "DIEDSN3RN2", "died", 2, 2, 3, 
+      LIST20 | CUMUNITS | BOTH | SKIPUNSET, 
+     0L,0L,0L);
+ doRes(DIEDSN3RM3X4, "DIEDSN3RM3X4", "died", 2, 2, 3, 
+      LIST20 | CUMUNITS | BOTH | SKIPUNSET, 
+     0L,0L,0L);
+ doRes(DIEDSN3RM3X3, "DIEDSN3RM3X3", "died", 2, 2, 3, 
+      LIST20 | CUMUNITS | BOTH | SKIPUNSET, 
+     0L,0L,0L);
+ doRes(DIEDSN3RN1, "DIEDSN3RN1", "died", 2, 2, 3, 
+      LIST20 | CUMUNITS | BOTH | SKIPUNSET, 
+     0L,0L,0L);
+ doRes(DIEDSN3RM3X2, "DIEDSN3RM3X2", "died", 2, 2, 3, 
+      LIST20 | CUMUNITS | BOTH | SKIPUNSET, 
+     0L,0L,0L);
+ doRes(DIEDSN3RM3X1, "DIEDSN3RM3X1", "died", 2, 2, 3, 
+      LIST20 | CUMUNITS | BOTH | SKIPUNSET, 
+     0L,0L,0L);
+ doRes(DIEDSN3RM2X4, "DIEDSN3RM2X4", "died", 2, 2, 3, 
+      LIST20 | CUMUNITS | BOTH | SKIPUNSET, 
+     0L,0L,0L);
+ doRes(DIEDSN3RM2X3, "DIEDSN3RM2X3", "died", 2, 2, 3, 
+      LIST20 | CUMUNITS | BOTH | SKIPUNSET, 
+     0L,0L,0L);
+ doRes(DIEDSN3RM2X2, "DIEDSN3RM2X2", "died", 2, 2, 3, 
+      LIST20 | CUMUNITS | BOTH | SKIPUNSET, 
+     0L,0L,0L);
+ doRes(DIEDSN3RM2X1, "DIEDSN3RM2X1", "died", 2, 2, 3, 
+      LIST20 | CUMUNITS | BOTH | SKIPUNSET, 
+     0L,0L,0L);
+ doRes(DIEDSN3RM1X4, "DIEDSN3RM1X4", "died", 2, 2, 3, 
+      LIST20 | CUMUNITS | BOTH | SKIPUNSET, 
+     0L,0L,0L);
+ doRes(DIEDSN3RM1X3, "DIEDSN3RM1X3", "died", 2, 2, 3, 
+      LIST20 | CUMUNITS | BOTH | SKIPUNSET, 
+     0L,0L,0L);
+ doRes(DIEDSN3RM1X2, "DIEDSN3RM1X2", "died", 2, 2, 3, 
+      LIST20 | CUMUNITS | BOTH | SKIPUNSET, 
+     0L,0L,0L);
+ doRes(DIEDSN3RM1X1, "DIEDSN3RM1X1", "died", 2, 2, 3, 
+      LIST20 | CUMUNITS | BOTH | SKIPUNSET, 
+     0L,0L,0L);
+ doRes(DIEDSN2RN3, "DIEDSN2RN3", "died", 2, 2, 3, 
+      LIST20 | CUMUNITS | BOTH | SKIPUNSET, 
+     0L,0L,0L);
+  doRes(DIEDSN2RN2, "DIEDSN2RN2", "died", 2, 2, 3, 
+      LIST20 | CUMUNITS | BOTH | SKIPUNSET, 
+     0L,0L,0L);
+ doRes(DIEDSN2RM3X4, "DIEDSN2RM3X4", "died", 2, 2, 3, 
+      LIST20 | CUMUNITS | BOTH | SKIPUNSET, 
+     0L,0L,0L);
+ doRes(DIEDSN2RM3X3, "DIEDSN2RM3X3", "died", 2, 2, 3, 
+      LIST20 | CUMUNITS | BOTH | SKIPUNSET, 
+     0L,0L,0L);
+ doRes(DIEDSN2RN1, "DIEDSN2RN1", "died", 2, 2, 3, 
+      LIST20 | CUMUNITS | BOTH | SKIPUNSET, 
+     0L,0L,0L);
+ doRes(DIEDSN2RM3X2, "DIEDSN2RM3X2", "died", 2, 2, 3, 
+      LIST20 | CUMUNITS | BOTH | SKIPUNSET, 
+     0L,0L,0L);
+ doRes(DIEDSN2RM3X1, "DIEDSN2RM3X1", "died", 2, 2, 3, 
+      LIST20 | CUMUNITS | BOTH | SKIPUNSET, 
+     0L,0L,0L);
+ doRes(DIEDSN2RM2X4, "DIEDSN2RM2X4", "died", 2, 2, 3, 
+      LIST20 | CUMUNITS | BOTH | SKIPUNSET, 
+     0L,0L,0L);
+ doRes(DIEDSN2RM2X3, "DIEDSN2RM2X3", "died", 2, 2, 3, 
+      LIST20 | CUMUNITS | BOTH | SKIPUNSET, 
+     0L,0L,0L);
+ doRes(DIEDSN2RM2X2, "DIEDSN2RM2X2", "died", 2, 2, 3, 
+      LIST20 | CUMUNITS | BOTH | SKIPUNSET, 
+     0L,0L,0L);
+ doRes(DIEDSN2RM2X1, "DIEDSN2RM2X1", "died", 2, 2, 3, 
+      LIST20 | CUMUNITS | BOTH | SKIPUNSET, 
+     0L,0L,0L);
+ doRes(DIEDSN2RM1X4, "DIEDSN2RM1X4", "died", 2, 2, 3, 
+      LIST20 | CUMUNITS | BOTH | SKIPUNSET, 
+     0L,0L,0L);
+ doRes(DIEDSN2RM1X3, "DIEDSN2RM1X3", "died", 2, 2, 3, 
+      LIST20 | CUMUNITS | BOTH | SKIPUNSET, 
+     0L,0L,0L);
+ doRes(DIEDSN2RM1X2, "DIEDSN2RM1X2", "died", 2, 2, 3, 
+      LIST20 | CUMUNITS | BOTH | SKIPUNSET, 
+     0L,0L,0L);
+  doRes(DIEDSN2RM1X1,"DIEDSN2RM1X1", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSN1RN3,"DIEDSN1RN3", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSN1RN2,"DIEDSN1RN2", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSN1RM3X4,"DIEDSN1RM3X4", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSN1RM3X3,"DIEDSN1RM3X3", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSN1RN1,"DIEDSN1RN1", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSN1RM3X2,"DIEDSN1RM3X2", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSN1RM3X1,"DIEDSN1RM3X1", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSN1RM2X4,"DIEDSN1RM2X4", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSN1RM2X3,"DIEDSN1RM2X3", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSN1RM2X2,"DIEDSN1RM2X2", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSN1RM2X1,"DIEDSN1RM2X1", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSN1RM1X4,"DIEDSN1RM1X4", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSN1RM1X3,"DIEDSN1RM1X3", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSN1RM1X2,"DIEDSN1RM1X2", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM3X4RN3,"DIEDSM3X4RN3", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM3X3RN3,"DIEDSM3X3RN3", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM3X2RN3,"DIEDSM3X2RN3", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM3X1RN3,"DIEDSM3X1RN3", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM2X4RN3,"DIEDSM2X4RN3", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM2X3RN3,"DIEDSM2X3RN3", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM2X2RN3,"DIEDSM2X2RN3", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM2X1RN3,"DIEDSM2X1RN3", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM1X4RN3,"DIEDSM1X4RN3", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM1X3RN3,"DIEDSM1X3RN3", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM1X2RN3,"DIEDSM1X2RN3", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM1X1RN3,"DIEDSM1X1RN3", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM3X4RN2,"DIEDSM3X4RN2", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM3X3RN2,"DIEDSM3X3RN2", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM3X2RN2,"DIEDSM3X2RN2", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM3X1RN2,"DIEDSM3X1RN2", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM2X4RN2,"DIEDSM2X4RN2", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM2X3RN2,"DIEDSM2X3RN2", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM2X2RN2,"DIEDSM2X2RN2", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM2X1RN2,"DIEDSM2X1RN2", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM1X4RN2,"DIEDSM1X4RN2", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM1X3RN2,"DIEDSM1X3RN2", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM1X2RN2,"DIEDSM1X2RN2", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM1X1RN1,"DIEDSM1X1RN1", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM3X4RN1,"DIEDSM3X4RN1", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM3X3RN1,"DIEDSM3X3RN1", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM3X2RN1,"DIEDSM3X2RN1", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM3X1RN1,"DIEDSM3X1RN1", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM2X4RN1,"DIEDSM2X4RN1", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM2X3RN1,"DIEDSM2X3RN1", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM2X2RN1,"DIEDSM2X2RN1", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM2X1RN1,"DIEDSM2X1RN1", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM1X4RN1,"DIEDSM1X4RN1", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM1X3RN1,"DIEDSM1X3RN1", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+  doRes(DIEDSM1X2RN1,"DIEDSM1X2RN1", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
+doRes(DIEDSN1RM1X1,"DIEDSN1RM1X1", "died", 2, 2, 3,LIST20 | CUMUNITS | BOTH | SKIPUNSET,0L,0L,0L);
     doRes("DeadNegN", "DeadNegSwapN", "Dead Swaps never entered", 6, 2, 0,  ROWS1 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |LIST7 | LIST8 | LIST9 | LIST0YRS |  THISYEARUNITS | BOTH | SKIPUNSET,ROWS3 | LIST7 | LIST8 | LIST9 | LIST2YRS | CUMUNITS | SKIPUNSET, 0L);
     doRes("DeadLt10", "DeadLt10", "no more than 10 swaps",6, 2, 0,  ROWS1 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |LIST7 | LIST8 | LIST9 | LIST0YRS |  THISYEARUNITS | BOTH | SKIPUNSET,ROWS3 | LIST7 | LIST8 | LIST9 | LIST2YRS | CUMUNITS | SKIPUNSET, 0L);
     doRes("DeadNegProsp", "DeadNegProsp", "Never was able to get healthy", 6, 2, 0,  ROWS1 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |LIST7 | LIST8 | LIST9 | LIST0YRS |  THISYEARUNITS | BOTH | SKIPUNSET,ROWS3 | LIST7 | LIST8 | LIST9 | LIST2YRS | CUMUNITS | SKIPUNSET, 0L);;
@@ -2350,6 +2576,18 @@ class EM {
     doRes(INCRAVAILFRACa, "IncrAvailFraca", "Percent increase in avail frac after trade at any trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
     doRes(INCRAVAILFRACb, "IncrAvailFracb", "Percent increase in avail frac after trade at no trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
     doRes(INCRAVAILFRACc, "IncrAvailFracc", "Percent increase in avail frac after trade at trade failure", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
+ 
+    doRes(TRADEFIRSTRECEIVE, "IncrAvailFracb", "Percent increase in avail frac after trade at no trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
+    doRes(TRADELASTRECEIVE, "IncrAvailFracb", "Percent increase in avail frac after trade at no trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
+    doRes(TRADEFIRSTGAVE, "IncrAvailFracb", "Percent increase in avail frac after trade at no trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
+    doRes(TRADELASTGAVE, "IncrAvailFracb", "Percent increase in avail frac after trade at no trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
+    doRes(TRADESTRATFIRSTRECEIVE, "IncrAvailFracb", "Percent increase in avail frac after trade at no trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
+    doRes(TRADESTRATLASTRECEIVE, "IncrAvailFracb", "Percent increase in avail frac after trade at no trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
+    doRes(TRADESTRATFIRSTGAVE, "IncrAvailFracb", "Percent increase in avail frac after trade at no trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
+    doRes(TRADESTRATLASTGAVE, "IncrAvailFracb", "Percent increase in avail frac after trade at no trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
+    doRes(BEFORETRADEWORTH, "IncrAvailFracb", "Percent increase in avail frac after trade at no trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
+    doRes(AFTERTRADEWORTH, "IncrAvailFracb", "Percent increase in avail frac after trade at no trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
+    
     doRes(SWAPRINCRCOST, "Swap RIncr Cost", "Fraction of R INCR swap cost/sum of R units", 3, 4, 1, list8 | curAve | curUnits | both | skipUnset, 0, 0, 0);
     doRes(SWAPSINCRCOST, "Swap SIncr Cost", "Fraction of SR INCR swap cost/sum of S units", 3, 4, 1, list8 | curAve | curUnits | both | skipUnset, 0, 0, 0);
     doRes(SWAPRDECRCOST, "Swap RDECR Cost", "Fraction of R DECR swap cost/sum of R units", 3, 4, 1, list8 | curAve | curUnits | both | skipUnset, 0, 0, 0);
@@ -3686,55 +3924,136 @@ static int prpc3 = 0;
     
   }
   
-  /** save the percent increase of (rN2 -rN1)*100./rN1
+  /** save the percent  of rN2*100./rN1
    * runs inside doResSpecial before getWinner inside doEndYear
+   * The results go into ICUR0 of the result
+   * The units for rN1 are placed in ICUR0 of the result unless rn2==result rN
+   * The ISSET of ICUR0 is set in result
+   * The results are added to ICUM
+   * The units of rN1 are added to ICUM unless rN1 == result rN
    * 
    * @param rNPer  The doRes result of the percent
    * @param rN1   the first doRes generally earliest value
    * @param rN2   the second doRes generally last value
    */
    void doResPercent(int rNPer, int rN1, int rN2){
+     if(!(resI[rN1] == null || resI[rN1][ICUR0] == null || resI[rN1][ICUR0][CCONTROLD] == null || resI[rN1][ICUR0][CCONTROLD][ISSET] != 1 || resI[rN2] == null || resI[rN2][ICUR0] == null || resI[rN2][ICUR0][CCONTROLD] == null || resI[rN2][ICUR0][CCONTROLD][ISSET] != 1)){
      for(int m=0;m<2;m++){
        for(int n=0;n<5;n++){
-         resV[rNPer][ICUM][m][n] += resV[rNPer][ICUR0][m][n] = (resV[rN2][ICUR0][m][n] - resV[rN1][ICUR0][m][n]) * 100./resV[rN1][ICUR0][m][n];
+         resV[rNPer][ICUM][m][n] += resV[rNPer][ICUR0][m][n] = (resV[rN2][ICUR0][m][n] - resV[rN1][ICUR0][m][n]) * 100./(resV[rN1][ICUR0][m][n] + .00001);
+         if(rNPer != rN1){
          resI[rNPer][ICUM][m][n] += resI[rNPer][ICUR0][m][n] = resI[rN1][ICUR0][m][n];
+         }//if
        }//n
      }//m
      resI[rNPer][ICUR0][CCONTROLD][ISSET] = 1;
+     }
+   }
+   
+   /** save the percent increase of (rN2 -rN1)*100./rN1
+   * runs inside doResSpecial before getWinner inside doEndYear
+   * The results go into ICUR0 of the result
+   * The units for rN2 are placed in ICUR0 of the result unless rn2==result rN
+   * The ISSET of ICUR0 is set
+   * The results are added to ICUM
+   * The units of rN1 are added to ICUM unless rN1 == result rN
+   * 
+   * @param rNPer  The doRes result of the percent
+   * @param rN1   the first doRes generally earliest value
+   * @param rN2   the second doRes generally last value
+   */
+   void doResIncrPercent(int rNPer, int rN1, int rN2){
+   if(!(resI[rN1] == null || resI[rN1][ICUR0] == null || resI[rN1][ICUR0][CCONTROLD] == null || resI[rN1][ICUR0][CCONTROLD][ISSET] != 1 || resI[rN2] == null || resI[rN2][ICUR0] == null || resI[rN2][ICUR0][CCONTROLD] == null || resI[rN2][ICUR0][CCONTROLD][ISSET] != 1)){
+     if(!(resI[rN1] == null || resI[rN1][ICUR0] == null || resI[rN1][ICUR0][CCONTROLD] == null || resI[rN1][ICUR0][CCONTROLD][ISSET] != 1 || resI[rN2] == null || resI[rN2][ICUR0] == null || resI[rN2][ICUR0][CCONTROLD] == null || resI[rN2][ICUR0][CCONTROLD][ISSET] != 1)){
+     for(int m=0;m<2;m++){
+       for(int n=0;n<5;n++){
+         resV[rNPer][ICUM][m][n] += resV[rNPer][ICUR0][m][n] = (resV[rN2][ICUR0][m][n] - resV[rN1][ICUR0][m][n]) * 100./resV[rN1][ICUR0][m][n];
+         if(rNPer != rN1){
+         resI[rNPer][ICUM][m][n] += resI[rNPer][ICUR0][m][n] = resI[rN1][ICUR0][m][n];
+         }//if
+       }//n
+     }//m
+     resI[rNPer][ICUR0][CCONTROLD][ISSET] = 1;
+     }
+     }
    }
    
    /** save the sum  of rNAdd = (rN2 + rN1)
    * runs inside doResSpecial before getWinner inside doEndYear
+   * The results go into ICUR0 of the result
+   * The units for rN2 are placed in ICUR0 of the result unless rn2==result rN
+   * The ISSET of ICUR0 is set
+   * The results are added to ICUM
+   * The units of rN1 are added to ICUM unless rN2 == result rN
    * 
    * @param rNAdd  The doRes result of the add
    * @param rN1   the first doRes generally earliest value
    * @param rN2   the second doRes generally last value
    */
    void doResAdd(int rNAdd, int rN1, int rN2){
+     if(!(resI[rN1] == null || resI[rN1][ICUR0] == null || resI[rN1][ICUR0][CCONTROLD] == null || resI[rN1][ICUR0][CCONTROLD][ISSET] != 1 || resI[rN2] == null || resI[rN2][ICUR0] == null || resI[rN2][ICUR0][CCONTROLD] == null || resI[rN2][ICUR0][CCONTROLD][ISSET] != 1)){
      for(int m=0;m<2;m++){
        for(int n=0;n<5;n++){
          resV[rNAdd][ICUM][m][n] += resV[rNAdd][ICUR0][m][n] = (resV[rN2][ICUR0][m][n] - resV[rN1][ICUR0][m][n]);
-         resI[rNAdd][ICUM][m][n] += resI[rNAdd][ICUR0][m][n] = resI[rN1][ICUR0][m][n];
+         if(rNAdd != rN2){
+         resI[rNAdd][ICUM][m][n] += resI[rNAdd][ICUR0][m][n] = resI[rN2][ICUR0][m][n];
+         }// if
        }//n
      }//m
      resI[rNAdd][ICUR0][CCONTROLD][ISSET] = 1;
+     }
    }
    
     /** save the difference  of rNAdd = (rN2 - rN1)
-   * runs inside doResSpecial before getWinner inside doEndYear
+   * runs inside doResSpecial before getWinner inside doEndYea
+   * The results go into ICUR0 of the result
+   * The units for rN2 are placed in ICUR0 of the result unless rn2==result rN
+   * The ISSET of ICUR0 is set
+   * The results are added to ICUM
+   * The units of rN1 are added to ICUM unless rN2 == result rN
    * 
    * @param rNSub  The doRes result of the add
    * @param rN1   the first doRes generally earliest value
    * @param rN2   the second doRes generally last value
    */
    void doResSub(int rNSub, int rN1, int rN2){
+     if(!(resI[rN1] == null || resI[rN1][ICUR0] == null || resI[rN1][ICUR0][CCONTROLD] == null || resI[rN1][ICUR0][CCONTROLD][ISSET] != 1 || resI[rN2] == null || resI[rN2][ICUR0] == null || resI[rN2][ICUR0][CCONTROLD] == null || resI[rN2][ICUR0][CCONTROLD][ISSET] != 1)){
      for(int m=0;m<2;m++){
        for(int n=0;n<5;n++){
          resV[rNSub][ICUM][m][n] += resV[rNSub][ICUR0][m][n] = (resV[rN2][ICUR0][m][n] - resV[rN1][ICUR0][m][n]);
-         resI[rNSub][ICUM][m][n] += resI[rNSub][ICUR0][m][n] = resI[rN1][ICUR0][m][n];
+         if(rN2 != rNSub){
+         resI[rNSub][ICUM][m][n] += resI[rNSub][ICUR0][m][n] = resI[rN2][ICUR0][m][n];
+         }// if
        }//n
      }//m
      resI[rNSub][ICUR0][CCONTROLD][ISSET] = 1;
+     }
+   }
+   
+    /** save the division of rN2 by rN1  of rNAdd = rN1 / rN2
+   * runs inside doResSpecial before getWinner inside doEndYea
+   * The results go into ICUR0 of the result
+   * The units for rN2 are placed in ICUR0 of the result unless rn1==result rN
+   * The ISSET of ICUR0 is set in result
+   * The results are added to ICUM
+   * The units of rN1 are added to ICUM unless rN1 == result rN
+   * 
+   * @param rNSub  The doRes result of the add
+   * @param rN1   the first doRes generally earliest value
+   * @param rN2   the second doRes generally last value units
+   */
+   void doResDivUnits(int rNDivUnits, int rN1, int rN2){
+     if(!(resI[rN1] == null || resI[rN1][ICUR0] == null || resI[rN1][ICUR0][CCONTROLD] == null || resI[rN1][ICUR0][CCONTROLD][ISSET] != 1 || resI[rN2] == null || resI[rN2][ICUR0] == null || resI[rN2][ICUR0][CCONTROLD] == null || resI[rN2][ICUR0][CCONTROLD][ISSET] != 1)){
+     for(int m=0;m<2;m++){
+       for(int n=0;n<5;n++){
+         resV[rNDivUnits][ICUM][m][n] += resV[rNDivUnits][ICUR0][m][n] = (resV[rN1][ICUR0][m][n] / (resI[rN2][ICUR0][m][n] + .00001));
+         if(rN1 != rNDivUnits){
+         resI[rNDivUnits][ICUM][m][n] += resI[rNDivUnits][ICUR0][m][n] = resI[rN1][ICUR0][m][n];
+         }// if
+       }//n
+     }//m
+     resI[rNDivUnits][ICUR0][CCONTROLD][ISSET] = 1;
+     }
    }
   
    double myScore[] = {0.,0.,0.,0.,0.};

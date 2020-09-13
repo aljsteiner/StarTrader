@@ -57,7 +57,7 @@ public class E {
   static final public String statsButton13Tip = "17: Swaps years decr skips, redos and dos";
   static final public String statsButton14Tip = "18: Swaps years xfer skips, redos and dos";
   static final public String statsButton15Tip = "19: Swaps years Forward Fund imbalance or save";
-  static final public String statsButton16Tip = "20: Swaps cumulative values";
+  static final public String statsButton16Tip = "20: Death factors";
   0:worths,1:trade favor,2:random,deaths,forward,34567 ages,8:swap,9 rcsg bal,10:growth,cost,11:fertility health effect
 */
   /**

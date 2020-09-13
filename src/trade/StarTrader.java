@@ -165,7 +165,7 @@ public class StarTrader extends javax.swing.JFrame {
   static final public String statsButton17Tip = "17: Swaps years decr skips, redos and dos";
   static final public String statsButton18Tip = "18: Swaps years xfer skips, redos and dos";
   static final public String statsButton19Tip = "19: Swaps years Forward Fund imbalance or save";
-  static final public String statsButton20Tip = "20: Swaps cumulative values";
+  static final public String statsButton20Tip = "20: Death factors";
 
   static final public String gameTextFieldText = "This is to be filled with descriptions of the field over which the mouse hovers";
   /* 0:worths,1:trade favor,2:random,crisis,deaths,forward,3:deaths,4:trades,5:creates,6:forwardFund,7:resource,staff,knowledge,8:growth,costs,9:Fertility,health,effects,10 11 12 13 14 1years,15:swaps,16:swapincr,17:swapdecr,18:xfer, 19:swap forwardFund balance orsave, 20:Swaps cum 
