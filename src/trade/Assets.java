@@ -7517,15 +7517,44 @@ public class Assets {
             // gameRes.UNTRADEDWINCR.wet(pors, clan, worthincr1, 1);
             setStat("DEADUNTRADEDWINCR", pors, clan, worthincr1, 1);
           }
-   if((mtgNeeds6.getRow(4).min(2) < -0.0) && (mtgNeeds6.getRow(2).min(2) < -0.0)){  
+           /*
+   static final int DIEDSN4 = ++e4;
+  static final int DIEDRN4 = ++e4;
+  static final int DIEDSN4RM3X5 = ++e4;
+  static final int DIEDSN4RM3X4 = ++e4;
+  static final int DIEDSM3X5 = ++e4;
+  static final int DIEDRM3X4 = ++e4; // END NOT IN IF ELSE CHAIN
+  static final int DIEDSN4RN4 = ++e4; 
+ */
+      if((mtgAvails6.getRow(4).min(3) < -0.0)){  
+           setStat(EM.DIEDSN4, pors, clan, worthincr1, 1);
+   }     
+     if((mtgAvails6.getRow(2).min(3) < -0.0)){  
+           setStat(EM.DIEDRN4, pors, clan, worthincr1, 1);
+   }
+      if((mtgAvails6.getRow(4).min(3) < -0.0) && (mtgAvails6.getRow(2).max(2) > mtgAvails6.getRow(4).max(2)* 5.)){  
+           setStat(EM.DIEDSN4RM3X5, pors, clan, worthincr1, 1);
+   }
+       if((mtgAvails6.getRow(4).min(3) < -0.0) && (mtgAvails6.getRow(2).max(2) > mtgAvails6.getRow(4).max(2)* 4.)){  
+           setStat(EM.DIEDSN4RM3X4, pors, clan, worthincr1, 1);
+   }
+        if((mtgAvails6.getRow(2).max(2) > mtgAvails6.getRow(4).max(2)* 5.)){  
+           setStat(EM.DIEDSM3X5, pors, clan, worthincr1, 1);
+   }
+        if((mtgAvails6.getRow(4).max(2) > mtgAvails6.getRow(2).max(2)* 4.)){  
+           setStat(EM.DIEDRM3X4, pors, clan, worthincr1, 1);
+   }
+     
+   if((mtgAvails6.getRow(4).min(2) < -0.0) && (mtgAvails6.getRow(2).min(2) < -0.0)){  
            setStat(EM.DIEDSN3RN3, pors, clan, worthincr1, 1);
-   } else if((mtgNeeds6.getRow(4).min(2) < -0.0) && (mtgNeeds6.getRow(2).min(1) < -0.0)){      
+   } 
+   if((mtgAvails6.getRow(4).min(2) < -0.0) && (mtgAvails6.getRow(2).min(1) < -0.0)){      
   setStat(EM.DIEDSN3RN2, pors, clan, worthincr1, 1);
-  } else if((mtgNeeds6.getRow(4).min(2) < -0.0) && (mtgNeeds6.getRow(2).max(2) > mtgAvails6.getRow(4).ave()* 4.)){  
+  } else if((mtgAvails6.getRow(4).min(2) < -0.0) && (mtgAvails6.getRow(2).max(2) > mtgAvails6.getRow(4).ave()* 4.)){  
   setStat(EM.DIEDSN3RM3X4, pors, clan, worthincr1, 1);
-  } else if((mtgNeeds6.getRow(4).min(2) < -0.0) && (mtgNeeds6.getRow(2).max(2) > mtgAvails6.getRow(4).ave()* 3.)){
+  } else if((mtgAvails6.getRow(4).min(2) < -0.0) && (mtgAvails6.getRow(2).max(2) > mtgAvails6.getRow(4).ave()* 3.)){
   setStat(EM.DIEDSN3RM3X3, pors, clan, worthincr1, 1);
-  } else if((mtgNeeds6.getRow(4).min(2) < -0.0) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+  } else if((mtgAvails6.getRow(4).min(2) < -0.0) && (mtgAvails6.getRow(2).min(0) < -0.0)){
   setStat(EM.DIEDSN3RN1, pors, clan, worthincr1, 1);
   
     /*
@@ -7589,35 +7618,35 @@ public class Assets {
   setStat(EM.DIEDSM2X2RN2, pors, clan, worthincr1, 1);
   setStat(EM.DIEDSM2X1RN2, pors, clan, worthincr1, 1);
    */
-   } else if((mtgNeeds6.getRow(4).max(0) * 4.> mtgNeeds6.getRow(2).max(0)) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+   } else if((mtgAvails6.getRow(4).max(0) * 4.> mtgAvails6.getRow(2).max(0)) && (mtgAvails6.getRow(2).min(0) < -0.0)){
   setStat(EM.DIEDSM1X4RN2, pors, clan, worthincr1, 1);
-   } else if((mtgNeeds6.getRow(4).max(0) * 3.> mtgNeeds6.getRow(2).max(0)) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+   } else if((mtgAvails6.getRow(4).max(0) * 3.> mtgAvails6.getRow(2).max(0)) && (mtgAvails6.getRow(2).min(0) < -0.0)){
   setStat(EM.DIEDSM1X3RN2, pors, clan, worthincr1, 1);
-   } else if((mtgNeeds6.getRow(4).max(0) * 2.> mtgNeeds6.getRow(2).max(0)) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+   } else if((mtgAvails6.getRow(4).max(0) * 2.> mtgAvails6.getRow(2).max(0)) && (mtgAvails6.getRow(2).min(0) < -0.0)){
   setStat(EM.DIEDSM1X2RN2, pors, clan, worthincr1, 1);
-   } else if((mtgNeeds6.getRow(4).max(0) * 1.> mtgNeeds6.getRow(2).max(0)) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+   } else if((mtgAvails6.getRow(4).max(0) * 1.> mtgAvails6.getRow(2).max(0)) && (mtgAvails6.getRow(2).min(0) < -0.0)){
   setStat(EM.DIEDSM1X1RN1, pors, clan, worthincr1, 1);
-   } else if((mtgNeeds6.getRow(4).max(2) * 4.> mtgNeeds6.getRow(2).max(0)) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+   } else if((mtgAvails6.getRow(4).max(2) * 4.> mtgAvails6.getRow(2).max(0)) && (mtgAvails6.getRow(2).min(0) < -0.0)){
   setStat(EM.DIEDSM3X4RN1, pors, clan, worthincr1, 1);
-   } else if((mtgNeeds6.getRow(4).max(2) * 3.> mtgNeeds6.getRow(2).max(0)) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+   } else if((mtgAvails6.getRow(4).max(2) * 3.> mtgAvails6.getRow(2).max(0)) && (mtgAvails6.getRow(2).min(0) < -0.0)){
   setStat(EM.DIEDSM3X3RN1, pors, clan, worthincr1, 1);
-   } else if((mtgNeeds6.getRow(4).max(2) * 2.> mtgNeeds6.getRow(2).max(0)) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+   } else if((mtgAvails6.getRow(4).max(2) * 2.> mtgAvails6.getRow(2).max(0)) && (mtgAvails6.getRow(2).min(0) < -0.0)){
   setStat(EM.DIEDSM3X2RN1, pors, clan, worthincr1, 1);
-   } else if((mtgNeeds6.getRow(4).max(2) * 1.> mtgNeeds6.getRow(2).max(0)) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+   } else if((mtgAvails6.getRow(4).max(2) * 1.> mtgAvails6.getRow(2).max(0)) && (mtgAvails6.getRow(2).min(0) < -0.0)){
   setStat(EM.DIEDSM3X1RN1, pors, clan, worthincr1, 1);
-   } else if((mtgNeeds6.getRow(4).max(1) * 4.> mtgNeeds6.getRow(2).max(0)) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+   } else if((mtgAvails6.getRow(4).max(1) * 4.> mtgAvails6.getRow(2).max(0)) && (mtgAvails6.getRow(2).min(0) < -0.0)){
   setStat(EM.DIEDSM2X4RN1, pors, clan, worthincr1, 1);
-   } else if((mtgNeeds6.getRow(4).max(1) * 3.> mtgNeeds6.getRow(2).max(0)) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+   } else if((mtgAvails6.getRow(4).max(1) * 3.> mtgAvails6.getRow(2).max(0)) && (mtgAvails6.getRow(2).min(0) < -0.0)){
   setStat(EM.DIEDSM2X3RN1, pors, clan, worthincr1, 1);
-   } else if((mtgNeeds6.getRow(4).max(1) * 2.> mtgNeeds6.getRow(2).max(0)) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+   } else if((mtgAvails6.getRow(4).max(1) * 2.> mtgAvails6.getRow(2).max(0)) && (mtgAvails6.getRow(2).min(0) < -0.0)){
   setStat(EM.DIEDSM2X2RN1, pors, clan, worthincr1, 1);
-   } else if((mtgNeeds6.getRow(4).max(1) * 1.> mtgNeeds6.getRow(2).max(0)) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+   } else if((mtgAvails6.getRow(4).max(1) * 1.> mtgAvails6.getRow(2).max(0)) && (mtgAvails6.getRow(2).min(0) < -0.0)){
   setStat(EM.DIEDSM2X1RN1, pors, clan, worthincr1, 1);
-   } else if((mtgNeeds6.getRow(4).max(0) * 4.> mtgNeeds6.getRow(2).max(0)) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+   } else if((mtgAvails6.getRow(4).max(0) * 4.> mtgAvails6.getRow(2).max(0)) && (mtgAvails6.getRow(2).min(0) < -0.0)){
   setStat(EM.DIEDSM1X4RN1, pors, clan, worthincr1, 1);
-   } else if((mtgNeeds6.getRow(4).max(0) * 3. > mtgNeeds6.getRow(2).max(0)) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+   } else if((mtgAvails6.getRow(4).max(0) * 3. > mtgAvails6.getRow(2).max(0)) && (mtgAvails6.getRow(2).min(0) < -0.0)){
   setStat(EM.DIEDSM1X3RN1, pors, clan, worthincr1, 1);
-   } else if((mtgNeeds6.getRow(4).max(0) * 2. > mtgNeeds6.getRow(2).max(0)) && (mtgNeeds6.getRow(2).min(0) < -0.0)){
+   } else if((mtgAvails6.getRow(4).max(0) * 2. > mtgAvails6.getRow(2).max(0)) && (mtgAvails6.getRow(2).min(0) < -0.0)){
   setStat(EM.DIEDSM1X2RN1, pors, clan, worthincr1, 1);
    }
  
@@ -7625,9 +7654,26 @@ public class Assets {
           EM.wasHere = " CashFlow.yearEnd into deac, and died ccch=" + ++ccch;
           if (swapsN < 0) {
             setStat("DeadNegN", pors, clan, worthincr1, 1);
+          } else if (swapsN <5) {
+            setStat("DeadLt10", pors, clan, worthincr1, 1);
           } else if (swapsN < 10) {
             setStat("DeadLt10", pors, clan, worthincr1, 1);
+          } else if (swapsN < 20) {
+            setStat("DeadLt20", pors, clan, worthincr1, 1);
           }
+          /*
+    doRes("DeadNegProsp", "DeadNegProsp", "Died either R or S had a negative",  2,2,3,  ROWS1 | LIST3 | LIST20 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |LIST2 |  LIST3 | LIST20  | LIST0YRS |  CUMUNITS | BOTH | SKIPUNSET,0L, 0L);
+    doRes("DeadRatioS", "DeadRatioS", "Resource  S values simply too small",  2,2,3,  ROWS1 | LIST3 | LIST20 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |LIST2 |  LIST3 | LIST20  | LIST0YRS |  CUMUNITS | BOTH | SKIPUNSET,0L, 0L);
+    doRes("DeadRatioR", "DeadRatioR", "R values simply too small", 2,2,3,  ROWS1 | LIST3 | LIST20 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |LIST2 |  LIST3 | LIST20  | LIST0YRS |  CUMUNITS | BOTH | SKIPUNSET,0L, 0L);
+    doRes("died", "died", "died from any set of causes", 2, 2, 3,  ROWS1 | LIST0 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |LIST7 | LIST8 | LIST9 | CUMUNITS | LISTYRS | BOTH | SKIPUNSET,0L, 0L);
+    doRes(MISSINGNAME, "missing name", "tried an unknown name", 6, 0, list0 | cumUnits | curUnits | curAve | cumAve | both, 0, 0, 0);
+    doRes(DEADRATIO, "diedRatio", "died,average mult year last/initial worth death",2, 2, 3,  ROWS1 | LIST0 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |LIST7 | LIST8 | LIST9 | CUMUNITS | LISTYRS | BOTH | SKIPUNSET,0L, 0L);
+    doRes(DEADHEALTH, "died health", "died,average negative minimum health at death",2, 2, 3,  ROWS1 | LIST0 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |LIST7 | LIST8 | LIST9 | CUMUNITS | LISTYRS | BOTH | SKIPUNSET,0L, 0L);
+    doRes(DEADFERTILITY, "died fertility", "died,average negative minimum fertility at death",2, 2, 3,  ROWS1 | LIST0 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |LIST7 | LIST8 | LIST9 | CUMUNITS | LISTYRS | BOTH | SKIPUNSET,0L, 0L);
+    doRes(DEADSWAPSMOVED, "diedSwapMoves", "died,average Swap Moves at death",2, 2, 3,  ROWS1 | LIST0 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |LIST7 | LIST8 | LIST9 | CUMUNITS | LISTYRS | BOTH | SKIPUNSET,0L, 0L);
+    doRes(DEADSWAPSCOSTS, "diedSwapCosts", "died,average SwapCosts at death",2, 2, 3,  ROWS1 | LIST0 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |LIST7 | LIST8 | LIST9 | CUMUNITS | LISTYRS | BOTH | SKIPUNSET,0L, 0L);
+    doRes(DEADTRADED, "diedTraded", "died,even after trading",2, 2, 3,  ROWS1 | LIST0 | LIST3 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |LIST2 | LIST3 | LIST0 | CUMUNITS | LISTYRS | BOTH | SKIPUNSET,0L, 0L);
+          */
           if (rawProspects2.curMin() < E.NZERO) {
             setStat("DeadNegProsp", pors, clan, worthincr1, 1);
           }
