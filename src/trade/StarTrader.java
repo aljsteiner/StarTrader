@@ -404,8 +404,6 @@ public class StarTrader extends javax.swing.JFrame {
     clanLabelS4 = new javax.swing.JLabel();
     clanSliderS4 = new javax.swing.JSlider();
     stats = new javax.swing.JPanel();
-    statsScrollPanel = new javax.swing.JScrollPane();
-    statsTable1 = new javax.swing.JTable();
     statsButton0 = new javax.swing.JRadioButton();
     statsButton1 = new javax.swing.JRadioButton();
     statsButton2 = new javax.swing.JRadioButton();
@@ -433,6 +431,9 @@ public class StarTrader extends javax.swing.JFrame {
     statsField2 = new javax.swing.JTextField();
     statsCtlButtonRun10Yr = new javax.swing.JButton();
     statsCtlButtonRun20Yr = new javax.swing.JButton();
+    jScrollPane2 = new javax.swing.JScrollPane();
+    statsScrollPanel = new javax.swing.JScrollPane();
+    statsTable1 = new javax.swing.JTable();
     display = new javax.swing.JPanel();
     displayPanel0 = new javax.swing.JPanel();
     jScrollPane1 = new javax.swing.JScrollPane();
@@ -2429,154 +2430,6 @@ public class StarTrader extends javax.swing.JFrame {
     stats.setMinimumSize(new java.awt.Dimension(800, 500));
     stats.setPreferredSize(new java.awt.Dimension(1200, 1200));
 
-    statsScrollPanel.setMaximumSize(new java.awt.Dimension(1200, 1200));
-    statsScrollPanel.setMinimumSize(new java.awt.Dimension(700, 400));
-    statsScrollPanel.setName(""); // NOI18N
-    statsScrollPanel.setPreferredSize(new java.awt.Dimension(1200, 500));
-
-    statsTable1.setModel(new javax.swing.table.DefaultTableModel(
-      new Object [][] {
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null}
-      },
-      new String [] {
-        "title", "P-red", "P-orange", "P-yellow", "P-green", "P-blue", "S-red", "S-orange", "S-yellow", "S-green", "S-blue"
-      }
-    ) {
-      Class[] types = new Class [] {
-        java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-      };
-      boolean[] canEdit = new boolean [] {
-        false, false, false, false, false, false, false, false, false, false, false
-      };
-
-      public Class getColumnClass(int columnIndex) {
-        return types [columnIndex];
-      }
-
-      public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return canEdit [columnIndex];
-      }
-    });
-    statsTable1.setColumnSelectionAllowed(true);
-    statsTable1.setMaximumSize(new java.awt.Dimension(1200, 1200));
-    statsTable1.setMinimumSize(new java.awt.Dimension(600, 400));
-    statsTable1.setPreferredSize(new java.awt.Dimension(1200, 900));
-    statsTable1.getTableHeader().setReorderingAllowed(false);
-    statsScrollPanel.setViewportView(statsTable1);
-    statsTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-    if (statsTable1.getColumnModel().getColumnCount() > 0) {
-      statsTable1.getColumnModel().getColumn(0).setResizable(false);
-      statsTable1.getColumnModel().getColumn(0).setPreferredWidth(250);
-      statsTable1.getColumnModel().getColumn(1).setResizable(false);
-      statsTable1.getColumnModel().getColumn(2).setResizable(false);
-      statsTable1.getColumnModel().getColumn(3).setResizable(false);
-      statsTable1.getColumnModel().getColumn(4).setResizable(false);
-      statsTable1.getColumnModel().getColumn(5).setResizable(false);
-      statsTable1.getColumnModel().getColumn(6).setResizable(false);
-      statsTable1.getColumnModel().getColumn(7).setResizable(false);
-      statsTable1.getColumnModel().getColumn(8).setResizable(false);
-      statsTable1.getColumnModel().getColumn(10).setResizable(false);
-    }
-
     statsButtonGroupReportNumber.add(statsButton0);
     statsButton0.setText("0");
     statsButton0.addItemListener(new java.awt.event.ItemListener() {
@@ -2741,7 +2594,7 @@ public class StarTrader extends javax.swing.JFrame {
       }
     });
 
-    statsCtlButtonRun1Yr.setText("5 yr");
+    statsCtlButtonRun1Yr.setText("1 yr");
     statsCtlButtonRun1Yr.setMargin(new java.awt.Insets(2, 0, 2, 0));
     statsCtlButtonRun1Yr.setMaximumSize(new java.awt.Dimension(20, 20));
     statsCtlButtonRun1Yr.setMinimumSize(new java.awt.Dimension(20, 20));
@@ -2772,7 +2625,7 @@ public class StarTrader extends javax.swing.JFrame {
       }
     });
 
-    statsCtlButtonRun5Yr.setText("1 yr");
+    statsCtlButtonRun5Yr.setText("5 yr");
     statsCtlButtonRun5Yr.setMargin(new java.awt.Insets(2, 0, 2, 0));
     statsCtlButtonRun5Yr.setMaximumSize(new java.awt.Dimension(25, 40));
     statsCtlButtonRun5Yr.setMinimumSize(new java.awt.Dimension(20, 20));
@@ -2912,32 +2765,178 @@ public class StarTrader extends javax.swing.JFrame {
     statsCtlButtonRun10Yr.setMargin(new java.awt.Insets(2, 0, 2, 0));
     statsCtlButtonRun10Yr.setMaximumSize(new java.awt.Dimension(25, 40));
     statsCtlButtonRun10Yr.setMinimumSize(new java.awt.Dimension(20, 20));
-    statsCtlButtonRun10Yr.setName("1 yr"); // NOI18N
+    statsCtlButtonRun10Yr.setName("10 yr"); // NOI18N
     statsCtlButtonRun10Yr.addMouseListener(new java.awt.event.MouseAdapter() {
       public void mouseClicked(java.awt.event.MouseEvent evt) {
         statsCtlButtonRun10YrMouseClicked(evt);
       }
     });
 
-    statsCtlButtonRun20Yr.setText("20yr");
+    statsCtlButtonRun20Yr.setText("20 yr");
     statsCtlButtonRun20Yr.setMargin(new java.awt.Insets(2, 0, 2, 0));
     statsCtlButtonRun20Yr.setMaximumSize(new java.awt.Dimension(25, 40));
     statsCtlButtonRun20Yr.setMinimumSize(new java.awt.Dimension(20, 20));
-    statsCtlButtonRun20Yr.setName("1 yr"); // NOI18N
+    statsCtlButtonRun20Yr.setName("20 yr"); // NOI18N
     statsCtlButtonRun20Yr.addMouseListener(new java.awt.event.MouseAdapter() {
       public void mouseClicked(java.awt.event.MouseEvent evt) {
         statsCtlButtonRun20YrMouseClicked(evt);
       }
     });
 
+    statsScrollPanel.setMaximumSize(new java.awt.Dimension(1200, 1200));
+    statsScrollPanel.setMinimumSize(new java.awt.Dimension(700, 400));
+    statsScrollPanel.setName(""); // NOI18N
+    statsScrollPanel.setPreferredSize(new java.awt.Dimension(1200, 500));
+
+    statsTable1.setModel(new javax.swing.table.DefaultTableModel(
+      new Object [][] {
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null}
+      },
+      new String [] {
+        "title", "P-red", "P-orange", "P-yellow", "P-green", "P-blue", "S-red", "S-orange", "S-yellow", "S-green", "S-blue"
+      }
+    ) {
+      Class[] types = new Class [] {
+        java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+      };
+      boolean[] canEdit = new boolean [] {
+        false, false, false, false, false, false, false, false, false, false, false
+      };
+
+      public Class getColumnClass(int columnIndex) {
+        return types [columnIndex];
+      }
+
+      public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return canEdit [columnIndex];
+      }
+    });
+    statsTable1.setColumnSelectionAllowed(true);
+    statsTable1.setMaximumSize(new java.awt.Dimension(1200, 1200));
+    statsTable1.setMinimumSize(new java.awt.Dimension(600, 400));
+    statsTable1.setPreferredSize(new java.awt.Dimension(1200, 900));
+    statsTable1.getTableHeader().setReorderingAllowed(false);
+    statsScrollPanel.setViewportView(statsTable1);
+    statsTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+    if (statsTable1.getColumnModel().getColumnCount() > 0) {
+      statsTable1.getColumnModel().getColumn(0).setResizable(false);
+      statsTable1.getColumnModel().getColumn(0).setPreferredWidth(250);
+      statsTable1.getColumnModel().getColumn(1).setResizable(false);
+      statsTable1.getColumnModel().getColumn(2).setResizable(false);
+      statsTable1.getColumnModel().getColumn(3).setResizable(false);
+      statsTable1.getColumnModel().getColumn(4).setResizable(false);
+      statsTable1.getColumnModel().getColumn(5).setResizable(false);
+      statsTable1.getColumnModel().getColumn(6).setResizable(false);
+      statsTable1.getColumnModel().getColumn(7).setResizable(false);
+      statsTable1.getColumnModel().getColumn(8).setResizable(false);
+      statsTable1.getColumnModel().getColumn(10).setResizable(false);
+    }
+
+    jScrollPane2.setViewportView(statsScrollPanel);
+
     javax.swing.GroupLayout statsLayout = new javax.swing.GroupLayout(stats);
     stats.setLayout(statsLayout);
     statsLayout.setHorizontalGroup(
       statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(statsLayout.createSequentialGroup()
-        .addContainerGap()
-        .addComponent(statsScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addGap(0, 0, Short.MAX_VALUE))
       .addGroup(statsLayout.createSequentialGroup()
         .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
           .addGroup(statsLayout.createSequentialGroup()
@@ -2971,18 +2970,21 @@ public class StarTrader extends javax.swing.JFrame {
                 .addGap(3, 3, 3)
                 .addComponent(statsButton19)))
             .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+              .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, statsLayout.createSequentialGroup()
+                .addGap(2, 2, 2)
+                .addComponent(statsCtlButtonRun1Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
               .addGroup(statsLayout.createSequentialGroup()
-                .addGap(3, 3, 3)
-                .addComponent(statsCtlButtonRun5Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(statsCtlButtonRun10Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                .addGap(6, 6, 6)
+                .addComponent(statsCtlButtonRun5Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
               .addGroup(statsLayout.createSequentialGroup()
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(statsCtlButtonRun1Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(2, 2, 2)
                 .addComponent(statsCtlButtonRun20Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+              .addGroup(statsLayout.createSequentialGroup()
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(statsCtlButtonRun10Yr, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
             .addComponent(statsField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(statsField, javax.swing.GroupLayout.PREFERRED_SIZE, 649, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -3017,6 +3019,10 @@ public class StarTrader extends javax.swing.JFrame {
                 .addComponent(statsButton5)))
             .addGap(0, 0, Short.MAX_VALUE)))
         .addContainerGap())
+      .addGroup(statsLayout.createSequentialGroup()
+        .addContainerGap()
+        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 655, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addGap(0, 0, Short.MAX_VALUE))
     );
     statsLayout.setVerticalGroup(
       statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3027,8 +3033,8 @@ public class StarTrader extends javax.swing.JFrame {
           .addComponent(statsButton8)
           .addComponent(statsButton10)
           .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-            .addComponent(statsCtlButtonRun5Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(statsCtlButtonRun10Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(statsCtlButtonRun10Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(statsCtlButtonRun1Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
           .addComponent(statsButton1)
           .addComponent(statsButton7)
           .addComponent(statsButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3047,17 +3053,17 @@ public class StarTrader extends javax.swing.JFrame {
               .addComponent(statsButton13)
               .addComponent(statsButton14)
               .addComponent(statsButton18)
-              .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(statsButton20)
-                .addComponent(statsCtlButtonRun1Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(statsCtlButtonRun20Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
               .addComponent(statsButton15)
               .addComponent(statsButton16)
               .addComponent(statsButton17)
-              .addComponent(statsButton19))))
-        .addGap(78, 78, 78)
-        .addComponent(statsScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1090, Short.MAX_VALUE)
-        .addContainerGap())
+              .addComponent(statsButton19)
+              .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(statsButton20)
+                .addComponent(statsCtlButtonRun20Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(statsCtlButtonRun5Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 506, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addContainerGap(641, Short.MAX_VALUE))
     );
 
     controlPanels.addTab("stats", stats);
@@ -4387,7 +4393,7 @@ public class StarTrader extends javax.swing.JFrame {
   }//GEN-LAST:event_statsCtlButtonRun1YrActionPerformed
 
   private void statsCtlButtonRun5YrMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statsCtlButtonRun5YrMouseClicked
-    System.out.println("in stats Run 1Year Mouse Clicked");
+    System.out.println("in stats Run 5Year Mouse Clicked");
     if (eM.fatalError) {
       setFatalError();
     }
@@ -4555,11 +4561,23 @@ public class StarTrader extends javax.swing.JFrame {
   }//GEN-LAST:event_formWindowClosed
 
   private void statsCtlButtonRun10YrMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statsCtlButtonRun10YrMouseClicked
-    // TODO add your handling code here:
+    System.out.println("in stats Run 10Year Mouse Clicked");
+    if (eM.fatalError) {
+      setFatalError();
+    }
+    else {
+      runYears(10);
+    }       
   }//GEN-LAST:event_statsCtlButtonRun10YrMouseClicked
 
   private void statsCtlButtonRun20YrMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statsCtlButtonRun20YrMouseClicked
-    // TODO add your handling code here:
+    System.out.println("in stats Run 20Year Mouse Clicked");
+    if (eM.fatalError) {
+      setFatalError();
+    }
+    else {
+      runYears(20);
+    }
   }//GEN-LAST:event_statsCtlButtonRun20YrMouseClicked
   static Boolean resetOut = false;
 
@@ -4744,6 +4762,7 @@ public class StarTrader extends javax.swing.JFrame {
   protected javax.swing.JPanel gameXtraPanel1;
   protected javax.swing.ButtonGroup initButtonGroupPorS;
   protected javax.swing.JScrollPane jScrollPane1;
+  protected javax.swing.JScrollPane jScrollPane2;
   protected javax.swing.JSeparator jSeparator1;
   protected javax.swing.JSeparator jSeparator10;
   protected javax.swing.JSeparator jSeparator11;
