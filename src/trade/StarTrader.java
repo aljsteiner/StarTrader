@@ -147,38 +147,38 @@ public class StarTrader extends javax.swing.JFrame {
    */
   static final public String statsButton0Tip = "0: Current Game Worths";
   static final public String statsButton1Tip = "1: Favors and trade effects";
-  static final public String statsButton2Tip = "2: Catastrophies, deaths, randoms, forwardfund";
-  static final public String statsButton3Tip = "3: Deaths";
-  static final public String statsButton4Tip = "4: Trades";
-  static final public String statsButton5Tip = "5: Creates";
-  static final public String statsButton6Tip = "6: ForwardFund";
-  static final public String statsButton7Tip = "7: Resource, staff, knowledge values";
-  static final public String statsButton8Tip = "8: growth and costs details";
-  static final public String statsButton9Tip = "9: Fertility, health and effects";
-  static final public String statsButton10Tip = "10: years 0,1,2,3 worth inc, costs, efficiency,knowledge,phe";
-  static final public String statsButton11Tip = "11: years 4,5,6,7 worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton12Tip = "12: years 8->15 worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton13Tip = "13: years 16->31 worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton14Tip = "14: years 32+ worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton15Tip = "15: swap factors";
-  static final public String statsButton16Tip = "16: Swaps years incr skips, redos and dos";
-  static final public String statsButton17Tip = "17: Swaps years decr skips, redos and dos";
-  static final public String statsButton18Tip = "18: Swaps years xfer skips, redos and dos";
-  static final public String statsButton19Tip = "19: Swaps years Forward Fund imbalance or save";
-  static final public String statsButton20Tip = "20: Death factors";
+  static final public String statsButton2Tip = "2: Catastrophes, deaths, randoms, forwardfund";
+  static final public String statsButton17Tip = "3: Deaths";
+  static final public String statsButton18Tip = "4: Trades";
+  static final public String statsButton19Tip = "5: Creates";
+  static final public String statsButton20Tip = "6: ForwardFund";
+  static final public String statsButton9Tip = "7: Resource, staff, knowledge values";
+  static final public String statsButton10Tip = "8: growth and costs details";
+  static final public String statsButton11Tip = "9: Catastrophes, Fertility, health and effects";
+  static final public String statsButton3Tip = "10: years 0,1,2,3 worth inc, costs, efficiency,knowledge,phe";
+  static final public String statsButton4Tip = "11: years 4,5,6,7 worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton5Tip = "12: years 8->15 worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton6Tip = "13: years 16->31 worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton7Tip = "14: years 32+ worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton8Tip = "15: swap factors";
+  static final public String statsButton12Tip = "16: Swaps years incr skips, redos and dos";
+  static final public String statsButton13Tip = "17: Swaps years decr skips, redos and dos";
+  static final public String statsButton14Tip = "18: Swaps years xfer skips, redos and dos";
+  static final public String statsButton15Tip = "19: Swaps years Forward Fund imbalance or save";
+  static final public String statsButton16Tip = "20: Death factors";
 
   static final public String gameTextFieldText = "This is to be filled with descriptions of the field over which the mouse hovers";
   /* 0:worths,1:trade favor,2:random,crisis,deaths,forward,3:deaths,4:trades,5:creates,6:forwardFund,7:resource,staff,knowledge,8:growth,costs,9:Fertility,health,effects,10 11 12 13 14 1years,15:swaps,16:swapincr,17:swapdecr,18:xfer, 19:swap forwardFund balance orsave, 20:Swaps cum 
  */
 
   static final public String[] statsButtonsTips = {statsButton0Tip, statsButton1Tip, statsButton2Tip, statsButton3Tip, statsButton4Tip, statsButton5Tip, statsButton6Tip, statsButton7Tip, statsButton8Tip, statsButton9Tip, statsButton10Tip, statsButton11Tip, statsButton12Tip, statsButton13Tip, statsButton14Tip, statsButton15Tip, statsButton16Tip, statsButton17Tip, statsButton18Tip, statsButton19Tip, statsButton20Tip, gameTextFieldText};
-  static final public String versionText = "     Version 19.05";
-  static final public String storyText = "This game is about trading not fighting. Trading is done between planets and starships which move between planets.  There are 5 clans and a gamemaster, all of which can change some priorities or values for the game.You can choose one of several winning goals, highest worth, highest trades received, highest trades given, highest number of planets and ships etc.\n\n"
-      + "Before you start the game, click the settings tab.  You can change settings for the whole game as the game master by clicking the first gray \"master\" radio buttion.  The options now have up to 10 rows of one or two sliders.  The options are each named.  If the mouse hovers over the name additional information about the option appears in the rightmost box.  The sliders set priorities or values for the option.  If a row has 2 sliders than there can be different for planets and ships.  Usually increasing a slider increases an option, but occasionally the additional information will say an increased slider decreases the option.\n\n"
-      + "You can choose on the the next 5 radio buttons to set options for a clan."
-      + "Each clan has both planets and ships which are each economies with 7 sectors.  Each sector has working resources, reserve resources (cargo), working staff and reserve staff (guests).  "
-      + "Each financial sector of an economy also has knowledge.  As the knowledge in a sector increases the efficiency of that sector increases and the cost per unit in that sector decreases and in some sectors new units of resource, staff, and knowledge increase. As in any game, random factors influence costs and growths in the game."
-      + "\n\nPlanets mine resources and grow staff, but deliberately have surpluses in some financial sectors, and famines in some other sectors.  Ships move resources between planets, often trading the resources that are lacking at a given planet in exchange for other resources and staff and knowledge.  But ships generally cannot increase staff or mine/find resources, they must receive significant resources and staff in each trade to grow at a rate that allows them to be productive trade partners.\n\nThe game proceeds either 1 year at a time or 5 years at a time depending on the choice by the gamemaster.  At the end of each 1 year or 5 years, clan masters may look at their statistices and decide to change some clan priorities.  The gamemaster can also make changes, but probably should not.  It is possible in some systems to have multiple games running, each game with different gamemaster priorities.  The initial priorities are set to make the game interesting with possibilities of growth.  Some priority changes by gamemaster or clanmaster may increase growth, but may also decrease growth causing a death of all or most ships and planets.  The balancing of economies is not simple or easy.  It is more possible to crash an economy than to grow it, so don\'t be greedy, make small changes until you understand the game better.\n\n "
+  static final public String versionText = "     Version 19.08";
+  static final public String storyText = "This game is about trading not fighting. It is a economics strategy game.  Trading is done between planets and starships which move between planets.  There are 5 clans and a gameMaster.  The gameMaster uses the settings tab and selects the gameMaster gray radio button to set overall game limits and priorities.\n\n"
+      + "Before you start the game, click the settings tab.  You can change settings for the whole game as the gameMaster by clicking the first gray \"master\" radio buttion.  The options now have up to 10 rows of one or two sliders.  The options are each named.  If the mouse hovers over the name additional information about the option appears in the bottom rightmost box.  The sliders set priorities or values for an option.  If a row has 2 sliders than there can be different option values for planets and ships.  Usually increasing a slider increases an option, but occasionally the additional information will say an increased slider decreases the option.\n\n"
+      + "You can choose on the the next 5 radio buttons to be the clanMaster of a clan."
+      + "Each clan has both planets and ships which are each economies with 7 financial sectors.  Each sector has working resources, reserve resources (cargo), working staff and reserve staff (guests).  "
+      + "Each financial sector of an economy also has knowledge.  As the knowledge in a sector increases the efficiency of that sector increases and the yearly cost per unit in that sector decreases and in some sectors new units of resource, staff, and knowledge increase. As in most games, random factors influence costs and growths in the game."
+      + "\n\nPlanets mine resources and grow staff, but are created to have surpluses in some financial sectors, and famines in some other financial sectors.  Ships move resources between planets, often trading the resources that are lacking at a given planet in exchange for other resources and staff and knowledge.  Since ships generally cannot increase staff or mine/find resources, they must receive significant resources and staff in each trade to grow at a rate that allows them to be productive trade partners of existing planets.\n\nThe game proceeds either 1 year at a time or 5 years at a time depending on the choice by the gamemaster.  At the end of each 1 year or 5 years, clan masters may look at their statistices and decide to change some clan priorities.  The gamemaster can also make changes, but probably should not.  It is possible in some systems to have multiple games running, each game with different gamemaster priorities.  The initial priorities are set to make the game interesting with possibilities of growth.  Some priority changes by gamemaster or clanmaster may increase growth, but may also decrease growth causing a death of all or most ships and planets.  The balancing of economies is not simple or easy.  It is more possible to crash an economy than to grow it, so don\'t be greedy, make small changes until you understand the game better.\n\n "
   + "Click on the tab labled \"game\" to change game parameters.  Click the first gray radio button master, to change overall game parameters as the \"gamemaster\". "
       + "The next 5 radio buttons are for the 5 clans, \"red\", \"orange\", \"yellow\", \"green\" and \"blue\".  When you click on the parameter name," 
   + " the green field on the right side is set to a description of what that parameter does.  You can then move the slides to change the parameter.  Careful, economies are touchy, and  changes can make stop working, all the planets and ships start dieing.  At the initial difficulty, about 1 in 10 ships or plaets should die each year.  The forward fund taken from the other ships and planets is used to finance new ships or planets.\n\n Each year creates costs of all sectors of both resources and staff.  Costs increase as the game difficulty increases. Costs decrease as the knowledge increases.  Knowledge increases with each years growth, also manuals are studied and some become knowledge each year.  When trades occur, knowledge is also traded between ships and planets as manuals, depending on the higher grade staff of each ship or planet and the amount of knowledge with that economy.  Each of the 7 financial sectors have their own knowledge. their own priority, their own resources and staff, but costs that as each sector uses every sector each year.  Random factors occur with costs, growths and trading.\n\n"
@@ -248,2937 +248,2967 @@ public class StarTrader extends javax.swing.JFrame {
    * regenerated by the Form Editor.
    */
   @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
-
-        logButtonGroup1or2 = new javax.swing.ButtonGroup();
-        initButtonGroupPorS = new javax.swing.ButtonGroup();
-        clanButtonGroupActiveClan = new javax.swing.ButtonGroup();
-        statsButtonGroupReportNumber = new javax.swing.ButtonGroup();
-        statsButtonGroupClans = new javax.swing.ButtonGroup();
-        logBGactions = new javax.swing.ButtonGroup();
-        gameButtonGroup = new javax.swing.ButtonGroup();
-        gameButtonUp = new java.awt.Button();
-        controlPanels = new javax.swing.JTabbedPane();
-        story = new javax.swing.JPanel();
-        storyVersionField = new javax.swing.JTextField();
-        storyTextPane = new javax.swing.JScrollPane();
-        storyTextField1 = new javax.swing.JTextArea();
-        game = new javax.swing.JPanel();
-        gameMaster = new javax.swing.JRadioButton();
-        clanRed = new javax.swing.JRadioButton();
-        clanOrange = new javax.swing.JRadioButton();
-        clanYellow = new javax.swing.JRadioButton();
-        clanGreen = new javax.swing.JRadioButton();
-        clanBlue = new javax.swing.JRadioButton();
-        gameXtraPanel1 = new javax.swing.JPanel();
-        gameCtlButtonRun1Year1 = new javax.swing.JButton();
-        gameCtlButtonRun5Years1 = new javax.swing.JButton();
-        gameCtlButtonRun1Yr2 = new javax.swing.JButton();
-        gameToLabelPlanet = new javax.swing.JLabel();
-        gameTopLabelShip = new javax.swing.JLabel();
-        gameTopRightFill = new javax.swing.JTextField();
-        gamePanel0 = new javax.swing.JPanel();
-        gameTextField0 = new javax.swing.JTextField();
-        gameSliderP0 = new javax.swing.JSlider();
-        jSeparator1 = new javax.swing.JSeparator();
-        gameSliderS0 = new javax.swing.JSlider();
-        gameButtonUp1 = new java.awt.Button();
-        gamePanel1 = new javax.swing.JPanel();
-        gameTextField1 = new javax.swing.JTextField();
-        gameSliderP1 = new javax.swing.JSlider();
-        jSeparator2 = new javax.swing.JSeparator();
-        gameSliderS1 = new javax.swing.JSlider();
-        gamePanel2 = new javax.swing.JPanel();
-        gameTextField2 = new javax.swing.JTextField();
-        gameSliderP2 = new javax.swing.JSlider();
-        jSeparator3 = new javax.swing.JSeparator();
-        gameSliderS2 = new javax.swing.JSlider();
-        gamePanel3 = new javax.swing.JPanel();
-        gameTextField3 = new javax.swing.JTextField();
-        gameSliderP3 = new javax.swing.JSlider();
-        jSeparator4 = new javax.swing.JSeparator();
-        gameSliderS3 = new javax.swing.JSlider();
-        gamePanel4 = new javax.swing.JPanel();
-        gameTextField4 = new javax.swing.JTextField();
-        gameSliderP4 = new javax.swing.JSlider();
-        jSeparator5 = new javax.swing.JSeparator();
-        gameSliderS4 = new javax.swing.JSlider();
-        gamePanel5 = new javax.swing.JPanel();
-        gameTextField5 = new javax.swing.JTextField();
-        gameSliderP5 = new javax.swing.JSlider();
-        jSeparator11 = new javax.swing.JSeparator();
-        gameSliderS5 = new javax.swing.JSlider();
-        gamePanel6 = new javax.swing.JPanel();
-        gameTextField6 = new javax.swing.JTextField();
-        gameSliderP6 = new javax.swing.JSlider();
-        jSeparator13 = new javax.swing.JSeparator();
-        gameSliderS6 = new javax.swing.JSlider();
-        gamePanel7 = new javax.swing.JPanel();
-        gameTextField7 = new javax.swing.JTextField();
-        gameSliderP7 = new javax.swing.JSlider();
-        jSeparator14 = new javax.swing.JSeparator();
-        gameSliderS7 = new javax.swing.JSlider();
-        gamePanel8 = new javax.swing.JPanel();
-        gameTextField8 = new javax.swing.JTextField();
-        gameSliderP8 = new javax.swing.JSlider();
-        jSeparator15 = new javax.swing.JSeparator();
-        gameSliderS8 = new javax.swing.JSlider();
-        gamePanel9 = new javax.swing.JPanel();
-        gameTextField9 = new javax.swing.JTextField();
-        gameSliderP9 = new javax.swing.JSlider();
-        jSeparator16 = new javax.swing.JSeparator();
-        gameSliderS9 = new javax.swing.JSlider();
-        gamePanelBottomPanel = new javax.swing.JPanel();
-        gameTextPane = new javax.swing.JScrollPane();
-        gameTextField = new javax.swing.JTextArea();
-        gameButtonDown = new java.awt.Button();
-        javax.swing.JPanel log = new javax.swing.JPanel();
-        logTableScrollPanel = new javax.swing.JScrollPane();
-        logDisplayTable = new javax.swing.JTable();
-        logDlevel2 = new javax.swing.JLabel();
-        LogDlen1Slider = new javax.swing.JSlider();
-        logDlen1 = new javax.swing.JLabel();
-        logDLevel1Slider = new javax.swing.JSlider();
-        SpinnerModel startModel1 = new SpinnerNumberModel(10,
-            0, //min
-            2000000, //max
-            10);
-        logM1Spinner = new javax.swing.JSpinner(startModel1);
-        LogDLen2Slider = new javax.swing.JSlider();
-        logDLevel2Slider = new javax.swing.JSlider();
-        logDlen2 = new javax.swing.JLabel();
-        logDlevel1 = new javax.swing.JLabel();
-        SpinnerModel startModel2 = new SpinnerNumberModel(10,
-            0, //min
-            2000000, //max
-            10);
-        logM2Spinner = new javax.swing.JSpinner(startModel2);
-        logNamesScrollPanel = new javax.swing.JScrollPane();
-        namesList = new DefaultListModel();
-        logEnvirnNamesList = new javax.swing.JList(namesList);
-        Start1Name = new javax.swing.JLabel();
-        Start2Name = new javax.swing.JLabel();
-        logRadioButtonStart1 = new javax.swing.JRadioButton();
-        logRadioButtonStart2 = new javax.swing.JRadioButton();
-        logActionJump = new javax.swing.JRadioButton();
-        logActionAdd = new javax.swing.JRadioButton();
-        logActionDel = new javax.swing.JRadioButton();
-        clan = new javax.swing.JPanel();
-        clanTextPane = new javax.swing.JScrollPane();
-        clanTextField = new javax.swing.JTextArea();
-        clanPanel0 = new javax.swing.JPanel();
-        clanTextField0 = new javax.swing.JTextField();
-        gameLabelP5 = new javax.swing.JLabel();
-        clanSliderP0 = new javax.swing.JSlider();
-        jSeparator6 = new javax.swing.JSeparator();
-        gameLabelS5 = new javax.swing.JLabel();
-        clanSliderS0 = new javax.swing.JSlider();
-        clanPanel1 = new javax.swing.JPanel();
-        clanTextField1 = new javax.swing.JTextField();
-        gameLabelP6 = new javax.swing.JLabel();
-        clanSliderP1 = new javax.swing.JSlider();
-        jSeparator7 = new javax.swing.JSeparator();
-        gameLabelS6 = new javax.swing.JLabel();
-        clanSliderS1 = new javax.swing.JSlider();
-        clanPanel2 = new javax.swing.JPanel();
-        clanTextField2 = new javax.swing.JTextField();
-        gameLabelP7 = new javax.swing.JLabel();
-        clanSliderP2 = new javax.swing.JSlider();
-        jSeparator8 = new javax.swing.JSeparator();
-        gameLabelS7 = new javax.swing.JLabel();
-        clanSliderS2 = new javax.swing.JSlider();
-        clanPanel3 = new javax.swing.JPanel();
-        clanTextField3 = new javax.swing.JTextField();
-        clanLabelP3 = new javax.swing.JLabel();
-        clanSliderP3 = new javax.swing.JSlider();
-        jSeparator9 = new javax.swing.JSeparator();
-        gameLabelS8 = new javax.swing.JLabel();
-        clanSliderS3 = new javax.swing.JSlider();
-        clanPanel4 = new javax.swing.JPanel();
-        clanTextField4 = new javax.swing.JTextField();
-        clanLabelP4 = new javax.swing.JLabel();
-        clanSliderP4 = new javax.swing.JSlider();
-        jSeparator10 = new javax.swing.JSeparator();
-        clanLabelS4 = new javax.swing.JLabel();
-        clanSliderS4 = new javax.swing.JSlider();
-        stats = new javax.swing.JPanel();
-        statsScrollPanel = new javax.swing.JScrollPane();
-        statsTable1 = new javax.swing.JTable();
-        statsButton0 = new javax.swing.JRadioButton();
-        statsButton1 = new javax.swing.JRadioButton();
-        statsButton2 = new javax.swing.JRadioButton();
-        statsButton3 = new javax.swing.JRadioButton();
-        statsButton4 = new javax.swing.JRadioButton();
-        statsButton5 = new javax.swing.JRadioButton();
-        statsButton6 = new javax.swing.JRadioButton();
-        statsButton7 = new javax.swing.JRadioButton();
-        statsButton8 = new javax.swing.JRadioButton();
-        statsButton9 = new javax.swing.JRadioButton();
-        statsButton10 = new javax.swing.JRadioButton();
-        statsCtlButtonRun1Yr = new javax.swing.JButton();
-        statsField = new javax.swing.JTextField();
-        statsButton11 = new javax.swing.JRadioButton();
-        statsCtlButtonRun5Yr = new javax.swing.JButton();
-        statsButton12 = new javax.swing.JRadioButton();
-        statsButton13 = new javax.swing.JRadioButton();
-        statsButton14 = new javax.swing.JRadioButton();
-        statsButton15 = new javax.swing.JRadioButton();
-        statsButton16 = new javax.swing.JRadioButton();
-        statsButton17 = new javax.swing.JRadioButton();
-        statsButton18 = new javax.swing.JRadioButton();
-        statsButton19 = new javax.swing.JRadioButton();
-        statsButton20 = new javax.swing.JRadioButton();
-        statsField2 = new javax.swing.JTextField();
-        display = new javax.swing.JPanel();
-        displayPanel0 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        displayPanel0Text = new javax.swing.JTextArea();
-        displayPanel0Text1 = new javax.swing.JTextField();
-        displayPanel1 = new javax.swing.JPanel();
-        displayPanel1SinceYearStart = new javax.swing.JTextField();
-        displayPanel1EconName = new javax.swing.JTextField();
-        displayPanel1Operation = new javax.swing.JTextField();
-        displayPanel2 = new javax.swing.JPanel();
-        displayPanel2EconName = new javax.swing.JTextField();
-        displayPanel2Operation = new javax.swing.JTextField();
-        displayPanel2SinceYearStart = new javax.swing.JTextField();
-
-        gameButtonUp.setLabel("up");
-        gameButtonUp.setMaximumSize(new java.awt.Dimension(70, 55));
-        gameButtonUp.setMinimumSize(new java.awt.Dimension(30, 45));
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(240, 180, 240));
-        setBounds(new java.awt.Rectangle(0, 0, 1200, 1200));
-        setMaximizedBounds(new java.awt.Rectangle(0, 0, 1, 0));
-        setMinimumSize(new java.awt.Dimension(800, 600));
-        setResizable(false);
-        addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                formCaretPositionChanged(evt);
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                formInputMethodTextChanged(evt);
-            }
-        });
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosed(java.awt.event.WindowEvent evt) {
-                formWindowClosed(evt);
-            }
-        });
-        getContentPane().setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
-
-        controlPanels.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
-        controlPanels.setAutoscrolls(true);
-        controlPanels.setDebugGraphicsOptions(javax.swing.DebugGraphics.BUFFERED_OPTION);
-        controlPanels.setDoubleBuffered(true);
-        controlPanels.setMaximumSize(new java.awt.Dimension(1700, 1400));
-        controlPanels.setMinimumSize(new java.awt.Dimension(500, 550));
-        controlPanels.setPreferredSize(new java.awt.Dimension(1200, 1250));
-        controlPanels.setBackground(bg1);
-        controlPanels.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                controlPanelsStateChanged(evt);
-            }
-        });
-        controlPanels.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                controlPanelsPropertyChange(evt);
-            }
-        });
-
-        story.setAutoscrolls(true);
-        story.setMaximumSize(new java.awt.Dimension(1000, 800));
-        story.setMinimumSize(new java.awt.Dimension(800, 700));
-        story.setName(""); // NOI18N
-        story.setPreferredSize(new java.awt.Dimension(800, 700));
-
-        storyVersionField.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
-        storyVersionField.setText("jTextField1");
-        storyVersionField.setBorder(null);
-        storyVersionField.setMaximumSize(new java.awt.Dimension(400, 50));
-        storyVersionField.setMinimumSize(new java.awt.Dimension(100, 30));
-        storyVersionField.setPreferredSize(new java.awt.Dimension(200, 40));
-        story.add(storyVersionField);
-
-        storyTextPane.setAutoscrolls(true);
-        storyTextPane.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-        storyTextPane.setMaximumSize(new java.awt.Dimension(1200, 1000));
-        storyTextPane.setMinimumSize(new java.awt.Dimension(400, 500));
-        storyTextPane.setPreferredSize(new java.awt.Dimension(1200, 900));
-
-        storyTextField1.setEditable(false);
-        storyTextField1.setColumns(200);
-        storyTextField1.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
-        storyTextField1.setLineWrap(true);
-        storyTextField1.setRows(30);
-        storyTextField1.setWrapStyleWord(true);
-        storyTextField1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        storyTextField1.setMargin(new java.awt.Insets(4, 5, 4, 4));
-        storyTextField1.setMaximumSize(new java.awt.Dimension(1200, 1000));
-        storyTextField1.setMinimumSize(new java.awt.Dimension(600, 400));
-        storyTextPane.setViewportView(storyTextField1);
-        storyTextField1.getAccessibleContext().setAccessibleParent(storyTextPane);
-
-        story.add(storyTextPane);
-
-        controlPanels.addTab("story", story);
-
-        game.setBackground(new java.awt.Color(255, 255, 255));
-        game.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-        game.setAlignmentX(0.0F);
-        game.setAlignmentY(0.0F);
-        game.setAutoscrolls(true);
-        game.setMaximumSize(new java.awt.Dimension(1200, 1200));
-        game.setMinimumSize(new java.awt.Dimension(300, 100));
-        game.setName("Settings"); // NOI18N
-        game.setPreferredSize(new java.awt.Dimension(900, 900));
-        game.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentShown(java.awt.event.ComponentEvent evt) {
-                gameComponentShown(evt);
-            }
-        });
-        game.setLayout(new java.awt.GridBagLayout());
-
-        gameMaster.setBackground(new java.awt.Color(204, 204, 204));
-        gameButtonGroup.add(gameMaster);
-        gameMaster.setForeground(new java.awt.Color(102, 102, 102));
-        gameMaster.setText("master");
-        gameMaster.setToolTipText("");
-        gameMaster.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        gameMaster.setMaximumSize(new java.awt.Dimension(150, 21));
-        gameMaster.setMinimumSize(new java.awt.Dimension(90, 20));
-        gameMaster.setPreferredSize(new java.awt.Dimension(125, 21));
-        gameMaster.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                gameMasterItemStateChanged(evt);
-            }
-        });
-        gameMaster.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameMasterMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameMasterMouseExited(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        game.add(gameMaster, gridBagConstraints);
-
-        clanRed.setBackground(new java.awt.Color(255, 153, 153));
-        gameButtonGroup.add(clanRed);
-        clanRed.setForeground(new java.awt.Color(153, 0, 0));
-        clanRed.setText("red");
-        clanRed.setMaximumSize(new java.awt.Dimension(70, 50));
-        clanRed.setPreferredSize(new java.awt.Dimension(70, 21));
-        clanRed.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                clanRedItemStateChanged(evt);
-            }
-        });
-        clanRed.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                clanRedMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                clanRedMouseExited(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 0;
-        game.add(clanRed, gridBagConstraints);
-
-        clanOrange.setBackground(new java.awt.Color(204, 153, 0));
-        gameButtonGroup.add(clanOrange);
-        clanOrange.setForeground(new java.awt.Color(102, 51, 0));
-        clanOrange.setText("orange");
-        clanOrange.setMaximumSize(new java.awt.Dimension(120, 45));
-        clanOrange.setMinimumSize(new java.awt.Dimension(69, 21));
-        clanOrange.setPreferredSize(new java.awt.Dimension(120, 21));
-        clanOrange.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                clanOrangeItemStateChanged(evt);
-            }
-        });
-        clanOrange.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                clanOrangeMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                clanOrangeMouseExited(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 0;
-        game.add(clanOrange, gridBagConstraints);
-
-        clanYellow.setBackground(new java.awt.Color(255, 255, 51));
-        gameButtonGroup.add(clanYellow);
-        clanYellow.setText("yellow");
-        clanYellow.setMaximumSize(new java.awt.Dimension(100, 25));
-        clanYellow.setPreferredSize(new java.awt.Dimension(100, 23));
-        clanYellow.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                clanYellowItemStateChanged(evt);
-            }
-        });
-        clanYellow.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                clanYellowMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                clanYellowMouseExited(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 0;
-        game.add(clanYellow, gridBagConstraints);
-
-        clanGreen.setBackground(new java.awt.Color(0, 255, 0));
-        gameButtonGroup.add(clanGreen);
-        clanGreen.setText("green");
-        clanGreen.setMaximumSize(new java.awt.Dimension(90, 23));
-        clanGreen.setPreferredSize(new java.awt.Dimension(90, 23));
-        clanGreen.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                clanGreenItemStateChanged(evt);
-            }
-        });
-        clanGreen.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                clanGreenMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                clanGreenMouseExited(evt);
-            }
-        });
-        game.add(clanGreen, new java.awt.GridBagConstraints());
-
-        clanBlue.setBackground(new java.awt.Color(51, 51, 255));
-        gameButtonGroup.add(clanBlue);
-        clanBlue.setText("blue");
-        clanBlue.setMaximumSize(new java.awt.Dimension(80, 23));
-        clanBlue.setPreferredSize(new java.awt.Dimension(80, 23));
-        clanBlue.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                clanBlueItemStateChanged(evt);
-            }
-        });
-        clanBlue.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                clanBlueMouseExited(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                clanBlueMouseEntered(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        game.add(clanBlue, gridBagConstraints);
-
-        gameXtraPanel1.setBackground(new java.awt.Color(153, 255, 255));
-        gameXtraPanel1.setMaximumSize(new java.awt.Dimension(55, 21));
-        gameXtraPanel1.setMinimumSize(new java.awt.Dimension(0, 21));
-        gameXtraPanel1.setPreferredSize(new java.awt.Dimension(0, 21));
-
-        javax.swing.GroupLayout gameXtraPanel1Layout = new javax.swing.GroupLayout(gameXtraPanel1);
-        gameXtraPanel1.setLayout(gameXtraPanel1Layout);
-        gameXtraPanel1Layout.setHorizontalGroup(
-            gameXtraPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        gameXtraPanel1Layout.setVerticalGroup(
-            gameXtraPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        game.add(gameXtraPanel1, gridBagConstraints);
-
-        gameCtlButtonRun1Year1.setText(" 1 yr");
-        gameCtlButtonRun1Year1.setAlignmentY(0.0F);
-        gameCtlButtonRun1Year1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.black, java.awt.Color.black, null, null));
-        gameCtlButtonRun1Year1.setContentAreaFilled(false);
-        gameCtlButtonRun1Year1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        gameCtlButtonRun1Year1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        gameCtlButtonRun1Year1.setIconTextGap(0);
-        gameCtlButtonRun1Year1.setMargin(new java.awt.Insets(1, 1, 1, 1));
-        gameCtlButtonRun1Year1.setMaximumSize(new java.awt.Dimension(100, 25));
-        gameCtlButtonRun1Year1.setMinimumSize(new java.awt.Dimension(50, 21));
-        gameCtlButtonRun1Year1.setName("  3 Yr"); // NOI18N
-        gameCtlButtonRun1Year1.setPreferredSize(new java.awt.Dimension(50, 21));
-        gameCtlButtonRun1Year1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        gameCtlButtonRun1Year1.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
-        gameCtlButtonRun1Year1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                gameCtlButtonRun1Year1MouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameCtlButtonRun1Year1MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameCtlButtonRun1Year1MouseExited(evt);
-            }
-        });
-        gameCtlButtonRun1Year1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gameCtlButtonRun1Year1ActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
-        game.add(gameCtlButtonRun1Year1, gridBagConstraints);
-
-        gameCtlButtonRun5Years1.setText(" 5 yr");
-        gameCtlButtonRun5Years1.setAlignmentY(0.0F);
-        gameCtlButtonRun5Years1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.red, java.awt.Color.black, null, null));
-        gameCtlButtonRun5Years1.setContentAreaFilled(false);
-        gameCtlButtonRun5Years1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        gameCtlButtonRun5Years1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        gameCtlButtonRun5Years1.setMargin(new java.awt.Insets(0, 3, 0, 3));
-        gameCtlButtonRun5Years1.setMaximumSize(new java.awt.Dimension(100, 25));
-        gameCtlButtonRun5Years1.setMinimumSize(new java.awt.Dimension(40, 22));
-        gameCtlButtonRun5Years1.setPreferredSize(new java.awt.Dimension(65, 22));
-        gameCtlButtonRun5Years1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        gameCtlButtonRun5Years1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                gameCtlButtonRun5Years1MouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameCtlButtonRun5Years1MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameCtlButtonRun5Years1MouseExited(evt);
-            }
-        });
-        game.add(gameCtlButtonRun5Years1, new java.awt.GridBagConstraints());
-
-        gameCtlButtonRun1Yr2.setText(" abc");
-        gameCtlButtonRun1Yr2.setBorder(new javax.swing.border.MatteBorder(null));
-        gameCtlButtonRun1Yr2.setContentAreaFilled(false);
-        gameCtlButtonRun1Yr2.setDisplayedMnemonicIndex(2);
-        gameCtlButtonRun1Yr2.setMargin(new java.awt.Insets(2, 0, 2, 0));
-        gameCtlButtonRun1Yr2.setMaximumSize(new java.awt.Dimension(100, 25));
-        gameCtlButtonRun1Yr2.setMinimumSize(new java.awt.Dimension(40, 22));
-        gameCtlButtonRun1Yr2.setName("1 M"); // NOI18N
-        gameCtlButtonRun1Yr2.setPreferredSize(new java.awt.Dimension(40, 22));
-        gameCtlButtonRun1Yr2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                gameCtlButtonRun1Yr2MouseClicked(evt);
-            }
-        });
-        gameCtlButtonRun1Yr2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gameCtlButtonRun1Yr2ActionPerformed(evt);
-            }
-        });
-        game.add(gameCtlButtonRun1Yr2, new java.awt.GridBagConstraints());
-
-        gameToLabelPlanet.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        gameToLabelPlanet.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        gameToLabelPlanet.setText("Planet");
-        gameToLabelPlanet.setMaximumSize(new java.awt.Dimension(500, 40));
-        gameToLabelPlanet.setMinimumSize(new java.awt.Dimension(300, 20));
-        gameToLabelPlanet.setPreferredSize(new java.awt.Dimension(440, 21));
-        game.add(gameToLabelPlanet, new java.awt.GridBagConstraints());
-
-        gameTopLabelShip.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        gameTopLabelShip.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        gameTopLabelShip.setText("ship");
-        gameTopLabelShip.setMaximumSize(new java.awt.Dimension(500, 40));
-        gameTopLabelShip.setMinimumSize(new java.awt.Dimension(300, 15));
-        gameTopLabelShip.setPreferredSize(new java.awt.Dimension(350, 25));
-        game.add(gameTopLabelShip, new java.awt.GridBagConstraints());
-
-        gameTopRightFill.setEditable(false);
-        gameTopRightFill.setBackground(new java.awt.Color(255, 255, 153));
-        gameTopRightFill.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        gameTopRightFill.setAlignmentX(0.0F);
-        gameTopRightFill.setAlignmentY(0.0F);
-        gameTopRightFill.setMaximumSize(new java.awt.Dimension(600, 25));
-        gameTopRightFill.setMinimumSize(new java.awt.Dimension(60, 20));
-        gameTopRightFill.setName("gameTopMt"); // NOI18N
-        gameTopRightFill.setPreferredSize(new java.awt.Dimension(200, 20));
-        gameTopRightFill.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gameTopRightFillActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 0.5;
-        game.add(gameTopRightFill, gridBagConstraints);
-
-        gamePanel0.setAlignmentX(0.1F);
-        gamePanel0.setAlignmentY(0.1F);
-        gamePanel0.setMaximumSize(new java.awt.Dimension(800, 65));
-        gamePanel0.setMinimumSize(new java.awt.Dimension(700, 45));
-        gamePanel0.setPreferredSize(new java.awt.Dimension(700, 55));
-        gamePanel0.setRequestFocusEnabled(false);
-        gamePanel0.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gamePanel0MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gamePanel0MouseExited(evt);
-            }
-        });
-        gamePanel0.setLayout(new javax.swing.BoxLayout(gamePanel0, javax.swing.BoxLayout.LINE_AXIS));
-
-        gameTextField0.setEditable(false);
-        gameTextField0.setText("tb set");
-        gameTextField0.setMaximumSize(new java.awt.Dimension(300, 45));
-        gameTextField0.setMinimumSize(new java.awt.Dimension(100, 35));
-        gameTextField0.setPreferredSize(new java.awt.Dimension(150, 35));
-        gameTextField0.setRequestFocusEnabled(false);
-        gameTextField0.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameTextField0MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameTextField0MouseExited(evt);
-            }
-        });
-        gamePanel0.add(gameTextField0);
-
-        gameSliderP0.setMajorTickSpacing(10);
-        gameSliderP0.setMinorTickSpacing(5);
-        gameSliderP0.setPaintLabels(true);
-        gameSliderP0.setPaintTicks(true);
-        gameSliderP0.setSnapToTicks(true);
-        gameSliderP0.setToolTipText("Slider1");
-        gameSliderP0.setMaximumSize(new java.awt.Dimension(400, 55));
-        gameSliderP0.setMinimumSize(new java.awt.Dimension(150, 35));
-        gameSliderP0.setName("Slider1"); // NOI18N
-        gameSliderP0.setPreferredSize(new java.awt.Dimension(300, 35));
-        gameSliderP0.setValueIsAdjusting(true);
-        gameSliderP0.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameSliderP0MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameSliderP0MouseExited(evt);
-            }
-        });
-        gamePanel0.add(gameSliderP0);
-        gameSliderP0.getAccessibleContext().setAccessibleName("Slider1");
-
-        jSeparator1.setMaximumSize(new java.awt.Dimension(50, 40));
-        jSeparator1.setMinimumSize(new java.awt.Dimension(20, 30));
-        jSeparator1.setPreferredSize(new java.awt.Dimension(20, 40));
-        gamePanel0.add(jSeparator1);
-
-        gameSliderS0.setMajorTickSpacing(10);
-        gameSliderS0.setMinorTickSpacing(5);
-        gameSliderS0.setPaintLabels(true);
-        gameSliderS0.setPaintTicks(true);
-        gameSliderS0.setSnapToTicks(true);
-        gameSliderS0.setToolTipText("hello1");
-        gameSliderS0.setMaximumSize(new java.awt.Dimension(450, 45));
-        gameSliderS0.setMinimumSize(new java.awt.Dimension(150, 45));
-        gameSliderS0.setOpaque(false);
-        gameSliderS0.setPreferredSize(new java.awt.Dimension(300, 45));
-        gameSliderS0.setValueIsAdjusting(true);
-        gameSliderS0.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameSliderS0MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameSliderS0MouseExited(evt);
-            }
-        });
-        gamePanel0.add(gameSliderS0);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 23;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        game.add(gamePanel0, gridBagConstraints);
-
-        gameButtonUp1.setActionCommand("up");
-        gameButtonUp1.setLabel("up");
-        gameButtonUp1.setMaximumSize(new java.awt.Dimension(60, 55));
-        gameButtonUp1.setMinimumSize(new java.awt.Dimension(30, 45));
-        gameButtonUp1.setPreferredSize(new java.awt.Dimension(50, 55));
-        gameButtonUp1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                gameButtonUp1MouseClicked(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        game.add(gameButtonUp1, gridBagConstraints);
-
-        gamePanel1.setAlignmentX(0.1F);
-        gamePanel1.setAlignmentY(0.1F);
-        gamePanel1.setMaximumSize(new java.awt.Dimension(800, 65));
-        gamePanel1.setMinimumSize(new java.awt.Dimension(100, 35));
-        gamePanel1.setPreferredSize(new java.awt.Dimension(700, 55));
-        gamePanel1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gamePanel1MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gamePanel1MouseExited(evt);
-            }
-        });
-        gamePanel1.setLayout(new javax.swing.BoxLayout(gamePanel1, javax.swing.BoxLayout.LINE_AXIS));
-
-        gameTextField1.setEditable(false);
-        gameTextField1.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        gameTextField1.setText("tb set");
-        gameTextField1.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        gameTextField1.setMaximumSize(new java.awt.Dimension(300, 45));
-        gameTextField1.setMinimumSize(new java.awt.Dimension(100, 35));
-        gameTextField1.setPreferredSize(new java.awt.Dimension(150, 35));
-        gameTextField1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameTextField1MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameTextField1MouseExited(evt);
-            }
-        });
-        gameTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gameTextField1ActionPerformed(evt);
-            }
-        });
-        gamePanel1.add(gameTextField1);
-
-        gameSliderP1.setMajorTickSpacing(10);
-        gameSliderP1.setMinorTickSpacing(5);
-        gameSliderP1.setPaintLabels(true);
-        gameSliderP1.setPaintTicks(true);
-        gameSliderP1.setSnapToTicks(true);
-        gameSliderP1.setToolTipText("Slider1");
-        gameSliderP1.setMaximumSize(new java.awt.Dimension(400, 45));
-        gameSliderP1.setMinimumSize(new java.awt.Dimension(250, 45));
-        gameSliderP1.setName("Slider1"); // NOI18N
-        gameSliderP1.setPreferredSize(new java.awt.Dimension(300, 45));
-        gameSliderP1.setValueIsAdjusting(true);
-        gameSliderP1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameSliderP1MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameSliderP1MouseExited(evt);
-            }
-        });
-        gamePanel1.add(gameSliderP1);
-
-        jSeparator2.setMaximumSize(new java.awt.Dimension(50, 40));
-        jSeparator2.setMinimumSize(new java.awt.Dimension(20, 30));
-        jSeparator2.setPreferredSize(new java.awt.Dimension(20, 40));
-        gamePanel1.add(jSeparator2);
-
-        gameSliderS1.setMajorTickSpacing(10);
-        gameSliderS1.setMinorTickSpacing(5);
-        gameSliderS1.setPaintLabels(true);
-        gameSliderS1.setPaintTicks(true);
-        gameSliderS1.setSnapToTicks(true);
-        gameSliderS1.setToolTipText("hello1");
-        gameSliderS1.setMaximumSize(new java.awt.Dimension(400, 45));
-        gameSliderS1.setMinimumSize(new java.awt.Dimension(250, 45));
-        gameSliderS1.setPreferredSize(new java.awt.Dimension(300, 45));
-        gameSliderS1.setValueIsAdjusting(true);
-        gameSliderS1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameSliderS1MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameSliderS1MouseExited(evt);
-            }
-        });
-        gamePanel1.add(gameSliderS1);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 23;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        game.add(gamePanel1, gridBagConstraints);
-
-        gamePanel2.setMaximumSize(new java.awt.Dimension(800, 65));
-        gamePanel2.setMinimumSize(new java.awt.Dimension(100, 45));
-        gamePanel2.setPreferredSize(new java.awt.Dimension(750, 55));
-        gamePanel2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gamePanel2MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gamePanel2MouseExited(evt);
-            }
-        });
-        gamePanel2.setLayout(new javax.swing.BoxLayout(gamePanel2, javax.swing.BoxLayout.LINE_AXIS));
-
-        gameTextField2.setEditable(false);
-        gameTextField2.setText("tb set");
-        gameTextField2.setMaximumSize(new java.awt.Dimension(300, 45));
-        gameTextField2.setMinimumSize(new java.awt.Dimension(100, 35));
-        gameTextField2.setPreferredSize(new java.awt.Dimension(150, 35));
-        gameTextField2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameTextField2MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameTextField2MouseExited(evt);
-            }
-        });
-        gamePanel2.add(gameTextField2);
-
-        gameSliderP2.setMajorTickSpacing(10);
-        gameSliderP2.setMinorTickSpacing(5);
-        gameSliderP2.setPaintLabels(true);
-        gameSliderP2.setPaintTicks(true);
-        gameSliderP2.setSnapToTicks(true);
-        gameSliderP2.setToolTipText("Slider1");
-        gameSliderP2.setMaximumSize(new java.awt.Dimension(400, 45));
-        gameSliderP2.setMinimumSize(new java.awt.Dimension(250, 45));
-        gameSliderP2.setName("Slider1"); // NOI18N
-        gameSliderP2.setPreferredSize(new java.awt.Dimension(300, 45));
-        gameSliderP2.setValueIsAdjusting(true);
-        gameSliderP2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameSliderP2MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameSliderP2MouseExited(evt);
-            }
-        });
-        gamePanel2.add(gameSliderP2);
-
-        jSeparator3.setMaximumSize(new java.awt.Dimension(50, 40));
-        jSeparator3.setMinimumSize(new java.awt.Dimension(20, 30));
-        jSeparator3.setPreferredSize(new java.awt.Dimension(20, 40));
-        gamePanel2.add(jSeparator3);
-
-        gameSliderS2.setMajorTickSpacing(10);
-        gameSliderS2.setMinorTickSpacing(5);
-        gameSliderS2.setPaintLabels(true);
-        gameSliderS2.setPaintTicks(true);
-        gameSliderS2.setSnapToTicks(true);
-        gameSliderS2.setToolTipText("hello1");
-        gameSliderS2.setMaximumSize(new java.awt.Dimension(400, 45));
-        gameSliderS2.setMinimumSize(new java.awt.Dimension(250, 45));
-        gameSliderS2.setPreferredSize(new java.awt.Dimension(300, 45));
-        gameSliderS2.setValueIsAdjusting(true);
-        gameSliderS2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameSliderS2MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameSliderS2MouseExited(evt);
-            }
-        });
-        gamePanel2.add(gameSliderS2);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 23;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        game.add(gamePanel2, gridBagConstraints);
-
-        gamePanel3.setMaximumSize(new java.awt.Dimension(600, 65));
-        gamePanel3.setMinimumSize(new java.awt.Dimension(100, 45));
-        gamePanel3.setPreferredSize(new java.awt.Dimension(150, 55));
-        gamePanel3.setLayout(new javax.swing.BoxLayout(gamePanel3, javax.swing.BoxLayout.LINE_AXIS));
-
-        gameTextField3.setEditable(false);
-        gameTextField3.setText("tb set");
-        gameTextField3.setMaximumSize(new java.awt.Dimension(300, 45));
-        gameTextField3.setMinimumSize(new java.awt.Dimension(100, 35));
-        gameTextField3.setPreferredSize(new java.awt.Dimension(150, 35));
-        gameTextField3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameTextField3MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameTextField3MouseExited(evt);
-            }
-        });
-        gamePanel3.add(gameTextField3);
-
-        gameSliderP3.setMajorTickSpacing(10);
-        gameSliderP3.setMinorTickSpacing(5);
-        gameSliderP3.setPaintLabels(true);
-        gameSliderP3.setPaintTicks(true);
-        gameSliderP3.setSnapToTicks(true);
-        gameSliderP3.setToolTipText("Slider1");
-        gameSliderP3.setMaximumSize(new java.awt.Dimension(400, 45));
-        gameSliderP3.setMinimumSize(new java.awt.Dimension(150, 45));
-        gameSliderP3.setName("Slider1"); // NOI18N
-        gameSliderP3.setPreferredSize(new java.awt.Dimension(300, 45));
-        gameSliderP3.setValueIsAdjusting(true);
-        gameSliderP3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameSliderP3MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameSliderP3MouseExited(evt);
-            }
-        });
-        gamePanel3.add(gameSliderP3);
-
-        jSeparator4.setMaximumSize(new java.awt.Dimension(50, 40));
-        jSeparator4.setMinimumSize(new java.awt.Dimension(20, 30));
-        jSeparator4.setPreferredSize(new java.awt.Dimension(20, 40));
-        gamePanel3.add(jSeparator4);
-
-        gameSliderS3.setMajorTickSpacing(10);
-        gameSliderS3.setMinorTickSpacing(5);
-        gameSliderS3.setPaintLabels(true);
-        gameSliderS3.setPaintTicks(true);
-        gameSliderS3.setSnapToTicks(true);
-        gameSliderS3.setToolTipText("hello1");
-        gameSliderS3.setMaximumSize(new java.awt.Dimension(400, 45));
-        gameSliderS3.setMinimumSize(new java.awt.Dimension(250, 45));
-        gameSliderS3.setPreferredSize(new java.awt.Dimension(300, 45));
-        gameSliderS3.setValueIsAdjusting(true);
-        gameSliderS3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameSliderS3MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameSliderS3MouseExited(evt);
-            }
-        });
-        gamePanel3.add(gameSliderS3);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 23;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        game.add(gamePanel3, gridBagConstraints);
-
-        gamePanel4.setMaximumSize(new java.awt.Dimension(600, 65));
-        gamePanel4.setMinimumSize(new java.awt.Dimension(100, 45));
-        gamePanel4.setPreferredSize(new java.awt.Dimension(150, 55));
-        gamePanel4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gamePanel4MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gamePanel4MouseExited(evt);
-            }
-        });
-        gamePanel4.setLayout(new javax.swing.BoxLayout(gamePanel4, javax.swing.BoxLayout.LINE_AXIS));
-
-        gameTextField4.setEditable(false);
-        gameTextField4.setText("tb set");
-        gameTextField4.setMaximumSize(new java.awt.Dimension(300, 45));
-        gameTextField4.setMinimumSize(new java.awt.Dimension(100, 35));
-        gameTextField4.setPreferredSize(new java.awt.Dimension(150, 35));
-        gameTextField4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameTextField4MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameTextField4MouseExited(evt);
-            }
-        });
-        gamePanel4.add(gameTextField4);
-
-        gameSliderP4.setMajorTickSpacing(10);
-        gameSliderP4.setMinorTickSpacing(5);
-        gameSliderP4.setPaintLabels(true);
-        gameSliderP4.setPaintTicks(true);
-        gameSliderP4.setSnapToTicks(true);
-        gameSliderP4.setToolTipText("Slider1");
-        gameSliderP4.setMaximumSize(new java.awt.Dimension(400, 45));
-        gameSliderP4.setMinimumSize(new java.awt.Dimension(250, 45));
-        gameSliderP4.setName("Slider1"); // NOI18N
-        gameSliderP4.setPreferredSize(new java.awt.Dimension(300, 45));
-        gameSliderP4.setValueIsAdjusting(true);
-        gameSliderP4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameSliderP4MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameSliderP4MouseExited(evt);
-            }
-        });
-        gamePanel4.add(gameSliderP4);
-
-        jSeparator5.setMaximumSize(new java.awt.Dimension(50, 40));
-        jSeparator5.setMinimumSize(new java.awt.Dimension(20, 30));
-        jSeparator5.setPreferredSize(new java.awt.Dimension(20, 40));
-        gamePanel4.add(jSeparator5);
-
-        gameSliderS4.setMajorTickSpacing(10);
-        gameSliderS4.setMinorTickSpacing(5);
-        gameSliderS4.setPaintLabels(true);
-        gameSliderS4.setPaintTicks(true);
-        gameSliderS4.setSnapToTicks(true);
-        gameSliderS4.setToolTipText("hello1");
-        gameSliderS4.setMaximumSize(new java.awt.Dimension(400, 45));
-        gameSliderS4.setMinimumSize(new java.awt.Dimension(250, 45));
-        gameSliderS4.setPreferredSize(new java.awt.Dimension(300, 45));
-        gameSliderS4.setValueIsAdjusting(true);
-        gameSliderS4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameSliderS4MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameSliderS4MouseExited(evt);
-            }
-        });
-        gamePanel4.add(gameSliderS4);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 23;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
-        game.add(gamePanel4, gridBagConstraints);
-
-        gamePanel5.setMaximumSize(new java.awt.Dimension(600, 65));
-        gamePanel5.setMinimumSize(new java.awt.Dimension(100, 45));
-        gamePanel5.setPreferredSize(new java.awt.Dimension(150, 55));
-        gamePanel5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gamePanel5MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gamePanel5MouseExited(evt);
-            }
-        });
-        gamePanel5.setLayout(new javax.swing.BoxLayout(gamePanel5, javax.swing.BoxLayout.LINE_AXIS));
-
-        gameTextField5.setEditable(false);
-        gameTextField5.setText("tb set");
-        gameTextField5.setMaximumSize(new java.awt.Dimension(300, 45));
-        gameTextField5.setMinimumSize(new java.awt.Dimension(100, 35));
-        gameTextField5.setPreferredSize(new java.awt.Dimension(150, 35));
-        gameTextField5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameTextField5MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameTextField5MouseExited(evt);
-            }
-        });
-        gamePanel5.add(gameTextField5);
-
-        gameSliderP5.setMajorTickSpacing(10);
-        gameSliderP5.setMinorTickSpacing(5);
-        gameSliderP5.setPaintLabels(true);
-        gameSliderP5.setPaintTicks(true);
-        gameSliderP5.setSnapToTicks(true);
-        gameSliderP5.setToolTipText("Slider1");
-        gameSliderP5.setMaximumSize(new java.awt.Dimension(400, 45));
-        gameSliderP5.setMinimumSize(new java.awt.Dimension(250, 45));
-        gameSliderP5.setName("Slider1"); // NOI18N
-        gameSliderP5.setPreferredSize(new java.awt.Dimension(300, 45));
-        gameSliderP5.setValueIsAdjusting(true);
-        gameSliderP5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameSliderP5MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameSliderP5MouseExited(evt);
-            }
-        });
-        gamePanel5.add(gameSliderP5);
-
-        jSeparator11.setMaximumSize(new java.awt.Dimension(50, 40));
-        jSeparator11.setMinimumSize(new java.awt.Dimension(20, 30));
-        jSeparator11.setPreferredSize(new java.awt.Dimension(20, 40));
-        gamePanel5.add(jSeparator11);
-
-        gameSliderS5.setMajorTickSpacing(10);
-        gameSliderS5.setMinorTickSpacing(5);
-        gameSliderS5.setPaintLabels(true);
-        gameSliderS5.setPaintTicks(true);
-        gameSliderS5.setSnapToTicks(true);
-        gameSliderS5.setToolTipText("hello1");
-        gameSliderS5.setMaximumSize(new java.awt.Dimension(400, 45));
-        gameSliderS5.setMinimumSize(new java.awt.Dimension(250, 45));
-        gameSliderS5.setPreferredSize(new java.awt.Dimension(300, 45));
-        gameSliderS5.setValueIsAdjusting(true);
-        gameSliderS5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameSliderS5MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameSliderS5MouseExited(evt);
-            }
-        });
-        gamePanel5.add(gameSliderS5);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridwidth = 23;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
-        game.add(gamePanel5, gridBagConstraints);
-
-        gamePanel6.setMaximumSize(new java.awt.Dimension(600, 65));
-        gamePanel6.setMinimumSize(new java.awt.Dimension(100, 45));
-        gamePanel6.setPreferredSize(new java.awt.Dimension(150, 55));
-        gamePanel6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gamePanel6MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gamePanel6MouseExited(evt);
-            }
-        });
-        gamePanel6.setLayout(new javax.swing.BoxLayout(gamePanel6, javax.swing.BoxLayout.LINE_AXIS));
-
-        gameTextField6.setEditable(false);
-        gameTextField6.setText("tb set");
-        gameTextField6.setMaximumSize(new java.awt.Dimension(300, 45));
-        gameTextField6.setMinimumSize(new java.awt.Dimension(100, 35));
-        gameTextField6.setPreferredSize(new java.awt.Dimension(150, 35));
-        gameTextField6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameTextField6MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameTextField6MouseExited(evt);
-            }
-        });
-        gamePanel6.add(gameTextField6);
-
-        gameSliderP6.setMajorTickSpacing(10);
-        gameSliderP6.setMinorTickSpacing(5);
-        gameSliderP6.setPaintLabels(true);
-        gameSliderP6.setPaintTicks(true);
-        gameSliderP6.setSnapToTicks(true);
-        gameSliderP6.setToolTipText("Slider1");
-        gameSliderP6.setMaximumSize(new java.awt.Dimension(400, 45));
-        gameSliderP6.setMinimumSize(new java.awt.Dimension(250, 45));
-        gameSliderP6.setName("Slider1"); // NOI18N
-        gameSliderP6.setPreferredSize(new java.awt.Dimension(300, 45));
-        gameSliderP6.setValueIsAdjusting(true);
-        gameSliderP6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameSliderP6MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameSliderP6MouseExited(evt);
-            }
-        });
-        gamePanel6.add(gameSliderP6);
-
-        jSeparator13.setMaximumSize(new java.awt.Dimension(50, 40));
-        jSeparator13.setMinimumSize(new java.awt.Dimension(20, 30));
-        jSeparator13.setPreferredSize(new java.awt.Dimension(20, 40));
-        gamePanel6.add(jSeparator13);
-
-        gameSliderS6.setMajorTickSpacing(10);
-        gameSliderS6.setMinorTickSpacing(5);
-        gameSliderS6.setPaintLabels(true);
-        gameSliderS6.setPaintTicks(true);
-        gameSliderS6.setSnapToTicks(true);
-        gameSliderS6.setToolTipText("hello1");
-        gameSliderS6.setMaximumSize(new java.awt.Dimension(400, 45));
-        gameSliderS6.setMinimumSize(new java.awt.Dimension(250, 45));
-        gameSliderS6.setPreferredSize(new java.awt.Dimension(300, 45));
-        gameSliderS6.setValueIsAdjusting(true);
-        gameSliderS6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameSliderS6MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameSliderS6MouseExited(evt);
-            }
-        });
-        gamePanel6.add(gameSliderS6);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridwidth = 23;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
-        game.add(gamePanel6, gridBagConstraints);
-
-        gamePanel7.setMaximumSize(new java.awt.Dimension(600, 65));
-        gamePanel7.setMinimumSize(new java.awt.Dimension(100, 45));
-        gamePanel7.setPreferredSize(new java.awt.Dimension(150, 55));
-        gamePanel7.setLayout(new javax.swing.BoxLayout(gamePanel7, javax.swing.BoxLayout.LINE_AXIS));
-
-        gameTextField7.setEditable(false);
-        gameTextField7.setText("tb set");
-        gameTextField7.setMaximumSize(new java.awt.Dimension(300, 45));
-        gameTextField7.setMinimumSize(new java.awt.Dimension(100, 35));
-        gameTextField7.setPreferredSize(new java.awt.Dimension(150, 35));
-        gameTextField7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameTextField7MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameTextField7MouseExited(evt);
-            }
-        });
-        gamePanel7.add(gameTextField7);
-
-        gameSliderP7.setMajorTickSpacing(10);
-        gameSliderP7.setMinorTickSpacing(5);
-        gameSliderP7.setPaintLabels(true);
-        gameSliderP7.setPaintTicks(true);
-        gameSliderP7.setSnapToTicks(true);
-        gameSliderP7.setToolTipText("Slider1");
-        gameSliderP7.setMaximumSize(new java.awt.Dimension(400, 45));
-        gameSliderP7.setMinimumSize(new java.awt.Dimension(250, 45));
-        gameSliderP7.setName("Slider1"); // NOI18N
-        gameSliderP7.setPreferredSize(new java.awt.Dimension(300, 45));
-        gameSliderP7.setValueIsAdjusting(true);
-        gameSliderP7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameSliderP7MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameSliderP7MouseExited(evt);
-            }
-        });
-        gamePanel7.add(gameSliderP7);
-
-        jSeparator14.setMaximumSize(new java.awt.Dimension(50, 40));
-        jSeparator14.setMinimumSize(new java.awt.Dimension(20, 30));
-        jSeparator14.setPreferredSize(new java.awt.Dimension(20, 40));
-        jSeparator14.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jSeparator14MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jSeparator14MouseExited(evt);
-            }
-        });
-        gamePanel7.add(jSeparator14);
-
-        gameSliderS7.setMajorTickSpacing(10);
-        gameSliderS7.setMinorTickSpacing(5);
-        gameSliderS7.setPaintLabels(true);
-        gameSliderS7.setPaintTicks(true);
-        gameSliderS7.setSnapToTicks(true);
-        gameSliderS7.setToolTipText("hello1");
-        gameSliderS7.setMaximumSize(new java.awt.Dimension(400, 45));
-        gameSliderS7.setMinimumSize(new java.awt.Dimension(250, 45));
-        gameSliderS7.setPreferredSize(new java.awt.Dimension(300, 45));
-        gameSliderS7.setValueIsAdjusting(true);
-        gameSliderS7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameSliderS7MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameSliderS7MouseExited(evt);
-            }
-        });
-        gamePanel7.add(gameSliderS7);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridwidth = 23;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
-        game.add(gamePanel7, gridBagConstraints);
-
-        gamePanel8.setMaximumSize(new java.awt.Dimension(600, 65));
-        gamePanel8.setMinimumSize(new java.awt.Dimension(100, 45));
-        gamePanel8.setPreferredSize(new java.awt.Dimension(150, 55));
-        gamePanel8.setLayout(new javax.swing.BoxLayout(gamePanel8, javax.swing.BoxLayout.LINE_AXIS));
-
-        gameTextField8.setEditable(false);
-        gameTextField8.setText("tb set");
-        gameTextField8.setMaximumSize(new java.awt.Dimension(300, 45));
-        gameTextField8.setMinimumSize(new java.awt.Dimension(100, 35));
-        gameTextField8.setPreferredSize(new java.awt.Dimension(150, 35));
-        gameTextField8.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameTextField8MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameTextField8MouseExited(evt);
-            }
-        });
-        gamePanel8.add(gameTextField8);
-
-        gameSliderP8.setMajorTickSpacing(10);
-        gameSliderP8.setMinorTickSpacing(5);
-        gameSliderP8.setPaintLabels(true);
-        gameSliderP8.setPaintTicks(true);
-        gameSliderP8.setSnapToTicks(true);
-        gameSliderP8.setToolTipText("Slider1");
-        gameSliderP8.setMaximumSize(new java.awt.Dimension(400, 45));
-        gameSliderP8.setMinimumSize(new java.awt.Dimension(250, 45));
-        gameSliderP8.setName("Slider1"); // NOI18N
-        gameSliderP8.setPreferredSize(new java.awt.Dimension(300, 45));
-        gameSliderP8.setValueIsAdjusting(true);
-        gameSliderP8.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameSliderP8MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameSliderP8MouseExited(evt);
-            }
-        });
-        gamePanel8.add(gameSliderP8);
-
-        jSeparator15.setMaximumSize(new java.awt.Dimension(50, 40));
-        jSeparator15.setMinimumSize(new java.awt.Dimension(20, 30));
-        jSeparator15.setPreferredSize(new java.awt.Dimension(20, 40));
-        jSeparator15.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jSeparator15MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jSeparator15MouseExited(evt);
-            }
-        });
-        gamePanel8.add(jSeparator15);
-
-        gameSliderS8.setMajorTickSpacing(10);
-        gameSliderS8.setMinorTickSpacing(5);
-        gameSliderS8.setPaintLabels(true);
-        gameSliderS8.setPaintTicks(true);
-        gameSliderS8.setSnapToTicks(true);
-        gameSliderS8.setToolTipText("hello1");
-        gameSliderS8.setMaximumSize(new java.awt.Dimension(400, 45));
-        gameSliderS8.setMinimumSize(new java.awt.Dimension(250, 45));
-        gameSliderS8.setPreferredSize(new java.awt.Dimension(300, 45));
-        gameSliderS8.setValueIsAdjusting(true);
-        gameSliderS8.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameSliderS8MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameSliderS8MouseExited(evt);
-            }
-        });
-        gamePanel8.add(gameSliderS8);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridwidth = 23;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
-        game.add(gamePanel8, gridBagConstraints);
-
-        gamePanel9.setMaximumSize(new java.awt.Dimension(600, 65));
-        gamePanel9.setMinimumSize(new java.awt.Dimension(100, 45));
-        gamePanel9.setPreferredSize(new java.awt.Dimension(150, 55));
-        gamePanel9.setLayout(new javax.swing.BoxLayout(gamePanel9, javax.swing.BoxLayout.LINE_AXIS));
-
-        gameTextField9.setEditable(false);
-        gameTextField9.setText("tb set");
-        gameTextField9.setMaximumSize(new java.awt.Dimension(300, 45));
-        gameTextField9.setMinimumSize(new java.awt.Dimension(100, 35));
-        gameTextField9.setPreferredSize(new java.awt.Dimension(150, 35));
-        gameTextField9.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameTextField9MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameTextField9MouseExited(evt);
-            }
-        });
-        gamePanel9.add(gameTextField9);
-
-        gameSliderP9.setMajorTickSpacing(10);
-        gameSliderP9.setMinorTickSpacing(5);
-        gameSliderP9.setPaintLabels(true);
-        gameSliderP9.setPaintTicks(true);
-        gameSliderP9.setSnapToTicks(true);
-        gameSliderP9.setToolTipText("Slider1");
-        gameSliderP9.setMaximumSize(new java.awt.Dimension(400, 45));
-        gameSliderP9.setMinimumSize(new java.awt.Dimension(250, 45));
-        gameSliderP9.setName("Slider1"); // NOI18N
-        gameSliderP9.setPreferredSize(new java.awt.Dimension(300, 45));
-        gameSliderP9.setValueIsAdjusting(true);
-        gameSliderP9.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameSliderP9MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameSliderP9MouseExited(evt);
-            }
-        });
-        gamePanel9.add(gameSliderP9);
-
-        jSeparator16.setMaximumSize(new java.awt.Dimension(50, 40));
-        jSeparator16.setMinimumSize(new java.awt.Dimension(20, 30));
-        jSeparator16.setPreferredSize(new java.awt.Dimension(20, 40));
-        gamePanel9.add(jSeparator16);
-
-        gameSliderS9.setMajorTickSpacing(10);
-        gameSliderS9.setMinorTickSpacing(5);
-        gameSliderS9.setPaintLabels(true);
-        gameSliderS9.setPaintTicks(true);
-        gameSliderS9.setSnapToTicks(true);
-        gameSliderS9.setToolTipText("hello1");
-        gameSliderS9.setMaximumSize(new java.awt.Dimension(400, 45));
-        gameSliderS9.setMinimumSize(new java.awt.Dimension(250, 45));
-        gameSliderS9.setPreferredSize(new java.awt.Dimension(300, 45));
-        gameSliderS9.setValueIsAdjusting(true);
-        gameSliderS9.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameSliderS9MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameSliderS9MouseExited(evt);
-            }
-        });
-        gamePanel9.add(gameSliderS9);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridwidth = 23;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
-        game.add(gamePanel9, gridBagConstraints);
-
-        gamePanelBottomPanel.setMinimumSize(new java.awt.Dimension(100, 100));
-        gamePanelBottomPanel.setPreferredSize(new java.awt.Dimension(95, 300));
-
-        gameTextPane.setBackground(new java.awt.Color(255, 204, 204));
-        gameTextPane.setAlignmentX(0.0F);
-        gameTextPane.setAlignmentY(0.0F);
-        gameTextPane.setAutoscrolls(true);
-        gameTextPane.setMaximumSize(new java.awt.Dimension(220, 300));
-        gameTextPane.setMinimumSize(new java.awt.Dimension(90, 200));
-        gameTextPane.setPreferredSize(new java.awt.Dimension(220, 225));
-
-        gameTextField.setBackground(new java.awt.Color(153, 255, 153));
-        gameTextField.setColumns(20);
-        gameTextField.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
-        gameTextField.setLineWrap(true);
-        gameTextField.setRows(5);
-        gameTextField.setText("This is to be filled with descriptions of the field over which the mouse hovers");
-        gameTextField.setWrapStyleWord(true);
-        gameTextField.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        gameTextField.setMinimumSize(new java.awt.Dimension(75, 100));
-        gameTextField.setPreferredSize(new java.awt.Dimension(100, 400));
-        gameTextPane.setViewportView(gameTextField);
-
-        javax.swing.GroupLayout gamePanelBottomPanelLayout = new javax.swing.GroupLayout(gamePanelBottomPanel);
-        gamePanelBottomPanel.setLayout(gamePanelBottomPanelLayout);
-        gamePanelBottomPanelLayout.setHorizontalGroup(
-            gamePanelBottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gamePanelBottomPanelLayout.createSequentialGroup()
-                .addGap(0, 887, Short.MAX_VALUE)
-                .addComponent(gameTextPane, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        gamePanelBottomPanelLayout.setVerticalGroup(
-            gamePanelBottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(gamePanelBottomPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(gameTextPane, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(309, Short.MAX_VALUE))
-        );
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 11;
-        gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.gridheight = java.awt.GridBagConstraints.REMAINDER;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.5;
-        gridBagConstraints.weighty = 0.5;
-        game.add(gamePanelBottomPanel, gridBagConstraints);
-
-        gameButtonDown.setLabel("down");
-        gameButtonDown.setMaximumSize(new java.awt.Dimension(120, 110));
-        gameButtonDown.setMinimumSize(new java.awt.Dimension(30, 45));
-        gameButtonDown.setPreferredSize(new java.awt.Dimension(46, 55));
-        gameButtonDown.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                gameButtonDownMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                gameButtonDownMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                gameButtonDownMouseExited(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
-        game.add(gameButtonDown, gridBagConstraints);
-
-        controlPanels.addTab("Settings", game);
-
-        log.setBackground(new java.awt.Color(255, 255, 255));
-        log.setAutoscrolls(true);
-        log.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        log.setMaximumSize(new java.awt.Dimension(1200, 1200));
-        log.setMinimumSize(new java.awt.Dimension(500, 500));
-        log.setPreferredSize(new java.awt.Dimension(1200, 1200));
-
-        logTableScrollPanel.setAutoscrolls(true);
-        logTableScrollPanel.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
-        logTableScrollPanel.setMaximumSize(new java.awt.Dimension(1200, 1200));
-        logTableScrollPanel.setMinimumSize(new java.awt.Dimension(800, 600));
-        logTableScrollPanel.setPreferredSize(new java.awt.Dimension(1200, 1200));
-        logTableScrollPanel.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                logTableScrollPanelCaretPositionChanged(evt);
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                logTableScrollPanelInputMethodTextChanged(evt);
-            }
-        });
-
-        logDisplayTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        logDisplayTable.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        logDisplayTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Title", "col0", "col1", "col2", "col3", "col4", "col5", "col6", "col7", "col8", "col9"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        logDisplayTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        logDisplayTable.setColumnSelectionAllowed(true);
-        logDisplayTable.setGridColor(new java.awt.Color(153, 153, 255));
-        logDisplayTable.setMaximumSize(new java.awt.Dimension(1200, 1200));
-        logDisplayTable.setMinimumSize(new java.awt.Dimension(11200, 900));
-        logDisplayTable.setPreferredSize(new java.awt.Dimension(1200, 1200));
-        logDisplayTable.setRowHeight(13);
-        logDisplayTable.getTableHeader().setResizingAllowed(false);
-        logDisplayTable.getTableHeader().setReorderingAllowed(false);
-        logTableScrollPanel.setViewportView(logDisplayTable);
-        logDisplayTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (logDisplayTable.getColumnModel().getColumnCount() > 0) {
-            logDisplayTable.getColumnModel().getColumn(0).setResizable(false);
-            logDisplayTable.getColumnModel().getColumn(0).setPreferredWidth(110);
-            logDisplayTable.getColumnModel().getColumn(1).setResizable(false);
-            logDisplayTable.getColumnModel().getColumn(2).setResizable(false);
-            logDisplayTable.getColumnModel().getColumn(3).setResizable(false);
-            logDisplayTable.getColumnModel().getColumn(4).setResizable(false);
-            logDisplayTable.getColumnModel().getColumn(5).setResizable(false);
-            logDisplayTable.getColumnModel().getColumn(6).setResizable(false);
-            logDisplayTable.getColumnModel().getColumn(7).setResizable(false);
-            logDisplayTable.getColumnModel().getColumn(8).setResizable(false);
-            logDisplayTable.getColumnModel().getColumn(9).setResizable(false);
-            logDisplayTable.getColumnModel().getColumn(10).setResizable(false);
-        }
-        logDisplayTable.getAccessibleContext().setAccessibleName("logTable");
-
-        logDlevel2.setText("DLevel2");
-
-        LogDlen1Slider.setMajorTickSpacing(25);
-        LogDlen1Slider.setMaximum(75);
-        LogDlen1Slider.setMinorTickSpacing(5);
-        LogDlen1Slider.setPaintLabels(true);
-        LogDlen1Slider.setPaintTicks(true);
-        LogDlen1Slider.setValue(20);
-        LogDlen1Slider.setMaximumSize(new java.awt.Dimension(60, 35));
-        LogDlen1Slider.setMinimumSize(new java.awt.Dimension(24, 12));
-        LogDlen1Slider.setName("Length"); // NOI18N
-        LogDlen1Slider.setPreferredSize(new java.awt.Dimension(60, 35));
-        LogDlen1Slider.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                LogDlen1SliderStateChanged(evt);
-            }
-        });
-
-        logDlen1.setText("DLen1");
-
-        logDLevel1Slider.setMajorTickSpacing(5);
-        logDLevel1Slider.setMaximum(15);
-        logDLevel1Slider.setMinorTickSpacing(1);
-        logDLevel1Slider.setPaintLabels(true);
-        logDLevel1Slider.setPaintTicks(true);
-        logDLevel1Slider.setValue(2);
-        logDLevel1Slider.setMinimumSize(new java.awt.Dimension(36, 35));
-        logDLevel1Slider.setPreferredSize(new java.awt.Dimension(200, 35));
-        logDLevel1Slider.setValueIsAdjusting(true);
-        logDLevel1Slider.setVerifyInputWhenFocusTarget(false);
-        logDLevel1Slider.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                logDLevel1SliderStateChanged(evt);
-            }
-        });
-
-        logM1Spinner.setName("histStartValue"); // NOI18N
-        logM1Spinner.setValue(1);
-        logM1Spinner.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                logM1SpinnerStateChanged(evt);
-            }
-        });
-
-        LogDLen2Slider.setMajorTickSpacing(25);
-        LogDLen2Slider.setMaximum(75);
-        LogDLen2Slider.setMinorTickSpacing(5);
-        LogDLen2Slider.setPaintLabels(true);
-        LogDLen2Slider.setPaintTicks(true);
-        LogDLen2Slider.setValue(20);
-        LogDLen2Slider.setMaximumSize(new java.awt.Dimension(100, 24));
-        LogDLen2Slider.setName("Length"); // NOI18N
-        LogDLen2Slider.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                LogDLen2SliderStateChanged(evt);
-            }
-        });
-
-        logDLevel2Slider.setMajorTickSpacing(5);
-        logDLevel2Slider.setMaximum(15);
-        logDLevel2Slider.setMinorTickSpacing(1);
-        logDLevel2Slider.setPaintLabels(true);
-        logDLevel2Slider.setPaintTicks(true);
-        logDLevel2Slider.setValue(2);
-        logDLevel2Slider.setValueIsAdjusting(true);
-        logDLevel2Slider.setVerifyInputWhenFocusTarget(false);
-        logDLevel2Slider.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                logDLevel2SliderStateChanged(evt);
-            }
-        });
-
-        logDlen2.setText("DLen2");
-
-        logDlevel1.setText("DLevel1");
-
-        logM2Spinner.setName("histStartValue"); // NOI18N
-        logM2Spinner.setValue(1);
-        logM2Spinner.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                logM2SpinnerStateChanged(evt);
-            }
-        });
-        logM2Spinner.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                logM2SpinnerMouseReleased(evt);
-            }
-        });
-
-        logNamesScrollPanel.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        logNamesScrollPanel.setPreferredSize(new java.awt.Dimension(350, 2000));
-
-        logEnvirnNamesList.setModel(namesList
-        );
-        logEnvirnNamesList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        logEnvirnNamesList.setMaximumSize(new java.awt.Dimension(300, 2000));
-        logEnvirnNamesList.setMinimumSize(new java.awt.Dimension(50, 50));
-        logEnvirnNamesList.setPreferredSize(new java.awt.Dimension(300, 2000));
-        logEnvirnNamesList.setVisibleRowCount(3);
-        logEnvirnNamesList.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                logEnvirnNamesListMouseClicked(evt);
-            }
-        });
-        logNamesScrollPanel.setViewportView(logEnvirnNamesList);
-
-        Start1Name.setBackground(new java.awt.Color(255, 102, 204));
-        Start1Name.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        Start1Name.setForeground(new java.awt.Color(204, 0, 0));
-        Start1Name.setText("P000001");
-
-        Start2Name.setBackground(new java.awt.Color(255, 102, 204));
-        Start2Name.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        Start2Name.setForeground(new java.awt.Color(204, 0, 0));
-        Start2Name.setText("P00001");
-
-        logButtonGroup1or2.add(logRadioButtonStart1);
-        logRadioButtonStart1.setText("Start1");
-        logRadioButtonStart1.setToolTipText("Planet");
-        logRadioButtonStart1.setActionCommand("1");
-        logRadioButtonStart1.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                logRadioButtonStart1ItemStateChanged(evt);
-            }
-        });
-
-        logButtonGroup1or2.add(logRadioButtonStart2);
-        logRadioButtonStart2.setText("Start2");
-        logRadioButtonStart2.setActionCommand("2");
-        logRadioButtonStart2.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                logRadioButtonStart2ItemStateChanged(evt);
-            }
-        });
-
-        logBGactions.add(logActionJump);
-        logActionJump.setText("Jump");
-        logActionJump.setName("logActionJump22"); // NOI18N
-        logActionJump.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                logActionJumpItemStateChanged(evt);
-            }
-        });
-
-        logBGactions.add(logActionAdd);
-        logActionAdd.setText("add");
-        logActionAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                logActionAddActionPerformed(evt);
-            }
-        });
-
-        logBGactions.add(logActionDel);
-        logActionDel.setText("del");
-        logActionDel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                logActionDelActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout logLayout = new javax.swing.GroupLayout(log);
-        log.setLayout(logLayout);
-        logLayout.setHorizontalGroup(
-            logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(logLayout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(logLayout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(logRadioButtonStart1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(logRadioButtonStart2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(6, 6, 6)
-                        .addComponent(logM1Spinner, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(logLayout.createSequentialGroup()
-                        .addComponent(logActionJump, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(3, 3, 3)
-                        .addComponent(logActionAdd)
-                        .addGap(2, 2, 2)
-                        .addComponent(logActionDel)))
-                .addGap(4, 4, 4)
-                .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Start1Name, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Start2Name, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10)
-                .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(logDlen1)
-                    .addComponent(logDlen2))
-                .addGap(142, 142, 142)
-                .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(logDlevel1)
-                    .addComponent(logDlevel2))
-                .addGap(12, 12, 12)
-                .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(logDLevel1Slider, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(logLayout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(logDLevel2Slider, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
-            .addComponent(logTableScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1195, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGroup(logLayout.createSequentialGroup()
-                .addGap(276, 276, 276)
-                .addComponent(LogDlen1Slider, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(logLayout.createSequentialGroup()
-                .addGap(276, 276, 276)
-                .addComponent(LogDLen2Slider, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(logLayout.createSequentialGroup()
-                .addGap(86, 86, 86)
-                .addComponent(logM2Spinner, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(logLayout.createSequentialGroup()
-                .addGap(600, 600, 600)
-                .addComponent(logNamesScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        logLayout.setVerticalGroup(
-            logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(logLayout.createSequentialGroup()
-                .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(logLayout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(logRadioButtonStart1)
-                            .addGroup(logLayout.createSequentialGroup()
-                                .addGap(22, 22, 22)
-                                .addComponent(logRadioButtonStart2))
-                            .addComponent(logM1Spinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(4, 4, 4)
-                        .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(logActionJump, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(logActionAdd)
-                            .addComponent(logActionDel)))
-                    .addGroup(logLayout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(Start1Name)
-                        .addGap(7, 7, 7)
-                        .addComponent(Start2Name))
-                    .addGroup(logLayout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addComponent(logDlen1)
-                        .addGap(27, 27, 27)
-                        .addComponent(logDlen2))
-                    .addGroup(logLayout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(logDlevel1)
-                        .addGap(26, 26, 26)
-                        .addComponent(logDlevel2))
-                    .addGroup(logLayout.createSequentialGroup()
-                        .addComponent(logDLevel1Slider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(15, 15, 15)
-                        .addComponent(logDLevel2Slider, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(19, 19, 19)
-                .addComponent(logTableScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 915, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(logLayout.createSequentialGroup()
-                .addGap(1, 1, 1)
-                .addComponent(LogDlen1Slider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(logLayout.createSequentialGroup()
-                .addGap(45, 45, 45)
-                .addComponent(LogDLen2Slider, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(logLayout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(logM2Spinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(logLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(logNamesScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        LogDlen1Slider.getAccessibleContext().setAccessibleName("Length");
-        logDLevel1Slider.getAccessibleContext().setAccessibleName("Level Slider");
-
-        controlPanels.addTab("logs", log);
-
-        clan.setAutoscrolls(true);
-        clan.setMaximumSize(new java.awt.Dimension(1000, 800));
-        clan.setMinimumSize(new java.awt.Dimension(800, 700));
-        clan.setName(""); // NOI18N
-        clan.setPreferredSize(new java.awt.Dimension(800, 700));
-        clan.setLayout(new java.awt.GridBagLayout());
-
-        clanTextField.setColumns(20);
-        clanTextField.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
-        clanTextField.setRows(5);
-        clanTextField.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        clanTextField.setMinimumSize(new java.awt.Dimension(50, 100));
-        clanTextField.setPreferredSize(new java.awt.Dimension(75, 150));
-        clanTextPane.setViewportView(clanTextField);
-
-        clan.add(clanTextPane, new java.awt.GridBagConstraints());
-
-        clanPanel0.setMaximumSize(new java.awt.Dimension(1100, 65));
-        clanPanel0.setMinimumSize(new java.awt.Dimension(700, 45));
-        clanPanel0.setPreferredSize(new java.awt.Dimension(700, 55));
-        clanPanel0.setLayout(new javax.swing.BoxLayout(clanPanel0, javax.swing.BoxLayout.LINE_AXIS));
-
-        clanTextField0.setEditable(false);
-        clanTextField0.setText("tb set");
-        clanTextField0.setMaximumSize(new java.awt.Dimension(200, 45));
-        clanTextField0.setMinimumSize(new java.awt.Dimension(100, 35));
-        clanTextField0.setPreferredSize(new java.awt.Dimension(100, 35));
-        clanPanel0.add(clanTextField0);
-
-        gameLabelP5.setText("P");
-        clanPanel0.add(gameLabelP5);
-
-        clanSliderP0.setMajorTickSpacing(10);
-        clanSliderP0.setMinorTickSpacing(5);
-        clanSliderP0.setPaintLabels(true);
-        clanSliderP0.setPaintTicks(true);
-        clanSliderP0.setSnapToTicks(true);
-        clanSliderP0.setToolTipText("Slider1");
-        clanSliderP0.setMaximumSize(new java.awt.Dimension(400, 45));
-        clanSliderP0.setMinimumSize(new java.awt.Dimension(250, 45));
-        clanSliderP0.setName("Slider1"); // NOI18N
-        clanSliderP0.setPreferredSize(new java.awt.Dimension(300, 45));
-        clanSliderP0.setValueIsAdjusting(true);
-        clanPanel0.add(clanSliderP0);
-
-        jSeparator6.setMaximumSize(new java.awt.Dimension(50, 40));
-        jSeparator6.setMinimumSize(new java.awt.Dimension(20, 30));
-        jSeparator6.setPreferredSize(new java.awt.Dimension(20, 40));
-        clanPanel0.add(jSeparator6);
-
-        gameLabelS5.setText("S");
-        clanPanel0.add(gameLabelS5);
-
-        clanSliderS0.setMajorTickSpacing(10);
-        clanSliderS0.setMinorTickSpacing(5);
-        clanSliderS0.setPaintLabels(true);
-        clanSliderS0.setPaintTicks(true);
-        clanSliderS0.setSnapToTicks(true);
-        clanSliderS0.setToolTipText("hello1");
-        clanSliderS0.setMaximumSize(new java.awt.Dimension(400, 45));
-        clanSliderS0.setMinimumSize(new java.awt.Dimension(250, 45));
-        clanSliderS0.setPreferredSize(new java.awt.Dimension(300, 45));
-        clanSliderS0.setValueIsAdjusting(true);
-        clanPanel0.add(clanSliderS0);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 28;
-        gridBagConstraints.gridheight = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        clan.add(clanPanel0, gridBagConstraints);
-
-        clanPanel1.setMaximumSize(new java.awt.Dimension(1100, 65));
-        clanPanel1.setMinimumSize(new java.awt.Dimension(700, 45));
-        clanPanel1.setPreferredSize(new java.awt.Dimension(700, 55));
-        clanPanel1.setLayout(new javax.swing.BoxLayout(clanPanel1, javax.swing.BoxLayout.LINE_AXIS));
-
-        clanTextField1.setEditable(false);
-        clanTextField1.setText("tb set");
-        clanTextField1.setMaximumSize(new java.awt.Dimension(200, 45));
-        clanTextField1.setMinimumSize(new java.awt.Dimension(100, 35));
-        clanTextField1.setPreferredSize(new java.awt.Dimension(100, 35));
-        clanPanel1.add(clanTextField1);
-
-        gameLabelP6.setText("P");
-        clanPanel1.add(gameLabelP6);
-
-        clanSliderP1.setMajorTickSpacing(10);
-        clanSliderP1.setMinorTickSpacing(5);
-        clanSliderP1.setPaintLabels(true);
-        clanSliderP1.setPaintTicks(true);
-        clanSliderP1.setSnapToTicks(true);
-        clanSliderP1.setToolTipText("Slider1");
-        clanSliderP1.setMaximumSize(new java.awt.Dimension(400, 45));
-        clanSliderP1.setMinimumSize(new java.awt.Dimension(250, 45));
-        clanSliderP1.setName("Slider1"); // NOI18N
-        clanSliderP1.setPreferredSize(new java.awt.Dimension(300, 45));
-        clanSliderP1.setValueIsAdjusting(true);
-        clanPanel1.add(clanSliderP1);
-
-        jSeparator7.setMaximumSize(new java.awt.Dimension(50, 40));
-        jSeparator7.setMinimumSize(new java.awt.Dimension(20, 30));
-        jSeparator7.setPreferredSize(new java.awt.Dimension(20, 40));
-        clanPanel1.add(jSeparator7);
-
-        gameLabelS6.setText("S");
-        clanPanel1.add(gameLabelS6);
-
-        clanSliderS1.setMajorTickSpacing(10);
-        clanSliderS1.setMinorTickSpacing(5);
-        clanSliderS1.setPaintLabels(true);
-        clanSliderS1.setPaintTicks(true);
-        clanSliderS1.setSnapToTicks(true);
-        clanSliderS1.setToolTipText("hello1");
-        clanSliderS1.setMaximumSize(new java.awt.Dimension(400, 45));
-        clanSliderS1.setMinimumSize(new java.awt.Dimension(250, 45));
-        clanSliderS1.setPreferredSize(new java.awt.Dimension(300, 45));
-        clanSliderS1.setValueIsAdjusting(true);
-        clanPanel1.add(clanSliderS1);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridwidth = 28;
-        gridBagConstraints.gridheight = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        clan.add(clanPanel1, gridBagConstraints);
-
-        clanPanel2.setMaximumSize(new java.awt.Dimension(1100, 65));
-        clanPanel2.setMinimumSize(new java.awt.Dimension(700, 45));
-        clanPanel2.setPreferredSize(new java.awt.Dimension(700, 55));
-        clanPanel2.setLayout(new javax.swing.BoxLayout(clanPanel2, javax.swing.BoxLayout.LINE_AXIS));
-
-        clanTextField2.setEditable(false);
-        clanTextField2.setText("tb set");
-        clanTextField2.setMaximumSize(new java.awt.Dimension(200, 45));
-        clanTextField2.setMinimumSize(new java.awt.Dimension(100, 35));
-        clanTextField2.setPreferredSize(new java.awt.Dimension(100, 35));
-        clanPanel2.add(clanTextField2);
-
-        gameLabelP7.setText("P");
-        clanPanel2.add(gameLabelP7);
-
-        clanSliderP2.setMajorTickSpacing(10);
-        clanSliderP2.setMinorTickSpacing(5);
-        clanSliderP2.setPaintLabels(true);
-        clanSliderP2.setPaintTicks(true);
-        clanSliderP2.setSnapToTicks(true);
-        clanSliderP2.setToolTipText("Slider1");
-        clanSliderP2.setMaximumSize(new java.awt.Dimension(400, 45));
-        clanSliderP2.setMinimumSize(new java.awt.Dimension(250, 45));
-        clanSliderP2.setName("Slider1"); // NOI18N
-        clanSliderP2.setPreferredSize(new java.awt.Dimension(300, 45));
-        clanSliderP2.setValueIsAdjusting(true);
-        clanPanel2.add(clanSliderP2);
-
-        jSeparator8.setMaximumSize(new java.awt.Dimension(50, 40));
-        jSeparator8.setMinimumSize(new java.awt.Dimension(20, 30));
-        jSeparator8.setPreferredSize(new java.awt.Dimension(20, 40));
-        clanPanel2.add(jSeparator8);
-
-        gameLabelS7.setText("S");
-        clanPanel2.add(gameLabelS7);
-
-        clanSliderS2.setMajorTickSpacing(10);
-        clanSliderS2.setMinorTickSpacing(5);
-        clanSliderS2.setPaintLabels(true);
-        clanSliderS2.setPaintTicks(true);
-        clanSliderS2.setSnapToTicks(true);
-        clanSliderS2.setToolTipText("hello1");
-        clanSliderS2.setMaximumSize(new java.awt.Dimension(400, 45));
-        clanSliderS2.setMinimumSize(new java.awt.Dimension(250, 45));
-        clanSliderS2.setPreferredSize(new java.awt.Dimension(300, 45));
-        clanSliderS2.setValueIsAdjusting(true);
-        clanPanel2.add(clanSliderS2);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 11;
-        gridBagConstraints.gridwidth = 28;
-        gridBagConstraints.gridheight = 3;
-        clan.add(clanPanel2, gridBagConstraints);
-
-        clanPanel3.setMaximumSize(new java.awt.Dimension(1100, 65));
-        clanPanel3.setMinimumSize(new java.awt.Dimension(700, 45));
-        clanPanel3.setPreferredSize(new java.awt.Dimension(700, 55));
-        clanPanel3.setLayout(new javax.swing.BoxLayout(clanPanel3, javax.swing.BoxLayout.LINE_AXIS));
-
-        clanTextField3.setEditable(false);
-        clanTextField3.setText("tb set");
-        clanTextField3.setMaximumSize(new java.awt.Dimension(200, 45));
-        clanTextField3.setMinimumSize(new java.awt.Dimension(100, 35));
-        clanTextField3.setPreferredSize(new java.awt.Dimension(100, 35));
-        clanPanel3.add(clanTextField3);
-
-        clanLabelP3.setText("P");
-        clanPanel3.add(clanLabelP3);
-
-        clanSliderP3.setMajorTickSpacing(10);
-        clanSliderP3.setMinorTickSpacing(5);
-        clanSliderP3.setPaintLabels(true);
-        clanSliderP3.setPaintTicks(true);
-        clanSliderP3.setSnapToTicks(true);
-        clanSliderP3.setToolTipText("Slider1");
-        clanSliderP3.setMaximumSize(new java.awt.Dimension(400, 45));
-        clanSliderP3.setMinimumSize(new java.awt.Dimension(250, 45));
-        clanSliderP3.setName("Slider1"); // NOI18N
-        clanSliderP3.setPreferredSize(new java.awt.Dimension(300, 45));
-        clanSliderP3.setValueIsAdjusting(true);
-        clanPanel3.add(clanSliderP3);
-
-        jSeparator9.setMaximumSize(new java.awt.Dimension(50, 40));
-        jSeparator9.setMinimumSize(new java.awt.Dimension(20, 30));
-        jSeparator9.setPreferredSize(new java.awt.Dimension(20, 40));
-        clanPanel3.add(jSeparator9);
-
-        gameLabelS8.setText("S");
-        clanPanel3.add(gameLabelS8);
-
-        clanSliderS3.setMajorTickSpacing(10);
-        clanSliderS3.setMinorTickSpacing(5);
-        clanSliderS3.setPaintLabels(true);
-        clanSliderS3.setPaintTicks(true);
-        clanSliderS3.setSnapToTicks(true);
-        clanSliderS3.setToolTipText("hello1");
-        clanSliderS3.setMaximumSize(new java.awt.Dimension(400, 45));
-        clanSliderS3.setMinimumSize(new java.awt.Dimension(250, 45));
-        clanSliderS3.setPreferredSize(new java.awt.Dimension(300, 45));
-        clanSliderS3.setValueIsAdjusting(true);
-        clanPanel3.add(clanSliderS3);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 15;
-        gridBagConstraints.gridwidth = 28;
-        gridBagConstraints.gridheight = 3;
-        clan.add(clanPanel3, gridBagConstraints);
-
-        clanPanel4.setMaximumSize(new java.awt.Dimension(1100, 65));
-        clanPanel4.setMinimumSize(new java.awt.Dimension(700, 45));
-        clanPanel4.setPreferredSize(new java.awt.Dimension(700, 55));
-        clanPanel4.setLayout(new javax.swing.BoxLayout(clanPanel4, javax.swing.BoxLayout.LINE_AXIS));
-
-        clanTextField4.setEditable(false);
-        clanTextField4.setText("tb set");
-        clanTextField4.setMaximumSize(new java.awt.Dimension(200, 45));
-        clanTextField4.setMinimumSize(new java.awt.Dimension(100, 35));
-        clanTextField4.setPreferredSize(new java.awt.Dimension(100, 35));
-        clanPanel4.add(clanTextField4);
-
-        clanLabelP4.setText("P");
-        clanPanel4.add(clanLabelP4);
-
-        clanSliderP4.setMajorTickSpacing(10);
-        clanSliderP4.setMinorTickSpacing(5);
-        clanSliderP4.setPaintLabels(true);
-        clanSliderP4.setPaintTicks(true);
-        clanSliderP4.setSnapToTicks(true);
-        clanSliderP4.setToolTipText("Slider1");
-        clanSliderP4.setMaximumSize(new java.awt.Dimension(400, 45));
-        clanSliderP4.setMinimumSize(new java.awt.Dimension(250, 45));
-        clanSliderP4.setName("Slider1"); // NOI18N
-        clanSliderP4.setPreferredSize(new java.awt.Dimension(300, 45));
-        clanSliderP4.setValueIsAdjusting(true);
-        clanPanel4.add(clanSliderP4);
-
-        jSeparator10.setMaximumSize(new java.awt.Dimension(50, 40));
-        jSeparator10.setMinimumSize(new java.awt.Dimension(20, 30));
-        jSeparator10.setPreferredSize(new java.awt.Dimension(20, 40));
-        clanPanel4.add(jSeparator10);
-
-        clanLabelS4.setText("S");
-        clanPanel4.add(clanLabelS4);
-
-        clanSliderS4.setMajorTickSpacing(10);
-        clanSliderS4.setMinorTickSpacing(5);
-        clanSliderS4.setPaintLabels(true);
-        clanSliderS4.setPaintTicks(true);
-        clanSliderS4.setSnapToTicks(true);
-        clanSliderS4.setToolTipText("hello1");
-        clanSliderS4.setMaximumSize(new java.awt.Dimension(400, 45));
-        clanSliderS4.setMinimumSize(new java.awt.Dimension(250, 45));
-        clanSliderS4.setPreferredSize(new java.awt.Dimension(300, 45));
-        clanSliderS4.setValueIsAdjusting(true);
-        clanPanel4.add(clanSliderS4);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 19;
-        gridBagConstraints.gridwidth = 28;
-        gridBagConstraints.gridheight = 3;
-        clan.add(clanPanel4, gridBagConstraints);
-
-        controlPanels.addTab("clan", clan);
-
-        stats.setMaximumSize(new java.awt.Dimension(1200, 1200));
-        stats.setMinimumSize(new java.awt.Dimension(800, 500));
-        stats.setPreferredSize(new java.awt.Dimension(1200, 1200));
-
-        statsScrollPanel.setMaximumSize(new java.awt.Dimension(1200, 1200));
-        statsScrollPanel.setMinimumSize(new java.awt.Dimension(700, 400));
-        statsScrollPanel.setName(""); // NOI18N
-        statsScrollPanel.setPreferredSize(new java.awt.Dimension(1200, 500));
-
-        statsTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "title", "P-red", "P-orange", "P-yellow", "P-green", "P-blue", "S-red", "S-orange", "S-yellow", "S-green", "S-blue"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        statsTable1.setColumnSelectionAllowed(true);
-        statsTable1.setMaximumSize(new java.awt.Dimension(1200, 1200));
-        statsTable1.setMinimumSize(new java.awt.Dimension(600, 400));
-        statsTable1.setPreferredSize(new java.awt.Dimension(1200, 900));
-        statsTable1.getTableHeader().setReorderingAllowed(false);
-        statsScrollPanel.setViewportView(statsTable1);
-        statsTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (statsTable1.getColumnModel().getColumnCount() > 0) {
-            statsTable1.getColumnModel().getColumn(0).setResizable(false);
-            statsTable1.getColumnModel().getColumn(0).setPreferredWidth(250);
-            statsTable1.getColumnModel().getColumn(1).setResizable(false);
-            statsTable1.getColumnModel().getColumn(2).setResizable(false);
-            statsTable1.getColumnModel().getColumn(3).setResizable(false);
-            statsTable1.getColumnModel().getColumn(4).setResizable(false);
-            statsTable1.getColumnModel().getColumn(5).setResizable(false);
-            statsTable1.getColumnModel().getColumn(6).setResizable(false);
-            statsTable1.getColumnModel().getColumn(7).setResizable(false);
-            statsTable1.getColumnModel().getColumn(8).setResizable(false);
-            statsTable1.getColumnModel().getColumn(10).setResizable(false);
-        }
-
-        statsButtonGroupReportNumber.add(statsButton0);
-        statsButton0.setText("0");
-        statsButton0.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                statsButton0ItemStateChanged(evt);
-            }
-        });
-        statsButton0.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                statsButton0MouseEntered(evt);
-            }
-        });
-
-        statsButtonGroupReportNumber.add(statsButton1);
-        statsButton1.setText("1");
-        statsButton1.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                statsButton1ItemStateChanged(evt);
-            }
-        });
-        statsButton1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                statsButton1MouseEntered(evt);
-            }
-        });
-        statsButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                statsButton1ActionPerformed(evt);
-            }
-        });
-
-        statsButtonGroupReportNumber.add(statsButton2);
-        statsButton2.setText("2");
-        statsButton2.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                statsButton2ItemStateChanged(evt);
-            }
-        });
-        statsButton2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                statsButton2MouseEntered(evt);
-            }
-        });
-
-        statsButtonGroupReportNumber.add(statsButton3);
-        statsButton3.setText("3");
-        statsButton3.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                statsButton3ItemStateChanged(evt);
-            }
-        });
-        statsButton3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                statsButton3MouseEntered(evt);
-            }
-        });
-        statsButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                statsButton3ActionPerformed(evt);
-            }
-        });
-
-        statsButtonGroupReportNumber.add(statsButton4);
-        statsButton4.setText("4");
-        statsButton4.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                statsButton4ItemStateChanged(evt);
-            }
-        });
-        statsButton4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                statsButton4MouseEntered(evt);
-            }
-        });
-
-        statsButtonGroupReportNumber.add(statsButton5);
-        statsButton5.setText("5");
-        statsButton5.setToolTipText("GameMaster");
-        statsButton5.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                statsButton5ItemStateChanged(evt);
-            }
-        });
-        statsButton5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                statsButton5MouseEntered(evt);
-            }
-        });
-        statsButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                statsButton5ActionPerformed(evt);
-            }
-        });
-
-        statsButtonGroupReportNumber.add(statsButton6);
-        statsButton6.setText(" 6");
-        statsButton6.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                statsButton6ItemStateChanged(evt);
-            }
-        });
-        statsButton6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                statsButton6MouseEntered(evt);
-            }
-        });
-
-        statsButtonGroupReportNumber.add(statsButton7);
-        statsButton7.setText("7");
-        statsButton7.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                statsButton7ItemStateChanged(evt);
-            }
-        });
-        statsButton7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                statsButton7MouseEntered(evt);
-            }
-        });
-
-        statsButtonGroupReportNumber.add(statsButton8);
-        statsButton8.setText("8");
-        statsButton8.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                statsButton8ItemStateChanged(evt);
-            }
-        });
-        statsButton8.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                statsButton8MouseEntered(evt);
-            }
-        });
-
-        statsButtonGroupReportNumber.add(statsButton9);
-        statsButton9.setText("9");
-        statsButton9.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                statsButton9ItemStateChanged(evt);
-            }
-        });
-        statsButton9.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                statsButton9MouseEntered(evt);
-            }
-        });
-
-        statsButtonGroupReportNumber.add(statsButton10);
-        statsButton10.setText("10");
-        statsButton10.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                statsButton10ItemStateChanged(evt);
-            }
-        });
-        statsButton10.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                statsButton10MouseEntered(evt);
-            }
-        });
-        statsButton10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                statsButton10ActionPerformed(evt);
-            }
-        });
-
-        statsCtlButtonRun1Yr.setText("5 yr");
-        statsCtlButtonRun1Yr.setMargin(new java.awt.Insets(2, 0, 2, 0));
-        statsCtlButtonRun1Yr.setMaximumSize(new java.awt.Dimension(20, 20));
-        statsCtlButtonRun1Yr.setMinimumSize(new java.awt.Dimension(20, 20));
-        statsCtlButtonRun1Yr.setName("5yr"); // NOI18N
-        statsCtlButtonRun1Yr.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                statsCtlButtonRun1YrMouseClicked(evt);
-            }
-        });
-        statsCtlButtonRun1Yr.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                statsCtlButtonRun1YrActionPerformed(evt);
-            }
-        });
-
-        statsField.setText("jTextField1");
-
-        statsButtonGroupReportNumber.add(statsButton11);
-        statsButton11.setText("11");
-        statsButton11.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                statsButton11ItemStateChanged(evt);
-            }
-        });
-        statsButton11.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                statsButton11MouseEntered(evt);
-            }
-        });
-
-        statsCtlButtonRun5Yr.setText("1 yr");
-        statsCtlButtonRun5Yr.setMargin(new java.awt.Insets(2, 0, 2, 0));
-        statsCtlButtonRun5Yr.setMaximumSize(new java.awt.Dimension(25, 40));
-        statsCtlButtonRun5Yr.setMinimumSize(new java.awt.Dimension(20, 20));
-        statsCtlButtonRun5Yr.setName("1 yr"); // NOI18N
-        statsCtlButtonRun5Yr.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                statsCtlButtonRun5YrMouseClicked(evt);
-            }
-        });
-
-        statsButtonGroupReportNumber.add(statsButton12);
-        statsButton12.setText("12");
-        statsButton12.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                statsButton12ItemStateChanged(evt);
-            }
-        });
-        statsButton12.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                statsButton12MouseEntered(evt);
-            }
-        });
-
-        statsButtonGroupReportNumber.add(statsButton13);
-        statsButton13.setText("13");
-        statsButton13.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                statsButton13ItemStateChanged(evt);
-            }
-        });
-        statsButton13.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                statsButton13MouseEntered(evt);
-            }
-        });
-
-        statsButtonGroupReportNumber.add(statsButton14);
-        statsButton14.setText("14");
-        statsButton14.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                statsButton14ItemStateChanged(evt);
-            }
-        });
-        statsButton14.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                statsButton14MouseEntered(evt);
-            }
-        });
-
-        statsButtonGroupReportNumber.add(statsButton15);
-        statsButton15.setText("15");
-        statsButton15.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                statsButton15ItemStateChanged(evt);
-            }
-        });
-        statsButton15.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                statsButton15MouseEntered(evt);
-            }
-        });
-
-        statsButtonGroupReportNumber.add(statsButton16);
-        statsButton16.setText("16");
-        statsButton16.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                statsButton16ItemStateChanged(evt);
-            }
-        });
-        statsButton16.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                statsButton16MouseEntered(evt);
-            }
-        });
-
-        statsButtonGroupReportNumber.add(statsButton17);
-        statsButton17.setText("17");
-        statsButton17.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                statsButton17ItemStateChanged(evt);
-            }
-        });
-        statsButton17.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                statsButton17MouseEntered(evt);
-            }
-        });
-
-        statsButtonGroupReportNumber.add(statsButton18);
-        statsButton18.setText("18");
-        statsButton18.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                statsButton18ItemStateChanged(evt);
-            }
-        });
-        statsButton18.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                statsButton18MouseEntered(evt);
-            }
-        });
-
-        statsButtonGroupReportNumber.add(statsButton19);
-        statsButton19.setText("19");
-        statsButton19.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                statsButton19ItemStateChanged(evt);
-            }
-        });
-        statsButton19.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                statsButton19MouseEntered(evt);
-            }
-        });
-
-        statsButtonGroupReportNumber.add(statsButton20);
-        statsButton20.setText("20");
-        statsButton20.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                statsButton20ItemStateChanged(evt);
-            }
-        });
-        statsButton20.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                statsButton20MouseEntered(evt);
-            }
-        });
-
-        statsField2.setText("jTextField1");
-        statsField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                statsField2ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout statsLayout = new javax.swing.GroupLayout(stats);
-        stats.setLayout(statsLayout);
-        statsLayout.setHorizontalGroup(
-            statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(statsLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(statsButton0)
-                .addGap(9, 9, 9)
-                .addComponent(statsButton11)
-                .addGap(3, 3, 3)
-                .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(statsButton2)
-                    .addComponent(statsButton12))
-                .addGap(3, 3, 3)
-                .addComponent(statsButton13)
-                .addGap(3, 3, 3)
-                .addComponent(statsButton14)
-                .addGap(123, 123, 123)
-                .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(statsButton18)
-                    .addComponent(statsButton8))
+  // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+  private void initComponents() {
+    java.awt.GridBagConstraints gridBagConstraints;
+
+    logButtonGroup1or2 = new javax.swing.ButtonGroup();
+    initButtonGroupPorS = new javax.swing.ButtonGroup();
+    clanButtonGroupActiveClan = new javax.swing.ButtonGroup();
+    statsButtonGroupReportNumber = new javax.swing.ButtonGroup();
+    statsButtonGroupClans = new javax.swing.ButtonGroup();
+    logBGactions = new javax.swing.ButtonGroup();
+    gameButtonGroup = new javax.swing.ButtonGroup();
+    gameButtonUp = new java.awt.Button();
+    controlPanels = new javax.swing.JTabbedPane();
+    story = new javax.swing.JPanel();
+    storyVersionField = new javax.swing.JTextField();
+    storyTextPane = new javax.swing.JScrollPane();
+    storyTextField1 = new javax.swing.JTextArea();
+    game = new javax.swing.JPanel();
+    gameMaster = new javax.swing.JRadioButton();
+    clanRed = new javax.swing.JRadioButton();
+    clanOrange = new javax.swing.JRadioButton();
+    clanYellow = new javax.swing.JRadioButton();
+    clanGreen = new javax.swing.JRadioButton();
+    clanBlue = new javax.swing.JRadioButton();
+    gameXtraPanel1 = new javax.swing.JPanel();
+    gameCtlButtonRun1Year1 = new javax.swing.JButton();
+    gameCtlButtonRun5Years1 = new javax.swing.JButton();
+    gameCtlButtonRun1Yr2 = new javax.swing.JButton();
+    gameToLabelPlanet = new javax.swing.JLabel();
+    gameTopLabelShip = new javax.swing.JLabel();
+    gameTopRightFill = new javax.swing.JTextField();
+    gamePanel0 = new javax.swing.JPanel();
+    gameTextField0 = new javax.swing.JTextField();
+    gameSliderP0 = new javax.swing.JSlider();
+    jSeparator1 = new javax.swing.JSeparator();
+    gameSliderS0 = new javax.swing.JSlider();
+    gameButtonUp1 = new java.awt.Button();
+    gamePanel1 = new javax.swing.JPanel();
+    gameTextField1 = new javax.swing.JTextField();
+    gameSliderP1 = new javax.swing.JSlider();
+    jSeparator2 = new javax.swing.JSeparator();
+    gameSliderS1 = new javax.swing.JSlider();
+    gamePanel2 = new javax.swing.JPanel();
+    gameTextField2 = new javax.swing.JTextField();
+    gameSliderP2 = new javax.swing.JSlider();
+    jSeparator3 = new javax.swing.JSeparator();
+    gameSliderS2 = new javax.swing.JSlider();
+    gamePanel3 = new javax.swing.JPanel();
+    gameTextField3 = new javax.swing.JTextField();
+    gameSliderP3 = new javax.swing.JSlider();
+    jSeparator4 = new javax.swing.JSeparator();
+    gameSliderS3 = new javax.swing.JSlider();
+    gamePanel4 = new javax.swing.JPanel();
+    gameTextField4 = new javax.swing.JTextField();
+    gameSliderP4 = new javax.swing.JSlider();
+    jSeparator5 = new javax.swing.JSeparator();
+    gameSliderS4 = new javax.swing.JSlider();
+    gamePanel5 = new javax.swing.JPanel();
+    gameTextField5 = new javax.swing.JTextField();
+    gameSliderP5 = new javax.swing.JSlider();
+    jSeparator11 = new javax.swing.JSeparator();
+    gameSliderS5 = new javax.swing.JSlider();
+    gamePanel6 = new javax.swing.JPanel();
+    gameTextField6 = new javax.swing.JTextField();
+    gameSliderP6 = new javax.swing.JSlider();
+    jSeparator13 = new javax.swing.JSeparator();
+    gameSliderS6 = new javax.swing.JSlider();
+    gamePanel7 = new javax.swing.JPanel();
+    gameTextField7 = new javax.swing.JTextField();
+    gameSliderP7 = new javax.swing.JSlider();
+    jSeparator14 = new javax.swing.JSeparator();
+    gameSliderS7 = new javax.swing.JSlider();
+    gamePanel8 = new javax.swing.JPanel();
+    gameTextField8 = new javax.swing.JTextField();
+    gameSliderP8 = new javax.swing.JSlider();
+    jSeparator15 = new javax.swing.JSeparator();
+    gameSliderS8 = new javax.swing.JSlider();
+    gamePanel9 = new javax.swing.JPanel();
+    gameTextField9 = new javax.swing.JTextField();
+    gameSliderP9 = new javax.swing.JSlider();
+    jSeparator16 = new javax.swing.JSeparator();
+    gameSliderS9 = new javax.swing.JSlider();
+    gamePanelBottomPanel = new javax.swing.JPanel();
+    gameTextPane = new javax.swing.JScrollPane();
+    gameTextField = new javax.swing.JTextArea();
+    gameButtonDown = new java.awt.Button();
+    javax.swing.JPanel log = new javax.swing.JPanel();
+    logTableScrollPanel = new javax.swing.JScrollPane();
+    logDisplayTable = new javax.swing.JTable();
+    logDlevel2 = new javax.swing.JLabel();
+    LogDlen1Slider = new javax.swing.JSlider();
+    logDlen1 = new javax.swing.JLabel();
+    logDLevel1Slider = new javax.swing.JSlider();
+    SpinnerModel startModel1 = new SpinnerNumberModel(10,
+      0, //min
+      2000000, //max
+      10);
+    logM1Spinner = new javax.swing.JSpinner(startModel1);
+    LogDLen2Slider = new javax.swing.JSlider();
+    logDLevel2Slider = new javax.swing.JSlider();
+    logDlen2 = new javax.swing.JLabel();
+    logDlevel1 = new javax.swing.JLabel();
+    SpinnerModel startModel2 = new SpinnerNumberModel(10,
+      0, //min
+      2000000, //max
+      10);
+    logM2Spinner = new javax.swing.JSpinner(startModel2);
+    logNamesScrollPanel = new javax.swing.JScrollPane();
+    namesList = new DefaultListModel();
+    logEnvirnNamesList = new javax.swing.JList(namesList);
+    Start1Name = new javax.swing.JLabel();
+    Start2Name = new javax.swing.JLabel();
+    logRadioButtonStart1 = new javax.swing.JRadioButton();
+    logRadioButtonStart2 = new javax.swing.JRadioButton();
+    logActionJump = new javax.swing.JRadioButton();
+    logActionAdd = new javax.swing.JRadioButton();
+    logActionDel = new javax.swing.JRadioButton();
+    clan = new javax.swing.JPanel();
+    clanTextPane = new javax.swing.JScrollPane();
+    clanTextField = new javax.swing.JTextArea();
+    clanPanel0 = new javax.swing.JPanel();
+    clanTextField0 = new javax.swing.JTextField();
+    gameLabelP5 = new javax.swing.JLabel();
+    clanSliderP0 = new javax.swing.JSlider();
+    jSeparator6 = new javax.swing.JSeparator();
+    gameLabelS5 = new javax.swing.JLabel();
+    clanSliderS0 = new javax.swing.JSlider();
+    clanPanel1 = new javax.swing.JPanel();
+    clanTextField1 = new javax.swing.JTextField();
+    gameLabelP6 = new javax.swing.JLabel();
+    clanSliderP1 = new javax.swing.JSlider();
+    jSeparator7 = new javax.swing.JSeparator();
+    gameLabelS6 = new javax.swing.JLabel();
+    clanSliderS1 = new javax.swing.JSlider();
+    clanPanel2 = new javax.swing.JPanel();
+    clanTextField2 = new javax.swing.JTextField();
+    gameLabelP7 = new javax.swing.JLabel();
+    clanSliderP2 = new javax.swing.JSlider();
+    jSeparator8 = new javax.swing.JSeparator();
+    gameLabelS7 = new javax.swing.JLabel();
+    clanSliderS2 = new javax.swing.JSlider();
+    clanPanel3 = new javax.swing.JPanel();
+    clanTextField3 = new javax.swing.JTextField();
+    clanLabelP3 = new javax.swing.JLabel();
+    clanSliderP3 = new javax.swing.JSlider();
+    jSeparator9 = new javax.swing.JSeparator();
+    gameLabelS8 = new javax.swing.JLabel();
+    clanSliderS3 = new javax.swing.JSlider();
+    clanPanel4 = new javax.swing.JPanel();
+    clanTextField4 = new javax.swing.JTextField();
+    clanLabelP4 = new javax.swing.JLabel();
+    clanSliderP4 = new javax.swing.JSlider();
+    jSeparator10 = new javax.swing.JSeparator();
+    clanLabelS4 = new javax.swing.JLabel();
+    clanSliderS4 = new javax.swing.JSlider();
+    stats = new javax.swing.JPanel();
+    statsScrollPanel = new javax.swing.JScrollPane();
+    statsTable1 = new javax.swing.JTable();
+    statsButton0 = new javax.swing.JRadioButton();
+    statsButton1 = new javax.swing.JRadioButton();
+    statsButton2 = new javax.swing.JRadioButton();
+    statsButton3 = new javax.swing.JRadioButton();
+    statsButton4 = new javax.swing.JRadioButton();
+    statsButton5 = new javax.swing.JRadioButton();
+    statsButton6 = new javax.swing.JRadioButton();
+    statsButton7 = new javax.swing.JRadioButton();
+    statsButton8 = new javax.swing.JRadioButton();
+    statsButton9 = new javax.swing.JRadioButton();
+    statsButton10 = new javax.swing.JRadioButton();
+    statsCtlButtonRun1Yr = new javax.swing.JButton();
+    statsField = new javax.swing.JTextField();
+    statsButton11 = new javax.swing.JRadioButton();
+    statsCtlButtonRun5Yr = new javax.swing.JButton();
+    statsButton12 = new javax.swing.JRadioButton();
+    statsButton13 = new javax.swing.JRadioButton();
+    statsButton14 = new javax.swing.JRadioButton();
+    statsButton15 = new javax.swing.JRadioButton();
+    statsButton16 = new javax.swing.JRadioButton();
+    statsButton17 = new javax.swing.JRadioButton();
+    statsButton18 = new javax.swing.JRadioButton();
+    statsButton19 = new javax.swing.JRadioButton();
+    statsButton20 = new javax.swing.JRadioButton();
+    statsField2 = new javax.swing.JTextField();
+    statsCtlButtonRun10Yr = new javax.swing.JButton();
+    statsCtlButtonRun20Yr = new javax.swing.JButton();
+    display = new javax.swing.JPanel();
+    displayPanel0 = new javax.swing.JPanel();
+    jScrollPane1 = new javax.swing.JScrollPane();
+    displayPanel0Text = new javax.swing.JTextArea();
+    displayPanel0Text1 = new javax.swing.JTextField();
+    displayPanel1 = new javax.swing.JPanel();
+    displayPanel1SinceYearStart = new javax.swing.JTextField();
+    displayPanel1EconName = new javax.swing.JTextField();
+    displayPanel1Operation = new javax.swing.JTextField();
+    displayPanel2 = new javax.swing.JPanel();
+    displayPanel2EconName = new javax.swing.JTextField();
+    displayPanel2Operation = new javax.swing.JTextField();
+    displayPanel2SinceYearStart = new javax.swing.JTextField();
+
+    gameButtonUp.setLabel("up");
+    gameButtonUp.setMaximumSize(new java.awt.Dimension(70, 55));
+    gameButtonUp.setMinimumSize(new java.awt.Dimension(30, 45));
+
+    setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+    setBackground(new java.awt.Color(240, 180, 240));
+    setBounds(new java.awt.Rectangle(0, 0, 1200, 1200));
+    setMaximizedBounds(new java.awt.Rectangle(0, 0, 1, 0));
+    setMinimumSize(new java.awt.Dimension(800, 600));
+    setResizable(false);
+    addInputMethodListener(new java.awt.event.InputMethodListener() {
+      public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+        formCaretPositionChanged(evt);
+      }
+      public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+        formInputMethodTextChanged(evt);
+      }
+    });
+    addWindowListener(new java.awt.event.WindowAdapter() {
+      public void windowClosed(java.awt.event.WindowEvent evt) {
+        formWindowClosed(evt);
+      }
+    });
+    getContentPane().setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+    controlPanels.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
+    controlPanels.setAutoscrolls(true);
+    controlPanels.setDebugGraphicsOptions(javax.swing.DebugGraphics.BUFFERED_OPTION);
+    controlPanels.setDoubleBuffered(true);
+    controlPanels.setMaximumSize(new java.awt.Dimension(1700, 1400));
+    controlPanels.setMinimumSize(new java.awt.Dimension(500, 550));
+    controlPanels.setPreferredSize(new java.awt.Dimension(1200, 1250));
+    controlPanels.setBackground(bg1);
+    controlPanels.addChangeListener(new javax.swing.event.ChangeListener() {
+      public void stateChanged(javax.swing.event.ChangeEvent evt) {
+        controlPanelsStateChanged(evt);
+      }
+    });
+    controlPanels.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+      public void propertyChange(java.beans.PropertyChangeEvent evt) {
+        controlPanelsPropertyChange(evt);
+      }
+    });
+
+    story.setAutoscrolls(true);
+    story.setMaximumSize(new java.awt.Dimension(1000, 800));
+    story.setMinimumSize(new java.awt.Dimension(800, 700));
+    story.setName(""); // NOI18N
+    story.setPreferredSize(new java.awt.Dimension(800, 700));
+
+    storyVersionField.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
+    storyVersionField.setText("jTextField1");
+    storyVersionField.setBorder(null);
+    storyVersionField.setMaximumSize(new java.awt.Dimension(400, 50));
+    storyVersionField.setMinimumSize(new java.awt.Dimension(100, 30));
+    storyVersionField.setPreferredSize(new java.awt.Dimension(200, 40));
+    story.add(storyVersionField);
+
+    storyTextPane.setAutoscrolls(true);
+    storyTextPane.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+    storyTextPane.setMaximumSize(new java.awt.Dimension(1200, 1000));
+    storyTextPane.setMinimumSize(new java.awt.Dimension(400, 500));
+    storyTextPane.setPreferredSize(new java.awt.Dimension(1200, 900));
+
+    storyTextField1.setEditable(false);
+    storyTextField1.setColumns(200);
+    storyTextField1.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+    storyTextField1.setLineWrap(true);
+    storyTextField1.setRows(30);
+    storyTextField1.setWrapStyleWord(true);
+    storyTextField1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+    storyTextField1.setMargin(new java.awt.Insets(4, 5, 4, 4));
+    storyTextField1.setMaximumSize(new java.awt.Dimension(1200, 1000));
+    storyTextField1.setMinimumSize(new java.awt.Dimension(600, 400));
+    storyTextPane.setViewportView(storyTextField1);
+    storyTextField1.getAccessibleContext().setAccessibleParent(storyTextPane);
+
+    story.add(storyTextPane);
+
+    controlPanels.addTab("story", story);
+
+    game.setBackground(new java.awt.Color(255, 255, 255));
+    game.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+    game.setAlignmentX(0.0F);
+    game.setAlignmentY(0.0F);
+    game.setAutoscrolls(true);
+    game.setMaximumSize(new java.awt.Dimension(1200, 1200));
+    game.setMinimumSize(new java.awt.Dimension(300, 100));
+    game.setName("Settings"); // NOI18N
+    game.setPreferredSize(new java.awt.Dimension(900, 900));
+    game.addComponentListener(new java.awt.event.ComponentAdapter() {
+      public void componentShown(java.awt.event.ComponentEvent evt) {
+        gameComponentShown(evt);
+      }
+    });
+    game.setLayout(new java.awt.GridBagLayout());
+
+    gameMaster.setBackground(new java.awt.Color(204, 204, 204));
+    gameButtonGroup.add(gameMaster);
+    gameMaster.setForeground(new java.awt.Color(102, 102, 102));
+    gameMaster.setText("master");
+    gameMaster.setToolTipText("");
+    gameMaster.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+    gameMaster.setMaximumSize(new java.awt.Dimension(150, 21));
+    gameMaster.setMinimumSize(new java.awt.Dimension(90, 20));
+    gameMaster.setPreferredSize(new java.awt.Dimension(125, 21));
+    gameMaster.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        gameMasterItemStateChanged(evt);
+      }
+    });
+    gameMaster.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameMasterMouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameMasterMouseExited(evt);
+      }
+    });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 0;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+    game.add(gameMaster, gridBagConstraints);
+
+    clanRed.setBackground(new java.awt.Color(255, 153, 153));
+    gameButtonGroup.add(clanRed);
+    clanRed.setForeground(new java.awt.Color(153, 0, 0));
+    clanRed.setText("red");
+    clanRed.setMaximumSize(new java.awt.Dimension(70, 50));
+    clanRed.setPreferredSize(new java.awt.Dimension(70, 21));
+    clanRed.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        clanRedItemStateChanged(evt);
+      }
+    });
+    clanRed.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        clanRedMouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        clanRedMouseExited(evt);
+      }
+    });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridy = 0;
+    game.add(clanRed, gridBagConstraints);
+
+    clanOrange.setBackground(new java.awt.Color(204, 153, 0));
+    gameButtonGroup.add(clanOrange);
+    clanOrange.setForeground(new java.awt.Color(102, 51, 0));
+    clanOrange.setText("orange");
+    clanOrange.setMaximumSize(new java.awt.Dimension(120, 45));
+    clanOrange.setMinimumSize(new java.awt.Dimension(69, 21));
+    clanOrange.setPreferredSize(new java.awt.Dimension(120, 21));
+    clanOrange.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        clanOrangeItemStateChanged(evt);
+      }
+    });
+    clanOrange.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        clanOrangeMouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        clanOrangeMouseExited(evt);
+      }
+    });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridy = 0;
+    game.add(clanOrange, gridBagConstraints);
+
+    clanYellow.setBackground(new java.awt.Color(255, 255, 51));
+    gameButtonGroup.add(clanYellow);
+    clanYellow.setText("yellow");
+    clanYellow.setMaximumSize(new java.awt.Dimension(100, 25));
+    clanYellow.setPreferredSize(new java.awt.Dimension(100, 23));
+    clanYellow.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        clanYellowItemStateChanged(evt);
+      }
+    });
+    clanYellow.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        clanYellowMouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        clanYellowMouseExited(evt);
+      }
+    });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridy = 0;
+    game.add(clanYellow, gridBagConstraints);
+
+    clanGreen.setBackground(new java.awt.Color(0, 255, 0));
+    gameButtonGroup.add(clanGreen);
+    clanGreen.setText("green");
+    clanGreen.setMaximumSize(new java.awt.Dimension(90, 23));
+    clanGreen.setPreferredSize(new java.awt.Dimension(90, 23));
+    clanGreen.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        clanGreenItemStateChanged(evt);
+      }
+    });
+    clanGreen.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        clanGreenMouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        clanGreenMouseExited(evt);
+      }
+    });
+    game.add(clanGreen, new java.awt.GridBagConstraints());
+
+    clanBlue.setBackground(new java.awt.Color(51, 51, 255));
+    gameButtonGroup.add(clanBlue);
+    clanBlue.setText("blue");
+    clanBlue.setMaximumSize(new java.awt.Dimension(80, 23));
+    clanBlue.setPreferredSize(new java.awt.Dimension(80, 23));
+    clanBlue.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        clanBlueItemStateChanged(evt);
+      }
+    });
+    clanBlue.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        clanBlueMouseExited(evt);
+      }
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        clanBlueMouseEntered(evt);
+      }
+    });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridy = 0;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+    game.add(clanBlue, gridBagConstraints);
+
+    gameXtraPanel1.setBackground(new java.awt.Color(153, 255, 255));
+    gameXtraPanel1.setMaximumSize(new java.awt.Dimension(55, 21));
+    gameXtraPanel1.setMinimumSize(new java.awt.Dimension(0, 21));
+    gameXtraPanel1.setPreferredSize(new java.awt.Dimension(0, 21));
+
+    javax.swing.GroupLayout gameXtraPanel1Layout = new javax.swing.GroupLayout(gameXtraPanel1);
+    gameXtraPanel1.setLayout(gameXtraPanel1Layout);
+    gameXtraPanel1Layout.setHorizontalGroup(
+      gameXtraPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGap(0, 0, Short.MAX_VALUE)
+    );
+    gameXtraPanel1Layout.setVerticalGroup(
+      gameXtraPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGap(0, 0, Short.MAX_VALUE)
+    );
+
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridy = 0;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+    game.add(gameXtraPanel1, gridBagConstraints);
+
+    gameCtlButtonRun1Year1.setText(" 1 yr");
+    gameCtlButtonRun1Year1.setAlignmentY(0.0F);
+    gameCtlButtonRun1Year1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.black, java.awt.Color.black, null, null));
+    gameCtlButtonRun1Year1.setContentAreaFilled(false);
+    gameCtlButtonRun1Year1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+    gameCtlButtonRun1Year1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+    gameCtlButtonRun1Year1.setIconTextGap(0);
+    gameCtlButtonRun1Year1.setMargin(new java.awt.Insets(1, 1, 1, 1));
+    gameCtlButtonRun1Year1.setMaximumSize(new java.awt.Dimension(100, 25));
+    gameCtlButtonRun1Year1.setMinimumSize(new java.awt.Dimension(50, 21));
+    gameCtlButtonRun1Year1.setName("  3 Yr"); // NOI18N
+    gameCtlButtonRun1Year1.setPreferredSize(new java.awt.Dimension(50, 21));
+    gameCtlButtonRun1Year1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+    gameCtlButtonRun1Year1.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+    gameCtlButtonRun1Year1.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        gameCtlButtonRun1Year1MouseClicked(evt);
+      }
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameCtlButtonRun1Year1MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameCtlButtonRun1Year1MouseExited(evt);
+      }
+    });
+    gameCtlButtonRun1Year1.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        gameCtlButtonRun1Year1ActionPerformed(evt);
+      }
+    });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
+    game.add(gameCtlButtonRun1Year1, gridBagConstraints);
+
+    gameCtlButtonRun5Years1.setText(" 5 yr");
+    gameCtlButtonRun5Years1.setAlignmentY(0.0F);
+    gameCtlButtonRun5Years1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.red, java.awt.Color.black, null, null));
+    gameCtlButtonRun5Years1.setContentAreaFilled(false);
+    gameCtlButtonRun5Years1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+    gameCtlButtonRun5Years1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+    gameCtlButtonRun5Years1.setMargin(new java.awt.Insets(0, 3, 0, 3));
+    gameCtlButtonRun5Years1.setMaximumSize(new java.awt.Dimension(100, 25));
+    gameCtlButtonRun5Years1.setMinimumSize(new java.awt.Dimension(40, 22));
+    gameCtlButtonRun5Years1.setPreferredSize(new java.awt.Dimension(65, 22));
+    gameCtlButtonRun5Years1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+    gameCtlButtonRun5Years1.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        gameCtlButtonRun5Years1MouseClicked(evt);
+      }
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameCtlButtonRun5Years1MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameCtlButtonRun5Years1MouseExited(evt);
+      }
+    });
+    game.add(gameCtlButtonRun5Years1, new java.awt.GridBagConstraints());
+
+    gameCtlButtonRun1Yr2.setText(" abc");
+    gameCtlButtonRun1Yr2.setBorder(new javax.swing.border.MatteBorder(null));
+    gameCtlButtonRun1Yr2.setContentAreaFilled(false);
+    gameCtlButtonRun1Yr2.setDisplayedMnemonicIndex(2);
+    gameCtlButtonRun1Yr2.setMargin(new java.awt.Insets(2, 0, 2, 0));
+    gameCtlButtonRun1Yr2.setMaximumSize(new java.awt.Dimension(100, 25));
+    gameCtlButtonRun1Yr2.setMinimumSize(new java.awt.Dimension(40, 22));
+    gameCtlButtonRun1Yr2.setName("1 M"); // NOI18N
+    gameCtlButtonRun1Yr2.setPreferredSize(new java.awt.Dimension(40, 22));
+    gameCtlButtonRun1Yr2.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        gameCtlButtonRun1Yr2MouseClicked(evt);
+      }
+    });
+    gameCtlButtonRun1Yr2.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        gameCtlButtonRun1Yr2ActionPerformed(evt);
+      }
+    });
+    game.add(gameCtlButtonRun1Yr2, new java.awt.GridBagConstraints());
+
+    gameToLabelPlanet.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+    gameToLabelPlanet.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+    gameToLabelPlanet.setText("Planet");
+    gameToLabelPlanet.setMaximumSize(new java.awt.Dimension(500, 40));
+    gameToLabelPlanet.setMinimumSize(new java.awt.Dimension(300, 20));
+    gameToLabelPlanet.setPreferredSize(new java.awt.Dimension(440, 21));
+    game.add(gameToLabelPlanet, new java.awt.GridBagConstraints());
+
+    gameTopLabelShip.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+    gameTopLabelShip.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+    gameTopLabelShip.setText("ship");
+    gameTopLabelShip.setMaximumSize(new java.awt.Dimension(500, 40));
+    gameTopLabelShip.setMinimumSize(new java.awt.Dimension(300, 15));
+    gameTopLabelShip.setPreferredSize(new java.awt.Dimension(350, 25));
+    game.add(gameTopLabelShip, new java.awt.GridBagConstraints());
+
+    gameTopRightFill.setEditable(false);
+    gameTopRightFill.setBackground(new java.awt.Color(255, 255, 153));
+    gameTopRightFill.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+    gameTopRightFill.setAlignmentX(0.0F);
+    gameTopRightFill.setAlignmentY(0.0F);
+    gameTopRightFill.setMaximumSize(new java.awt.Dimension(600, 25));
+    gameTopRightFill.setMinimumSize(new java.awt.Dimension(60, 20));
+    gameTopRightFill.setName("gameTopMt"); // NOI18N
+    gameTopRightFill.setPreferredSize(new java.awt.Dimension(200, 20));
+    gameTopRightFill.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        gameTopRightFillActionPerformed(evt);
+      }
+    });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridy = 0;
+    gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    gridBagConstraints.weightx = 0.5;
+    game.add(gameTopRightFill, gridBagConstraints);
+
+    gamePanel0.setAlignmentX(0.1F);
+    gamePanel0.setAlignmentY(0.1F);
+    gamePanel0.setMaximumSize(new java.awt.Dimension(800, 65));
+    gamePanel0.setMinimumSize(new java.awt.Dimension(700, 45));
+    gamePanel0.setPreferredSize(new java.awt.Dimension(700, 55));
+    gamePanel0.setRequestFocusEnabled(false);
+    gamePanel0.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gamePanel0MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gamePanel0MouseExited(evt);
+      }
+    });
+    gamePanel0.setLayout(new javax.swing.BoxLayout(gamePanel0, javax.swing.BoxLayout.LINE_AXIS));
+
+    gameTextField0.setEditable(false);
+    gameTextField0.setText("tb set");
+    gameTextField0.setMaximumSize(new java.awt.Dimension(300, 45));
+    gameTextField0.setMinimumSize(new java.awt.Dimension(100, 35));
+    gameTextField0.setPreferredSize(new java.awt.Dimension(150, 35));
+    gameTextField0.setRequestFocusEnabled(false);
+    gameTextField0.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameTextField0MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameTextField0MouseExited(evt);
+      }
+    });
+    gamePanel0.add(gameTextField0);
+
+    gameSliderP0.setMajorTickSpacing(10);
+    gameSliderP0.setMinorTickSpacing(5);
+    gameSliderP0.setPaintLabels(true);
+    gameSliderP0.setPaintTicks(true);
+    gameSliderP0.setSnapToTicks(true);
+    gameSliderP0.setToolTipText("Slider1");
+    gameSliderP0.setMaximumSize(new java.awt.Dimension(400, 55));
+    gameSliderP0.setMinimumSize(new java.awt.Dimension(150, 35));
+    gameSliderP0.setName("Slider1"); // NOI18N
+    gameSliderP0.setPreferredSize(new java.awt.Dimension(300, 35));
+    gameSliderP0.setValueIsAdjusting(true);
+    gameSliderP0.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameSliderP0MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameSliderP0MouseExited(evt);
+      }
+    });
+    gamePanel0.add(gameSliderP0);
+    gameSliderP0.getAccessibleContext().setAccessibleName("Slider1");
+
+    jSeparator1.setMaximumSize(new java.awt.Dimension(50, 40));
+    jSeparator1.setMinimumSize(new java.awt.Dimension(20, 30));
+    jSeparator1.setPreferredSize(new java.awt.Dimension(20, 40));
+    gamePanel0.add(jSeparator1);
+
+    gameSliderS0.setMajorTickSpacing(10);
+    gameSliderS0.setMinorTickSpacing(5);
+    gameSliderS0.setPaintLabels(true);
+    gameSliderS0.setPaintTicks(true);
+    gameSliderS0.setSnapToTicks(true);
+    gameSliderS0.setToolTipText("hello1");
+    gameSliderS0.setMaximumSize(new java.awt.Dimension(450, 45));
+    gameSliderS0.setMinimumSize(new java.awt.Dimension(150, 45));
+    gameSliderS0.setOpaque(false);
+    gameSliderS0.setPreferredSize(new java.awt.Dimension(300, 45));
+    gameSliderS0.setValueIsAdjusting(true);
+    gameSliderS0.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameSliderS0MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameSliderS0MouseExited(evt);
+      }
+    });
+    gamePanel0.add(gameSliderS0);
+
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 1;
+    gridBagConstraints.gridy = 1;
+    gridBagConstraints.gridwidth = 23;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    game.add(gamePanel0, gridBagConstraints);
+
+    gameButtonUp1.setActionCommand("up");
+    gameButtonUp1.setLabel("up");
+    gameButtonUp1.setMaximumSize(new java.awt.Dimension(60, 55));
+    gameButtonUp1.setMinimumSize(new java.awt.Dimension(30, 45));
+    gameButtonUp1.setPreferredSize(new java.awt.Dimension(50, 55));
+    gameButtonUp1.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        gameButtonUp1MouseClicked(evt);
+      }
+    });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 1;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    game.add(gameButtonUp1, gridBagConstraints);
+
+    gamePanel1.setAlignmentX(0.1F);
+    gamePanel1.setAlignmentY(0.1F);
+    gamePanel1.setMaximumSize(new java.awt.Dimension(800, 65));
+    gamePanel1.setMinimumSize(new java.awt.Dimension(100, 35));
+    gamePanel1.setPreferredSize(new java.awt.Dimension(700, 55));
+    gamePanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gamePanel1MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gamePanel1MouseExited(evt);
+      }
+    });
+    gamePanel1.setLayout(new javax.swing.BoxLayout(gamePanel1, javax.swing.BoxLayout.LINE_AXIS));
+
+    gameTextField1.setEditable(false);
+    gameTextField1.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+    gameTextField1.setText("tb set");
+    gameTextField1.setMargin(new java.awt.Insets(0, 0, 0, 0));
+    gameTextField1.setMaximumSize(new java.awt.Dimension(300, 45));
+    gameTextField1.setMinimumSize(new java.awt.Dimension(100, 35));
+    gameTextField1.setPreferredSize(new java.awt.Dimension(150, 35));
+    gameTextField1.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameTextField1MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameTextField1MouseExited(evt);
+      }
+    });
+    gameTextField1.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        gameTextField1ActionPerformed(evt);
+      }
+    });
+    gamePanel1.add(gameTextField1);
+
+    gameSliderP1.setMajorTickSpacing(10);
+    gameSliderP1.setMinorTickSpacing(5);
+    gameSliderP1.setPaintLabels(true);
+    gameSliderP1.setPaintTicks(true);
+    gameSliderP1.setSnapToTicks(true);
+    gameSliderP1.setToolTipText("Slider1");
+    gameSliderP1.setMaximumSize(new java.awt.Dimension(400, 45));
+    gameSliderP1.setMinimumSize(new java.awt.Dimension(250, 45));
+    gameSliderP1.setName("Slider1"); // NOI18N
+    gameSliderP1.setPreferredSize(new java.awt.Dimension(300, 45));
+    gameSliderP1.setValueIsAdjusting(true);
+    gameSliderP1.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameSliderP1MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameSliderP1MouseExited(evt);
+      }
+    });
+    gamePanel1.add(gameSliderP1);
+
+    jSeparator2.setMaximumSize(new java.awt.Dimension(50, 40));
+    jSeparator2.setMinimumSize(new java.awt.Dimension(20, 30));
+    jSeparator2.setPreferredSize(new java.awt.Dimension(20, 40));
+    gamePanel1.add(jSeparator2);
+
+    gameSliderS1.setMajorTickSpacing(10);
+    gameSliderS1.setMinorTickSpacing(5);
+    gameSliderS1.setPaintLabels(true);
+    gameSliderS1.setPaintTicks(true);
+    gameSliderS1.setSnapToTicks(true);
+    gameSliderS1.setToolTipText("hello1");
+    gameSliderS1.setMaximumSize(new java.awt.Dimension(400, 45));
+    gameSliderS1.setMinimumSize(new java.awt.Dimension(250, 45));
+    gameSliderS1.setPreferredSize(new java.awt.Dimension(300, 45));
+    gameSliderS1.setValueIsAdjusting(true);
+    gameSliderS1.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameSliderS1MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameSliderS1MouseExited(evt);
+      }
+    });
+    gamePanel1.add(gameSliderS1);
+
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 1;
+    gridBagConstraints.gridy = 2;
+    gridBagConstraints.gridwidth = 23;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    game.add(gamePanel1, gridBagConstraints);
+
+    gamePanel2.setMaximumSize(new java.awt.Dimension(800, 65));
+    gamePanel2.setMinimumSize(new java.awt.Dimension(100, 45));
+    gamePanel2.setPreferredSize(new java.awt.Dimension(750, 55));
+    gamePanel2.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gamePanel2MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gamePanel2MouseExited(evt);
+      }
+    });
+    gamePanel2.setLayout(new javax.swing.BoxLayout(gamePanel2, javax.swing.BoxLayout.LINE_AXIS));
+
+    gameTextField2.setEditable(false);
+    gameTextField2.setText("tb set");
+    gameTextField2.setMaximumSize(new java.awt.Dimension(300, 45));
+    gameTextField2.setMinimumSize(new java.awt.Dimension(100, 35));
+    gameTextField2.setPreferredSize(new java.awt.Dimension(150, 35));
+    gameTextField2.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameTextField2MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameTextField2MouseExited(evt);
+      }
+    });
+    gamePanel2.add(gameTextField2);
+
+    gameSliderP2.setMajorTickSpacing(10);
+    gameSliderP2.setMinorTickSpacing(5);
+    gameSliderP2.setPaintLabels(true);
+    gameSliderP2.setPaintTicks(true);
+    gameSliderP2.setSnapToTicks(true);
+    gameSliderP2.setToolTipText("Slider1");
+    gameSliderP2.setMaximumSize(new java.awt.Dimension(400, 45));
+    gameSliderP2.setMinimumSize(new java.awt.Dimension(250, 45));
+    gameSliderP2.setName("Slider1"); // NOI18N
+    gameSliderP2.setPreferredSize(new java.awt.Dimension(300, 45));
+    gameSliderP2.setValueIsAdjusting(true);
+    gameSliderP2.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameSliderP2MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameSliderP2MouseExited(evt);
+      }
+    });
+    gamePanel2.add(gameSliderP2);
+
+    jSeparator3.setMaximumSize(new java.awt.Dimension(50, 40));
+    jSeparator3.setMinimumSize(new java.awt.Dimension(20, 30));
+    jSeparator3.setPreferredSize(new java.awt.Dimension(20, 40));
+    gamePanel2.add(jSeparator3);
+
+    gameSliderS2.setMajorTickSpacing(10);
+    gameSliderS2.setMinorTickSpacing(5);
+    gameSliderS2.setPaintLabels(true);
+    gameSliderS2.setPaintTicks(true);
+    gameSliderS2.setSnapToTicks(true);
+    gameSliderS2.setToolTipText("hello1");
+    gameSliderS2.setMaximumSize(new java.awt.Dimension(400, 45));
+    gameSliderS2.setMinimumSize(new java.awt.Dimension(250, 45));
+    gameSliderS2.setPreferredSize(new java.awt.Dimension(300, 45));
+    gameSliderS2.setValueIsAdjusting(true);
+    gameSliderS2.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameSliderS2MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameSliderS2MouseExited(evt);
+      }
+    });
+    gamePanel2.add(gameSliderS2);
+
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 1;
+    gridBagConstraints.gridy = 3;
+    gridBagConstraints.gridwidth = 23;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    game.add(gamePanel2, gridBagConstraints);
+
+    gamePanel3.setMaximumSize(new java.awt.Dimension(600, 65));
+    gamePanel3.setMinimumSize(new java.awt.Dimension(100, 45));
+    gamePanel3.setPreferredSize(new java.awt.Dimension(150, 55));
+    gamePanel3.setLayout(new javax.swing.BoxLayout(gamePanel3, javax.swing.BoxLayout.LINE_AXIS));
+
+    gameTextField3.setEditable(false);
+    gameTextField3.setText("tb set");
+    gameTextField3.setMaximumSize(new java.awt.Dimension(300, 45));
+    gameTextField3.setMinimumSize(new java.awt.Dimension(100, 35));
+    gameTextField3.setPreferredSize(new java.awt.Dimension(150, 35));
+    gameTextField3.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameTextField3MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameTextField3MouseExited(evt);
+      }
+    });
+    gamePanel3.add(gameTextField3);
+
+    gameSliderP3.setMajorTickSpacing(10);
+    gameSliderP3.setMinorTickSpacing(5);
+    gameSliderP3.setPaintLabels(true);
+    gameSliderP3.setPaintTicks(true);
+    gameSliderP3.setSnapToTicks(true);
+    gameSliderP3.setToolTipText("Slider1");
+    gameSliderP3.setMaximumSize(new java.awt.Dimension(400, 45));
+    gameSliderP3.setMinimumSize(new java.awt.Dimension(150, 45));
+    gameSliderP3.setName("Slider1"); // NOI18N
+    gameSliderP3.setPreferredSize(new java.awt.Dimension(300, 45));
+    gameSliderP3.setValueIsAdjusting(true);
+    gameSliderP3.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameSliderP3MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameSliderP3MouseExited(evt);
+      }
+    });
+    gamePanel3.add(gameSliderP3);
+
+    jSeparator4.setMaximumSize(new java.awt.Dimension(50, 40));
+    jSeparator4.setMinimumSize(new java.awt.Dimension(20, 30));
+    jSeparator4.setPreferredSize(new java.awt.Dimension(20, 40));
+    gamePanel3.add(jSeparator4);
+
+    gameSliderS3.setMajorTickSpacing(10);
+    gameSliderS3.setMinorTickSpacing(5);
+    gameSliderS3.setPaintLabels(true);
+    gameSliderS3.setPaintTicks(true);
+    gameSliderS3.setSnapToTicks(true);
+    gameSliderS3.setToolTipText("hello1");
+    gameSliderS3.setMaximumSize(new java.awt.Dimension(400, 45));
+    gameSliderS3.setMinimumSize(new java.awt.Dimension(250, 45));
+    gameSliderS3.setPreferredSize(new java.awt.Dimension(300, 45));
+    gameSliderS3.setValueIsAdjusting(true);
+    gameSliderS3.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameSliderS3MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameSliderS3MouseExited(evt);
+      }
+    });
+    gamePanel3.add(gameSliderS3);
+
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 1;
+    gridBagConstraints.gridy = 4;
+    gridBagConstraints.gridwidth = 23;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+    game.add(gamePanel3, gridBagConstraints);
+
+    gamePanel4.setMaximumSize(new java.awt.Dimension(600, 65));
+    gamePanel4.setMinimumSize(new java.awt.Dimension(100, 45));
+    gamePanel4.setPreferredSize(new java.awt.Dimension(150, 55));
+    gamePanel4.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gamePanel4MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gamePanel4MouseExited(evt);
+      }
+    });
+    gamePanel4.setLayout(new javax.swing.BoxLayout(gamePanel4, javax.swing.BoxLayout.LINE_AXIS));
+
+    gameTextField4.setEditable(false);
+    gameTextField4.setText("tb set");
+    gameTextField4.setMaximumSize(new java.awt.Dimension(300, 45));
+    gameTextField4.setMinimumSize(new java.awt.Dimension(100, 35));
+    gameTextField4.setPreferredSize(new java.awt.Dimension(150, 35));
+    gameTextField4.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameTextField4MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameTextField4MouseExited(evt);
+      }
+    });
+    gamePanel4.add(gameTextField4);
+
+    gameSliderP4.setMajorTickSpacing(10);
+    gameSliderP4.setMinorTickSpacing(5);
+    gameSliderP4.setPaintLabels(true);
+    gameSliderP4.setPaintTicks(true);
+    gameSliderP4.setSnapToTicks(true);
+    gameSliderP4.setToolTipText("Slider1");
+    gameSliderP4.setMaximumSize(new java.awt.Dimension(400, 45));
+    gameSliderP4.setMinimumSize(new java.awt.Dimension(250, 45));
+    gameSliderP4.setName("Slider1"); // NOI18N
+    gameSliderP4.setPreferredSize(new java.awt.Dimension(300, 45));
+    gameSliderP4.setValueIsAdjusting(true);
+    gameSliderP4.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameSliderP4MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameSliderP4MouseExited(evt);
+      }
+    });
+    gamePanel4.add(gameSliderP4);
+
+    jSeparator5.setMaximumSize(new java.awt.Dimension(50, 40));
+    jSeparator5.setMinimumSize(new java.awt.Dimension(20, 30));
+    jSeparator5.setPreferredSize(new java.awt.Dimension(20, 40));
+    gamePanel4.add(jSeparator5);
+
+    gameSliderS4.setMajorTickSpacing(10);
+    gameSliderS4.setMinorTickSpacing(5);
+    gameSliderS4.setPaintLabels(true);
+    gameSliderS4.setPaintTicks(true);
+    gameSliderS4.setSnapToTicks(true);
+    gameSliderS4.setToolTipText("hello1");
+    gameSliderS4.setMaximumSize(new java.awt.Dimension(400, 45));
+    gameSliderS4.setMinimumSize(new java.awt.Dimension(250, 45));
+    gameSliderS4.setPreferredSize(new java.awt.Dimension(300, 45));
+    gameSliderS4.setValueIsAdjusting(true);
+    gameSliderS4.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameSliderS4MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameSliderS4MouseExited(evt);
+      }
+    });
+    gamePanel4.add(gameSliderS4);
+
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 1;
+    gridBagConstraints.gridy = 5;
+    gridBagConstraints.gridwidth = 23;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
+    game.add(gamePanel4, gridBagConstraints);
+
+    gamePanel5.setMaximumSize(new java.awt.Dimension(600, 65));
+    gamePanel5.setMinimumSize(new java.awt.Dimension(100, 45));
+    gamePanel5.setPreferredSize(new java.awt.Dimension(150, 55));
+    gamePanel5.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gamePanel5MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gamePanel5MouseExited(evt);
+      }
+    });
+    gamePanel5.setLayout(new javax.swing.BoxLayout(gamePanel5, javax.swing.BoxLayout.LINE_AXIS));
+
+    gameTextField5.setEditable(false);
+    gameTextField5.setText("tb set");
+    gameTextField5.setMaximumSize(new java.awt.Dimension(300, 45));
+    gameTextField5.setMinimumSize(new java.awt.Dimension(100, 35));
+    gameTextField5.setPreferredSize(new java.awt.Dimension(150, 35));
+    gameTextField5.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameTextField5MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameTextField5MouseExited(evt);
+      }
+    });
+    gamePanel5.add(gameTextField5);
+
+    gameSliderP5.setMajorTickSpacing(10);
+    gameSliderP5.setMinorTickSpacing(5);
+    gameSliderP5.setPaintLabels(true);
+    gameSliderP5.setPaintTicks(true);
+    gameSliderP5.setSnapToTicks(true);
+    gameSliderP5.setToolTipText("Slider1");
+    gameSliderP5.setMaximumSize(new java.awt.Dimension(400, 45));
+    gameSliderP5.setMinimumSize(new java.awt.Dimension(250, 45));
+    gameSliderP5.setName("Slider1"); // NOI18N
+    gameSliderP5.setPreferredSize(new java.awt.Dimension(300, 45));
+    gameSliderP5.setValueIsAdjusting(true);
+    gameSliderP5.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameSliderP5MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameSliderP5MouseExited(evt);
+      }
+    });
+    gamePanel5.add(gameSliderP5);
+
+    jSeparator11.setMaximumSize(new java.awt.Dimension(50, 40));
+    jSeparator11.setMinimumSize(new java.awt.Dimension(20, 30));
+    jSeparator11.setPreferredSize(new java.awt.Dimension(20, 40));
+    gamePanel5.add(jSeparator11);
+
+    gameSliderS5.setMajorTickSpacing(10);
+    gameSliderS5.setMinorTickSpacing(5);
+    gameSliderS5.setPaintLabels(true);
+    gameSliderS5.setPaintTicks(true);
+    gameSliderS5.setSnapToTicks(true);
+    gameSliderS5.setToolTipText("hello1");
+    gameSliderS5.setMaximumSize(new java.awt.Dimension(400, 45));
+    gameSliderS5.setMinimumSize(new java.awt.Dimension(250, 45));
+    gameSliderS5.setPreferredSize(new java.awt.Dimension(300, 45));
+    gameSliderS5.setValueIsAdjusting(true);
+    gameSliderS5.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameSliderS5MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameSliderS5MouseExited(evt);
+      }
+    });
+    gamePanel5.add(gameSliderS5);
+
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 1;
+    gridBagConstraints.gridwidth = 23;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
+    game.add(gamePanel5, gridBagConstraints);
+
+    gamePanel6.setMaximumSize(new java.awt.Dimension(600, 65));
+    gamePanel6.setMinimumSize(new java.awt.Dimension(100, 45));
+    gamePanel6.setPreferredSize(new java.awt.Dimension(150, 55));
+    gamePanel6.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gamePanel6MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gamePanel6MouseExited(evt);
+      }
+    });
+    gamePanel6.setLayout(new javax.swing.BoxLayout(gamePanel6, javax.swing.BoxLayout.LINE_AXIS));
+
+    gameTextField6.setEditable(false);
+    gameTextField6.setText("tb set");
+    gameTextField6.setMaximumSize(new java.awt.Dimension(300, 45));
+    gameTextField6.setMinimumSize(new java.awt.Dimension(100, 35));
+    gameTextField6.setPreferredSize(new java.awt.Dimension(150, 35));
+    gameTextField6.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameTextField6MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameTextField6MouseExited(evt);
+      }
+    });
+    gamePanel6.add(gameTextField6);
+
+    gameSliderP6.setMajorTickSpacing(10);
+    gameSliderP6.setMinorTickSpacing(5);
+    gameSliderP6.setPaintLabels(true);
+    gameSliderP6.setPaintTicks(true);
+    gameSliderP6.setSnapToTicks(true);
+    gameSliderP6.setToolTipText("Slider1");
+    gameSliderP6.setMaximumSize(new java.awt.Dimension(400, 45));
+    gameSliderP6.setMinimumSize(new java.awt.Dimension(250, 45));
+    gameSliderP6.setName("Slider1"); // NOI18N
+    gameSliderP6.setPreferredSize(new java.awt.Dimension(300, 45));
+    gameSliderP6.setValueIsAdjusting(true);
+    gameSliderP6.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameSliderP6MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameSliderP6MouseExited(evt);
+      }
+    });
+    gamePanel6.add(gameSliderP6);
+
+    jSeparator13.setMaximumSize(new java.awt.Dimension(50, 40));
+    jSeparator13.setMinimumSize(new java.awt.Dimension(20, 30));
+    jSeparator13.setPreferredSize(new java.awt.Dimension(20, 40));
+    gamePanel6.add(jSeparator13);
+
+    gameSliderS6.setMajorTickSpacing(10);
+    gameSliderS6.setMinorTickSpacing(5);
+    gameSliderS6.setPaintLabels(true);
+    gameSliderS6.setPaintTicks(true);
+    gameSliderS6.setSnapToTicks(true);
+    gameSliderS6.setToolTipText("hello1");
+    gameSliderS6.setMaximumSize(new java.awt.Dimension(400, 45));
+    gameSliderS6.setMinimumSize(new java.awt.Dimension(250, 45));
+    gameSliderS6.setPreferredSize(new java.awt.Dimension(300, 45));
+    gameSliderS6.setValueIsAdjusting(true);
+    gameSliderS6.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameSliderS6MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameSliderS6MouseExited(evt);
+      }
+    });
+    gamePanel6.add(gameSliderS6);
+
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 1;
+    gridBagConstraints.gridwidth = 23;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
+    game.add(gamePanel6, gridBagConstraints);
+
+    gamePanel7.setMaximumSize(new java.awt.Dimension(600, 65));
+    gamePanel7.setMinimumSize(new java.awt.Dimension(100, 45));
+    gamePanel7.setPreferredSize(new java.awt.Dimension(150, 55));
+    gamePanel7.setLayout(new javax.swing.BoxLayout(gamePanel7, javax.swing.BoxLayout.LINE_AXIS));
+
+    gameTextField7.setEditable(false);
+    gameTextField7.setText("tb set");
+    gameTextField7.setMaximumSize(new java.awt.Dimension(300, 45));
+    gameTextField7.setMinimumSize(new java.awt.Dimension(100, 35));
+    gameTextField7.setPreferredSize(new java.awt.Dimension(150, 35));
+    gameTextField7.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameTextField7MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameTextField7MouseExited(evt);
+      }
+    });
+    gamePanel7.add(gameTextField7);
+
+    gameSliderP7.setMajorTickSpacing(10);
+    gameSliderP7.setMinorTickSpacing(5);
+    gameSliderP7.setPaintLabels(true);
+    gameSliderP7.setPaintTicks(true);
+    gameSliderP7.setSnapToTicks(true);
+    gameSliderP7.setToolTipText("Slider1");
+    gameSliderP7.setMaximumSize(new java.awt.Dimension(400, 45));
+    gameSliderP7.setMinimumSize(new java.awt.Dimension(250, 45));
+    gameSliderP7.setName("Slider1"); // NOI18N
+    gameSliderP7.setPreferredSize(new java.awt.Dimension(300, 45));
+    gameSliderP7.setValueIsAdjusting(true);
+    gameSliderP7.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameSliderP7MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameSliderP7MouseExited(evt);
+      }
+    });
+    gamePanel7.add(gameSliderP7);
+
+    jSeparator14.setMaximumSize(new java.awt.Dimension(50, 40));
+    jSeparator14.setMinimumSize(new java.awt.Dimension(20, 30));
+    jSeparator14.setPreferredSize(new java.awt.Dimension(20, 40));
+    jSeparator14.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        jSeparator14MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        jSeparator14MouseExited(evt);
+      }
+    });
+    gamePanel7.add(jSeparator14);
+
+    gameSliderS7.setMajorTickSpacing(10);
+    gameSliderS7.setMinorTickSpacing(5);
+    gameSliderS7.setPaintLabels(true);
+    gameSliderS7.setPaintTicks(true);
+    gameSliderS7.setSnapToTicks(true);
+    gameSliderS7.setToolTipText("hello1");
+    gameSliderS7.setMaximumSize(new java.awt.Dimension(400, 45));
+    gameSliderS7.setMinimumSize(new java.awt.Dimension(250, 45));
+    gameSliderS7.setPreferredSize(new java.awt.Dimension(300, 45));
+    gameSliderS7.setValueIsAdjusting(true);
+    gameSliderS7.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameSliderS7MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameSliderS7MouseExited(evt);
+      }
+    });
+    gamePanel7.add(gameSliderS7);
+
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 1;
+    gridBagConstraints.gridwidth = 23;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
+    game.add(gamePanel7, gridBagConstraints);
+
+    gamePanel8.setMaximumSize(new java.awt.Dimension(600, 65));
+    gamePanel8.setMinimumSize(new java.awt.Dimension(100, 45));
+    gamePanel8.setPreferredSize(new java.awt.Dimension(150, 55));
+    gamePanel8.setLayout(new javax.swing.BoxLayout(gamePanel8, javax.swing.BoxLayout.LINE_AXIS));
+
+    gameTextField8.setEditable(false);
+    gameTextField8.setText("tb set");
+    gameTextField8.setMaximumSize(new java.awt.Dimension(300, 45));
+    gameTextField8.setMinimumSize(new java.awt.Dimension(100, 35));
+    gameTextField8.setPreferredSize(new java.awt.Dimension(150, 35));
+    gameTextField8.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameTextField8MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameTextField8MouseExited(evt);
+      }
+    });
+    gamePanel8.add(gameTextField8);
+
+    gameSliderP8.setMajorTickSpacing(10);
+    gameSliderP8.setMinorTickSpacing(5);
+    gameSliderP8.setPaintLabels(true);
+    gameSliderP8.setPaintTicks(true);
+    gameSliderP8.setSnapToTicks(true);
+    gameSliderP8.setToolTipText("Slider1");
+    gameSliderP8.setMaximumSize(new java.awt.Dimension(400, 45));
+    gameSliderP8.setMinimumSize(new java.awt.Dimension(250, 45));
+    gameSliderP8.setName("Slider1"); // NOI18N
+    gameSliderP8.setPreferredSize(new java.awt.Dimension(300, 45));
+    gameSliderP8.setValueIsAdjusting(true);
+    gameSliderP8.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameSliderP8MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameSliderP8MouseExited(evt);
+      }
+    });
+    gamePanel8.add(gameSliderP8);
+
+    jSeparator15.setMaximumSize(new java.awt.Dimension(50, 40));
+    jSeparator15.setMinimumSize(new java.awt.Dimension(20, 30));
+    jSeparator15.setPreferredSize(new java.awt.Dimension(20, 40));
+    jSeparator15.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        jSeparator15MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        jSeparator15MouseExited(evt);
+      }
+    });
+    gamePanel8.add(jSeparator15);
+
+    gameSliderS8.setMajorTickSpacing(10);
+    gameSliderS8.setMinorTickSpacing(5);
+    gameSliderS8.setPaintLabels(true);
+    gameSliderS8.setPaintTicks(true);
+    gameSliderS8.setSnapToTicks(true);
+    gameSliderS8.setToolTipText("hello1");
+    gameSliderS8.setMaximumSize(new java.awt.Dimension(400, 45));
+    gameSliderS8.setMinimumSize(new java.awt.Dimension(250, 45));
+    gameSliderS8.setPreferredSize(new java.awt.Dimension(300, 45));
+    gameSliderS8.setValueIsAdjusting(true);
+    gameSliderS8.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameSliderS8MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameSliderS8MouseExited(evt);
+      }
+    });
+    gamePanel8.add(gameSliderS8);
+
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 1;
+    gridBagConstraints.gridwidth = 23;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
+    game.add(gamePanel8, gridBagConstraints);
+
+    gamePanel9.setMaximumSize(new java.awt.Dimension(600, 65));
+    gamePanel9.setMinimumSize(new java.awt.Dimension(100, 45));
+    gamePanel9.setPreferredSize(new java.awt.Dimension(150, 55));
+    gamePanel9.setLayout(new javax.swing.BoxLayout(gamePanel9, javax.swing.BoxLayout.LINE_AXIS));
+
+    gameTextField9.setEditable(false);
+    gameTextField9.setText("tb set");
+    gameTextField9.setMaximumSize(new java.awt.Dimension(300, 45));
+    gameTextField9.setMinimumSize(new java.awt.Dimension(100, 35));
+    gameTextField9.setPreferredSize(new java.awt.Dimension(150, 35));
+    gameTextField9.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameTextField9MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameTextField9MouseExited(evt);
+      }
+    });
+    gamePanel9.add(gameTextField9);
+
+    gameSliderP9.setMajorTickSpacing(10);
+    gameSliderP9.setMinorTickSpacing(5);
+    gameSliderP9.setPaintLabels(true);
+    gameSliderP9.setPaintTicks(true);
+    gameSliderP9.setSnapToTicks(true);
+    gameSliderP9.setToolTipText("Slider1");
+    gameSliderP9.setMaximumSize(new java.awt.Dimension(400, 45));
+    gameSliderP9.setMinimumSize(new java.awt.Dimension(250, 45));
+    gameSliderP9.setName("Slider1"); // NOI18N
+    gameSliderP9.setPreferredSize(new java.awt.Dimension(300, 45));
+    gameSliderP9.setValueIsAdjusting(true);
+    gameSliderP9.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameSliderP9MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameSliderP9MouseExited(evt);
+      }
+    });
+    gamePanel9.add(gameSliderP9);
+
+    jSeparator16.setMaximumSize(new java.awt.Dimension(50, 40));
+    jSeparator16.setMinimumSize(new java.awt.Dimension(20, 30));
+    jSeparator16.setPreferredSize(new java.awt.Dimension(20, 40));
+    gamePanel9.add(jSeparator16);
+
+    gameSliderS9.setMajorTickSpacing(10);
+    gameSliderS9.setMinorTickSpacing(5);
+    gameSliderS9.setPaintLabels(true);
+    gameSliderS9.setPaintTicks(true);
+    gameSliderS9.setSnapToTicks(true);
+    gameSliderS9.setToolTipText("hello1");
+    gameSliderS9.setMaximumSize(new java.awt.Dimension(400, 45));
+    gameSliderS9.setMinimumSize(new java.awt.Dimension(250, 45));
+    gameSliderS9.setPreferredSize(new java.awt.Dimension(300, 45));
+    gameSliderS9.setValueIsAdjusting(true);
+    gameSliderS9.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameSliderS9MouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameSliderS9MouseExited(evt);
+      }
+    });
+    gamePanel9.add(gameSliderS9);
+
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 1;
+    gridBagConstraints.gridwidth = 23;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
+    game.add(gamePanel9, gridBagConstraints);
+
+    gamePanelBottomPanel.setMinimumSize(new java.awt.Dimension(100, 100));
+    gamePanelBottomPanel.setPreferredSize(new java.awt.Dimension(95, 300));
+
+    gameTextPane.setBackground(new java.awt.Color(255, 204, 204));
+    gameTextPane.setAlignmentX(0.0F);
+    gameTextPane.setAlignmentY(0.0F);
+    gameTextPane.setAutoscrolls(true);
+    gameTextPane.setMaximumSize(new java.awt.Dimension(220, 300));
+    gameTextPane.setMinimumSize(new java.awt.Dimension(90, 200));
+    gameTextPane.setPreferredSize(new java.awt.Dimension(220, 225));
+
+    gameTextField.setBackground(new java.awt.Color(153, 255, 153));
+    gameTextField.setColumns(20);
+    gameTextField.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+    gameTextField.setLineWrap(true);
+    gameTextField.setRows(5);
+    gameTextField.setText("This is to be filled with descriptions of the field over which the mouse hovers");
+    gameTextField.setWrapStyleWord(true);
+    gameTextField.setMargin(new java.awt.Insets(0, 0, 0, 0));
+    gameTextField.setMinimumSize(new java.awt.Dimension(75, 100));
+    gameTextField.setPreferredSize(new java.awt.Dimension(100, 400));
+    gameTextPane.setViewportView(gameTextField);
+
+    javax.swing.GroupLayout gamePanelBottomPanelLayout = new javax.swing.GroupLayout(gamePanelBottomPanel);
+    gamePanelBottomPanel.setLayout(gamePanelBottomPanelLayout);
+    gamePanelBottomPanelLayout.setHorizontalGroup(
+      gamePanelBottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gamePanelBottomPanelLayout.createSequentialGroup()
+        .addGap(0, 887, Short.MAX_VALUE)
+        .addComponent(gameTextPane, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE))
+    );
+    gamePanelBottomPanelLayout.setVerticalGroup(
+      gamePanelBottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(gamePanelBottomPanelLayout.createSequentialGroup()
+        .addContainerGap()
+        .addComponent(gameTextPane, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addContainerGap(309, Short.MAX_VALUE))
+    );
+
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridy = 11;
+    gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
+    gridBagConstraints.gridheight = java.awt.GridBagConstraints.REMAINDER;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+    gridBagConstraints.weightx = 0.5;
+    gridBagConstraints.weighty = 0.5;
+    game.add(gamePanelBottomPanel, gridBagConstraints);
+
+    gameButtonDown.setLabel("down");
+    gameButtonDown.setMaximumSize(new java.awt.Dimension(120, 110));
+    gameButtonDown.setMinimumSize(new java.awt.Dimension(30, 45));
+    gameButtonDown.setPreferredSize(new java.awt.Dimension(46, 55));
+    gameButtonDown.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        gameButtonDownMouseClicked(evt);
+      }
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        gameButtonDownMouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        gameButtonDownMouseExited(evt);
+      }
+    });
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 10;
+    game.add(gameButtonDown, gridBagConstraints);
+
+    controlPanels.addTab("Settings", game);
+
+    log.setBackground(new java.awt.Color(255, 255, 255));
+    log.setAutoscrolls(true);
+    log.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+    log.setMaximumSize(new java.awt.Dimension(1200, 1200));
+    log.setMinimumSize(new java.awt.Dimension(500, 500));
+    log.setPreferredSize(new java.awt.Dimension(1200, 1200));
+
+    logTableScrollPanel.setAutoscrolls(true);
+    logTableScrollPanel.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
+    logTableScrollPanel.setMaximumSize(new java.awt.Dimension(1200, 1200));
+    logTableScrollPanel.setMinimumSize(new java.awt.Dimension(800, 600));
+    logTableScrollPanel.setPreferredSize(new java.awt.Dimension(1200, 1200));
+    logTableScrollPanel.addInputMethodListener(new java.awt.event.InputMethodListener() {
+      public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+        logTableScrollPanelCaretPositionChanged(evt);
+      }
+      public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+        logTableScrollPanelInputMethodTextChanged(evt);
+      }
+    });
+
+    logDisplayTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+    logDisplayTable.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+    logDisplayTable.setModel(new javax.swing.table.DefaultTableModel(
+      new Object [][] {
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null}
+      },
+      new String [] {
+        "Title", "col0", "col1", "col2", "col3", "col4", "col5", "col6", "col7", "col8", "col9"
+      }
+    ) {
+      Class[] types = new Class [] {
+        java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+      };
+      boolean[] canEdit = new boolean [] {
+        false, false, false, false, false, false, false, false, false, false, false
+      };
+
+      public Class getColumnClass(int columnIndex) {
+        return types [columnIndex];
+      }
+
+      public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return canEdit [columnIndex];
+      }
+    });
+    logDisplayTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+    logDisplayTable.setColumnSelectionAllowed(true);
+    logDisplayTable.setGridColor(new java.awt.Color(153, 153, 255));
+    logDisplayTable.setMaximumSize(new java.awt.Dimension(1200, 1200));
+    logDisplayTable.setMinimumSize(new java.awt.Dimension(11200, 900));
+    logDisplayTable.setPreferredSize(new java.awt.Dimension(1200, 1200));
+    logDisplayTable.setRowHeight(13);
+    logDisplayTable.getTableHeader().setResizingAllowed(false);
+    logDisplayTable.getTableHeader().setReorderingAllowed(false);
+    logTableScrollPanel.setViewportView(logDisplayTable);
+    logDisplayTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+    if (logDisplayTable.getColumnModel().getColumnCount() > 0) {
+      logDisplayTable.getColumnModel().getColumn(0).setResizable(false);
+      logDisplayTable.getColumnModel().getColumn(0).setPreferredWidth(110);
+      logDisplayTable.getColumnModel().getColumn(1).setResizable(false);
+      logDisplayTable.getColumnModel().getColumn(2).setResizable(false);
+      logDisplayTable.getColumnModel().getColumn(3).setResizable(false);
+      logDisplayTable.getColumnModel().getColumn(4).setResizable(false);
+      logDisplayTable.getColumnModel().getColumn(5).setResizable(false);
+      logDisplayTable.getColumnModel().getColumn(6).setResizable(false);
+      logDisplayTable.getColumnModel().getColumn(7).setResizable(false);
+      logDisplayTable.getColumnModel().getColumn(8).setResizable(false);
+      logDisplayTable.getColumnModel().getColumn(9).setResizable(false);
+      logDisplayTable.getColumnModel().getColumn(10).setResizable(false);
+    }
+    logDisplayTable.getAccessibleContext().setAccessibleName("logTable");
+
+    logDlevel2.setText("DLevel2");
+
+    LogDlen1Slider.setMajorTickSpacing(25);
+    LogDlen1Slider.setMaximum(75);
+    LogDlen1Slider.setMinorTickSpacing(5);
+    LogDlen1Slider.setPaintLabels(true);
+    LogDlen1Slider.setPaintTicks(true);
+    LogDlen1Slider.setValue(20);
+    LogDlen1Slider.setMaximumSize(new java.awt.Dimension(60, 35));
+    LogDlen1Slider.setMinimumSize(new java.awt.Dimension(24, 12));
+    LogDlen1Slider.setName("Length"); // NOI18N
+    LogDlen1Slider.setPreferredSize(new java.awt.Dimension(60, 35));
+    LogDlen1Slider.addChangeListener(new javax.swing.event.ChangeListener() {
+      public void stateChanged(javax.swing.event.ChangeEvent evt) {
+        LogDlen1SliderStateChanged(evt);
+      }
+    });
+
+    logDlen1.setText("DLen1");
+
+    logDLevel1Slider.setMajorTickSpacing(5);
+    logDLevel1Slider.setMaximum(15);
+    logDLevel1Slider.setMinorTickSpacing(1);
+    logDLevel1Slider.setPaintLabels(true);
+    logDLevel1Slider.setPaintTicks(true);
+    logDLevel1Slider.setValue(2);
+    logDLevel1Slider.setMinimumSize(new java.awt.Dimension(36, 35));
+    logDLevel1Slider.setPreferredSize(new java.awt.Dimension(200, 35));
+    logDLevel1Slider.setValueIsAdjusting(true);
+    logDLevel1Slider.setVerifyInputWhenFocusTarget(false);
+    logDLevel1Slider.addChangeListener(new javax.swing.event.ChangeListener() {
+      public void stateChanged(javax.swing.event.ChangeEvent evt) {
+        logDLevel1SliderStateChanged(evt);
+      }
+    });
+
+    logM1Spinner.setName("histStartValue"); // NOI18N
+    logM1Spinner.setValue(1);
+    logM1Spinner.addChangeListener(new javax.swing.event.ChangeListener() {
+      public void stateChanged(javax.swing.event.ChangeEvent evt) {
+        logM1SpinnerStateChanged(evt);
+      }
+    });
+
+    LogDLen2Slider.setMajorTickSpacing(25);
+    LogDLen2Slider.setMaximum(75);
+    LogDLen2Slider.setMinorTickSpacing(5);
+    LogDLen2Slider.setPaintLabels(true);
+    LogDLen2Slider.setPaintTicks(true);
+    LogDLen2Slider.setValue(20);
+    LogDLen2Slider.setMaximumSize(new java.awt.Dimension(100, 24));
+    LogDLen2Slider.setName("Length"); // NOI18N
+    LogDLen2Slider.addChangeListener(new javax.swing.event.ChangeListener() {
+      public void stateChanged(javax.swing.event.ChangeEvent evt) {
+        LogDLen2SliderStateChanged(evt);
+      }
+    });
+
+    logDLevel2Slider.setMajorTickSpacing(5);
+    logDLevel2Slider.setMaximum(15);
+    logDLevel2Slider.setMinorTickSpacing(1);
+    logDLevel2Slider.setPaintLabels(true);
+    logDLevel2Slider.setPaintTicks(true);
+    logDLevel2Slider.setValue(2);
+    logDLevel2Slider.setValueIsAdjusting(true);
+    logDLevel2Slider.setVerifyInputWhenFocusTarget(false);
+    logDLevel2Slider.addChangeListener(new javax.swing.event.ChangeListener() {
+      public void stateChanged(javax.swing.event.ChangeEvent evt) {
+        logDLevel2SliderStateChanged(evt);
+      }
+    });
+
+    logDlen2.setText("DLen2");
+
+    logDlevel1.setText("DLevel1");
+
+    logM2Spinner.setName("histStartValue"); // NOI18N
+    logM2Spinner.setValue(1);
+    logM2Spinner.addChangeListener(new javax.swing.event.ChangeListener() {
+      public void stateChanged(javax.swing.event.ChangeEvent evt) {
+        logM2SpinnerStateChanged(evt);
+      }
+    });
+    logM2Spinner.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseReleased(java.awt.event.MouseEvent evt) {
+        logM2SpinnerMouseReleased(evt);
+      }
+    });
+
+    logNamesScrollPanel.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+    logNamesScrollPanel.setPreferredSize(new java.awt.Dimension(350, 2000));
+
+    logEnvirnNamesList.setModel(namesList
+    );
+    logEnvirnNamesList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+    logEnvirnNamesList.setMaximumSize(new java.awt.Dimension(300, 2000));
+    logEnvirnNamesList.setMinimumSize(new java.awt.Dimension(50, 50));
+    logEnvirnNamesList.setPreferredSize(new java.awt.Dimension(300, 2000));
+    logEnvirnNamesList.setVisibleRowCount(3);
+    logEnvirnNamesList.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        logEnvirnNamesListMouseClicked(evt);
+      }
+    });
+    logNamesScrollPanel.setViewportView(logEnvirnNamesList);
+
+    Start1Name.setBackground(new java.awt.Color(255, 102, 204));
+    Start1Name.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+    Start1Name.setForeground(new java.awt.Color(204, 0, 0));
+    Start1Name.setText("P000001");
+
+    Start2Name.setBackground(new java.awt.Color(255, 102, 204));
+    Start2Name.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+    Start2Name.setForeground(new java.awt.Color(204, 0, 0));
+    Start2Name.setText("P00001");
+
+    logButtonGroup1or2.add(logRadioButtonStart1);
+    logRadioButtonStart1.setText("Start1");
+    logRadioButtonStart1.setToolTipText("Planet");
+    logRadioButtonStart1.setActionCommand("1");
+    logRadioButtonStart1.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        logRadioButtonStart1ItemStateChanged(evt);
+      }
+    });
+
+    logButtonGroup1or2.add(logRadioButtonStart2);
+    logRadioButtonStart2.setText("Start2");
+    logRadioButtonStart2.setActionCommand("2");
+    logRadioButtonStart2.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        logRadioButtonStart2ItemStateChanged(evt);
+      }
+    });
+
+    logBGactions.add(logActionJump);
+    logActionJump.setText("Jump");
+    logActionJump.setName("logActionJump22"); // NOI18N
+    logActionJump.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        logActionJumpItemStateChanged(evt);
+      }
+    });
+
+    logBGactions.add(logActionAdd);
+    logActionAdd.setText("add");
+    logActionAdd.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        logActionAddActionPerformed(evt);
+      }
+    });
+
+    logBGactions.add(logActionDel);
+    logActionDel.setText("del");
+    logActionDel.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        logActionDelActionPerformed(evt);
+      }
+    });
+
+    javax.swing.GroupLayout logLayout = new javax.swing.GroupLayout(log);
+    log.setLayout(logLayout);
+    logLayout.setHorizontalGroup(
+      logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(logLayout.createSequentialGroup()
+        .addGap(6, 6, 6)
+        .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addGroup(logLayout.createSequentialGroup()
+            .addGap(4, 4, 4)
+            .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+              .addComponent(logRadioButtonStart1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+              .addComponent(logRadioButtonStart2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGap(6, 6, 6)
+            .addComponent(logM1Spinner, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+          .addGroup(logLayout.createSequentialGroup()
+            .addComponent(logActionJump, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(3, 3, 3)
+            .addComponent(logActionAdd)
+            .addGap(2, 2, 2)
+            .addComponent(logActionDel)))
+        .addGap(4, 4, 4)
+        .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addComponent(Start1Name, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+          .addComponent(Start2Name, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+        .addGap(10, 10, 10)
+        .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addComponent(logDlen1)
+          .addComponent(logDlen2))
+        .addGap(142, 142, 142)
+        .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addComponent(logDlevel1)
+          .addComponent(logDlevel2))
+        .addGap(12, 12, 12)
+        .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addComponent(logDLevel1Slider, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+          .addGroup(logLayout.createSequentialGroup()
+            .addGap(10, 10, 10)
+            .addComponent(logDLevel2Slider, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
+      .addComponent(logTableScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1195, javax.swing.GroupLayout.PREFERRED_SIZE)
+      .addGroup(logLayout.createSequentialGroup()
+        .addGap(276, 276, 276)
+        .addComponent(LogDlen1Slider, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+      .addGroup(logLayout.createSequentialGroup()
+        .addGap(276, 276, 276)
+        .addComponent(LogDLen2Slider, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+      .addGroup(logLayout.createSequentialGroup()
+        .addGap(86, 86, 86)
+        .addComponent(logM2Spinner, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+      .addGroup(logLayout.createSequentialGroup()
+        .addGap(600, 600, 600)
+        .addComponent(logNamesScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE))
+    );
+    logLayout.setVerticalGroup(
+      logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(logLayout.createSequentialGroup()
+        .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addGroup(logLayout.createSequentialGroup()
+            .addGap(1, 1, 1)
+            .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+              .addComponent(logRadioButtonStart1)
+              .addGroup(logLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(logRadioButtonStart2))
+              .addComponent(logM1Spinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGap(4, 4, 4)
+            .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+              .addComponent(logActionJump, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+              .addComponent(logActionAdd)
+              .addComponent(logActionDel)))
+          .addGroup(logLayout.createSequentialGroup()
+            .addGap(3, 3, 3)
+            .addComponent(Start1Name)
+            .addGap(7, 7, 7)
+            .addComponent(Start2Name))
+          .addGroup(logLayout.createSequentialGroup()
+            .addGap(4, 4, 4)
+            .addComponent(logDlen1)
+            .addGap(27, 27, 27)
+            .addComponent(logDlen2))
+          .addGroup(logLayout.createSequentialGroup()
+            .addGap(10, 10, 10)
+            .addComponent(logDlevel1)
+            .addGap(26, 26, 26)
+            .addComponent(logDlevel2))
+          .addGroup(logLayout.createSequentialGroup()
+            .addComponent(logDLevel1Slider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(15, 15, 15)
+            .addComponent(logDLevel2Slider, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        .addGap(19, 19, 19)
+        .addComponent(logTableScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 915, javax.swing.GroupLayout.PREFERRED_SIZE))
+      .addGroup(logLayout.createSequentialGroup()
+        .addGap(1, 1, 1)
+        .addComponent(LogDlen1Slider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+      .addGroup(logLayout.createSequentialGroup()
+        .addGap(45, 45, 45)
+        .addComponent(LogDLen2Slider, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+      .addGroup(logLayout.createSequentialGroup()
+        .addGap(23, 23, 23)
+        .addComponent(logM2Spinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+      .addGroup(logLayout.createSequentialGroup()
+        .addGap(10, 10, 10)
+        .addComponent(logNamesScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+    );
+
+    LogDlen1Slider.getAccessibleContext().setAccessibleName("Length");
+    logDLevel1Slider.getAccessibleContext().setAccessibleName("Level Slider");
+
+    controlPanels.addTab("logs", log);
+
+    clan.setAutoscrolls(true);
+    clan.setMaximumSize(new java.awt.Dimension(1000, 800));
+    clan.setMinimumSize(new java.awt.Dimension(800, 700));
+    clan.setName(""); // NOI18N
+    clan.setPreferredSize(new java.awt.Dimension(800, 700));
+    clan.setLayout(new java.awt.GridBagLayout());
+
+    clanTextField.setColumns(20);
+    clanTextField.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+    clanTextField.setRows(5);
+    clanTextField.setMargin(new java.awt.Insets(0, 0, 0, 0));
+    clanTextField.setMinimumSize(new java.awt.Dimension(50, 100));
+    clanTextField.setPreferredSize(new java.awt.Dimension(75, 150));
+    clanTextPane.setViewportView(clanTextField);
+
+    clan.add(clanTextPane, new java.awt.GridBagConstraints());
+
+    clanPanel0.setMaximumSize(new java.awt.Dimension(1100, 65));
+    clanPanel0.setMinimumSize(new java.awt.Dimension(700, 45));
+    clanPanel0.setPreferredSize(new java.awt.Dimension(700, 55));
+    clanPanel0.setLayout(new javax.swing.BoxLayout(clanPanel0, javax.swing.BoxLayout.LINE_AXIS));
+
+    clanTextField0.setEditable(false);
+    clanTextField0.setText("tb set");
+    clanTextField0.setMaximumSize(new java.awt.Dimension(200, 45));
+    clanTextField0.setMinimumSize(new java.awt.Dimension(100, 35));
+    clanTextField0.setPreferredSize(new java.awt.Dimension(100, 35));
+    clanPanel0.add(clanTextField0);
+
+    gameLabelP5.setText("P");
+    clanPanel0.add(gameLabelP5);
+
+    clanSliderP0.setMajorTickSpacing(10);
+    clanSliderP0.setMinorTickSpacing(5);
+    clanSliderP0.setPaintLabels(true);
+    clanSliderP0.setPaintTicks(true);
+    clanSliderP0.setSnapToTicks(true);
+    clanSliderP0.setToolTipText("Slider1");
+    clanSliderP0.setMaximumSize(new java.awt.Dimension(400, 45));
+    clanSliderP0.setMinimumSize(new java.awt.Dimension(250, 45));
+    clanSliderP0.setName("Slider1"); // NOI18N
+    clanSliderP0.setPreferredSize(new java.awt.Dimension(300, 45));
+    clanSliderP0.setValueIsAdjusting(true);
+    clanPanel0.add(clanSliderP0);
+
+    jSeparator6.setMaximumSize(new java.awt.Dimension(50, 40));
+    jSeparator6.setMinimumSize(new java.awt.Dimension(20, 30));
+    jSeparator6.setPreferredSize(new java.awt.Dimension(20, 40));
+    clanPanel0.add(jSeparator6);
+
+    gameLabelS5.setText("S");
+    clanPanel0.add(gameLabelS5);
+
+    clanSliderS0.setMajorTickSpacing(10);
+    clanSliderS0.setMinorTickSpacing(5);
+    clanSliderS0.setPaintLabels(true);
+    clanSliderS0.setPaintTicks(true);
+    clanSliderS0.setSnapToTicks(true);
+    clanSliderS0.setToolTipText("hello1");
+    clanSliderS0.setMaximumSize(new java.awt.Dimension(400, 45));
+    clanSliderS0.setMinimumSize(new java.awt.Dimension(250, 45));
+    clanSliderS0.setPreferredSize(new java.awt.Dimension(300, 45));
+    clanSliderS0.setValueIsAdjusting(true);
+    clanPanel0.add(clanSliderS0);
+
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 3;
+    gridBagConstraints.gridwidth = 28;
+    gridBagConstraints.gridheight = 3;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+    clan.add(clanPanel0, gridBagConstraints);
+
+    clanPanel1.setMaximumSize(new java.awt.Dimension(1100, 65));
+    clanPanel1.setMinimumSize(new java.awt.Dimension(700, 45));
+    clanPanel1.setPreferredSize(new java.awt.Dimension(700, 55));
+    clanPanel1.setLayout(new javax.swing.BoxLayout(clanPanel1, javax.swing.BoxLayout.LINE_AXIS));
+
+    clanTextField1.setEditable(false);
+    clanTextField1.setText("tb set");
+    clanTextField1.setMaximumSize(new java.awt.Dimension(200, 45));
+    clanTextField1.setMinimumSize(new java.awt.Dimension(100, 35));
+    clanTextField1.setPreferredSize(new java.awt.Dimension(100, 35));
+    clanPanel1.add(clanTextField1);
+
+    gameLabelP6.setText("P");
+    clanPanel1.add(gameLabelP6);
+
+    clanSliderP1.setMajorTickSpacing(10);
+    clanSliderP1.setMinorTickSpacing(5);
+    clanSliderP1.setPaintLabels(true);
+    clanSliderP1.setPaintTicks(true);
+    clanSliderP1.setSnapToTicks(true);
+    clanSliderP1.setToolTipText("Slider1");
+    clanSliderP1.setMaximumSize(new java.awt.Dimension(400, 45));
+    clanSliderP1.setMinimumSize(new java.awt.Dimension(250, 45));
+    clanSliderP1.setName("Slider1"); // NOI18N
+    clanSliderP1.setPreferredSize(new java.awt.Dimension(300, 45));
+    clanSliderP1.setValueIsAdjusting(true);
+    clanPanel1.add(clanSliderP1);
+
+    jSeparator7.setMaximumSize(new java.awt.Dimension(50, 40));
+    jSeparator7.setMinimumSize(new java.awt.Dimension(20, 30));
+    jSeparator7.setPreferredSize(new java.awt.Dimension(20, 40));
+    clanPanel1.add(jSeparator7);
+
+    gameLabelS6.setText("S");
+    clanPanel1.add(gameLabelS6);
+
+    clanSliderS1.setMajorTickSpacing(10);
+    clanSliderS1.setMinorTickSpacing(5);
+    clanSliderS1.setPaintLabels(true);
+    clanSliderS1.setPaintTicks(true);
+    clanSliderS1.setSnapToTicks(true);
+    clanSliderS1.setToolTipText("hello1");
+    clanSliderS1.setMaximumSize(new java.awt.Dimension(400, 45));
+    clanSliderS1.setMinimumSize(new java.awt.Dimension(250, 45));
+    clanSliderS1.setPreferredSize(new java.awt.Dimension(300, 45));
+    clanSliderS1.setValueIsAdjusting(true);
+    clanPanel1.add(clanSliderS1);
+
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 7;
+    gridBagConstraints.gridwidth = 28;
+    gridBagConstraints.gridheight = 3;
+    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+    clan.add(clanPanel1, gridBagConstraints);
+
+    clanPanel2.setMaximumSize(new java.awt.Dimension(1100, 65));
+    clanPanel2.setMinimumSize(new java.awt.Dimension(700, 45));
+    clanPanel2.setPreferredSize(new java.awt.Dimension(700, 55));
+    clanPanel2.setLayout(new javax.swing.BoxLayout(clanPanel2, javax.swing.BoxLayout.LINE_AXIS));
+
+    clanTextField2.setEditable(false);
+    clanTextField2.setText("tb set");
+    clanTextField2.setMaximumSize(new java.awt.Dimension(200, 45));
+    clanTextField2.setMinimumSize(new java.awt.Dimension(100, 35));
+    clanTextField2.setPreferredSize(new java.awt.Dimension(100, 35));
+    clanPanel2.add(clanTextField2);
+
+    gameLabelP7.setText("P");
+    clanPanel2.add(gameLabelP7);
+
+    clanSliderP2.setMajorTickSpacing(10);
+    clanSliderP2.setMinorTickSpacing(5);
+    clanSliderP2.setPaintLabels(true);
+    clanSliderP2.setPaintTicks(true);
+    clanSliderP2.setSnapToTicks(true);
+    clanSliderP2.setToolTipText("Slider1");
+    clanSliderP2.setMaximumSize(new java.awt.Dimension(400, 45));
+    clanSliderP2.setMinimumSize(new java.awt.Dimension(250, 45));
+    clanSliderP2.setName("Slider1"); // NOI18N
+    clanSliderP2.setPreferredSize(new java.awt.Dimension(300, 45));
+    clanSliderP2.setValueIsAdjusting(true);
+    clanPanel2.add(clanSliderP2);
+
+    jSeparator8.setMaximumSize(new java.awt.Dimension(50, 40));
+    jSeparator8.setMinimumSize(new java.awt.Dimension(20, 30));
+    jSeparator8.setPreferredSize(new java.awt.Dimension(20, 40));
+    clanPanel2.add(jSeparator8);
+
+    gameLabelS7.setText("S");
+    clanPanel2.add(gameLabelS7);
+
+    clanSliderS2.setMajorTickSpacing(10);
+    clanSliderS2.setMinorTickSpacing(5);
+    clanSliderS2.setPaintLabels(true);
+    clanSliderS2.setPaintTicks(true);
+    clanSliderS2.setSnapToTicks(true);
+    clanSliderS2.setToolTipText("hello1");
+    clanSliderS2.setMaximumSize(new java.awt.Dimension(400, 45));
+    clanSliderS2.setMinimumSize(new java.awt.Dimension(250, 45));
+    clanSliderS2.setPreferredSize(new java.awt.Dimension(300, 45));
+    clanSliderS2.setValueIsAdjusting(true);
+    clanPanel2.add(clanSliderS2);
+
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 11;
+    gridBagConstraints.gridwidth = 28;
+    gridBagConstraints.gridheight = 3;
+    clan.add(clanPanel2, gridBagConstraints);
+
+    clanPanel3.setMaximumSize(new java.awt.Dimension(1100, 65));
+    clanPanel3.setMinimumSize(new java.awt.Dimension(700, 45));
+    clanPanel3.setPreferredSize(new java.awt.Dimension(700, 55));
+    clanPanel3.setLayout(new javax.swing.BoxLayout(clanPanel3, javax.swing.BoxLayout.LINE_AXIS));
+
+    clanTextField3.setEditable(false);
+    clanTextField3.setText("tb set");
+    clanTextField3.setMaximumSize(new java.awt.Dimension(200, 45));
+    clanTextField3.setMinimumSize(new java.awt.Dimension(100, 35));
+    clanTextField3.setPreferredSize(new java.awt.Dimension(100, 35));
+    clanPanel3.add(clanTextField3);
+
+    clanLabelP3.setText("P");
+    clanPanel3.add(clanLabelP3);
+
+    clanSliderP3.setMajorTickSpacing(10);
+    clanSliderP3.setMinorTickSpacing(5);
+    clanSliderP3.setPaintLabels(true);
+    clanSliderP3.setPaintTicks(true);
+    clanSliderP3.setSnapToTicks(true);
+    clanSliderP3.setToolTipText("Slider1");
+    clanSliderP3.setMaximumSize(new java.awt.Dimension(400, 45));
+    clanSliderP3.setMinimumSize(new java.awt.Dimension(250, 45));
+    clanSliderP3.setName("Slider1"); // NOI18N
+    clanSliderP3.setPreferredSize(new java.awt.Dimension(300, 45));
+    clanSliderP3.setValueIsAdjusting(true);
+    clanPanel3.add(clanSliderP3);
+
+    jSeparator9.setMaximumSize(new java.awt.Dimension(50, 40));
+    jSeparator9.setMinimumSize(new java.awt.Dimension(20, 30));
+    jSeparator9.setPreferredSize(new java.awt.Dimension(20, 40));
+    clanPanel3.add(jSeparator9);
+
+    gameLabelS8.setText("S");
+    clanPanel3.add(gameLabelS8);
+
+    clanSliderS3.setMajorTickSpacing(10);
+    clanSliderS3.setMinorTickSpacing(5);
+    clanSliderS3.setPaintLabels(true);
+    clanSliderS3.setPaintTicks(true);
+    clanSliderS3.setSnapToTicks(true);
+    clanSliderS3.setToolTipText("hello1");
+    clanSliderS3.setMaximumSize(new java.awt.Dimension(400, 45));
+    clanSliderS3.setMinimumSize(new java.awt.Dimension(250, 45));
+    clanSliderS3.setPreferredSize(new java.awt.Dimension(300, 45));
+    clanSliderS3.setValueIsAdjusting(true);
+    clanPanel3.add(clanSliderS3);
+
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 15;
+    gridBagConstraints.gridwidth = 28;
+    gridBagConstraints.gridheight = 3;
+    clan.add(clanPanel3, gridBagConstraints);
+
+    clanPanel4.setMaximumSize(new java.awt.Dimension(1100, 65));
+    clanPanel4.setMinimumSize(new java.awt.Dimension(700, 45));
+    clanPanel4.setPreferredSize(new java.awt.Dimension(700, 55));
+    clanPanel4.setLayout(new javax.swing.BoxLayout(clanPanel4, javax.swing.BoxLayout.LINE_AXIS));
+
+    clanTextField4.setEditable(false);
+    clanTextField4.setText("tb set");
+    clanTextField4.setMaximumSize(new java.awt.Dimension(200, 45));
+    clanTextField4.setMinimumSize(new java.awt.Dimension(100, 35));
+    clanTextField4.setPreferredSize(new java.awt.Dimension(100, 35));
+    clanPanel4.add(clanTextField4);
+
+    clanLabelP4.setText("P");
+    clanPanel4.add(clanLabelP4);
+
+    clanSliderP4.setMajorTickSpacing(10);
+    clanSliderP4.setMinorTickSpacing(5);
+    clanSliderP4.setPaintLabels(true);
+    clanSliderP4.setPaintTicks(true);
+    clanSliderP4.setSnapToTicks(true);
+    clanSliderP4.setToolTipText("Slider1");
+    clanSliderP4.setMaximumSize(new java.awt.Dimension(400, 45));
+    clanSliderP4.setMinimumSize(new java.awt.Dimension(250, 45));
+    clanSliderP4.setName("Slider1"); // NOI18N
+    clanSliderP4.setPreferredSize(new java.awt.Dimension(300, 45));
+    clanSliderP4.setValueIsAdjusting(true);
+    clanPanel4.add(clanSliderP4);
+
+    jSeparator10.setMaximumSize(new java.awt.Dimension(50, 40));
+    jSeparator10.setMinimumSize(new java.awt.Dimension(20, 30));
+    jSeparator10.setPreferredSize(new java.awt.Dimension(20, 40));
+    clanPanel4.add(jSeparator10);
+
+    clanLabelS4.setText("S");
+    clanPanel4.add(clanLabelS4);
+
+    clanSliderS4.setMajorTickSpacing(10);
+    clanSliderS4.setMinorTickSpacing(5);
+    clanSliderS4.setPaintLabels(true);
+    clanSliderS4.setPaintTicks(true);
+    clanSliderS4.setSnapToTicks(true);
+    clanSliderS4.setToolTipText("hello1");
+    clanSliderS4.setMaximumSize(new java.awt.Dimension(400, 45));
+    clanSliderS4.setMinimumSize(new java.awt.Dimension(250, 45));
+    clanSliderS4.setPreferredSize(new java.awt.Dimension(300, 45));
+    clanSliderS4.setValueIsAdjusting(true);
+    clanPanel4.add(clanSliderS4);
+
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridx = 0;
+    gridBagConstraints.gridy = 19;
+    gridBagConstraints.gridwidth = 28;
+    gridBagConstraints.gridheight = 3;
+    clan.add(clanPanel4, gridBagConstraints);
+
+    controlPanels.addTab("clan", clan);
+
+    stats.setMaximumSize(new java.awt.Dimension(1200, 1200));
+    stats.setMinimumSize(new java.awt.Dimension(800, 500));
+    stats.setPreferredSize(new java.awt.Dimension(1200, 1200));
+
+    statsScrollPanel.setMaximumSize(new java.awt.Dimension(1200, 1200));
+    statsScrollPanel.setMinimumSize(new java.awt.Dimension(700, 400));
+    statsScrollPanel.setName(""); // NOI18N
+    statsScrollPanel.setPreferredSize(new java.awt.Dimension(1200, 500));
+
+    statsTable1.setModel(new javax.swing.table.DefaultTableModel(
+      new Object [][] {
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null}
+      },
+      new String [] {
+        "title", "P-red", "P-orange", "P-yellow", "P-green", "P-blue", "S-red", "S-orange", "S-yellow", "S-green", "S-blue"
+      }
+    ) {
+      Class[] types = new Class [] {
+        java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+      };
+      boolean[] canEdit = new boolean [] {
+        false, false, false, false, false, false, false, false, false, false, false
+      };
+
+      public Class getColumnClass(int columnIndex) {
+        return types [columnIndex];
+      }
+
+      public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return canEdit [columnIndex];
+      }
+    });
+    statsTable1.setColumnSelectionAllowed(true);
+    statsTable1.setMaximumSize(new java.awt.Dimension(1200, 1200));
+    statsTable1.setMinimumSize(new java.awt.Dimension(600, 400));
+    statsTable1.setPreferredSize(new java.awt.Dimension(1200, 900));
+    statsTable1.getTableHeader().setReorderingAllowed(false);
+    statsScrollPanel.setViewportView(statsTable1);
+    statsTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+    if (statsTable1.getColumnModel().getColumnCount() > 0) {
+      statsTable1.getColumnModel().getColumn(0).setResizable(false);
+      statsTable1.getColumnModel().getColumn(0).setPreferredWidth(250);
+      statsTable1.getColumnModel().getColumn(1).setResizable(false);
+      statsTable1.getColumnModel().getColumn(2).setResizable(false);
+      statsTable1.getColumnModel().getColumn(3).setResizable(false);
+      statsTable1.getColumnModel().getColumn(4).setResizable(false);
+      statsTable1.getColumnModel().getColumn(5).setResizable(false);
+      statsTable1.getColumnModel().getColumn(6).setResizable(false);
+      statsTable1.getColumnModel().getColumn(7).setResizable(false);
+      statsTable1.getColumnModel().getColumn(8).setResizable(false);
+      statsTable1.getColumnModel().getColumn(10).setResizable(false);
+    }
+
+    statsButtonGroupReportNumber.add(statsButton0);
+    statsButton0.setText("0");
+    statsButton0.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton0ItemStateChanged(evt);
+      }
+    });
+    statsButton0.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton0MouseEntered(evt);
+      }
+    });
+
+    statsButtonGroupReportNumber.add(statsButton1);
+    statsButton1.setText("1");
+    statsButton1.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton1ItemStateChanged(evt);
+      }
+    });
+    statsButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton1MouseEntered(evt);
+      }
+    });
+    statsButton1.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        statsButton1ActionPerformed(evt);
+      }
+    });
+
+    statsButtonGroupReportNumber.add(statsButton2);
+    statsButton2.setText("2");
+    statsButton2.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton2ItemStateChanged(evt);
+      }
+    });
+    statsButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton2MouseEntered(evt);
+      }
+    });
+
+    statsButtonGroupReportNumber.add(statsButton3);
+    statsButton3.setText("3");
+    statsButton3.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton3ItemStateChanged(evt);
+      }
+    });
+    statsButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton3MouseEntered(evt);
+      }
+    });
+    statsButton3.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        statsButton3ActionPerformed(evt);
+      }
+    });
+
+    statsButtonGroupReportNumber.add(statsButton4);
+    statsButton4.setText("4");
+    statsButton4.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton4ItemStateChanged(evt);
+      }
+    });
+    statsButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton4MouseEntered(evt);
+      }
+    });
+
+    statsButtonGroupReportNumber.add(statsButton5);
+    statsButton5.setText("5");
+    statsButton5.setToolTipText("GameMaster");
+    statsButton5.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton5ItemStateChanged(evt);
+      }
+    });
+    statsButton5.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton5MouseEntered(evt);
+      }
+    });
+    statsButton5.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        statsButton5ActionPerformed(evt);
+      }
+    });
+
+    statsButtonGroupReportNumber.add(statsButton6);
+    statsButton6.setText(" 6");
+    statsButton6.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton6ItemStateChanged(evt);
+      }
+    });
+    statsButton6.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton6MouseEntered(evt);
+      }
+    });
+
+    statsButtonGroupReportNumber.add(statsButton7);
+    statsButton7.setText("7");
+    statsButton7.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton7ItemStateChanged(evt);
+      }
+    });
+    statsButton7.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton7MouseEntered(evt);
+      }
+    });
+
+    statsButtonGroupReportNumber.add(statsButton8);
+    statsButton8.setText("8");
+    statsButton8.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton8ItemStateChanged(evt);
+      }
+    });
+    statsButton8.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton8MouseEntered(evt);
+      }
+    });
+
+    statsButtonGroupReportNumber.add(statsButton9);
+    statsButton9.setText("9");
+    statsButton9.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton9ItemStateChanged(evt);
+      }
+    });
+    statsButton9.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton9MouseEntered(evt);
+      }
+    });
+
+    statsButtonGroupReportNumber.add(statsButton10);
+    statsButton10.setText("10");
+    statsButton10.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton10ItemStateChanged(evt);
+      }
+    });
+    statsButton10.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton10MouseEntered(evt);
+      }
+    });
+    statsButton10.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        statsButton10ActionPerformed(evt);
+      }
+    });
+
+    statsCtlButtonRun1Yr.setText("5 yr");
+    statsCtlButtonRun1Yr.setMargin(new java.awt.Insets(2, 0, 2, 0));
+    statsCtlButtonRun1Yr.setMaximumSize(new java.awt.Dimension(20, 20));
+    statsCtlButtonRun1Yr.setMinimumSize(new java.awt.Dimension(20, 20));
+    statsCtlButtonRun1Yr.setName("5yr"); // NOI18N
+    statsCtlButtonRun1Yr.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        statsCtlButtonRun1YrMouseClicked(evt);
+      }
+    });
+    statsCtlButtonRun1Yr.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        statsCtlButtonRun1YrActionPerformed(evt);
+      }
+    });
+
+    statsField.setText("jTextField");
+
+    statsButtonGroupReportNumber.add(statsButton11);
+    statsButton11.setText("11");
+    statsButton11.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton11ItemStateChanged(evt);
+      }
+    });
+    statsButton11.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton11MouseEntered(evt);
+      }
+    });
+
+    statsCtlButtonRun5Yr.setText("1 yr");
+    statsCtlButtonRun5Yr.setMargin(new java.awt.Insets(2, 0, 2, 0));
+    statsCtlButtonRun5Yr.setMaximumSize(new java.awt.Dimension(25, 40));
+    statsCtlButtonRun5Yr.setMinimumSize(new java.awt.Dimension(20, 20));
+    statsCtlButtonRun5Yr.setName("1 yr"); // NOI18N
+    statsCtlButtonRun5Yr.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        statsCtlButtonRun5YrMouseClicked(evt);
+      }
+    });
+
+    statsButtonGroupReportNumber.add(statsButton12);
+    statsButton12.setText("12");
+    statsButton12.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton12ItemStateChanged(evt);
+      }
+    });
+    statsButton12.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton12MouseEntered(evt);
+      }
+    });
+
+    statsButtonGroupReportNumber.add(statsButton13);
+    statsButton13.setText("13");
+    statsButton13.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton13ItemStateChanged(evt);
+      }
+    });
+    statsButton13.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton13MouseEntered(evt);
+      }
+    });
+
+    statsButtonGroupReportNumber.add(statsButton14);
+    statsButton14.setText("14");
+    statsButton14.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton14ItemStateChanged(evt);
+      }
+    });
+    statsButton14.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton14MouseEntered(evt);
+      }
+    });
+
+    statsButtonGroupReportNumber.add(statsButton15);
+    statsButton15.setText("15");
+    statsButton15.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton15ItemStateChanged(evt);
+      }
+    });
+    statsButton15.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton15MouseEntered(evt);
+      }
+    });
+
+    statsButtonGroupReportNumber.add(statsButton16);
+    statsButton16.setText("16");
+    statsButton16.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton16ItemStateChanged(evt);
+      }
+    });
+    statsButton16.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton16MouseEntered(evt);
+      }
+    });
+
+    statsButtonGroupReportNumber.add(statsButton17);
+    statsButton17.setText("17");
+    statsButton17.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton17ItemStateChanged(evt);
+      }
+    });
+    statsButton17.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton17MouseEntered(evt);
+      }
+    });
+
+    statsButtonGroupReportNumber.add(statsButton18);
+    statsButton18.setText("18");
+    statsButton18.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton18ItemStateChanged(evt);
+      }
+    });
+    statsButton18.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton18MouseEntered(evt);
+      }
+    });
+
+    statsButtonGroupReportNumber.add(statsButton19);
+    statsButton19.setText("19");
+    statsButton19.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton19ItemStateChanged(evt);
+      }
+    });
+    statsButton19.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton19MouseEntered(evt);
+      }
+    });
+
+    statsButtonGroupReportNumber.add(statsButton20);
+    statsButton20.setText("20");
+    statsButton20.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton20ItemStateChanged(evt);
+      }
+    });
+    statsButton20.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton20MouseEntered(evt);
+      }
+    });
+
+    statsField2.setText("jTextField1");
+    statsField2.setToolTipText("");
+    statsField2.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        statsField2ActionPerformed(evt);
+      }
+    });
+
+    statsCtlButtonRun10Yr.setText("10 yr");
+    statsCtlButtonRun10Yr.setMargin(new java.awt.Insets(2, 0, 2, 0));
+    statsCtlButtonRun10Yr.setMaximumSize(new java.awt.Dimension(25, 40));
+    statsCtlButtonRun10Yr.setMinimumSize(new java.awt.Dimension(20, 20));
+    statsCtlButtonRun10Yr.setName("1 yr"); // NOI18N
+    statsCtlButtonRun10Yr.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        statsCtlButtonRun10YrMouseClicked(evt);
+      }
+    });
+
+    statsCtlButtonRun20Yr.setText("20yr");
+    statsCtlButtonRun20Yr.setMargin(new java.awt.Insets(2, 0, 2, 0));
+    statsCtlButtonRun20Yr.setMaximumSize(new java.awt.Dimension(25, 40));
+    statsCtlButtonRun20Yr.setMinimumSize(new java.awt.Dimension(20, 20));
+    statsCtlButtonRun20Yr.setName("1 yr"); // NOI18N
+    statsCtlButtonRun20Yr.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        statsCtlButtonRun20YrMouseClicked(evt);
+      }
+    });
+
+    javax.swing.GroupLayout statsLayout = new javax.swing.GroupLayout(stats);
+    stats.setLayout(statsLayout);
+    statsLayout.setHorizontalGroup(
+      statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(statsLayout.createSequentialGroup()
+        .addContainerGap()
+        .addComponent(statsScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addGap(0, 0, Short.MAX_VALUE))
+      .addGroup(statsLayout.createSequentialGroup()
+        .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addGroup(statsLayout.createSequentialGroup()
+            .addGap(10, 10, 10)
+            .addComponent(statsButton0)
+            .addGap(9, 9, 9)
+            .addComponent(statsButton11)
+            .addGap(3, 3, 3)
+            .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+              .addComponent(statsButton2)
+              .addComponent(statsButton12))
+            .addGap(3, 3, 3)
+            .addComponent(statsButton13)
+            .addGap(3, 3, 3)
+            .addComponent(statsButton14)
+            .addGap(123, 123, 123)
+            .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+              .addComponent(statsButton18)
+              .addComponent(statsButton8))
+            .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+              .addGroup(statsLayout.createSequentialGroup()
                 .addGap(43, 43, 43)
-                .addComponent(statsButton10)
+                .addComponent(statsButton10))
+              .addGroup(statsLayout.createSequentialGroup()
+                .addGap(3, 3, 3)
+                .addComponent(statsButton9))
+              .addGroup(statsLayout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(statsButton20))
+              .addGroup(statsLayout.createSequentialGroup()
+                .addGap(3, 3, 3)
+                .addComponent(statsButton19)))
+            .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+              .addGroup(statsLayout.createSequentialGroup()
                 .addGap(3, 3, 3)
                 .addComponent(statsCtlButtonRun5Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(70, 70, 70)
-                .addComponent(statsField, javax.swing.GroupLayout.PREFERRED_SIZE, 690, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(statsLayout.createSequentialGroup()
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(statsCtlButtonRun10Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+              .addGroup(statsLayout.createSequentialGroup()
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(statsCtlButtonRun1Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(statsCtlButtonRun20Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addComponent(statsField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(statsField, javax.swing.GroupLayout.PREFERRED_SIZE, 649, javax.swing.GroupLayout.PREFERRED_SIZE))
+          .addGroup(statsLayout.createSequentialGroup()
+            .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+              .addGroup(statsLayout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addComponent(statsButton1))
-            .addGroup(statsLayout.createSequentialGroup()
+              .addGroup(statsLayout.createSequentialGroup()
                 .addGap(290, 290, 290)
                 .addComponent(statsButton7))
-            .addGroup(statsLayout.createSequentialGroup()
+              .addGroup(statsLayout.createSequentialGroup()
                 .addGap(170, 170, 170)
                 .addComponent(statsButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(statsScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGroup(statsLayout.createSequentialGroup()
-                .addGap(410, 410, 410)
-                .addComponent(statsButton20))
-            .addGroup(statsLayout.createSequentialGroup()
+              .addGroup(statsLayout.createSequentialGroup()
                 .addGap(210, 210, 210)
                 .addComponent(statsButton15))
-            .addGroup(statsLayout.createSequentialGroup()
+              .addGroup(statsLayout.createSequentialGroup()
                 .addGap(250, 250, 250)
                 .addComponent(statsButton6))
-            .addGroup(statsLayout.createSequentialGroup()
+              .addGroup(statsLayout.createSequentialGroup()
                 .addGap(130, 130, 130)
                 .addComponent(statsButton3))
-            .addGroup(statsLayout.createSequentialGroup()
+              .addGroup(statsLayout.createSequentialGroup()
                 .addGap(250, 250, 250)
                 .addComponent(statsButton16))
-            .addGroup(statsLayout.createSequentialGroup()
+              .addGroup(statsLayout.createSequentialGroup()
                 .addGap(290, 290, 290)
                 .addComponent(statsButton17))
-            .addGroup(statsLayout.createSequentialGroup()
-                .addGap(370, 370, 370)
-                .addComponent(statsButton19))
-            .addGroup(statsLayout.createSequentialGroup()
+              .addGroup(statsLayout.createSequentialGroup()
                 .addGap(210, 210, 210)
-                .addComponent(statsButton5))
-            .addGroup(statsLayout.createSequentialGroup()
-                .addGap(370, 370, 370)
-                .addComponent(statsButton9))
-            .addGroup(statsLayout.createSequentialGroup()
-                .addGap(450, 450, 450)
-                .addComponent(statsCtlButtonRun1Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(statsLayout.createSequentialGroup()
-                .addGap(510, 510, 510)
-                .addComponent(statsField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        statsLayout.setVerticalGroup(
-            statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(statsButton0)
-            .addGroup(statsLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(statsButton11))
-            .addComponent(statsButton2)
-            .addGroup(statsLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(statsButton12))
-            .addGroup(statsLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(statsButton13))
-            .addGroup(statsLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(statsButton14))
-            .addGroup(statsLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(statsButton18))
-            .addComponent(statsButton8)
-            .addComponent(statsButton10)
+                .addComponent(statsButton5)))
+            .addGap(0, 0, Short.MAX_VALUE)))
+        .addContainerGap())
+    );
+    statsLayout.setVerticalGroup(
+      statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(statsLayout.createSequentialGroup()
+        .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addComponent(statsButton0)
+          .addComponent(statsButton2)
+          .addComponent(statsButton8)
+          .addComponent(statsButton10)
+          .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
             .addComponent(statsCtlButtonRun5Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(statsCtlButtonRun10Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+          .addComponent(statsButton1)
+          .addComponent(statsButton7)
+          .addComponent(statsButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+          .addComponent(statsButton6)
+          .addComponent(statsButton3)
+          .addComponent(statsButton5)
+          .addComponent(statsButton9)
+          .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
             .addComponent(statsField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(statsButton1)
-            .addComponent(statsButton7)
-            .addComponent(statsButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGroup(statsLayout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(statsScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(statsLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(statsButton20))
-            .addGroup(statsLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(statsButton15))
-            .addComponent(statsButton6)
-            .addComponent(statsButton3)
-            .addGroup(statsLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(statsButton16))
-            .addGroup(statsLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(statsButton17))
-            .addGroup(statsLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(statsButton19))
-            .addComponent(statsButton5)
-            .addComponent(statsButton9)
-            .addGroup(statsLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(statsCtlButtonRun1Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(statsField2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+            .addComponent(statsField2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+          .addGroup(statsLayout.createSequentialGroup()
+            .addGap(20, 20, 20)
+            .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+              .addComponent(statsButton11)
+              .addComponent(statsButton12)
+              .addComponent(statsButton13)
+              .addComponent(statsButton14)
+              .addComponent(statsButton18)
+              .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(statsButton20)
+                .addComponent(statsCtlButtonRun1Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(statsCtlButtonRun20Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+              .addComponent(statsButton15)
+              .addComponent(statsButton16)
+              .addComponent(statsButton17)
+              .addComponent(statsButton19))))
+        .addGap(78, 78, 78)
+        .addComponent(statsScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1090, Short.MAX_VALUE)
+        .addContainerGap())
+    );
 
-        controlPanels.addTab("stats", stats);
+    controlPanels.addTab("stats", stats);
 
-        display.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
-        display.setAlignmentY(300.0F);
-        display.setMaximumSize(new java.awt.Dimension(900, 700));
-        display.setMinimumSize(new java.awt.Dimension(300, 400));
-        display.setPreferredSize(new java.awt.Dimension(800, 600));
-        display.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+    display.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+    display.setAlignmentY(300.0F);
+    display.setMaximumSize(new java.awt.Dimension(900, 700));
+    display.setMinimumSize(new java.awt.Dimension(300, 400));
+    display.setPreferredSize(new java.awt.Dimension(800, 600));
+    display.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-        displayPanel0.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        displayPanel0.setToolTipText("primary display");
-        displayPanel0.setMaximumSize(new java.awt.Dimension(1200, 500));
-        displayPanel0.setMinimumSize(new java.awt.Dimension(400, 200));
-        displayPanel0.setPreferredSize(new java.awt.Dimension(1200, 300));
-        displayPanel0.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+    displayPanel0.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+    displayPanel0.setToolTipText("primary display");
+    displayPanel0.setMaximumSize(new java.awt.Dimension(1200, 500));
+    displayPanel0.setMinimumSize(new java.awt.Dimension(400, 200));
+    displayPanel0.setPreferredSize(new java.awt.Dimension(1200, 300));
+    displayPanel0.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-        jScrollPane1.setBorder(null);
-        jScrollPane1.setAutoscrolls(true);
-        jScrollPane1.setMaximumSize(new java.awt.Dimension(1200, 300));
-        jScrollPane1.setMinimumSize(new java.awt.Dimension(800, 80));
-        jScrollPane1.setName(""); // NOI18N
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(1200, 100));
+    jScrollPane1.setBorder(null);
+    jScrollPane1.setAutoscrolls(true);
+    jScrollPane1.setMaximumSize(new java.awt.Dimension(1200, 300));
+    jScrollPane1.setMinimumSize(new java.awt.Dimension(800, 80));
+    jScrollPane1.setName(""); // NOI18N
+    jScrollPane1.setPreferredSize(new java.awt.Dimension(1200, 100));
 
-        displayPanel0Text.setColumns(50);
-        displayPanel0Text.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
-        displayPanel0Text.setLineWrap(true);
-        displayPanel0Text.setRows(5);
-        displayPanel0Text.setWrapStyleWord(true);
-        displayPanel0Text.setBorder(null);
-        displayPanel0Text.setMaximumSize(new java.awt.Dimension(1200, 300));
-        displayPanel0Text.setMinimumSize(new java.awt.Dimension(800, 30));
-        displayPanel0Text.setName(""); // NOI18N
-        displayPanel0Text.setOpaque(false);
-        displayPanel0Text.setPreferredSize(new java.awt.Dimension(1200, 100));
-        jScrollPane1.setViewportView(displayPanel0Text);
+    displayPanel0Text.setColumns(50);
+    displayPanel0Text.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+    displayPanel0Text.setLineWrap(true);
+    displayPanel0Text.setRows(5);
+    displayPanel0Text.setWrapStyleWord(true);
+    displayPanel0Text.setBorder(null);
+    displayPanel0Text.setMaximumSize(new java.awt.Dimension(1200, 300));
+    displayPanel0Text.setMinimumSize(new java.awt.Dimension(800, 30));
+    displayPanel0Text.setName(""); // NOI18N
+    displayPanel0Text.setOpaque(false);
+    displayPanel0Text.setPreferredSize(new java.awt.Dimension(1200, 100));
+    jScrollPane1.setViewportView(displayPanel0Text);
 
-        displayPanel0.add(jScrollPane1);
+    displayPanel0.add(jScrollPane1);
 
-        displayPanel0Text1.setText("jTextField1");
-        displayPanel0Text1.setMaximumSize(new java.awt.Dimension(1200, 300));
-        displayPanel0Text1.setMinimumSize(new java.awt.Dimension(600, 50));
-        displayPanel0Text1.setPreferredSize(new java.awt.Dimension(800, 50));
-        displayPanel0.add(displayPanel0Text1);
+    displayPanel0Text1.setText("jTextField1");
+    displayPanel0Text1.setMaximumSize(new java.awt.Dimension(1200, 300));
+    displayPanel0Text1.setMinimumSize(new java.awt.Dimension(600, 50));
+    displayPanel0Text1.setPreferredSize(new java.awt.Dimension(800, 50));
+    displayPanel0.add(displayPanel0Text1);
 
-        display.add(displayPanel0);
+    display.add(displayPanel0);
 
-        displayPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
-        displayPanel1.setMaximumSize(new java.awt.Dimension(800, 30));
-        displayPanel1.setMinimumSize(new java.awt.Dimension(800, 20));
-        displayPanel1.setName("CreatePannel"); // NOI18N
-        displayPanel1.setPreferredSize(new java.awt.Dimension(800, 20));
+    displayPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
+    displayPanel1.setMaximumSize(new java.awt.Dimension(800, 30));
+    displayPanel1.setMinimumSize(new java.awt.Dimension(800, 20));
+    displayPanel1.setName("CreatePannel"); // NOI18N
+    displayPanel1.setPreferredSize(new java.awt.Dimension(800, 20));
 
-        displayPanel1SinceYearStart.setText("000.000");
-        displayPanel1SinceYearStart.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                displayPanel1SinceYearStartActionPerformed(evt);
-            }
-        });
+    displayPanel1SinceYearStart.setText("000.000");
+    displayPanel1SinceYearStart.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        displayPanel1SinceYearStartActionPerformed(evt);
+      }
+    });
 
-        displayPanel1EconName.setText("econName");
+    displayPanel1EconName.setText("econName");
 
-        displayPanel1Operation.setText("operation");
-        displayPanel1Operation.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                displayPanel1OperationActionPerformed(evt);
-            }
-        });
+    displayPanel1Operation.setText("operation");
+    displayPanel1Operation.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        displayPanel1OperationActionPerformed(evt);
+      }
+    });
 
-        javax.swing.GroupLayout displayPanel1Layout = new javax.swing.GroupLayout(displayPanel1);
-        displayPanel1.setLayout(displayPanel1Layout);
-        displayPanel1Layout.setHorizontalGroup(
-            displayPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(displayPanel1Layout.createSequentialGroup()
-                .addGap(436, 436, 436)
-                .addComponent(displayPanel1EconName, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16)
-                .addComponent(displayPanel1Operation, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(displayPanel1SinceYearStart, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        displayPanel1Layout.setVerticalGroup(
-            displayPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(displayPanel1Layout.createSequentialGroup()
-                .addGap(117, 117, 117)
-                .addGroup(displayPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(displayPanel1EconName, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(displayPanel1Operation, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(displayPanel1SinceYearStart, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26))
-        );
+    javax.swing.GroupLayout displayPanel1Layout = new javax.swing.GroupLayout(displayPanel1);
+    displayPanel1.setLayout(displayPanel1Layout);
+    displayPanel1Layout.setHorizontalGroup(
+      displayPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(displayPanel1Layout.createSequentialGroup()
+        .addGap(436, 436, 436)
+        .addComponent(displayPanel1EconName, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addGap(16, 16, 16)
+        .addComponent(displayPanel1Operation, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addComponent(displayPanel1SinceYearStart, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addGap(0, 0, Short.MAX_VALUE))
+    );
+    displayPanel1Layout.setVerticalGroup(
+      displayPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(displayPanel1Layout.createSequentialGroup()
+        .addGap(117, 117, 117)
+        .addGroup(displayPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+          .addComponent(displayPanel1EconName, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+          .addComponent(displayPanel1Operation, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+          .addComponent(displayPanel1SinceYearStart, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+        .addGap(26, 26, 26))
+    );
 
-        display.add(displayPanel1);
+    display.add(displayPanel1);
 
-        displayPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
-        displayPanel2.setAlignmentX(0.0F);
-        displayPanel2.setAlignmentY(300.0F);
-        displayPanel2.setMaximumSize(new java.awt.Dimension(800, 30));
-        displayPanel2.setMinimumSize(new java.awt.Dimension(800, 20));
-        displayPanel2.setName("displayPanel2"); // NOI18N
-        displayPanel2.setPreferredSize(new java.awt.Dimension(800, 20));
+    displayPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
+    displayPanel2.setAlignmentX(0.0F);
+    displayPanel2.setAlignmentY(300.0F);
+    displayPanel2.setMaximumSize(new java.awt.Dimension(800, 30));
+    displayPanel2.setMinimumSize(new java.awt.Dimension(800, 20));
+    displayPanel2.setName("displayPanel2"); // NOI18N
+    displayPanel2.setPreferredSize(new java.awt.Dimension(800, 20));
 
-        displayPanel2EconName.setText("econName");
-        displayPanel2EconName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                displayPanel2EconNameActionPerformed(evt);
-            }
-        });
+    displayPanel2EconName.setText("econName");
+    displayPanel2EconName.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        displayPanel2EconNameActionPerformed(evt);
+      }
+    });
 
-        displayPanel2Operation.setText("operation");
-        displayPanel2Operation.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                displayPanel2OperationActionPerformed(evt);
-            }
-        });
+    displayPanel2Operation.setText("operation");
+    displayPanel2Operation.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        displayPanel2OperationActionPerformed(evt);
+      }
+    });
 
-        displayPanel2SinceYearStart.setText("000.000");
+    displayPanel2SinceYearStart.setText("000.000");
 
-        javax.swing.GroupLayout displayPanel2Layout = new javax.swing.GroupLayout(displayPanel2);
-        displayPanel2.setLayout(displayPanel2Layout);
-        displayPanel2Layout.setHorizontalGroup(
-            displayPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(displayPanel2Layout.createSequentialGroup()
-                .addComponent(displayPanel2EconName, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(displayPanel2Operation, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(displayPanel2SinceYearStart, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 198, Short.MAX_VALUE))
-        );
-        displayPanel2Layout.setVerticalGroup(
-            displayPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, displayPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(displayPanel2EconName, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-            .addGroup(displayPanel2Layout.createSequentialGroup()
-                .addGroup(displayPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(displayPanel2SinceYearStart, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(displayPanel2Operation, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
+    javax.swing.GroupLayout displayPanel2Layout = new javax.swing.GroupLayout(displayPanel2);
+    displayPanel2.setLayout(displayPanel2Layout);
+    displayPanel2Layout.setHorizontalGroup(
+      displayPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(displayPanel2Layout.createSequentialGroup()
+        .addComponent(displayPanel2EconName, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addComponent(displayPanel2Operation, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addGap(18, 18, 18)
+        .addComponent(displayPanel2SinceYearStart, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addGap(0, 198, Short.MAX_VALUE))
+    );
+    displayPanel2Layout.setVerticalGroup(
+      displayPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, displayPanel2Layout.createSequentialGroup()
+        .addContainerGap()
+        .addComponent(displayPanel2EconName, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+      .addGroup(displayPanel2Layout.createSequentialGroup()
+        .addGroup(displayPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addComponent(displayPanel2SinceYearStart, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+          .addComponent(displayPanel2Operation, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+        .addGap(0, 0, Short.MAX_VALUE))
+    );
 
-        display.add(displayPanel2);
+    display.add(displayPanel2);
 
-        controlPanels.addTab("display", display);
+    controlPanels.addTab("display", display);
 
-        getContentPane().add(controlPanels);
-        controlPanels.getAccessibleContext().setAccessibleName("traderPanel");
-    }// </editor-fold>//GEN-END:initComponents
+    getContentPane().add(controlPanels);
+    controlPanels.getAccessibleContext().setAccessibleName("traderPanel");
+  }// </editor-fold>//GEN-END:initComponents
 
   private void formInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_formInputMethodTextChanged
     /*
@@ -4348,7 +4378,7 @@ public class StarTrader extends javax.swing.JFrame {
       setFatalError();
     }
     else {
-      runYears(5);
+      runYears(1);
     }
   }//GEN-LAST:event_statsCtlButtonRun1YrMouseClicked
 
@@ -4362,7 +4392,7 @@ public class StarTrader extends javax.swing.JFrame {
       setFatalError();
     }
     else {
-      runYears(1);
+      runYears(5);
     }
   }//GEN-LAST:event_statsCtlButtonRun5YrMouseClicked
 
@@ -4523,6 +4553,14 @@ public class StarTrader extends javax.swing.JFrame {
   private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
     System.exit(1);
   }//GEN-LAST:event_formWindowClosed
+
+  private void statsCtlButtonRun10YrMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statsCtlButtonRun10YrMouseClicked
+    // TODO add your handling code here:
+  }//GEN-LAST:event_statsCtlButtonRun10YrMouseClicked
+
+  private void statsCtlButtonRun20YrMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statsCtlButtonRun20YrMouseClicked
+    // TODO add your handling code here:
+  }//GEN-LAST:event_statsCtlButtonRun20YrMouseClicked
   static Boolean resetOut = false;
 
   /**
@@ -4540,13 +4578,12 @@ public class StarTrader extends javax.swing.JFrame {
       PrintStream o, er, console, errNew;
       if(E.debugOutput){    
           o = new PrintStream(new File("StarTraderOutput.txt"));
-      
-      console = System.out;
-      er = new PrintStream(new File("StarTraderErrors.txt"));
-      errNew = System.err;
-      if (E.resetOut) {
-        System.setOut(o);
-        System.setErr(er);
+          console = System.out;
+          er = new PrintStream(new File("StarTraderErrors.txt"));
+          errNew = System.err;
+          if (E.resetOut) {
+            System.setOut(o);
+            System.setErr(er);
       }}
 
       for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -4592,191 +4629,193 @@ public class StarTrader extends javax.swing.JFrame {
   }
 
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    protected javax.swing.JSlider LogDLen2Slider;
-    protected javax.swing.JSlider LogDlen1Slider;
-    protected javax.swing.JLabel Start1Name;
-    protected javax.swing.JLabel Start2Name;
-    protected javax.swing.JPanel clan;
-    protected javax.swing.JRadioButton clanBlue;
-    protected javax.swing.ButtonGroup clanButtonGroupActiveClan;
-    protected javax.swing.JRadioButton clanGreen;
-    protected javax.swing.JLabel clanLabelP3;
-    protected javax.swing.JLabel clanLabelP4;
-    protected javax.swing.JLabel clanLabelS4;
-    protected javax.swing.JRadioButton clanOrange;
-    protected javax.swing.JPanel clanPanel0;
-    protected javax.swing.JPanel clanPanel1;
-    protected javax.swing.JPanel clanPanel2;
-    protected javax.swing.JPanel clanPanel3;
-    protected javax.swing.JPanel clanPanel4;
-    protected javax.swing.JRadioButton clanRed;
-    protected javax.swing.JSlider clanSliderP0;
-    protected javax.swing.JSlider clanSliderP1;
-    protected javax.swing.JSlider clanSliderP2;
-    protected javax.swing.JSlider clanSliderP3;
-    protected javax.swing.JSlider clanSliderP4;
-    protected javax.swing.JSlider clanSliderS0;
-    protected javax.swing.JSlider clanSliderS1;
-    protected javax.swing.JSlider clanSliderS2;
-    protected javax.swing.JSlider clanSliderS3;
-    protected javax.swing.JSlider clanSliderS4;
-    protected javax.swing.JTextArea clanTextField;
-    protected javax.swing.JTextField clanTextField0;
-    protected javax.swing.JTextField clanTextField1;
-    protected javax.swing.JTextField clanTextField2;
-    protected javax.swing.JTextField clanTextField3;
-    protected javax.swing.JTextField clanTextField4;
-    protected javax.swing.JScrollPane clanTextPane;
-    protected javax.swing.JRadioButton clanYellow;
-    protected javax.swing.JTabbedPane controlPanels;
-    protected javax.swing.JPanel display;
-    protected javax.swing.JPanel displayPanel0;
-    protected javax.swing.JTextArea displayPanel0Text;
-    protected javax.swing.JTextField displayPanel0Text1;
-    protected javax.swing.JPanel displayPanel1;
-    protected javax.swing.JTextField displayPanel1EconName;
-    protected javax.swing.JTextField displayPanel1Operation;
-    protected javax.swing.JTextField displayPanel1SinceYearStart;
-    protected javax.swing.JPanel displayPanel2;
-    protected javax.swing.JTextField displayPanel2EconName;
-    protected javax.swing.JTextField displayPanel2Operation;
-    protected javax.swing.JTextField displayPanel2SinceYearStart;
-    protected javax.swing.JPanel game;
-    protected java.awt.Button gameButtonDown;
-    protected javax.swing.ButtonGroup gameButtonGroup;
-    protected java.awt.Button gameButtonUp;
-    protected java.awt.Button gameButtonUp1;
-    protected javax.swing.JButton gameCtlButtonRun1Year1;
-    protected javax.swing.JButton gameCtlButtonRun1Yr2;
-    protected javax.swing.JButton gameCtlButtonRun5Years1;
-    protected javax.swing.JLabel gameLabelP5;
-    protected javax.swing.JLabel gameLabelP6;
-    protected javax.swing.JLabel gameLabelP7;
-    protected javax.swing.JLabel gameLabelS5;
-    protected javax.swing.JLabel gameLabelS6;
-    protected javax.swing.JLabel gameLabelS7;
-    protected javax.swing.JLabel gameLabelS8;
-    protected javax.swing.JRadioButton gameMaster;
-    protected javax.swing.JPanel gamePanel0;
-    protected javax.swing.JPanel gamePanel1;
-    protected javax.swing.JPanel gamePanel2;
-    protected javax.swing.JPanel gamePanel3;
-    protected javax.swing.JPanel gamePanel4;
-    protected javax.swing.JPanel gamePanel5;
-    protected javax.swing.JPanel gamePanel6;
-    protected javax.swing.JPanel gamePanel7;
-    protected javax.swing.JPanel gamePanel8;
-    protected javax.swing.JPanel gamePanel9;
-    protected javax.swing.JPanel gamePanelBottomPanel;
-    protected javax.swing.JSlider gameSliderP0;
-    protected javax.swing.JSlider gameSliderP1;
-    protected javax.swing.JSlider gameSliderP2;
-    protected javax.swing.JSlider gameSliderP3;
-    protected javax.swing.JSlider gameSliderP4;
-    protected javax.swing.JSlider gameSliderP5;
-    protected javax.swing.JSlider gameSliderP6;
-    protected javax.swing.JSlider gameSliderP7;
-    protected javax.swing.JSlider gameSliderP8;
-    protected javax.swing.JSlider gameSliderP9;
-    protected javax.swing.JSlider gameSliderS0;
-    protected javax.swing.JSlider gameSliderS1;
-    protected javax.swing.JSlider gameSliderS2;
-    protected javax.swing.JSlider gameSliderS3;
-    protected javax.swing.JSlider gameSliderS4;
-    protected javax.swing.JSlider gameSliderS5;
-    protected javax.swing.JSlider gameSliderS6;
-    protected javax.swing.JSlider gameSliderS7;
-    protected javax.swing.JSlider gameSliderS8;
-    protected javax.swing.JSlider gameSliderS9;
-    protected javax.swing.JTextArea gameTextField;
-    protected javax.swing.JTextField gameTextField0;
-    protected javax.swing.JTextField gameTextField1;
-    protected javax.swing.JTextField gameTextField2;
-    protected javax.swing.JTextField gameTextField3;
-    protected javax.swing.JTextField gameTextField4;
-    protected javax.swing.JTextField gameTextField5;
-    protected javax.swing.JTextField gameTextField6;
-    protected javax.swing.JTextField gameTextField7;
-    protected javax.swing.JTextField gameTextField8;
-    protected javax.swing.JTextField gameTextField9;
-    protected javax.swing.JScrollPane gameTextPane;
-    protected javax.swing.JLabel gameToLabelPlanet;
-    protected javax.swing.JLabel gameTopLabelShip;
-    protected javax.swing.JTextField gameTopRightFill;
-    protected javax.swing.JPanel gameXtraPanel1;
-    protected javax.swing.ButtonGroup initButtonGroupPorS;
-    protected javax.swing.JScrollPane jScrollPane1;
-    protected javax.swing.JSeparator jSeparator1;
-    protected javax.swing.JSeparator jSeparator10;
-    protected javax.swing.JSeparator jSeparator11;
-    protected javax.swing.JSeparator jSeparator13;
-    protected javax.swing.JSeparator jSeparator14;
-    protected javax.swing.JSeparator jSeparator15;
-    protected javax.swing.JSeparator jSeparator16;
-    protected javax.swing.JSeparator jSeparator2;
-    protected javax.swing.JSeparator jSeparator3;
-    protected javax.swing.JSeparator jSeparator4;
-    protected javax.swing.JSeparator jSeparator5;
-    protected javax.swing.JSeparator jSeparator6;
-    protected javax.swing.JSeparator jSeparator7;
-    protected javax.swing.JSeparator jSeparator8;
-    protected javax.swing.JSeparator jSeparator9;
-    protected javax.swing.JRadioButton logActionAdd;
-    protected javax.swing.JRadioButton logActionDel;
-    protected javax.swing.JRadioButton logActionJump;
-    protected javax.swing.ButtonGroup logBGactions;
-    protected javax.swing.ButtonGroup logButtonGroup1or2;
-    protected javax.swing.JSlider logDLevel1Slider;
-    protected javax.swing.JSlider logDLevel2Slider;
-    protected javax.swing.JTable logDisplayTable;
-    protected javax.swing.JLabel logDlen1;
-    protected javax.swing.JLabel logDlen2;
-    protected javax.swing.JLabel logDlevel1;
-    protected javax.swing.JLabel logDlevel2;
-    protected javax.swing.DefaultListModel namesList;
-    protected javax.swing.JList logEnvirnNamesList;
-    protected javax.swing.JSpinner logM1Spinner;
-    protected javax.swing.JSpinner logM2Spinner;
-    protected javax.swing.JScrollPane logNamesScrollPanel;
-    protected javax.swing.JRadioButton logRadioButtonStart1;
-    protected javax.swing.JRadioButton logRadioButtonStart2;
-    protected javax.swing.JScrollPane logTableScrollPanel;
-    protected javax.swing.JPanel stats;
-    protected javax.swing.JRadioButton statsButton0;
-    protected javax.swing.JRadioButton statsButton1;
-    protected javax.swing.JRadioButton statsButton10;
-    protected javax.swing.JRadioButton statsButton11;
-    protected javax.swing.JRadioButton statsButton12;
-    protected javax.swing.JRadioButton statsButton13;
-    protected javax.swing.JRadioButton statsButton14;
-    protected javax.swing.JRadioButton statsButton15;
-    protected javax.swing.JRadioButton statsButton16;
-    protected javax.swing.JRadioButton statsButton17;
-    protected javax.swing.JRadioButton statsButton18;
-    protected javax.swing.JRadioButton statsButton19;
-    protected javax.swing.JRadioButton statsButton2;
-    protected javax.swing.JRadioButton statsButton20;
-    protected javax.swing.JRadioButton statsButton3;
-    protected javax.swing.JRadioButton statsButton4;
-    protected javax.swing.JRadioButton statsButton5;
-    protected javax.swing.JRadioButton statsButton6;
-    protected javax.swing.JRadioButton statsButton7;
-    protected javax.swing.JRadioButton statsButton8;
-    protected javax.swing.JRadioButton statsButton9;
-    protected javax.swing.ButtonGroup statsButtonGroupClans;
-    protected javax.swing.ButtonGroup statsButtonGroupReportNumber;
-    protected javax.swing.JButton statsCtlButtonRun1Yr;
-    protected javax.swing.JButton statsCtlButtonRun5Yr;
-    protected javax.swing.JTextField statsField;
-    protected javax.swing.JTextField statsField2;
-    protected javax.swing.JScrollPane statsScrollPanel;
-    protected javax.swing.JTable statsTable1;
-    protected javax.swing.JPanel story;
-    protected javax.swing.JTextArea storyTextField1;
-    protected javax.swing.JScrollPane storyTextPane;
-    protected javax.swing.JTextField storyVersionField;
-    // End of variables declaration//GEN-END:variables
+  // Variables declaration - do not modify//GEN-BEGIN:variables
+  protected javax.swing.JSlider LogDLen2Slider;
+  protected javax.swing.JSlider LogDlen1Slider;
+  protected javax.swing.JLabel Start1Name;
+  protected javax.swing.JLabel Start2Name;
+  protected javax.swing.JPanel clan;
+  protected javax.swing.JRadioButton clanBlue;
+  protected javax.swing.ButtonGroup clanButtonGroupActiveClan;
+  protected javax.swing.JRadioButton clanGreen;
+  protected javax.swing.JLabel clanLabelP3;
+  protected javax.swing.JLabel clanLabelP4;
+  protected javax.swing.JLabel clanLabelS4;
+  protected javax.swing.JRadioButton clanOrange;
+  protected javax.swing.JPanel clanPanel0;
+  protected javax.swing.JPanel clanPanel1;
+  protected javax.swing.JPanel clanPanel2;
+  protected javax.swing.JPanel clanPanel3;
+  protected javax.swing.JPanel clanPanel4;
+  protected javax.swing.JRadioButton clanRed;
+  protected javax.swing.JSlider clanSliderP0;
+  protected javax.swing.JSlider clanSliderP1;
+  protected javax.swing.JSlider clanSliderP2;
+  protected javax.swing.JSlider clanSliderP3;
+  protected javax.swing.JSlider clanSliderP4;
+  protected javax.swing.JSlider clanSliderS0;
+  protected javax.swing.JSlider clanSliderS1;
+  protected javax.swing.JSlider clanSliderS2;
+  protected javax.swing.JSlider clanSliderS3;
+  protected javax.swing.JSlider clanSliderS4;
+  protected javax.swing.JTextArea clanTextField;
+  protected javax.swing.JTextField clanTextField0;
+  protected javax.swing.JTextField clanTextField1;
+  protected javax.swing.JTextField clanTextField2;
+  protected javax.swing.JTextField clanTextField3;
+  protected javax.swing.JTextField clanTextField4;
+  protected javax.swing.JScrollPane clanTextPane;
+  protected javax.swing.JRadioButton clanYellow;
+  protected javax.swing.JTabbedPane controlPanels;
+  protected javax.swing.JPanel display;
+  protected javax.swing.JPanel displayPanel0;
+  protected javax.swing.JTextArea displayPanel0Text;
+  protected javax.swing.JTextField displayPanel0Text1;
+  protected javax.swing.JPanel displayPanel1;
+  protected javax.swing.JTextField displayPanel1EconName;
+  protected javax.swing.JTextField displayPanel1Operation;
+  protected javax.swing.JTextField displayPanel1SinceYearStart;
+  protected javax.swing.JPanel displayPanel2;
+  protected javax.swing.JTextField displayPanel2EconName;
+  protected javax.swing.JTextField displayPanel2Operation;
+  protected javax.swing.JTextField displayPanel2SinceYearStart;
+  protected javax.swing.JPanel game;
+  protected java.awt.Button gameButtonDown;
+  protected javax.swing.ButtonGroup gameButtonGroup;
+  protected java.awt.Button gameButtonUp;
+  protected java.awt.Button gameButtonUp1;
+  protected javax.swing.JButton gameCtlButtonRun1Year1;
+  protected javax.swing.JButton gameCtlButtonRun1Yr2;
+  protected javax.swing.JButton gameCtlButtonRun5Years1;
+  protected javax.swing.JLabel gameLabelP5;
+  protected javax.swing.JLabel gameLabelP6;
+  protected javax.swing.JLabel gameLabelP7;
+  protected javax.swing.JLabel gameLabelS5;
+  protected javax.swing.JLabel gameLabelS6;
+  protected javax.swing.JLabel gameLabelS7;
+  protected javax.swing.JLabel gameLabelS8;
+  protected javax.swing.JRadioButton gameMaster;
+  protected javax.swing.JPanel gamePanel0;
+  protected javax.swing.JPanel gamePanel1;
+  protected javax.swing.JPanel gamePanel2;
+  protected javax.swing.JPanel gamePanel3;
+  protected javax.swing.JPanel gamePanel4;
+  protected javax.swing.JPanel gamePanel5;
+  protected javax.swing.JPanel gamePanel6;
+  protected javax.swing.JPanel gamePanel7;
+  protected javax.swing.JPanel gamePanel8;
+  protected javax.swing.JPanel gamePanel9;
+  protected javax.swing.JPanel gamePanelBottomPanel;
+  protected javax.swing.JSlider gameSliderP0;
+  protected javax.swing.JSlider gameSliderP1;
+  protected javax.swing.JSlider gameSliderP2;
+  protected javax.swing.JSlider gameSliderP3;
+  protected javax.swing.JSlider gameSliderP4;
+  protected javax.swing.JSlider gameSliderP5;
+  protected javax.swing.JSlider gameSliderP6;
+  protected javax.swing.JSlider gameSliderP7;
+  protected javax.swing.JSlider gameSliderP8;
+  protected javax.swing.JSlider gameSliderP9;
+  protected javax.swing.JSlider gameSliderS0;
+  protected javax.swing.JSlider gameSliderS1;
+  protected javax.swing.JSlider gameSliderS2;
+  protected javax.swing.JSlider gameSliderS3;
+  protected javax.swing.JSlider gameSliderS4;
+  protected javax.swing.JSlider gameSliderS5;
+  protected javax.swing.JSlider gameSliderS6;
+  protected javax.swing.JSlider gameSliderS7;
+  protected javax.swing.JSlider gameSliderS8;
+  protected javax.swing.JSlider gameSliderS9;
+  protected javax.swing.JTextArea gameTextField;
+  protected javax.swing.JTextField gameTextField0;
+  protected javax.swing.JTextField gameTextField1;
+  protected javax.swing.JTextField gameTextField2;
+  protected javax.swing.JTextField gameTextField3;
+  protected javax.swing.JTextField gameTextField4;
+  protected javax.swing.JTextField gameTextField5;
+  protected javax.swing.JTextField gameTextField6;
+  protected javax.swing.JTextField gameTextField7;
+  protected javax.swing.JTextField gameTextField8;
+  protected javax.swing.JTextField gameTextField9;
+  protected javax.swing.JScrollPane gameTextPane;
+  protected javax.swing.JLabel gameToLabelPlanet;
+  protected javax.swing.JLabel gameTopLabelShip;
+  protected javax.swing.JTextField gameTopRightFill;
+  protected javax.swing.JPanel gameXtraPanel1;
+  protected javax.swing.ButtonGroup initButtonGroupPorS;
+  protected javax.swing.JScrollPane jScrollPane1;
+  protected javax.swing.JSeparator jSeparator1;
+  protected javax.swing.JSeparator jSeparator10;
+  protected javax.swing.JSeparator jSeparator11;
+  protected javax.swing.JSeparator jSeparator13;
+  protected javax.swing.JSeparator jSeparator14;
+  protected javax.swing.JSeparator jSeparator15;
+  protected javax.swing.JSeparator jSeparator16;
+  protected javax.swing.JSeparator jSeparator2;
+  protected javax.swing.JSeparator jSeparator3;
+  protected javax.swing.JSeparator jSeparator4;
+  protected javax.swing.JSeparator jSeparator5;
+  protected javax.swing.JSeparator jSeparator6;
+  protected javax.swing.JSeparator jSeparator7;
+  protected javax.swing.JSeparator jSeparator8;
+  protected javax.swing.JSeparator jSeparator9;
+  protected javax.swing.JRadioButton logActionAdd;
+  protected javax.swing.JRadioButton logActionDel;
+  protected javax.swing.JRadioButton logActionJump;
+  protected javax.swing.ButtonGroup logBGactions;
+  protected javax.swing.ButtonGroup logButtonGroup1or2;
+  protected javax.swing.JSlider logDLevel1Slider;
+  protected javax.swing.JSlider logDLevel2Slider;
+  protected javax.swing.JTable logDisplayTable;
+  protected javax.swing.JLabel logDlen1;
+  protected javax.swing.JLabel logDlen2;
+  protected javax.swing.JLabel logDlevel1;
+  protected javax.swing.JLabel logDlevel2;
+  protected javax.swing.DefaultListModel namesList;
+  protected javax.swing.JList logEnvirnNamesList;
+  protected javax.swing.JSpinner logM1Spinner;
+  protected javax.swing.JSpinner logM2Spinner;
+  protected javax.swing.JScrollPane logNamesScrollPanel;
+  protected javax.swing.JRadioButton logRadioButtonStart1;
+  protected javax.swing.JRadioButton logRadioButtonStart2;
+  protected javax.swing.JScrollPane logTableScrollPanel;
+  protected javax.swing.JPanel stats;
+  protected javax.swing.JRadioButton statsButton0;
+  protected javax.swing.JRadioButton statsButton1;
+  protected javax.swing.JRadioButton statsButton10;
+  protected javax.swing.JRadioButton statsButton11;
+  protected javax.swing.JRadioButton statsButton12;
+  protected javax.swing.JRadioButton statsButton13;
+  protected javax.swing.JRadioButton statsButton14;
+  protected javax.swing.JRadioButton statsButton15;
+  protected javax.swing.JRadioButton statsButton16;
+  protected javax.swing.JRadioButton statsButton17;
+  protected javax.swing.JRadioButton statsButton18;
+  protected javax.swing.JRadioButton statsButton19;
+  protected javax.swing.JRadioButton statsButton2;
+  protected javax.swing.JRadioButton statsButton20;
+  protected javax.swing.JRadioButton statsButton3;
+  protected javax.swing.JRadioButton statsButton4;
+  protected javax.swing.JRadioButton statsButton5;
+  protected javax.swing.JRadioButton statsButton6;
+  protected javax.swing.JRadioButton statsButton7;
+  protected javax.swing.JRadioButton statsButton8;
+  protected javax.swing.JRadioButton statsButton9;
+  protected javax.swing.ButtonGroup statsButtonGroupClans;
+  protected javax.swing.ButtonGroup statsButtonGroupReportNumber;
+  protected javax.swing.JButton statsCtlButtonRun10Yr;
+  protected javax.swing.JButton statsCtlButtonRun1Yr;
+  protected javax.swing.JButton statsCtlButtonRun20Yr;
+  protected javax.swing.JButton statsCtlButtonRun5Yr;
+  protected javax.swing.JTextField statsField;
+  protected javax.swing.JTextField statsField2;
+  protected javax.swing.JScrollPane statsScrollPanel;
+  protected javax.swing.JTable statsTable1;
+  protected javax.swing.JPanel story;
+  protected javax.swing.JTextArea storyTextField1;
+  protected javax.swing.JScrollPane storyTextPane;
+  protected javax.swing.JTextField storyVersionField;
+  // End of variables declaration//GEN-END:variables
 
   private void logM1SpinnerStateChanged(javax.swing.event.ChangeEvent evt) {
     try {
@@ -5284,7 +5323,7 @@ public class StarTrader extends javax.swing.JFrame {
   public String since(String prefix, long startTime) {
     long now = (new Date()).getTime();
     double nu = (now - startTime);
-    String sAge = (eM.curEcon == null ? " " : " " + eM.curEcon.name + " age=" + eM.curEcon.age);
+    String sAge = (eM.curEcon == null ? " " : " " + eM.curEcon.name); // + " age=" + eM.curEcon.age);
     return prefix  + " secs=" + E.mf(nu * .001)+ sAge;
   }
 

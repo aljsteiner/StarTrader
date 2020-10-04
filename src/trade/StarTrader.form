@@ -3012,155 +3012,163 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="statsScrollPanel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
                   <Group type="102" attributes="0">
-                      <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-                      <Component id="statsButton0" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="9" pref="9" max="-2" attributes="0"/>
-                      <Component id="statsButton11" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="3" pref="3" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="statsButton2" min="-2" max="-2" attributes="0"/>
-                          <Component id="statsButton12" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                              <Component id="statsButton0" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="9" pref="9" max="-2" attributes="0"/>
+                              <Component id="statsButton11" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="3" pref="3" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="statsButton2" min="-2" max="-2" attributes="0"/>
+                                  <Component id="statsButton12" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="3" pref="3" max="-2" attributes="0"/>
+                              <Component id="statsButton13" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="3" pref="3" max="-2" attributes="0"/>
+                              <Component id="statsButton14" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="123" pref="123" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="statsButton18" min="-2" max="-2" attributes="0"/>
+                                  <Component id="statsButton8" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="43" pref="43" max="-2" attributes="0"/>
+                                      <Component id="statsButton10" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="3" pref="3" max="-2" attributes="0"/>
+                                      <Component id="statsButton9" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="43" pref="43" max="-2" attributes="0"/>
+                                      <Component id="statsButton20" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="3" pref="3" max="-2" attributes="0"/>
+                                      <Component id="statsButton19" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="3" pref="3" max="-2" attributes="0"/>
+                                      <Component id="statsCtlButtonRun5Yr" min="-2" pref="50" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="statsCtlButtonRun10Yr" min="-2" pref="50" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="statsCtlButtonRun1Yr" min="-2" pref="50" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="statsCtlButtonRun20Yr" min="-2" pref="50" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Component id="statsField2" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="statsField" min="-2" pref="649" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="50" pref="50" max="-2" attributes="0"/>
+                                      <Component id="statsButton1" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="290" pref="290" max="-2" attributes="0"/>
+                                      <Component id="statsButton7" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="170" pref="170" max="-2" attributes="0"/>
+                                      <Component id="statsButton4" min="-2" pref="40" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="210" pref="210" max="-2" attributes="0"/>
+                                      <Component id="statsButton15" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="250" pref="250" max="-2" attributes="0"/>
+                                      <Component id="statsButton6" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="130" pref="130" max="-2" attributes="0"/>
+                                      <Component id="statsButton3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="250" pref="250" max="-2" attributes="0"/>
+                                      <Component id="statsButton16" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="290" pref="290" max="-2" attributes="0"/>
+                                      <Component id="statsButton17" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="210" pref="210" max="-2" attributes="0"/>
+                                      <Component id="statsButton5" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace min="3" pref="3" max="-2" attributes="0"/>
-                      <Component id="statsButton13" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="3" pref="3" max="-2" attributes="0"/>
-                      <Component id="statsButton14" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="123" pref="123" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="statsButton18" min="-2" max="-2" attributes="0"/>
-                          <Component id="statsButton8" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="43" pref="43" max="-2" attributes="0"/>
-                      <Component id="statsButton10" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="3" pref="3" max="-2" attributes="0"/>
-                      <Component id="statsCtlButtonRun5Yr" min="-2" pref="50" max="-2" attributes="0"/>
-                      <EmptySpace min="70" pref="70" max="-2" attributes="0"/>
-                      <Component id="statsField" min="-2" pref="690" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="50" pref="50" max="-2" attributes="0"/>
-                      <Component id="statsButton1" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="290" pref="290" max="-2" attributes="0"/>
-                      <Component id="statsButton7" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="170" pref="170" max="-2" attributes="0"/>
-                      <Component id="statsButton4" min="-2" pref="40" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="statsScrollPanel" min="-2" max="-2" attributes="0"/>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="410" pref="410" max="-2" attributes="0"/>
-                      <Component id="statsButton20" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="210" pref="210" max="-2" attributes="0"/>
-                      <Component id="statsButton15" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="250" pref="250" max="-2" attributes="0"/>
-                      <Component id="statsButton6" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="130" pref="130" max="-2" attributes="0"/>
-                      <Component id="statsButton3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="250" pref="250" max="-2" attributes="0"/>
-                      <Component id="statsButton16" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="290" pref="290" max="-2" attributes="0"/>
-                      <Component id="statsButton17" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="370" pref="370" max="-2" attributes="0"/>
-                      <Component id="statsButton19" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="210" pref="210" max="-2" attributes="0"/>
-                      <Component id="statsButton5" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="370" pref="370" max="-2" attributes="0"/>
-                      <Component id="statsButton9" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="450" pref="450" max="-2" attributes="0"/>
-                      <Component id="statsCtlButtonRun1Yr" min="-2" pref="50" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="510" pref="510" max="-2" attributes="0"/>
-                      <Component id="statsField2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="statsButton0" min="-2" max="-2" attributes="0"/>
                   <Group type="102" attributes="0">
-                      <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
-                      <Component id="statsButton11" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="statsButton0" min="-2" max="-2" attributes="0"/>
+                          <Component id="statsButton2" min="-2" max="-2" attributes="0"/>
+                          <Component id="statsButton8" min="-2" max="-2" attributes="0"/>
+                          <Component id="statsButton10" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="statsCtlButtonRun5Yr" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
+                              <Component id="statsCtlButtonRun10Yr" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="statsButton1" min="-2" max="-2" attributes="0"/>
+                          <Component id="statsButton7" min="-2" max="-2" attributes="0"/>
+                          <Component id="statsButton4" min="-2" pref="20" max="-2" attributes="0"/>
+                          <Component id="statsButton6" min="-2" max="-2" attributes="0"/>
+                          <Component id="statsButton3" min="-2" max="-2" attributes="0"/>
+                          <Component id="statsButton5" min="-2" max="-2" attributes="0"/>
+                          <Component id="statsButton9" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="statsField" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                              <Component id="statsField2" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="statsButton11" min="-2" max="-2" attributes="0"/>
+                                  <Component id="statsButton12" min="-2" max="-2" attributes="0"/>
+                                  <Component id="statsButton13" min="-2" max="-2" attributes="0"/>
+                                  <Component id="statsButton14" min="-2" max="-2" attributes="0"/>
+                                  <Component id="statsButton18" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="statsButton20" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="statsCtlButtonRun1Yr" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
+                                      <Component id="statsCtlButtonRun20Yr" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="statsButton15" min="-2" max="-2" attributes="0"/>
+                                  <Component id="statsButton16" min="-2" max="-2" attributes="0"/>
+                                  <Component id="statsButton17" min="-2" max="-2" attributes="0"/>
+                                  <Component id="statsButton19" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                      </Group>
+                      <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
+                      <Component id="statsScrollPanel" pref="1090" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
-                  <Component id="statsButton2" min="-2" max="-2" attributes="0"/>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
-                      <Component id="statsButton12" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
-                      <Component id="statsButton13" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
-                      <Component id="statsButton14" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
-                      <Component id="statsButton18" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="statsButton8" min="-2" max="-2" attributes="0"/>
-                  <Component id="statsButton10" min="-2" max="-2" attributes="0"/>
-                  <Component id="statsCtlButtonRun5Yr" min="-2" pref="20" max="-2" attributes="0"/>
-                  <Component id="statsField" min="-2" pref="40" max="-2" attributes="0"/>
-                  <Component id="statsButton1" min="-2" max="-2" attributes="0"/>
-                  <Component id="statsButton7" min="-2" max="-2" attributes="0"/>
-                  <Component id="statsButton4" min="-2" pref="20" max="-2" attributes="0"/>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="40" pref="40" max="-2" attributes="0"/>
-                      <Component id="statsScrollPanel" max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
-                      <Component id="statsButton20" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
-                      <Component id="statsButton15" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="statsButton6" min="-2" max="-2" attributes="0"/>
-                  <Component id="statsButton3" min="-2" max="-2" attributes="0"/>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
-                      <Component id="statsButton16" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
-                      <Component id="statsButton17" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
-                      <Component id="statsButton19" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="statsButton5" min="-2" max="-2" attributes="0"/>
-                  <Component id="statsButton9" min="-2" max="-2" attributes="0"/>
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="20" pref="20" max="-2" attributes="0"/>
-                      <Component id="statsCtlButtonRun1Yr" min="-2" pref="20" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="statsField2" min="-2" pref="40" max="-2" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -3432,7 +3440,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="statsField">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jTextField1"/>
+                <Property name="text" type="java.lang.String" value="jTextField"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JRadioButton" name="statsButton11">
@@ -3576,9 +3584,46 @@
             <Component class="javax.swing.JTextField" name="statsField2">
               <Properties>
                 <Property name="text" type="java.lang.String" value="jTextField1"/>
+                <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="statsField2ActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="statsCtlButtonRun10Yr">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="10 yr"/>
+                <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+                  <Insets value="[2, 0, 2, 0]"/>
+                </Property>
+                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[25, 40]"/>
+                </Property>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[20, 20]"/>
+                </Property>
+                <Property name="name" type="java.lang.String" value="1 yr" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="statsCtlButtonRun10YrMouseClicked"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="statsCtlButtonRun20Yr">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="20yr"/>
+                <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+                  <Insets value="[2, 0, 2, 0]"/>
+                </Property>
+                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[25, 40]"/>
+                </Property>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[20, 20]"/>
+                </Property>
+                <Property name="name" type="java.lang.String" value="1 yr" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="statsCtlButtonRun20YrMouseClicked"/>
               </Events>
             </Component>
           </SubComponents>

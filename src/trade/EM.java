@@ -18,7 +18,9 @@
 package trade;
 
 /**
- *
+ * This is in many ways and extension of StarTrader the main program which also 
+ * contains the user interface and methods to see results and change priorities
+ * EM contains the variable which can be changed, it also contains related constants.
  * @author albert Steiner
  */
 import java.text.DecimalFormat;
@@ -26,6 +28,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.TreeMap;
+import java.awt.*;
 import javax.swing.JTable;
 import static trade.E.myTestDone;
 
@@ -60,25 +63,25 @@ class EM {
 
   static final public String statsButton0Tip = "0: Current Game Worths";
   static final public String statsButton1Tip = "1: Favors and trade effects";
-  static final public String statsButton2Tip = "2: Catastrophies, deaths, randoms, forwardfund";
-  static final public String statsButton3Tip = "3: Deaths";
-  static final public String statsButton4Tip = "4: Trades";
-  static final public String statsButton5Tip = "5: Creates";
-  static final public String statsButton6Tip = "6: ForwardFund";
-  static final public String statsButton7Tip = "7: Resource, staff, knowledge values";
-  static final public String statsButton8Tip = "8: growth and costs details";
-  static final public String statsButton9Tip = "9: Fertility, health and effects";
-  static final public String statsButton10Tip = "10: years 0,1,2,3 worth inc, costs, efficiency,knowledge,phe";
-  static final public String statsButton11Tip = "11: years 4,5,6,7 worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton12Tip = "12: years 8->15 worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton13Tip = "13: years 16->31 worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton14Tip = "14: years 32+ worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton15Tip = "15: swap factors";
-  static final public String statsButton16Tip = "16: Swaps years incr skips, redos and dos";
-  static final public String statsButton17Tip = "17: Swaps years decr skips, redos and dos";
-  static final public String statsButton18Tip = "18: Swaps years xfer skips, redos and dos";
-  static final public String statsButton19Tip = "19: Swaps years Forward Fund imbalance or save";
-  static final public String statsButton20Tip = "20: Swaps cumulative values";
+  static final public String statsButton2Tip = "2: Catastrophes, deaths, randoms, forwardfund";
+  static final public String statsButton17Tip = "3: Deaths";
+  static final public String statsButton18Tip = "4: Trades";
+  static final public String statsButton19Tip = "5: Creates";
+  static final public String statsButton20Tip = "6: ForwardFund";
+  static final public String statsButton9Tip = "7: Resource, staff, knowledge values";
+  static final public String statsButton10Tip = "8: growth and costs details";
+  static final public String statsButton11Tip = "9: Catastrophes, Fertility, health and effects";
+  static final public String statsButton3Tip = "10: years 0,1,2,3 worth inc, costs, efficiency,knowledge,phe";
+  static final public String statsButton4Tip = "11: years 4,5,6,7 worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton5Tip = "12: years 8->15 worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton6Tip = "13: years 16->31 worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton7Tip = "14: years 32+ worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton8Tip = "15: swap factors";
+  static final public String statsButton12Tip = "16: Swaps years incr skips, redos and dos";
+  static final public String statsButton13Tip = "17: Swaps years decr skips, redos and dos";
+  static final public String statsButton14Tip = "18: Swaps years xfer skips, redos and dos";
+  static final public String statsButton15Tip = "19: Swaps years Forward Fund imbalance or save";
+  static final public String statsButton16Tip = "20: Death factors";
 
 //  Econ ec;
   ArrayList<Econ> ships = new ArrayList<Econ>();
@@ -561,6 +564,7 @@ class EM {
   static final long ROWS1 = 01000000000000000L;
   static final long ROWS2 = 02000000000000000L;
   static final long ROWS3 = 04000000000000000L;
+  static final long DUP  = 010000000000000000L;//BIT 49
   static final long ROWS123 = ROWS1 | ROWS2 | ROWS3;
   static final long ROWSMASK = 07000000000000000L;
   static final long LMASK = lmask;
@@ -572,6 +576,7 @@ class EM {
   static final long LIST41YRS = list4 | LIST1YRS;
   static final long LIST431YRS = list3 | LIST41YRS;
   static final long LIST2YRS = list2 | LISTYRS;
+  static final long LIST29YRS = LIST2 | LIST9 | LISTYRS;
   static final long LIST42YRS = list4 | LIST2YRS;
   static final long LIST432YRS = list3 | LIST42YRS;
   static final long LIST432 = LIST4 | LIST3 | LIST2;
@@ -889,12 +894,9 @@ class EM {
       }
     }
   }
-
-  /**
-   * the following variables are used to calculate the knowledgeBias which is
-   * used to calculate the SEfficiency and REfficiency in CalcReq see CalcReq
-   * calcEfficiency
-   */
+  // the following variables are used to calculate the knowledgeBias which is
+  // used to calculate the SEfficiency and REfficiency in CalcReq see CalcReq
+ //calcEfficiency
   double[] knowledgeForPriority = {.40}; //init assign commonknowledge
   double[] knowledgeByDefault = {.60};  //init assign commonknowledge
   double[] commonKnowledgeTradeManualFrac = {.10};
@@ -1053,7 +1055,7 @@ class EM {
   double randMin = .1;
   double randMult = .3;
   // double[][] randFrac = {{0.0}, {0.0}};  // range 0. - .7
-  double[][] randFrac = {{0.3}, {0.3}};  // range 0. - .7
+  double[][] randFrac = {{0.5}, {0.4}};  // range 0. - .7
   static double[][] mRandFrac = {{.0, .9}, {0., .7}};  // range 0. - .9,.7
   double[][] ssFrac = {{1.2, 1., .9, 1.1, 1.2}};
   static double mSsFrac[][] = {{.7, 1.4}};
@@ -1168,58 +1170,41 @@ class EM {
   final static public double[] swapGtoGCcost = {.0005, .0005};
   final static public double[] swapGtoSRcost = {.0005, .0005};
   final static public double[] swapGtoGGcost = {.0001, .0001};
-  /**
-   * index [iEl][oEl][pors] costs of trade Rswap
-   */
+
+  // index [iEl][oEl][pors] costs of trade Rswap
   final static public double[][][] swapRtradeRcost = {{swapTRtoRRcost, swapTRtoCRcost}, {swapTCtoRCcost, swapTCtoCCcost}};
 
-  /**
-   * index [iEl][oEl][pors] costs of trade Sswap
-   */
+  // index [iEl][oEl][pors] costs of trade Sswap
   final static public double[][][] swapStradeScost = {{swapTStoSScost, swapTStoGScost}, {swapTGtoSGcost, swapTGtoGGcost}};
-  /**
-   * in growth phase, multiply the min positive by the following numbers this
-   * should cause some resources to violate a growthReq, and cause either .INCR
-   * or .XINCRH
-   */
 
+   // in growth phase, multiply the min positive by the following numbers this
+   // should cause some resources to violate a growthReq, and cause either .INCR
   // P=0  planet
   // S=1; ship
   final static public int W = 0; // to working
   final static public String[] Els = {"W", "R"};
   final static public int R = 1; // to reserve
-
   //  final static public int[] oswpr = {swpMaxAvailTo,swpCargoTo};
   //  final static public int[] oswps = {swpMaxStaffTo,swpGuestsTo};
-  /**
-   * index [iEl][oEl][pors] costs of regular Rswap
-   */
+   //index [iEl][oEl][pors] costs of regular Rswap
   public double[][][] swapRregRcost = {{swapRtoRRcost, swapRtoCRcost}, {swapCtoRCcost, swapCtoCCcost}};
-  /**
-   * index [iEl][oEl][pors] costs of xmute (transmute) Rswap
-   */
+  //index [iEl][oEl][pors] costs of xmute (transmute) Rswap
   // final static public double[][][] swapRtransRcost = {{swapXRtoRRcost, swapXRtoCRcost}, {swapXCtoRCcost, swapXCtoCCcost}};
-
-  /**
-   * index [iEl][oEl][pors] costs of regular Sswap
-   */
+   // index [iEl][oEl][pors] costs of regular Sswap
   public double[][][] swapSregScost = {{swapStoSScost, swapStoGScost}, {swapGtoSGcost, swapGtoGGcost}};
-  /**
-   * index [iEl][oEl][pors] costs of Xmute Sswap
-   */
+  // index [iEl][oEl][pors] costs of Xmute Sswap
   // final static public double[][][] swapStransScost = {{swapXStoSScost, swapXStoGScost}, {swapXGtoSGcost, swapXGtoGGcost}};
-
   double rawHealthsSOS = .05;  // rawHealths below this cause sos
   int maxEconHist = Econ.keepHist; // Econs later than 5 null hist to save heap space
   int maxClrHist = 200000; // don't clear hist until it reach this number
   static final public int TR = 0;  // regular W R of same resource
   static final public int TX = 1;  // Transmute W R of different resources
   static final public int TT = 2;  // Trade  W R of different environment
-  /**
-   * [TR,TX,TT][iW,iR][oW,oR][P,S]
-   */
-  // static final public double[][][][] swapRrxtcost = {swapRregRcost, swapRtransRcost, swapRtradeRcost};  // res cargo cost
-//  final static public double[][][][] swapSrxtcost = {swapSregScost, swapStransScost, swapStradeScost};  // staff guests cost
+  // [TR,TX,TT][iW,iR][oW,oR][P,S]
+  // static final public double[][][][] swapRrxtcost = {swapRregRcost, swapRtransRcost, swapRtradeRcost};  
+  // res cargo cost
+  //  final static public double[][][][] swapSrxtcost = {swapSregScost, swapStransScost, swapStradeScost};  
+  // staff guests cost
   static final public int CR = 0;  // class resource
   static final public int CS = 1;  // class staff
   /**
@@ -1292,10 +1277,9 @@ class EM {
   double[] hmFrac = {.7, .7};  // h more from 0
   double[] heFrac = {.85, .85};// health emergency above this value
 
-  /**
-   * set values dependent on some values set by StarTrader.getGameValues
-   *
-   */
+
+ //set values dependent on some values set by StarTrader.getGameValues
+  // called in StarTrader after input of gameValues
   void setMoreValues() {
     makeRS(rs4);
   }
@@ -2014,7 +1998,6 @@ class EM {
     doVal("iBothCreateScore", iBothCreateScore, mScoreMult, "increased slider, increase the value of BothCreate in the winning Score");
     doVal("wTraderMultV", wTraderMultV, mScoreMult, "increased slider, increase the value of TraderMult values in the winning Score");
     doVal("wTraderMultI", wTraderMultI, mScoreMult, "increased slider, increase the value of TraderMult units values in the winning Score");
-    doVal("userCatastrophyFreq  ", userCatastrophyFreq, mUserCatastrophyFreq, "increase catastrophies in each decade. Catastrophies reduce resources or staff, but then increases the possibility of growth, or ship manuals to trade");
     doVal("tradeReservFrac  ", tradeReservFrac, mTradeReservFrac, "raise the amount of resource or staff to reserve during a trade, higher reduces risk and reduces gain");
     doVal("Max LY  ", maxLY, mMaxLY, "adjust the max Light Years distance of planets for trades");
     doVal("Add LY  ", addLY, mAddLY, "adjust addition per round to the max Light Years distance of planets for traded");
@@ -2080,6 +2063,7 @@ class EM {
     /* double offerAddlFrac[] = {.001,.2};
   static double[][]mOfferAddlFrac = {{.0001,.1},{.001,.4}}; */
     doVal("tradeAddlSVFrac", offerAddlFrac, mOfferAddlFrac, "increase the process excessOffers in a barter");
+    doVal("userCatastrophyFreq  ", userCatastrophyFreq, mUserCatastrophyFreq, "increase catastrophies in each decade. Catastrophies reduce resources or staff, but then increases the possibility of growth, or ship manuals to trade");
     doVal("catastrophyMultKnow", catastrophyManualsMultSumKnowledge, mCatastrophyManualsMultSumKnowledge, "increase gain in manuals for ships in a Catastrophy");
     doVal("CatastrophicUnitsDestroyed", catastrophyUnitReduction, mCatastrophyUnitReduction, "increase gain in manuals for ships in a Catastrophy");
     doVal("CatastrophyBonusYears", catastrophyBonusYears, mCatastrophyBonusYears, "increase years of growth bonus");
@@ -2188,6 +2172,8 @@ class EM {
   int inputPorS = 0; // in inputs 0=P
 
   long[][][][] resI;
+  long[][][] res2;
+  int winner= -1;
 
   // double gameV[][]; //[gameCnt][pval[],sval[],more[sngl,pmin,pmax,smin,smax]]
   // String[][] gameS; //[gameCnt][desc,detail]
@@ -2348,6 +2334,7 @@ class EM {
   static final int DIEDSN1RM1X1 = ++e4;
   static final int BEFORETRADEWORTH = ++e4;
   static final int AFTERTRADEWORTH = ++e4;
+  static final int TRADEWORTHINCRPERCENT = ++e4;
   static final int RCTWORTH = ++e4;
   static final int RCWORTH = ++e4;
   static final int RCTBAL = ++e4;
@@ -2357,6 +2344,18 @@ class EM {
   static final int RCGLT10PERCENT = ++e4;
   static final int RCWGLT10PERCENT = ++e4;
   static final int RCGLT100PERCENT = ++e4;
+  static final int CRISISINCR = ++e4;
+  static final int CRISIS2INCR = ++e4;
+  static final int CRISIS3INCR = ++e4;
+  static final int NOCRISISINCR = ++e4;
+  static final int NOCRISIS2INCR = ++e4;
+  static final int NOCRISIS3INCR = ++e4;
+  static final int CRISISMINEDRESPERCENTINCR = ++e4;
+  static final int CRISISSTAFFGROWTHPERCENTINCR = ++e4;
+  static final int CRISISSTAFFGROWTHYEARSINCR = ++e4;
+  static final int CRISISRESGROWTHPERCENTINCR = ++e4;
+  static final int CRISISRESGROWTHYEARSINCR = ++e4;
+  static final int CRISISMANUALSPERCENTINCR = ++e4;
   //static final int INCRAVAILFRACa = ++e4;
   // static final int INCRAVAILFRACb = ++e4;
   //static final int INCRAVAILFRACc = ++e4;
@@ -2368,10 +2367,10 @@ class EM {
   // static final int TESTWORTH8 = ++e4;
   void defRes() {
 
-    doRes(SCORE, "Score", "Winner has the highest score the result of combining the different priorities using the fraction more  than minimum to increase the score", 6, 2, 3, LIST7 | LIST8 | LIST9 | LIST43210YRS | thisYr | SUM, 0, 0, 0);
-    doRes(LIVEWORTH, "Live Worth", "Live Worth Value including year end working, reserve: resource, staff, knowledge", 6, 2, 0, LIST7 | LIST8 | LIST9 | LIST43210YRS | thisYr | SUM, ROWS1 | LIST7 | LIST8 | LIST9 | LIST43210YRS | THISYEAR | thisYrAve | BOTH, ROWS2, ROWS3 | THISYEARUNITS | BOTH | SKIPUNSET);
-    doRes(STARTWORTH, "Starting Worth", "Starting Worth Value including working, reserve: resource, staff, knowledge", 6, 2, 0, LIST7 | LIST8 | LIST9 | LIST0YRS | thisYr | sum, ROWS1 | LIST7 | LIST8 | LIST9 | LIST0YRS | THISYEAR | thisYrAve | BOTH, ROWS2, ROWS3 | THISYEARUNITS);
-    doRes(WORTHIFRAC, "PercInitWorth ", "Percent of Initial Worth Value including working, reserve: resource, staff, knowledge", 6, 2, 0,
+    doRes(SCORE, "Score", "Winner has the highest score the result of combining the different priorities set by several value entries which increase the score", 3, 4, 3, LIST7 | LIST8 | LIST9 | LIST43210YRS | thisYr | SUM, 0, 0, 0);
+    doRes(LIVEWORTH, "Live Worth", "Live Worth Value including year end working, reserve: resource, staff, knowledge", 3, 2, 0, LIST7 | LIST8 | LIST9 | LIST43210YRS | thisYr | SUM, ROWS1 | LIST7 | LIST8 | LIST9 | LIST43210YRS | THISYEAR | thisYrAve | BOTH, ROWS2, ROWS3 | THISYEARUNITS | BOTH | SKIPUNSET);
+    doRes(STARTWORTH, "Starting Worth", "Starting Worth Value including working, reserve: resource, staff, knowledge", 3, 2, 0, LIST7 | LIST8 | LIST9 | LIST2YRS | thisYr | sum, ROWS1 | LIST7 | LIST8 | LIST9 | LIST2YRS | THISYEAR | thisYrAve | THISYEARUNITS | BOTH, ROWS2, ROWS3 | CUMUNITS);
+    doRes(WORTHIFRAC, "PercInitWorth ", "Percent of Initial Worth Value including working, reserve: resource, staff, knowledge", 3, 2, 0,
         LIST7 | LIST8 | LIST9 | LIST43210YRS | thisYr | SUM,
         LIST7 | LIST8 | LIST9 | LIST43210YRS | THISYEAR | thisYrAve | BOTH, 0, 0);
 
@@ -2606,17 +2605,17 @@ class EM {
     doRes(INCRAVAILFRACb, "IncrAvailFracb", "Percent increase in avail frac after trade at no trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
     doRes(INCRAVAILFRACc, "IncrAvailFracc", "Percent increase in avail frac after trade at trade failure", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
 
-    doRes(TRADEFIRSTRECEIVE, "IncrAvailFracb", "Percent increase in avail frac after trade at no trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
-    doRes(TRADELASTRECEIVE, "IncrAvailFracb", "Percent increase in avail frac after trade at no trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
-    doRes(TRADEFIRSTGAVE, "IncrAvailFracb", "Percent increase in avail frac after trade at no trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
-    doRes(TRADELASTGAVE, "IncrAvailFracb", "Percent increase in avail frac after trade at no trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
-    doRes(TRADESTRATFIRSTRECEIVE, "IncrAvailFracb", "Percent increase in avail frac after trade at no trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
-    doRes(TRADESTRATLASTRECEIVE, "IncrAvailFracb", "Percent increase in avail frac after trade at no trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
-    doRes(TRADESTRATFIRSTGAVE, "IncrAvailFracb", "Percent increase in avail frac after trade at no trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
-    doRes(TRADESTRATLASTGAVE, "IncrAvailFracb", "Percent increase in avail frac after trade at no trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
-    doRes(BEFORETRADEWORTH, "IncrAvailFracb", "Percent increase in avail frac after trade at no trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
-    doRes(AFTERTRADEWORTH, "IncrAvailFracb", "Percent increase in avail frac after trade at no trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
-
+    doRes(TRADEFIRSTRECEIVE, "First Given", "Percent increase in avail frac after trade at no trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
+    doRes(TRADELASTRECEIVE, "Last Received", "Percent increase in avail frac after trade at no trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
+    doRes(TRADEFIRSTGAVE, "First given", "First amount given in trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
+    doRes(TRADELASTGAVE, "Last Given", "First amount given in trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
+    doRes(TRADESTRATFIRSTRECEIVE, "StrategicFirstReceived", "First strategic amount received in trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
+    doRes(TRADESTRATLASTRECEIVE, "StrategicLastReceived", "Last strategic amount eeceived in trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
+    doRes(TRADESTRATFIRSTGAVE, "TradeStrategicFirstGave", "First amount given in trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
+    doRes(TRADESTRATLASTGAVE, "TradeStrategicLastGave", "Amount given in trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
+    doRes(BEFORETRADEWORTH, "BeforeTradeWorth", "Worth before any trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
+    doRes(AFTERTRADEWORTH, "AfterTradeWorth", "Worth after trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
+    doRes(TRADEWORTHINCRPERCENT, "TradeWorthIncrPercent", "Percent increase in Worth after trade", 4, 3, 2, (LIST1YRS | curAve | both), 0, 0, 0);
     doRes(SWAPRINCRCOST, "Swap RIncr Cost", "Fraction of R INCR swap cost/sum of R units", 3, 4, 1, list8 | curAve | curUnits | both | skipUnset, 0, 0, 0);
     doRes(SWAPSINCRCOST, "Swap SIncr Cost", "Fraction of SR INCR swap cost/sum of S units", 3, 4, 1, list8 | curAve | curUnits | both | skipUnset, 0, 0, 0);
     doRes(SWAPRDECRCOST, "Swap RDECR Cost", "Fraction of R DECR swap cost/sum of R units", 3, 4, 1, list8 | curAve | curUnits | both | skipUnset, 0, 0, 0);
@@ -2663,11 +2662,22 @@ class EM {
     doRes("WORTH2YRTRADEINCR", "IncWorth 2Yr Trade", "Percent Year increase Worrth/worth if  2 succesive year of trades", 2, 2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST4 | THISYEARUNITS, 0);
     doRes("WORTH3YRTRADEINCR", "IncWorth 3Yr Trade", "Percent Year increase Worrth/worth if 3 years of trades", 2, 2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST4 | THISYEARUNITS, 0);
     //  doRes("WORTH1YRNOTRADEINCR", "IncWorth 1Yr No Trade", "Percent Year increase Worrth/worth if at least 1 succesive year of trades", 2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LISTYRS | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST4 | THISYEARUNITS , 0);
-
-    doRes("NOCRISISINCR", "IncWorthCrisis", "Percent Year increase Worrth/worth a year with no catastrophy", 3, 4, 1, LIST1YRS | curAve | both | skipUnset, 0, 0, 0);
-    // doRes("1YRNOCRISISINCR", "IncWorth 1Yr No Crisis","Percent Year increase Worrth/Year initial worth if at least 1  year of no catastrophy",3, 4, 1, LIST1YRS | curAve | both | skipUnset, 0, 0, 0)
-    doRes("2YRNOCRISISINCR", "IncWorth 2Yr No Crisis", "Percent Year increase Worrth/Year initial worth if 2 years of No catastrophy", 3, 4, 1, LIST1YRS | curAve | both | skipUnset, 0, 0, 0);
-    doRes("3YRNOCRISISINCR", "IncWorth 3Yr No Crisis", "Percent Year increase Worrth/Year initial worth if 3 years of No catastrophy", 3, 4, 1, LIST1YRS | curAve | both | skipUnset, 0, 0, 0);
+ doRes(CRISISINCR, "IncWorthCrisis", "Percent Year increase Worrth/worth a year with a catastrophy", 3, 4, 1, LIST29YRS | curAve | both | skipUnset, 0, 0, 0);
+    doRes(CRISIS2INCR, "IncWorthCrisis", "Percent Year increase Worrth/worth a second year after a  catastrophy", 3, 4, 1, LIST29YRS | curAve | both | skipUnset, 0, 0, 0);
+    doRes(CRISIS3INCR, "IncWorthCrisis", "Percent Year increase Worrth/worth a third year after a  catastrophy", 3, 4, 1, LIST29YRS | curAve | both | skipUnset, 0, 0, 0);
+     doRes(NOCRISISINCR, "IncWorth 1Yr No Crisis","Percent Year increase Worrth/Year initial worth if at least 1  year of no catastrophy",3, 4, 1, LIST29YRS | curAve | both | skipUnset, 0, 0, 0);
+    doRes(NOCRISIS2INCR, "IncWorth 2Yr No Crisis", "Percent Year increase Worrth/Year initial worth if 2 years of No catastrophy", 3, 4, 1, LIST29YRS | curAve | both | skipUnset, 0, 0, 0);
+    doRes(NOCRISIS3INCR, "IncWorth 3Yr No Crisis", "Percent Year increase Worrth/Year initial worth if 3 years of No catastrophy", 3, 4, 1, LIST29YRS | curAve | both | skipUnset, 0, 0, 0);
+     doRes("rCatCosts", "r Catast Cst ", "resource catastrophy costs ave per catastrophy", 1, 1, 0, (LIST2 | LIST9 |  skipUnset | curAve), 0, 0, 0);
+    doRes("sCatCosts", "s Catast Cst ", "staff catastrophy costs ave per catastrophy", 1, 1, 0, (LIST2 | LIST9 | skipUnset | curAve), 0, 0, 0);
+    doRes("rCatBonusY", "r Catast B Yr ", "resource catastrophy years added ave per catastrophy", 1, 1, 0, (LIST2 | LIST9 | skipUnset | curAve), 0, 0, 0);
+    doRes("sCatBonusY", "s Catast B Yr ", "staff catastrophy years added ave per catastrophy", 1, 1, 0, (LIST2 | LIST9 | skipUnset | curAve), 0, 0, 0);
+    doRes("rCatBonusVal", "r Catast B Val", "resource catastrophy bonus unit value added ave per catastrophy", 1, 1, 3, (LIST2 | LIST9 | skipUnset | curAve), 0, 0, 0);
+    doRes("sCatBonusVal", "s Catast B Yr ", "staff catastrophy bonus unit value added ave per catastrophy", 1, 1, 3, (LIST2 | LIST9 | skipUnset | curAve), 0, 0, 0);
+    doRes("rCatNegDecay", "r Catast ReduceDecay", "resource catastrophy bonus neg unit value ave per catastrophy", 1, 1, 3, (LIST2 | LIST9 | skipUnset | curAve), 0, 0, 0);
+    doRes("sCatNegDecay", "s Catast ReduceDecay", "staff catastrophy bonus neg unit value  ave per catastrophy", 1, 1, 3, (LIST2 | LIST9 | skipUnset | curAve), 0, 0, 0);
+    doRes("sCatBonusManuals", "s Catast Bonus Manuals", "catastrophy bonus manuals add value ave per catastrophy", 1, 1, 0, (LIST2 | LIST9 | skipUnset | curAve), 0, 0, 0);
+    doRes("sCatBonusNewKnowledge", "s Catast Bonus New Knowledge", "catastrophy bonus newKnowledge add value ave per catastrophy", 1, 1, 0, (LIST2 | LIST9 | skipUnset | THISYEARAVE), LIST8 | SKIPUNSET | CURAVE, 0, 0);
     doRes("WTRADEDINCR", "WIncr", "Percent Years worth increase/start year worth", 2, 2, 1, (LIST431YRS | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST431YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
     doRes("WTRADEDINCRF5", "incrWFav5Trade", "Percent Years worth increase at Favor5/start year worth", 2, 2, 1, (LIST431YRS | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST431YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
     doRes("WTRADEDINCRF4", "incrWFav4Trade", "Percent Years worth increase at Favor4/start year worth", 2, 2, 1, (LIST431YRS | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST431YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
@@ -2753,7 +2763,7 @@ class EM {
     doRes("SGTGROWTHCOSTS3", "SGGCosts ", "SG Growth Cost/SG Bal", 1, 1, 0, (LIST7 | skipUnset | curAve), 0, 0, 0);
     doRes("RCTREQMAINTC3", "RcRQMCosts ", "rc req maintCsts / bal", 1, 1, 0, (LIST7 | skipUnset | curAve), 0, 0, 0);
     doRes("SGTREQMAINTC3", "SgRQMCosts ", "sg req maintCsts / bal", 1, 1, 0, (LIST7 | skipUnset | curAve), 0, 0, 0);
-    doRes("RCTMAINTC3", "RCMCosts ", "rc maintCsts / bal", 2, 2, (LIST11 | skipUnset | curAve), 0, 0, 0);
+    doRes("RCTMAINTC3", "RCMCosts ", "rc maintCsts / bal",2, 2, 2, (LIST11 | skipUnset | curAve), 0, 0, 0);
     doRes("SGTMAINTC3", "SGMCosts ", "sg maintCsts / bal", 1, 1, 0, (LIST7 | skipUnset | curAve), 0, 0, 0);
     doRes("RCTTRAVC3", "RCTCosts ", "rc travelCsts / bal", 1, 1, 0, (LIST7 | skipUnset | curAve), 0, 0, 0);
     doRes("SGTTRAVC3", "SGTCosts ", "sg travelCsts / bal", 1, 1, 0, (LIST7 | skipUnset | curAve), 0, 0, 0);
@@ -2761,37 +2771,94 @@ class EM {
     doRes("SGTRAWGROWTHCOSTS3", "sgRawGrowthCsts ", "% s req growthCsts / bal", 1, 1, 0, (LIST7 | skipUnset | curAve), 0, 0, 0);
     doRes("RCTMTG3", "rc mtgCsts ", "r mtgCsts / bal", 1, 1, 0, (LIST7 | skipUnset | curAve), 0, 0, 0);
     doRes("SGTMTG3", "sg mtgCsts ", "s mtgCsts / bal", 1, 1, 0, (LIST7 | skipUnset | curAve), 0, 0, 0);
-    doRes("rCatCosts", "r Catast Cst ", "resource catastrophy costs ave per catastrophy", 1, 1, 0, (list2 | skipUnset | curAve), 0, 0, 0);
-    doRes("sCatCosts", "s Catast Cst ", "staff catastrophy costs ave per catastrophy", 1, 1, 0, (list2 | skipUnset | curAve), 0, 0, 0);
-    doRes("rCatBonusY", "r Catast B Yr ", "resource catastrophy years added ave per catastrophy", 1, 1, 0, (list2 | skipUnset | curAve), 0, 0, 0);
-    doRes("sCatBonusY", "s Catast B Yr ", "staff catastrophy years added ave per catastrophy", 1, 1, 0, (list2 | skipUnset | curAve), 0, 0, 0);
-    doRes("rCatBonusVal", "r Catast B Val", "resource catastrophy bonus unit value added ave per catastrophy", 1, 1, 3, (list2 | skipUnset | curAve), 0, 0, 0);
-    doRes("sCatBonusVal", "s Catast B Yr ", "staff catastrophy bonus unit value added ave per catastrophy", 1, 1, 3, (list2 | skipUnset | curAve), 0, 0, 0);
-    doRes("rCatNegDecay", "r Catast ReduceDecay", "resource catastrophy bonus neg unit value ave per catastrophy", 1, 1, 3, (list2 | skipUnset | curAve), 0, 0, 0);
-    doRes("sCatNegDecay", "s Catast ReduceDecay", "staff catastrophy bonus neg unit value  ave per catastrophy", 1, 1, 3, (list2 | skipUnset | curAve), 0, 0, 0);
-    doRes("sCatBonusManuals", "s Catast Bonus Manuals", "catastrophy bonus manuals add value ave per catastrophy", 1, 1, 0, (list2 | skipUnset | curAve), 0, 0, 0);
-    doRes("sCatBonusNewKnowledge", "s Catast Bonus New Knowledge", "catastrophy bonus newKnowledge add value ave per catastrophy", 1, 1, 0, (list2 | skipUnset | THISYEARAVE), LIST8 | SKIPUNSET | CURAVE, 0, 0);
-    doRes("INCRGSWAPCOSTSB3", "SwapBalCosts", "balance cost involved in repurposing material by Incr to help sectors with inadequate resources", 6, 2, (LIST11 | curUnits | skipUnset), 0, 0, 0);
-    doRes("DECRGSWAPCOSTS", "DecrSwapBalCosts", "balance cost involved in repurposing material by Decr to help sectors with inadequate resources", 6, 2, (LIST11 | curUnits | skipUnset), 0, 0, 0);
-    doRes("RXFERGSWAPCOSTS", "RXferSwapCosts", "balance cost involved in repurposing material by Xfer to help sectors with inadequate resources", 6, 2, (LIST11 | curUnits | skipUnset), 0, 0, 0);
-    doRes("SXFERGSWAPCOSTSB", "SXferSwapCosts", "balance cost involved in repurposing material by Xfer to help sectors with inadequate resources", 6, 2, (LIST11 | curUnits | skipUnset), 0, 0, 0);
-    doRes("GROWTHSWAP", "growthSwapBalCosts", "% growth loop costs involved in repurposing material to help sectors with inadequate resources", 6, 2, (LIST11 | curUnits | skipUnset), 0, 0, 0);
-    doRes("HEALTHSWAP", "HealthSwapBalCosts", "% health loop costs involved in repurposing material to help sectors with inadequate resources", 6, 2, (LIST11 | curUnits | skipUnset), 0, 0, 0);
+    doRes("INCRGSWAPCOSTSB3", "SwapBalCosts", "balance cost involved in repurposing material by Incr to help sectors with inadequate resources", 2, 6, 2, (LIST11 | curUnits | skipUnset), 0, 0, 0);
+    doRes("DECRGSWAPCOSTS", "DecrSwapBalCosts", "balance cost involved in repurposing material by Decr to help sectors with inadequate resources", 2, 6, 2, (LIST11 | curUnits | skipUnset), 0, 0, 0);
+    doRes("RXFERGSWAPCOSTS", "RXferSwapCosts", "balance cost involved in repurposing material by Xfer to help sectors with inadequate resources", 2, 6, 2, (LIST11 | curUnits | skipUnset), 0, 0, 0);
+    doRes("SXFERGSWAPCOSTSB", "SXferSwapCosts", "balance cost involved in repurposing material by Xfer to help sectors with inadequate resources", 2, 6, 2, (LIST11 | curUnits | skipUnset), 0, 0, 0);
+    doRes("GROWTHSWAP", "growthSwapBalCosts", "% growth loop costs involved in repurposing material to help sectors with inadequate resources", 2, 6, 2, (LIST11 | curUnits | skipUnset), 0, 0, 0);
+    doRes("HEALTHSWAP", "HealthSwapBalCosts", "% health loop costs involved in repurposing material to help sectors with inadequate resources", 2, 6, 2, (LIST11 | curUnits | skipUnset), 0, 0, 0);
 // doRes(rWORTH,"Worth", "IGNORE Value including year end working, reserve: resource, staff, knowledge", 6, 2, (cur | curUnits | curAve | sum | both), (LIST14 | curUnitAve | cur | curUnits | both | sum), 0, 0);
     rende4 = e4;
   }
 
   static int[] yrs1 = {0, 1};
   static int[] yrs2 = {0, 1, 8, 15, 22, 29, 36}; //position of age starts
+  
 
+  /** define method calls creating output lines in the results array 
+   * when some bits in the locks correspond with bits in the offered key
+   * from StarTrader
+   * locks are the same as that of the previous doRes
+   *
+   * @param dName name of setStats recording a result
+   * @param desc description of result
+   * @param detail detailed description available by clicking description
+   * @param depth number of successive years displayed 1-6
+   * @param ydepth number of successive years in results separated by years
+   * @param fracs number of fraction digits
+   *
+   * @return rN the index of a vector of result integer index into resI,resV,resS
+   *
+  int doRes(String dName, String desc, String detail, int depth, int ydepth, int fracs){
+    return doRes(dName,desc,detail,depth,ydepth,fracs,DUP,0L,0L,0L); 
+  }
+  /** define method calls creating output lines in the results array 
+   * when some bits in the locks correspond with bits in the offered key
+   * from StarTrader
+   * duplicate that of the previous doRes.
+   
+   *
+   * @param dName name of setStats recording a result
+   * @param desc description of result
+   * @param detail detailed description available by clicking description
+   * @param fracs number of fraction digits
+   * @param lock0 0'th lock to match the offered keys
+   * @param lock1 1'th lock to match offered keys may be empty
+   * @param lock2 2nd lock to match offered keys, may be empty
+   * @param lock3 3rd lock to match offered keys may be empty
+   *
+   * @return rN the index of a vector of result integer index into resI,resV,resS
+   *
   int doRes(String dName, String desc, String detail, int fracs, long lock0, long lock1, long lock2, long lock3) {
     return doRes(dName, desc, detail, 1, 1, fracs, lock0, lock1, lock2, lock3);
   }
-
+/** define method calls creating output lines in the results array 
+   * when some bits in the locks correspond with bits in the offered key
+   * from StarTrader
+   *
+   * @param dName name of setStats recording a result
+   * @param desc description of result
+   * @param detail detailed description available by clicking description
+   * @param depth number of successive years displayed 1-6
+   * @param fracs number of fraction digits
+   * @param lock0 0'th lock to match the offered keys
+   * @param lock1 1'th lock to match offered keys may be empty
+   * @param lock2 2nd lock to match offered keys, may be empty
+   * @param lock3 3rd lock to match offered keys may be empty
+   *
+   * @return rN the index of a vector of result integer index into resI,resV,resS
+   *
   int doRes(String dName, String desc, String detail, int depth, int fracs, long lock0, long lock1, long lock2, long lock3) {
     return doRes(dName, desc, detail, depth, 1, fracs, lock0, lock1, lock2, lock3);
   }
 
+  /** define method calls creating output lines in the results array 
+   * when some bits in the locks correspond with bits in the offered key
+   * from StarTrader
+   *
+   * @param dName name of setStats recording a result
+   * @param desc description of result
+   * @param detail detailed description available by clicking description
+   * @param depth number of successive years displayed 1-6
+   * @param ydepth number of successive years in results separated by years
+   * @param fracs number of fraction digits
+   * @param lock0 0'th lock to match the offered keys
+   * @param lock1 1'th lock to match offered keys may be empty
+   * @param lock2 2nd lock to match offered keys, may be empty
+   * @param lock3 3rd lock to match offered keys may be empty
+   *
+   * @return rN the index of a vector of result integer index into resI,resV,resS
+   */
   int doRes(String dName, String desc, String detail, int depth, int ydepth, int fracs, long lock0, long lock1, long lock2, long lock3) {
     e4++;
     System.out.printf("in doRes a, rn%2d, dName=%5s, desc=%5s, detail=%5s,locks=%o,%o,%o,%o %n", e4, dName, desc, detail, lock0, lock1, lock2, lock3);
@@ -2804,8 +2871,9 @@ class EM {
   }
 
   /**
-   * define a result outputer for number rN with locks matching corresponding
-   * keys in StarTrader
+   * define method calls creating output lines in the results array 
+   * when some bits in the locks correspond with bits in the offered key
+   * from StarTrader
    *
    * @param rN number of the result
    * @param desc description
@@ -2816,7 +2884,7 @@ class EM {
    * @param lock2 2nd lock to match offered keys, may be empty
    * @param lock3 3rd lock to match offered keys may be empty
    *
-   * @return rN the index of a vextor of result lock which match call keys
+   * @return rN the index of a vector of result integer index into resI,resV,resS
    * recall doRes with ydepth=1, depth = 1
    */
   int doRes(int rN, String desc, String detail, int fracs, long lock0, long lock1, long lock2, long lock3) {
@@ -2824,7 +2892,9 @@ class EM {
   }
 
   /**
-   * assign the storage for this result
+   * define method calls creating output lines in the results array 
+   * when some bits in the locks correspond with bits in the offered key
+   * from StarTrader
    *
    * @param rN number of the result
    * @param desc description
@@ -2843,14 +2913,40 @@ class EM {
   int doRes(int rN, String desc, String detail, int depth, int fracs, long lock0, long lock1, long lock2, long lock3) {
     return doRes(rN, desc, detail, depth, 1, fracs, lock0, lock1, lock2, lock3);
   }
-
+  
   /**
-   * assign the storage for this result
+   * define method calls creating output lines in the results array 
+   * when some bits in the locks correspond with bits in the offered key
+   * from StarTrader
    *
    * @param rN number of the result
    * @param desc description
    * @param detail detailed description available by clicking description
    * @param depth depth of reports for all years
+   * @param ydepth depth for 5 year groups, LIST10,LIST11,LIST12,LIST13,LIST14
+   * @param fracs number of fraction digits
+   * @param lock0 0'th lock to match the offered keys
+   * @param lock1 1'th lock to match offered keys may be empty
+   * @param lock2 2nd lock to match offered keys, may be empty
+   * @param lock3 3rd lock to match offered keys may be empty
+   *
+   * @return rN the index of a vector of result locks which match call keys
+   * recall doRes with ydepth=1;
+   */
+  int doRes(int rN, String desc, String detail, int depth, int ydepth, int fracs) {
+    return doRes(rN,desc,detail,depth,ydepth,fracs,DUP,0L,0L,0L);
+  }
+
+  /**
+   * define method calls creating output lines in the results array 
+   * when some bits in the locks correspond with bits in the offered key
+   * from StarTrader
+   *
+   * @param rN number of the result
+   * @param desc description
+   * @param detail detailed description available by clicking description
+   * @param depth depth of reports for all years
+   * @param ydepth depth for 5 year groups, LIST10,LIST11,LIST12,LIST13,LIST14
    * @param fracs number of fraction digits
    * @param lock0 0'th lock to match the offered keys
    * @param lock1 1'th lock to match offered keys may be empty
@@ -3296,9 +3392,11 @@ class EM {
         long[][] resiii = resI[rn][ICUM];
         long[] resiic = resI[rn][ICUM][CCONTROLD];
         int c = 0, ageIx = 0;
-        
+        if((resI[rn][ICUM][CCONTROLD][LOCKS0 + 0] & DUP) == 0L){
+         res2 = resI[rn];
+      }        
         for (c = 1, ageIx = 0; c < 5 && ageIx == 0; c++) {
-          if (((aop & resI[rn][ICUM][CCONTROLD][LOCKS0 + 0]) & AGELISTS[c]) > 0) {
+          if (((aop & res2[ICUM][CCONTROLD][LOCKS0 + 0]) & AGELISTS[c]) > 0) {
             ageIx = c; 
           }
         }
@@ -3344,9 +3442,9 @@ class EM {
       long opr = 0;
       //int opx = 0;
       boolean myUnset;
-      long[][][] resii = resI[rn];
-      long[][] resiii = resI[rn][ICUM];
-      long[] resiic = resI[rn][ICUM][CCONTROLD];
+      long[][][] resii = res2;
+      long[][] resiii = res2[ICUM];
+      long[] resiic = res2[ICUM][CCONTROLD];
       long allLocks = resiic[LOCKS0] | resiic[LOCKS1] | resiic[LOCKS2] | resiic[LOCKS3];
       long haveDM = (aop & allLocks) & dmask;
       long haveLM = (aop & allLocks) & lmask;
@@ -3368,13 +3466,13 @@ class EM {
       // move through the 4 locks
       for (int d = 0; d < 4; d++) {
         // check for a LISTx put in hLM1
-        hLM1 = (long) (aop & resI[rn][ICUM][CCONTROLD][LOCKS0 + d]) & lmask;
+        hLM1 = (long) (aop & res2[ICUM][CCONTROLD][LOCKS0 + d]) & lmask;
         long aRows = aop & ROWSMASK;  //StarTrader rows key
-        long lRows = resI[rn][ICUM][CCONTROLD][LOCKS0 + d] & ROWSMASK;
+        long lRows = res2[ICUM][CCONTROLD][LOCKS0 + d] & ROWSMASK;
         boolean okRows = (aRows == 0L && lRows == 0L) || ((aRows & lRows) > 0L);
         //use previous hlm if none present.
-        hLM = (resI[rn][ICUM][CCONTROLD][LOCKS0 + d] & lmask) > 0L ? hLM1 : hLM;
-        long hDM = (aop & resI[rn][ICUM][CCONTROLD][LOCKS0 + d]) & d1mask;
+        hLM = (res2[ICUM][CCONTROLD][LOCKS0 + d] & lmask) > 0L ? hLM1 : hLM;
+        long hDM = (aop & res2[ICUM][CCONTROLD][LOCKS0 + d]) & d1mask;
         opr = hDM;
 
         // must have at least 1 matching list and 1 matching do type
@@ -3551,6 +3649,7 @@ class EM {
   public int getD(JTable table, String resExt[], int rn, long aop, int row, String suffix, int ageIx) {
     // String s[] = {"planets ", "ships ", "sum "};
     String ss[] = {"999999.", "ave of the", "P and S", "sums", ">>>>>>>>>>"};
+    String ww[] = {"color","Winner","999999","99.0%",">>>>>>>>>>" };
     long d[] = {getP, getS};
     long dd[] = {getP, getS};
     String description = resS[rn][rDesc];
@@ -3592,19 +3691,41 @@ class EM {
         row++;
         didUnset = true;
       } else {
+        if(resS[rn][rDesc].contains("Score")){
+          int i = E.S;
+          // String ww[] = {"color","Winner","999999","99.0%",">>>>>>>>>>" }; `
+            //  Set second half of sum
+            table.setBackground(new java.awt.Color(E.backGroundColors[winner]));
+            aVal=sums =0;
+            double myWin=0;
+              for (int m = 0; m < E.lclans; m++) {
+                table.setValueAt(((aVal = getD1(rn, dd[(int) i] + aop, m, ageIx)) < -93456789.0 ? "------" : dFrac.format(aVal)), row, (int)(i * E.lclans + m + 1));
+                sums += aVal;
+                if(m == winner){table.setValueAt(aVal,row,3); myWin = aVal;}
+              }
+              table.setValueAt(E.groupNames[winner], row, 1);
+              table.setValueAt("Winner",row,5);
+              table.setValueAt((dFrac.format(aVal*100/sums *.2)) + "%",row,4);
+              table.setValueAt(">>>>>>>>>>",row,5);
+          
+          table.setValueAt(description + suffix + powers, row, 0);
+          resExt[row] = detail + powers;
+          row++;   
+            } else
         if (doSum) {
           sums = 0.;
-          for (long i : d) {
+          for (long i : d) {        
             if (doSum && (i == getP)) { // only do the first half of sums
               for (int mm = 1; mm < E.lclans; mm++) {
                 //String ss[] = {">>>This", "row sums", "planets", "and ships", ">>>>>>>>>>"};
                 table.setValueAt(ss[mm], row, mm + 1);
+               
               }
             } else { // second half of sum
               for (int m = 0; m < E.lclans; m++) {
                 table.setValueAt(((sums += aVal = getD1(rn, dd[(int) i] + aop, m, ageIx)) < -93456789.0 ? "------" : dFrac.format(aVal)), row, (int) i * E.lclans + m + 1);
               }
-              table.setValueAt(dFrac.format(sums / 5.), row, 1);
+              table.setValueAt(dFrac.format(sums * .2), row, 1);
             }
           }
           table.setValueAt(description + suffix + powers, row, 0);
@@ -3938,7 +4059,7 @@ class EM {
    * @param rN1 the first doRes generally earliest value
    * @param rN2 the second doRes generally last value
    */
-  void doResPercent(int rNPer, int rN1, int rN2) {
+  void doResVPercent(int rNPer, int rN1, int rN2) {
     if (!(resI[rN1] == null || resI[rN1][ICUR0] == null || resI[rN1][ICUR0][CCONTROLD] == null || resI[rN1][ICUR0][CCONTROLD][ISSET] != 1 || resI[rN2] == null || resI[rN2][ICUR0] == null || resI[rN2][ICUR0][CCONTROLD] == null || resI[rN2][ICUR0][CCONTROLD][ISSET] != 1)) {
       for (int m = 0; m < 2; m++) {
         for (int n = 0; n < 5; n++) {
@@ -3959,11 +4080,11 @@ class EM {
    * The ISSET of ICUR0 is set The results are added to ICUM The units of rN1
    * are added to ICUM unless rN1 == result rN
    *
-   * @param rNPer The doRes result of the percent
+   * @param rNPer The doRes result of the incr percent
    * @param rN1 the first doRes generally earliest value
    * @param rN2 the second doRes generally last value
    */
-  void doResIncrPercent(int rNPer, int rN1, int rN2) {
+  void doResVIncrPercent(int rNPer, int rN1, int rN2) {
     if (!(resI[rN1] == null || resI[rN1][ICUR0] == null || resI[rN1][ICUR0][CCONTROLD] == null || resI[rN1][ICUR0][CCONTROLD][ISSET] != 1 || resI[rN2] == null || resI[rN2][ICUR0] == null || resI[rN2][ICUR0][CCONTROLD] == null || resI[rN2][ICUR0][CCONTROLD][ISSET] != 1)) {
       if (!(resI[rN1] == null || resI[rN1][ICUR0] == null || resI[rN1][ICUR0][CCONTROLD] == null || resI[rN1][ICUR0][CCONTROLD][ISSET] != 1 || resI[rN2] == null || resI[rN2][ICUR0] == null || resI[rN2][ICUR0][CCONTROLD] == null || resI[rN2][ICUR0][CCONTROLD][ISSET] != 1)) {
         for (int m = 0; m < 2; m++) {
@@ -3994,7 +4115,7 @@ class EM {
     if (!(resI[rN1] == null || resI[rN1][ICUR0] == null || resI[rN1][ICUR0][CCONTROLD] == null || resI[rN1][ICUR0][CCONTROLD][ISSET] != 1 || resI[rN2] == null || resI[rN2][ICUR0] == null || resI[rN2][ICUR0][CCONTROLD] == null || resI[rN2][ICUR0][CCONTROLD][ISSET] != 1)) {
       for (int m = 0; m < 2; m++) {
         for (int n = 0; n < 5; n++) {
-          resV[rNAdd][ICUM][m][n] += resV[rNAdd][ICUR0][m][n] = (resV[rN2][ICUR0][m][n] - resV[rN1][ICUR0][m][n]);
+          resV[rNAdd][ICUM][m][n] += resV[rNAdd][ICUR0][m][n] = (resV[rN2][ICUR0][m][n] + resV[rN1][ICUR0][m][n]);
           if (rNAdd != rN2) {
             resI[rNAdd][ICUM][m][n] += resI[rNAdd][ICUR0][m][n] = resI[rN2][ICUR0][m][n];
           }// if
@@ -4030,21 +4151,46 @@ class EM {
   }
 
   /**
-   * save the division of rN2 by rN1 of rNAdd = rN1 / rN2 runs inside
+   * save the division of rN2 by rN1 of rNDivUnits = rN1 / rN2 runs inside
    * doResSpecial before getWinner inside doEndYea The results go into ICUR0 of
    * the result The units for rN2 are placed in ICUR0 of the result unless
    * rn1==result rN The ISSET of ICUR0 is set in result The results are added to
    * ICUM The units of rN1 are added to ICUM unless rN1 == result rN
    *
-   * @param rNSub The doRes result of the add
+   * @param rNDivUnits The doRes result of the division
    * @param rN1 the first doRes generally earliest value
    * @param rN2 the second doRes generally last value units
    */
-  void doResDivUnits(int rNDivUnits, int rN1, int rN2) {
+  void doResVDivUnits(int rNDivUnits, int rN1, int rN2) {
     if (!(resI[rN1] == null || resI[rN1][ICUR0] == null || resI[rN1][ICUR0][CCONTROLD] == null || resI[rN1][ICUR0][CCONTROLD][ISSET] != 1 || resI[rN2] == null || resI[rN2][ICUR0] == null || resI[rN2][ICUR0][CCONTROLD] == null || resI[rN2][ICUR0][CCONTROLD][ISSET] != 1)) {
       for (int m = 0; m < 2; m++) {
         for (int n = 0; n < 5; n++) {
           resV[rNDivUnits][ICUM][m][n] += resV[rNDivUnits][ICUR0][m][n] = (resV[rN1][ICUR0][m][n] / (resI[rN2][ICUR0][m][n] + .00001));
+          if (rN1 != rNDivUnits) {
+            resI[rNDivUnits][ICUM][m][n] += resI[rNDivUnits][ICUR0][m][n] = resI[rN1][ICUR0][m][n];
+          }// if
+        }//n
+      }//m
+      resI[rNDivUnits][ICUR0][CCONTROLD][ISSET] = 1;
+    }
+  }
+  
+  /**
+   * save the percent of rN2 by rN1 of rNDivUnits = rN1 * 100. / rN2 runs inside
+   * doResSpecial before getWinner inside doEndYea The results go into ICUR0 of
+   * the result The units for rN2 are placed in ICUR0 of the result unless
+   * rn1==result rN The ISSET of ICUR0 is set in result The results are added to
+   * ICUM The units of rN1 are added to ICUM unless rN1 == result rN
+   *
+   * @param rNDivUnits The doRes result of the division
+   * @param rN1 the first doRes units generally earliest value
+   * @param rN2 the second doRes generally last value units
+   */
+  void doResIPercemtUnits(int rNDivUnits, int rN1, int rN2) {
+    if (!(resI[rN1] == null || resI[rN1][ICUR0] == null || resI[rN1][ICUR0][CCONTROLD] == null || resI[rN1][ICUR0][CCONTROLD][ISSET] != 1 || resI[rN2] == null || resI[rN2][ICUR0] == null || resI[rN2][ICUR0][CCONTROLD] == null || resI[rN2][ICUR0][CCONTROLD][ISSET] != 1)) {
+      for (int m = 0; m < 2; m++) {
+        for (int n = 0; n < 5; n++) {
+          resV[rNDivUnits][ICUM][m][n] += resV[rNDivUnits][ICUR0][m][n] = (resI[rN1][ICUR0][m][n] * 100. / (resI[rN2][ICUR0][m][n] + .00001));
           if (rN1 != rNDivUnits) {
             resI[rNDivUnits][ICUM][m][n] += resI[rNDivUnits][ICUR0][m][n] = resI[rN1][ICUR0][m][n];
           }// if
@@ -4060,7 +4206,7 @@ class EM {
   int sValsCnt = -1;
 
   int getWinner() {
-    int winner = -1;
+    
     for (int n = 0; n < 5; n++) {
       myScore[n] = 0.;
     }
@@ -4222,3 +4368,4 @@ class EM {
     return iSum;
   }
 }
+

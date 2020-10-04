@@ -29,24 +29,26 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 /**
- *
+ *This is in many ways an extension of the StarTrader main class with the 
+ * user interface methods.  E contains constants and a few methods
+ * see EM for values that StarTrader can change during the game
  * @author Albert Steiner
  */
 public class E {
 // this class hold all of the constants that are used for rows and columns in req
   // it also holds tables used to calculate growth etc.
-  /** StarTrader contains the used set of stats descriptors
+  /** StarTrader contains THIS set of stats descriptors
    * 
   static final public String statsButton0Tip = "0: Current Game Worths";
   static final public String statsButton1Tip = "1: Favors and trade effects";
-  static final public String statsButton2Tip = "2: Catastrophies, deaths, randoms, forwardfund";
+  static final public String statsButton2Tip = "2: Catastrophes, deaths, randoms, forwardfund";
   static final public String statsButton17Tip = "3: Deaths";
   static final public String statsButton18Tip = "4: Trades";
   static final public String statsButton19Tip = "5: Creates";
   static final public String statsButton20Tip = "6: ForwardFund";
   static final public String statsButton9Tip = "7: Resource, staff, knowledge values";
   static final public String statsButton10Tip = "8: growth and costs details";
-  static final public String statsButton11Tip = "9: Fertility, health and effects";
+  static final public String statsButton11Tip = "9: Catastrophes, Fertility, health and effects";
   static final public String statsButton3Tip = "10: years 0,1,2,3 worth inc, costs, efficiency,knowledge,phe";
   static final public String statsButton4Tip = "11: years 4,5,6,7 worth inc, costs, efficiency,knowledge,phe ";
   static final public String statsButton5Tip = "12: years 8->15 worth inc, costs, efficiency,knowledge,phe ";
@@ -187,17 +189,19 @@ public class E {
   //location parameters for planets and ships.
   // use only the positive section of sphere x, y,z
   public enum clan {
-    RED("rodalians", 0xa92e22, 0xc61331), ORANGE("irgabtucs", 0xd9850e, 0xe87722), YELLOW("yankels", 0xffdc23, 0xe8c155), GREEN("groknes", 0xb0b332, 0x9ff365), BLUE("brogles", 0x9eced7, 0x84b0d8), GAMEMASTER("gameMaster", 0xbbbbbb, 0x666666), COMPARE("Compare Clans", 0x888888, 0x888888);
+    RED("rodalians", 0xa92e22, 0xc61331,0xFFCFAD), ORANGE("irgabtucs", 0xd9850e, 0xe87722,0xFFCFAD), YELLOW("yankels", 0xffdc23, 0xe8c155,0xFDFDC3), GREEN("groknes", 0xb0b332, 0x9ff365,0xD7F300), BLUE("brogles", 0x9eced7, 0x84b0d8,0x00849A), GAMEMASTER("gameMaster", 0xbbbbbb, 0x666666,0xFFD55F), COMPARE("Compare Clans", 0x888888, 0x888888,0xFFD55F);
     private final String name;
     private final Color colorPlanet;
     private final Color colorShip;
+    private final Color colorBackGround;
     private final Color invPlanet;
     private final Color invShip;
 
-    clan(String name, int planet, int ship) {
+    clan(String name, int planet, int ship, int backGround) {
       this.name = name;
       this.colorPlanet = new Color(planet);
       this.colorShip = new Color(ship);
+      this.colorBackGround = new Color(backGround);
       invShip = new Color(-ship);
       invPlanet = new Color(-planet);
     }
@@ -214,6 +218,8 @@ public class E {
     public Color getPlanetColor() {
       return colorPlanet;
     }
+    
+    public Color getBackgroundColor(){ return colorBackGround; }
 
     public Color getShipColor() {
       return colorShip;
@@ -232,6 +238,8 @@ public class E {
   public static final String[] clanNames = {"rodalians", "organtics", "yankels", "groknes", "brogles"};
   public static final int lclans = 5;
   Color ccc = new Color(0xa92e22);
+  public static int backGroundColors[] = {0xa92e22,0xd9850e,0xffdc23,0xb0b332,0x9eced7};
+  public Enum clans[] = {clan.RED,clan.ORANGE,clan.YELLOW,clan.GREEN,clan.BLUE};
   /**
    * foreground colors for planet,ship clan 0-4, 5 = all clans
    */
@@ -325,7 +333,6 @@ public class E {
   static public double[][] cashMaxTradeFracCash = {{.7, .7, .7, .7, .7}, {.7, .7, .7, .7, .7}};
 
   public enum SwpCmd {
-
     NOT("nothing assigned"), NONE("no Cmd"), NOOP("no operation"), GROW("in grow section"), HEALTH("Health swapping"), UINCR("un Incr"), RSINCR("pre Incr"), SINCR("increase staff guest to staff"), SINCR1("second incr staff G to S"), SINCR2("3 incr staff G to S"), SINCR3("4 incr staff G to S"), RINCR("increase available from cargo"), RINCR1("another increase available C to A"), RINCR2("another increase available C to A"), RINCR3("another increase available C to A"), RSINCR1("seconPre Incr"), /* AXINCR("increase available by transmute from another resource Cargo or Avail"), */ UDECR("un Decr"), RSDECR("pre DECR"), SDECR("decrease a large staff to Guests to help another resource staff"), RDECR("decrease large resource to help another resource"), RDECR1, RDECR2, RDECR3, SDECR1, SDECR2, SDECR3, UNXDECR("un XDECR"), RFUTUREFUND, REMERGFUTUREFUND, SFUTUREFUND, SEMERGFUTUREFUND, RFUTUREFUND1, REMERGFUTUREFUND1, SFUTUREFUND1, SEMERGFUTUREFUND1, RFUTUREFUND2, REMERGFUTUREFUND2, SFUTUREFUND2, SEMERGFUTUREFUND2, RFUTUREFUND3, REMERGFUTUREFUND3, SFUTUREFUND3, SEMERGFUTUREFUND3, RSXDECR("pre XDECR"), RXDECR("swap resources/staff between sectors, high resource cost"), RXDECR1("Second RXDECR"), RXDECR2("Second RXDECR"), RXDECR3("Second RXDECR"), SXDECR("swap resource with high staff costs"), SXDECR1("Second SXDECR"), SXDECR2("Second SXDECR"), SXDECR3("Second SXDECR"), TXDECR("reverse charge r sector"), TXDECR1, TXDECR2, TXDECR3, UXDECR, UXDECR1, UXDECR2, UXDECR3, TRADE("prepare for Trade"), TRADEG("Trade Guests between Planet and Ship"), TRADEC("Trade cargo between Ship and Planeet");
     private String desc;
     private double val;
