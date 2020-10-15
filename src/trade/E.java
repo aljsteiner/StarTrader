@@ -1571,8 +1571,8 @@ public class E {
    * @return the copy of aa including the 2 new copied ARow
    */
   static public A2Row copy(A2Row aa) {
-    ARow nCargo = new ARow().set(aa.getARow(0));
-    ARow nGuests = new ARow().set(aa.getARow(lsecs));
+    ARow nCargo = new ARow(aa.ec).set(aa.getARow(0));
+    ARow nGuests = new ARow(aa.ec).set(aa.getARow(lsecs));
     A2Row tmp = new A2Row(nCargo, nGuests);
     return tmp;
   }
@@ -1588,7 +1588,7 @@ public class E {
     if (a != null) {
       return a;
     }
-    ARow AA = new ARow();
+    ARow AA = new ARow(a.ec);
     return AA;
   }
 
@@ -1600,10 +1600,10 @@ public class E {
    */
   public static ARow copy(ARow old) {
     if (old == null) {
-      return new ARow().zero();
+      return new ARow(EM.curEcon).zero();
     }
     else {
-      return new ARow().set(old);
+      return new ARow(old.ec).set(old);
     }
 
   }

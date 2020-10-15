@@ -51,7 +51,10 @@ public class ARow {
    * construct a new zero'd ARow instance
    *
    */
-  public ARow() {
+  public ARow(Econ ec) {
+    this.ec = ec;
+    as = ec.as;
+    aPre = ec.aPre;
     values = new double[E.lsecs];
     ix = new int[E.lsecs];
     if(E.debugNoTerm){
@@ -412,7 +415,7 @@ public class ARow {
    */
   ARow copy() {
     //  E.myTest(A == null, "input to set is null");
-    ARow ret = new ARow();
+    ARow ret = new ARow(ec);
     // the presets in ARow() force reindex etc
     double d;
     ret.setCnt = setCnt + 1;
@@ -429,7 +432,7 @@ public class ARow {
    * @return the new ARow with old values and new references
    */
   ARow newCopy(EM newEM){
-    ARow ret = new ARow();
+    ARow ret = new ARow(ec);
     double d;
     for (int i = 0; i < E.lsecs; i++) {
       d = doubleTrouble(get(i));
@@ -572,7 +575,7 @@ public class ARow {
    * @return each this - A*V
    */
   ARow subAmultV(ARow A, double V) {
-    ARow result = new ARow();
+    ARow result = new ARow(ec);
     for (int m : E.alsecs) {
       result.set(m, doubleTrouble(this.get(m)) - (doubleTrouble(A.get(m) * V)));
     }
@@ -706,7 +709,7 @@ public class ARow {
    * @return this*B/C no change to this
    */
   ARow multBdivbyC(ARow B, ARow C) {
-    ARow tmp = new ARow();
+    ARow tmp = new ARow(ec);
     for (int m : E.alsecs) {
       Double bt = B.get(m) / C.get(m);
       double bc = bt.isInfinite() || bt.isNaN() ? 0 : bt;
@@ -722,7 +725,7 @@ public class ARow {
    * @return this mult B
    */
   ARow mult(ARow B) {
-    ARow r = new ARow();
+    ARow r = new ARow(ec);
     for (int m = 0; m < E.lsecs; m++) {
       r.set(m, get(m) * B.get(m));
     }
@@ -781,7 +784,7 @@ public class ARow {
    * @return this or if T This mult B
    */
   ARow multifT(ARow B, boolean T) {
-    ARow result = new ARow().set(this);
+    ARow result = new ARow(ec).set(this);
     if (T) {
       for (int i = 0; i < E.lsecs; i++) {
         result.set(i, this.get(i) * B.get(i));
@@ -866,7 +869,7 @@ public class ARow {
    * @return tmp this unchanged
    */
   ARow divby(ARow B) {
-    ARow tmp = new ARow();
+    ARow tmp = new ARow(ec);
     for (int m = 0; m < E.lsecs; m++) {
       Double bt = get(m) / B.get(m);
       double bb = bt.isInfinite() || bt.isNaN() ? 0 : bt < E.UNZERO? E.INVZERO:bt;
@@ -1772,7 +1775,7 @@ public class ARow {
    *
    */
   public ARow limVal(double min, double max) {
-    ARow tmp = new ARow();
+    ARow tmp = new ARow(ec);
     for (int m = 0; m < E.lsecs; m++) {
       tmp.set(m, get(m) < min ? min : get(m) > max ? max : get(m));
     }

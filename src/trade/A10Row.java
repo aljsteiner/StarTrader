@@ -43,8 +43,8 @@ public class A10Row extends A6Rowa {
   /**
    * The no parameter constructor
    */
-  public A10Row() {
-    super(10, tcost, History.informationMinor9, "unset");
+  public A10Row(Econ ec) {
+    super(ec,10, tcost, History.informationMinor9, "unset");
     lev = History.informationMinor9;
     titl = "unset";
     iix = iix1;
@@ -60,8 +60,8 @@ public class A10Row extends A6Rowa {
    * @param alev level for listing this row array
    * @param atitl title of the row array
    */
-  public A10Row(int alev, String atitl) {
-    super(10, tcost, alev, atitl);
+  public A10Row(Econ ec,int alev, String atitl) {
+    super(ec,10, tcost, alev, atitl);
     iix = iix1;
     lA = 10;
     dA = dA1;
@@ -142,7 +142,7 @@ public class A10Row extends A6Rowa {
    * @return new object copy new references for the values
    */
   public A10Row copy(int alev, String atitl) {
-    A10Row rtn = new A10Row();
+    A10Row rtn = new A10Row(ec);
     rtn.lev = alev;
     rtn.titl = atitl;
     rtn.balances = balances;
@@ -985,7 +985,7 @@ public class A10Row extends A6Rowa {
    * @return copy of avail with doNots set to flag
    */
   A2Row filterByDoNot(int group, A2Row avail,double flag) {
-    A2Row rtn = new A2Row();
+    A2Row rtn = new A2Row(avail.ec);
     rtn = avail.newCopy(eM);
     for (int m=0;m<2;m++) {
       for (int n=0;n< E.lsecs;n++) {

@@ -126,12 +126,13 @@ class EM {
   double[] multLYM = {1.1, 1.2, 1.4, 1.6, 1.9, 2.2, 2.7, 3.5}; //8
   // multiplier of the ship goals.
   double[] addGoal = {0.0, 0.015, .025, .045, .06, .08, 2.0, 2.3};//9
-  double[] gameShipFrac = {.501, .498};
-  static double[][] mGameShipFrac = {{.35, .65}, {.35, .65}};
-  double[][] clanShipFrac = {{.501, .501, .501, .501, .6}, {.498, .498, .498, .498, .6}}; // .3-.7 clan choice of clan ships /econs
-  static double[][] mClanShipFrac = {{.3, .7}, {.3, .7}};
-  double[][] clanAllShipFrac = {{.501, .501, .501, .501, .501}, {.5, .5, .5, .5, .5}};
-  static double[][] mClanAllShipFrac = {{.3, .8}, {.3, .8}};
+  // .25 = 1ship/3 planets
+  double[] gameShipFrac = {.501, .498};  // ships / econs .75 means 3ships/1 planet, .8 = 4ships/1planet
+  static double[][] mGameShipFrac = {{.25, .81}, {.25, .81}};
+  double[][] clanShipFrac = {{.501, .501, .501, .501, .6}, {.498, .498, .498, .498, .6}}; // .3->5. clan choice of clan ships / clan econs
+  static double[][] mClanShipFrac = {{.20, .81}, {.20,.81}};
+  double[][] clanAllShipFrac = {{.501, .501, .501, .501, .501}, {.5, .5, .5, .5, .5}}; // clan (ships/econs)
+  static double[][] mClanAllShipFrac = {{.2, .81}, {.2, .81}};
 
   static double mEconLimits1[][] = {{200., 500.}, {200., 500.}};
   double econLimits2[] = {350.}; // more limiting of econs
@@ -761,11 +762,12 @@ class EM {
   // multiply table guest cost by guestBias when calculating Maint Travel Growth Req costs and worth
   double[] guestWorthBias = {1.};
   static final double[][] mGuestWorthBias = {{.2, 1.5}, {.2, 1.5}};
-  static final double[][] mScoreMult = {{.0, 1.}, {.0, 1.}};
+  static final double[][] mScoreMult = {{-1., 1.}, {-1., 1.}};
   double[][] wLiveWorthScore = {{.8}};
-  double[][] iBothCreateScore = {{.5}};
+  double[][] iBothCreateScore = {{.7}};
   double[][] wTraderMultV = {{.8}};
   double[][] wTraderMultI = {{.8}};
+  double[][] iNumberDied = {{-.3}};
    
   // multiply table cargo costs by cargoBias when calculating Maint Travel Growth Req cargo costs
   double[] cargoWorthBias = {1.};
@@ -1994,7 +1996,7 @@ class EM {
   void runVals() {
     doVal("difficulty  ", difficultyPercent, mDifficultyPercent, "For ships as well as  Planets , set the difficulty of the game, more difficulty increases costs of  resources and colonists each year, increases the possibility of economy death.  More difficulty requires more clan boss expertise.");
     doVal("randomActions  ", randFrac, mRandFrac, "increased random, increases possibility of gain, and of loss, including possibility of death");
-    doVal("wLiveWorthScore", wLiveWorthScore, mScoreMult, "increased slider, increase the value of LiveWorth in the winning Score");
+    doVal("wLiveWorthScore", wLiveWorthScore, mScoreMult, "increased slider, increase the value of LiveWorth in the winning Score. Values under 50 actually reduce the score, the more under 50 the more the score is reduced");
     doVal("iBothCreateScore", iBothCreateScore, mScoreMult, "increased slider, increase the value of BothCreate in the winning Score");
     doVal("wTraderMultV", wTraderMultV, mScoreMult, "increased slider, increase the value of TraderMult values in the winning Score");
     doVal("wTraderMultI", wTraderMultI, mScoreMult, "increased slider, increase the value of TraderMult units values in the winning Score");
@@ -4208,7 +4210,7 @@ class EM {
   int getWinner() {
     
     for (int n = 0; n < 5; n++) {
-      myScore[n] = 0.;
+      myScore[n] = 80.;  // allow negatives to reduce it
     }
     winner = scoreVals(LIVEWORTH, wLiveWorthScore, ICUR0, isV);
     winner = scoreVals(getStatrN("WTRADEDINCRMULT"), wTraderMultV, ICUR0, isV);
@@ -4217,8 +4219,8 @@ class EM {
     for (int n = 0; n < 5; n++) {
       resV[SCORE][ICUR0][0][n] = myScore[n];
       resV[SCORE][ICUR0][1][n] = myScore[n];
-      resI[SCORE][ICUR0][0][n] = 0;
-      resI[SCORE][ICUR0][0][n] = 3;  //3 units for each clan
+      resI[SCORE][ICUR0][1][n] = 0;
+      resI[SCORE][ICUR0][0][n] = 3;  //3 planet units for each clan
     }
     System.out.println("getWinner " + resS[SCORE][0] + " =" + E.mf(resV[SCORE][ICUR0][0][0]) + " , " + E.mf(resV[SCORE][ICUR0][0][1]) + " , " + E.mf(resV[SCORE][ICUR0][0][2]) + "," + E.mf(resV[SCORE][ICUR0][0][3]) + "," + E.mf(resV[SCORE][ICUR0][0][4]) + " : " + E.mf(resV[SCORE][ICUR0][1][0]) + " , " + E.mf(resV[SCORE][ICUR0][1][1]) + " , " + E.mf(resV[SCORE][ICUR0][1][2]) + "," + E.mf(resV[SCORE][ICUR0][1][3]) + "," + E.mf(resV[SCORE][ICUR0][1][4]) + ", myScore=" + E.mf(myScore[0]) + " , " + E.mf(myScore[1]) + " , " + E.mf(myScore[2]) + "," + E.mf(myScore[3]) + "," + E.mf(myScore[4]) + ", winner=" + winner);
     return winner;

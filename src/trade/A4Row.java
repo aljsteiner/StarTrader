@@ -33,6 +33,7 @@ import java.util.ArrayList;
  */
 public class A4Row {
 
+  Econ ec = EM.curEcon;
   private int[] ix;
   String titl = "unset";
   int lev = History.informationMinor9;
@@ -41,7 +42,6 @@ public class A4Row {
   double sum = 0.;
   int[] aCnt = {-11, -11, -11, -11, -11, -11};
   ArrayList<History> hist = EM.curEcon.getHist();
-  Econ ec = EM.curEcon;
 
   /**
    * set object copy from 8 costs RCr set RR,CR RCs Set RS,CS SGr set SR,GR SGs
@@ -63,6 +63,7 @@ public class A4Row {
   public A4Row setCopy(int leva, String titla, A2Row joint, ARow RR, ARow RS, ARow CR, ARow CS, ARow SR, ARow SS, ARow GR, ARow GS) {
     lev = leva;
     titl = titla;
+    ec = RR.ec;
     A[0].set(RR, CR);
     A[1].set(RS, CS);
     A[2].set(SR, GR);
@@ -91,6 +92,7 @@ public class A4Row {
   public A4Row setCopy(int leva, String titla, ARow RR, ARow RS, ARow CR, ARow CS, ARow SR, ARow SS, ARow GR, ARow GS) {
     lev = leva;
     titl = titla;
+    ec = CR.ec;
     A[0].set(RR, CR);
     A[1].set(RS, CS);
     A[2].set(SR, GR);
@@ -175,6 +177,7 @@ public class A4Row {
   public A4Row setCopy(int leva, String titla, ARow RR, ARow RS, ARow CR, ARow CS, ARow SR, ARow SS, ARow GR, ARow GS, ARow sBal, ARow sWork) {
     lev = leva;
     titl = titla;
+    ec = RR.ec;
     for (int n : E.alsecs) {
       set(0, n, (RR.get(n) + CR.get(n)));
       set(1, n, (RS.get(n) + CS.get(n)) * sBal.get(n) / sWork.get(n));
@@ -207,6 +210,7 @@ public class A4Row {
   public A4Row setCopy(int leva, String titla, ARow RR, ARow RS, ARow CR, ARow CS, ARow SR, ARow SS, ARow GR, ARow GS, ARow sBal, ARow sWork, double phe) {
     lev = leva;
     titl = titla;
+    ec = CR.ec;
     for (int n : E.alsecs) {
       set(0, n, (RR.get(n) + CR.get(n) * phe));
       set(1, n, (RS.get(n) + CS.get(n)) * phe * sBal.get(n) / sWork.get(n));
@@ -240,6 +244,7 @@ public class A4Row {
   public A4Row setCopy(int leva, String titla, ARow RR, ARow RS, ARow CR, ARow CS, ARow SR, ARow SS, ARow GR, ARow GS, ARow sBal, ARow sWork, double phe, double years) {
     lev = leva;
     titl = titla;
+    ec = RR.ec;
     for (int n : E.alsecs) {
       set(0, n, (RR.get(n) + CR.get(n) * phe * years));
       set(1, n, (RS.get(n) + CS.get(n)) * phe * years * sBal.get(n) / sWork.get(n));
@@ -263,6 +268,7 @@ public class A4Row {
   public A4Row setCopy(int leva, String titla, A2Row joint, ARow rb, ARow cb, ARow sb, ARow gb) {
     lev = leva;
     titl = titla;
+    ec = joint.ec;
     A[0].set(rb);  // or costs r r + c r
     A[1].set(cb);  // r s + c s
     A[2].set(sb);  // s r + g r
@@ -285,6 +291,7 @@ public class A4Row {
   public A4Row setCopy(int leva, String titla, ARow rb, ARow cb, ARow sb, ARow gb, double mult) {
     lev = leva;
     titl = titla;
+    ec = rb.ec;
     A[0].set(rb);  // or costs r r + c r
     A[1].set(cb);  // r s + c s
     A[2].set(sb);  // s r + g r
@@ -338,7 +345,7 @@ public class A4Row {
   public A4Row() {
 
     for (int m : E.d4) {
-      A[m] = new ARow().zero();
+      A[m] = new ARow(ec).zero();
     }
   }
 

@@ -49,6 +49,7 @@ public class Econ{
   StarTrader st;
   E eE = new E();
   EM eM;
+  Econ ec;
   String aPre = "&V";
   int lev = History.informationMinor9;
   int blev = History.dl;
@@ -129,6 +130,7 @@ public class Econ{
           double xpos, double percentDifficulty, double initWorth
   ) {
     this.pors = planetOrShip;
+    ec = this;
     eM = aeM;
     this.clan = clan;
     this.name = name;
@@ -222,7 +224,7 @@ public class Econ{
     resourcePri[(int) pris.toArray()[0]] = remainingPri;
     as = new Assets(); //instantiacte new Assets even if we reused econ
     //  and before instantiating any ARow or A6Rowa
-    sectorPri = new ARow();
+    sectorPri = new ARow(this);
     for (int i = 0; i < resourcePri.length; i++) {
       sectorPri.set(i, resourcePri[i]);
       // sumInitPri += resourcePri[i];
@@ -317,7 +319,7 @@ public class Econ{
     return as.getTradedShipsTried();
   }
   
-  /** decide is this planet is available for another visit to attempt a trade
+  /** decide if this planet is available for another visit to attempt a trade
    * Check the number of tradedShipsTried against several requirements.
    * try to ensure that new ships and planets are candidates for a trade.  
    * but pay attention to the settings for this clan to not use more ships than
@@ -325,8 +327,8 @@ public class Econ{
    * There are several rounds trying to find planets to trade, each round accepting
    * more planets.
    * check against:<ul><li>ships per planet--visited ships per visited planets</li>
-   * <li>clan ships per clan planets -- visited clan ships -- visited clan planets</li>
-   * <li>clan ships per all planets -- clan ship visits per all planets</li></ul>
+   * <li>clan ships per clan planets -- visited clan ships per visited clan planets</li>
+   * <li>clan ships per all planets -- clan ship visits per all visited planets</li></ul>
    * @param round 0-4 which round, increase options as round increases
    * 
    * @return true if planet can have a visit to trade
@@ -888,7 +890,7 @@ public class Econ{
     int yearsTooEarly = (int)(eM.year - eM.yearsToKeepTradeRecord[0][0]);
     // put new offer at the end
     if(aOffer.term == 0 || aOffer.term == -2)
-    ownerList.add(new TradeRecord(aOffer));
+    ownerList.add(new TradeRecord(ec,aOffer));
     
    Iterator<TradeRecord>  iterOther = otherList.iterator();
    TradeRecord otherRec;
@@ -928,7 +930,7 @@ public class Econ{
     if (!ship.getDie()) {
       eM.curEcon = ship;
       eM.otherEcon = planet;
-      Offer aOffer = new Offer(eM.year, eM.barterStart, eM, ship, planet);
+      Offer aOffer = new Offer(eM.year, eM.barterStart,ship, eM, ship, planet);
 
       int bb = 1; // start barter with planet,
       // for will alternate bb++ each time to start with planet

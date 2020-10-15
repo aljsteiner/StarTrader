@@ -145,11 +145,11 @@ public class Difhist extends History {
     Ss[9] = "Ave";
   }
 
-  public Difhist(int lev, String title, ARow anew, ARow aold) {
+  public Difhist(Econ ec,int lev, String title, ARow anew, ARow aold) {
     level = lev;
     this.title = title;
     int i = 0;
-    ARow dd = new ARow().setAsubB(anew, aold);
+    ARow dd = new ARow(ec).setAsubB(anew, aold);
     Ss[0] = df.format(dd.get(0));
     Ss[1] = df.format(dd.get(1));
     Ss[2] = df.format(dd.get(2));

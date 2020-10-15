@@ -50,17 +50,19 @@ public class Offer {
   static int searchL = 3; // the max high & low planet goods
   //static final int[] MS = {0, 1};
   Econ[] cn = new Econ[2]; //0=planet or ship,1=primaryShip
+  EM eM;
+  Econ ec;
   String[] cnName = {"aPlanetOther", "aShip"};
-  A2Row goods = new A2Row(); //only one instance of goods, for both cn's
-  A2Row[] secondGoods = {new A2Row(),new A2Row()}; // after the first all I got entry
- // A2Row[] entryGoods = {new A2Row(),new A2Row()}; // 
-  A2Row[] prev2Goods = {new A2Row(),new A2Row()}; // rows at entry to prev prev barter
-  A2Row[] prev3Goods = {new A2Row(),new A2Row()}; // rows at entry to prev prev barter
-  A2Row[] prevGoods = {new A2Row(),new A2Row()};  // rows at entry to prev barter
-  A2Row[] lastGoods = {new A2Row(),new A2Row()};  // rows at entry to barter
-  A2Row[] initialGoods = {new A2Row(),new A2Row()};  //entryGoods keep in list
-  //A2Row secondPlanetGoods = new A2Row();// see secondGoods[0]
-  //A2Row planetGoods = new A2Row(); //goods[0]
+  A2Row goods = new A2Row(ec); //only one instance of goods, for both cn's
+  A2Row[] secondGoods = {new A2Row(ec),new A2Row(ec)}; // after the first all I got entry
+ // A2Row[] entryGoods = {new A2Row(ec),new A2Row(ec)}; // 
+  A2Row[] prev2Goods = {new A2Row(ec),new A2Row(ec)}; // rows at entry to prev prev barter
+  A2Row[] prev3Goods = {new A2Row(ec),new A2Row(ec)}; // rows at entry to prev prev barter
+  A2Row[] prevGoods = {new A2Row(ec),new A2Row(ec)};  // rows at entry to prev barter
+  A2Row[] lastGoods = {new A2Row(ec),new A2Row(ec)};  // rows at entry to barter
+  A2Row[] initialGoods = {new A2Row(ec),new A2Row(ec)};  //entryGoods keep in list
+  //A2Row secondPlanetGoods = new A2Row(ec);// see secondGoods[0]
+  //A2Row planetGoods = new A2Row(ec); //goods[0]
   double[] secondSends, secondReceipts, secondTotalSends;
   double[] secondTotalReceipts, secondStrategicFrac,
           secondStrategicValue;
@@ -81,9 +83,9 @@ public class Offer {
   double[][][] guestGrades = new double[2][][]; // dynamic
   double cash = 0;  // **
   double cashes[] = new double[2];
-  ARow newKnowledge[] = {new ARow(), new ARow()}; // dynamic
-  ARow commonKnowledge[] = {new ARow(), new ARow()}; // dynamic
-  ARow manuals[] = {new ARow(), new ARow()};  // dynamic
+  ARow newKnowledge[] = {new ARow(ec), new ARow(ec)}; // dynamic
+  ARow commonKnowledge[] = {new ARow(ec), new ARow(ec)}; // dynamic
+  ARow manuals[] = {new ARow(ec), new ARow(ec)};  // dynamic
   ARow[][] know = {newKnowledge, commonKnowledge, manuals}; //dynamic
   int pors[] = {0, 1};   //1=ship, 0=other planet or ship
   //start with planet, first flip is at entry to barterStart-1
@@ -93,8 +95,8 @@ public class Offer {
   int term = 60;
   int age[] = {1, 1};
 
-  ARow[] valueMoreManuals = {new ARow(), new ARow()}; //dynamic
-  ARow[] moreManuals = {new ARow(), new ARow()};
+  ARow[] valueMoreManuals = {new ARow(ec), new ARow(ec)}; //dynamic
+  ARow[] moreManuals = {new ARow(ec), new ARow(ec)};
   int year = -10;  // year of the offer **
   int tradedShipOrdinal = 0; // 1=first ship trade this year, 2= second ...
   double[][] xyzs = {{-40, -41, -42}, {-43, -44, -45}}; //**
@@ -122,10 +124,11 @@ public class Offer {
   double searchDistance;
   double searchCumVal = 0;
   double searchCumDivisor = 0;
-  EM eM;
   
-  Offer() {
+  
+  Offer(Econ ec) {
     eM = StarTrader.eM;
+    this.ec = ec;
     hists = new ArrayList[2];
     year = eM.year;
   }
@@ -138,10 +141,11 @@ public class Offer {
    * @param myEcon Ship econ  myIx == 0
    * @param oEcon Planet econ myIx==1
    */
-  Offer(int year, int term, EM eem, Econ myEcon, Econ oEcon) {
+  Offer(int year, int term, Econ ec,EM eem, Econ myEcon, Econ oEcon) {
     
     int[] nxyz = {0, 1, 2};
     eM = eem;
+    this.ec = ec;
     cn[1] = myEcon;  // always a ship
     cn[0] = oEcon;  // planet or ship??
     bb = (1 + eM.barterStart) % 2; // force (bb+E.barterStart)%2 = 1
@@ -246,8 +250,8 @@ public class Offer {
     guestGrades = null;
     //double cash = 0;  // **
     newKnowledge = null;
-    // ARow commonKnowledge[] = {new ARow(), new ARow()}; // **
-    //ARow manuals[] = {new ARow(), new ARow()};  // **
+    // ARow commonKnowledge[] = {new ARow(ec), new ARow(ec)}; // **
+    //ARow manuals[] = {new ARow(ec), new ARow(ec)};  // **
     //ARow[][] know = {newKnowledge, commonKnowledge, manuals};
     //int pors[] = {0, 1};   //might allow ship to ship offers
     // myIx = null;
@@ -259,8 +263,8 @@ public class Offer {
     //int lastTerm = -1;
     //int age[] = {1, 1};
 
-    // ARow[] valueMoreManuals = {new ARow(), new ARow()};
-    // ARow[] moreManuals = {new ARow(), new ARow()};
+    // ARow[] valueMoreManuals = {new ARow(ec), new ARow(ec)};
+    // ARow[] moreManuals = {new ARow(ec), new ARow(ec)};
     // int year = -10;  // year of the offer **
     //int[][] xyzs = {{-40, -41, -42}, {-43, -44, -45}}; //**
     // int[] clans = {0, 1}; // **
@@ -314,7 +318,7 @@ public class Offer {
    * @param ix which is myIx index 0=planet, 1=ship about manuals
    */
   ARow calcMoreManuals(int ix) {
-    ARow ret = new ARow();
+    ARow ret = new ARow(ec);
     int oIx = (ix+1) % 2;
     int mIx = ix % 2;
     for (int m : E.alsecs) {
@@ -784,9 +788,9 @@ public class Offer {
     }  // else
     prevGoodIx = goodIx;
     goodIx = myIx;
-    A2Row[] prevNG = {new A2Row(),new A2Row()};
-    prev3Goods[oIx] = prev2Goods == null?prevNG[myIx]:prev2Goods[oIx] ==null?new A2Row():prev2Goods[oIx];
-    prev2Goods[oIx] = prevGoods == null?prevNG[oIx]:prevGoods[oIx] ==null?new A2Row():prevGoods[oIx];
+    A2Row[] prevNG = {new A2Row(ec),new A2Row(ec)};
+    prev3Goods[oIx] = prev2Goods == null?prevNG[myIx]:prev2Goods[oIx] ==null?new A2Row(ec):prev2Goods[oIx];
+    prev2Goods[oIx] = prevGoods == null?prevNG[oIx]:prevGoods[oIx] ==null?new A2Row(ec):prevGoods[oIx];
     prevGoods[oIx] = lastGoods[oIx];  // entry prev flip
     lastGoods[oIx] = goods.copy(); // entry before flip
     if(term > eM.barterStart-3)initialGoods[oIx] = lastGoods[oIx];

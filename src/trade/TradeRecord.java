@@ -31,11 +31,13 @@ import java.util.Iterator;
  * @author albert
  */
 public class TradeRecord {
+  EM eM;
   Econ cn; //0=planet or ship,1=primaryShip no part of copy record
+  Econ ec = EM.curEcon;
   String cnName = "aPlanetOther";
   int lastGoodsIx = 0;
-  A2Row lastGoods = new A2Row(); //only planet instance of goods 
-  A2Row initialGoods = new A2Row();
+  A2Row lastGoods = new A2Row(ec); //only planet instance of goods 
+  A2Row initialGoods = new A2Row(ec);
  // int prevTerm = 60;
   int age = 1;  // age of planet, we don't calc for ships
   int year = -10;  // year of the offer for the planet
@@ -48,9 +50,8 @@ public class TradeRecord {
   NumberFormat dFrac = NumberFormat.getNumberInstance();
   NumberFormat whole = NumberFormat.getNumberInstance();
   NumberFormat dfo = dFrac;
-  EM eM;
   
-  TradeRecord(){
+  TradeRecord(Econ ec){
     this.eM = StarTrader.eM;
     year = eM.year;
   }
@@ -59,8 +60,9 @@ public class TradeRecord {
  * 
  * @param aa offer for values
  */
-   TradeRecord(Offer aa){
+   TradeRecord(Econ myEc,Offer aa){
     eM = StarTrader.eM;
+    ec = myEc;
     cn = aa.cn[E.P];  // planet
     cnName = aa.cnName[E.P];
     lastGoodsIx = aa.goodIx;
@@ -94,7 +96,7 @@ public class TradeRecord {
  * 
  * @param aa offer for values
  */
-   TradeRecord(TradeRecord aa){
+   TradeRecord(Econ ec,TradeRecord aa){
     eM = StarTrader.eM;
     cn = aa.cn;
     cnName = aa.cnName;
@@ -168,14 +170,14 @@ public class TradeRecord {
     int lOwnerList = ownerList.size();
     int yearsTooEarly = (int)(eM.year - eM.yearsToKeepTradeRecord[0][0]);
     // put new offer at the end of existing owner list, pick the E.P version
-     ownerList.add(new TradeRecord(aOffer));
+     ownerList.add(new TradeRecord(ec,aOffer));
     
     Iterator<TradeRecord> iterOther = otherList.iterator();
    TradeRecord otherRec = null;
      for(TradeRecord ownerRec:ownerList){ // get next ownerRec
        if(otherRec != null && otherRec.compareAge(ownerRec) > 0){
          if(otherRec.year > yearsTooEarly && otherRec.cnName.startsWith("P")) {
-           newOwnerList.add(new TradeRecord(otherRec));
+           newOwnerList.add(new TradeRecord(ec,otherRec));
          }
          otherRec = null; // clear to allow a next other record
        }
@@ -189,7 +191,7 @@ public class TradeRecord {
          
          if(otherRec.year > yearsTooEarly && otherRec.cnName.startsWith("P"))
          { // otherRec is planet and is new enough to keep else skip otherRec
-           newOwnerList.add(new TradeRecord(otherRec));
+           newOwnerList.add(new TradeRecord(ec,otherRec));
          }   
          otherRec = null;  // in any case otherRec used, null it
     }// end while

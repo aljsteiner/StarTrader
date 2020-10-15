@@ -24,6 +24,9 @@ import java.util.ArrayList;
  */
 public class A2Row {
 
+  EM eM = EM.eM;
+  E eE = EM.eE;
+  Econ ec = eM.curEcon;
   static final int ASECS[] = E.alsecs;
   static final int A2SECS[] = E.a2lsecs;
   static int d01[] = {0, 1};
@@ -32,9 +35,7 @@ public class A2Row {
   ARow A[] = new ARow[2];
   double asum = 0., anegSum = 0., aplusSum = 0., minSum = 0., minSum2 = 0.;
   int[] aCnt = {-11, -11, -11, -11, -11, -11};
-  EM eM = EM.eM;
-  E eE = EM.eE;
-  Econ ec = eM.curEcon;
+  
   String aPre = ec.aPre = ec.aPre == null ? "&V" : ec.aPre;
   int blev = ec.blev = ec.blev == 0 ? History.debuggingMinor11 : ec.blev;
   int lev = ec.lev = ec.lev == 0 ? History.informationMinor9 : ec.lev;
@@ -47,6 +48,7 @@ public class A2Row {
    * @param b
    */
   A2Row(ARow a, ARow b) {
+    ec = a.ec;
     this.A[0] = a;
     this.A[1] = b;
     ix = new int[2 * E.lsecs];
@@ -58,11 +60,12 @@ public class A2Row {
    * @param leva level when sendHist used
    * @param titla title when sendHist used
    */
-  public A2Row(int leva, String titla) {
+  public A2Row(Econ myEc,int leva, String titla) {
     lev = leva;
+    ec = myEc;
     titl = titla;
-    this.A[0] = new ARow().zero();
-    this.A[1] = new ARow().zero();
+    this.A[0] = new ARow(ec).zero();
+    this.A[1] = new ARow(ec).zero();
     ix = new int[2 * E.lsecs];
   }
 
@@ -70,9 +73,10 @@ public class A2Row {
    * new an A2Row with zero'd new ARows
    *
    */
-  A2Row() {
-    this.A[0] = new ARow().zero();
-    this.A[1] = new ARow().zero();
+  A2Row(Econ myEc) {
+    ec = myEc;
+    this.A[0] = new ARow(ec).zero();
+    this.A[1] = new ARow(ec).zero();
     ix = new int[2 * E.lsecs];
   }
   static int AaddB = 2;
@@ -81,6 +85,7 @@ public class A2Row {
   static int AdivbyB = 5;
 
   public A2Row(int op, int leva, String title, A6Row A, A6Row B) {
+    ec = A.ec;
     ec.lev = lev = leva;
     titl = title;
     for (int m : E.d2) {
@@ -636,8 +641,8 @@ public class A2Row {
    */
   A2Row copy() {
     A2Row rtn = new A2Row(this.A[0].copy(),this.A[1].copy());
-   // ARow nCargo = new ARow().set(getARow(0));
-   // ARow nGuests = new ARow().set(getARow(1));
+   // ARow nCargo = new ARow(ec).set(getARow(0));
+   // ARow nGuests = new ARow(ec).set(getARow(1));
    // A2Row tmp = new A2Row(nCargo, nGuests);
     return rtn;
   }
@@ -668,7 +673,7 @@ public class A2Row {
    * @return an A2Row with all new references, but copied values
    */
   A2Row newCopy(EM newEM) {
-    A2Row ret = new A2Row();
+    A2Row ret = new A2Row(ec);
     String titl = "unset";
     ret.A[0] = A[0].newCopy(eM);
     ret.A[1] = A[1].newCopy(eM);
@@ -1850,7 +1855,7 @@ public class A2Row {
    * @return each by each this if avail >= availLowLim else 0.
    */
   A2Row filterNeedByAvailable(A2Row avail, double availLowLim) {
-    A2Row result = new A2Row();
+    A2Row result = new A2Row(ec);
     for (int m : E.d2) {
       for (int n : E.alsecs) {
         result.set(m, n, avail.get(m, n) < availLowLim ? -8888. : get(m, n));

@@ -304,8 +304,8 @@ public class Assets {
    */
   //CashFlow initial, started, noTrade, noTrade2;
   // CashFlow ysgLooped, ysgCosts, ysGrowed, ysEndyr, traded, growLooped, growCosts, growed, endyr;
-  // ARow sectorPriority = new ARow();
-  // ARow priorityYr = new ARow();
+  // ARow sectorPriority = new ARow(ec);
+  // ARow priorityYr = new ARow(ec);
   enum yrphase {
 
     PRESEARCH, SEARCH, TRADE, SWAPING, GROW, PAY, HEALTH, END;
@@ -398,8 +398,7 @@ public class Assets {
     dFrac = NumberFormat.getNumberInstance();
     whole = NumberFormat.getNumberInstance();
     dfo = dFrac;
-    difficulty = new ARow();
-    ydifficulty = new ARow();
+   
     //   startYrs = new HCashFlow[7]; // might use instead of name 1,2 ...
     //   prevns = new HCashFlow[7];
     double sumPri = 0.;
@@ -420,26 +419,28 @@ public class Assets {
     colonists = aacolonists;
     aknowledge = aaknowledge;
     percentDifficulty = aapercentDifficulty;
+    difficulty = new ARow(ec);
+    ydifficulty = new ARow(ec);
     // move the definitions here so they can reference a defined Assets
-    bals = new ABalRows(ABalRows.balsLength, ABalRows.tbal, History.valuesMajor6, "bals");
-    balances = new A6Row(History.valuesMajor6, "balances");
+    bals = new ABalRows(ec,ABalRows.balsLength, ABalRows.tbal, History.valuesMajor6, "bals");
+    balances = new A6Row(ec,History.valuesMajor6, "balances");
     if (true) { // I think unneeded
       cashFlowSubAssetBalances = balances; // assume no recreate of each ARow
-      growths = new A6Row(History.valuesMajor6, "growths");
+      growths = new A6Row(ec,History.valuesMajor6, "growths");
       cashFlowSubAssetsGrowths = growths;
-      mtgNeeds6 = new A6Row(lev, "mtgNeeds6");
+      mtgNeeds6 = new A6Row(ec,lev, "mtgNeeds6");
       cashFlowSubAssetUnitsNeededToSurvive = mtgNeeds6;
-      mtgAvails6 = new A6Row(lev, "mtgAvails6");
+      mtgAvails6 = new A6Row(ec,lev, "mtgAvails6");
       cashFlowSubAssetUnitsAvailableToSwap = mtgAvails6;
     }
-    bids = new A2Row(History.valuesMajor6, "bids");
-    commonKnowledge = new ARow();
-    newKnowledge = new ARow();
-    knowledge = new ARow();
-    manuals = new ARow();
-    moreK = new ARow(); // in doGrow incr knowledge
-    lessM = new ARow(); // in doGrow The manual made commonKnowledge
-    //ydifficulty = new ARow();  set by priority
+    bids = new A2Row(ec,History.valuesMajor6, "bids");
+    commonKnowledge = new ARow(ec);
+    newKnowledge = new ARow(ec);
+    knowledge = new ARow(ec);
+    manuals = new ARow(ec);
+    moreK = new ARow(ec); // in doGrow incr knowledge
+    lessM = new ARow(ec); // in doGrow The manual made commonKnowledge
+    //ydifficulty = new ARow(ec);  set by priority
     double sumWealth = res * eM.nominalWealthPerResource[pors] + colonists * eM.nominalWealthPerStaff[pors] + aknowledge * eM.nominalWealthPerCommonKnowledge[pors] + wealth;
     hist.add(new History("aa", History.valuesMajor6, "Init" + year + " i$" + df(iwealth), "r" + df(res), "r$" + df(res * eM.nominalWealthPerResource[pors]), "s" + df(colonists), "s$" + df(colonists * eM.nominalWealthPerStaff[pors]), "K" + df(aknowledge), "K$" + df(aknowledge * eM.nominalWealthPerCommonKnowledge[pors]), "$" + df(wealth), "i$" + df(iwealth), "difficulty=", df(percentDifficulty)));
     //  System.out.println("Assets() 623 end constructor");
@@ -775,7 +776,7 @@ public class Assets {
     if (a != null) {
       return a;
     }
-    ARow AA = new ARow();
+    ARow AA = new ARow(ec);
     return AA;
   }
 
@@ -809,9 +810,9 @@ public class Assets {
    * @return the copy of rowsin including the 2 copied ARow
    */
   A2Row copy(A2Row a) {
-    A2Row tem = new A2Row();
+    A2Row tem = new A2Row(ec);
     if (a == null) {
-      a = new A2Row();
+      a = new A2Row(ec);
     }
     for (int m : IA01) {
       tem.getRow(m).set(a.getRow(m));
@@ -829,11 +830,11 @@ public class Assets {
    */
   ARow copy(ARow old) {
     if (old == null) {
-      ARow tem = new ARow().zero();
+      ARow tem = new ARow(ec).zero();
       tem.get(0);
       return tem;
     } else {
-      return new ARow().set(old);
+      return new ARow(ec).set(old);
     }
   }
 
@@ -844,9 +845,9 @@ public class Assets {
    * @return new A6Row with all the values of A
    */
   A6Row copy(A6Row a) {
-    A6Row tem = new A6Row();
+    A6Row tem = new A6Row(ec);
     if (a == null) {
-      a = new A6Row();
+      a = new A6Row(ec);
     }
     int[] d15 = {0, 1, 2, 3, 4, 5};
     for (int m : d15) {
@@ -866,9 +867,9 @@ public class Assets {
    * @return A10Row copy
    */
   A10Row copy(A10Row a) {
-    A10Row tem = new A10Row();
+    A10Row tem = new A10Row(ec);
     if (a == null) {
-      a = new A10Row();
+      a = new A10Row(ec);
     }
     int[] d19 = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     for (int m : d19) {
@@ -892,7 +893,7 @@ public class Assets {
    */
   ARow setNot(ARow old) {   // Assets.set
     if (old == null) {
-      return new ARow().zero();
+      return new ARow(ec).zero();
     } else if (old.values == null) {
       old.fill();
       return old;
@@ -1094,7 +1095,7 @@ public class Assets {
    */
   ARow make(ARow old) {   //Assets.make
     if (old == null) {
-      return new ARow().zero();
+      return new ARow(ec).zero();
     } else if (old.values == null) {
       old.fill();
       return old;
@@ -1113,7 +1114,7 @@ public class Assets {
    */
   A6Row make6(A6Row old, String tit) {
     if (old == null) {
-      return new A6Row(History.valuesMinor7, tit);
+      return new A6Row(ec,History.valuesMinor7, tit);
     } else {
       return old;
     }
@@ -1129,7 +1130,7 @@ public class Assets {
    */
   A10Row make10(A10Row old, String tit) {
     if (old == null) {
-      return new A10Row(History.valuesMinor7, tit);
+      return new A10Row(ec,History.valuesMinor7, tit);
     } else {
       return old;
     }
@@ -1145,7 +1146,7 @@ public class Assets {
     if (a != null) {
       return a.zero();
     }
-    ARow aa = new ARow().zero();
+    ARow aa = new ARow(ec).zero();
     return aa;
   }
 
@@ -1161,7 +1162,7 @@ public class Assets {
       a.getARow(0).zero();
       return a;
     }
-    A2Row aa = new A2Row(new ARow().zero(), new ARow().zero());
+    A2Row aa = new A2Row(new ARow(ec).zero(), new ARow(ec).zero());
     return aa;
   }
 
@@ -1178,7 +1179,7 @@ public class Assets {
       a.getARow(0).zero();
       return a;
     }
-    A2Row aa = new A2Row(new ARow().zero(), new ARow().zero());
+    A2Row aa = new A2Row(new ARow(ec).zero(), new ARow(ec).zero());
     aa.titl = titl;
     return aa;
   }
@@ -1203,7 +1204,7 @@ public class Assets {
    */
   A10Row makeZero(A10Row a, String titl) {
     if (a == null) {
-      return new A10Row(History.valuesMinor7, titl);
+      return new A10Row(ec,History.valuesMinor7, titl);
     }
     a.zero();
     return a;
@@ -1218,7 +1219,7 @@ public class Assets {
    */
   A6Row makeZero(A6Row a, String titl) {
     if (a == null) {
-      return new A6Row(History.valuesMinor7, titl);
+      return new A6Row(ec,History.valuesMinor7, titl);
     }
     a.zero();
     return a;
@@ -1231,7 +1232,7 @@ public class Assets {
    * @return flipped values of rc and sg
    */
   A2Row flip(A6Row B) {
-    A2Row aa = new A2Row();
+    A2Row aa = new A2Row(ec);
     for (int m : E.d2) {
       for (int n : ASECS) {
         aa.set(m, n, -B.get(m, n));
@@ -1558,7 +1559,7 @@ public class Assets {
     SubAsset[] workers = {resource, staff};
 
     double sumNewKnowledgeWorth, sumCommonKnowledgeWorth, sumManualsWorth;
-    ARow ypriorityYr = new ARow();
+    ARow ypriorityYr = new ARow(ec);
 
     // start CashFlow Swap loop variables
     boolean debugSumGrades2 = false;
@@ -1574,7 +1575,7 @@ public class Assets {
     double maxMult[] = {1., .8, .5, 1., .8, .5, 1., .8, .6};
     int swapLoopMax = 3;
     int unDo = 0, nn = 0, reDo = 0;
-    A10Row doNot = new A10Row(lev, "doNot");
+    A10Row doNot = new A10Row(ec,lev, "doNot");
     int stopped[] = {0, 0, 0, 0, 0}, stopX[] = {5, 5, 0, 0, 0};
     boolean useMTCosts = false;
     // end loop variables
@@ -1606,14 +1607,14 @@ public class Assets {
     final double doNotDays3 = 3.;
     final double doNotDays5 = 5.;
     final double doNotDays100 = 100.;
-    ARow yprevGrowth = new ARow();   // last years actual growth
-    ARow yprevUnitGrowth = new ARow();
+    ARow yprevGrowth = new ARow(ec);   // last years actual growth
+    ARow yprevUnitGrowth = new ARow(ec);
 
-    ARow ylimLowSGbyR = new ARow();
-    ARow ylimMidRCbyR = new ARow();
-    ARow ylimMidSGbyR = new ARow();
-    ARow ylimHiRCbyR = new ARow();
-    ARow ylimHiSGbyR = new ARow();
+    ARow ylimLowSGbyR = new ARow(ec);
+    ARow ylimMidRCbyR = new ARow(ec);
+    ARow ylimMidSGbyR = new ARow(ec);
+    ARow ylimHiRCbyR = new ARow(ec);
+    ARow ylimHiSGbyR = new ARow(ec);
     /**
      * the following used by Assets.CashFlow.swaps
      */
@@ -1623,21 +1624,21 @@ public class Assets {
     HSwaps[] prevgood = new HSwaps[lPrevns];
     boolean negProspects = false, negOutlook = false, negNeeds = false;
     boolean wrongIxSrc = false, doneIncr = false;
-    ARow swapRtoC = new ARow();
-    ARow swapCtoR = new ARow();
-    ARow swapStoG = new ARow();
-    ARow swapGtoS = new ARow();
-    ARow xferRCtoR = new ARow();
-    ARow xferSGtoS = new ARow();
+    ARow swapRtoC = new ARow(ec);
+    ARow swapCtoR = new ARow(ec);
+    ARow swapStoG = new ARow(ec);
+    ARow swapGtoS = new ARow(ec);
+    ARow xferRCtoR = new ARow(ec);
+    ARow xferSGtoS = new ARow(ec);
     A2Row xferRCSG = new A2Row(xferRCtoR, xferSGtoS);
-    ARow tneed = new ARow();
-    ARow tMove = new ARow();
-    ARow tRneed = new ARow();
-    ARow tRMove = new ARow();
-    ARow tSneed = new ARow();
-    ARow tSMove = new ARow();
-    ARow tRcost = new ARow();
-    ARow tScost = new ARow();
+    ARow tneed = new ARow(ec);
+    ARow tMove = new ARow(ec);
+    ARow tRneed = new ARow(ec);
+    ARow tRMove = new ARow(ec);
+    ARow tSneed = new ARow(ec);
+    ARow tSMove = new ARow(ec);
+    ARow tRcost = new ARow(ec);
+    ARow tScost = new ARow(ec);
     double fmov = 0, smov = 0, rmov = 0, movMin = 0, mkeep = 0;
     double rmov1 = 0., smov1 = 0.;
     double xferMovMin;
@@ -1699,23 +1700,23 @@ public class Assets {
     double minRH, minRF;
     int minRHIx = -1, minRFIx = -1;
 
-    A6Row worths = new A6Row(lev, "worths");
-    A6Row yrStrtWorths = new A6Row(lev, "yrStrtWorths");
+    A6Row worths = new A6Row(ec,lev, "worths");
+    A6Row yrStrtWorths = new A6Row(ec,lev, "yrStrtWorths");
     // swapCosts 0,1 incr, 2,3 decr, 4,5 exchange
     int rxfers = 0, sxfers = 0; //count of continuous r or s xfers
-    A6Row swapCosts = new A6Row(lev, "swapCosts");
-    A2Row stratVarsHG = new A2Row();
-    A2Row stratVars = new A2Row();
-    A6Row rawGrowths = new A6Row(lev, "rawGrowths");
-    A6Row reqMaintCosts = new A6Row(lev, "reqMaintCosts");
+    A6Row swapCosts = new A6Row(ec,lev, "swapCosts");
+    A2Row stratVarsHG = new A2Row(ec);
+    A2Row stratVars = new A2Row(ec);
+    A6Row rawGrowths = new A6Row(ec,lev, "rawGrowths");
+    A6Row reqMaintCosts = new A6Row(ec,lev, "reqMaintCosts");
 
-    //   A6Row reqMaintRemnants = new A6Row(lev, "reqMaintRemnants");
-    //   A6Row reqMaintEmergNeeds = new A6Row(lev, "reqMaintEmergNeeds");
-//    A6Row reqMaintNeeds = new A6Row(lev, "reqMaintNeeds");
-    A6Row invMEff = new A6Row(History.valuesMinor7, "invMEff");
-    A6Row invGEff = new A6Row(History.valuesMinor7, "invGEff");
-    //   A6Row reqMaintFractions = new A6Row(lev, "reqMaintFractions");
-    //   A6Row reqMaintLimitedFractions = new A6Row(lev, "reqMaintLimitedFractions");
+    //   A6Row reqMaintRemnants = new A6Row(ec,lev, "reqMaintRemnants");
+    //   A6Row reqMaintEmergNeeds = new A6Row(ec,lev, "reqMaintEmergNeeds");
+//    A6Row reqMaintNeeds = new A6Row(ec,lev, "reqMaintNeeds");
+    A6Row invMEff = new A6Row(ec,History.valuesMinor7, "invMEff");
+    A6Row invGEff = new A6Row(ec,History.valuesMinor7, "invGEff");
+    //   A6Row reqMaintFractions = new A6Row(ec,lev, "reqMaintFractions");
+    //   A6Row reqMaintLimitedFractions = new A6Row(ec,lev, "reqMaintLimitedFractions");
 
     int decrCnt = 0;
     double decrGain = 0;
@@ -1730,27 +1731,27 @@ public class Assets {
      * now cashflow variables for yCalcCosts
      */
 
-    A6Row maintCosts = new A6Row(lev, "maintCosts");
-    A6Row aYrTravelCosts = new A6Row();
-    A6Row travelCosts = new A6Row(lev, "travelCosts");
-    A6Row healths = new A6Row(lev, "healths");
-    A6Row reqGrowthCosts = new A6Row(lev, "reqGrowthCosts");
-    A6Row rawGrowthCosts = new A6Row(lev, "rawGrowthCosts");
-    A6Row mtgCosts = new A6Row(lev, "mtgCosts");
-    A6Row goalmtg1Needs6 = new A6Row(lev, "goalmtg1Needs6");
-    A10Row goalmtg1Neg10 = new A10Row(lev, "goalmtg1Neg10");
-    A6Row mNeeds = new A6Row(History.valuesMajor6, "mNeeds");
-    A10Row mtggCosts10 = new A10Row(lev, "mtggCosts10");    //   A6Row mtggRemnants = new A6Row();
-    //   A6Row mtggEmergNeeds = new A6Row(lev, "mtggEmergNeeds");
-    A6Row mtgFertilities = new A6Row(lev, "mtgFertilities");
-    //  A6Row rawGoalFertilities = new A6Row(lev, "rawGoalFertilities");
-    //  A6Row rawGoalHealths = new A6Row(lev, "rawGoalHealths");
-    A6Row mtggRawHealths = new A6Row(lev, "rawMTGGHealths");
-    A6Row mtggRawFertilities = new A6Row(lev, "rawMTGGFertilities");
-    A2Row fertilities = new A2Row(lev, "fertilities");  // mtggRemnants/reqGrowthCosts
-    A6Row growthCosts = new A6Row(lev, "growthCosts");  // rawGrowthCost*fertilities
-    A6Row mtggGrowthCosts = new A6Row(lev, "mtggGrowth");  // rawGrowthCost*fertilities
-    A6Row mtgReqFertilities = new A6Row();
+    A6Row maintCosts = new A6Row(ec,lev, "maintCosts");
+    A6Row aYrTravelCosts = new A6Row(ec);
+    A6Row travelCosts = new A6Row(ec,lev, "travelCosts");
+    A6Row healths = new A6Row(ec,lev, "healths");
+    A6Row reqGrowthCosts = new A6Row(ec,lev, "reqGrowthCosts");
+    A6Row rawGrowthCosts = new A6Row(ec,lev, "rawGrowthCosts");
+    A6Row mtgCosts = new A6Row(ec,lev, "mtgCosts");
+    A6Row goalmtg1Needs6 = new A6Row(ec,lev, "goalmtg1Needs6");
+    A10Row goalmtg1Neg10 = new A10Row(ec,lev, "goalmtg1Neg10");
+    A6Row mNeeds = new A6Row(ec,History.valuesMajor6, "mNeeds");
+    A10Row mtggCosts10 = new A10Row(ec,lev, "mtggCosts10");    //   A6Row mtggRemnants = new A6Row();
+    //   A6Row mtggEmergNeeds = new A6Row(ec,lev, "mtggEmergNeeds");
+    A6Row mtgFertilities = new A6Row(ec,lev, "mtgFertilities");
+    //  A6Row rawGoalFertilities = new A6Row(ec,lev, "rawGoalFertilities");
+    //  A6Row rawGoalHealths = new A6Row(ec,lev, "rawGoalHealths");
+    A6Row mtggRawHealths = new A6Row(ec,lev, "rawMTGGHealths");
+    A6Row mtggRawFertilities = new A6Row(ec,lev, "rawMTGGFertilities");
+    A2Row fertilities = new A2Row(ec,lev, "fertilities");  // mtggRemnants/reqGrowthCosts
+    A6Row growthCosts = new A6Row(ec,lev, "growthCosts");  // rawGrowthCost*fertilities
+    A6Row mtggGrowthCosts = new A6Row(ec,lev, "mtggGrowth");  // rawGrowthCost*fertilities
+    A6Row mtgReqFertilities = new A6Row(ec);
     A10Row reqMaintCosts10;
     A10Row reqGrowthCosts10;
     A10Row rawGrowthCosts10;
@@ -1760,15 +1761,15 @@ public class Assets {
     A10Row consumerReqGrowthCosts10, consumerReqMaintCosts10, consumerTravelCosts10, consumerFertilityMTGCosts10;
     A10Row consumerHealthEMTGCosts10, consumerFertilityEMTGCosts10;
     A10Row consumerRawGrowthCosts10;
-    A10Row pmNegs = new A10Row(History.valuesMajor6, "pmNegs");
-    A10Row ptNegs = new A10Row(History.valuesMajor6, "ptNegs");
+    A10Row pmNegs = new A10Row(ec,History.valuesMajor6, "pmNegs");
+    A10Row ptNegs = new A10Row(ec,History.valuesMajor6, "ptNegs");
     // A2Row rawHealths2;
     A2Row fertilities2;
     A2Row mtggRawProspects2;
     A2Row mtggRawFertilities2;
     A2Row mtggRawHealths2;
-    A6Row mtggGrowths6 = new A6Row(lev, "mtggGrowths6");
-    A6Row mtNeeds6 = new A6Row(lev, "mtNeeds6");
+    A6Row mtggGrowths6 = new A6Row(ec,lev, "mtggGrowths6");
+    A6Row mtNeeds6 = new A6Row(ec,lev, "mtNeeds6");
     //int lResults = 40;
     // double[] mtgResults = new double[lResults];
     //double[] mtggResults = new double[lResults];
@@ -1781,8 +1782,8 @@ public class Assets {
     //double mtggResults10[] = new double[lResults];
     A6Row growths10;
     A6Row mtggNeeds6, mtGNeeds6;
-    A6Row invMEfficiency = new A6Row(lev, "invMEfficiency");
-    A6Row invGEfficiency = new A6Row(lev, "invMEfficiency");
+    A6Row invMEfficiency = new A6Row(ec,lev, "invMEfficiency");
+    A6Row invGEfficiency = new A6Row(ec,lev, "invMEfficiency");
     double maxAvail = 0.; // max available for a given swap
     double maxavail1, maxavail2, maxavail3, maxavail4;
 
@@ -1795,57 +1796,57 @@ public class Assets {
      * apply to yR... and costs for G apply to yS... finally r.tRemnant and
      * s.tRemnant is the balance left after the costs
      */
-    ARow yR2MTNPRemnant = new ARow();
-    ARow yS2MTNPRemnant = new ARow();
-    ARow yRMTLimitedGNoPenaltyCost = new ARow();
-    ARow ySMTLimitedGNoPenaltyCost = new ARow();
-    ARow yRMTCostsHPenRemnant = new ARow();
-    ARow ySMTCostsHPenRemnant = new ARow();
-    ARow ySReqGrowthMTNPCost = new ARow();
-    ARow yWReqGrowthMTNPCost = new ARow();
-    ARow yRReqGrowthMTNPRemnant = new ARow();
-    ARow yWReqGrowthMTNPRemnant = new ARow();
-    ARow yWtoSFrac = new ARow();  // balance divby work
-    ARow yRRawGrowthMTNPRemnant = new ARow();
-    ARow ySRawGrowthMTNPRemnant = new ARow();
-    ARow yRRawGrowthHPenRemnant = new ARow();
-    ARow ySRawGrowthHPenRemnant = new ARow();
-    ARow yIovrJRRawGMTCosts = new ARow();
-    ARow yIovrJSRawGMTCosts = new ARow();
-    ARow yRRawMTGHPenRemnant = new ARow(); // full growth remnant
-    ARow ySRawMTGHPenRemnant = new ARow();
-    ARow yRMTFRemnant = new ARow(); // fertility growth remnant
-    ARow ySMTFRemnant = new ARow();
-    ARow ySLimitedGHPenCosts = new ARow();
-    ARow yRMTLimitedGHPenRemnant = new ARow();
-    ARow yS2MTLimitedGHPenRemnant = new ARow();
-    ARow yR2MTLimitedGHPenRemnant = new ARow();
-    ARow yRReqGrowthMTHPenCost = new ARow();
-    ARow ySReqGrowthMTHPenCost = new ARow();
-    ARow yRReqGrowthMTHPenRemnant = new ARow();
-    ARow ySReqGrowthMTHPenRemnant = new ARow();
-    ARow yWReqMaintHealth = new ARow();
-    ARow yCCostsRemnant = new ARow();
-    ARow ySVCostsRemnant = new ARow();
-    ARow yRFuture1 = new ARow();   // future 1 more year
-    ARow ySFuture1 = new ARow();
-    ARow yRFuture2 = new ARow();
-    ARow ySFuture2 = new ARow();
+    ARow yR2MTNPRemnant = new ARow(ec);
+    ARow yS2MTNPRemnant = new ARow(ec);
+    ARow yRMTLimitedGNoPenaltyCost = new ARow(ec);
+    ARow ySMTLimitedGNoPenaltyCost = new ARow(ec);
+    ARow yRMTCostsHPenRemnant = new ARow(ec);
+    ARow ySMTCostsHPenRemnant = new ARow(ec);
+    ARow ySReqGrowthMTNPCost = new ARow(ec);
+    ARow yWReqGrowthMTNPCost = new ARow(ec);
+    ARow yRReqGrowthMTNPRemnant = new ARow(ec);
+    ARow yWReqGrowthMTNPRemnant = new ARow(ec);
+    ARow yWtoSFrac = new ARow(ec);  // balance divby work
+    ARow yRRawGrowthMTNPRemnant = new ARow(ec);
+    ARow ySRawGrowthMTNPRemnant = new ARow(ec);
+    ARow yRRawGrowthHPenRemnant = new ARow(ec);
+    ARow ySRawGrowthHPenRemnant = new ARow(ec);
+    ARow yIovrJRRawGMTCosts = new ARow(ec);
+    ARow yIovrJSRawGMTCosts = new ARow(ec);
+    ARow yRRawMTGHPenRemnant = new ARow(ec); // full growth remnant
+    ARow ySRawMTGHPenRemnant = new ARow(ec);
+    ARow yRMTFRemnant = new ARow(ec); // fertility growth remnant
+    ARow ySMTFRemnant = new ARow(ec);
+    ARow ySLimitedGHPenCosts = new ARow(ec);
+    ARow yRMTLimitedGHPenRemnant = new ARow(ec);
+    ARow yS2MTLimitedGHPenRemnant = new ARow(ec);
+    ARow yR2MTLimitedGHPenRemnant = new ARow(ec);
+    ARow yRReqGrowthMTHPenCost = new ARow(ec);
+    ARow ySReqGrowthMTHPenCost = new ARow(ec);
+    ARow yRReqGrowthMTHPenRemnant = new ARow(ec);
+    ARow ySReqGrowthMTHPenRemnant = new ARow(ec);
+    ARow yWReqMaintHealth = new ARow(ec);
+    ARow yCCostsRemnant = new ARow(ec);
+    ARow ySVCostsRemnant = new ARow(ec);
+    ARow yRFuture1 = new ARow(ec);   // future 1 more year
+    ARow ySFuture1 = new ARow(ec);
+    ARow yRFuture2 = new ARow(ec);
+    ARow ySFuture2 = new ARow(ec);
 
     E.SwpCmd cmd = E.SwpCmd.NONE;
     boolean swapped = false;
-    ARow rneed = new ARow(); // temp value for a given swap
-    ARow sneed = new ARow();  // temp value for a given swap
-    ARow yrneed = new ARow();
-    ARow ysneed = new ARow();
+    ARow rneed = new ARow(ec); // temp value for a given swap
+    ARow sneed = new ARow(ec);  // temp value for a given swap
+    ARow yrneed = new ARow(ec);
+    ARow ysneed = new ARow(ec);
     A2Row yNeed = new A2Row(yrneed, ysneed);
-    ARow ymove = new ARow();
+    ARow ymove = new ARow(ec);
 
     // Assets.CashFlow
     boolean donext = false, sEmerg = false, rEmerg = false;
     double rresmult, sresmult, rresmult2, sresmult2;
-    ARow wtdRtoC = new ARow();
-    ARow wtdStoG = new ARow();
+    ARow wtdRtoC = new ARow(ec);
+    ARow wtdStoG = new ARow(ec);
     A2Row wtdRS = new A2Row(wtdRtoC, wtdStoG);
     A6Row rawUnitGrowths;
     // HCashFlow prev1n, prev2n, prev3n, prev4n, prev5n, prev6n, prev7n;
@@ -1859,8 +1860,8 @@ public class Assets {
     Offer oOffer;
     Offer newOffer;
 
-    ARow yRAvail = new ARow();
-    ARow ySAvail = new ARow();
+    ARow yRAvail = new ARow(ec);
+    ARow ySAvail = new ARow(ec);
     //Assets.CashFlow
     Assets as;
     NumberFormat dFrac = NumberFormat.getNumberInstance();
@@ -2373,22 +2374,22 @@ public class Assets {
       SubAsset other; // sas <-> partner, sac <-> sag
       SubAsset oPartner;
 
-      ARow balance = new ARow();
-      ARow nnbalanceWithPartner = new ARow();
-      ARow bonusUnitGrowth = new ARow();
-      ARow yearlyUnitGrowth = new ARow();
-      ARow rawUnitGrowth = new ARow();
-      ARow rawUnitGrowthAfterDecay = new ARow();
-      ARow cumulativeDecay = new ARow();
-      ARow rawGrowth = new ARow();
+      ARow balance = new ARow(ec);
+      ARow nnbalanceWithPartner = new ARow(ec);
+      ARow bonusUnitGrowth = new ARow(ec);
+      ARow yearlyUnitGrowth = new ARow(ec);
+      ARow rawUnitGrowth = new ARow(ec);
+      ARow rawUnitGrowthAfterDecay = new ARow(ec);
+      ARow cumulativeDecay = new ARow(ec);
+      ARow rawGrowth = new ARow(ec);
       ARow fGrowth; // based on fertility function
-      ARow growth = new ARow();  // based on balance -hptMTGGCostsLG
+      ARow growth = new ARow(ec);  // based on balance -hptMTGGCostsLG
       //    ARow nominalGrowth;
       //     ARow emergencyGrowth;
       //     ARow growFull;
-      ARow avail = new ARow();   // only for working SubAsset
-      ARow availWithPartner = new ARow();
-      ARow reserved = new ARow();
+      ARow avail = new ARow(ec);   // only for working SubAsset
+      ARow availWithPartner = new ARow(ec);
+      ARow reserved = new ARow(ec);
 
       /**
        * now calculate the SubAsset possible Fertility and Growth The
@@ -2539,24 +2540,24 @@ public class Assets {
       ARow nptMTRemnant;
       //    ARow tMTHealth;
       //    ARow hptMTRemnant;
-      //  ARow tMTFertility = new ARow();
+      //  ARow tMTFertility = new ARow(ec);
       ARow hptMTGRemnant;
       ARow hptMTGRemnant2;
-      ARow tMTGFertility = new ARow();
+      ARow tMTGFertility = new ARow(ec);
 
       ARow hptMTGGRemnant;
-      ARow posRemnantWithPartner = new ARow();
-      ARow remnantWithPartner = new ARow();
-      ARow lowResWithPartner = new ARow();
-      ARow highResWithPartner = new ARow();
-      ARow lowReservedWithPartner = new ARow();  // subtract costs
-      ARow highReservedWithPartner = new ARow();
+      ARow posRemnantWithPartner = new ARow(ec);
+      ARow remnantWithPartner = new ARow(ec);
+      ARow lowResWithPartner = new ARow(ec);
+      ARow highResWithPartner = new ARow(ec);
+      ARow lowReservedWithPartner = new ARow(ec);  // subtract costs
+      ARow highReservedWithPartner = new ARow(ec);
       ARow lowReserved;
       ARow highReserved;
-      ARow tHealthRemnant = new ARow();
-      ARow tWellnessRemnant = new ARow();
-      ARow tFertilityRemnant = new ARow();
-      ARow tRemnant = new ARow();
+      ARow tHealthRemnant = new ARow(ec);
+      ARow tWellnessRemnant = new ARow(ec);
+      ARow tFertilityRemnant = new ARow(ec);
+      ARow tRemnant = new ARow(ec);
       ARow AvailRemnant;
 
       ARow tFutRemnant;
@@ -2565,10 +2566,10 @@ public class Assets {
       ARow tFutLowReservedWithPartner;
       ARow tFutHighReservedWithPartner;
 
-      // ARow yrScost = new ARow();
-      // ARow cumXcost = new ARow();
-      // ARow cumScost = new ARow();
-      //  ARow cumtcosts = new ARow();
+      // ARow yrScost = new ARow(ec);
+      // ARow cumXcost = new ARow(ec);
+      // ARow cumScost = new ARow(ec);
+      //  ARow cumtcosts = new ARow(ec);
       //    ARow hpmtCosts;
       //   ARow npmtCosts;
       // Assets.CashFlow.SubAsset  just staff, guests have grades
@@ -2579,23 +2580,23 @@ public class Assets {
       //  do value * balance / work to convert or
       //  do value * workToBalance  =  balance / work
       ARow workToBalance; // convert work based remnant to balance remnant
-      ARow facultyEquiv = new ARow();
-      ARow researcherEquiv = new ARow();
-      ARow manualsToKnowledgeEquiv = new ARow();
-      ARow colonists = new ARow();
-      ARow engineers = new ARow();
-      ARow faculty = new ARow();
-      ARow researchers = new ARow();
-      ARow maintCost = new ARow();
-      ARow travelCost = new ARow();
-      ARow requiredForMaint = new ARow();
-      ARow requiredForGrowth = new ARow();
-      ARow maintEfficiency = new ARow();
-      ARow groEfficiency = new ARow();
-      ARow invMaintEfficiency = new ARow();
-      ARow invGroEfficiency = new ARow();
-      // ARow cumulativeCost = new ARow();
-      ARow worth = new ARow();
+      ARow facultyEquiv = new ARow(ec);
+      ARow researcherEquiv = new ARow(ec);
+      ARow manualsToKnowledgeEquiv = new ARow(ec);
+      ARow colonists = new ARow(ec);
+      ARow engineers = new ARow(ec);
+      ARow faculty = new ARow(ec);
+      ARow researchers = new ARow(ec);
+      ARow maintCost = new ARow(ec);
+      ARow travelCost = new ARow(ec);
+      ARow requiredForMaint = new ARow(ec);
+      ARow requiredForGrowth = new ARow(ec);
+      ARow maintEfficiency = new ARow(ec);
+      ARow groEfficiency = new ARow(ec);
+      ARow invMaintEfficiency = new ARow(ec);
+      ARow invGroEfficiency = new ARow(ec);
+      // ARow cumulativeCost = new ARow(ec);
+      ARow worth = new ARow(ec);
 
       /**
        * Temp Values, don't copy for year
@@ -2610,7 +2611,7 @@ public class Assets {
       ARow need;
 
       ARow yYrStrtWorth;
-      ARow prevGrowth = new ARow();   // last years actual growth
+      ARow prevGrowth = new ARow(ec);   // last years actual growth
       ARow prevUnitGrowth;
       ARow prevWorth;
 
@@ -2618,7 +2619,7 @@ public class Assets {
       ARow prevFertility;
       ARow prevNeed;
       ARow prevMaxLeft;
-      ARow bonusYears = new ARow();
+      ARow bonusYears = new ARow(ec);
 
       /**
        * data format using the method in Econ
@@ -2690,7 +2691,7 @@ public class Assets {
         sstaff = true;
         other = resource;
         oPartner = cargo;
-        // ARow resourceStaff = new ARow();
+        // ARow resourceStaff = new ARow(ec);
         // for the grades sum to math the staff for that sector
 
         grades = bals.getStaffGrades(); // reset ref grades from bals
@@ -2729,7 +2730,7 @@ public class Assets {
         sstaff = true;
         other = cargo;
         oPartner = resource;
-        // ARow resourceStaff = new ARow();
+        // ARow resourceStaff = new ARow(ec);
         grades = bals.getGuestGrades(); // reset ref grades into bals
         // initial grades at start of Econ and Assets
         if (!assetsInitialized) {
@@ -2788,16 +2789,16 @@ public class Assets {
         //bonusYears = bals.getRow(ABalRows.bonusYearsIx + asIx);
         // bonusUnitGrowth = bals.getRow(ABalRows.bonusUnitsIx + asIx);
         grades = bals.getGrades()[sIx]; // of mpt staff
-        yearlyUnitGrowth = new ARow();
-        rawUnitGrowth = new ARow();
-        rawUnitGrowthAfterDecay = new ARow();
-        rawGrowth = new ARow();
-        //      nominalGrowth = new ARow();
-        //     growFull = new ARow();
-        invMaintEfficiency = new ARow();
-        invGroEfficiency = new ARow();
-        groEfficiency = new ARow();
-        maintEfficiency = new ARow();
+        yearlyUnitGrowth = new ARow(ec);
+        rawUnitGrowth = new ARow(ec);
+        rawUnitGrowthAfterDecay = new ARow(ec);
+        rawGrowth = new ARow(ec);
+        //      nominalGrowth = new ARow(ec);
+        //     growFull = new ARow(ec);
+        invMaintEfficiency = new ARow(ec);
+        invGroEfficiency = new ARow(ec);
+        groEfficiency = new ARow(ec);
+        maintEfficiency = new ARow(ec);
       }
 
       /**
@@ -2897,16 +2898,16 @@ public class Assets {
         // larger percentDifficulty reduces workEffBias
         double workEffBias = eM.effBias[pors] * .5 + eM.effBias[pors] * (100 - percentDifficulty) * .01;
 // define temporary internal variables
-        ARow GroReqSum = new ARow();
-        ARow GroReqMultiplier = new ARow();
-        ARow MaintReqSum = new ARow();
-        ARow MaintReqMultiplier = new ARow();
-        ARow KnowledgeGroMultiplier = new ARow();
-        ARow KnowledgeMaintMultiplier = new ARow();
-        ARow meff = new ARow();
-        ARow geff = new ARow();
-        ARow rsefficiencyGMin = new ARow();
-        ARow rsefficiencyMMin = new ARow();
+        ARow GroReqSum = new ARow(ec);
+        ARow GroReqMultiplier = new ARow(ec);
+        ARow MaintReqSum = new ARow(ec);
+        ARow MaintReqMultiplier = new ARow(ec);
+        ARow KnowledgeGroMultiplier = new ARow(ec);
+        ARow KnowledgeMaintMultiplier = new ARow(ec);
+        ARow meff = new ARow(ec);
+        ARow geff = new ARow(ec);
+        ARow rsefficiencyGMin = new ARow(ec);
+        ARow rsefficiencyMMin = new ARow(ec);
         GroReqSum = makeZero(GroReqSum);
         MaintReqSum = makeZero(MaintReqSum);
         GroReqMultiplier = makeZero(GroReqMultiplier);
@@ -3024,19 +3025,19 @@ public class Assets {
           // later      didDecay = true;
         }
         // only do decay once a year
-        ARow newDecay = new ARow().setAmultV(prevGrowth, eM.decay[sIx][pors]);
+        ARow newDecay = new ARow(ec).setAmultV(prevGrowth, eM.decay[sIx][pors]);
         cumulativeDecay.add(newDecay);
         prevMaxLeft = make(maxLeft);
         bonusYears = bals.getBonusYearsRow(sIx);
         bonusUnitGrowth = bals.getBonusUnitsRow(sIx);
         rawUnitGrowth = make(rawUnitGrowth);
-        ARow rawBiasedUnitGrowth = new ARow();
-        ARow rawPriorityUnitGrowth = new ARow();
-        ARow rg1 = new ARow();
-        ARow rg2 = new ARow();
-        ARow rg3 = new ARow();
-        ARow rg4 = new ARow();
-        ARow uG1 = new ARow();
+        ARow rawBiasedUnitGrowth = new ARow(ec);
+        ARow rawPriorityUnitGrowth = new ARow(ec);
+        ARow rg1 = new ARow(ec);
+        ARow rg2 = new ARow(ec);
+        ARow rg3 = new ARow(ec);
+        ARow rg4 = new ARow(ec);
+        ARow uG1 = new ARow(ec);
         double[] yuGrow = new double[LSECS];
         double bonusLeft = 0;
         if (sstaff) {
@@ -3887,37 +3888,37 @@ public class Assets {
       double requestsAddedValue;
       int chgCnt = 0;
       //  double cashBeforeTrade;
-      //    ARow sCargo = new ARow();
-      //    ARow sGuests = new ARow();
+      //    ARow sCargo = new ARow(ec);
+      //    ARow sGuests = new ARow(ec);
       double[][] gGrades = new double[E.lsecs][E.lgrades];
       double sf1 = 0., sv1 = 0., ts1 = 0., tr1 = 0., isf1 = 1., isv1 = 1., sf = 0., sv = 0.;
       Offer myOffer;
       int primaryStaffNeed, secondStaffNeed;
-      A2Row myFirstBid = new A2Row(History.valuesMinor7, "myFirstBid");
+      A2Row myFirstBid = new A2Row(ec,History.valuesMinor7, "myFirstBid");
       // value of the other at exit, entrance before flip
-      A2Row oFirstBid = new A2Row(History.valuesMinor7, "oFirstBid");
+      A2Row oFirstBid = new A2Row(ec,History.valuesMinor7, "oFirstBid");
       A2Row oprevGoods;
       //  A2Row oprev1Goods, oprev2Goods, oprev3Goods, oprev4Goods, initGoods;
       A2Row myxitGoods, myxit1Goods, myxit2Goods, myxit3Goods;
       // A2Row stratV,stratCV,stratF,nominalV,nominalCV;
       // use curPlusSum
-      A2Row stratV = new A2Row(13, "stratV");
-      A2Row stratCV = new A2Row(13, "stratCV"); // critical strat values
-      A2Row stratF = new A2Row(13, "stratF"); // stratFraction*stratWeight
-      A2Row nominalV = new A2Row(13, "nominalV");
-      A2Row nominalCV = new A2Row(13, "nominalCV");
-      A2Row nominalCF = new A2Row(13, "nominalCF");
-      A2Row goodC = new A2Row(13, "goodC");
-      A2Row stratCF = new A2Row(13, "StratCF");// sF * critW
-      A2Row nominalF = new A2Row(13, "nominalF"); // nF * normW
-      A2Row multF = new A2Row(13, "multF"); //sum of stratF,normF, ?stratCF
-      A2Row multV = new A2Row(13, "multV"); //sum of stratV,normV ?stratCV
+      A2Row stratV = new A2Row(ec,13, "stratV");
+      A2Row stratCV = new A2Row(ec,13, "stratCV"); // critical strat values
+      A2Row stratF = new A2Row(ec,13, "stratF"); // stratFraction*stratWeight
+      A2Row nominalV = new A2Row(ec,13, "nominalV");
+      A2Row nominalCV = new A2Row(ec,13, "nominalCV");
+      A2Row nominalCF = new A2Row(ec,13, "nominalCF");
+      A2Row goodC = new A2Row(ec,13, "goodC");
+      A2Row stratCF = new A2Row(ec,13, "StratCF");// sF * critW
+      A2Row nominalF = new A2Row(ec,13, "nominalF"); // nF * normW
+      A2Row multF = new A2Row(ec,13, "multF"); //sum of stratF,normF, ?stratCF
+      A2Row multV = new A2Row(ec,13, "multV"); //sum of stratV,normV ?stratCV
       double nbOffers;
       double nbRequests, nbStrategicValue, nbExcessOffers;
       A2Row nbStratF, nbStratV, nbStratCV;
 
-      //  ARow cLimTrade = new ARow();
-//      ARow gLimTrade = new ARow();
+      //  ARow cLimTrade = new ARow(ec);
+//      ARow gLimTrade = new ARow(ec);
       double realChanges = 0.; // per turn
       int[] valueChangesTried = new int[E.L2SECS];
       int[] oraisedBid = new int[E.L2SECS];
@@ -3926,26 +3927,26 @@ public class Assets {
 
       //   A2Row limTrade = new A2Row(cLimTrade, gLimTrade);
       //    A2Row myLim = limTrade; // a second reference to limTrade;
-      A2Row availOfrs = new A2Row(History.informationMinor9, "availOfrs");
-      A2Row maxReqs = new A2Row(History.loopMinorConditionals5, "maxReqs");
-      A2Row needReq = new A2Row(History.informationMinor9, "needReq");
-      A2Row fneedReq = new A2Row(History.informationMinor9, "fneedReq");
-//      ARow cpyCMaxTrade = new ARow();
-      //    ARow cpyGMaxTrade = new ARow();
+      A2Row availOfrs = new A2Row(ec,History.informationMinor9, "availOfrs");
+      A2Row maxReqs = new A2Row(ec,History.loopMinorConditionals5, "maxReqs");
+      A2Row needReq = new A2Row(ec,History.informationMinor9, "needReq");
+      A2Row fneedReq = new A2Row(ec,History.informationMinor9, "fneedReq");
+//      ARow cpyCMaxTrade = new ARow(ec);
+      //    ARow cpyGMaxTrade = new ARow(ec);
       //     A2Row cpyMaxTrade = new A2Row(cpyCMaxTrade, cpyGMaxTrade);
 
-      A2Row emergOfrs = new A2Row(History.informationMinor9, "emergOfrs");
-      ARow cMovedTrade = new ARow();
-      ARow gMovedTrade = new ARow();
+      A2Row emergOfrs = new A2Row(ec,History.informationMinor9, "emergOfrs");
+      ARow cMovedTrade = new ARow(ec);
+      ARow gMovedTrade = new ARow(ec);
       A2Row movedTrades = new A2Row(cMovedTrade, gMovedTrade);
       A2Row futRemnants = new A2Row(r.tFutRemnant, s.tFutRemnant);
-      A2Row didGood = new A2Row(); // seet flags done
+      A2Row didGood = new A2Row(ec); // seet flags done
       int[] did = new int[E.l2secs];
       ARow pr = copy(r.balance);
       ARow pc = copy(c.balance);
       ARow ps = copy(s.balance);
       ARow pg = copy(g.balance);
-      A6Row pbal = new A6Row(History.valuesMajor6, "pbal").set(balances);
+      A6Row pbal = new A6Row(ec,History.valuesMajor6, "pbal").set(balances);
 
       Trades() {// Assets.CashFlow.Trades
       }
@@ -4141,8 +4142,8 @@ public class Assets {
         inOffer.setC(c.balance);
 
         int gix = strategicValues.maxIx();
-        ARow cmov = new ARow().zero();
-        ARow gmov = new ARow().zero();
+        ARow cmov = new ARow(ec).zero();
+        ARow gmov = new ARow(ec).zero();
         aPre = "$b";
         if (History.dl > History.valuesMajor6) {
           balances.sendHist4(hist, History.aux2Info, aPre, 7, " r bal3", " c bal3", " s bal3", " g bal3");
@@ -4293,7 +4294,7 @@ public class Assets {
       void xitTrade() {// Assets.CashFlow.Trades
 
         A2Row cg = new A2Row(c.balance, g.balance);
-        A2Row cg2 = new A2Row().set(cg);
+        A2Row cg2 = new A2Row(ec).set(cg);
         // following stats
 
         i = 0;
@@ -4868,8 +4869,8 @@ public class Assets {
        * @param prevBid previous good (often entry)
        */
       void listDifBid(int lev, String desc, A2Row prevBid) {
-        hist.add(h1 = new Difhist(lev, desc + term + " " + name + " difC", bids.getARow(0), prevBid.getARow(0)));
-        hist.add(h2 = new Difhist(lev, desc + term + " " + name + " difG", bids.getARow(E.lsecs), prevBid.getARow(E.lsecs)));
+        hist.add(h1 = new Difhist(ec,lev, desc + term + " " + name + " difC", bids.getARow(0), prevBid.getARow(0)));
+        hist.add(h2 = new Difhist(ec,lev, desc + term + " " + name + " difG", bids.getARow(E.lsecs), prevBid.getARow(E.lsecs)));
       }
 
       // Assets.CashFlow.Trades
@@ -5421,8 +5422,8 @@ public class Assets {
         boolean hiCrit, didChange, doChg;
         boolean rnd1, rnd2, rnd3, rnd23, notHiCrit;
         //    double xov = 0;  //excessOffer (value in strategic values)
-        A2Row changed = new A2Row(13, "changed"); // zero's elements
-        A2Row prevBids = new A2Row(History.loopMinorConditionals5, "prevBids").set(bids);
+        A2Row changed = new A2Row(ec,13, "changed"); // zero's elements
+        A2Row prevBids = new A2Row(ec,History.loopMinorConditionals5, "prevBids").set(bids);
         fuzz = (offers + requests) * .01;
         double subFuzz = fuzz * -1.01;
         double limit = PZERO;
@@ -5968,11 +5969,11 @@ public class Assets {
         double availIncrement[] = {-eM.tradeReserveIncFrac[pors][clan] * (mtgNeeds6.getRow(0).min() - mtgNeeds6.getRow(0).max(kk)), -eM.tradeReserveIncFrac[pors][clan] * (mtgNeeds6.getRow(1).min() - mtgNeeds6.getRow(1).max(kk))};
         double emergToRegular = ReservFrac / emergFrac;
         // double emergeOfferFrac = emergFrac;
-        A2Row ened = new A2Row(History.loopMinorConditionals5, "ened");
-        A2Row aval = new A2Row(History.loopMinorConditionals5, "aval");
-        A2Row aval1 = new A2Row(5, "aval1");
-        A2Row aval2 = new A2Row(5, "aval2");
-        A2Row stratn = new A2Row(5, "stratn");
+        A2Row ened = new A2Row(ec,History.loopMinorConditionals5, "ened");
+        A2Row aval = new A2Row(ec,History.loopMinorConditionals5, "aval");
+        A2Row aval1 = new A2Row(ec,5, "aval1");
+        A2Row aval2 = new A2Row(ec,5, "aval2");
+        A2Row stratn = new A2Row(ec,5, "stratn");
         // double sumAvails = 0;
         // balAvail is zeroed
         //A2Row balAvail = new A2Row(History.loopMinorConditionals5, "balAvail");
@@ -6053,7 +6054,7 @@ public class Assets {
 
         Econ cn; //0=planet or ship,1=primaryShip
         String cnName = "aPlanetOther";
-        A2Row goodsFracs = new A2Row(); //only one instance of goods, for both cn's  
+        A2Row goodsFracs = new A2Row(ec); //only one instance of goods, for both cn's  
         int goodsCnt = 0; // count of goods found
         // int prevTerm = 60;
         int prevAge = 1;
@@ -6243,7 +6244,7 @@ public class Assets {
      */
     Econ selectPlanet(Econ[] wilda) {
       if (myTrade == null) {
-        Offer myOffer = new Offer();
+        Offer myOffer = new Offer(ec);
         myTrade = new Trades();
         myTrade.initTrade(myOffer, this);
       }
@@ -6277,8 +6278,8 @@ public class Assets {
      * @see calculate ypriorityYr the composite if Econ and user priorities
      */
     void calcPriority(double percentDifficulty) {  //CashFlow
-      ARow uAdjPri = new ARow();
-      ARow yPritmp = new ARow();
+      ARow uAdjPri = new ARow(ec);
+      ARow yPritmp = new ARow(ec);
       for (int i = 0; i < E.lsecs; i++) {
         uAdjPri.set(i, eM.userPriorityAdjustment[i][pors][clan] * E.priorityAdjustmentMultiplierFrac[pors]);
         yPritmp.set(i, (aSectorPriority.get(i) + E.initPriorityBias[pors] + uAdjPri.get(i)));
@@ -6633,7 +6634,7 @@ public class Assets {
      */
     Trades myTrade;   // in Assets.CashFlow
     //   A2Row bids = new A2Row(History.informationMinor9, "bids");
-    A2Row strategicValues = new A2Row(History.informationMinor9, "strategicValues");
+    A2Row strategicValues = new A2Row(ec,History.informationMinor9, "strategicValues");
     double requests, offers, unitRequests, unitOffers, unitGets;
     double totalReceipts, totalSend, totalRequests, totalOffers, needs;
     double strategicReceipts = 0., strategicOffers = 0., totalStrategicReceipts = 0.;
@@ -6646,8 +6647,8 @@ public class Assets {
     double criticalNominalRequests = 0., criticalNominalOffers = 0., criticalNominalFrac = 0.;
     boolean didTrade = false, rejectTrade = false, lostTrade = false;
 // now for the firsts
-    A2Row bidsFirst = new A2Row(History.informationMinor9, "bidsFirst");
-    A2Row strategicValuesFirst = new A2Row(History.informationMinor9, "strategicValuesFirst");
+    A2Row bidsFirst = new A2Row(ec,History.informationMinor9, "bidsFirst");
+    A2Row strategicValuesFirst = new A2Row(ec,History.informationMinor9, "strategicValuesFirst");
     double totalStrategicRequestsFirst = totalStrategicRequests;
     double totalStrategicOffersFirst = totalStrategicOffers;
     double totalStrategicFracFirst = totalStrategicFrac;
@@ -7002,7 +7003,7 @@ public class Assets {
         myTrade = new Trades();
       }
       if (forceInit) {
-        Offer aOffer = new Offer(eM.year, eM.barterStart, eM, ec, ec);
+        Offer aOffer = new Offer(eM.year, eM.barterStart,ec, eM, ec, ec);
         myTrade.initTrade(aOffer, this); //sets trade1YearTravelMaintCosts
       }
     }
@@ -7016,7 +7017,7 @@ public class Assets {
     A2Row getTradingGoods() { //Assets.CashFlow.getTradingGoods
       if (!didGoods) {
         if (myTrade == null) {
-          Offer inOffer = new Offer(eM.year, eM.barterStart, eM, ec, ec);
+          Offer inOffer = new Offer(eM.year, eM.barterStart, ec,eM, ec, ec);
           myTrade = new Trades();
           aPre = "b#";
           hist.add(new History(aPre, 5, " " + name + "now init", " a new", " trades"));
@@ -7228,8 +7229,8 @@ public class Assets {
       }
       EM.wasHere = "CashFlow.yearEnd after setting prevns array cccb=" + ++cccb;
       if ((pors == E.S) && newTradeYear2) {
-        maintCosts10 = new A10Row(7, "maintCosts10").set(bals.getMrows());
-        travelCosts10 = new A10Row(7, "travelCosts10").set(bals.getTrows());
+        maintCosts10 = new A10Row(ec,7, "maintCosts10").set(bals.getMrows());
+        travelCosts10 = new A10Row(ec,7, "travelCosts10").set(bals.getTrows());
         lightYearsTraveled = 0.;
       }
       EM.addlErr = ""; // clear it
@@ -7774,9 +7775,9 @@ public class Assets {
       reqGrowthCosts = null;
       //   A6Row reqGrowthRemnants = new A6Row();
       rawGrowthCosts = null;
-      //   A6Row reqFertilities = new A6Row(lev, "reqFertilities");
+      //   A6Row reqFertilities = new A6Row(ec,lev, "reqFertilities");
       rawFertilities2 = null;
-//   A6Row limitedFertilities = new A6Row(lev, "limitedFertilities");
+//   A6Row limitedFertilities = new A6Row(ec,lev, "limitedFertilities");
       //  A6Row mtCosts = new A6Row();
       //   A6Row mtRemnants = new A6Row();
       mtgCosts = null;
@@ -8089,7 +8090,7 @@ public class Assets {
       }
       // i loops across the consumers, get rawGrowths and rawG here
       for (i = 0; i < E.lsecs; i++) {
-        ARow kMaint = new ARow();
+        ARow kMaint = new ARow(ec);
         rawGrowths.getRow(2 + ix).set(i,
                 sys[ix].rawGrowth.set(i, rawG = s.work.get(i)
                         * sys[ix].rawUnitGrowth.get(i)
@@ -8316,7 +8317,7 @@ public class Assets {
       travelCosts.zero();
 
       // instantiate other objects we may want to list
-      A10Row nTrav1Yr = new A10Row(7, "nTrav1Yr");
+      A10Row nTrav1Yr = new A10Row(ec,7, "nTrav1Yr");
       int defeat789 = 1; // 1 to not defeat
       //   growths.sendHist(hist, "C@");
       //   hist.add(new History("C@", History.valuesMajor6, "r.growth", r.growth));
@@ -8375,7 +8376,7 @@ public class Assets {
       }
       //   reqGrowthCosts10.sendPercent8(hist, blev, alev, aPre, "percents", balances, rawGrowths, reqMaintCosts10, reqGrowthCosts10, maintCosts10, travelCosts10, rawGrowthCosts10, growthCosts10, mtgCosts10);}
       // rebuild and zero mtgEmergNeeds
-      //  mtgEmergNeeds = new A6Row(History.valuesMajor6, "mtgENeeds");
+      //  mtgEmergNeeds = new A6Row(ec,History.valuesMajor6, "mtgENeeds");
       //  mtgEmergNeeds.setNeeds(hist, History.valuesMajor6, balances, maintCosts, travelCosts, rawGrowthCosts, rawGrowths, reqMaintCosts, reqGrowthCosts, rawFertilities, fertilities, rawHealths, mtgCosts, growthCosts, growths, heResults, eM.emergHealth[pors][clan], eM.emergGrowth[pors][clan], 0., 0.);
       //     mtgEmergNeeds.setNeeds10c(hist, History.valuesMajor6, balances, maintCosts10, travelCosts10, rawGrowthCosts10, rawGrowths, reqMaintCosts10, reqGrowthCosts10, consumerReqMaintCosts10, consumerReqGrowthCosts10,consumerMaintCosts10,consumerTravelCosts10,consumerRawGrowthCosts10,consumerHealthEMTGCosts10,consumerFertilityEMTGCosts10,rawFertilities2,rawProspects2,rawHealths2,mtgCosts10,growthCosts10, growths, mtgResults, eM.emergHealth[pors][clan], eM.emergGrowth[pors][clan], 0., 0.);
       growths.sendHist(hist, "C@");
@@ -8512,16 +8513,16 @@ public class Assets {
       bLev = n < 2 && ec.age < 2 ? History.debuggingMinor11 : History.valuesMajor6;
       lev = History.valuesMinor7;
       ec.aPre = aPre = "&f";
-      rawUnitGrowths = new A6Row().setUseBalances(History.valuesMajor6, "rawUGrowths", r.rawUnitGrowth, c.rawUnitGrowth, s.rawUnitGrowth, g.rawUnitGrowth);
-      A2Row mtFrac = new A2Row(lev, "mtFrac").setFracAsubBdivByC(bals, mtCosts10, mtCosts10);
+      rawUnitGrowths = new A6Row(ec).setUseBalances(History.valuesMajor6, "rawUGrowths", r.rawUnitGrowth, c.rawUnitGrowth, s.rawUnitGrowth, g.rawUnitGrowth);
+      A2Row mtFrac = new A2Row(ec,lev, "mtFrac").setFracAsubBdivByC(bals, mtCosts10, mtCosts10);
 
       // lower healths or growths => higher strategic value
       // more positive needs => higher strategic value
-      A2Row stratHealths = new A2Row(bLev, "stratHealths").strategicRecipValBbyLim("stratHealths", rawProspects2, hLim[pors]);
-      A2Row stratMT = new A2Row(lev, "stratMT").strategicRecipValBbyLim("stratMT", mtFrac, hLim[pors]);
-      A2Row stratFertilities = new A2Row(lev, "stratFertilities").strategicRecipValBbyLim("stratFertilities", rawFertilities2, fLim[pors]);
-      A2Row stratGNeeds = new A2Row(lev, "stratGNeeds").strategicRecipValBbyLim("stratGNeeds", mtgNeeds6, nLimG[pors]);
-      A2Row stratGGNeeds = new A2Row(lev, "stratGGNeeds").strategicRecipValBbyLim("stratGGNeeds", mtggNeeds6, nLimGG[pors]);
+      A2Row stratHealths = new A2Row(ec,bLev, "stratHealths").strategicRecipValBbyLim("stratHealths", rawProspects2, hLim[pors]);
+      A2Row stratMT = new A2Row(ec,lev, "stratMT").strategicRecipValBbyLim("stratMT", mtFrac, hLim[pors]);
+      A2Row stratFertilities = new A2Row(ec,lev, "stratFertilities").strategicRecipValBbyLim("stratFertilities", rawFertilities2, fLim[pors]);
+      A2Row stratGNeeds = new A2Row(ec,lev, "stratGNeeds").strategicRecipValBbyLim("stratGNeeds", mtgNeeds6, nLimG[pors]);
+      A2Row stratGGNeeds = new A2Row(ec,lev, "stratGGNeeds").strategicRecipValBbyLim("stratGGNeeds", mtggNeeds6, nLimGG[pors]);
 
       stratVarsHG = stratVarsHG.mult(stratHealths, stratFertilities, stratMT, stratGNeeds, stratGGNeeds);
       stratVars.set(stratVarsHG);
@@ -8629,7 +8630,7 @@ public class Assets {
      */
     // Assets.CashFlow.getNeeds
     public A6Row getNeeds(String title, String description, Assets.yrphase yphase, int rawCostsN, int aDl, ABalRows bals, A10Row maintCosts, A10Row travelCosts, A10Row rawGrowthCosts, A6Row rawGrowths, A10Row reqMaintCosts, A10Row reqGrowthCosts, A2Row rawFertilities2, A2Row rawProspects2, A10Row mtNegs, A10Row growthNegs, A10Row mtgNegs, A6Row growths, double maintGoal, double growthGoal, double growMult, double growYears, A6Row goalmtgNeeds, A6Row mtNeeds, A6Row mtgAvails6, A6Row goalmtNeeds, A6Row goalmtg1Needs, A10Row goalmtg1Negs) {
-      A6Row rtn = new A6Row(History.valuesMajor6, "needs");
+      A6Row rtn = new A6Row(ec,History.valuesMajor6, "needs");
       if (aDl > 3) {
         hist.add(new History("@n", History.valuesMinor7, title, ec.name + " >getNeeds", "phase=" + yphase.name() + ", " + description));
       }
@@ -8637,25 +8638,25 @@ public class Assets {
       ec.blev2 = aDl;
 
       if (maintCosts == null) {
-        maintCosts = new A10Row(History.informationMinor9, "maintCosts");
+        maintCosts = new A10Row(ec,History.informationMinor9, "maintCosts");
       }
 
       if (rawGrowthCosts == null) {
-        rawGrowthCosts = new A10Row(History.informationMinor9, "rawGrowthCosts");
+        rawGrowthCosts = new A10Row(ec,History.informationMinor9, "rawGrowthCosts");
       }
       rawGrowthCosts.setType(TCOST);
       if (rawGrowths == null) {
         growMult = 0.;
         growYears = 0.;
-        rawGrowths = new A6Row(History.informationMinor9, "rawGrowths");
+        rawGrowths = new A6Row(ec,History.informationMinor9, "rawGrowths");
       }
       rawGrowths.setType(TBAL);
       if (mtgNegs == null) {
-        mtgNegs = new A10Row(History.informationMinor9, "mtgNegs");
+        mtgNegs = new A10Row(ec,History.informationMinor9, "mtgNegs");
       }
 
       if (growthNegs == null) {
-        growthNegs = new A10Row(History.valuesMajor6, "growthNegs");
+        growthNegs = new A10Row(ec,History.valuesMajor6, "growthNegs");
       }
       double mtgMult = 1.;
       if (growYears > PZERO) {
@@ -8685,25 +8686,25 @@ public class Assets {
 
       A10Row rqGC = reqGrowthCosts;  // make another reference name
       A10Row rqMC = reqMaintCosts;
-      A6Row rqGCRem = new A6Row(lev, "rqGCRem");//rem after force growthGoal
-      A6Row rqMCRem = new A6Row(lev, "rqMCRem");//rem after maintGoal
-      A2Row rqGFrac = new A2Row(lev, "rqGFrac");
-      A2Row rqMFrac = new A2Row(lev, "rqMFrac");
-      A6Row rqNeed = new A6Row(lev, "rqNeed");
-      A2Row maddMC = new A2Row(lev, "maddMC");
-      A2Row maddGC = new A2Row(lev, "maddGC");
-      A2Row maddrqMC = new A2Row(lev, "maddrqMC");
-      A2Row maddrqGC = new A2Row(lev, "maddrqGC");
+      A6Row rqGCRem = new A6Row(ec,lev, "rqGCRem");//rem after force growthGoal
+      A6Row rqMCRem = new A6Row(ec,lev, "rqMCRem");//rem after maintGoal
+      A2Row rqGFrac = new A2Row(ec,lev, "rqGFrac");
+      A2Row rqMFrac = new A2Row(ec,lev, "rqMFrac");
+      A6Row rqNeed = new A6Row(ec,lev, "rqNeed");
+      A2Row maddMC = new A2Row(ec,lev, "maddMC");
+      A2Row maddGC = new A2Row(ec,lev, "maddGC");
+      A2Row maddrqMC = new A2Row(ec,lev, "maddrqMC");
+      A2Row maddrqGC = new A2Row(ec,lev, "maddrqGC");
 
-      A6Row rqNeedGG = new A6Row(lev, "rqNeedGG");
-      A6Row rqNeedGM = new A6Row(lev, "rqNeedGM");
-      A2Row mrqMaxC = new A2Row(lev, "mrqMax");
-      A10Row mAddC = new A10Row(lev, "mAddC"); // does .zero
+      A6Row rqNeedGG = new A6Row(ec,lev, "rqNeedGG");
+      A6Row rqNeedGM = new A6Row(ec,lev, "rqNeedGM");
+      A2Row mrqMaxC = new A2Row(ec,lev, "mrqMax");
+      A10Row mAddC = new A10Row(ec,lev, "mAddC"); // does .zero
       double dmrqMCFmin = 9999;
-      A2Row mrqGCLimitedFrac = new A2Row(lev, "mrqGCLimFrac");
-      A2Row mrqMCLimitedFrac = new A2Row(lev, "mrqMCLimFrac");
+      A2Row mrqGCLimitedFrac = new A2Row(ec,lev, "mrqGCLimFrac");
+      A2Row mrqMCLimitedFrac = new A2Row(ec,lev, "mrqMCLimFrac");
 
-      //  A6Row effectiveFertilities = new A6Row(lev, "effFert");
+      //  A6Row effectiveFertilities = new A6Row(ec,lev, "effFert");
       double mGrowthGoal = growthGoal > PZERO ? growthGoal : 1.;
       double mMaintGoal = maintGoal > PZERO ? maintGoal : 1.;
       // use the sum of resouce and staff costs to derive the 
@@ -8773,7 +8774,7 @@ public class Assets {
 
       ec.blev2 = bLev = Math.min(History.debuggingMinor11, aDl);
       // now compute the effective reqhealth and reqfertility
-      //   A6Row effectiveHealths = new A6Row(History.debuggingMinor11, "effHealths");
+      //   A6Row effectiveHealths = new A6Row(ec,History.debuggingMinor11, "effHealths");
       ec.aPre = aPre = "#c";
       int alev = History.valuesMajor6;
       int alev2 = History.valuesMinor7;
@@ -8799,23 +8800,23 @@ public class Assets {
         rawGrowthCosts.sendHist(alev, aPre);//rawGCosts10
       }
 
-      A10Row mtCosts10 = new A10Row(alev, "mtCosts10").setAdd(maintCosts, travelCosts);
+      A10Row mtCosts10 = new A10Row(ec,alev, "mtCosts10").setAdd(maintCosts, travelCosts);
       //  mtNegs.setAmultV(mtCosts10, PHE);  // output
       // apply the poor health penalty to mt costs
-      A10Row pmtC = new A10Row(alev, "pmtC").setAmultV(mtCosts10, PHE);
+      A10Row pmtC = new A10Row(ec,alev, "pmtC").setAmultV(mtCosts10, PHE);
       pmNegs.setAmultV(maintCosts, PHE);
       ptNegs.setAmultV(travelCosts, PHE);
       mtNegs.set(pmtC);
-      A10Row pRawGC = new A10Row(alev, "pRawGC").setAmultV(rawGC, PHE);
+      A10Row pRawGC = new A10Row(ec,alev, "pRawGC").setAmultV(rawGC, PHE);
 
-      A6Row pRemMT = new A6Row(alev, "pRemMt");
+      A6Row pRemMT = new A6Row(ec,alev, "pRemMt");
       // (bals-mt) = remMt amount left for growth cost
       // remMt/gCost = mtgFraqc possible growth frac
-      A2Row mtgFrac = new A2Row(alev, "mtgFrac").setFracAsubBdivByCnRem(bals, pmtC, pRawGC, pRemMT);
+      A2Row mtgFrac = new A2Row(ec,alev, "mtgFrac").setFracAsubBdivByCnRem(bals, pmtC, pRawGC, pRemMT);
       // rawFertilities2 is the frac min of mtg frac, the the required fracs
       A2Row minFracs = rawFertilities2.setMin(mtgFrac, rqGFrac);
       // set limits on fertility
-      A2Row minLFrac = new A2Row(alev, "minLFrac").setLimits(rawFertilities2, eM.minFertility[pors], eM.maxFertility[pors]);
+      A2Row minLFrac = new A2Row(ec,alev, "minLFrac").setLimits(rawFertilities2, eM.minFertility[pors], eM.maxFertility[pors]);
       // now apply limited fertility to get actual growths
       growths = growths.setAmultF(rawGrowths, minLFrac);
       // from the actual growths get negs (costs)
@@ -8854,10 +8855,10 @@ public class Assets {
       double gYears = growYears > 1. ? growYears : 1.;
       double gMult = growMult > .4 ? growMult : 1.;
       mtNegs.setAmultV(mtNegs, gYears);
-      A6Row mtgGNeeds = new A6Row(alev, "mtgGNeeds");
-      A6Row mtg1GNeeds = new A6Row(alev, "mtg1GNeeds");
-      A2Row mRG = new A2Row(alev, "mRg");
-      A2Row pRawGGC = new A2Row(alev, "pRawGGC");
+      A6Row mtgGNeeds = new A6Row(ec,alev, "mtgGNeeds");
+      A6Row mtg1GNeeds = new A6Row(ec,alev, "mtg1GNeeds");
+      A2Row mRG = new A2Row(ec,alev, "mRg");
+      A2Row pRawGGC = new A2Row(ec,alev, "pRawGGC");
       //  A6Row goalmtgNeed = goalNeeds;
       // now calculate goalmtNeeds and goalmtgNeeds
       // mGG = (gYear* (bal - (pMt + gmult*gGC))/gmult*gGC
@@ -8884,10 +8885,10 @@ public class Assets {
           goalmtNeeds.set(3 + 2 * m, n, na > nb ? na > nc ? na : nc : nb > nc ? nb : nc);
         }
       }
-      A6Row goalGG = new A6Row(alev, "goalGG").setAmultV(rawGrowths, mGrowthGoal);
+      A6Row goalGG = new A6Row(ec,alev, "goalGG").setAmultV(rawGrowths, mGrowthGoal);
 
-      // A10Row mmtRemnants = new A10Row(alev2, "mmtRemnants");
-      //  A2Row mmtgFertilities = new A2Row(alev2, "mmtgFert"); // before min with reqFertility
+      // A10Row mmtRemnants = new A10Row(ec,alev2, "mmtRemnants");
+      //  A2Row mmtgFertilities = new A2Row(ec,alev2, "mmtgFert"); // before min with reqFertility
       // mtggCosts sum of (maint,travel,growth costs)*phe*growYrs
       // - growth*growMult*growYears
       ec.aPre = aPre = "#d";
@@ -9009,10 +9010,10 @@ public class Assets {
       // balances
       ABalRows hbals;
       // needs and requirements
-      A2Row rawProspects2 = new A2Row();
-      A2Row rawFertilities2 = new A2Row();
+      A2Row rawProspects2 = new A2Row(ec);
+      A2Row rawFertilities2 = new A2Row(ec);
       A6Row healths;
-      A6Row mtgNeeds6 = new A6Row(), mtgAvails6 = new A6Row();
+      A6Row mtgNeeds6 = new A6Row(ec), mtgAvails6 = new A6Row(ec);
       A2Row fertilities;
       Assets as;
 
@@ -9042,7 +9043,7 @@ public class Assets {
         this.yearsFutureFund = as.yearsFutureFund;
         this.yearsFutureFundTimes = as.yearsFutureFundTimes;
         this.rsval = as.rsval;
-        hbals = new ABalRows(BALSLENGTH, TBAL, 7, "bals").copyValues(as.bals);
+        hbals = new ABalRows(ec,BALSLENGTH, TBAL, 7, "bals").copyValues(as.bals);
         // rawProspects2 = as.rawProspects2.copy();
         rawFertilities2 = as.rawFertilities2.copy();
         rawProspects2.copyValues(as.rawProspects2);
@@ -9086,7 +9087,7 @@ public class Assets {
         cmd = ay.cmd;
         this.as = ay.as;
         this.n = as.n - 1;
-        hbals = new ABalRows(BALSLENGTH, TBAL, 7, "bals").copyValues(as.bals);
+        hbals = new ABalRows(ec,BALSLENGTH, TBAL, 7, "bals").copyValues(as.bals);
         rawProspects2 = as.rawProspects2.copy();
         srcIx = ay.srcIx;
         destIx = ay.destIx;
@@ -9494,7 +9495,7 @@ public class Assets {
 
       //    ARow[] bwp = {r.balanceWithPartner, s.balanceWithPartner};
       balances.checkBalances(this);
-      A2Row swapNeeds = new A2Row(7, "swapNeeds");
+      A2Row swapNeeds = new A2Row(ec,7, "swapNeeds");
       SubAsset[] sources = {resource, staff, cargo, guests};
       String[] srcNames = {" r ", " s "};
       //resource.balance.negError("resource.balance");
@@ -9553,8 +9554,8 @@ public class Assets {
         // A6Row[] avails = {mtgGoalNeeds, mtgGoalNeeds, mtgEmergNeeds, mtgNeeds6};
         //A6Row[] avails = {mtgNeeds6, mtgNeeds6, mtgNeeds6, mtgNeeds6};
         // A6Row[] needs = {mtggNeeds6, mtggNeeds6, mtgNeeds6, mtgNeeds6};
-        A2Row stratV = new A2Row().set(stratVars);
-        A2Row aorder = new A2Row();
+        A2Row stratV = new A2Row(ec).set(stratVars);
+        A2Row aorder = new A2Row(ec);
         mtgAvails6.sendHist2(rlev, aPre, rlev, "rc avails", "sg avails");
         mtgNeeds6.sendHist2(rlev, aPre, rlev, "rc needs", "sg needs");
 //        mtggEmergNeeds.sendHist2(rlev, aPre, rlev, "rc mEmergN", "sg mggEmergN");
@@ -9650,11 +9651,11 @@ public class Assets {
           // [ixWRSrc][r/scost][pors]
           double swapCost[][][] = {{eM.swapCtoRRcost, eM.swapCtoRScost}, {eM.swapGtoSRcost, eM.swapGtoSRcost}};
           // calculate the max move from C to R or G to S for each position 
-          A2Row incrAvail0 = new A2Row().setAvailableToIncr(incrBalFrac, incrAvailFrac, iMaxMove, mtgAvails6, swapCost[sr][sr][ps], swapCost[sr][ss][ps], swapCost[ss][sr][ps], swapCost[ss][ss][ps]);
-          A2Row incrAvail1 = new A2Row();
+          A2Row incrAvail0 = new A2Row(ec).setAvailableToIncr(incrBalFrac, incrAvailFrac, iMaxMove, mtgAvails6, swapCost[sr][sr][ps], swapCost[sr][ss][ps], swapCost[ss][sr][ps], swapCost[ss][ss][ps]);
+          A2Row incrAvail1 = new A2Row(ec);
           incrAvail1 = doNot.filterByDoNot(0, incrAvail0, nFlag);
           // Eliminate positions recently changed
-          // A2Row incrAvail1 = new A2Row().set(incrAvail0);
+          // A2Row incrAvail1 = new A2Row(ec).set(incrAvail0);
 
           hist.add(new History(History.valuesMajor6, "Incr vals", "movMin=", df(movMin), "iMaxMov", df(iMaxMove), "iBalFrac", df(incrBalFrac), "iAvailFrac", df(incrAvailFrac)));
           incrAvail0.sendHist(hist, History.valuesMinor7, "inc", "r incrAvail0", "s incrAvail0");
@@ -9777,7 +9778,7 @@ public class Assets {
         //      balances.addJointBalances();
         double[] dmaxMove = {.95 * dbav, 1.4 * dbav, 1.8 * dbav, 2.3 * dbav};
 
-        A2Row decrAvail1 = new A2Row(History.loopMinorConditionals5, "decrAvail1").setAvailableToDecrement(decrBalFrac[swap4Step], decrResrvWRFrac[swap4Step], dmaxMove[swap4Step], mtgAvails6, swapCostd[sr][sr][ps], swapCostd[sr][ss][ps], swapCostd[ss][sr][ps], swapCostd[ss][ss][ps]);
+        A2Row decrAvail1 = new A2Row(ec,History.loopMinorConditionals5, "decrAvail1").setAvailableToDecrement(decrBalFrac[swap4Step], decrResrvWRFrac[swap4Step], dmaxMove[swap4Step], mtgAvails6, swapCostd[sr][sr][ps], swapCostd[sr][ss][ps], swapCostd[ss][sr][ps], swapCostd[ss][ss][ps]);
         decrAvail1.sendHist(hist, History.informationMinor9, aPre = "f%", "r decrAvail1", "s decrAvail1");
         A2Row decrAvail = doNot.filterByDoNot(1, decrAvail1, nFlag);
         if (swapLoops < 20 && n < 20) { // try to list only 1? time per swap
@@ -9975,14 +9976,14 @@ public class Assets {
         mov3 = mov4 < PZERO ? bav * .1 : mov4;
         hist.add(new History(aPre, History.loopMinorConditionals5, name + " need" + E.rNsIx(needIx) + " =", df(mov4), df(mov3), "rH" + rawProspects2.curMinIx() + "=" + df(rawProspects2.curMin()), "r=" + df(balances.getRow(2).get(needIx % E.lsecs)), "s=" + df(balances.getRow(4).get(needIx % E.lsecs)), "mvMin=" + df(movMin), "xAF=" + df(xchgWRReservFrac[swap4Step]), "mMax" + df(xferMaxMove[swap4Step])));
         hist.add(new History("@x", History.loopMinorConditionals5, name + " step=" + swap4Step, "MovMins", df(xchgMovMin[0]), df(xchgMovMin[1]), df(xchgMovMin[2]), df(xchgMovMin[3]), "availFracs", df(xchgWRReservFrac[0]), df(xchgWRReservFrac[1]), df(xchgWRReservFrac[2]), df(xchgWRReservFrac[3])));
-        A2Row rAvail = new A2Row(History.loopMinorConditionals5, "rAvail");
-        A2Row sAvail = new A2Row(History.loopMinorConditionals5, "sAvail");
-        A2Row rRevAvail = new A2Row(History.loopMinorConditionals5, "rRevAvail");
-        A2Row sRevAvail = new A2Row(History.loopMinorConditionals5, "sRevAvail");
-        A2Row rAvail1 = new A2Row(History.loopMinorConditionals5, "rAvail1");
-        A2Row sAvail1 = new A2Row(History.loopMinorConditionals5, "sAvail1");
-        A2Row rRevAvail1 = new A2Row(History.loopMinorConditionals5, "rRevAvail1");
-        A2Row sRevAvail1 = new A2Row(History.loopMinorConditionals5, "sRevAvail1");
+        A2Row rAvail = new A2Row(ec,History.loopMinorConditionals5, "rAvail");
+        A2Row sAvail = new A2Row(ec,History.loopMinorConditionals5, "sAvail");
+        A2Row rRevAvail = new A2Row(ec,History.loopMinorConditionals5, "rRevAvail");
+        A2Row sRevAvail = new A2Row(ec,History.loopMinorConditionals5, "sRevAvail");
+        A2Row rAvail1 = new A2Row(ec,History.loopMinorConditionals5, "rAvail1");
+        A2Row sAvail1 = new A2Row(ec,History.loopMinorConditionals5, "sAvail1");
+        A2Row rRevAvail1 = new A2Row(ec,History.loopMinorConditionals5, "rRevAvail1");
+        A2Row sRevAvail1 = new A2Row(ec,History.loopMinorConditionals5, "sRevAvail1");
 
         //now determine size of possible moves
         rAvail1.setAvailableToExchange(sAvail1, rRevAvail1, sRevAvail1, xchgBalFrac[swap4Step], xchgWRReservFrac[swap4Step], xferMaxMove[swap4Step], balances, xferNeeds[swap4Step], swaprr, swaprs, swapsr, swapss);
@@ -10437,7 +10438,7 @@ public class Assets {
       prevA.get(0);
       hist.add(new History(lev, "n" + n + " new " + title, A));
       hist.add(new History(lev, "n" + n + " old " + title, prevA));
-      hist.add(new Difhist(lev, "n" + n + " dif " + title, A, prevA));
+      hist.add(new Difhist(ec,lev, "n" + n + " dif " + title, A, prevA));
     }
 
     void doGrowth(String aPre
@@ -10473,31 +10474,31 @@ public class Assets {
 
     void costsAndGrowth(A6Row mtgCosts
     ) {
-      ARow prevrbal = new ARow(), prevcbal = new ARow(), prevsbal = new ARow(), prevgbal = new ARow();
-      ARow prevrbal2 = new ARow(), prevcbal2 = new ARow(), prevsbal2 = new ARow(), prevgbal2 = new ARow();
-      ARow prevKnowledge = new ARow(), prevcommonKnowledge = new ARow(), prevnewKnowledge = new ARow(), prevManuals = new ARow();;
+      ARow prevrbal = new ARow(ec), prevcbal = new ARow(ec), prevsbal = new ARow(ec), prevgbal = new ARow(ec);
+      ARow prevrbal2 = new ARow(ec), prevcbal2 = new ARow(ec), prevsbal2 = new ARow(ec), prevgbal2 = new ARow(ec);
+      ARow prevKnowledge = new ARow(ec), prevcommonKnowledge = new ARow(ec), prevnewKnowledge = new ARow(ec), prevManuals = new ARow(ec);;
       if (History.dl > 6) {
-        prevrbal = new ARow().set(resource.balance);
-        prevcbal = new ARow().set(cargo.balance);
-        prevsbal = new ARow().set(staff.balance);
-        prevgbal = new ARow().set(guests.balance);
-        prevKnowledge = new ARow().set(knowledge);
-        prevcommonKnowledge = new ARow().set(commonKnowledge);
-        prevnewKnowledge = new ARow().set(newKnowledge);
-        prevManuals = new ARow().set(manuals);
+        prevrbal = new ARow(ec).set(resource.balance);
+        prevcbal = new ARow(ec).set(cargo.balance);
+        prevsbal = new ARow(ec).set(staff.balance);
+        prevgbal = new ARow(ec).set(guests.balance);
+        prevKnowledge = new ARow(ec).set(knowledge);
+        prevcommonKnowledge = new ARow(ec).set(commonKnowledge);
+        prevnewKnowledge = new ARow(ec).set(newKnowledge);
+        prevManuals = new ARow(ec).set(manuals);
         hist.add(new History(3, "R Grow", r.growth));
         hist.add(new History(3, "S Grow", s.growth));
         hist.add(new History(3, "C Grow", c.growth));
         hist.add(new History(3, "G Grow", g.growth));
         hist.add(new History(3, "r cost", r.hptMTGCosts));
         hist.add(new History(3, "s cost", s.hptMTGCosts));
-        // ARow rgrowunit = new ARow().setAdivbyB(resource.growth, resource.balance);
+        // ARow rgrowunit = new ARow(ec).setAdivbyB(resource.growth, resource.balance);
         histdifs(7, "r growdif", resource.rawGrowth, r.growth);
-        // ARow cgrowunit = new ARow().setAdivbyB(cargo.growth, cargo.balance);
+        // ARow cgrowunit = new ARow(ec).setAdivbyB(cargo.growth, cargo.balance);
         histdifs(7, "c growdif", cargo.rawGrowth, c.growth);
-        //  ARow sgrowunit = new ARow().setAdivbyB(staff.growth, staff.balance);
+        //  ARow sgrowunit = new ARow(ec).setAdivbyB(staff.growth, staff.balance);
         histdifs(7, "s growdif", staff.rawGrowth, s.growth);
-        //  ARow ggrowunit = new ARow().setAdivbyB(guests.growth, guests.balance);
+        //  ARow ggrowunit = new ARow(ec).setAdivbyB(guests.growth, guests.balance);
         histdifs(7, "g growdif", guests.rawGrowth, g.growth);
       }
       resource.doGrow(aPre);
@@ -10516,10 +10517,10 @@ public class Assets {
         histdifs(7, "gcost bal", guests.balance, prevsbal);
 
       }
-      prevrbal2 = new ARow().set(resource.balance);
-      prevcbal2 = new ARow().set(cargo.balance);
-      prevsbal2 = new ARow().set(staff.balance);
-      prevgbal2 = new ARow().set(guests.balance);
+      prevrbal2 = new ARow(ec).set(resource.balance);
+      prevcbal2 = new ARow(ec).set(cargo.balance);
+      prevsbal2 = new ARow(ec).set(staff.balance);
+      prevgbal2 = new ARow(ec).set(guests.balance);
 
       resource.doCost(aPre, mtgCosts.getRow(2));
       staff.doCost(aPre, mtgCosts.getRow(4));

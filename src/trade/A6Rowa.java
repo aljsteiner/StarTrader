@@ -35,6 +35,9 @@ import java.util.ArrayList;
  */
 public class A6Rowa {
 
+  EM eM = EM.eM;
+  Econ ec = EM.curEcon;
+  Assets as = ec.as;
   String titl = "unSet";
   static final int LSECS = E.lsecs;
   static final int L2SECS = E.l2secs;
@@ -91,9 +94,6 @@ public class A6Rowa {
   static final int RCIX = ABalRows.RCIX;
   static final int SGIX = ABalRows.SGIX;
   static final int BALANCESIX = ABalRows.BALANCESIX;
-  EM eM = EM.eM;
-  Econ ec = EM.curEcon;
-  Assets as = ec.as;
   String aPre = ec.aPre = ec.aPre == null ? "&V" : ec.aPre;
   int blev = ec.blev = ec.blev == 0 ? History.debuggingMinor11 : ec.blev;
   int lev = ec.lev = ec.lev == 0 ? History.informationMinor9 : ec.lev;
@@ -108,8 +108,8 @@ public class A6Rowa {
    * @param alev level for listing with sendHist
    * @param atitl title for listing with sendHist
    */
-  public A6Rowa(EM newEM,int nRows, int t, int alev, String atitl) {
-    A6Rowa1(newEM,nRows, t, alev, atitl);
+  public A6Rowa(EM newEM,Econ ec,int nRows, int t, int alev, String atitl) {
+    A6Rowa1(newEM,ec,nRows, t, alev, atitl);
     // System.out.println("A6Rowa after A.length=" + A.length + ", lA=" + lA + ", dA.length=" + dA.length);
   }
   
@@ -122,16 +122,16 @@ public class A6Rowa {
    * @param alev level for listing with sendHist
    * @param atitl title for listing with sendHist
    */
-  public A6Rowa(int nRows, int t, int alev, String atitl) {
-    A6Rowa1(EM.eM,nRows, t, alev, atitl);
+  public A6Rowa(Econ newEc,int nRows, int t, int alev, String atitl) {
+    A6Rowa1(EM.eM,newEc,nRows, t, alev, atitl);
     // System.out.println("A6Rowa after A.length=" + A.length + ", lA=" + lA + ", dA.length=" + dA.length);
   }
 
   /**
    * The no parameter constructor
    */
-  public A6Rowa() {
-    A6Rowa1(EM.eM,lA, tbal, History.informationMajor8, "A6Rowa");
+  public A6Rowa(Econ newEc) {
+    A6Rowa1(EM.eM,newEc,lA, tbal, History.informationMajor8, "A6Rowa");
   }
 
   /**
@@ -143,8 +143,9 @@ public class A6Rowa {
    * @param alev level for listing with sendHist
    * @param atitl title for listing with sendHist
    */
-  public void A6Rowa1(EM newEM,int nRows, int t, int alev, String atitl) {
+  public void A6Rowa1(EM newEM,Econ newEc,int nRows, int t, int alev, String atitl) {
     eM = newEM;
+    ec = newEc;
     lA = nRows;
     dA = new int[lA];
     A = new ARow[lA];
@@ -158,7 +159,7 @@ public class A6Rowa {
 
     for (int n = 0; n < lA; n++) {
       dA[n] = n;
-      A[n] = new ARow().zero();
+      A[n] = new ARow(ec).zero();
       aCnt[n] = -11;
       aResum[n] = -11;
     }
@@ -359,9 +360,10 @@ public class A6Rowa {
    *
    * @return new object copy of this object
    */
-  public A6Rowa copy() {
+  public A6Rowa copy(Econ newEc) {
+    ec = newEc;
     String tit = titl + ""; // force a new reference
-    return this.copy(lev, tit, EM.eM);
+    return this.copy(lev, tit, EM.eM,newEc);
   }
 
   /**
@@ -372,9 +374,10 @@ public class A6Rowa {
    * @param lev the display level for this A6Rowa routine
    * @return new object copy of this object
    */
-  public A6Rowa copy(int lev) {
+  public A6Rowa copy(int lev,Econ newEc) {
+    ec = newEc;
     String tit = titl + ""; // force a new reference
-    return copy(lev, tit, EM.eM);
+    return copy(lev, tit, EM.eM,newEc);
   }
 
   /**
@@ -386,9 +389,9 @@ public class A6Rowa {
    * @param tit the new title for the copy
    * @return new object copy of this object
    */
-  public A6Rowa copy(int lev, String tit, EM newEM) {
+  public A6Rowa copy(int lev, String tit, EM newEM,Econ newEc) {
     int t = balances ? tbal : costs ? tcost : tnone;
-    A6Rowa rtn = new A6Rowa(newEM,lA, t, lev, tit + "");
+    A6Rowa rtn = new A6Rowa(newEM,newEc,lA, t, lev, tit + "");
     rtn.blev = blev;
     rtn.eM = newEM;
     for (int m = 0; m < lA; m++) {
@@ -449,7 +452,7 @@ public class A6Rowa {
     int t = balances ? tbal : costs ? tcost : tnone;
     for (int m = 0; m < lA; m++) {
       if (aa.A[m] != null) {
-        this.A[m] = new ARow();
+        this.A[m] = new ARow(ec);
       }
     }
     // check about doing gradesA
@@ -503,8 +506,8 @@ public class A6Rowa {
   }
     
 
-  public ABalRows copyBals(int lev,String tit,EM newEM){
-  ABalRows rtn = new ABalRows();
+  public ABalRows copyBals(Econ ec,int lev,String tit,EM newEM){
+  ABalRows rtn = new ABalRows(ec);
     rtn.blev = blev;
     rtn.eM = newEM;
     for (int m = 0; m < lA; m++) {
@@ -568,8 +571,8 @@ public class A6Rowa {
    * @param newEM possible change EM or use existing EM
    * @return 
    */
-  public A6Rowa newCopy(EM newEM) {
-    return copy(lev,titl,newEM);
+  public A6Rowa newCopy(EM newEM,Econ newEc) {
+    return copy(lev,titl,newEM,newEc);
   }
 
   /** copy the values of prev into this, 
@@ -594,7 +597,7 @@ public class A6Rowa {
         return this; 
        }
   A6Row copy6(int startIx, int aLev, String aTitl) {
-    A6Row rtn = new A6Row(aLev, aTitl).zero();
+    A6Row rtn = new A6Row(ec,aLev, aTitl).zero();
     rtn.balances = true;
     rtn.titl = aTitl + "";
     rtn.lev = aLev;
@@ -622,7 +625,7 @@ public class A6Rowa {
    * @return a new A2Row each value copied from this A10Row
    */
   public A2Row copy2(int lev, String tit) {
-    A2Row rtn = new A2Row(lev, tit);
+    A2Row rtn = new A2Row(ec,lev, tit);
     resum(0);
     resum(1);
     rtn.A[0].set(A[0]);
@@ -695,7 +698,7 @@ public class A6Rowa {
   void resum(int m) {
 //    System.out.println("into resum title=" + titl + " la=" + lA + ", length A=" + A.length + ", m=" + m);
     if (A[m] == null) {
-      A[m] = new  ARow();
+      A[m] = new ARow(ec);
     }
     for (int mm : dResums) { // iterate over arrays of iX values and ARows
       if (mm == m) {
@@ -707,7 +710,7 @@ public class A6Rowa {
 
         if (sumr != aResum[mm]) {  // check for changes since last resum
           // resum A[mm], by adding in all mResum rows
-          ARow bb = new ARow().set(A[mm]); // save prev value
+          ARow bb = new ARow(ec).set(A[mm]); // save prev value
           A[mm].zero();  //zero so we can do adds of subvalues
           //    System.out.printf("do resum %s ARow %2d add", titl, mm);
           for (int rr : mResum[mm]) { // set by sub class

@@ -35,7 +35,8 @@ import java.util.ArrayList;
  *
  */
 public class A6Row extends A6Rowa {
-
+   EM eM = EM.eM;
+   Econ ec = EM.curEcon;
   // int blev = History.debuggingMinor11;
 //  int lev = History.debuggingMinor11;
   // String titl = "aName";
@@ -53,31 +54,31 @@ public class A6Row extends A6Rowa {
   /**
    * The no parameter constructor
    */
-  public A6Row() {
-    super(6, tbal, History.informationMajor8, "unset");
+  public A6Row(Econ ec) {
+    super(ec,6, tbal, History.informationMajor8, "unset");
     eM = StarTrader.eM;
     lev = 9;
     balances = false;
     costs = false;
     titl = "unset";
-    A[0] = new ARow().zero();
-    A[1] = new ARow().zero();
-    A[2] = new ARow().zero();
-    A[3] = new ARow().zero();
-    A[4] = new ARow().zero();
-    A[5] = new ARow().zero();
+    A[0] = new ARow(ec).zero();
+    A[1] = new ARow(ec).zero();
+    A[2] = new ARow(ec).zero();
+    A[3] = new ARow(ec).zero();
+    A[4] = new ARow(ec).zero();
+    A[5] = new ARow(ec).zero();
 
   }
 
-  public A6Row(int t) {
-    super(6, tbal, History.informationMajor8, "unset");
+  public A6Row(Econ ec,int t) {
+    super(ec,6, tbal, History.informationMajor8, "unset");
     titl = "unset";
-    A[0] = new ARow().zero();
-    A[1] = new ARow().zero();
-    A[2] = new ARow().zero();
-    A[3] = new ARow().zero();
-    A[4] = new ARow().zero();
-    A[5] = new ARow().zero();
+    A[0] = new ARow(ec).zero();
+    A[1] = new ARow(ec).zero();
+    A[2] = new ARow(ec).zero();
+    A[3] = new ARow(ec).zero();
+    A[4] = new ARow(ec).zero();
+    A[5] = new ARow(ec).zero();
 
   }
 
@@ -87,16 +88,16 @@ public class A6Row extends A6Rowa {
    * @param alev
    * @param atitl
    */
-  public A6Row(int alev, String atitl) {
-    super(6, tbal, alev, atitl);
+  public A6Row(Econ ec,int alev, String atitl) {
+    super(ec,6, tbal, alev, atitl);
     lev = alev;
     balances = true;
-    A[0] = new ARow().zero();
-    A[1] = new ARow().zero();
-    A[2] = new ARow().zero();
-    A[3] = new ARow().zero();
-    A[4] = new ARow().zero();
-    A[5] = new ARow().zero();
+    A[0] = new ARow(ec).zero();
+    A[1] = new ARow(ec).zero();
+    A[2] = new ARow(ec).zero();
+    A[3] = new ARow(ec).zero();
+    A[4] = new ARow(ec).zero();
+    A[5] = new ARow(ec).zero();
   }
 
   /**
@@ -106,14 +107,14 @@ public class A6Row extends A6Rowa {
    * @param alev level for listing with sendHist
    * @param atitl title for listing with sendHist
    */
-  public A6Row(int t, int alev, String atitl) {
-    super(6, tbal, alev, atitl);
-    A[0] = new ARow().zero();
-    A[1] = new ARow().zero();
-    A[2] = new ARow().zero();
-    A[3] = new ARow().zero();
-    A[4] = new ARow().zero();
-    A[5] = new ARow().zero();
+  public A6Row(Econ ec,int t, int alev, String atitl) {
+    super(ec,6, tbal, alev, atitl);
+    A[0] = new ARow(ec).zero();
+    A[1] = new ARow(ec).zero();
+    A[2] = new ARow(ec).zero();
+    A[3] = new ARow(ec).zero();
+    A[4] = new ARow(ec).zero();
+    A[5] = new ARow(ec).zero();
   }
 
   /**
@@ -126,8 +127,8 @@ public class A6Row extends A6Rowa {
    * @param b 0,1 to rows 2,3
    * @param c 0,1 to rows 4,5
    */
-  public A6Row(int lev, String titl, A6Row a, A6Row b, A6Row c) {
-    super(6, tnone, lev, titl);
+  public A6Row(Econ ec,int lev, String titl, A6Row a, A6Row b, A6Row c) {
+    super(ec,6, tnone, lev, titl);
     this.lev = lev;
     this.titl = titl;
     for (int n : E.alsecs) {
@@ -151,8 +152,8 @@ public class A6Row extends A6Rowa {
    * @param c row reference for Row 4 staff
    * @param d row reference for Row 5 guests
    */
-  public A6Row(int t, int lev, String titl, ARow a, ARow b, ARow c, ARow d) {
-    super(6, tbal, lev, titl);
+  public A6Row(Econ ec,int t, int lev, String titl, ARow a, ARow b, ARow c, ARow d) {
+    super(ec,6, tbal, lev, titl);
     A[2] = a;
     A[3] = b;
     A[4] = c;
@@ -660,8 +661,8 @@ public class A6Row extends A6Rowa {
     A[4] = (sb);  // s r + g r
     A[5] = (gb);  // s s + g s
     if (A[0] == null) {
-      A[0] = new ARow();
-      A[1] = new ARow();
+      A[0] = new ARow(ec);
+      A[1] = new ARow(ec);
     }
     for (int n : E.alsecs) {
       set(0, n, get(2, n) + get(3, n));
@@ -968,7 +969,7 @@ public class A6Row extends A6Rowa {
   }
 
   public A6Row setAmultB(A4Row A, A6Row B) {
-    A2Row joint = new A2Row();
+    A2Row joint = new A2Row(ec);
     for (int m : E.d2) {
       for (int n : E.alsecs) {
         // separate each operation to localize null object errors

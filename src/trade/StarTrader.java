@@ -5823,12 +5823,19 @@ public class StarTrader extends javax.swing.JFrame {
     
     return tradablePlanets;
   }// getWildCurs
- 
+ /** find tradable planets for this ship
+  * 
+  * @param shipsDone  the number of ships which have visited this year.
+  * @param curShip  The Econ of the current ship
+  * @param psize    number of tradable Planets
+  * @param tradablePlanets  An array of tradable planets, only psize if filled 
+  * @return 
+  */
   int getWildCurs(int shipsDone, Econ curShip, int psize, Econ[] tradablePlanets) {
-    int lPlanets = eM.planets.size();
-    int lShips = eM.ships.size();
+    int lPlanets = eM.planets.size(); // known planets
+    int lShips = eM.ships.size();  // known ships
     //int[] tradablePlanets = new int[psize];
-    int lTradablePlanets = psize;
+    int lTradablePlanets = psize;  // number to be found
     double lsel, maxsel;
     int rtns = -1; // counter for planets in tradablePlanets
     // you only get to scan as many planets as you have ships
@@ -5836,6 +5843,12 @@ public class StarTrader extends javax.swing.JFrame {
     Econ planet = eM.planets.get(0);
 
     double shipsVisitedPerPlanetVisited = EM.porsVisited[E.P] == 0 ? 0. : EM.porsVisited[E.S] / EM.porsVisited[E.P];
+    double shipsVisitedPerEconsVisited = EM.visitedCnt == 0 ? 0: EM.porsVisited[E.S] / EM.visitedCnt;
+    
+    // if ...Frac > shipsVisitedPerEconsPlus1Visited means extra ship for any planet
+    double shipsVisitedPerEconsPlus1Visited = EM.visitedCnt == 0?0:EM.porsVisited[E.S] / (EM.visitedCnt + 1);
+    // if ...Frac > shipsPlus1VistedPerEconsVisited  means extra ship for any planet
+    double shipsPlus1VistedPerEconsVisited = EM.visitedCnt == 0?0: (EM.porsVisited[E.S] + 1) / EM.visitedCnt;
     double planetsGameGoalFrac = 1.0 - eM.gameShipFrac[E.P]; // percent of econs planets
     double goalGameShipsPerPlanet = planetsGameGoalFrac == 0.0 ? 0.0 : eM.gameShipFrac[E.P] / planetsGameGoalFrac;
 

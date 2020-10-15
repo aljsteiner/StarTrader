@@ -58,8 +58,8 @@ public class ABalRows extends A6Rowa {
    * @param h level for any send to hist methods
    * @param tit title for any send to hist methods
    */
-  ABalRows(int n, int t, int h, String tit) {
-    super(n, t, h, tit);
+  ABalRows(Econ ec,int n, int t, int h, String tit) {
+    super(ec,n, t, h, tit);
 //    System.out.println("instantiate ABalRows A.length=" + A.length + ", lA=" + lA + ", n=" + n + ", titl =" + titl);
     //dResums = Assets.balancesSums;
     //   mResum1 = Assets.balancesSubSum1;
@@ -71,8 +71,8 @@ public class ABalRows extends A6Rowa {
    * constructor assuming 15 ARows, balance, History.informationMajor8,bals
    *
    */
-  ABalRows() {
-    super(balsLength, tbal, History.informationMajor8, "bals");
+  ABalRows(Econ ec) {
+    super(ec,balsLength, tbal, History.informationMajor8, "bals");
   }
 
   /**
@@ -80,8 +80,8 @@ public class ABalRows extends A6Rowa {
    *
    * @param aLev level for any send to hist methods
    */
-  ABalRows(int aLev) {
-    super(balsLength, tbal, aLev, "bals");
+  ABalRows(Econ ec,int aLev) {
+    super(ec,balsLength, tbal, aLev, "bals");
   }
 
   /**
@@ -93,7 +93,7 @@ public class ABalRows extends A6Rowa {
    * @return new object copy new references for the values
    */
   public A6Row copy6(int lev, String atitl) {
-    A6Row rtn = new A6Row();
+    A6Row rtn = new A6Row(ec);
     rtn.lev = lev;
     rtn.titl = atitl;
     rtn.balances = balances;
@@ -142,7 +142,7 @@ public class ABalRows extends A6Rowa {
    * @return the A6Row
    */
   public A6Row getBalances(int lev, String atitl) {
-    A6Row rtn = new A6Row(tbal, lev, atitl);
+    A6Row rtn = new A6Row(ec,tbal, lev, atitl);
     for (int i = 0; i < 6; i++) {
       rtn.A[i] = A[i];
       rtn.A[i].setCnt++;
@@ -158,7 +158,7 @@ public class ABalRows extends A6Rowa {
    * @return the A6Row all values copied not references moved
    */
    public A6Row copyBalances(int lev, String atitl) {
-    A6Row rtn = new A6Row(tbal, lev, atitl);
+    A6Row rtn = new A6Row(ec,tbal, lev, atitl);
     for (int m = 2; m < 6; m++) {
       rtn.A[m] = A[m].copy();
       rtn.A[m].setCnt++;
@@ -177,15 +177,15 @@ public class ABalRows extends A6Rowa {
    * references to the rows iX thru iX+3
    */
   public A6Row use4(int iX, int lev, String titl) {
-    A6Row rtn = new A6Row(lev, titl);
+    A6Row rtn = new A6Row(ec,lev, titl);
     resum(0);
     resum(1);
     for (int m : I03) {
       rtn.A[m + 2] = A[iX + m].copy();
       rtn.aCnt[m]++;
     }
-    rtn.A[0] = new ARow().setAdd(rtn.A[2] , rtn.A[3]);
-    rtn.A[1] = new ARow().setAdd(rtn.A[4] , rtn.A[5]);
+    rtn.A[0] = new ARow(ec).setAdd(rtn.A[2] , rtn.A[3]);
+    rtn.A[1] = new ARow(ec).setAdd(rtn.A[4] , rtn.A[5]);
     return rtn;
   }
 
@@ -206,7 +206,7 @@ public class ABalRows extends A6Rowa {
    * @return A10Row for Travel
    */
   A10Row getTrows() {
-    A10Row rtn = new A10Row(7, "travelC10");
+    A10Row rtn = new A10Row(ec,7, "travelC10");
     rtn.A[2] = A[TCOSTSIX];
     rtn.A[6] = A[TCOSTSIX + 1];
     double t;
@@ -223,7 +223,7 @@ public class ABalRows extends A6Rowa {
    * @return A10Row for Travel
    */
   A10Row getMrows() {
-    A10Row rtn = new A10Row(7, "maintC10");
+    A10Row rtn = new A10Row(ec,7, "maintC10");
     rtn.A[2] = A[MCOSTSIX];
     rtn.A[6] = A[MCOSTSIX + 1];
     return rtn;
@@ -269,7 +269,7 @@ public class ABalRows extends A6Rowa {
    * @return balances copy
    */
   A6Row copyBalances() {
-    A6Row rtn = new A6Row(lev, titl);
+    A6Row rtn = new A6Row(ec,lev, titl);
     for (int m : I05) {
       rtn.A[m].savCnt++;
       for (int n : E.ASECS) {
