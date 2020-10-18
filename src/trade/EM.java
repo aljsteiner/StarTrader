@@ -2370,12 +2370,10 @@ class EM {
   void defRes() {
 
     doRes(SCORE, "Score", "Winner has the highest score the result of combining the different priorities set by several value entries which increase the score", 3, 4, 3, LIST7 | LIST8 | LIST9 | LIST43210YRS | thisYr | SUM, 0, 0, 0);
-    doRes(LIVEWORTH, "Live Worth", "Live Worth Value including year end working, reserve: resource, staff, knowledge", 3, 2, 0, LIST7 | LIST8 | LIST9 | LIST43210YRS | thisYr | SUM, ROWS1 | LIST7 | LIST8 | LIST9 | LIST43210YRS | THISYEAR | thisYrAve | BOTH, ROWS2, ROWS3 | THISYEARUNITS | BOTH | SKIPUNSET);
-    doRes(STARTWORTH, "Starting Worth", "Starting Worth Value including working, reserve: resource, staff, knowledge", 3, 2, 0, LIST7 | LIST8 | LIST9 | LIST2YRS | thisYr | sum, ROWS1 | LIST7 | LIST8 | LIST9 | LIST2YRS | THISYEAR | thisYrAve | THISYEARUNITS | BOTH, ROWS2, ROWS3 | CUMUNITS);
-    doRes(WORTHIFRAC, "PercInitWorth ", "Percent of Initial Worth Value including working, reserve: resource, staff, knowledge", 3, 2, 0,
-        LIST7 | LIST8 | LIST9 | LIST43210YRS | thisYr | SUM,
+    doRes(LIVEWORTH, "Live Worth", "Live Worth Value including year end working, reserve: resource, staff, knowledge", 3, 2, 0, LIST7 | LIST8 | LIST9 | LIST43210YRS | thisYr | SUM, ROWS1 | LIST7 | LIST8 | LIST9 | LIST43210YRS | THISYEAR | thisYrAve | BOTH,0L ,ROWS3 | LIST43210YRS  | THISYEARUNITS | BOTH | SKIPUNSET);
+    doRes(STARTWORTH, "Starting Worth", "Starting Worth Value including working, reserve: resource, staff, knowledge", 3, 2, 0, LIST7 | LIST8 | LIST9 | LIST2YRS | thisYr | sum, ROWS1 | LIST7 | LIST8 | LIST9 | LIST2YRS | THISYEAR | thisYrAve | THISYEARUNITS | BOTH, ROWS2,LIST43210YRS | ROWS3 | CUMUNITS | BOTH) ;
+    doRes(WORTHIFRAC, "PercInitWorth ", "Percent of Initial Worth Value including working, reserve: resource, staff, knowledge", 3, 2, 0,LIST7 | LIST8 | LIST9 | LIST43210YRS | thisYr | SUM,
         LIST7 | LIST8 | LIST9 | LIST43210YRS | THISYEAR | thisYrAve | BOTH, 0, 0);
-
     doRes("yearCreate", "yearCreations", "new Econs ceated from year initial funds", 3, 2, 0, ROWS1 | LIST8 | LIST0YRS | THISYEARUNITS | SKIPUNSET | BOTH, ROWS3 | LIST8 | LIST0YRS | CUMUNITS | SKIPUNSET | BOTH, 0L, 0L);
     doRes("FutureCreate", "FutureFund Create", "Econs created from Future Funds", 3, 2, 0, ROWS1 | LIST8 | LIST0YRS | THISYEARUNITS | SKIPUNSET | BOTH, ROWS3 | LIST8 | LIST0YRS | CUMUNITS | SKIPUNSET | BOTH, 0L, 0L);
     doRes("bothCreate", "bothCreations", "new Econs ceated from  initial funds and future funds", 3, 2, 0, ROWS1 | LIST8 | LIST0YRS | THISYEARUNITS | SKIPUNSET | BOTH, ROWS3 | LIST8 | LIST0YRS | CUMUNITS | SKIPUNSET | BOTH, 0L, 0L);
@@ -3298,7 +3296,9 @@ class EM {
   ) {
     //  int sClan = curEcon.clan;
     // int pors = curEcon.pors;
-
+    double resLock[][][] = resV[rn];
+    int a = -5, b = -5;
+    synchronized(resLock) {
     int i = cnt > 0 ? 1 : 0;
     resV[rn][ICUM][pors][clan] += v;
     resI[rn][ICUM][pors][clan] += i;
@@ -3307,7 +3307,7 @@ class EM {
     resI[rn][ICUR0][CCONTROLD][ISSET] = 1;
     resI[rn][ICUM][CCONTROLD][ISSET] = 1;
     if (resI[rn].length > DVECTOR2A) {
-      int a = -5, b = -5;
+      a = -5; b = -5;
       for (a = 1; a < 6 && b < 0; a++) {
         //YEARS 0-99999   0,   4,   8,    16,    32,   999999}; // + over 31+ group
         //  CUM CUR0  CUR1 CUR2  CUR3  CUR4  CUR5
@@ -3321,14 +3321,15 @@ class EM {
       resV[rn][ICUR0 + 7 * b][pors][clan] = +v;
       resI[rn][ICUR0 + 7 * b][pors][clan] = +i;
       resI[rn][ICUR0 + 7 * b][CCONTROLD][ISSET] = 1;
-      if (rn < 0) {
+    }
+    } // end of lock on res..[rn]
+    if (rn < 0) {
         int rN = rn;
         int jj = 1;
         int jjj = 1;
         long isset1 = (jj - 1 + jjj < resI[rN].length ? resI[rN][jj - 1 + jjj] != null ? resI[rN][jj - 1 + jjj][CCONTROLD][ISSET] : -1 : -2);
         System.out.println("EM.setStat " + resS[rN][0] + " rN" + rN + ", valid" + valid + ", " + (isset1 > 0?"isset":"isnotset") + ",issetb" + (jj + jjj < resI[rN].length ? resI[rN][jj + jjj] != null ? resI[rN][jj + jjj][CCONTROLD][ISSET] : -1 : -2) + ", issetc" + (jj + 6 + jjj < resI[rN].length ? resI[rN][jj + 6 + jjj] != null ? resI[rN][jj + 6 + jjj][CCONTROLD][ISSET] : -1 : -2) + ", b" + b + ", jjj" + jjj + ",jj" + jj + ", age" + age + ", name:" + curEcon.name + ", curEcon.age" + curEcon.age);
-      }
-    }
+      };
     long[][][] resii = resI[rn];  //for values if using debug
     double[][][] resvv = resV[rn];
     return v;

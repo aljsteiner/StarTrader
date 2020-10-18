@@ -51,7 +51,7 @@ public class Offer {
   //static final int[] MS = {0, 1};
   Econ[] cn = new Econ[2]; //0=planet or ship,1=primaryShip
   EM eM;
-  Econ ec;
+  Econ ec = EM.curEcon;
   String[] cnName = {"aPlanetOther", "aShip"};
   A2Row goods = new A2Row(ec); //only one instance of goods, for both cn's
   A2Row[] secondGoods = {new A2Row(ec),new A2Row(ec)}; // after the first all I got entry

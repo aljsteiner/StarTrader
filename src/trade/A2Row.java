@@ -48,7 +48,7 @@ public class A2Row {
    * @param b
    */
   A2Row(ARow a, ARow b) {
-    ec = a.ec;
+    ec = a.ec == null? ec: a.ec;
     this.A[0] = a;
     this.A[1] = b;
     ix = new int[2 * E.lsecs];

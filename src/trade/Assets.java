@@ -67,7 +67,7 @@ public class Assets {
 
   StarTrader st;
   String name;
-  Econ ec;
+  Econ ec = EM.curEcon;
   EM eM;
   CashFlow cur;
   int clan;
@@ -963,7 +963,7 @@ public class Assets {
    *
    * @return the trade strategic vars, high values greatest needs
    */
-  A2Row getTradeStrategicVars() {
+  A2Row getTradeStrategicVars() {  //Assets.getTradeStrategicVars()
     getTradeInit(tradeStrategicVars == null);
     return tradeStrategicVars;
   }
@@ -2559,9 +2559,7 @@ public class Assets {
       ARow tFertilityRemnant = new ARow(ec);
       ARow tRemnant = new ARow(ec);
       ARow AvailRemnant;
-
-      ARow tFutRemnant;
-
+      ARow tFutRemnant = new ARow(ec);
       ARow tFutWithPartnerRemnant;
       ARow tFutLowReservedWithPartner;
       ARow tFutHighReservedWithPartner;
@@ -2770,6 +2768,8 @@ public class Assets {
         sIx = asIx;
         aschar = aChar[asIx];
         this.partner = apartner;
+        
+        
         // make sure balance
         balances.A[asIx + 2] = balance = bals.getRow(ABalRows.BALANCESIX + asIx);
         sys[asIx].growth = growth = growths.A[2 + asIx] = bals.getRow(GROWTHSIX + asIx);
@@ -2938,6 +2938,7 @@ public class Assets {
           maintEfficiency.add(i, Math.sqrt(workEffBias + (1. - workEffBias) * (ydifficulty.get(i) < PZERO ? 0. : KnowledgeMaintMultiplier.get(i)) / ydifficulty.get(i)));
           groEfficiency.add(i, Math.sqrt(eM.effBias[pors] + (1. - eM.effBias[pors]) * (ydifficulty.get(i) < PZERO ? 0. : KnowledgeGroMultiplier.get(i)) / ydifficulty.get(i)));
           //(z-99)*y = ,15  (x-25)*y=.3  x=148, y=0.002439 
+          // decrease the efficiency min as difficulty increases
           rsefficiencyGMin.set(i, eM.rsefficiencyGMin[pors][0] * (148 - percentDifficulty) * .001739);
           rsefficiencyMMin.set(i, eM.rsefficiencyMMin[pors][0] * (148 - percentDifficulty) * .001739);
         }// end loop on i
@@ -3938,6 +3939,7 @@ public class Assets {
       A2Row emergOfrs = new A2Row(ec,History.informationMinor9, "emergOfrs");
       ARow cMovedTrade = new ARow(ec);
       ARow gMovedTrade = new ARow(ec);
+      
       A2Row movedTrades = new A2Row(cMovedTrade, gMovedTrade);
       A2Row futRemnants = new A2Row(r.tFutRemnant, s.tFutRemnant);
       A2Row didGood = new A2Row(ec); // seet flags done
@@ -3955,6 +3957,27 @@ public class Assets {
         histTitles("initTrade");
         ohist = inOffer.getOtherHist();
         oEcon = inOffer.getOEcon();
+        stratV = new A2Row(ec,13, "stratV");
+        stratCV = new A2Row(ec,13, "stratCV"); // critical strat values
+        stratF = new A2Row(ec,13, "stratF"); // stratFraction*stratWeight
+        nominalV = new A2Row(ec,13, "nominalV");
+        nominalCV = new A2Row(ec,13, "nominalCV");
+        nominalCF = new A2Row(ec,13, "nominalCF");
+        goodC = new A2Row(ec,13, "goodC");
+        stratCF = new A2Row(ec,13, "StratCF");// sF * critW
+        nominalF = new A2Row(ec,13, "nominalF"); // nF * normW
+        availOfrs = new A2Row(ec,History.informationMinor9, "availOfrs");
+        maxReqs = new A2Row(ec,History.loopMinorConditionals5, "maxReqs");
+        needReq = new A2Row(ec,History.informationMinor9, "needReq");
+        fneedReq = new A2Row(ec,History.informationMinor9, "fneedReq");
+        emergOfrs = new A2Row(ec,History.informationMinor9, "emergOfrs");
+        cMovedTrade = new ARow(ec);
+        gMovedTrade = new ARow(ec);
+        movedTrades = new A2Row(cMovedTrade, gMovedTrade);
+        futRemnants = new A2Row(r.tFutRemnant, s.tFutRemnant);
+        didGood = new A2Row(ec); // seet flags doneA2Row movedTrades = new A2Row(cMovedTrade, gMovedTrade);
+        multF = new A2Row(ec,13, "multF"); //sum of stratF,normF, ?stratCF
+        multV = new A2Row(ec,13, "multV"); //sum of stratV,normV ?stratC
         inOffer.setC(ar.c.balance);  // check c == c
         if (oTradedEconsNext < lTradedEcons - 1) {
           oTradedEcons[oTradedEconsNext++] = oEcon;
@@ -7360,7 +7383,7 @@ public class Assets {
         setStat(EM.RCTBAL, fyW.getRCBal() * 100. / fyW.getRCBal() + fyW.getSGBal(), 1);
         setStat(EM.RCBAL, fyW.getRCBal(), 1);
         if (E.debugStats) {
-          System.out.println("print rcPercentInc =" + E.mf(rcPercentInc));
+          System.out.println("print rcPercentInc =" + E.mf(rcPercentInc)+ "<<<<<");
         }
         if (E.debugMisc && (syW.getRCBal() == 0.0)) {
           throw new MyErr("zero syW.getRCBal()=" + ec.mf(syW.getRCBal()));

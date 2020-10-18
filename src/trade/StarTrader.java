@@ -148,24 +148,24 @@ public class StarTrader extends javax.swing.JFrame {
   static final public String statsButton0Tip = "0: Current Game Worths";
   static final public String statsButton1Tip = "1: Favors and trade effects";
   static final public String statsButton2Tip = "2: Catastrophes, deaths, randoms, forwardfund";
-  static final public String statsButton17Tip = "3: Deaths";
-  static final public String statsButton18Tip = "4: Trades";
-  static final public String statsButton19Tip = "5: Creates";
-  static final public String statsButton20Tip = "6: ForwardFund";
-  static final public String statsButton9Tip = "7: Resource, staff, knowledge values";
-  static final public String statsButton10Tip = "8: growth and costs details";
-  static final public String statsButton11Tip = "9: Catastrophes, Fertility, health and effects";
-  static final public String statsButton3Tip = "10: years 0,1,2,3 worth inc, costs, efficiency,knowledge,phe";
-  static final public String statsButton4Tip = "11: years 4,5,6,7 worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton5Tip = "12: years 8->15 worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton6Tip = "13: years 16->31 worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton7Tip = "14: years 32+ worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton8Tip = "15: swap factors";
-  static final public String statsButton12Tip = "16: Swaps years incr skips, redos and dos";
-  static final public String statsButton13Tip = "17: Swaps years decr skips, redos and dos";
-  static final public String statsButton14Tip = "18: Swaps years xfer skips, redos and dos";
-  static final public String statsButton15Tip = "19: Swaps years Forward Fund imbalance or save";
-  static final public String statsButton16Tip = "20: Death factors";
+  static final public String statsButton3Tip = "3: Deaths";
+  static final public String statsButton4Tip = "4: Trades";
+  static final public String statsButton5Tip = "5: Creates";
+  static final public String statsButton6Tip = "6: ForwardFund";
+  static final public String statsButton7Tip = "7: Resource, staff, knowledge values";
+  static final public String statsButton8Tip = "8: growth and costs details";
+  static final public String statsButton9Tip = "9: Catastrophes, Fertility, health and effects";
+  static final public String statsButton10Tip = "10: years 0,1,2,3 worth inc, costs, efficiency,knowledge,phe";
+  static final public String statsButton11Tip = "11: years 4,5,6,7 worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton12Tip = "12: years 8->15 worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton13Tip = "13: years 16->31 worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton14Tip = "14: years 32+ worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton15Tip = "15: swap factors";
+  static final public String statsButton16Tip = "16: Swaps years incr skips, redos and dos";
+  static final public String statsButton17Tip = "17: Swaps years decr skips, redos and dos";
+  static final public String statsButton18Tip = "18: Swaps years xfer skips, redos and dos";
+  static final public String statsButton19Tip = "19: Swaps years Forward Fund imbalance or save";
+  static final public String statsButton20Tip = "20: Death factors";
 
   static final public String gameTextFieldText = "This is to be filled with descriptions of the field over which the mouse hovers";
   /* 0:worths,1:trade favor,2:random,crisis,deaths,forward,3:deaths,4:trades,5:creates,6:forwardFund,7:resource,staff,knowledge,8:growth,costs,9:Fertility,health,effects,10 11 12 13 14 1years,15:swaps,16:swapincr,17:swapdecr,18:xfer, 19:swap forwardFund balance orsave, 20:Swaps cum 
@@ -432,7 +432,6 @@ public class StarTrader extends javax.swing.JFrame {
     statsCtlButtonRun10Yr = new javax.swing.JButton();
     statsCtlButtonRun20Yr = new javax.swing.JButton();
     jScrollPane2 = new javax.swing.JScrollPane();
-    statsScrollPanel = new javax.swing.JScrollPane();
     statsTable1 = new javax.swing.JTable();
     display = new javax.swing.JPanel();
     displayPanel0 = new javax.swing.JPanel();
@@ -2783,10 +2782,8 @@ public class StarTrader extends javax.swing.JFrame {
       }
     });
 
-    statsScrollPanel.setMaximumSize(new java.awt.Dimension(1200, 1200));
-    statsScrollPanel.setMinimumSize(new java.awt.Dimension(700, 400));
-    statsScrollPanel.setName(""); // NOI18N
-    statsScrollPanel.setPreferredSize(new java.awt.Dimension(1200, 500));
+    jScrollPane2.setMinimumSize(new java.awt.Dimension(700, 700));
+    jScrollPane2.setPreferredSize(new java.awt.Dimension(1200, 800));
 
     statsTable1.setModel(new javax.swing.table.DefaultTableModel(
       new Object [][] {
@@ -2915,7 +2912,7 @@ public class StarTrader extends javax.swing.JFrame {
     statsTable1.setMinimumSize(new java.awt.Dimension(600, 400));
     statsTable1.setPreferredSize(new java.awt.Dimension(1200, 900));
     statsTable1.getTableHeader().setReorderingAllowed(false);
-    statsScrollPanel.setViewportView(statsTable1);
+    jScrollPane2.setViewportView(statsTable1);
     statsTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
     if (statsTable1.getColumnModel().getColumnCount() > 0) {
       statsTable1.getColumnModel().getColumn(0).setResizable(false);
@@ -2930,8 +2927,6 @@ public class StarTrader extends javax.swing.JFrame {
       statsTable1.getColumnModel().getColumn(8).setResizable(false);
       statsTable1.getColumnModel().getColumn(10).setResizable(false);
     }
-
-    jScrollPane2.setViewportView(statsScrollPanel);
 
     javax.swing.GroupLayout statsLayout = new javax.swing.GroupLayout(stats);
     stats.setLayout(statsLayout);
@@ -3021,8 +3016,8 @@ public class StarTrader extends javax.swing.JFrame {
         .addContainerGap())
       .addGroup(statsLayout.createSequentialGroup()
         .addContainerGap()
-        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 655, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addGap(0, 0, Short.MAX_VALUE))
+        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1178, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
     statsLayout.setVerticalGroup(
       statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -4828,7 +4823,6 @@ public class StarTrader extends javax.swing.JFrame {
   protected javax.swing.JButton statsCtlButtonRun5Yr;
   protected javax.swing.JTextField statsField;
   protected javax.swing.JTextField statsField2;
-  protected javax.swing.JScrollPane statsScrollPanel;
   protected javax.swing.JTable statsTable1;
   protected javax.swing.JPanel story;
   protected javax.swing.JTextArea storyTextField1;
