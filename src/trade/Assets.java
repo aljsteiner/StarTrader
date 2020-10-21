@@ -227,6 +227,7 @@ public class Assets {
   // up to 10 visited ship names
   String visitedShipNames[][] = {{"A", "B", "C", "D", "E", "f", "g", "h", "i", "j"}, {"A", "B", "C", "D", "E"}, {"A", "B", "C", "D", "E"}, {"A", "B", "C", "D", "E"}, {"A", "B", "C", "D", "E"}};
   double strategicGoal = 0., rGoal0 = 0., strategicValue = 0., goodFrac = 0.;
+  double firstStrategicGoal=0.,firstStrategicValue = 0.;
   double endTradeWorth = -200.;
   /**
    * in trade.Assets bids positive are offers, negative are requests, positive
@@ -1560,7 +1561,8 @@ public class Assets {
 
     double sumNewKnowledgeWorth, sumCommonKnowledgeWorth, sumManualsWorth;
     ARow ypriorityYr = new ARow(ec);
-
+    double sf=0.,sv=0.;
+    
     // start CashFlow Swap loop variables
     boolean debugSumGrades2 = false;
     boolean flagg, flagh, flagf, flagm, prevFlagg, prevFlagh, prevFlagf, prevFlagm;
@@ -3892,7 +3894,7 @@ public class Assets {
       //    ARow sCargo = new ARow(ec);
       //    ARow sGuests = new ARow(ec);
       double[][] gGrades = new double[E.lsecs][E.lgrades];
-      double sf1 = 0., sv1 = 0., ts1 = 0., tr1 = 0., isf1 = 1., isv1 = 1., sf = 0., sv = 0.;
+      double sf1 = 0., sv1 = 0., ts1 = 0., tr1 = 0., isf1 = 1., isv1 = 1.;
       Offer myOffer;
       int primaryStaffNeed, secondStaffNeed;
       A2Row myFirstBid = new A2Row(ec,History.valuesMinor7, "myFirstBid");
@@ -4352,7 +4354,7 @@ public class Assets {
       }// Assets.CashFlow.Trades.xitTrade
 
       /**
-       * disabled exit Barter, do clean up, in particular if ohist is set copy
+       * exit Barter, do clean up, in particular if ohist is set copy
        * my history to other history
        */
       void xitBarter() { // Assets.CashFlow.Trades
@@ -4957,47 +4959,47 @@ public class Assets {
         // loop max to min StrategicValues
         for (int m : E.A2SECS) {
           n = strategicValues.maxIx(m);//max to min iX stratV
-          double gg = bids.get(n);
+         double bid = bids.get(n);
           double stv = strategicValues.get(n);
           iXrors = (int) n / E.lsecs;// 0 or 1
           double nv = eM.nominalRSWealth[iXrors][pors];
 
           // requests  negative bids
-          if (gg < NZERO) {
-            totalStrategicRequests -= gg * stv;
-            nominalRequests -= gg * nv;
-            nominalV.set(n, gg * nominalF.set(n, nv * eM.tradeNominalFrac[pors][clan]));
-            stratV.set(n, gg * stratF.set(n, stv * eM.tradeStrategicFrac[pors][clan]));
-            multV.set(n, gg * multF.set(n, stv * eM.tradeStrategicFrac[pors][clan] + nv * eM.tradeNominalFrac[pors][clan]));
+          if (bid < NZERO) {
+            totalStrategicRequests -= bid * stv;
+            nominalRequests -= bid * nv;
+            nominalV.set(n, bid * nominalF.set(n, nv * eM.tradeNominalFrac[pors][clan]));
+            stratV.set(n, bid * stratF.set(n, stv * eM.tradeStrategicFrac[pors][clan]));
+            multV.set(n, bid * multF.set(n, stv * eM.tradeStrategicFrac[pors][clan] + nv * eM.tradeNominalFrac[pors][clan]));
             // only count entries 
             if (n > criticalHighSectors) {
-              criticalStrategicRequests -= gg * stratCF.add(n, stv);
-              criticalNominalRequests -= gg * nv;
-              nominalCV.set(n, gg * nominalCF.set(n, nv * eM.tradeNominalFrac[pors][clan]));
-              stratCV.set(n, gg * stratCF.set(n, stv * eM.tradeCriticalFrac[pors][clan]));
-              goodC.set(n, gg);
-              multV.set(n, gg * multF.set(n, stv * eM.tradeStrategicFrac[pors][clan] + nv * eM.tradeNominalFrac[pors][clan] + stv * eM.tradeCriticalFrac[pors][clan]));
+              criticalStrategicRequests -= bid * stratCF.add(n, stv);
+              criticalNominalRequests -= bid * nv;
+              nominalCV.set(n, bid * nominalCF.set(n, nv * eM.tradeNominalFrac[pors][clan]));
+              stratCV.set(n, bid * stratCF.set(n, stv * eM.tradeCriticalFrac[pors][clan]));
+              goodC.set(n, bid);
+              multV.set(n, bid * multF.set(n, stv * eM.tradeStrategicFrac[pors][clan] + nv * eM.tradeNominalFrac[pors][clan] + stv * eM.tradeCriticalFrac[pors][clan]));
             }
           }
-          //   totalStrategicRequests -= (gg < NZERO ? gg*stv : 0.);
-          //    criticalStrategicRequests -= (gg < NZERO && n > criticalHighSectors) ? gg * stv : 0.;
-          //    requests -= gg < NZERO ? gg:0.;
-          //   nominalRequests -= (gg < NZERO) ? gg * nv : 0.;
-          //  criticalNominalRequests -= (gg < NZERO && n > criticalHighSectors) ? gg * nv : 0.;
+          //   totalStrategicRequests -= (bid < NZERO ? bid*stv : 0.);
+          //    criticalStrategicRequests -= (bid < NZERO && n > criticalHighSectors) ? bid * stv : 0.;
+          //    requests -= bid < NZERO ? bid:0.;
+          //   nominalRequests -= (bid < NZERO) ? bid * nv : 0.;
+          //  criticalNominalRequests -= (bid < NZERO && n > criticalHighSectors) ? bid * nv : 0.;
           // offers
-          if (gg >= NZERO) {
-            nominalV.set(n, gg * nv * eM.tradeNominalFrac[pors][clan]);
-            stratV.set(n, gg * stratF.set(n, stv * eM.tradeStrategicFrac[pors][clan]
+          if (bid >= NZERO) {
+            nominalV.set(n, bid * nv * eM.tradeNominalFrac[pors][clan]);
+            stratV.set(n, bid * stratF.set(n, stv * eM.tradeStrategicFrac[pors][clan]
                     + nv * eM.tradeNominalFrac[pors][clan]));
-            multV.set(n, gg * multF.set(n, stv * eM.tradeStrategicFrac[pors][clan] + nv * eM.tradeNominalFrac[pors][clan]));
+            multV.set(n, bid * multF.set(n, stv * eM.tradeStrategicFrac[pors][clan] + nv * eM.tradeNominalFrac[pors][clan]));
             // only count entries with a higher strategic value than LowSectors
             if (n > criticalLowSectors) {
-              criticalStrategicOffers += gg * stv;
-              criticalNominalOffers += gg * nv;
-              nominalCV.set(n, gg * nv * eM.tradeNominalFrac[pors][clan]);
-              stratCV.set(n, stratV.set(m, gg * stv * eM.tradeCriticalFrac[pors][clan]));
-              goodC.set(n, gg);
-              multV.set(n, gg * multF.set(n, stv * eM.tradeStrategicFrac[pors][clan] + nv * eM.tradeNominalFrac[pors][clan] + stv * eM.tradeCriticalFrac[pors][clan]));
+              criticalStrategicOffers += bid * stv;
+              criticalNominalOffers += bid * nv;
+              nominalCV.set(n, bid * nv * eM.tradeNominalFrac[pors][clan]);
+              stratCV.set(n, stratV.set(m, bid * stv * eM.tradeCriticalFrac[pors][clan]));
+              goodC.set(n, bid);
+              multV.set(n, bid * multF.set(n, stv * eM.tradeStrategicFrac[pors][clan] + nv * eM.tradeNominalFrac[pors][clan] + stv * eM.tradeCriticalFrac[pors][clan]));
             }
           }
         } // end m , n
@@ -5079,6 +5081,8 @@ public class Assets {
           offersFirst = offers;
           bidsFirst = bids.copy();
           strategicValuesFirst = strategicValues.copy();
+          firstStrategicValue = strategicValue;
+          firstStrategicGoal = strategicGoal;
         }
         int bLev = ec.blev = History.dl;
 
@@ -6628,7 +6632,7 @@ public class Assets {
           return m > 0;
         }
       } // end doing
-      //  E.sysmsg("in calcFutureFund endd m=%d",m);
+      //  E.sysmsg("in calcFutureFund end m=%d",m);
       destIx = srcIx;
       return m > 0;
     }
@@ -6866,6 +6870,8 @@ public class Assets {
           }
           EM.porsClanTraded[pors][clan]++;
           EM.clanTraded[clan]++;
+          eM.porsVisited[pors]++;
+          eM.porsClanVisited[pors][clan]++;
           setStat(EM.TRADEFIRSTRECEIVE, requestsFirst, 1);
           setStat(EM.TRADELASTRECEIVE, pors, clan, requests, 1);
           setStat(EM.TRADEFIRSTGAVE, oPors, oClan, requestsFirst, 1);
@@ -6877,6 +6883,10 @@ public class Assets {
           setStat(EM.BEFORETRADEWORTH, pors, clan, btWTotWorth, 1);
           setStat(EM.AFTERTRADEWORTH, pors, clan, tWTotWorth, 1);
           setStat(EM.TRADEWORTHINCRPERCENT, pors, clan, worthIncrPercent, 1);
+          setStat(EM.TradeFirstStrategicGoal,pors,clan,firstStrategicGoal,1);
+          setStat(EM.TradeLastStrategicGoal,pors,clan,strategicGoal,1);
+          setStat(EM.TradeFirstStrategicValue,pors,clan,firstStrategicValue,1);
+          setStat(EM.TradeLastStrategicValue,pors,clan,strategicValue,1);
           // leave fav set 5 to 0
           if (entryTerm == 0) {
             retOffer.setTerm(-2); // other so no more return
@@ -6901,12 +6911,18 @@ public class Assets {
           setStat(EM.BEFORETRADEWORTH, pors, clan, btWTotWorth, 1);
           setStat(EM.AFTERTRADEWORTH, pors, clan, tWTotWorth, 1);
           setStat(EM.TRADEWORTHINCRPERCENT, pors, clan, worthIncrPercent, 1);
+          setStat(EM.TradeFirstStrategicGoal,pors,clan,firstStrategicGoal,1);
+          setStat(EM.TradeLastStrategicGoal,pors,clan,strategicGoal,1);
+          setStat(EM.TradeFirstStrategicValue,pors,clan,firstStrategicValue,1);
+          setStat(EM.TradeLastStrategicValue,pors,clan,strategicValue,1);
           retOffer.setTerm(-4);
-        } else if (entryTerm == -2) {  // the other ship traded
+        } else if (entryTerm == -1) {  // Trade rejected
           tradedShipOrdinal++; // set ordinal of the next ship if any
           tradedSuccessTrades++;
-          tradeAccepted = true;
-          tradeMissed = tradeRejected = tradeLost = false;
+          eM.porsVisited[pors]++;
+          eM.porsClanVisited[pors][clan]++;
+          tradeRejected = true;
+          tradeMissed = tradeLost = tradeAccepted = false;
           EM.tradedCnt++;
           EM.porsTraded[pors]++;
           EM.porsClanTraded[pors][clan]++;
@@ -6916,14 +6932,18 @@ public class Assets {
           tradeRejected = entryTerm == -1 ? false : true; // rejectd by this econ
           tradeLost = entryTerm == -1 ? true : false; // rejected by othre econ
           tradeMissed = tradeAccepted = false;
+          setStat("WREJTRADEDPINCR", pors, clan, worthIncrPercent, 1);
+          setStat(EM.INCRAVAILFRACa, pors, clan, tradeAvailIncrPercent, 1);
+          eM.porsVisited[pors]++;
+          eM.porsClanVisited[pors][clan]++;
           fav = -2.;
           if (entryTerm == -1) {
             retOffer.setTerm(-3);
           }
           // else leave retOffer.ter -1 for the other cn
-        } else if (entryTerm < -1) { // should stop in econ
-          tradeMissed = tradeLost
-                  = tradeRejected
+        } else if (entryTerm < -1) { // should stop in econ 
+          tradeLost = true;
+                  tradeMissed = tradeRejected
                   = tradeAccepted = false;
           retOffer.setTerm(-5);
           fav = -3.;
@@ -6958,7 +6978,7 @@ public class Assets {
           setStat("CRITICALRECEIPTSFRACSYFAV1", pors, clan, criticalStrategicRequestsPercentTWorth, 1);
           setStat("CRITICALRECEIPTSFRADROPT1", pors, clan, criticalStrategicRequestsPercentFirst, 1);
           setStat(EM.INCRAVAILFRAC1, pors, clan, tradeAvailIncrPercent, 1);
-        } else if (fav >= 0.) {
+        } else if (fav >= 0. ) {
           setStat("CRITICALRECEIPTSFRACSYFAV0", pors, clan, criticalStrategicRequestsPercentTWorth, 1);
           setStat("CRITICALRECEIPTSFRADROPT0", pors, clan, criticalStrategicRequestsPercentFirst, 1);
           setStat(EM.INCRAVAILFRAC0, pors, clan, tradeAvailIncrPercent, 1);
@@ -6967,7 +6987,7 @@ public class Assets {
           setStat(EM.INCRAVAILFRACa, pors, clan, tradeAvailIncrPercent, 1);
           eM.porsVisited[pors]++;
           eM.porsClanVisited[pors][clan]++;
-        } else if (fav >= -2.) {
+        } else if (fav >= -3.) {
           // gameRes.WLOSTTRADEDINCR.wet(pors, clan, worthIncrPercent, 1);
           setStat("WLOSTTRADEDINCR", pors, clan, worthIncrPercent, 1);
           setStat(EM.INCRAVAILFRACb, pors, clan, tradeAvailIncrPercent, 1);

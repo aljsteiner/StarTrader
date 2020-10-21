@@ -4283,52 +4283,52 @@ public class StarTrader extends javax.swing.JFrame {
     boolean bid = statsButton7.isSelected();
     if (bid) {
       listRes(7, resLoops, fullRes);
-      statsButton7.setToolTipText(statsButton7Tip);
-      statsField.setText(statsButton7Tip);
+      statsButton7.setToolTipText(statsTips(7));
+      statsField.setText(statsTips(7));
     }
   }//GEN-LAST:event_statsButton7ItemStateChanged
 
   private void statsButton7MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statsButton7MouseEntered
-    statsField.setText(statsTips(7));
+    statsButton7.setToolTipText(statsTips(7));
   }//GEN-LAST:event_statsButton7MouseEntered
 
   private void statsButton8ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_statsButton8ItemStateChanged
     boolean bid = statsButton8.isSelected();
     if (bid) {
-      statsField.setText(statsButton8Tip);
-      statsButton8.setToolTipText(statsButton8Tip);
+      statsField.setText(statsTips(8));
+      statsButton8.setToolTipText(statsTips(8));
       listRes(8, resLoops, fullRes);
     }
   }//GEN-LAST:event_statsButton8ItemStateChanged
 
   private void statsButton8MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statsButton8MouseEntered
-    statsField.setText(statsTips(8));
+    statsButton8.setToolTipText(statsTips(8));
   }//GEN-LAST:event_statsButton8MouseEntered
 
   private void statsButton9ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_statsButton9ItemStateChanged
     boolean bid = statsButton9.isSelected();
     if (bid) {
-      statsField.setText(statsButton9Tip);
-      statsButton9.setToolTipText(statsButton9Tip);
+      statsField.setText(statsTips(9));
+      statsButton9.setToolTipText(statsTips(9));
       listRes(9, resLoops, fullRes);
     }
   }//GEN-LAST:event_statsButton9ItemStateChanged
 
   private void statsButton9MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statsButton9MouseEntered
-    statsField.setText(statsTips(9));
+    statsButton9.setToolTipText(statsTips(9));
   }//GEN-LAST:event_statsButton9MouseEntered
 
   private void statsButton10ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_statsButton10ItemStateChanged
     boolean bid = statsButton10.isSelected();
     if (bid) {
-      statsField.setText(statsButton10Tip);
-      statsButton10.setToolTipText(statsButton10Tip);
+      statsField.setText(statsTips(10));
+      statsButton10.setToolTipText(statsTips(10));
       listRes(10, resLoops, fullRes);
     }
   }//GEN-LAST:event_statsButton10ItemStateChanged
 
   private void statsButton10MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statsButton10MouseEntered
-    statsField.setText(statsTips(10));
+    statsButton10.setToolTipText(statsTips(10));
   }//GEN-LAST:event_statsButton10MouseEntered
 
   private void statsButton11ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_statsButton11ItemStateChanged

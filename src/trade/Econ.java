@@ -750,6 +750,20 @@ public class Econ{
   return ret;
   }
   
+  /*
+   public static void main(String[] args) {
+        final Friend alphonse =
+            new Friend("Alphonse");
+        final Friend gaston =
+            new Friend("Gaston");
+        new Thread(new Runnable() {
+            public void run() { alphonse.bow(gaston); }
+        }).start();
+        new Thread(new Runnable() {
+            public void run() { gaston.bow(alphonse); }
+        }).start();
+  */
+  
   Econ selectPlanet(Econ[] wilda,int wLen) {
     TradePriority[] tPriority = new TradePriority[wLen];
     String[] sPriority = new String[wLen];
