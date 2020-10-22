@@ -574,6 +574,8 @@ class EM {
   static final long LIST1YRS = list1 | LISTYRS;
   static final long LIST3YRS = list3 | LISTYRS;
   static final long LIST4YRS = list4 | LISTYRS;
+  static final long LIST41 = list4 | LIST1;
+  static final long LIST40 = list4 | LIST0;
   static final long LIST41YRS = list4 | LIST1YRS;
   static final long LIST431YRS = list3 | LIST41YRS;
   static final long LIST2YRS = list2 | LISTYRS;
@@ -2607,7 +2609,7 @@ class EM {
     doRes(NEWKNOWLEDGEINCR, "incNewKnowledge", "Percent New Knowledge Incr/Year", 4, 3, 1, (LIST7 | LISTYRS | curAve | both), 0, 0, 0);
     doRes(COMMONKNOWLEDGEINCR, "incCommonKnowledge", "Percent Common Knowledge increase by year", 4, 3, 1, (LIST7 | LISTYRS | curAve | both), 0, 0, 0);
     doRes(MANUALSINCR, "PercIncrManuals", "Percent Manuals increase by years", 4, 3, 1, (LIST7 | LISTYRS | curAve | both), 0, 0, 0);
-    doRes(INCRAVAILFRAC5, "IncrAvailFrac5", "Percent increase in avail frac after trade at favor 5",2, 3,2, (LIST41YRS | THISYEARAVE | both | SKIPUNSET ), ROWS1 | LIST41YRS |  CURAVE| BOTH | SKIPUNSET , ROWS2 | LIST41YRS | THISYEARUNITS | CUMUNITS | BOTH | SKIPUNSET , 0);
+    doRes(INCRAVAILFRAC5, "IncrAvailFrac5", "Percent increase in avail frac after trade at favor 5",2, 3,2, (LIST41 | THISYEARAVE | both | SKIPUNSET ), ROWS1 | LISTYRS |  CURAVE| BOTH | SKIPUNSET , ROWS2 | LIST41 | THISYEARUNITS  | BOTH | SKIPUNSET , ROWS3 | LIST41 | CUMUNITS | BOTH | SKIPUNSET );
     doRes(INCRAVAILFRAC4, "IncrAvailFrac4", "Percent increase in avail frac after trade at favor 4",2, 3,2, DUP, 0, 0, 0);
     doRes(INCRAVAILFRAC3, "IncrAvailFrac3", "Percent increase in avail frac after trade at favor 3",2, 3,2, DUP, 0, 0, 0);
     doRes(INCRAVAILFRAC2, "IncrAvailFrac2", "Percent increase in avail frac after trade at favor 2",2, 3,2, DUP, 0, 0, 0);

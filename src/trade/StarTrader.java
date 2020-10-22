@@ -2783,7 +2783,7 @@ public class StarTrader extends javax.swing.JFrame {
     });
 
     jScrollPane2.setMinimumSize(new java.awt.Dimension(700, 700));
-    jScrollPane2.setPreferredSize(new java.awt.Dimension(1200, 800));
+    jScrollPane2.setPreferredSize(new java.awt.Dimension(1200, 1100));
 
     statsTable1.setModel(new javax.swing.table.DefaultTableModel(
       new Object [][] {
@@ -2910,7 +2910,7 @@ public class StarTrader extends javax.swing.JFrame {
     statsTable1.setColumnSelectionAllowed(true);
     statsTable1.setMaximumSize(new java.awt.Dimension(1200, 1200));
     statsTable1.setMinimumSize(new java.awt.Dimension(600, 400));
-    statsTable1.setPreferredSize(new java.awt.Dimension(1200, 900));
+    statsTable1.setPreferredSize(new java.awt.Dimension(1200, 1100));
     statsTable1.getTableHeader().setReorderingAllowed(false);
     jScrollPane2.setViewportView(statsTable1);
     statsTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
