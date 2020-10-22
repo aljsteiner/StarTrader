@@ -1040,12 +1040,12 @@ class EM {
   double[][] yearsToKeepTradeRecord = {{12.}, {12.}};
   static double[][] mYearsToKeepTradeRecord = {{6., 20.}, {6., 20.}};
 
-  double fava[][] = {{3., 3., 3., 3., 3.}, {3., 3., 3., 3., 3.}, {3., 3., 3., 3., 3.}, {.5, .5, .5, 5., 5.}, {5., .5, .5, 5., .5}};
+  double fava[][] = {{3., 3., 3., 3., 3.}, {2., 2., 2., 2., 2.}, {1., 1., 1., 1., 1.}, {4., 4., 4., 4., 4.}, {5., 5., 5., 5., 5.}};
   double fav0[] = {3., 3., 3., 3., 3.};
-  double fav1[] = {3., 3., 3., 3., 3.};
-  double fav2[] = {3., 3., 3., 3., 3.};
-  double fav3[] = {3., 3., 3., 3., 3.};
-  double fav4[] = {3., 3., 3., 3., 3.};
+  double fav1[] = {2., 2., 2., 2., 2.};
+  double fav2[] = {1., 1., 1., 1., 1.};
+  double fav3[] = {4., 4., 4., 4., 4.};
+  double fav4[] = {5., 5., 5., 5., 5.};
   double fav[][] = {fav0, fav1, fav2, fav3, fav4};
   double mfavs[][] = {{0.5, 5.5}};
   // decrease required strategicFrac for fav > 3, increase if < 3
@@ -2382,201 +2382,201 @@ class EM {
   void defRes() {
 
     doRes(SCORE, "Score", "Winner has the highest score the result of combining the different priorities set by several value entries which increase the score", 3, 4, 3, LIST7 | LIST8 | LIST9 | LIST43210YRS | thisYr | SUM, 0, 0, 0);
-    doRes(LIVEWORTH, "Live Worth", "Live Worth Value including year end working, reserve: resource, staff, knowledge", 3, 2, 0, LIST7 | LIST8 | LIST9 | LIST43210YRS | thisYr | SUM, ROWS1 | LIST7 | LIST8 | LIST9 | LIST43210YRS | THISYEAR | thisYrAve | BOTH,0L ,ROWS3 | LIST43210YRS  | THISYEARUNITS | BOTH | SKIPUNSET);
-    doRes(STARTWORTH, "Starting Worth", "Starting Worth Value including working, reserve: resource, staff, knowledge", 3, 2, 0, LIST7 | LIST8 | LIST9 | LIST2YRS | thisYr | sum, ROWS1 | LIST7 | LIST8 | LIST9 | LIST2YRS | THISYEAR | thisYrAve | THISYEARUNITS | BOTH, ROWS2,LIST43210YRS | ROWS3 | CUMUNITS | BOTH) ;
-    doRes(WORTHIFRAC, "PercInitWorth ", "Percent of Initial Worth Value including working, reserve: resource, staff, knowledge", 3, 2, 0,LIST7 | LIST8 | LIST9 | LIST43210YRS | thisYr | SUM,
-        LIST7 | LIST8 | LIST9 | LIST43210YRS | THISYEAR | thisYrAve | BOTH, 0, 0);
-    doRes("yearCreate", "yearCreations", "new Econs ceated from year initial funds", 3, 2, 0, ROWS1 | LIST8 | LIST0YRS | THISYEARUNITS | SKIPUNSET | BOTH, ROWS3 | LIST8 | LIST0YRS | CUMUNITS | SKIPUNSET | BOTH, 0L, 0L);
-    doRes("FutureCreate", "FutureFund Create", "Econs created from Future Funds", 3, 2, 0, ROWS1 | LIST8 | LIST0YRS | THISYEARUNITS | SKIPUNSET | BOTH, ROWS3 | LIST8 | LIST0YRS | CUMUNITS | SKIPUNSET | BOTH, 0L, 0L);
-    doRes("bothCreate", "bothCreations", "new Econs ceated from  initial funds and future funds", 3, 2, 0, ROWS1 | LIST8 | LIST0YRS | THISYEARUNITS | SKIPUNSET | BOTH, ROWS3 | LIST8 | LIST0YRS | CUMUNITS | SKIPUNSET | BOTH, 0L, 0L);
-    doRes("swapRIncr", "swapRIncr", "Uses of R Incr Swap percent of RC", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
-    doRes("swapSIncr", "swapSIncr", "Uses of S Incr Swap percent of SG", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
-    doRes("swapSDecr", "swapSDecr", "Uses of S Decr Swap percent of SG", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
-    doRes("swapRDecr", "swapRDecr", "Uses of R Decr Swap percent of RC", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
-    doRes("swapRRXchg", "swapRRXchg", "Uses of R Xchg Rcost Swap percent of RC", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
-    doRes("swapRSXchg", "swapRSXchg", "Uses of R Xchg Scost Swap percent of RC", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
-    doRes("swapSSXchg", "swapSSXchg", "Uses of S Xchg Scost Swap percent of RC", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
-    doRes("swapSRXchg", "swapSRXchg", "Uses of S Xchg Rcost Swap percent of RC", 3, 2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
-    doRes(DIED, "died per year", "planets or ships died in a year", 2, 2, 3,
+    doRes(LIVEWORTH, "Live Worth", "Live Worth Value including year end working, reserve: resource, staff, knowledge", 3,2, 0, LIST7 | LIST8 | LIST9 | LIST43210YRS | thisYr | SUM, ROWS1 | LIST7 | LIST8 | LIST9 | LIST43210YRS | THISYEAR | thisYrAve | BOTH,0L ,ROWS3 | LIST43210YRS  | THISYEARUNITS | BOTH | SKIPUNSET);
+    doRes(STARTWORTH, "Starting Worth", "Starting Worth Value including working, reserve: resource, staff, knowledge", 3,2, 0, LIST7 | LIST8 | LIST9 | LIST2YRS | thisYr | sum, ROWS1 | LIST7 | LIST8 | LIST9 | LIST2YRS | THISYEAR | thisYrAve | THISYEARUNITS | BOTH, ROWS2,LIST43210YRS | ROWS3 | CUMUNITS | BOTH) ;
+    doRes(WORTHIFRAC, "PercInitWorth ", "Percent of Initial Worth Value including working, reserve: resource, staff, knowledge", 3,2, 0,LIST7 | LIST8 | LIST9 | THISYEARAVE | SUM,
+        LIST7 | LIST8 | LIST9 |  THISYEARAVE |  BOTH, 0, 0);
+    doRes("yearCreate", "yearCreations", "new Econs ceated from year initial funds", 3,2, 0, ROWS1 | LIST8 | LIST0YRS | THISYEARUNITS | SKIPUNSET | BOTH, ROWS3 | LIST8 | LIST0YRS | CUMUNITS | SKIPUNSET | BOTH, 0L, 0L);
+    doRes("FutureCreate", "FutureFund Create", "Econs created from Future Funds", 3,2, 0, ROWS1 | LIST8 | LIST0YRS | THISYEARUNITS | SKIPUNSET | BOTH, ROWS3 | LIST8 | LIST0YRS | CUMUNITS | SKIPUNSET | BOTH, 0L, 0L);
+    doRes("bothCreate", "bothCreations", "new Econs ceated from  initial funds and future funds", 3,2, 0, ROWS1 | LIST8 | LIST0YRS | THISYEARUNITS | SKIPUNSET | BOTH, ROWS3 | LIST8 | LIST0YRS | CUMUNITS | SKIPUNSET | BOTH, 0L, 0L);
+    doRes("swapRIncr", "swapRIncr", "Uses of R Incr Swap percent of RC", 3,2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
+    doRes("swapSIncr", "swapSIncr", "Uses of S Incr Swap percent of SG", 3,2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
+    doRes("swapSDecr", "swapSDecr", "Uses of S Decr Swap percent of SG", 3,2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
+    doRes("swapRDecr", "swapRDecr", "Uses of R Decr Swap percent of RC", 3,2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
+    doRes("swapRRXchg", "swapRRXchg", "Uses of R Xchg Rcost Swap percent of RC", 3,2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
+    doRes("swapRSXchg", "swapRSXchg", "Uses of R Xchg Scost Swap percent of RC", 3,2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
+    doRes("swapSSXchg", "swapSSXchg", "Uses of S Xchg Scost Swap percent of RC", 3,2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
+    doRes("swapSRXchg", "swapSRXchg", "Uses of S Xchg Rcost Swap percent of RC", 3,2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
+    doRes(DIED, "died per year", "planets or ships died in a year",2,2, 3,
         LIST320YRS | THISYEAR | BOTH | SKIPUNSET,
         ROWS2 | LIST20 | LIST320YRS | CUMUNITS | BOTH | SKIPUNSET, 0, 0L);
-    doRes(DIEDPERCENT, "DIED %", "Percent planets or ships died", 2, 2, 3,
+    doRes(DIEDPERCENT, "DIED %", "Percent planets or ships died",2,2, 3,
         0, 0, 0, 0);
 
-    doRes(DIEDSN4, "DIEDSN4", "died", 2, 2, 3,
+    doRes(DIEDSN4, "DIEDSN4", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDRN4, "DIEDRN3", "died", 2, 2, 3,
+    doRes(DIEDRN4, "DIEDRN3", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN4RM3X5, " DIEDSN4RM3X5", "died", 2, 2, 3,
+    doRes(DIEDSN4RM3X5, " DIEDSN4RM3X5", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN4RM3X4, "DIEDSN4RM3X4", "died", 2, 2, 3,
+    doRes(DIEDSN4RM3X4, "DIEDSN4RM3X4", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSM3X5, "DIEDSM3X5", "died", 2, 2, 3,
+    doRes(DIEDSM3X5, "DIEDSM3X5", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN4RN4, "DIEDSN4RN4", "died", 2, 2, 3,
+    doRes(DIEDSN4RN4, "DIEDSN4RN4", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDRM3X4, "diedSN3RN3", "died", 2, 2, 3,
+    doRes(DIEDRM3X4, "diedSN3RN3", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN3RN3, "diedSN3RN3", "died", 2, 2, 3,
+    doRes(DIEDSN3RN3, "diedSN3RN3", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN3RN2, "DIEDSN3RN2", "died", 2, 2, 3,
+    doRes(DIEDSN3RN2, "DIEDSN3RN2", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN3RM3X4, "DIEDSN3RM3X4", "died", 2, 2, 3,
+    doRes(DIEDSN3RM3X4, "DIEDSN3RM3X4", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN3RM3X3, "DIEDSN3RM3X3", "died", 2, 2, 3,
+    doRes(DIEDSN3RM3X3, "DIEDSN3RM3X3", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN3RN1, "DIEDSN3RN1", "died", 2, 2, 3,
+    doRes(DIEDSN3RN1, "DIEDSN3RN1", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN3RM3X2, "DIEDSN3RM3X2", "died", 2, 2, 3,
+    doRes(DIEDSN3RM3X2, "DIEDSN3RM3X2", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN3RM3X1, "DIEDSN3RM3X1", "died", 2, 2, 3,
+    doRes(DIEDSN3RM3X1, "DIEDSN3RM3X1", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN3RM2X4, "DIEDSN3RM2X4", "died", 2, 2, 3,
+    doRes(DIEDSN3RM2X4, "DIEDSN3RM2X4", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN3RM2X3, "DIEDSN3RM2X3", "died", 2, 2, 3,
+    doRes(DIEDSN3RM2X3, "DIEDSN3RM2X3", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN3RM2X2, "DIEDSN3RM2X2", "died", 2, 2, 3,
+    doRes(DIEDSN3RM2X2, "DIEDSN3RM2X2", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN3RM2X1, "DIEDSN3RM2X1", "died", 2, 2, 3,
+    doRes(DIEDSN3RM2X1, "DIEDSN3RM2X1", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN3RM1X4, "DIEDSN3RM1X4", "died", 2, 2, 3,
+    doRes(DIEDSN3RM1X4, "DIEDSN3RM1X4", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN3RM1X3, "DIEDSN3RM1X3", "died", 2, 2, 3,
+    doRes(DIEDSN3RM1X3, "DIEDSN3RM1X3", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN3RM1X2, "DIEDSN3RM1X2", "died", 2, 2, 3,
+    doRes(DIEDSN3RM1X2, "DIEDSN3RM1X2", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN3RM1X1, "DIEDSN3RM1X1", "died", 2, 2, 3,
+    doRes(DIEDSN3RM1X1, "DIEDSN3RM1X1", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN2RN3, "DIEDSN2RN3", "died", 2, 2, 3,
+    doRes(DIEDSN2RN3, "DIEDSN2RN3", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN2RN2, "DIEDSN2RN2", "died", 2, 2, 3,
+    doRes(DIEDSN2RN2, "DIEDSN2RN2", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN2RM3X4, "DIEDSN2RM3X4", "died", 2, 2, 3,
+    doRes(DIEDSN2RM3X4, "DIEDSN2RM3X4", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN2RM3X3, "DIEDSN2RM3X3", "died", 2, 2, 3,
+    doRes(DIEDSN2RM3X3, "DIEDSN2RM3X3", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN2RN1, "DIEDSN2RN1", "died", 2, 2, 3,
+    doRes(DIEDSN2RN1, "DIEDSN2RN1", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN2RM3X2, "DIEDSN2RM3X2", "died", 2, 2, 3,
+    doRes(DIEDSN2RM3X2, "DIEDSN2RM3X2", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN2RM3X1, "DIEDSN2RM3X1", "died", 2, 2, 3,
+    doRes(DIEDSN2RM3X1, "DIEDSN2RM3X1", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN2RM2X4, "DIEDSN2RM2X4", "died", 2, 2, 3,
+    doRes(DIEDSN2RM2X4, "DIEDSN2RM2X4", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN2RM2X3, "DIEDSN2RM2X3", "died", 2, 2, 3,
+    doRes(DIEDSN2RM2X3, "DIEDSN2RM2X3", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN2RM2X2, "DIEDSN2RM2X2", "died", 2, 2, 3,
+    doRes(DIEDSN2RM2X2, "DIEDSN2RM2X2", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN2RM2X1, "DIEDSN2RM2X1", "died", 2, 2, 3,
+    doRes(DIEDSN2RM2X1, "DIEDSN2RM2X1", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN2RM1X4, "DIEDSN2RM1X4", "died", 2, 2, 3,
+    doRes(DIEDSN2RM1X4, "DIEDSN2RM1X4", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN2RM1X3, "DIEDSN2RM1X3", "died", 2, 2, 3,
+    doRes(DIEDSN2RM1X3, "DIEDSN2RM1X3", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN2RM1X2, "DIEDSN2RM1X2", "died", 2, 2, 3,
+    doRes(DIEDSN2RM1X2, "DIEDSN2RM1X2", "died",2,2, 3,
         LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDSN2RM1X1, "DIEDSN2RM1X1", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSN1RN3, "DIEDSN1RN3", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSN1RN2, "DIEDSN1RN2", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSN1RM3X4, "DIEDSN1RM3X4", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSN1RM3X3, "DIEDSN1RM3X3", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSN1RN1, "DIEDSN1RN1", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSN1RM3X2, "DIEDSN1RM3X2", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSN1RM3X1, "DIEDSN1RM3X1", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSN1RM2X4, "DIEDSN1RM2X4", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSN1RM2X3, "DIEDSN1RM2X3", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSN1RM2X2, "DIEDSN1RM2X2", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSN1RM2X1, "DIEDSN1RM2X1", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSN1RM1X4, "DIEDSN1RM1X4", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSN1RM1X3, "DIEDSN1RM1X3", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSN1RM1X2, "DIEDSN1RM1X2", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM3X4RN3, "DIEDSM3X4RN3", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM3X3RN3, "DIEDSM3X3RN3", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM3X2RN3, "DIEDSM3X2RN3", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM3X1RN3, "DIEDSM3X1RN3", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM2X4RN3, "DIEDSM2X4RN3", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM2X3RN3, "DIEDSM2X3RN3", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM2X2RN3, "DIEDSM2X2RN3", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM2X1RN3, "DIEDSM2X1RN3", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM1X4RN3, "DIEDSM1X4RN3", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM1X3RN3, "DIEDSM1X3RN3", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM1X2RN3, "DIEDSM1X2RN3", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM1X1RN3, "DIEDSM1X1RN3", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM3X4RN2, "DIEDSM3X4RN2", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM3X3RN2, "DIEDSM3X3RN2", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM3X2RN2, "DIEDSM3X2RN2", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM3X1RN2, "DIEDSM3X1RN2", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM2X4RN2, "DIEDSM2X4RN2", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM2X3RN2, "DIEDSM2X3RN2", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM2X2RN2, "DIEDSM2X2RN2", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM2X1RN2, "DIEDSM2X1RN2", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM1X4RN2, "DIEDSM1X4RN2", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM1X3RN2, "DIEDSM1X3RN2", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM1X2RN2, "DIEDSM1X2RN2", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM1X1RN1, "DIEDSM1X1RN1", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM3X4RN1, "DIEDSM3X4RN1", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM3X3RN1, "DIEDSM3X3RN1", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM3X2RN1, "DIEDSM3X2RN1", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM3X1RN1, "DIEDSM3X1RN1", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM2X4RN1, "DIEDSM2X4RN1", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM2X3RN1, "DIEDSM2X3RN1", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM2X2RN1, "DIEDSM2X2RN1", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM2X1RN1, "DIEDSM2X1RN1", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM1X4RN1, "DIEDSM1X4RN1", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM1X3RN1, "DIEDSM1X3RN1", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM1X2RN1, "DIEDSM1X2RN1", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSN1RM1X1, "DIEDSN1RM1X1", "died", 2, 2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes("DeadNegN", "DeadNegSwapN", "Dead Swaps never entered", 2, 2, 3, ROWS1 | LIST3 | LIST20 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST2 | LIST3 | LIST20 | LIST0YRS | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L);
-    doRes("DeadLt5", "DeadLt5", "no more than 15 swaps", 2, 2, 3, ROWS1 | LIST3 | LIST20 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST2 | LIST3 | LIST20 | LIST0YRS | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L);
-    doRes("DeadLt10", "DeadLt10", "no more than 10 swaps", 2, 2, 3, ROWS1 | LIST3 | LIST20 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST2 | LIST3 | LIST20 | LIST0YRS | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L);
-    doRes("DeadLt20", "DeadLt20", "no more than 20 swaps", 2, 2, 3, ROWS1 | LIST3 | LIST20 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST2 | LIST3 | LIST20 | LIST0YRS | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L);
-    doRes("DeadNegProsp", "DeadNegProsp", "Died either R or S had a negative", 2, 2, 3, ROWS1 | LIST3 | LIST20 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST2 | LIST3 | LIST20 | LIST0YRS | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L);
-    doRes("DeadRatioS", "DeadRatioS", "Resource  S values simply too small", 2, 2, 3, ROWS1 | LIST3 | LIST20 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST2 | LIST3 | LIST20 | LIST0YRS | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L);
-    doRes("DeadRatioR", "DeadRatioR", "R values simply too small", 2, 2, 3, ROWS1 | LIST3 | LIST20 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST2 | LIST3 | LIST20 | LIST0YRS | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L);
-    doRes("died", "died", "died from any set of causes", 2, 2, 3, ROWS1 | LIST0 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST7 | LIST8 | LIST9 | CUMUNITS | LISTYRS | BOTH | SKIPUNSET, 0L, 0L);
+    doRes(DIEDSN2RM1X1, "DIEDSN2RM1X1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSN1RN3, "DIEDSN1RN3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSN1RN2, "DIEDSN1RN2", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSN1RM3X4, "DIEDSN1RM3X4", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSN1RM3X3, "DIEDSN1RM3X3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSN1RN1, "DIEDSN1RN1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSN1RM3X2, "DIEDSN1RM3X2", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSN1RM3X1, "DIEDSN1RM3X1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSN1RM2X4, "DIEDSN1RM2X4", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSN1RM2X3, "DIEDSN1RM2X3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSN1RM2X2, "DIEDSN1RM2X2", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSN1RM2X1, "DIEDSN1RM2X1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSN1RM1X4, "DIEDSN1RM1X4", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSN1RM1X3, "DIEDSN1RM1X3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSN1RM1X2, "DIEDSN1RM1X2", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM3X4RN3, "DIEDSM3X4RN3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM3X3RN3, "DIEDSM3X3RN3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM3X2RN3, "DIEDSM3X2RN3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM3X1RN3, "DIEDSM3X1RN3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM2X4RN3, "DIEDSM2X4RN3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM2X3RN3, "DIEDSM2X3RN3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM2X2RN3, "DIEDSM2X2RN3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM2X1RN3, "DIEDSM2X1RN3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM1X4RN3, "DIEDSM1X4RN3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM1X3RN3, "DIEDSM1X3RN3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM1X2RN3, "DIEDSM1X2RN3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM1X1RN3, "DIEDSM1X1RN3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM3X4RN2, "DIEDSM3X4RN2", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM3X3RN2, "DIEDSM3X3RN2", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM3X2RN2, "DIEDSM3X2RN2", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM3X1RN2, "DIEDSM3X1RN2", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM2X4RN2, "DIEDSM2X4RN2", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM2X3RN2, "DIEDSM2X3RN2", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM2X2RN2, "DIEDSM2X2RN2", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM2X1RN2, "DIEDSM2X1RN2", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM1X4RN2, "DIEDSM1X4RN2", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM1X3RN2, "DIEDSM1X3RN2", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM1X2RN2, "DIEDSM1X2RN2", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM1X1RN1, "DIEDSM1X1RN1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM3X4RN1, "DIEDSM3X4RN1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM3X3RN1, "DIEDSM3X3RN1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM3X2RN1, "DIEDSM3X2RN1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM3X1RN1, "DIEDSM3X1RN1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM2X4RN1, "DIEDSM2X4RN1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM2X3RN1, "DIEDSM2X3RN1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM2X2RN1, "DIEDSM2X2RN1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM2X1RN1, "DIEDSM2X1RN1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM1X4RN1, "DIEDSM1X4RN1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM1X3RN1, "DIEDSM1X3RN1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSM1X2RN1, "DIEDSM1X2RN1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes(DIEDSN1RM1X1, "DIEDSN1RM1X1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
+    doRes("DeadNegN", "DeadNegSwapN", "Dead Swaps never entered",2,2, 3, ROWS1 | LIST3 | LIST20 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST2 | LIST3 | LIST20 | LIST0YRS | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L);
+    doRes("DeadLt5", "DeadLt5", "no more than 15 swaps",2,2, 3, ROWS1 | LIST3 | LIST20 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST2 | LIST3 | LIST20 | LIST0YRS | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L);
+    doRes("DeadLt10", "DeadLt10", "no more than 10 swaps",2,2, 3, ROWS1 | LIST3 | LIST20 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST2 | LIST3 | LIST20 | LIST0YRS | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L);
+    doRes("DeadLt20", "DeadLt20", "no more than 20 swaps",2,2, 3, ROWS1 | LIST3 | LIST20 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST2 | LIST3 | LIST20 | LIST0YRS | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L);
+    doRes("DeadNegProsp", "DeadNegProsp", "Died either R or S had a negative",2,2, 3, ROWS1 | LIST3 | LIST20 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST2 | LIST3 | LIST20 | LIST0YRS | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L);
+    doRes("DeadRatioS", "DeadRatioS", "Resource  S values simply too small",2,2, 3, ROWS1 | LIST3 | LIST20 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST2 | LIST3 | LIST20 | LIST0YRS | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L);
+    doRes("DeadRatioR", "DeadRatioR", "R values simply too small",2,2, 3, ROWS1 | LIST3 | LIST20 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST2 | LIST3 | LIST20 | LIST0YRS | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L);
+    doRes("died", "died", "died from any set of causes",2,2, 3, ROWS1 | LIST0 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST7 | LIST8 | LIST9 | CUMUNITS | LISTYRS | BOTH | SKIPUNSET, 0L, 0L);
     doRes(MISSINGNAME, "missing name", "tried an unknown name", 6, 0, list0 | cumUnits | curUnits | curAve | cumAve | both, 0, 0, 0);
-    doRes(DEADRATIO, "diedRatio", "died,average mult year last/initial worth death", 2, 2, 3, ROWS1 | LIST0 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST7 | LIST8 | LIST9 | CUMUNITS | LISTYRS | BOTH | SKIPUNSET, 0L, 0L);
-    doRes(DEADHEALTH, "died health", "died,average negative minimum health at death", 2, 2, 3, ROWS1 | LIST0 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST7 | LIST8 | LIST9 | CUMUNITS | LISTYRS | BOTH | SKIPUNSET, 0L, 0L);
-    doRes(DEADFERTILITY, "died fertility", "died,average negative minimum fertility at death", 2, 2, 3, ROWS1 | LIST0 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST7 | LIST8 | LIST9 | CUMUNITS | LISTYRS | BOTH | SKIPUNSET, 0L, 0L);
-    doRes(DEADSWAPSMOVED, "diedSwapMoves", "died,average Swap Moves at death", 2, 2, 3, ROWS1 | LIST0 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST7 | LIST8 | LIST9 | CUMUNITS | LISTYRS | BOTH | SKIPUNSET, 0L, 0L);
-    doRes(DEADSWAPSCOSTS, "diedSwapCosts", "died,average SwapCosts at death", 2, 2, 3, ROWS1 | LIST0 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST7 | LIST8 | LIST9 | CUMUNITS | LISTYRS | BOTH | SKIPUNSET, 0L, 0L);
-    doRes(DEADTRADED, "diedTraded", "died,even after trading", 2, 2, 3, ROWS1 | LIST0 | LIST3 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST2 | LIST3 | LIST0 | CUMUNITS | LISTYRS | BOTH | SKIPUNSET, 0L, 0L);
+    doRes(DEADRATIO, "diedRatio", "died,average mult year last/initial worth death",2,2, 3, ROWS1 | LIST0 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST7 | LIST8 | LIST9 | CUMUNITS | LISTYRS | BOTH | SKIPUNSET, 0L, 0L);
+    doRes(DEADHEALTH, "died health", "died,average negative minimum health at death",2,2, 3, ROWS1 | LIST0 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST7 | LIST8 | LIST9 | CUMUNITS | LISTYRS | BOTH | SKIPUNSET, 0L, 0L);
+    doRes(DEADFERTILITY, "died fertility", "died,average negative minimum fertility at death",2,2, 3, ROWS1 | LIST0 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST7 | LIST8 | LIST9 | CUMUNITS | LISTYRS | BOTH | SKIPUNSET, 0L, 0L);
+    doRes(DEADSWAPSMOVED, "diedSwapMoves", "died,average Swap Moves at death",2,2, 3, ROWS1 | LIST0 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST7 | LIST8 | LIST9 | CUMUNITS | LISTYRS | BOTH | SKIPUNSET, 0L, 0L);
+    doRes(DEADSWAPSCOSTS, "diedSwapCosts", "died,average SwapCosts at death",2,2, 3, ROWS1 | LIST0 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST7 | LIST8 | LIST9 | CUMUNITS | LISTYRS | BOTH | SKIPUNSET, 0L, 0L);
+    doRes(DEADTRADED, "diedTraded", "died,even after trading",2,2, 3, ROWS1 | LIST0 | LIST3 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST2 | LIST3 | LIST0 | CUMUNITS | LISTYRS | BOTH | SKIPUNSET, 0L, 0L);
 
     doRes(SGMTGC, "SGmtgCosts", "SG Maintenance,Travel,Growth Costs / RCSGBal", 6, 1, 1, (LISTYRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
     doRes(RCMTGC, "RCmtgCosts", "RC Maintenance,Travel,Growth Costs / RCSGBal", 6, 1, 1, (LISTYRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
@@ -2590,16 +2590,16 @@ class EM {
     doRes(RCRAWMC, "RCMaintCosts", "RC Maintenance Costs/ RCSGBal", 6, 1, 1, (LISTYRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
     doRes(SRAWMC, "SMaintCosts", "S Maintenance Costs/ RCSGBal", 6, 1, 1, (LISTYRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
     doRes(GRAWMC, "GMaintCosts", "G Maintenance Costs/ RCSGBal", 6, 1, 1, (LISTYRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
-    doRes(SGRAWMC, "SGMaintCosts", "SG Maintenance Costs/ RCSGBal", 2, 1, 1, (LIST0YRS | LIST8 | ROWS2 | ROWS3 | curAve | both), 0, 0, 0);
+    doRes(SGRAWMC, "SGMaintCosts", "SG Maintenance Costs/ RCSGBal",2, 1, 1, (LIST0YRS | LIST8 | ROWS2 | ROWS3 | curAve | both), 0, 0, 0);
     doRes(RCRAWMC, "RCRawMaintCosts", "RC Maintenance Costs/ RCSGBal", 6, 1, 1, (LISTYRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
     doRes(RCfrac, "RC/yr Worth", "RC / yr Worth", 6, 1, 1, (LISTYRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
     doRes(SGfrac, "SG/yr Worth", "SG / yr Worth", 6, 1, 1, (LISTYRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
     //chgd KNOWLEDGEB MANUALSfrac NEWKNOWLEDGEfrac COMMONKNOWLEDGEfrac KNOWLEDGEINCR NEWKNOWLEDGEINCR MANUALSINCR COMMONKNOWLEDGEINCR
-    doRes(POORKNOWLEDGEEFFECT, "Knowledge Effect", "Increase in costs due to limited knowledge(ignorance)", 2, 1, 1, (LIST0YRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
-    doRes(POORHEALTHEFFECT, "Health Effect", "Increase in costs due to limited Health", 2, 1, 1, (LIST0YRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
-    doRes(NEWKNOWLEDGEFRAC, "New KnowledgeFrac", "New knowledge / Knowledge ", 2, 3, 1, (LIST0YRS | curAve | both), 0, 0, 0);
-    doRes(KNOWLEDGEFRAC, "Knowledge Frac", "Knowledge worth / year worth", 2, 3, 1, (LIST0YRS | curAve | both), 0, 0, 0);
-    doRes(COMMONKNOWLEDGEFRAC, "Common Knowledge", "Common knowledge/knowledge", 2, 3, 1, (LIST7 | LIST0YRS | curAve | both), 0, 0, 0);
+    doRes(POORKNOWLEDGEEFFECT, "Knowledge Effect", "Increase in costs due to limited knowledge(ignorance)",2, 1, 1, (LIST0YRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
+    doRes(POORHEALTHEFFECT, "Health Effect", "Increase in costs due to limited Health",2, 1, 1, (LIST0YRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
+    doRes(NEWKNOWLEDGEFRAC, "New KnowledgeFrac", "New knowledge / Knowledge ",2, 3, 1, (LIST0YRS | curAve | both), 0, 0, 0);
+    doRes(KNOWLEDGEFRAC, "Knowledge Frac", "Knowledge worth / year worth",2, 3, 1, (LIST0YRS | curAve | both), 0, 0, 0);
+    doRes(COMMONKNOWLEDGEFRAC, "Common Knowledge", "Common knowledge/knowledge",2, 3, 1, (LIST7 | LIST0YRS | curAve | both), 0, 0, 0);
 
     doRes(MANUALSFRAC, "Manualsfrac", "Manuals /knowledge", 4, 3, 1, (LISTYRS | LIST7 | curAve | both), 0, 0, 0);
     doRes(WORTHINCR, "PercIncWorth", "Percent worth increase per year", 3, 4, 1, (LIST0YRS | curAve | both), 0, 0, 0);
@@ -2607,88 +2607,89 @@ class EM {
     doRes(NEWKNOWLEDGEINCR, "incNewKnowledge", "Percent New Knowledge Incr/Year", 4, 3, 1, (LIST7 | LISTYRS | curAve | both), 0, 0, 0);
     doRes(COMMONKNOWLEDGEINCR, "incCommonKnowledge", "Percent Common Knowledge increase by year", 4, 3, 1, (LIST7 | LISTYRS | curAve | both), 0, 0, 0);
     doRes(MANUALSINCR, "PercIncrManuals", "Percent Manuals increase by years", 4, 3, 1, (LIST7 | LISTYRS | curAve | both), 0, 0, 0);
-    doRes(INCRAVAILFRAC5, "IncrAvailFrac5", "Percent increase in avail frac after trade at favor 5", 2, 3, 2, (LIST41YRS | curAve | both | SKIPUNSET ), ROWS1 | LIST41YRS | THISYEAR | BOTH | SKIPUNSET , ROWS2 | LIST41YRS | THISYEARUNITS | CUMUNITS | BOTH | SKIPUNSET , 0);
-    doRes(INCRAVAILFRAC4, "IncrAvailFrac4", "Percent increase in avail frac after trade at favor 4", 2, 3, 2, DUP, 0, 0, 0);
-    doRes(INCRAVAILFRAC3, "IncrAvailFrac3", "Percent increase in avail frac after trade at favor 3", 2, 3, 2, DUP, 0, 0, 0);
-    doRes(INCRAVAILFRAC2, "IncrAvailFrac2", "Percent increase in avail frac after trade at favor 2",  2, 3, 2, DUP, 0, 0, 0);
-    doRes(INCRAVAILFRAC1, "IncrAvailFrac1", "Percent increase in avail frac after trade at favor 1", 2, 3, 2, DUP, 0, 0, 0);
-    doRes(INCRAVAILFRAC0, "IncrAvailFrac0", "Percent increase in avail frac after trade at favor 0",  2, 3, 2, DUP, 0, 0, 0);
-    doRes(INCRAVAILFRACa, "IncrAvailFraca", "Percent increase in avail frac after trade  at any trade",  2, 3, 2, DUP, 0, 0, 0);
-    doRes(INCRAVAILFRACb, "IncrAvailFracb", "Percent increase in avail frac after trade rejected at trade failure", 2, 3, 2, DUP, 0, 0, 0);
-    doRes(INCRAVAILFRACc, "IncrAvailFracc", "Percent increase in avail frac after trade lost at trade failure",  2, 3, 2, DUP, 0, 0, 0);
+    doRes(INCRAVAILFRAC5, "IncrAvailFrac5", "Percent increase in avail frac after trade at favor 5",2, 3,2, (LIST41YRS | THISYEARAVE | both | SKIPUNSET ), ROWS1 | LIST41YRS |  CURAVE| BOTH | SKIPUNSET , ROWS2 | LIST41YRS | THISYEARUNITS | CUMUNITS | BOTH | SKIPUNSET , 0);
+    doRes(INCRAVAILFRAC4, "IncrAvailFrac4", "Percent increase in avail frac after trade at favor 4",2, 3,2, DUP, 0, 0, 0);
+    doRes(INCRAVAILFRAC3, "IncrAvailFrac3", "Percent increase in avail frac after trade at favor 3",2, 3,2, DUP, 0, 0, 0);
+    doRes(INCRAVAILFRAC2, "IncrAvailFrac2", "Percent increase in avail frac after trade at favor 2",2, 3,2, DUP, 0, 0, 0);
+    doRes(INCRAVAILFRAC1, "IncrAvailFrac1", "Percent increase in avail frac after trade at favor 1",2, 3,2, DUP, 0, 0, 0);
+    doRes(INCRAVAILFRAC0, "IncrAvailFrac0", "Percent increase in avail frac after trade at favor 0",2, 3,2, DUP, 0, 0, 0);
+    doRes(INCRAVAILFRACa, "IncrAvailFraca", "Percent increase in avail frac after trade  at any trade",2, 3,2, DUP, 0, 0, 0);
+    doRes(INCRAVAILFRACb, "IncrAvailFracb", "Percent increase in avail frac after trade rejected at trade failure",2, 3,2, DUP, 0, 0, 0);
+    doRes(INCRAVAILFRACc, "IncrAvailFracc", "Percent increase in avail frac after trade lost at trade failure",2, 3,2, DUP, 0, 0, 0);
 
-    doRes(TRADEFIRSTRECEIVE, "First Received", "First amount received in a trade",  2, 3, 2, DUP, 0, 0, 0);
-    doRes(TRADELASTRECEIVE, "Last Received", "Final amount received in a trade",  2, 3, 2, DUP, 0, 0, 0);
-    doRes(TRADEFIRSTGAVE, "First given", "First amount given in trade", 2, 3, 2, DUP, 0, 0, 0);
-    doRes(TRADELASTGAVE, "Last Given", "Final amount given in trade",  2, 3, 2, DUP, 0, 0, 0);
-    doRes(TRADESTRATFIRSTRECEIVE, "StrategicFirstReceived", "First strategic amount received in trade", 2, 3, 2, DUP, 0, 0, 0);
-    doRes(TRADESTRATLASTRECEIVE, "StrategicLastReceived", "Final strategic amount eeceived in trade",  2, 3, 2, DUP, 0, 0, 0);
-    doRes(TRADESTRATFIRSTGAVE, "TradeStrategicFirstGave", "First amount given in trade",  2, 3, 2, DUP, 0, 0, 0);
-    doRes(TRADESTRATLASTGAVE, "TradeStrategicLastGave", "Final Amount given in trade",  2, 3, 2, DUP, 0, 0, 0);
-    doRes(BEFORETRADEWORTH, "BeforeTradeWorth", "Worth before A trade",  2, 3, 2, DUP, 0, 0, 0);
-    doRes(AFTERTRADEWORTH, "AfterTradeWorth", "Worth after a trade",  2, 3, 2, DUP, 0, 0, 0);
-    doRes(TRADEWORTHINCRPERCENT, "TradeWorthIncrPercent", "Percent increase in Worth after trade",  2, 3, 2, DUP, 0, 0, 0);
-    doRes(TradeFirstStrategicGoal, "FirstStrategicGoal", "First Strategic Goal",  2, 3, 2, DUP, 0, 0, 0);
-    doRes(TradeLastStrategicGoal, "LastStrategicGoal", "Strategic Goal after trade",  2, 3, 2, DUP, 0, 0, 0);
-    doRes(TradeFirstStrategicValue, "FirstStrategicValue", "First Strategic Value",  2, 3, 2, DUP, 0, 0, 0);
-    doRes(TradeLastStrategicValue, "LastStrategicValue", "Strategic Value after trade",  2, 3, 2, DUP, 0, 0, 0);
-     doRes("WTRADEDINCRF5", "incrWFav5Trade", "Percent Years worth increase at Favor5/start year worth",  2, 3, 2, DUP, 0, 0, 0);
-    doRes("WTRADEDINCRF4", "incrWFav4Trade", "Percent Years worth increase at Favor4/start year worth",  2, 3, 2, DUP, 0, 0, 0);
-    doRes("WTRADEDINCRF3", "incrWFav3Trade", "Percent Years worth increase at Favor3/start year worth",   2, 3, 2, DUP, 0, 0, 0);
-    doRes("WTRADEDINCRF2", "incrWFav2Trade", "Percent Years worth increase at Favor2/start year worth",   2, 3, 2, DUP, 0, 0, 0);
-    doRes("WTRADEDINCRF1", "incrWFav1Trade", "Years worth increase at Favor1/start year worth",   2, 3, 2, DUP, 0, 0, 0);
-    doRes("WTRADEDINCRF0", "incrWFav0Trade", "Percent Years worth increase at Favor0/start year worth",  2, 3, 2, DUP, 0, 0, 0);
-    doRes("WTRADEDINCRMULT", "incrWTrade", "Percent Years worth increase at multiple trades this year/start year worth",   2, 3, 2, DUP, 0, 0, 0);
-    doRes("WTRADEDINCRSOS", "incrWSOSTrade", "Percent Years worth increase at an planet SOS flag trade this year/start year worth",  2, 3, 2, DUP, 0, 0, 0);
-    doRes("WREJTRADEDPINCR", "incrWRejectedTrade", "Percent Worth incr if the other rejected the trade/start yr worth",  2, 3, 2, DUP, 0, 0, 0);
-    doRes("WLOSTTRADEDINCR", "incrWLostTrade", "Percent Worth incr if other rejected the trade/start yr worth",   2, 3, 2, DUP, 0, 0, 0);
-    doRes("UNTRADEDWINCR", "DEAD no trade Incr", "Percent no trade offered yearly growth including working, reserve: resource, staff, knowledge",  2, 3, 2, DUP, 0, 0, 0);
-    doRes("CRITICALRECEIPTSFRAC", "CritReceiptsFrac", "Fraction of Critical receipts Worth/start totWorth ",  2, 3, 2, DUP, 0, 0, 0);
-    //   doRes("CRITICALRECEIPTSFRACWORTHMULT", "CritTradeFracMult", "Fraction of critical units received with Multiple Trades this /start totWorth  ",  2, 3, 2, DUP, 0, 0, 0);
-    doRes("CRITICALRECEIPTSFRACSYFAV5", "CritReceiptsFracYF5", "Percent of critical receipts worth favor5 Trades/start year worth",   2, 3, 2, DUP, 0, 0, 0);
-    doRes("CRITICALRECEIPTSFRACSYFAV4", "CritReceiptsFracYF4", "Percent of critical receipts worth favor4 Trades/start year worth",  2, 3, 2, DUP, 0, 0, 0);
-    doRes("CRITICALRECEIPTSFRACSYFAV3", "CritReceiptsFracYF3", "Percent of critical receipts worth favor3 Trades/start year worth",  2, 3, 2, DUP, 0, 0, 0);
-    doRes("CRITICALRECEIPTSFRACSYFAV2", "CritReceiptsFracYF2", "Percent of critical receipts worth favor2 Trades/start year worth",  2, 3, 2, DUP, 0, 0, 0);
-    doRes("CRITICALRECEIPTSFRACSYFAV1", "CritReceiptsFracYF1", "Percent of critical receipts worth favor1 Trades/start year worth",  2, 3, 2, DUP, 0, 0, 0);
-    doRes("CRITICALRECEIPTSFRACSYFAV0", "CritReceiptsFracYF0", "Percent of critical receipts worth favor0 Trades/start year worth",   2, 3, 2, DUP, 0, 0, 0);
-    doRes("CRITICALRECEIPTSFRACSYFAVA", "CritReceiptsFracYF0", "Percent of critical receipts worth favor0-5 Trades/start year worth",  2, 3, 2, DUP, 0, 0, 0);
-    doRes("CRITICALRECEIPTSFRADROPT5", "CritTradeFracDropF5", "Percent of traded critical receipts worth favor5 Trades/start barter C receipts  ",   2, 3, 2, DUP, 0, 0, 0);
-    doRes("CRITICALRECEIPTSFRADROPT4", "CritTradeFracDropF4", "Percent of traded critical receipts worth favor4 Trades/start barter C receipts  ",   2, 3, 2, DUP, 0, 0, 0);
-    doRes("CRITICALRECEIPTSFRADROPT3", "CritTradeFracDropF3", "Percent of traded critical receipts worth favor3 Trades/start barter C receipts  ",  2, 3, 2, DUP, 0, 0, 0);
-    doRes("CRITICALRECEIPTSFRADROPT2", "CritTradeFracDropF2", "Percent of traded critical receipts worth favor2 Trades/start barter C receipts  ",   2, 3, 2, DUP, 0, 0, 0);
-    doRes("CRITICALRECEIPTSFRADROPT1", "CritTradeFracDropF1", "Percent of traded critical receipts worth favor1 Trades/start barter C receipts  ",   2, 3, 2, DUP, 0, 0, 0);
-    doRes("CRITICALRECEIPTSFRADROPT0", "CritTradeFracDropF0", "Percent of traded critical receipts worth favor0 Trades/start barter C receipts  ",   2, 3, 2, DUP, 0, 0, 0);
-    doRes("CRITICALRECEIPTSFRACWORTHF3", "CritTradeFracF3", "Percent of critical receipts worth favor3 Trades/start totWorth  ",  2, 3, 2, DUP, 0, 0, 0);
-    doRes("CRITICALRECEIPTSFRACWORTHF2", "CritTradeFracF2", "Percent of critical receipts worth favor2 Trades/start totWorth  ",  2, 3, 2, DUP, 0, 0, 0);
-    doRes("CRITICALRECEIPTSFRACWORTHF1", "CritTradeFracF1", "Percent of critical receipts worth favor1 Trades/start totWorth  ",   2, 3, 2, DUP, 0, 0, 0);
-    doRes("WORTHAYRNOTRADEINCR", "IncWorth aYr NoTrade", "Percent Year increase Worrth/worth if no trades this year",   2, 3, 2, DUP, 0, 0, 0);
-    doRes("WORTH2YRNOTRADEINCR", "IncWorth 2Yr No Trade", "Percent Year increase Worrth/worth if  2 years of no trades",  2, 3, 2, DUP, 0, 0, 0);
-    doRes("WORTH3YRNOTRADEINCR", "IncWorth 3Yrs No Trade", "Percent Year increase Worth/worth if 3 or more years of no trades",   2, 3, 2, DUP, 0, 0, 0);
-    doRes("WORTHAYRTRADEINCR", "IncWorth aYr Trade", "Percent Year increase Worrth/worth if a year of trades",  2, 3, 2, DUP, 0, 0, 0);
-    doRes("WORTH2YRTRADEINCR", "IncWorth 2Yr Trade", "Percent Year increase Worrth/worth if  2 succesive year of trades",   2, 3, 2, DUP, 0, 0, 0);
-    doRes("WORTH3YRTRADEINCR", "IncWorth 3Yr Trade", "Percent Year increase Worrth/worth if 3 years of trades",   2, 3, 2, DUP, 0, 0, 0);
-    //  doRes("WORTH1YRNOTRADEINCR", "IncWorth 1Yr No Trade", "Percent Year increase Worrth/worth if at least 1 succesive year of trades", 2, 2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LISTYRS | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST4 | THISYEARUNITS , 0);
+    doRes(TRADEFIRSTRECEIVE, "First Received", "First amount received in a trade",2, 3,2, DUP, 0, 0, 0);
+    doRes(TRADELASTRECEIVE, "Last Received", "Final amount received in a trade",2, 3,2, DUP, 0, 0, 0);
+    doRes(TRADEFIRSTGAVE, "First given", "First amount given in trade",2, 3,2, DUP, 0, 0, 0);
+    doRes(TRADELASTGAVE, "Last Given", "Final amount given in trade",2, 3,2, DUP, 0, 0, 0);
+    doRes(TRADESTRATFIRSTRECEIVE, "StrategicFirstReceived", "First strategic amount received in trade",2, 3,2, DUP, 0, 0, 0);
+    doRes(TRADESTRATLASTRECEIVE, "StrategicLastReceived", "Final strategic amount eeceived in trade",2, 3,2, DUP, 0, 0, 0);
+    doRes(TRADESTRATFIRSTGAVE, "TradeStrategicFirstGave", "First amount given in trade",2, 3,2, DUP, 0, 0, 0);
+    doRes(TRADESTRATLASTGAVE, "TradeStrategicLastGave", "Final Amount given in trade",2, 3,2, DUP, 0, 0, 0);
+    doRes(BEFORETRADEWORTH, "BeforeTradeWorth", "Worth before A trade",2, 3,2, DUP, 0, 0, 0);
+    doRes(AFTERTRADEWORTH, "AfterTradeWorth", "Worth after a trade",2, 3,2, DUP, 0, 0, 0);
+    doRes(TRADEWORTHINCRPERCENT, "TradeWorthIncrPercent", "Percent increase in Worth after trade",2, 3,2, DUP, 0, 0, 0);
+    doRes(TradeFirstStrategicGoal, "FirstStrategicGoal", "First Strategic Goal",2, 3,2, DUP, 0, 0, 0);
+    doRes(TradeLastStrategicGoal, "LastStrategicGoal", "Strategic Goal after trade",2, 3,2, DUP, 0, 0, 0);
+    doRes(TradeFirstStrategicValue, "FirstStrategicValue", "First Strategic Value",2, 3,2, DUP, 0, 0, 0);
+    doRes(TradeLastStrategicValue, "LastStrategicValue", "Strategic Value after trade",2, 3,2, DUP, 0, 0, 0);
+     doRes("WTRADEDINCRF5", "incrWFav5Trade", "Percent Years worth increase at Favor5/start year worth",2, 3,2, DUP, 0, 0, 0);
+    doRes("WTRADEDINCRF4", "incrWFav4Trade", "Percent Years worth increase at Favor4/start year worth",2, 3,2, DUP, 0, 0, 0);
+    doRes("WTRADEDINCRF3", "incrWFav3Trade", "Percent Years worth increase at Favor3/start year worth",2, 3,2, DUP, 0, 0, 0);
+    doRes("WTRADEDINCRF2", "incrWFav2Trade", "Percent Years worth increase at Favor2/start year worth",2, 3,2, DUP, 0, 0, 0);
+    doRes("WTRADEDINCRF1", "incrWFav1Trade", "Years worth increase at Favor1/start year worth",2, 3,2, DUP, 0, 0, 0);
+    doRes("WTRADEDINCRF0", "incrWFav0Trade", "Percent Years worth increase at Favor0/start year worth",2, 3,2, DUP, 0, 0, 0);
+    doRes("WTRADEDINCRMULT", "incrWTrade", "Percent Years worth increase at multiple trades this year/start year worth",2, 3,2, DUP, 0, 0, 0);
+    doRes("WTRADEDINCRSOS", "incrWSOSTrade", "Percent Years worth increase at an planet SOS flag trade this year/start year worth",2, 3,2, DUP, 0, 0, 0);
+    doRes("WREJTRADEDPINCR", "incrWRejectedTrade", "Percent Worth incr if the other rejected the trade/start yr worth",2, 3,2, DUP, 0, 0, 0);
+    doRes("WLOSTTRADEDINCR", "incrWLostTrade", "Percent Worth incr if other rejected the trade/start yr worth",2, 3,2, DUP, 0, 0, 0);
+    doRes("UNTRADEDWINCR", "DEAD no trade Incr", "Percent no trade offered yearly growth including working, reserve: resource, staff, knowledge",2, 3,2, DUP, 0, 0, 0);
+    doRes("CRITICALRECEIPTSFRAC", "CritReceiptsFrac", "Fraction of Critical receipts Worth/start totWorth ",2, 3,2, DUP, 0, 0, 0);
+    //   doRes("CRITICALRECEIPTSFRACWORTHMULT", "CritTradeFracMult", "Fraction of critical units received with Multiple Trades this /start totWorth  ",2, 3,2, DUP, 0, 0, 0);
+    doRes("CRITICALRECEIPTSFRACSYFAV5", "CritReceiptsFracYF5", "Percent of critical receipts worth favor5 Trades/start year worth",2, 3,2, DUP, 0, 0, 0);
+    doRes("CRITICALRECEIPTSFRACSYFAV4", "CritReceiptsFracYF4", "Percent of critical receipts worth favor4 Trades/start year worth",2, 3,2, DUP, 0, 0, 0);
+    doRes("CRITICALRECEIPTSFRACSYFAV3", "CritReceiptsFracYF3", "Percent of critical receipts worth favor3 Trades/start year worth",2, 3,2, DUP, 0, 0, 0);
+    doRes("CRITICALRECEIPTSFRACSYFAV2", "CritReceiptsFracYF2", "Percent of critical receipts worth favor2 Trades/start year worth",2, 3,2, DUP, 0, 0, 0);
+    doRes("CRITICALRECEIPTSFRACSYFAV1", "CritReceiptsFracYF1", "Percent of critical receipts worth favor1 Trades/start year worth",2, 3,2, DUP, 0, 0, 0);
+    doRes("CRITICALRECEIPTSFRACSYFAV0", "CritReceiptsFracYF0", "Percent of critical receipts worth favor0 Trades/start year worth",2, 3,2, DUP, 0, 0, 0);
+    doRes("CRITICALRECEIPTSFRACSYFAVA", "CritReceiptsFracYF0", "Percent of critical receipts worth favor0-5 Trades/start year worth",2, 3,2, DUP, 0, 0, 0);
+    doRes("CRITICALRECEIPTSFRADROPT5", "CritTradeFracDropF5", "Percent of traded critical receipts worth favor5 Trades/start barter C receipts  ",2, 3,2, DUP, 0, 0, 0);
+    doRes("CRITICALRECEIPTSFRADROPT4", "CritTradeFracDropF4", "Percent of traded critical receipts worth favor4 Trades/start barter C receipts  ",2, 3,2, DUP, 0, 0, 0);
+    doRes("CRITICALRECEIPTSFRADROPT3", "CritTradeFracDropF3", "Percent of traded critical receipts worth favor3 Trades/start barter C receipts  ",2, 3,2, DUP, 0, 0, 0);
+    doRes("CRITICALRECEIPTSFRADROPT2", "CritTradeFracDropF2", "Percent of traded critical receipts worth favor2 Trades/start barter C receipts  ",2, 3,2, DUP, 0, 0, 0);
+    doRes("CRITICALRECEIPTSFRADROPT1", "CritTradeFracDropF1", "Percent of traded critical receipts worth favor1 Trades/start barter C receipts  ",2, 3,2, DUP, 0, 0, 0);
+    doRes("CRITICALRECEIPTSFRADROPT0", "CritTradeFracDropF0", "Percent of traded critical receipts worth favor0 Trades/start barter C receipts  ",2, 3,2, DUP, 0, 0, 0);
+    doRes("CRITICALRECEIPTSFRACWORTHF3", "CritTradeFracF3", "Percent of critical receipts worth favor3 Trades/start totWorth  ",2, 3,2, DUP, 0, 0, 0);
+    doRes("CRITICALRECEIPTSFRACWORTHF2", "CritTradeFracF2", "Percent of critical receipts worth favor2 Trades/start totWorth  ",2, 3,2, DUP, 0, 0, 0);
+    doRes("CRITICALRECEIPTSFRACWORTHF1", "CritTradeFracF1", "Percent of critical receipts worth favor1 Trades/start totWorth  ",2, 3,2, DUP, 0, 0, 0);
+     doRes("WTRADEDINCR", "WTradedIncr", "Percent Years worth increase/start year worth",2,2, 1, (LIST431YRS | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST431YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
+    doRes("WORTHAYRNOTRADEINCR", "IncWorth aYr NoTrade", "Percent Year increase Worrth/worth if no trades this year",2, 3,2, DUP, 0, 0, 0);
+    doRes("WORTH2YRNOTRADEINCR", "IncWorth 2Yr No Trade", "Percent Year increase Worrth/worth if  2 years of no trades",2, 3,2, DUP, 0, 0, 0);
+    doRes("WORTH3YRNOTRADEINCR", "IncWorth 3Yrs No Trade", "Percent Year increase Worth/worth if 3 or more years of no trades",2, 3,2, DUP, 0, 0, 0);
+    doRes("WORTHAYRTRADEINCR", "IncWorth aYr Trade", "Percent Year increase Worrth/worth if a year of trades",2, 3,2, DUP, 0, 0, 0);
+    doRes("WORTH2YRTRADEINCR", "IncWorth 2Yr Trade", "Percent Year increase Worrth/worth if  2 succesive year of trades",2, 3,2, DUP, 0, 0, 0);
+    doRes("WORTH3YRTRADEINCR", "IncWorth 3Yr Trade", "Percent Year increase Worrth/worth if 3 years of trades",2, 3,2, DUP, 0, 0, 0);
+    //  doRes("WORTH1YRNOTRADEINCR", "IncWorth 1Yr No Trade", "Percent Year increase Worrth/worth if at least 1 succesive year of trades",2,2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LISTYRS | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST4 | THISYEARUNITS , 0);
     doRes(SWAPRINCRCOST, "Swap RIncr Cost", "Fraction of R INCR swap cost/sum of R units", 3, 4, 1, list8 | curAve | curUnits | both | skipUnset, 0, 0, 0);
     doRes(SWAPSINCRCOST, "Swap SIncr Cost", "Fraction of SR INCR swap cost/sum of S units", 3, 4, 1, list8 | curAve | curUnits | both | skipUnset, 0, 0, 0);
     doRes(SWAPRDECRCOST, "Swap RDECR Cost", "Fraction of R DECR swap cost/sum of R units", 3, 4, 1, list8 | curAve | curUnits | both | skipUnset, 0, 0, 0);
     doRes(SWAPSDECRCOST, "Swap SDecr Cost", "Fraction of S Decr swap cost/sum of S units", 3, 4, 1, list8 | curAve | curUnits | both | skipUnset, 0, 0, 0);
     doRes(SWAPRXFERCOST, "Swap RXfer Cost", "Fraction of R XFER swap cost/sum of R units", 3, 4, 1, list8 | curAve | curUnits | both | skipUnset, 0, 0, 0);
     doRes(SWAPSXFERCOST, "Swap SXfer Cost", "Fraction of S XFER swap cost/sum of R units", 3, 4, 1, list8 | curAve | curUnits | both | skipUnset, 0, 0, 0);
-    doRes("EmergFF", "EmergFF", "emergency resource/staff sums tranfer resource to FutureFund", 2, 2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST6 | THISYEARUNITS, 0);
-    doRes("SizeFF", "SizeFF", "Size resource/staff sums tranfer resource to FutureFund", 2, 2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | THISYEARUNITS, 0);
-    doRes("FutureFundSaved", "FutureFundsSaved", "Total resource/staff sums tranfered to FutureFund", 2, 2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST6 | THISYEARUNITS, 0);
-    doRes("REmergFF1", "R Emerg FutureFund1", "At emergency1 level of resource/staff sums tranfer resource to FutureFund", 2, 2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST6 | THISYEARUNITS, 0);;
-    doRes("SEmergFF1", "S Emerg FutureFund1", "At emergency1 level of staff/resource sums tranfer resource to FutureFund", 2, 2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST6 | THISYEARUNITS, 0);
-    doRes("REmergFF2", "R Emerg FutureFund2", "At emergency2 level of resource/staff sums tranfer resource to FutureFund", 2, 2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST6 | THISYEARUNITS, 0);
-    doRes("SEmergFF2", "S Emerg FutureFund2", "At emergency2 level of staff/resource sums tranfer Staff to FutureFund", 2, 2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST6 | THISYEARUNITS, 0);
-    doRes("RcEmergFF1", "Rc Emerg FutureFund1", "At emergency1 level of resource/staff sums tranfer resource to FutureFund", 2, 2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST6 | THISYEARUNITS, 0);
-    doRes("SgEmergFF1", "Sg Emerg FutureFund1", "At emergency1 level of staff/resource sums tranfer resource to FutureFund", 2, 2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST6 | THISYEARUNITS, 0);
-    doRes("RcEmergFF2", "Rc Emerg FutureFund2", "At emergency2 level of resource/staff sums tranfer resource to FutureFund", 2, 2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST6 | THISYEARUNITS, 0);
-    doRes("SgEmergFF2", "Sg Emerg FutureFund2", "At emergency2 level of staff/resource sums tranfer Staff to FutureFund", 2, 2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST6 | THISYEARUNITS, 0);
-    doRes("SizeFFr", "SizeFutureFund", "At size level of resource/staff sums tranfer resource  to FutureFund", 2, 2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST6 | THISYEARUNITS, 0);
-    doRes("SizeFFs", "SizeFutureFund", "At size level of resource/staff sums tranfer staff  to FutureFund", 2, 2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST6 | THISYEARUNITS, 0);
-    doRes("RSwapFF", "R SwapEmergFF", "At emergency level of resource/staff sums during swaps tranfer resource to FutureFund", 2, 2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST6 | THISYEARUNITS, 0);
-    doRes("SSwapFF", "S SwapEmergFF", "At emergency level of staff/resource sums during swaps tranfer Staff to FutureFund", 2, 2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST6 | THISYEARUNITS, 0);
+    doRes("EmergFF", "EmergFF", "emergency resource/staff sums tranfer resource to FutureFund",2,2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST6 | THISYEARUNITS, 0);
+    doRes("SizeFF", "SizeFF", "Size resource/staff sums tranfer resource to FutureFund",2,2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | THISYEARUNITS, 0);
+    doRes("FutureFundSaved", "FutureFundsSaved", "Total resource/staff sums tranfered to FutureFund",2,2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST6 | THISYEARUNITS, 0);
+    doRes("REmergFF1", "R Emerg FutureFund1", "At emergency1 level of resource/staff sums tranfer resource to FutureFund",2,2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST6 | THISYEARUNITS, 0);;
+    doRes("SEmergFF1", "S Emerg FutureFund1", "At emergency1 level of staff/resource sums tranfer resource to FutureFund",2,2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST6 | THISYEARUNITS, 0);
+    doRes("REmergFF2", "R Emerg FutureFund2", "At emergency2 level of resource/staff sums tranfer resource to FutureFund",2,2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST6 | THISYEARUNITS, 0);
+    doRes("SEmergFF2", "S Emerg FutureFund2", "At emergency2 level of staff/resource sums tranfer Staff to FutureFund",2,2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST6 | THISYEARUNITS, 0);
+    doRes("RcEmergFF1", "Rc Emerg FutureFund1", "At emergency1 level of resource/staff sums tranfer resource to FutureFund",2,2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST6 | THISYEARUNITS, 0);
+    doRes("SgEmergFF1", "Sg Emerg FutureFund1", "At emergency1 level of staff/resource sums tranfer resource to FutureFund",2,2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST6 | THISYEARUNITS, 0);
+    doRes("RcEmergFF2", "Rc Emerg FutureFund2", "At emergency2 level of resource/staff sums tranfer resource to FutureFund",2,2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST6 | THISYEARUNITS, 0);
+    doRes("SgEmergFF2", "Sg Emerg FutureFund2", "At emergency2 level of staff/resource sums tranfer Staff to FutureFund",2,2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST6 | THISYEARUNITS, 0);
+    doRes("SizeFFr", "SizeFutureFund", "At size level of resource/staff sums tranfer resource  to FutureFund",2,2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST6 | THISYEARUNITS, 0);
+    doRes("SizeFFs", "SizeFutureFund", "At size level of resource/staff sums tranfer staff  to FutureFund",2,2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST6 | THISYEARUNITS, 0);
+    doRes("RSwapFF", "R SwapEmergFF", "At emergency level of resource/staff sums during swaps tranfer resource to FutureFund",2,2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST6 | THISYEARUNITS, 0);
+    doRes("SSwapFF", "S SwapEmergFF", "At emergency level of staff/resource sums during swaps tranfer Staff to FutureFund",2,2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST6 | THISYEARUNITS, 0);
  doRes(CRISISINCR, "IncWorthCrisis", "Percent Year increase Worrth/worth a year with a catastrophy", 3, 4, 1, LIST29YRS | curAve | both | skipUnset, 0, 0, 0);
     doRes(CRISIS2INCR, "IncWorthCrisis", "Percent Year increase Worrth/worth a second year after a  catastrophy", 3, 4, 1, LIST29YRS | curAve | both | skipUnset, 0, 0, 0);
     doRes(CRISIS3INCR, "IncWorthCrisis", "Percent Year increase Worrth/worth a third year after a  catastrophy", 3, 4, 1, LIST29YRS | curAve | both | skipUnset, 0, 0, 0);
@@ -2705,44 +2706,44 @@ class EM {
     doRes("sCatNegDecay", "s Catast ReduceDecay", "staff catastrophy bonus neg unit value  ave per catastrophy", 1, 1, 3, (LIST2 | LIST9 | skipUnset | curAve), 0, 0, 0);
     doRes("sCatBonusManuals", "s Catast Bonus Manuals", "catastrophy bonus manuals add value ave per catastrophy", 1, 1, 0, (LIST2 | LIST9 | skipUnset | curAve), 0, 0, 0);
     doRes("sCatBonusNewKnowledge", "s Catast Bonus New Knowledge", "catastrophy bonus newKnowledge add value ave per catastrophy", 1, 1, 0, (LIST2 | LIST9 | skipUnset | THISYEARAVE), LIST8 | SKIPUNSET | CURAVE, 0, 0);
-    doRes("WTRADEDINCR", "WIncr", "Percent Years worth increase/start year worth", 2, 2, 1, (LIST431YRS | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST431YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
    
-    doRes("DEADWTRADEDINCR", "DEAD trade Incr", "DEAD Percent Years worth increase/start year worth", 2, 2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
-    doRes("DEADWTRADEDINCRF5", "DEAD fav5 trade Incr", "DEAD Percent Years worth increase at Favor5/start year worth", 2, 2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
-    doRes("DEADWTRADEDINCRF4", "DEAD fav4 trade Incr", "Percent Years worth increase at Favor4/start year worth", 2, 2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
-    doRes("DEADWTRADEDINCRF3", "DEAD fav3 trade Incr", "Percent Years worth increase at Favor3/start year worth", 2, 2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
-    doRes("DEADWTRADEDINCRF2", "DEAD fav2 trade Incr", "Percent Years worth increase at Favor2/start year worth", 2, 2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
-    doRes("DEADWTRADEDINCRF1", "DEAD fav1 trade Incr", "Years worth increase at Favor1/start year worth", 2, 2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
-    doRes("DEADWTRADEDINCRF0", "DEAD fav0 trade Incr", "Percent Years worth increase at Favor0/start year worth", 2, 2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
-    doRes("DEADWTRADEDINCRMULT", "DEAD TradeWIncr", "Percent Years worth increase at trades this year/start year worth", 2, 2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
-    doRes("DEADWTRADEDINCRSOS", "DEAD SOS trade incr Worth", "Percent Years worth increase at an planet SOS flag trade this year/start year worth", 2, 2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
-    doRes("DEADWREJTRADEDINCR", "DEAD Trade incr rejected", "Percent Worth incr if the other rejected the trade/start yr worth", 2, 2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
-    doRes("DEADWLOSTTRADEDINCR", "DEAD Trade Incr Lost", "Percent Worth incr if other rejected the trade/start yr worth", 2, 2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
-    doRes("DEADUNTRADEDWINCR", "DEAD incrWorthNoTrade", "Percent no trade offered yearly growth including working, reserve: resource, staff, knowledge", 2, 2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
-    doRes("WTRADEDF5", "fav5 received/init worth", "Percent received at favor 5 trade/initial worth", 2, 2, 2, (LIST431YRS | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST431YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
-    doRes("WTRADEDF4", "fav4 received/init worth", "Percent received at favor 4 trade/initial worth", 2, 2, 2, (LIST431YRS | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST431YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
-    //   doRes("WTRADEDF4", "fav4 received/init worth","Frac initial offer at favor 4 trade/initial offer",2, 2, 2,(list1 |LIST4 | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);;
-    doRes("WTRADEDF3", "fav3 received/init worth", "Percent received at favor 3 trade/initial worth", 2, 2, 2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
-    doRes("WTRADEDF2", "fav2 received/init worth", "Percent received at favor 2 trade/initial worth", 2, 2, 2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4 | CUMAVE | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
-    doRes("WTRADEDF1", "fav1 received/init worth", "Percent received at favor 1 trade/initial worth", 2, 2, 2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4 | CUMAVE | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
-    doRes("WTRADED0", "fav0 received/init worth", "Percent received worthAtFavr0/initial worth", 2, 2, 2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4 | CUMAVE | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
-    doRes("WTRADEDOS", "SOS received/Init Worth", "Percent received worthAtSOS/initial worth", 2, 2, 2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4 | CUMAVE | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
-    doRes("WTRADERCDPERCENT", "received/init worth", "Percent my clan received/initial worth", 2, 2, 2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4 | CUMAVE | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
-    doRes("WTRADERECEIVED", "received worth", "received canonical worth", 2, 2, 2, (list1 | LIST4 | thisYr | BOTH | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4  | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
-    doRes("WOTRADEGAVFRAC", "other gave/initial worth", "other received canonical worth/initial", 2, 2, 2,(list1 | LIST4 | thisYr | BOTH | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4  | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
-    doRes("WOTRADEGAVE", "other gave worth", "Percent worthAtSOS/initial worth", 2, 2, 2, (list1 | LIST4 | thisYr | BOTH | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4  | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
-    doRes("WREJTRADE", "wRejectedTrade", "Percent lost worth  when econ rejected the trade", 2, 2, 2, (list1 | LIST4 | thisYr | BOTH | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4  | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
-    doRes("WLOSTTRADE", "wLostTrade", "Percent lost worth if other clan lost the trade", 2, 2, 2, (list1 | LIST4 | thisYr | BOTH | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4  | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
-    doRes("MISSEDTRADE", "wMissedTrade", "Percent missed/no trade ", 2, 2, 2, (list1 | LIST4 | thisYr | BOTH | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4  | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
-    doRes("TRADEDRCDF5", "W rcd fav5", "Percent Worth received when trade at fav5/initial worth", 2, 2, 2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4 | SKIPUNSET | CUMAVE | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
-    doRes("TRADEDRCDF4", " W rcd fav4", "Percent Worth received when trade at fav4/initial worth", 2, 2, 2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4 | SKIPUNSET | CUMAVE | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
-    doRes("TRADEDRCDF3", "W rcd fav3", "Percent Worth received when trade at fav3/initial worth", 2, 2, 2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4 | SKIPUNSET | CUMAVE | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
-    doRes("TRADEDRCDF2", "W rcd fav2", "Percent Worth received when trade at fav2/initial worth", 2, 2, 2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4 | SKIPUNSET | CUMAVE | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
-    doRes("TRADEDRCDF1", "W rcd fav1", "Percent Worth received when trade at fav1/initial worth", 2, 2, 2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4 | SKIPUNSET | CUMAVE | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
-    doRes("TRADEDRCDF0", "W rcd fav0", "Percent Worth received when trade at fav 0/initial worth", 2, 2, 2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4 | SKIPUNSET | CUMAVE | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
-    doRes("TRADEDRCD", "W rcd", "Percent Worth received when trade/initial worth", 2, 2, 2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4 | SKIPUNSET | CUMAVE | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
-    doRes("TRADES%", "TRADES %", "Percent of trades per economy", 2, 2, 2, (list1 | LIST4 | thisYr | BOTH | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4  | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
-    doRes("DEADTRADES%", "Dead Trades %", "Percent of trades per dead economy", 2,2,2, (list1 | thisYr | BOTH | SKIPUNSET), (list1 | curUnitAve | CUMAVE | BOTH | SKIPUNSET), LIST0 | SKIPUNSET | CUMAVE | BOTH, 0);
+   
+    doRes("DEADWTRADEDINCR", "DEAD trade Incr", "DEAD Percent Years worth increase/start year worth",2,2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
+    doRes("DEADWTRADEDINCRF5", "DEAD fav5 trade Incr", "DEAD Percent Years worth increase at Favor5/start year worth",2,2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
+    doRes("DEADWTRADEDINCRF4", "DEAD fav4 trade Incr", "Percent Years worth increase at Favor4/start year worth",2,2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
+    doRes("DEADWTRADEDINCRF3", "DEAD fav3 trade Incr", "Percent Years worth increase at Favor3/start year worth",2,2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
+    doRes("DEADWTRADEDINCRF2", "DEAD fav2 trade Incr", "Percent Years worth increase at Favor2/start year worth",2,2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
+    doRes("DEADWTRADEDINCRF1", "DEAD fav1 trade Incr", "Years worth increase at Favor1/start year worth",2,2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
+    doRes("DEADWTRADEDINCRF0", "DEAD fav0 trade Incr", "Percent Years worth increase at Favor0/start year worth",2,2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
+    doRes("DEADWTRADEDINCRMULT", "DEAD TradeWIncr", "Percent Years worth increase at trades this year/start year worth",2,2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
+    doRes("DEADWTRADEDINCRSOS", "DEAD SOS trade incr Worth", "Percent Years worth increase at an planet SOS flag trade this year/start year worth",2,2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
+    doRes("DEADWREJTRADEDINCR", "DEAD Trade incr rejected", "Percent Worth incr if the other rejected the trade/start yr worth",2,2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
+    doRes("DEADWLOSTTRADEDINCR", "DEAD Trade Incr Lost", "Percent Worth incr if other rejected the trade/start yr worth",2,2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
+    doRes("DEADUNTRADEDWINCR", "DEAD incrWorthNoTrade", "Percent no trade offered yearly growth including working, reserve: resource, staff, knowledge",2,2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
+    doRes("WTRADEDF5", "fav5 received/init worth", "Percent received at favor 5 trade/initial worth",2,2,2, (LIST431YRS | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST431YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
+    doRes("WTRADEDF4", "fav4 received/init worth", "Percent received at favor 4 trade/initial worth",2,2,2, (LIST431YRS | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST431YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
+    //   doRes("WTRADEDF4", "fav4 received/init worth","Frac initial offer at favor 4 trade/initial offer",2,2,2,(list1 |LIST4 | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);;
+    doRes("WTRADEDF3", "fav3 received/init worth", "Percent received at favor 3 trade/initial worth",2,2,2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
+    doRes("WTRADEDF2", "fav2 received/init worth", "Percent received at favor 2 trade/initial worth",2,2,2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4 | CUMAVE | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
+    doRes("WTRADEDF1", "fav1 received/init worth", "Percent received at favor 1 trade/initial worth",2,2,2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4 | CUMAVE | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
+    doRes("WTRADED0", "fav0 received/init worth", "Percent received worthAtFavr0/initial worth",2,2,2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4 | CUMAVE | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
+    doRes("WTRADEDOS", "SOS received/Init Worth", "Percent received worthAtSOS/initial worth",2,2,2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4 | CUMAVE | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
+    doRes("WTRADERCDPERCENT", "received/init worth", "Percent my clan received/initial worth",2,2,2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4 | CUMAVE | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
+    doRes("WTRADERECEIVED", "received worth", "received canonical worth",2,2,2, (list1 | LIST4 | thisYr | BOTH | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4  | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
+    doRes("WOTRADEGAVFRAC", "other gave/initial worth", "other received canonical worth/initial",2,2,2,(list1 | LIST4 | thisYr | BOTH | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4  | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
+    doRes("WOTRADEGAVE", "other gave worth", "Percent worthAtSOS/initial worth",2,2,2, (list1 | LIST4 | thisYr | BOTH | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4  | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
+    doRes("WREJTRADE", "wRejectedTrade", "Percent lost worth  when econ rejected the trade",2,2,2, (list1 | LIST4 | thisYr | BOTH | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4  | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
+    doRes("WLOSTTRADE", "wLostTrade", "Percent lost worth if other clan lost the trade",2,2,2, (list1 | LIST4 | thisYr | BOTH | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4  | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
+    doRes("MISSEDTRADE", "wMissedTrade", "Percent missed/no trade ",2,2,2, (list1 | LIST4 | thisYr | BOTH | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4  | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
+    doRes("TRADEDRCDF5", "W rcd fav5", "Percent Worth received when trade at fav5/initial worth",2,2,2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4 | SKIPUNSET | CUMAVE | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
+    doRes("TRADEDRCDF4", " W rcd fav4", "Percent Worth received when trade at fav4/initial worth",2,2,2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4 | SKIPUNSET | CUMAVE | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
+    doRes("TRADEDRCDF3", "W rcd fav3", "Percent Worth received when trade at fav3/initial worth",2,2,2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4 | SKIPUNSET | CUMAVE | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
+    doRes("TRADEDRCDF2", "W rcd fav2", "Percent Worth received when trade at fav2/initial worth",2,2,2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4 | SKIPUNSET | CUMAVE | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
+    doRes("TRADEDRCDF1", "W rcd fav1", "Percent Worth received when trade at fav1/initial worth",2,2,2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4 | SKIPUNSET | CUMAVE | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
+    doRes("TRADEDRCDF0", "W rcd fav0", "Percent Worth received when trade at fav 0/initial worth",2,2,2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4 | SKIPUNSET | CUMAVE | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
+    doRes("TRADEDRCD", "W rcd", "Percent Worth received when trade/initial worth",2,2,2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4 | SKIPUNSET | CUMAVE | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
+    doRes("TRADES%", "TRADES %", "Percent of trades per economy",2,2,2, (list1 | LIST4 | thisYr | BOTH | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4  | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
+    doRes("DEADTRADES%", "Dead Trades %", "Percent of trades per dead economy",2,2,2, (list1 | thisYr | BOTH | SKIPUNSET), (list1 | curUnitAve | CUMAVE | BOTH | SKIPUNSET), LIST0 | SKIPUNSET | CUMAVE | BOTH, 0);
     doRes(RCTBAL, "RCBal/TBal", "Percent RC balance/tbal", 1, 1, 0, (LIST7 | skipUnset | curAve), 0, 0, 0);
     doRes(RCBAL, "RCBal", "RC balance", 1, 1, 0, (LIST7 | curAve), 0, 0, 0);
     doRes("SGTBAL", "SG Balance", "Percent SG balance/worth", 1, 1, 0, (LIST7 | curAve), 0, 0, 0);
@@ -2780,7 +2781,7 @@ class EM {
     doRes("SGTGROWTHCOSTS3", "SGGCosts ", "SG Growth Cost/SG Bal", 1, 1, 0, (LIST7 | skipUnset | curAve), 0, 0, 0);
     doRes("RCTREQMAINTC3", "RcRQMCosts ", "rc req maintCsts / bal", 1, 1, 0, (LIST7 | skipUnset | curAve), 0, 0, 0);
     doRes("SGTREQMAINTC3", "SgRQMCosts ", "sg req maintCsts / bal", 1, 1, 0, (LIST7 | skipUnset | curAve), 0, 0, 0);
-    doRes("RCTMAINTC3", "RCMCosts ", "rc maintCsts / bal",2, 2, 2, (LIST11 | skipUnset | curAve), 0, 0, 0);
+    doRes("RCTMAINTC3", "RCMCosts ", "rc maintCsts / bal",2,2,2, (LIST11 | skipUnset | curAve), 0, 0, 0);
     doRes("SGTMAINTC3", "SGMCosts ", "sg maintCsts / bal", 1, 1, 0, (LIST7 | skipUnset | curAve), 0, 0, 0);
     doRes("RCTTRAVC3", "RCTCosts ", "rc travelCsts / bal", 1, 1, 0, (LIST7 | skipUnset | curAve), 0, 0, 0);
     doRes("SGTTRAVC3", "SGTCosts ", "sg travelCsts / bal", 1, 1, 0, (LIST7 | skipUnset | curAve), 0, 0, 0);
@@ -2788,18 +2789,18 @@ class EM {
     doRes("SGTRAWGROWTHCOSTS3", "sgRawGrowthCsts ", "% s req growthCsts / bal", 1, 1, 0, (LIST7 | skipUnset | curAve), 0, 0, 0);
     doRes("RCTMTG3", "rc mtgCsts ", "r mtgCsts / bal", 1, 1, 0, (LIST7 | skipUnset | curAve), 0, 0, 0);
     doRes("SGTMTG3", "sg mtgCsts ", "s mtgCsts / bal", 1, 1, 0, (LIST7 | skipUnset | curAve), 0, 0, 0);
-    doRes("INCRGSWAPCOSTSB3", "SwapBalCosts", "balance cost involved in repurposing material by Incr to help sectors with inadequate resources", 2, 6, 2, (LIST11 | curUnits | skipUnset), 0, 0, 0);
-    doRes("DECRGSWAPCOSTS", "DecrSwapBalCosts", "balance cost involved in repurposing material by Decr to help sectors with inadequate resources", 2, 6, 2, (LIST11 | curUnits | skipUnset), 0, 0, 0);
-    doRes("RXFERGSWAPCOSTS", "RXferSwapCosts", "balance cost involved in repurposing material by Xfer to help sectors with inadequate resources", 2, 6, 2, (LIST11 | curUnits | skipUnset), 0, 0, 0);
-    doRes("SXFERGSWAPCOSTSB", "SXferSwapCosts", "balance cost involved in repurposing material by Xfer to help sectors with inadequate resources", 2, 6, 2, (LIST11 | curUnits | skipUnset), 0, 0, 0);
-    doRes("GROWTHSWAP", "growthSwapBalCosts", "% growth loop costs involved in repurposing material to help sectors with inadequate resources", 2, 6, 2, (LIST11 | curUnits | skipUnset), 0, 0, 0);
-    doRes("HEALTHSWAP", "HealthSwapBalCosts", "% health loop costs involved in repurposing material to help sectors with inadequate resources", 2, 6, 2, (LIST11 | curUnits | skipUnset), 0, 0, 0);
-// doRes(rWORTH,"Worth", "IGNORE Value including year end working, reserve: resource, staff, knowledge", 6, 2, (cur | curUnits | curAve | sum | both), (LIST14 | curUnitAve | cur | curUnits | both | sum), 0, 0);
+    doRes("INCRGSWAPCOSTSB3", "SwapBalCosts", "balance cost involved in repurposing material by Incr to help sectors with inadequate resources",2, 6,2, (LIST11 | curUnits | skipUnset), 0, 0, 0);
+    doRes("DECRGSWAPCOSTS", "DecrSwapBalCosts", "balance cost involved in repurposing material by Decr to help sectors with inadequate resources",2, 6,2, (LIST11 | curUnits | skipUnset), 0, 0, 0);
+    doRes("RXFERGSWAPCOSTS", "RXferSwapCosts", "balance cost involved in repurposing material by Xfer to help sectors with inadequate resources",2, 6,2, (LIST11 | curUnits | skipUnset), 0, 0, 0);
+    doRes("SXFERGSWAPCOSTSB", "SXferSwapCosts", "balance cost involved in repurposing material by Xfer to help sectors with inadequate resources",2, 6,2, (LIST11 | curUnits | skipUnset), 0, 0, 0);
+    doRes("GROWTHSWAP", "growthSwapBalCosts", "% growth loop costs involved in repurposing material to help sectors with inadequate resources",2, 6,2, (LIST11 | curUnits | skipUnset), 0, 0, 0);
+    doRes("HEALTHSWAP", "HealthSwapBalCosts", "% health loop costs involved in repurposing material to help sectors with inadequate resources",2, 6,2, (LIST11 | curUnits | skipUnset), 0, 0, 0);
+// doRes(rWORTH,"Worth", "IGNORE Value including year end working, reserve: resource, staff, knowledge", 6,2, (cur | curUnits | curAve | sum | both), (LIST14 | curUnitAve | cur | curUnits | both | sum), 0, 0);
     rende4 = e4;
   }
 
   static int[] yrs1 = {0, 1};
-  static int[] yrs2 = {0, 1, 8, 15, 22, 29, 36}; //position of age starts
+  static int[] yrs2 = {0, 1, 8, 15,22, 29, 36}; //position of age starts
   
 
   /** define method calls creating output lines in the results array 

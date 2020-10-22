@@ -6855,7 +6855,7 @@ public class Assets {
         double tradeAvailIncrPercent = (postTradeAvail - preTradeAvail) * 100 / preTradeAvail;
         tW = new DoTotalWorths();  // in Assets.CashFlow.Barter
         tWTotWorth = tW.getTotWorth();
-        // double bTotalWorth = btW.getTotWorth();
+        btWTotWorth = btW.getTotWorth();
         double worthIncrPercent = (tWTotWorth - btWTotWorth) * 100 / btWTotWorth;
 
         retOffer.set2Values(ec, btWTotWorth, tWTotWorth); // needed in TradeRecord SearchRecord
