@@ -249,8 +249,8 @@ class EM {
   double[][] catastrophyBonusYears = {{8.}, {12.}};  // 2 - 25
   static double[][] mCatastrophyBonusYears = {{02., 25.0}, {1., 25.}};  // 
   double[][] catastrophyBonusYearsBias = {{1.6}, {1.9}}; // adds to the divisor year into bonus units
-  static double[][] mCatastrophyBonusYearsBias = {{.5, 5.}, {5.}};
-  double[][] catastrophyBonusGrowthValue = {{.4}, {.4}};  // unit values .2 - .7  *.5,
+  static double[][] mCatastrophyBonusYearsBias = {{.5, 15.}, {.5, 15.}};
+  double[][] catastrophyBonusGrowthValue = {{.9}, {.9}};  // unit values .2 - .7  *.5,
   static double[][] mCatastrophyBonusGrowthValue = {{.2, 2.}, {.2, .7}};
   double[][] catastrophyBonusDecayMultSumSectors = {{.00005}, {.00005}};
   static double[][] mCatastrophyBonusDecayMultSumSectors = {{.00002, .0002}, {.00005, .0002}};
@@ -749,10 +749,10 @@ class EM {
   static double[][] mPriorityRandAdditions = {{.3, 2.}, {.3, 2.}};
   double[][] manualEfficiencyMult = {{.02}, {.02}}; // .01 - .08
   static double[][] mManualEfficiencyMult = {{.01, .09}, {.01, 2.}}; // .01 - .08
-  double[][] gRGrowthMult1 = {{.05}, {.05}}; // higher growth .03 - .1
+  double[][] gRGrowthMult1 = {{.1}, {.1}}; // higher growth .03 - .1
   static double[][] mGRGrowthMult1 = {{.03, .1}, {.01, .05}}; // higher growth .03 - .1
-  double[][] gRGrowthMult2 = {{.02}, {.02}}; // lower growth .01 - .06;
-  static double[][] mGRGrowthMult2 = {{.01, .06}, {.01, .06}};
+  double[][] gRGrowthMult2 = {{.2}, {.2}}; // lower growth .01 - .06;
+  static double[][] mGRGrowthMult2 = {{.01, .6}, {.01, .6}};
   double[][] userCatastrophyFreq = {{.2, .3, .2, .3, .4}, {.1, .2, .3, .2, .4}};
   static double[][] mUserCatastrophyFreq = {{.0, .7}, {.0, .7}};
   double[][] gameUserCatastrophyMult = {{.6, .6, .6, .6, .6}, {.6, .6, .6, .6, .6}};
@@ -877,6 +877,7 @@ class EM {
 
   void makeRS(double[][][][] rs4) {
     rs = new double[5][][][];
+    //make the table
     for (int aa = 0; aa < 5; aa++) {
       rs[aa] = new double[2][][];
       for (int ab = 0; ab < 2; ab++) {
@@ -886,6 +887,7 @@ class EM {
         }
       }
     }
+    //now set the table elements
     for (int aa = 0; aa < 5; aa++) {
       for (int ab = 0; ab < 2; ab++) {
         for (int ac = 0; ac < 2; ac++) {
@@ -936,18 +938,18 @@ class EM {
   double[] fracPriorityInGrowth = {.5, .5};  //mult priority in growth calc and percent to frac
   static double[][] mFracPriorityInGrowth = {{.1, .9}, {.1, .9}};
   double[] resourceGrowth = {1., .002}; // growth per work
-  static double[][] mResourceGrowth = {{.01, 2.}, {0.0002, .01}};
+  static double[][] mResourceGrowth = {{.01, 2.}, {0.002, .1}};
   // decay mining cumulative related to each years growth
   double[] resourceGrowthDecay = {.0000006, .0000001};
   // decay mining cumulative related to each years growth
-  static double[][] mResourceGrowthDecay = {{.0000003, .0000009}, {.0000003, .0000009}};
+  static double[][] mResourceGrowthDecay = {{.0000003, .0000009}, {.0000001, .0000009}};
   double[] cargoGrowth = {0.000001, .00000001};
-  static double[][] mCargoGrowth = {{0.0000001, 0.00009}, {0.000000001, 0.0000009}};
+  static double[][] mCargoGrowth = {{0.0000001, 0.00009}, {0.000000001, 0.000009}};
   // cargo decay use resourceGrowthDecay
   double[] staffGrowth = {1., .002}; // growth per work
   static double[][] mStaffGrowth = {{.01, 2.}, {0.0002, .01}};
   double[] staffGrowthDecay = {.0000002, .0000003};
-  double[][] mStaffGrowthDecay = {{.00000005, .0000003}, {.00000005, .0000003}};
+  double[][] mStaffGrowthDecay = {{.00000005, .000005}, {.00000003, .000003}};
   double[] travelGrowth = {.0015, .0025}; // this multiplies against work
   static double[][] mTravelGrowth = {{.0001, .001}, {.0001, .01}}; //
   double[] guestsGrowth = {0.000001, .00000001};
