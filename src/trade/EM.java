@@ -2615,16 +2615,16 @@ class EM {
     doRes(INCRAVAILFRACb, "IncrAvailFracb", "Percent increase in avail frac after trade rejected at trade failure", 2, 3, 2, DUP, 0, 0, 0);
     doRes(INCRAVAILFRACc, "IncrAvailFracc", "Percent increase in avail frac after trade lost at trade failure",  2, 3, 2, DUP, 0, 0, 0);
 
-    doRes(TRADEFIRSTRECEIVE, "First Given", "Percent increase in avail frac after trade at no trade",  2, 3, 2, DUP, 0, 0, 0);
-    doRes(TRADELASTRECEIVE, "Last Received", "Percent increase in avail frac after trade at no trade",  2, 3, 2, DUP, 0, 0, 0);
+    doRes(TRADEFIRSTRECEIVE, "First Received", "First amount received in a trade",  2, 3, 2, DUP, 0, 0, 0);
+    doRes(TRADELASTRECEIVE, "Last Received", "Final amount received in a trade",  2, 3, 2, DUP, 0, 0, 0);
     doRes(TRADEFIRSTGAVE, "First given", "First amount given in trade", 2, 3, 2, DUP, 0, 0, 0);
-    doRes(TRADELASTGAVE, "Last Given", "First amount given in trade",  2, 3, 2, DUP, 0, 0, 0);
+    doRes(TRADELASTGAVE, "Last Given", "Final amount given in trade",  2, 3, 2, DUP, 0, 0, 0);
     doRes(TRADESTRATFIRSTRECEIVE, "StrategicFirstReceived", "First strategic amount received in trade", 2, 3, 2, DUP, 0, 0, 0);
-    doRes(TRADESTRATLASTRECEIVE, "StrategicLastReceived", "Last strategic amount eeceived in trade",  2, 3, 2, DUP, 0, 0, 0);
+    doRes(TRADESTRATLASTRECEIVE, "StrategicLastReceived", "Final strategic amount eeceived in trade",  2, 3, 2, DUP, 0, 0, 0);
     doRes(TRADESTRATFIRSTGAVE, "TradeStrategicFirstGave", "First amount given in trade",  2, 3, 2, DUP, 0, 0, 0);
-    doRes(TRADESTRATLASTGAVE, "TradeStrategicLastGave", "Amount given in trade",  2, 3, 2, DUP, 0, 0, 0);
-    doRes(BEFORETRADEWORTH, "BeforeTradeWorth", "Worth before any trade",  2, 3, 2, DUP, 0, 0, 0);
-    doRes(AFTERTRADEWORTH, "AfterTradeWorth", "Worth after trade",  2, 3, 2, DUP, 0, 0, 0);
+    doRes(TRADESTRATLASTGAVE, "TradeStrategicLastGave", "Final Amount given in trade",  2, 3, 2, DUP, 0, 0, 0);
+    doRes(BEFORETRADEWORTH, "BeforeTradeWorth", "Worth before A trade",  2, 3, 2, DUP, 0, 0, 0);
+    doRes(AFTERTRADEWORTH, "AfterTradeWorth", "Worth after a trade",  2, 3, 2, DUP, 0, 0, 0);
     doRes(TRADEWORTHINCRPERCENT, "TradeWorthIncrPercent", "Percent increase in Worth after trade",  2, 3, 2, DUP, 0, 0, 0);
     doRes(TradeFirstStrategicGoal, "FirstStrategicGoal", "First Strategic Goal",  2, 3, 2, DUP, 0, 0, 0);
     doRes(TradeLastStrategicGoal, "LastStrategicGoal", "Strategic Goal after trade",  2, 3, 2, DUP, 0, 0, 0);
@@ -3410,6 +3410,8 @@ class EM {
         long[][] resiii = resI[rn][ICUM];
         long[] resiic = resI[rn][ICUM][CCONTROLD];
         int c = 0, ageIx = 0;
+        // use the previous locks at res2 if DUP is in the first lock this rn
+        // there can be a long string of DUP, always use the last no DUP
         if((resI[rn][ICUM][CCONTROLD][LOCKS0 + 0] & DUP) == 0L){
          res2 = resI[rn];
       }        
@@ -3421,6 +3423,7 @@ class EM {
         myUnset = unset = resI[rn][ICUR0 + ageIx * 7][CCONTROLD][ISSET] < 1; // flag for age
         myValid = valid = resI[rn][ICUR0 + ageIx * 7][CCONTROLD][IVALID];
         depth = resI[rn][ICUR0 + ageIx * 7][CCONTROLD][IVALID];
+        // set lla true to force a print below
         boolean lla = (rn > (rende4 - 2) ? true
             : (rn == RCGLT10PERCENT) ? true
                 : (rn == RCTGROWTHPERCENT) ? true
@@ -3444,8 +3447,8 @@ class EM {
    * @param resExt this is the detail and (tip text)
    * @param rn defined number of the stat called in order
    * @param row next row in the display table
-   * @param aop the key to fit locks in resI
-   * @param ageIx the age catagory of the item
+   * @param aop the key to fit the locks in resI
+   * @param ageIx the age category of the item
    * @return next row
    */
   public int putRows(JTable table, String[] resExt, int rn, int row, long aop, int ageIx) {
@@ -3477,7 +3480,7 @@ class EM {
       long haveRows = 0L;
       didSum = false; // initialize didSum, remember sum across locks
       // process each LOCKS0-3 thru each command and list not zero
-      // use previous hlMp if this lock has no list
+      // use previous hlMp (LISTs) if this lock has no list
       if (putRowsPrint5Count++ < 12) {
         System.out.println(">>>>>>putRows5 count=" + putRowsPrint5Count + " haveDM=" + haveDM + " haveLM=" + haveLM + " rn=" + rn + " <<<<<<");
       }

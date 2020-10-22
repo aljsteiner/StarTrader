@@ -2970,49 +2970,42 @@ public class StarTrader extends javax.swing.JFrame {
                 .addComponent(statsCtlButtonRun1Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
               .addGroup(statsLayout.createSequentialGroup()
                 .addGap(6, 6, 6)
-                .addComponent(statsCtlButtonRun5Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-              .addGroup(statsLayout.createSequentialGroup()
-                .addGap(2, 2, 2)
-                .addComponent(statsCtlButtonRun20Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-              .addGroup(statsLayout.createSequentialGroup()
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(statsCtlButtonRun10Yr, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-            .addComponent(statsField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(statsField, javax.swing.GroupLayout.PREFERRED_SIZE, 649, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(statsCtlButtonRun5Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
           .addGroup(statsLayout.createSequentialGroup()
-            .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-              .addGroup(statsLayout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(statsButton1))
-              .addGroup(statsLayout.createSequentialGroup()
-                .addGap(290, 290, 290)
-                .addComponent(statsButton7))
-              .addGroup(statsLayout.createSequentialGroup()
-                .addGap(170, 170, 170)
-                .addComponent(statsButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-              .addGroup(statsLayout.createSequentialGroup()
-                .addGap(210, 210, 210)
-                .addComponent(statsButton15))
-              .addGroup(statsLayout.createSequentialGroup()
-                .addGap(250, 250, 250)
-                .addComponent(statsButton6))
-              .addGroup(statsLayout.createSequentialGroup()
-                .addGap(130, 130, 130)
-                .addComponent(statsButton3))
-              .addGroup(statsLayout.createSequentialGroup()
-                .addGap(250, 250, 250)
-                .addComponent(statsButton16))
-              .addGroup(statsLayout.createSequentialGroup()
-                .addGap(290, 290, 290)
-                .addComponent(statsButton17))
-              .addGroup(statsLayout.createSequentialGroup()
-                .addGap(210, 210, 210)
-                .addComponent(statsButton5)))
-            .addGap(0, 0, Short.MAX_VALUE)))
+            .addGap(50, 50, 50)
+            .addComponent(statsButton1))
+          .addGroup(statsLayout.createSequentialGroup()
+            .addGap(290, 290, 290)
+            .addComponent(statsButton7))
+          .addGroup(statsLayout.createSequentialGroup()
+            .addGap(170, 170, 170)
+            .addComponent(statsButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+          .addGroup(statsLayout.createSequentialGroup()
+            .addGap(210, 210, 210)
+            .addComponent(statsButton15))
+          .addGroup(statsLayout.createSequentialGroup()
+            .addGap(250, 250, 250)
+            .addComponent(statsButton6))
+          .addGroup(statsLayout.createSequentialGroup()
+            .addGap(130, 130, 130)
+            .addComponent(statsButton3))
+          .addGroup(statsLayout.createSequentialGroup()
+            .addGap(250, 250, 250)
+            .addComponent(statsButton16))
+          .addGroup(statsLayout.createSequentialGroup()
+            .addGap(290, 290, 290)
+            .addComponent(statsButton17))
+          .addGroup(statsLayout.createSequentialGroup()
+            .addGap(210, 210, 210)
+            .addComponent(statsButton5)))
+        .addGap(2, 2, 2)
+        .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+          .addComponent(statsCtlButtonRun10Yr, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
+          .addComponent(statsCtlButtonRun20Yr, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        .addComponent(statsField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addComponent(statsField, javax.swing.GroupLayout.PREFERRED_SIZE, 649, javax.swing.GroupLayout.PREFERRED_SIZE)
         .addContainerGap())
       .addGroup(statsLayout.createSequentialGroup()
         .addContainerGap()
@@ -4341,7 +4334,7 @@ public class StarTrader extends javax.swing.JFrame {
   }//GEN-LAST:event_statsButton11ItemStateChanged
 
   private void statsButton11MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statsButton11MouseEntered
-    statsField.setText(statsTips(11));
+    statsButton11.setToolTipText(statsButton11Tip);
   }//GEN-LAST:event_statsButton11MouseEntered
 
   private void controlPanelsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_controlPanelsStateChanged
@@ -4414,11 +4407,23 @@ public class StarTrader extends javax.swing.JFrame {
   }//GEN-LAST:event_gameCtlButtonRun1Year1ActionPerformed
 
   private void gameCtlButtonRun1Yr2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gameCtlButtonRun1Yr2MouseClicked
-    // TODO add your handling code here:
+     System.out.println("in settings Run 1Year Mouse Clicked");
+    if (eM.fatalError) {
+      setFatalError();
+    }
+    else {
+      runYears(1);
+    }
   }//GEN-LAST:event_gameCtlButtonRun1Yr2MouseClicked
 
   private void gameCtlButtonRun1Yr2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gameCtlButtonRun1Yr2ActionPerformed
-    // TODO add your handling code here:
+      System.out.println("in settings Run 2 Year Mouse Clicked");
+    if (eM.fatalError) {
+      setFatalError();
+    }
+    else {
+      runYears(2);
+    }
   }//GEN-LAST:event_gameCtlButtonRun1Yr2ActionPerformed
 
   private void displayPanel2EconNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayPanel2EconNameActionPerformed
@@ -4433,117 +4438,117 @@ public class StarTrader extends javax.swing.JFrame {
     boolean bid = statsButton12.isSelected();
     if (bid) {
       statsField.setText(statsButton11Tip);
-      statsButton11.setToolTipText(statsButton12Tip);
+      statsButton12.setToolTipText(statsButton12Tip);
       listRes(12, resLoops, fullRes);
     }
   }//GEN-LAST:event_statsButton12ItemStateChanged
 
   private void statsButton12MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statsButton12MouseEntered
-    statsField.setText(statsTips(12));
+    statsButton12.setToolTipText(statsButton12Tip);
   }//GEN-LAST:event_statsButton12MouseEntered
 
   private void statsButton13ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_statsButton13ItemStateChanged
     boolean bid = statsButton13.isSelected();
     if (bid) {
       statsField.setText(statsButton13Tip);
-      statsButton11.setToolTipText(statsButton11Tip);
+      statsButton13.setToolTipText(statsButton13Tip);
       listRes(13, resLoops, fullRes);
     }
   }//GEN-LAST:event_statsButton13ItemStateChanged
 
   private void statsButton13MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statsButton13MouseEntered
-    statsField.setText(statsTips(13));
+    statsButton13.setToolTipText(statsButton13Tip);
   }//GEN-LAST:event_statsButton13MouseEntered
 
   private void statsButton14ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_statsButton14ItemStateChanged
     boolean bid = statsButton14.isSelected();
     if (bid) {
       statsField.setText(statsButton14Tip);
-      statsButton11.setToolTipText(statsButton11Tip);
+      statsButton14.setToolTipText(statsButton14Tip);
       listRes(14, resLoops, fullRes);
     }
   }//GEN-LAST:event_statsButton14ItemStateChanged
 
   private void statsButton14MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statsButton14MouseEntered
-    statsField.setText(statsTips(14));
+    statsButton14.setToolTipText(statsButton14Tip);
   }//GEN-LAST:event_statsButton14MouseEntered
 
   private void statsButton15ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_statsButton15ItemStateChanged
     boolean bid = statsButton15.isSelected();
     if (bid) {
       statsField.setText(statsButton15Tip);
-      statsButton11.setToolTipText(statsButton11Tip);
+      statsButton15.setToolTipText(statsButton15Tip);
       listRes(15, resLoops, fullRes);
     }
   }//GEN-LAST:event_statsButton15ItemStateChanged
 
   private void statsButton15MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statsButton15MouseEntered
-    statsField.setText(statsTips(15));
+    statsButton15.setToolTipText(statsButton15Tip);
   }//GEN-LAST:event_statsButton15MouseEntered
 
   private void statsButton16ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_statsButton16ItemStateChanged
     boolean bid = statsButton16.isSelected();
     if (bid) {
       statsField.setText(statsButton16Tip);
-      statsButton11.setToolTipText(statsButton11Tip);
+      statsButton16.setToolTipText(statsButton16Tip);
       listRes(16, resLoops, fullRes);
     }
   }//GEN-LAST:event_statsButton16ItemStateChanged
 
   private void statsButton16MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statsButton16MouseEntered
-    statsField.setText(statsTips(16));
+    statsButton16.setToolTipText(statsButton16Tip);
   }//GEN-LAST:event_statsButton16MouseEntered
 
   private void statsButton17ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_statsButton17ItemStateChanged
     boolean bid = statsButton17.isSelected();
     if (bid) {
       statsField.setText(statsButton17Tip);
-      statsButton11.setToolTipText(statsButton11Tip);
+      statsButton17.setToolTipText(statsButton17Tip);
       listRes(17, resLoops, fullRes);
     }
   }//GEN-LAST:event_statsButton17ItemStateChanged
 
   private void statsButton17MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statsButton17MouseEntered
-    statsField.setText(statsTips(17));
+    statsButton17.setToolTipText(statsButton17Tip);
   }//GEN-LAST:event_statsButton17MouseEntered
 
   private void statsButton18ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_statsButton18ItemStateChanged
     boolean bid = statsButton18.isSelected();
     if (bid) {
       statsField.setText(statsButton18Tip);
-      statsButton11.setToolTipText(statsButton11Tip);
+      statsButton18.setToolTipText(statsButton18Tip);
       listRes(18, resLoops, fullRes);
     }
   }//GEN-LAST:event_statsButton18ItemStateChanged
 
   private void statsButton18MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statsButton18MouseEntered
-    statsField.setText(statsTips(18));
+    statsButton18.setToolTipText(statsButton18Tip);
   }//GEN-LAST:event_statsButton18MouseEntered
 
   private void statsButton19ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_statsButton19ItemStateChanged
     boolean bid = statsButton19.isSelected();
     if (bid) {
       statsField.setText(statsButton19Tip);
-      statsButton11.setToolTipText(statsButton11Tip);
+      statsButton19.setToolTipText(statsButton19Tip);
       listRes(19, resLoops, fullRes);
     }
   }//GEN-LAST:event_statsButton19ItemStateChanged
 
   private void statsButton19MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statsButton19MouseEntered
-    statsField.setText(statsTips(19));
+    statsButton19.setToolTipText(statsButton19Tip);
   }//GEN-LAST:event_statsButton19MouseEntered
 
   private void statsButton20ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_statsButton20ItemStateChanged
     boolean bid = statsButton20.isSelected();
     if (bid) {
-      statsField.setText(statsButton11Tip);
-      statsButton11.setToolTipText(statsButton20Tip);
+      statsField.setText(statsButton20Tip);
+      statsButton20.setToolTipText(statsButton20Tip);
       listRes(20, resLoops, fullRes);
     }
   }//GEN-LAST:event_statsButton20ItemStateChanged
 
   private void statsButton20MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statsButton20MouseEntered
-    statsField.setText(statsTips(20));
+    statsButton20.setToolTipText(statsButton20Tip);
 
   }//GEN-LAST:event_statsButton20MouseEntered
 
