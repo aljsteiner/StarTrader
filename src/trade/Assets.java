@@ -350,7 +350,7 @@ public class Assets {
    * @param tranda
    */
   public Assets(Econ ec, StarTrader stx, String name, int clan, int pors, ArrayList<History> hist, double wealth, ARow sectorPri, double res, double colonists, double knowledge, double percentDifficulty, double[] tranda) {
-    System.out.println("Assets() 288 start" + name);
+    System.out.println("Assets() 353 start->" + name);
     this.ec = ec;
     this.st = stx;
     this.name = name;
@@ -395,7 +395,7 @@ public class Assets {
    * @param aatranda points to an array of random values between 0. - 2.
    */
   public void assetsInit(int aeconCnt, Econ aaec, StarTrader stx, EM aeM, String aaname, int aaclan, int aapors, ArrayList<History> aahist, double iwealth, double aawealth, ARow aasectorPri, double aares, double aacolonists, double aaknowledge, double aapercentDifficulty, double[] aatranda) {
-    System.out.println("AssetsInit 228 start" + name);
+    System.out.println("AssetsInit 398 start=" + aaname);
     dFrac = NumberFormat.getNumberInstance();
     whole = NumberFormat.getNumberInstance();
     dfo = dFrac;

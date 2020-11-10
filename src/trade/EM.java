@@ -2122,6 +2122,8 @@ class EM {
   static final int D3CUR0 = DCUR0 + 3 * DCUR6; // 1+3*7 = 22
   static final int D7CUR0 = 45; //starts 1, 8 4=15 8=22 16=29,32=36,end=41+2=43,
   static final int DVECTOR2L = 1 + 7 * 6;// 43
+  // any row vector less than 9 does not have separate age entries
+  static final int DVECTOR2MAX = 9;
   static final int DVECTOR2A = 8; //
   static final int DVECTOR3L = 2;  // P,S
   // vector 4 is LCLANS
@@ -2171,6 +2173,9 @@ class EM {
   static final int[] AGEBREAKS = {0, 4, 8, 16, 32, 999999}; // + over 31+ group
   static final String[] AGESTR = {"", "0-3", "4-7", "8-15", "16-31", "32+"};
   static final long[] AGELISTS = {list0 | list1 | list2, LIST10, LIST11, LIST12, LIST13, LIST14};
+  static final long[] SHORTAGELIST = {LIST0 | LIST1 | LIST2};
+  static final int shortLength = SHORTAGELIST.length;
+  static final int longLength = AGELISTS.length;
   static final long AGEMASK = LIST10 | LIST11 | LIST12 | LIST13 | LIST14;
   static final int minDepth = 1; // set min number of output for allYears
   static final int maxDepth = 7;
@@ -3423,12 +3428,19 @@ class EM {
         // there can be a long string of DUP, always use the last no DUP
         if((resI[rn][ICUM][CCONTROLD][LOCKS0 + 0] & DUP) == 0L){
          res2 = resI[rn];
-      }        
-        for (c = 1, ageIx = 0; c < 5 && ageIx == 0; c++) {
+      }    
+       
+        // now see if this row has an acceptable lock,
+        // if the governing locks contain
+        int maxc = resI[rn].length < DVECTOR2MAX ? shortLength : longLength;
+        for (c = 1, ageIx = 0; c < maxc && ageIx == 0; c++) {
           if (((aop & res2[ICUM][CCONTROLD][LOCKS0 + 0]) & AGELISTS[c]) > 0) {
             ageIx = c; 
           }
         }
+        // short look only at ICUR0 unset, long look at ICUR0 for the first 3 than at thee rest
+        // so change ageIx to do the above
+        ageIx = resI[rn].length < DVECTOR2MAX ? 0 : ageIx <= shortLength? 0 :ageIx - shortLength + 1;
         myUnset = unset = resI[rn][ICUR0 + ageIx * 7][CCONTROLD][ISSET] < 1; // flag for age
         myValid = valid = resI[rn][ICUR0 + ageIx * 7][CCONTROLD][IVALID];
         depth = resI[rn][ICUR0 + ageIx * 7][CCONTROLD][IVALID];
