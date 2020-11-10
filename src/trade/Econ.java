@@ -777,7 +777,7 @@ public class Econ{
     int n=0,r=-5,pSize = -2;
     // establish the parallel TradePriority arrays;
     for (n=0;n<wLen;n++) {
-      Econ ww = wilda[n];
+      Econ ww = wilda[n];  // wilda is the list of Econs
       tPriority[n] = new TradePriority(ww,topStratSectors,sumTrade1YearTravelMaintCosts,(calcLY(this, ww)));
       sPriority[n] = ww.getName();
       wildS += (n > 0?", ":"");
@@ -807,7 +807,7 @@ public class Econ{
       }
         r = nPri;
         
-      } else { // some n but no TradeRecords
+      } else { // some wlen but no TradeRecords
        double wildar = Math.random() * 5.3 % wLen;
        r = (int) Math.floor(wildar);
         

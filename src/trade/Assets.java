@@ -948,10 +948,10 @@ public class Assets {
   }
 
   /**
-   * get the initial trade bid (goods) with the needs force the calculation of
-   * the value if not currently set called in Econ
+   * if tradeGoodsNeeds unset get the initial trade bid (goods) 
+   * with the getNeeds calculated
    *
-   * @return the the initial trade bid (goods) with the needs
+   * @return the the initial trade bid (goods) with 
    */
   A2Row getTradeGoodsNeeds() {
     getTradeInit(tradeGoodsNeeds == null);
@@ -1729,6 +1729,9 @@ public class Assets {
     int flowType = 0;
     double curGrowGoal, adjGrowGoal, adjVal;
     double curMaintGoal, adjMaintGoal;
+    // from initTrade
+     A6Row preTradeMtgAvails6; // avails in initTrade
+     A6Row preTradeBalances; // from initTrade
     /**
      * now cashflow variables for yCalcCosts
      */
@@ -1918,7 +1921,6 @@ public class Assets {
       double minRCBal = bals.getRow(ABalRows.BALANCESIX + ABalRows.RCIX).min();
       double sumRBal = bals.getRow(ABalRows.BALANCESIX + ABalRows.RIX).sum();
       double sumCBal = bals.getRow(ABalRows.BALANCESIX + ABalRows.CIX).sum();
-      ;
       double minGBal = bals.getRow(ABalRows.BALANCESIX + ABalRows.GIX).min();
       double minCBal = bals.getRow(ABalRows.BALANCESIX + ABalRows.CIX).min();
       double minSBal = bals.getRow(ABalRows.BALANCESIX + ABalRows.SIX).min();
@@ -1965,52 +1967,7 @@ public class Assets {
 //DoTotalWorths iyW, syW, tW, rawCW,gSwapW, gGrowW, gCostW, fyW;
 
       DoTotalWorths() {
-        /*
-        staff.sumGrades();  // calc staff.worth
-        sumSBal = staff.balance.sum();
-        guests.sumGrades();  // calc guests.worth
-        sumGBal = guests.balance.sum();
-        //    sumGrades calculates worth based on grade worths, fraction varies
-    //    worthPerSubBal[0] = eM.nominalWealthPerResource[pors];
-    //    worthPerSubBal[1] = eM.nominalWealthPerResource[pors] * eM.cargoWorthBias[0];
-     //   worthPerSubBal[2] = s.worth.sum() / s.balance.sum();
-     //   worthPerSubBal[3] = guests.worth.sum() / guests.balance.sum();
-        sumSGWorth = staff.worth.sum() + guests.worth.sum();
-        resource.worth.setAmultV(resource.balance, eM.nominalWealthPerResource[pors]);
-        sumRBal = r.balance.sum();
-        sumCBal = c.balance.sum();
-        sumRCBal = sumRBal + sumCBal;
-        sumSGBal = sumSBal + sumGBal;
-        sumRCSGBal = sumRCBal + sumSGBal;
-        cargo.worth.setAmultV(cargo.balance, eM.nominalWealthPerResource[pors] * eM.cargoWorthBias[0]);
-        sumRCWorth = resource.worth.sum() + cargo.worth.sum();
-        sumCommonKnowledgeWorth = eM.nominalWealthPerCommonKnowledge[pors] * (sumCommonKnowledgeBal = commonKnowledge.sum());
-        sumManualsWorth = (sumManualsBal = manuals.sum()) * eM.manualFracKnowledge[pors] * eM.nominalWealthPerCommonKnowledge[pors];
-        sumNewKnowledgeWorth = eM.fracNewKnowledge[0] * eM.nominalWealthPerCommonKnowledge[pors] * (sumNewKnowledgeBal = newKnowledge.sum());
-        sumKnowledgeWorth = sumCommonKnowledgeWorth + sumNewKnowledgeWorth;
-        sumKnowledgeBal = sumCommonKnowledgeBal + sumNewKnowledgeBal;
-        sumTotWorth = sumRCWorth + sumSGWorth + cash + sumKnowledgeWorth + sumManualsWorth;
-        if (growths == null) {
-          totGrowths = new A6Row();
-        } else { totGrowths = growths.copy();}
-        sumTotGrowths = totGrowths.curSum();
-        if (totRawGrowths == null) {
-          totRawGrowths = new A6Row();
-        }
-        sumTotRawGrowths = totRawGrowths.curSum();
-        if (invMEff == null) {
-          invMEff = new A6Row();
-        }
-        sumInvMEff = invMEff.curSum();
-        if (invGEff == null) {
-          invGEff = new A6Row();
-        }
-        sumInvGEff = invGEff.curSum();
-        if (totCumDecay == null) {
-          totCumDecay = new A6Row();
-        }
-        sumTotCumDecay = totCumDecay.curSum();
-         */
+ 
         // set prev to the previous now = this; if null prev = this;
         if (now != null) {
           prev = now;
@@ -2080,7 +2037,7 @@ public class Assets {
       }
 
       /**
-       * get this instance of sumTotWorth
+       * get the sum of total worth
        *
        * @return sumTotWorth
        */
@@ -2089,16 +2046,16 @@ public class Assets {
       }
 
       /**
-       * get this instance of Knowledge Balance
+       * get the sum of all knowledge balances
        *
        * @return knowledge sum
        */
-      double getKnowledgeBal() {
+      double getSumKnowledgeBal() {
         return sumKnowledgeBal;
       }
 
       /**
-       * get this instance of commonKnowledge balance
+       * get the sum of all commonKnowledge balances
        *
        * @return commonKnowledge sum
        */
@@ -2107,7 +2064,7 @@ public class Assets {
       }
 
       /**
-       * get this instance of newKnowledge Balance
+       * get the sum of all newKnowledge Balances
        *
        * @return newKnowledge sum
        */
@@ -2116,7 +2073,7 @@ public class Assets {
       }
 
       /**
-       * get this instance of manuals Balance
+       * get the sum of all manuals Balances
        *
        * @return manuals sum
        */
@@ -2125,95 +2082,106 @@ public class Assets {
       }
 
       /**
-       * get this instance of manuals Worth
+       *get the sum of all manuals Worth
        *
        * @return sumManualsWorth sum
        */
-      double getManualsWorth() {
+      double getSumManualsWorth() {
         return sumManualsWorth;
       }
 
       /**
-       * get this instance of newKnowledge Worth
+       * get the sum of all newKnowledge Worth
        *
        * @return sumNewKnowledgeWorth sum
        */
-      double getNewKnowledgeWorth() {
+      double getSumNewKnowledgeWorth() {
         return sumNewKnowledgeWorth;
       }
 
       /**
-       * get this instance of KnowledgeWorth Balance
+       * get the sum of all KnowledgeWorth Balance
        *
        * @return sumNewKnowledgeWorth sum
        */
-      double getKnowledgeWorth() {
+      double getSumKnowledgeWorth() {
         return sumKnowledgeWorth;
       }
 
       /**
-       * get this instance of commonKnowledge Worth
+       * get the sum of all commonKnowledge Worths
        *
        * @return sumCommonKnowledgeWorth sum
        */
-      double getCommonKnowledgeWorth() {
+      double getSumCommonKnowledgeWorth() {
         return sumCommonKnowledgeWorth;
       }
 
       /**
-       * get this instance of SG Balance Sum
+       * get the sum of all SG Balances
        *
        * @return SG Balance Sum
        */
-      double getSGBal() {
+      double getSumSGBal() {
         return sumSGBal;
       }
 
       /**
-       * get this instance of S Balance Sum
+       * get the sum of all S Balancs
        *
        * @return S Balance Sum
        */
-      double getSBal() {
+      double getSumSBal() {
         return sumSBal;
       }
 
       /**
-       * get this instance of G Balance Sum
+       * get the sum of all G Balances
        *
        * @return G Balance Sum
        */
-      double getGBal() {
+      double getSumGBal() {
         return sumGBal;
       }
 
       /**
-       * get this instance of RC Balance sum
+       * get the sum of all RC Balances
        *
        * @return RC Balance Sum
        */
-      double getRCBal() {
+      double getSumRCBal() {
         if (E.debugMisc && sumRCBal == 0.0) {
           throw new MyErr("sumRCBal should not be zero = " + E.mf(sumRCBal));
         }
         return sumRCBal;
       }
+       /**
+       * get the sum of all RCSG Balances
+       *
+       * @return RC Balance Sum
+       */
+      double getSumRCSGBal() {
+        if (E.debugMisc && sumRCSGBal == 0.0) {
+          throw new MyErr("sumRCSGBal should not be zero = " + E.mf(sumRCSGBal));
+        }
+        return sumRCSGBal;
+      }
 
       /**
-       * get this instance of R Balance sum
+       * get the sum of all R Balances
        *
        * @return R Balance Sum
        */
-      double getRBal() {
+      double getSumRBal() {
         return sumRBal;
       }
 
       /**
-       * get this instance of C Balance sum
+       * get the sum of all C Balances
        *
        * @return C Balance Sum
        */
-      double getCBal() {
+      double getSumCBal() {
         return sumCBal;
       }
 
@@ -2222,7 +2190,7 @@ public class Assets {
        *
        * @return sum RC Worth
        */
-      double getRCWorth() {
+      double getSumRCWorth() {
         return sumRCWorth;
       }
 
@@ -2231,7 +2199,7 @@ public class Assets {
        *
        * @return sum SG Worth
        */
-      double getSGWorth() {
+      double getSumSGWorth() {
         return sumSGWorth;
       }
 
@@ -2241,7 +2209,7 @@ public class Assets {
        * @return (rc - prev rc) / prev rc
        */
       double getRCDif() {
-        return (getRCBal() - prev.getRCBal()) / prev.getRCBal();
+        return (getSumRCBal() - prev.getSumRCBal()) / prev.getSumRCBal();
       }
 
       /**
@@ -2250,7 +2218,7 @@ public class Assets {
        * @return (r - prev r) / prev r
        */
       double getRDif() {
-        return (getRBal() - prev.getRBal()) / prev.getRBal();
+        return (getSumRBal() - prev.getSumRBal()) / prev.getSumRBal();
       }
 
       /**
@@ -2259,7 +2227,7 @@ public class Assets {
        * @return (c - prev c) / prev c
        */
       double getCDif() {
-        return (getCBal() - prev.getCBal()) / prev.getCBal();
+        return (getSumCBal() - prev.getSumCBal()) / prev.getSumCBal();
       }
 
       /**
@@ -2269,7 +2237,7 @@ public class Assets {
        */
       double getSGDif() {
         int n = 1;
-        return (getSGBal() - prev.getSGBal()) / prev.getSGBal();
+        return (getSumSGBal() - prev.getSumSGBal()) / prev.getSumSGBal();
       }
 
       /**
@@ -2279,7 +2247,7 @@ public class Assets {
        */
       double getSDif() {
         int n = 1;
-        return (getSBal() - prev.getSBal()) / prev.getSBal();
+        return (getSumSBal() - prev.getSumSBal()) / prev.getSumSBal();
       }
 
       /**
@@ -2289,7 +2257,7 @@ public class Assets {
        */
       double getGDif() {
         int n = 1;
-        return (getGBal() - prev.getGBal()) / prev.getGBal();
+        return (getSumGBal() - prev.getSumGBal()) / prev.getSumGBal();
       }
 
       /**
@@ -3884,6 +3852,7 @@ public class Assets {
       int mRes = History.valuesMajor6; // listing for other 
       boolean doHistOther = eM.trade2HistOutputs; // dup all hist to other
       boolean newBarter = true;
+      boolean inited = false;
       int oBlev = eM.trade2HistOutputs ? History.dl : -1; //blev of other lines
 
       int histStart = -100;
@@ -3986,18 +3955,12 @@ public class Assets {
         }
         ec.blev1 = oBlev = eM.trade2HistOutputs ? -1 : History.dl; //blev of other lines
         lightYearsTraveled = ((lightYearsTraveled < .2)) ? eM.initTravelYears[pors][0] : lightYearsTraveled;
+        //initialize for the growth and efficiency
         for (k = 0; k < 4; k++) {
           sys[k].calcEfficiency();
           sys[k].calcGrowth();
         }
 
-        // belongs in CashFlow.barter
-        if (pors == E.P) {
-          //      tradedShipOrdinal++;  // 1st trade this year=1, second=2 etc
-          //    inOffer.setShipOrdinal(tradedShipOrdinal);
-          //   traders[tradersX++] = inOffer.cnName[1];
-
-        }
         for (int i = 0; i < E.l2secs; i++) {
           valueChangesTried[i] = 0;
           oraisedBid[i] = 0;
@@ -4111,7 +4074,7 @@ public class Assets {
         } // end first set reserves before get travel cost
 
         EM.addlErr = ""; // wipe error info
-        EM.wasHere = "after trade init set Reserves, before calcCosts travel";
+        EM.wasHere = "after trade init & set Reserves, before calcCosts travel";
         aPre = "#b";
         bals.sendHist(hist, aPre);
         inOffer.setC(c.balance);
@@ -4127,6 +4090,11 @@ public class Assets {
         // only use the m + t costs here to represent the travel
         histTitles("calcTravel");
         yCalcCosts(aPre, lightYearsTraveled, eM.tradeHealth[pors][clan], eM.tradeGrowth[pors][clan]);
+        // save for CashFlows.barter
+        preTradeMtgAvails6 = mtgAvails6.copy(History.valuesMajor6,"preTMAvails6");
+        preTradeBalances = balances.copy(History.valuesMajor6,"preTBalances");
+        
+        
         // Sets strategicValues
         // in Assets.CashFlow.Trade.initTrade
         // Save the maint & travel for when lightYearsTraveled was used in yCalcCosts
@@ -6788,10 +6756,11 @@ public class Assets {
         E.myTest(myTrade == null && entryTerm > 0, "xit ASY barter " + (eTrad == null ? " !eTrad" : " eTrad") + " entryTerm=" + entryTerm + (myTrade == null ? " !myTrade" : " myTrade"));
       }//end other name not equal
       // now set up for a barter by Trades.barter
+      btW = new DoTotalWorths(); // before trade
       if (myTrade != null && entryTerm > 0) {
         hist.add(new History(aPre, 5, " " + name + "cashFlow barter", " term=" + inOffer.getTerm(), " trades"));
         inOffer.setMyIx(ec);  //Assets.CashFlow.barter
-
+        
         // now barter =====================================
         retOffer = myTrade.barter(inOffer); // get entryTerm-1, 0, -1
 
@@ -6853,12 +6822,13 @@ public class Assets {
         double fracPostTrade = postTradeAvail * 100 / postTradeSum4;
         // see if/how much frac avail increases
         double tradeAvailIncrPercent = (postTradeAvail - preTradeAvail) * 100 / preTradeAvail;
+        tW = btW;
         tW = new DoTotalWorths();  // in Assets.CashFlow.Barter
         tWTotWorth = tW.getTotWorth();
         btWTotWorth = btW.getTotWorth();
         double worthIncrPercent = (tWTotWorth - btWTotWorth) * 100 / btWTotWorth;
 
-        retOffer.set2Values(ec, btWTotWorth, tWTotWorth); // needed in TradeRecord SearchRecord
+        retOffer.set2Values(ec, btWTotWorth,btW.getSumRCSGBal(), tWTotWorth); // needed in TradeRecord SearchRecord
         if (newTerm == 0) {  //trade accepted
           tradedShipOrdinal++; // set ordinal of the next ship if any
           tradedSuccessTrades++;
@@ -7041,13 +7011,13 @@ public class Assets {
      * @param forceInit
      */
     void getTradeInit(boolean forceInit) {
-
       if (myTrade == null) {
         myTrade = new Trades();
       }
-      if (forceInit) {
+      if (forceInit && !myTrade.inited) {
         Offer aOffer = new Offer(eM.year, eM.barterStart,ec, eM, ec, ec);
         myTrade.initTrade(aOffer, this); //sets trade1YearTravelMaintCosts
+        myTrade.inited=true;
       }
     }
 
@@ -7399,14 +7369,14 @@ public class Assets {
 
         double worthIncrPercent = (sumTotWorth - startYrSumWorth) * 100 / startYrSumWorth;
         setStat(EM.WORTHINCR, worthIncrPercent, 1);
-        double rcPercentInc = (fyW.getRCBal() - (tprev = syW.getRCBal())) * 100. / tprev;
-        setStat(EM.RCTBAL, fyW.getRCBal() * 100. / fyW.getRCBal() + fyW.getSGBal(), 1);
-        setStat(EM.RCBAL, fyW.getRCBal(), 1);
+        double rcPercentInc = (fyW.getSumRCBal() - (tprev = syW.getSumRCBal())) * 100. / tprev;
+        setStat(EM.RCTBAL, fyW.getSumRCBal() * 100. / fyW.getSumRCBal() + fyW.getSumSGBal(), 1);
+        setStat(EM.RCBAL, fyW.getSumRCBal(), 1);
         if (E.debugStats) {
           System.out.println("print rcPercentInc =" + E.mf(rcPercentInc)+ "<<<<<");
         }
-        if (E.debugMisc && (syW.getRCBal() == 0.0)) {
-          throw new MyErr("zero syW.getRCBal()=" + ec.mf(syW.getRCBal()));
+        if (E.debugMisc && (syW.getSumRCBal() == 0.0)) {
+          throw new MyErr("zero syW.getSumRCBal()=" + ec.mf(syW.getSumRCBal()));
         }
         setStat(EM.RCTGROWTHPERCENT, rcPercentInc, 1);
         if (rcPercentInc < 5) {
@@ -7423,13 +7393,13 @@ public class Assets {
           setStat("RCGGT100PERCENT", pors, clan, rcPercentInc, 1);
         }
 
-        double rcWorthPercentInc = (fyW.getRCWorth() - syW.getRCWorth()) * 100 / syW.getRCWorth();
+        double rcWorthPercentInc = (fyW.getSumRCWorth() - syW.getSumRCWorth()) * 100 / syW.getSumRCWorth();
         double rcwp = rcWorthPercentInc;
-        if (E.debugMisc && (syW.getRCWorth() == 0.0)) {
-          throw new MyErr("syW.getRCWorth() =" + E.mf(syW.getRCWorth()));
+        if (E.debugMisc && (syW.getSumRCWorth() == 0.0)) {
+          throw new MyErr("syW.getSumRCWorth() =" + E.mf(syW.getSumRCWorth()));
         }
-        setStat(EM.RCTWORTH, fyW.getRCWorth() * 100 / fyW.sumTotWorth, 1);
-        setStat(EM.RCWORTH, fyW.getRCWorth(), 1);
+        setStat(EM.RCTWORTH, fyW.getSumRCWorth() * 100 / fyW.sumTotWorth, 1);
+        setStat(EM.RCWORTH, fyW.getSumRCWorth(), 1);
         setStat(EM.RCWORTHGROWTHPERCENT, pors, clan, rcWorthPercentInc, 1);
         if (rcwp < 5) {
           setStat("RCWGLT5PERCENT", pors, clan, rcWorthPercentInc, 1);
@@ -7456,13 +7426,13 @@ public class Assets {
         eM.setStat(EM.SGREQGC, pors, clan, reqMaintCosts10.getRow(1).sum() / bcurSum, 1);
         eM.setStat(EM.RCREQMC, pors, clan, reqGrowthCosts10.getRow(0).sum() / bcurSum, 1);
         eM.setStat(EM.SGREQMC, pors, clan, reqGrowthCosts10.getRow(1).sum() / bcurSum, 1);
-        setStat(EM.RCTBAL, pors, clan, fyW.getRCBal() / totWorth, 1);
+        setStat(EM.RCTBAL, pors, clan, fyW.getSumRCBal() / totWorth, 1);
 
-        setStat("SGTBAL", pors, clan, fyW.getSGBal() / totWorth, 1);
-        setStat("SBAL", pors, clan, fyW.getSBal() / totWorth, 1);
-        setStat("GBAL", pors, clan, fyW.getGBal() / totWorth, 1);
-        setStat("RBAL", pors, clan, fyW.getRBal() / totWorth, 1);
-        setStat("CBAL", pors, clan, fyW.getCBal() / totWorth, 1);
+        setStat("SGTBAL", pors, clan, fyW.getSumSGBal() / totWorth, 1);
+        setStat("SBAL", pors, clan, fyW.getSumSBal() / totWorth, 1);
+        setStat("GBAL", pors, clan, fyW.getSumGBal() / totWorth, 1);
+        setStat("RBAL", pors, clan, fyW.getSumRBal() / totWorth, 1);
+        setStat("CBAL", pors, clan, fyW.getSumCBal() / totWorth, 1);
         //      DoTotalWorths iyW,syW, tW, gSwapW, gGrowW, gCostW, fyW;
         eM.setStat(EM.POORKNOWLEDGEEFFECT, poorKnowledgeAveEffect, 1);
         eM.setStat(EM.POORHEALTHEFFECT, poorHealthAveEffect, 1);
@@ -7473,7 +7443,7 @@ public class Assets {
         // gameRes.COMMONKNOWLEDGEB.wet(pors, clan, commonKnowledge.sum() / knowledge.sum(), 1);
         setStat(EM.COMMONKNOWLEDGEFRAC, pors, clan, commonKnowledge.sum() * 100. * eM.nominalWealthPerCommonKnowledge[pors] / totWorth, 1);
         // gameRes.KNOWLEDGEINCR.wet(pors, clan, (knowledge.sum() - (tprev = asyW.getKnowledgeBal())) / tprev, 1);
-        setStat(EM.KNOWLEDGEINCR, pors, clan, (knowledge.sum() - (tprev = syW.getKnowledgeBal())) * 100 / tprev, 1);
+        setStat(EM.KNOWLEDGEINCR, pors, clan, (knowledge.sum() - (tprev = syW.getSumKnowledgeBal())) * 100 / tprev, 1);
         // gameRes.NEWKNOWLEDGEINCR.wet(pors, clan, (newKnowledge.sum() - (tprev = asyW.getNewKnowledgeBal())) / tprev);
         if ((tprev = syW.sumNewKnowledgeWorth) > PZERO) {
           setStat(EM.NEWKNOWLEDGEINCR, pors, clan, (fyW.sumNewKnowledgeWorth - tprev) * 100 / tprev, 1);
@@ -8264,6 +8234,7 @@ public class Assets {
       rawGrowthCosts.unzero("rawGC", 2, 4);
       E.msgcnt = mcnt;
       rawGrowths.unzero("rawG", 2, 4);
+      //do not count all messages in the unzero
       E.msgcnt = mcnt;
       yCalcRawCosts(lightYearsTraveled, aPre, curMaintGoal, curGrowthGoal);
       //     xitCalcCosts = hcopyn(cur);
@@ -8420,24 +8391,16 @@ public class Assets {
       //   reqGrowthCosts10.sendPercent8(hist, blev, alev, aPre, "percents", balances, rawGrowths, reqMaintCosts10, reqGrowthCosts10, maintCosts10, travelCosts10, rawGrowthCosts10, growthCosts10, mtgCosts10);}
       // rebuild and zero mtgEmergNeeds
       //  mtgEmergNeeds = new A6Row(ec,History.valuesMajor6, "mtgENeeds");
-      //  mtgEmergNeeds.setNeeds(hist, History.valuesMajor6, balances, maintCosts, travelCosts, rawGrowthCosts, rawGrowths, reqMaintCosts, reqGrowthCosts, rawFertilities, fertilities, rawHealths, mtgCosts, growthCosts, growths, heResults, eM.emergHealth[pors][clan], eM.emergGrowth[pors][clan], 0., 0.);
-      //     mtgEmergNeeds.setNeeds10c(hist, History.valuesMajor6, balances, maintCosts10, travelCosts10, rawGrowthCosts10, rawGrowths, reqMaintCosts10, reqGrowthCosts10, consumerReqMaintCosts10, consumerReqGrowthCosts10,consumerMaintCosts10,consumerTravelCosts10,consumerRawGrowthCosts10,consumerHealthEMTGCosts10,consumerFertilityEMTGCosts10,rawFertilities2,rawProspects2,rawHealths2,mtgCosts10,growthCosts10, growths, mtgResults, eM.emergHealth[pors][clan], eM.emergGrowth[pors][clan], 0., 0.);
+    
       growths.sendHist(hist, "C@");
       hist.add(new History("C*", History.valuesMajor6, "r.growth", r.growth));
       //   if (r.growth != growths.A[2]) {
       //      E.myTest(true, "r.growth not the same as growths.A[0]");
       //    }
-      //   mtggNeeds.setNeeds10(hist, History.valuesMinor7, balances, maintCosts10, travelCosts10, rawGrowthCosts10, rawGrowths, reqMaintCosts10, reqGrowthCosts10, rawFertilities2, rawProspects2, rawHealths2, mtgCosts10, growthCosts10, growths10, heResults, eM.emergHealth[pors][clan], eM.emergGrowth[pors][clan], eM.futGrowthFrac[pors][clan], eM.futGrowthYrMult[pors][clan]);
-      //  hist.add(new History(aPre, History.loopMinorConditionals5, "mtgGoalNeeds", "use goals to calculate needs"));
-
-      // mtgGoalNeeds.setNeeds(hist, History.valuesMajor6, balances, maintCosts, travelCosts, rawGrowthCosts, rawGrowths, reqMaintCosts, reqGrowthCosts, rawGoalFertilities, fertilities, rawGoalHealths, mtgGoalCosts, growthCosts, growths, hgResults, curMaintGoal, curGrowthGoal, 0., 0.);
-      //     hist.add(new History(aPre, History.loopMinorConditionals5, yphase.name(), "n=" + n, df(eM.futGrowthYrMult[pors][clan]), df(eM.futGrowthFrac[pors][clan]), "now mtggNeeds6", "with goals, multYear and growYears"));
-      //   mtggNeeds.setNeeds(hist, History.valuesMajor6, balances, maintCosts, travelCosts, rawGrowthCosts, rawGrowths, reqMaintCosts, reqGrowthCosts, rawMTGGFertilities, fertilities, rawMTGGHealths, mtgCosts, growthCosts, growths, mtggResults, -999., -999., eM.futGrowthFrac[pors][clan], eM.futGrowthYrMult[pors][clan]);
-      //     mtggNeeds.setNeeds10(hist, History.valuesMinor7, balances, maintCosts10, travelCosts10, rawGrowthCosts10, rawGrowths, reqMaintCosts10, reqGrowthCosts10, rawMTGGFertilities2, rawProspects2, rawMTGGHealths2, mtgCosts10, growthCosts10, growths10, mtggResults, curMaintGoal, curGrowthGoal, eM.futGrowthFrac[pors][clan], eM.futGrowthYrMult[pors][clan]);
+     
       double mtgResults10[] = new double[40];
       mtgNeeds6 = getNeeds("mtgNeeds6", "goals and  nyear,fracGrowth", yphase, n, n < 2 && !ec.clearHist() ? History.debuggingMinor11 : History.loopMinorConditionals5, bals, maintCosts10, travelCosts10, rawGrowthCosts10, rawGrowths, reqMaintCosts10, reqGrowthCosts10, rawFertilities2, rawProspects2, mtCosts10, growthCosts10, mtgCosts10, growths, curMaintGoal, curGrowthGoal, eM.futGrowthFrac[pors][clan], eM.futGrowthYrMult[pors][clan], mtggNeeds6, mtNeeds6, mtgAvails6, mtGNeeds6, goalmtg1Needs6, goalmtg1Neg10);
-      //    hist.add(new History(aPre, History.loopMinorConditionals5, "mtgNeeds6", "set all the costs etc, poorHealthEfft, fertility, health"));
-      // mtgNeeds6.setNeeds(hist, History.debuggingMinor11, balances, maintCosts, travelCosts, rawGrowthCosts, rawGrowths, reqMaintCosts, reqGrowthCosts, rawFertilities, fertilities, rawHealths, mtgCosts, growthCosts, growths, mtgResults, -999., -999., 0., 0.);
+
       histTitles("C%", "rtd yCalcRawCosts");
       growths.sendHist(hist, "C%");
       hist.add(new History((aPre = "C%"), History.valuesMajor6, "r.growth", r.growth));
@@ -8447,10 +8410,6 @@ public class Assets {
       totNeeds = mtgNeeds6.curSum();
       hist.add(new History(aPre, History.loopMinorConditionals5, "mtgNeeds6", "set all the costs10 etc, poorHealthEfft, fertility, health"));
 
-      //  A10Row mtgNeeds6,mtgCosts10,growthCosts10,mtgResults10;
-      // A6Row mtgCosts10, growthCosts10, growths10;
-      //  mtgNeeds6 = makeZero(mtgNeeds6, "mtgNeeds6");
-      //    mtgNeeds6 = getNeeds("mtgNeeds6", "current needs, no goals, not future years of growth", yphase, n, n < 8 && ec.age < 2 && econCnt < 10 ? History.debuggingMinor11 : 2, bals, maintCosts10, travelCosts10, rawGrowthCosts10, rawGrowths, reqMaintCosts10, reqGrowthCosts10, rawFertilities2, rawProspects2, rawHealths2, mtgCosts10, growthCosts10, growths, -999., -999., 0., 0.);
       mNeeds.setMax(mtgNeeds6, mtggNeeds6); // largest need, smallest available
       growths.sendHist(hist, aPre);
       hist.add(new History(aPre, History.valuesMajor6, "r.growth", r.growth));

@@ -596,6 +596,14 @@ public class A6Rowa {
        }
         return this; 
        }
+     
+     /** copy to A6Row
+      * 
+      * @param startIx  //location of in this AxRow, 2 if this is A6Row
+      * @param aLev  // new A6Row level 
+      * @param aTitl  // new A6Row title
+      * @return 
+      */
   A6Row copy6(int startIx, int aLev, String aTitl) {
     A6Row rtn = new A6Row(ec,aLev, aTitl).zero();
     rtn.balances = true;
@@ -603,8 +611,8 @@ public class A6Rowa {
     rtn.lev = aLev;
     rtn.balances = true;
 
-    for (int m : I03) {
-      for (int n : ASECS) {
+    for (int m=0;m<4;m++) {
+      for (int n=0;n<E.LSECS;n++) {
         if(E.debugDouble){
         rtn.A[(int) m / 2].add(n, rtn.A[2 + m].set(n, doubleTrouble(A[startIx + m].get(n))));
         }else {

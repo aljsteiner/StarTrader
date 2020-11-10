@@ -72,6 +72,7 @@ public class Offer {
   double[] totalReceipts={0.,0.};
   double[] strategicFrac={0.,0.};
   double[] strategicValue= {0.,0.};
+  double[] startUnitsSum={0.,0.};
   double[] startWorth = {0.,0.}; // worth at start trade
   double[] endWorth = {0.,0.}; // worth after trade   
   /**
@@ -638,9 +639,10 @@ public class Offer {
       return lastGoods[term%2];
   }
   
-  void set2Values(Econ ec, double startWorth, double endWorth){
+  void set2Values(Econ ec, double startWorth, double startUnitsSum,double endWorth){
        int myIx  = cn[0] == ec ? 0 : cn[1] == ec ? 1 : 2;
        this.startWorth[myIx] = startWorth;
+       this.startUnitsSum[myIx] = startUnitsSum;
        this.endWorth[myIx] = endWorth;
   }
 

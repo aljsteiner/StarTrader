@@ -178,6 +178,16 @@ public class A6Row extends A6Rowa {
     }
     return this;
   }
+  
+/** copy an A6Row to another A6Row and return it
+ * 
+ * @param leva  level of the new A6Row
+ * @param titl  title of the new A6Row
+ * @return a new A6Row with the values of this A6Row
+ */
+  public A6Row copy(int leva, String titl){
+    return this.copy6(2, leva, titl);
+  }
 
   /**
    * copy the values of prev into this, particularly do not change the reference

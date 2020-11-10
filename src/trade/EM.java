@@ -90,6 +90,7 @@ class EM {
   ArrayList<Econ> planets = new ArrayList<Econ>();
   ArrayList<Econ> econs = new ArrayList<Econ>();
   ArrayList<EM> ems = new ArrayList<EM>();
+  TreeMap<String,Econ> names2ec = new TreeMap<String,Econ>();
   ArrayList<String> emNames = new ArrayList<String>();
   // int porsClanCntd[][] = {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}}; // defaults
   static int porsClanCnt[][] = {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}};
@@ -2004,10 +2005,12 @@ class EM {
     doVal("iBothCreateScore", iBothCreateScore, mScoreMult, "increased slider, increase the value of BothCreate in the winning Score");
     doVal("wTraderMultV", wTraderMultV, mScoreMult, "increased slider, increase the value of TraderMult values in the winning Score");
     doVal("wTraderMultI", wTraderMultI, mScoreMult, "increased slider, increase the value of TraderMult units values in the winning Score");
+    doVal("iNumberDiedI", iNumberDied, mScoreMult, "decrease slider below 50, further reduce the score by the number of dead planets and ships, increase slider above 50, further increase the score by dead economies ");
+  //  doVal("wTraderMultI", wTraderMultI, mScoreMult, "increased slider, increase the value of TraderMult units values in the winning Score");
     doVal("tradeReservFrac  ", tradeReservFrac, mTradeReservFrac, "raise the amount of resource or staff to reserve during a trade, higher reduces risk and reduces gain");
     doVal("Max LY  ", maxLY, mMaxLY, "adjust the max Light Years distance of planets for trades");
     doVal("Add LY  ", addLY, mAddLY, "adjust addition per round to the max Light Years distance of planets for traded");
-    doVal("SearchYearlyBias  ", searchYearBias, mSearchYearBias, "increase,increase discount of prospective trade for earlier years");
+    doVal("SearchYearlyBias  ", searchYearBias, mSearchYearBias, "increase,decrease value of prospective trade for earlier years");
     doVal("econLimits1  ", econLimits1, mEconLimits1, "Increase the max number of econs (planets+ships) in this game");
     doVal("econLimits2  ", econLimits2, mEconLimits2, "Increase the max number of econs (planets+ships) in this game");
     doVal("maxEcons", econLimits3, mEconLimits3, "Increase the max number of econs (planets+ships) in this game");
@@ -2609,7 +2612,7 @@ class EM {
     doRes(NEWKNOWLEDGEINCR, "incNewKnowledge", "Percent New Knowledge Incr/Year", 4, 3, 1, (LIST7 | LISTYRS | curAve | both), 0, 0, 0);
     doRes(COMMONKNOWLEDGEINCR, "incCommonKnowledge", "Percent Common Knowledge increase by year", 4, 3, 1, (LIST7 | LISTYRS | curAve | both), 0, 0, 0);
     doRes(MANUALSINCR, "PercIncrManuals", "Percent Manuals increase by years", 4, 3, 1, (LIST7 | LISTYRS | curAve | both), 0, 0, 0);
-    doRes(INCRAVAILFRAC5, "IncrAvailFrac5", "Percent increase in avail frac after trade at favor 5",2, 3,2, (LIST41 | THISYEARAVE | both | SKIPUNSET ), ROWS1 | LISTYRS |  CURAVE| BOTH | SKIPUNSET , ROWS2 | LIST41 | THISYEARUNITS  | BOTH | SKIPUNSET , ROWS3 | LIST41 | CUMUNITS | BOTH | SKIPUNSET );
+    doRes(INCRAVAILFRAC5, "IncrAvailFrac5", "Percent increase in avail frac after trade at favor 5",2, 3,2, LIST41 | THISYEARAVE | both | SKIPUNSET , ROWS1 | LISTYRS |  CURAVE| BOTH | SKIPUNSET , ROWS2 | LIST41 | THISYEARUNITS  | BOTH | SKIPUNSET , ROWS3 | LIST41 | CUMUNITS | BOTH | SKIPUNSET );
     doRes(INCRAVAILFRAC4, "IncrAvailFrac4", "Percent increase in avail frac after trade at favor 4",2, 3,2, DUP, 0, 0, 0);
     doRes(INCRAVAILFRAC3, "IncrAvailFrac3", "Percent increase in avail frac after trade at favor 3",2, 3,2, DUP, 0, 0, 0);
     doRes(INCRAVAILFRAC2, "IncrAvailFrac2", "Percent increase in avail frac after trade at favor 2",2, 3,2, DUP, 0, 0, 0);
@@ -2634,7 +2637,8 @@ class EM {
     doRes(TradeLastStrategicGoal, "LastStrategicGoal", "Strategic Goal after trade",2, 3,2, DUP, 0, 0, 0);
     doRes(TradeFirstStrategicValue, "FirstStrategicValue", "First Strategic Value",2, 3,2, DUP, 0, 0, 0);
     doRes(TradeLastStrategicValue, "LastStrategicValue", "Strategic Value after trade",2, 3,2, DUP, 0, 0, 0);
-     doRes("WTRADEDINCRF5", "incrWFav5Trade", "Percent Years worth increase at Favor5/start year worth",2, 3,2, DUP, 0, 0, 0);
+    // repeatlists at "W..." at a later point rn 
+    doRes("WTRADEDINCRF5", "incrWFav5Trade", "Percent Years worth increase at Favor5/start year worth",2, 3,2, LIST41 | THISYEARAVE | both | SKIPUNSET , ROWS1 | LISTYRS |  CURAVE| BOTH | SKIPUNSET , ROWS2 | LIST41 | THISYEARUNITS  | BOTH | SKIPUNSET , ROWS3 | LIST41 | CUMUNITS | BOTH | SKIPUNSET );
     doRes("WTRADEDINCRF4", "incrWFav4Trade", "Percent Years worth increase at Favor4/start year worth",2, 3,2, DUP, 0, 0, 0);
     doRes("WTRADEDINCRF3", "incrWFav3Trade", "Percent Years worth increase at Favor3/start year worth",2, 3,2, DUP, 0, 0, 0);
     doRes("WTRADEDINCRF2", "incrWFav2Trade", "Percent Years worth increase at Favor2/start year worth",2, 3,2, DUP, 0, 0, 0);
@@ -2663,7 +2667,7 @@ class EM {
     doRes("CRITICALRECEIPTSFRACWORTHF3", "CritTradeFracF3", "Percent of critical receipts worth favor3 Trades/start totWorth  ",2, 3,2, DUP, 0, 0, 0);
     doRes("CRITICALRECEIPTSFRACWORTHF2", "CritTradeFracF2", "Percent of critical receipts worth favor2 Trades/start totWorth  ",2, 3,2, DUP, 0, 0, 0);
     doRes("CRITICALRECEIPTSFRACWORTHF1", "CritTradeFracF1", "Percent of critical receipts worth favor1 Trades/start totWorth  ",2, 3,2, DUP, 0, 0, 0);
-     doRes("WTRADEDINCR", "WTradedIncr", "Percent Years worth increase/start year worth",2,2, 1, (LIST431YRS | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST431YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
+     doRes("WTRADEDINCR", "WTradedIncr", "Percent Years worth increase/start year worth",2,2, 1, (LIST41YRS | THISYEARAVE | BOTH  | BOTH | SKIPUNSET), ROWS1 | LIST41YRS | SKIPUNSET | CURAVE | SKIPUNSET | BOTH,ROWS2 | LIST41YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0);
     doRes("WORTHAYRNOTRADEINCR", "IncWorth aYr NoTrade", "Percent Year increase Worrth/worth if no trades this year",2, 3,2, DUP, 0, 0, 0);
     doRes("WORTH2YRNOTRADEINCR", "IncWorth 2Yr No Trade", "Percent Year increase Worrth/worth if  2 years of no trades",2, 3,2, DUP, 0, 0, 0);
     doRes("WORTH3YRNOTRADEINCR", "IncWorth 3Yrs No Trade", "Percent Year increase Worth/worth if 3 or more years of no trades",2, 3,2, DUP, 0, 0, 0);
@@ -2744,7 +2748,7 @@ class EM {
     doRes("TRADEDRCDF1", "W rcd fav1", "Percent Worth received when trade at fav1/initial worth",2,2,2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4 | SKIPUNSET | CUMAVE | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
     doRes("TRADEDRCDF0", "W rcd fav0", "Percent Worth received when trade at fav 0/initial worth",2,2,2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4 | SKIPUNSET | CUMAVE | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
     doRes("TRADEDRCD", "W rcd", "Percent Worth received when trade/initial worth",2,2,2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4 | SKIPUNSET | CUMAVE | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
-    doRes("TRADES%", "TRADES %", "Percent of trades per economy",2,2,2, (list1 | LIST4 | thisYr | BOTH | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4  | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
+    doRes("TRADES%", "TRADES %", "Percent of trades per economy",2,2,2, (list1 | LIST4 | thisYr | BOTH | BOTH | SKIPUNSET), ROWS2 | LIST0YRS | LIST1 | LIST4  | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
     doRes("DEADTRADES%", "Dead Trades %", "Percent of trades per dead economy",2,2,2, (list1 | thisYr | BOTH | SKIPUNSET), (list1 | curUnitAve | CUMAVE | BOTH | SKIPUNSET), LIST0 | SKIPUNSET | CUMAVE | BOTH, 0);
     doRes(RCTBAL, "RCBal/TBal", "Percent RC balance/tbal", 1, 1, 0, (LIST7 | skipUnset | curAve), 0, 0, 0);
     doRes(RCBAL, "RCBal", "RC balance", 1, 1, 0, (LIST7 | curAve), 0, 0, 0);
@@ -3679,6 +3683,8 @@ class EM {
     long d[] = {getP, getS};
     long dd[] = {getP, getS};
     String description = resS[rn][rDesc];
+    String isPercent = description.startsWith("per") && ((aop & (THISYEARAVE | CURAVE | CUMAVE) ) > 0L )?"%":"";
+    
     String detail = resS[rn][rDetail];
     double aVal;
     double sums;
@@ -3745,11 +3751,10 @@ class EM {
               for (int mm = 1; mm < E.lclans; mm++) {
                 //String ss[] = {">>>This", "row sums", "planets", "and ships", ">>>>>>>>>>"};
                 table.setValueAt(ss[mm], row, mm + 1);
-               
               }
             } else { // second half of sum
               for (int m = 0; m < E.lclans; m++) {
-                table.setValueAt(((sums += aVal = getD1(rn, dd[(int) i] + aop, m, ageIx)) < -93456789.0 ? "------" : dFrac.format(aVal)), row, (int) i * E.lclans + m + 1);
+                table.setValueAt(((sums += aVal = getD1(rn, dd[(int) i] + aop, m, ageIx)) < -93456789.0 ? "------" : dFrac.format(aVal) + isPercent), row, (int) i * E.lclans + m + 1);
               }
               table.setValueAt(dFrac.format(sums * .2), row, 1);
             }
@@ -3765,7 +3770,7 @@ class EM {
           resExt[row] = detail;
           for (long ij : d) {
             for (int m = 0; m < E.lclans; m++) {
-              table.setValueAt((((aVal = getD1(rn, (int) dd[(int) ij] + aop, m, ageIx)) < -93456789. ? aVal < -94567895. ? "--------" : "-----" : dFrac.format(aVal))), row, (int) ij * E.lclans + m + 1);
+              table.setValueAt((((aVal = getD1(rn, (int) dd[(int) ij] + aop, m, ageIx)) < -93456789. ? aVal < -94567895. ? "--------" : "-----" : dFrac.format(aVal) + isPercent)), row, (int) ij * E.lclans + m + 1);
             }
           }
           table.setValueAt(description + suffix + powers, row, 0);
@@ -4239,6 +4244,9 @@ class EM {
     winner = scoreVals(LIVEWORTH, wLiveWorthScore, ICUR0, isV);
     winner = scoreVals(getStatrN("WTRADEDINCRMULT"), wTraderMultV, ICUR0, isV);
     winner = scoreVals(getStatrN("WTRADEDINCRMULT"), wTraderMultI, ICUR0, isI);
+    winner = scoreVals(DIED, iNumberDied, ICUR0, isI);
+    winner = scoreVals(getStatrN("bothCreate"), iBothCreateScore, ICUR0, isI);
+   // winner = scoreVals(getStatrN("WTRADEDINCRMULT"), wTraderMultI, ICUR0, isI);
     resI[SCORE][ICUR0][CCONTROLD][ISSET] = 1;
     for (int n = 0; n < 5; n++) {
       resV[SCORE][ICUR0][0][n] = myScore[n];
