@@ -226,8 +226,8 @@ public class Assets {
   double lightYearsTraveled = 0.;
   // up to 10 visited ship names
   String visitedShipNames[][] = {{"A", "B", "C", "D", "E", "f", "g", "h", "i", "j"}, {"A", "B", "C", "D", "E"}, {"A", "B", "C", "D", "E"}, {"A", "B", "C", "D", "E"}, {"A", "B", "C", "D", "E"}};
-  double strategicGoal = 0., rGoal0 = 0., strategicValue = 0., goodFrac = 0.;
-  double firstStrategicGoal=0.,firstStrategicValue = 0.;
+  //double strategicGoal = 0., rGoal0 = 0., strategicValue = 0., goodFrac = 0.;
+ // double firstStrategicGoal=0.,firstStrategicValue = 0.;
   double endTradeWorth = -200.;
   /**
    * in trade.Assets bids positive are offers, negative are requests, positive
@@ -1690,7 +1690,8 @@ public class Assets {
             = eM.additionalKnowledgeGrowthForBonus[0] / 7;
     double multiplierForEfficiencyFromRequirements
             = eM.additionalKnowledgeGrowthForBonus[0] / 6;
-
+    double strategicGoal = 0., rGoal0 = 0., strategicValue = 0., goodFrac = 0.;
+    double firstStrategicGoal=0.,firstStrategicValue = 0.;
     // required for  Assets.CashFlow.getNeeds
     int bLev = History.dl;
     double poorHealthEffect = 0., PHE = 0., totNeeds = -999999.;
@@ -6793,19 +6794,6 @@ public class Assets {
 
       // may enter barter terminating process
       if (newTerm < 1) {
-        /*
-    TRADEFIRSTRECEIVE = ++e4;
-  setStat(EM.TRADEFIRSTRECEIVE, pors, clan, worthincr1, 1);
-  setStat(EM.TRADELASTRECEIVE, pors, clan, worthincr1, 1);
-  setStat(EM.TRADEFIRSTGAVE, pors, clan, worthincr1, 1);
-  setStat(EM.TRADELASTGAVE, pors, clan, worthincr1, 1);
-  setStat(EM.TRADESTRATFIRSTRECEIVE, pors, clan, worthincr1, 1);
-  setStat(EM.TRADESTRATLASTRECEIVE, pors, clan, worthincr1, 1);
-  setStat(EM.TRADESTRATFIRSTGAVE, pors, clan, worthincr1, 1);
-  setStat(EM.TRADESTRATLASTGAVE, pors, clan, worthincr1, 1);
-  setStat(EM.BEFORETRADEWORTH, pors, clan, worthincr1, 1);
-  setStat(EM.AFTERTRADEWORTH, pors, clan, worthincr1, 1);
-         */
         if (myTrade != null) {
           myTrade.xitTrade(); // term= 0 mytrade,-1 my reject,-2 other traded,-3o reject
           System.out.println(as.name + " xitTrade term=" + retOffer.getTerm());
@@ -6886,22 +6874,26 @@ public class Assets {
           setStat(EM.TradeFirstStrategicValue,pors,clan,firstStrategicValue,1);
           setStat(EM.TradeLastStrategicValue,pors,clan,strategicValue,1);
           retOffer.setTerm(-4);
-        } else if (entryTerm == -1) {  // Trade rejected
+        } else if (entryTerm == -1) {  // Trade lost, others barter
           tradedShipOrdinal++; // set ordinal of the next ship if any
           tradedSuccessTrades++;
           eM.porsVisited[pors]++;
           eM.porsClanVisited[pors][clan]++;
-          tradeRejected = true;
-          tradeMissed = tradeLost = tradeAccepted = false;
+          tradeLost = true;
+          tradeMissed = tradeRejected = tradeAccepted = false;
           EM.tradedCnt++;
           EM.porsTraded[pors]++;
           EM.porsClanTraded[pors][clan]++;
           EM.clanTraded[clan]++;
+          setStat(EM.TradeLostStrategicGoal,pors,clan,strategicGoal,1);
+          setStat(EM.TradeLostStrategicValue,pors,clan,strategicValue,1);
           retOffer.setTerm(-4);
-        } else if (newTerm == -1) {
-          tradeRejected = entryTerm == -1 ? false : true; // rejectd by this econ
-          tradeLost = entryTerm == -1 ? true : false; // rejected by othre econ
-          tradeMissed = tradeAccepted = false;
+      
+        } else if (newTerm == -1) { // trade rejected by barter
+          tradeRejected = true;
+          tradeMissed = tradeLost = tradeAccepted = false;
+          setStat(EM.TradeRejectedStrategicGoal,pors,clan,strategicGoal,1);
+          setStat(EM.TradeRejectedStrategicValue,pors,clan,strategicValue,1);
           setStat("WREJTRADEDPINCR", pors, clan, worthIncrPercent, 1);
           setStat(EM.INCRAVAILFRACa, pors, clan, tradeAvailIncrPercent, 1);
           eM.porsVisited[pors]++;
@@ -6963,10 +6955,10 @@ public class Assets {
           setStat(EM.INCRAVAILFRACb, pors, clan, tradeAvailIncrPercent, 1);
           eM.porsVisited[pors]++;
           eM.porsClanVisited[pors][clan]++;
-        } else {
+        } else {   // missed should not be reached
           // gameRes.UNTRADEDWINCR.wet(pors, clan, worthIncrPercent, 1);
           setStat("UNTRADEDWINCR", pors, clan, worthIncrPercent, 1);
-          setStat(EM.INCRAVAILFRACc, pors, clan, tradeAvailIncrPercent, 1);
+      //    setStat(EM.INCRAVAILFRACc, pors, clan, tradeAvailIncrPercent, 1);
           eM.porsVisited[pors]++;
           eM.porsClanVisited[pors][clan]++;
         }
@@ -7492,10 +7484,10 @@ public class Assets {
         } else if (fav >= 0.) {
           // gameRes.WTRADEDINCRF0.wet(pors, clan, worthincr1, 1);
           setStat("WTRADEDINCRF0", pors, clan, worthIncrPercent, 1);
-        } else if (fav >= -1.) {
+        } else if (tradeRejected) {
 
           setStat("WREJTRADEDPINCR", pors, clan, worthIncrPercent, 1);
-        } else if (fav >= -2.) {
+        } else if (tradeLost) {
           setStat("WLOSTTRADEDINCR", pors, clan, worthIncrPercent, 1);
         } else {
           if (prevBarterYear == eM.year) {
@@ -7504,6 +7496,10 @@ public class Assets {
           if (prevNoBarterYear != eM.year) {
             prevNoBarterYear = eM.year;
           }
+           // Trade missed
+          setStat("UNTRADEDWINCR", pors, clan, worthIncrPercent, 1);
+          setStat(EM.TradeMissedStrategicGoal,pors,clan,1.0,1); // no goal
+
           if (eM.year - prevBarterYear == 1) {
             setStat("WORTHAYRNOTRADEINCR", pors, clan, worthIncrPercent, 1);
           } else if (eM.year - prevBarterYear == 2) {
@@ -7511,8 +7507,7 @@ public class Assets {
           } else if (eM.year - prevBarterYear >= 3) {
             setStat("WORTH3YRNOTRADEINCR", pors, clan, worthIncrPercent, 1);
           }
-          setStat("UNTRADEDWINCR", pors, clan, worthIncrPercent, 1);
-        } //--- do year missed stats, years traded stats
+        } //--- did year missed stats, years traded stats
         if (prevNoBarterYear != eM.year) { // had a barter
           if (eM.year - prevNoBarterYear == 1) {
             setStat("WORTHAYRTRADEINCR", pors, clan, worthIncrPercent, 1);
@@ -7554,14 +7549,15 @@ public class Assets {
           } else if (fav >= 0.) {
             // gameRes.WTRADEDINCRF0.wet(pors, clan, worthincr1, 1);
             setStat("DEADWTRADEDINCRF0", pors, clan, worthincr1, 1);
-          } else if (fav >= -1.) {
+          } else if (tradeRejected) {
 
             setStat("DEADWREJTRADEDPINCR", pors, clan, worthincr1, 1);
-          } else if (fav >= -2.) {
+          } else if (tradeLost) {
             setStat("DEADWLOSTTRADEDINCR", pors, clan, worthincr1, 1);
           } else {
             // gameRes.UNTRADEDWINCR.wet(pors, clan, worthincr1, 1);
             setStat("DEADUNTRADEDWINCR", pors, clan, worthincr1, 1);
+            setStat(EM.TradeDeadMissedStrategicGoal,pors,clan,1.0,1);
           }
           /*
    static final int DIEDSN4 = ++e4;
