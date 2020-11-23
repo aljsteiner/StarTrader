@@ -97,6 +97,13 @@ public class E {
   static int statsClanStatus = 9;
   static int initPorSStatus = 3;
   static int initClanStatus = 9;
+  static final int LOGTEAmSTATUS = logClanStatus;
+  static final int STATSTEAMSTATUS = statsClanStatus;
+  static final int logTeamStatus = logClanStatus;
+  static final int statsTeamStatus = statsClanStatus;
+  static final int initTeamStatus = initClanStatus;
+  static final int INITTEAMSTATUS = initClanStatus;
+  
 
   public static String savedgameTextField;
   public static String savedgameTextField2;
@@ -1616,9 +1623,12 @@ public class E {
       if(v%1 > E.NZERO && v%1 < E.PZERO){  //very close to zero
         return whole.format(v);
       }
+      dFrac.setMaximumIntegerDigits(7);
+      dFrac.setMinimumIntegerDigits(1);
       if(v ==.0 || v == -0){  // actual zero
         dFrac.setMinimumFractionDigits(0);
         dFrac.setMaximumFractionDigits(1);
+        
       return dFrac.format(v);
       } else if((v > -999999. && v < -.001) || (v > .001 && v < 999999.)){
        dFrac.setMinimumFractionDigits(2);

@@ -7569,12 +7569,14 @@ public class Assets {
   static final int DIEDSN4RN4 = ++e4; 
            */
           if ((mtgAvails6.getRow(4).min(3) < -0.0)) {
+            //Staff min(3) 4th min lt 0, 4 out of 7 sectors lt 0
             setStat(EM.DIEDSN4, pors, clan, worthincr1, 1);
           }
           if ((mtgAvails6.getRow(2).min(3) < -0.0)) {
             setStat(EM.DIEDRN4, pors, clan, worthincr1, 1);
           }
           if ((mtgAvails6.getRow(4).min(3) < -0.0) && (mtgAvails6.getRow(2).max(2) > mtgAvails6.getRow(4).max(2) * 5.)) {
+            // Staff min(3) lt 0, r max(2) 3rd max gt s max(2) * 5   r gt 5*s
             setStat(EM.DIEDSN4RM3X5, pors, clan, worthincr1, 1);
           }
           if ((mtgAvails6.getRow(4).min(3) < -0.0) && (mtgAvails6.getRow(2).max(2) > mtgAvails6.getRow(4).max(2) * 4.)) {

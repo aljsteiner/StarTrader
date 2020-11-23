@@ -28,7 +28,6 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.TreeMap;
-import java.awt.*;
 import javax.swing.JTable;
 import static trade.E.myTestDone;
 
@@ -2372,12 +2371,13 @@ class EM {
   static final int TradeLostStrategicValue = ++e4;
   static final int TradeMissedStrategicGoal = ++e4;
   static final int TradeDeadLostStrategicGoal = ++e4;
-  static final int TradeDeadMissedStrategicGoal = ++e4;
+
   static final int TradeDeadLostStrategicValue = ++e4;
   static final int TradeDeadRejectedStrategicGoal = ++e4;
   static final int TradeDeadStrategicGoal = ++e4;
   static final int TradeDeadRejectedStrategicValue = ++e4;
   static final int TradeDeadStrategicValue = ++e4;
+  static final int TradeDeadMissedStrategicGoal = ++e4;
   /*
   setStat(EM.TradeFirstStrategicGoal,pors,clan,firstStrategicGoal,1);
           setStat(EM.TradeLastStrategicGoal,pors,clan,strategicGoal,1);
@@ -2414,7 +2414,7 @@ class EM {
   void defRes() {
 
     doRes(SCORE, "Score", "Winner has the highest score the result of combining the different priorities set by several value entries which increase the score", 3, 4, 3, LIST7 | LIST8 | LIST9 | LIST43210YRS | thisYr | SUM, 0, 0, 0);
-    doRes(LIVEWORTH, "Live Worth", "Live Worth Value including year end working, reserve: resource, staff, knowledge", 3,2, 0, LIST7 | LIST8 | LIST9 | LIST43210YRS | thisYr | CUMUNITS | SUM, ROWS1 | LIST7 | LIST8 | LIST9 | LIST43210YRS | THISYEAR | thisYrAve | BOTH,0L ,ROWS3 | LIST43210YRS  | THISYEARUNITS | BOTH | SKIPUNSET);
+    doRes(LIVEWORTH, "Live Worth", "Live Worth Value including year end working, reserve: resource, staff, knowledge", 3,2, 0, LIST7 | LIST8 | LIST9 | LIST43210YRS | thisYr | SUM, ROWS1 | LIST7 | LIST8 | LIST9 | LIST0YRS | THISYEAR | THISYEARUNITS | thisYrAve | BOTH,0L ,ROWS3 | LIST43210YRS  | CUMUNITS | BOTH | SKIPUNSET);
     doRes(STARTWORTH, "Starting Worth", "Starting Worth Value including working, reserve: resource, staff, knowledge", 3,2, 0, LIST7 | LIST8 | LIST9 | LIST2YRS | thisYr | sum, ROWS1 | LIST7 | LIST8 | LIST9 | LIST2YRS | THISYEAR | thisYrAve | THISYEARUNITS | BOTH, ROWS2,LIST43210YRS | ROWS3 | CUMUNITS | BOTH) ;
     doRes(WORTHIFRAC, "PercInitWorth ", "Percent of Initial Worth Value including working, reserve: resource, staff, knowledge", 3,2, 0,LIST7 | LIST8 | LIST9 | THISYEARAVE | SUM,
         LIST7 | LIST8 | LIST9 |  THISYEARAVE |  BOTH, 0, 0);
@@ -2430,185 +2430,115 @@ class EM {
     doRes("swapSSXchg", "swapSSXchg", "Uses of S Xchg Scost Swap percent of RC", 3,2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
     doRes("swapSRXchg", "swapSRXchg", "Uses of S Xchg Rcost Swap percent of RC", 3,2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
     doRes(DIED, "died per year", "planets or ships died in a year",2,2, 3,
-        LIST320YRS | THISYEAR | THISYEARUNITS | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0, 0L);
+        LIST320YRS | THISYEAR | THISYEARUNITS | BOTH | SKIPUNSET,
+        LIST3YRS | CUMUNITS | BOTH | SKIPUNSET, 0, 0L);
     doRes(DIEDPERCENT, "DIED %", "Percent planets or ships died",2,2, 3,
         0, 0, 0, 0);
 
-    doRes(DIEDSN4, "DIEDSN4", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
+    doRes(DIEDSN4, "DIEDSN4", "died s min(3) or 4 staff lt 0",2,2, 3,
+        LIST2 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
         0L, 0L, 0L);
-    doRes(DIEDRN4, "DIEDRN3", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN4RM3X5, " DIEDSN4RM3X5", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN4RM3X4, "DIEDSN4RM3X4", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSM3X5, "DIEDSM3X5", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN4RN4, "DIEDSN4RN4", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDRM3X4, "diedSN3RN3", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN3RN3, "diedSN3RN3", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN3RN2, "DIEDSN3RN2", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN3RM3X4, "DIEDSN3RM3X4", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN3RM3X3, "DIEDSN3RM3X3", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN3RN1, "DIEDSN3RN1", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN3RM3X2, "DIEDSN3RM3X2", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN3RM3X1, "DIEDSN3RM3X1", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN3RM2X4, "DIEDSN3RM2X4", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN3RM2X3, "DIEDSN3RM2X3", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN3RM2X2, "DIEDSN3RM2X2", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN3RM2X1, "DIEDSN3RM2X1", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN3RM1X4, "DIEDSN3RM1X4", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN3RM1X3, "DIEDSN3RM1X3", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN3RM1X2, "DIEDSN3RM1X2", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN3RM1X1, "DIEDSN3RM1X1", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN2RN3, "DIEDSN2RN3", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN2RN2, "DIEDSN2RN2", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN2RM3X4, "DIEDSN2RM3X4", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN2RM3X3, "DIEDSN2RM3X3", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN2RN1, "DIEDSN2RN1", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN2RM3X2, "DIEDSN2RM3X2", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN2RM3X1, "DIEDSN2RM3X1", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN2RM2X4, "DIEDSN2RM2X4", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN2RM2X3, "DIEDSN2RM2X3", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN2RM2X2, "DIEDSN2RM2X2", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN2RM2X1, "DIEDSN2RM2X1", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN2RM1X4, "DIEDSN2RM1X4", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN2RM1X3, "DIEDSN2RM1X3", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN2RM1X2, "DIEDSN2RM1X2", "died",2,2, 3,
-        LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET,
-        0L, 0L, 0L);
-    doRes(DIEDSN2RM1X1, "DIEDSN2RM1X1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSN1RN3, "DIEDSN1RN3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSN1RN2, "DIEDSN1RN2", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSN1RM3X4, "DIEDSN1RM3X4", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSN1RM3X3, "DIEDSN1RM3X3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSN1RN1, "DIEDSN1RN1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSN1RM3X2, "DIEDSN1RM3X2", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSN1RM3X1, "DIEDSN1RM3X1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSN1RM2X4, "DIEDSN1RM2X4", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSN1RM2X3, "DIEDSN1RM2X3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSN1RM2X2, "DIEDSN1RM2X2", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSN1RM2X1, "DIEDSN1RM2X1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSN1RM1X4, "DIEDSN1RM1X4", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSN1RM1X3, "DIEDSN1RM1X3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSN1RM1X2, "DIEDSN1RM1X2", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM3X4RN3, "DIEDSM3X4RN3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM3X3RN3, "DIEDSM3X3RN3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM3X2RN3, "DIEDSM3X2RN3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM3X1RN3, "DIEDSM3X1RN3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM2X4RN3, "DIEDSM2X4RN3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM2X3RN3, "DIEDSM2X3RN3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM2X2RN3, "DIEDSM2X2RN3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM2X1RN3, "DIEDSM2X1RN3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM1X4RN3, "DIEDSM1X4RN3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM1X3RN3, "DIEDSM1X3RN3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM1X2RN3, "DIEDSM1X2RN3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM1X1RN3, "DIEDSM1X1RN3", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM3X4RN2, "DIEDSM3X4RN2", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM3X3RN2, "DIEDSM3X3RN2", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM3X2RN2, "DIEDSM3X2RN2", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM3X1RN2, "DIEDSM3X1RN2", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM2X4RN2, "DIEDSM2X4RN2", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM2X3RN2, "DIEDSM2X3RN2", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM2X2RN2, "DIEDSM2X2RN2", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM2X1RN2, "DIEDSM2X1RN2", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM1X4RN2, "DIEDSM1X4RN2", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM1X3RN2, "DIEDSM1X3RN2", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM1X2RN2, "DIEDSM1X2RN2", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM1X1RN1, "DIEDSM1X1RN1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM3X4RN1, "DIEDSM3X4RN1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM3X3RN1, "DIEDSM3X3RN1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM3X2RN1, "DIEDSM3X2RN1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM3X1RN1, "DIEDSM3X1RN1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM2X4RN1, "DIEDSM2X4RN1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM2X3RN1, "DIEDSM2X3RN1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM2X2RN1, "DIEDSM2X2RN1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM2X1RN1, "DIEDSM2X1RN1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM1X4RN1, "DIEDSM1X4RN1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM1X3RN1, "DIEDSM1X3RN1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSM1X2RN1, "DIEDSM1X2RN1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes(DIEDSN1RM1X1, "DIEDSN1RM1X1", "died",2,2, 3, LIST20 | LIST3 | ROWS2 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L, 0L);
-    doRes("DeadNegN", "DeadNegSwapN", "Dead Swaps never entered",2,2, 3, ROWS1 | LIST3 | LIST20 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST2 | LIST3 | LIST20 | LIST0YRS | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L);
-    doRes("DeadLt5", "DeadLt5", "no more than 15 swaps",2,2, 3, ROWS1 | LIST3 | LIST20 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST2 | LIST3 | LIST20 | LIST0YRS | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L);
-    doRes("DeadLt10", "DeadLt10", "no more than 10 swaps",2,2, 3, ROWS1 | LIST3 | LIST20 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST2 | LIST3 | LIST20 | LIST0YRS | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L);
-    doRes("DeadLt20", "DeadLt20", "no more than 20 swaps",2,2, 3, ROWS1 | LIST3 | LIST20 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST2 | LIST3 | LIST20 | LIST0YRS | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L);
-    doRes("DeadNegProsp", "DeadNegProsp", "Died either R or S had a negative",2,2, 3, ROWS1 | LIST0 | LIST9 | LIST3 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |  LIST0 | LIST2 | LIST9 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L);
-    doRes("DeadRatioS", "DeadRatioS", "Resource  S values simply too small",2,2, 3, ROWS1 | LIST0 | LIST9 | LIST3 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |  LIST0 | LIST2 | LIST9 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L);
-    doRes("DeadRatioR", "DeadRatioR", "R values simply too small",2,2, 3, ROWS1 | LIST0 | LIST9 | LIST3 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |  LIST0 | LIST2 | LIST9 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L);
-    doRes("died", "died", "died from any set of causes",2,2, 3, ROWS1 | LIST0 | LIST9 | LIST3 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |  LIST0 | LIST2 | LIST9 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L);
+    doRes(DIEDRN4, "DIEDRN3", "died 4 resource lt 0",2,2, 3);
+    doRes(DIEDSN4RM3X5, " DIEDSN4RM3X5", "died 4 r lt 0, && 3 max r gt 5 times 3 max s",2,2, 3);
+    doRes(DIEDSN4RM3X4, "DIEDSN4RM3X4", "died 4 r lt 0, && 3 max r gt 4 Times 3 max s",2,2, 3);
+    doRes(DIEDSM3X5, "DIEDSM3X5", "died  3 max s gt 5 times 3 max s",2,2, 3);
+    doRes(DIEDSN4RN4, "DIEDSN4RN4", "died 4s lt 0 and 4r lt 0",2,2, 3);
+    doRes(DIEDRM3X4, "DIEDRM3X4", "died 3 max r gt 4 times 3 max s",2,2, 3);
+    doRes(DIEDSN3RN3, "diedSN3RN3", "died 3 s lt 0 and 3 r lt 0",2,2, 3);
+    doRes(DIEDSN3RN2, "DIEDSN3RN2", "died 3 s lt 0 and 2 r lt 0",2,2, 3);
+    doRes(DIEDSN3RM3X4, "DIEDSN3RM3X4", "died 3 s lt 0 and 3 r max gt 4 times 3 s msc",2,2, 3);
+    doRes(DIEDSN3RM3X3, "DIEDSN3RM3X3", "died",2,2,3);
+    doRes(DIEDSN3RN1, "DIEDSN3RN1", "died",2,2,3);
+    doRes(DIEDSN3RM3X2, "DIEDSN3RM3X2", "died",2,2,3);
+    doRes(DIEDSN3RM3X1, "DIEDSN3RM3X1", "died",2,2,3);
+    doRes(DIEDSN3RM2X4, "DIEDSN3RM2X4", "died",2,2,3);
+    doRes(DIEDSN3RM2X3, "DIEDSN3RM2X3", "died",2,2,3);
+    doRes(DIEDSN3RM2X2, "DIEDSN3RM2X2", "died",2,2,3);
+    doRes(DIEDSN3RM2X1, "DIEDSN3RM2X1", "died",2,2,3);
+    doRes(DIEDSN3RM1X4, "DIEDSN3RM1X4", "died",2,2,3);
+    doRes(DIEDSN3RM1X3, "DIEDSN3RM1X3", "died",2,2,3);
+    doRes(DIEDSN3RM1X2, "DIEDSN3RM1X2", "died",2,2,3);
+    doRes(DIEDSN3RM1X1, "DIEDSN3RM1X1", "died",2,2,3);
+    doRes(DIEDSN2RN3, "DIEDSN2RN3", "died",2,2,3);
+    doRes(DIEDSN2RN2, "DIEDSN2RN2", "died",2,2,3);
+    doRes(DIEDSN2RM3X4, "DIEDSN2RM3X4", "died",2,2,3);
+    doRes(DIEDSN2RM3X3, "DIEDSN2RM3X3", "died",2,2,3);
+    doRes(DIEDSN2RN1, "DIEDSN2RN1", "died",2,2,3);
+    doRes(DIEDSN2RM3X2, "DIEDSN2RM3X2", "died",2,2,3);
+    doRes(DIEDSN2RM3X1, "DIEDSN2RM3X1", "died",2,2,3);
+    doRes(DIEDSN2RM2X4, "DIEDSN2RM2X4", "died",2,2,3);
+    doRes(DIEDSN2RM2X3, "DIEDSN2RM2X3", "died",2,2,3);
+    doRes(DIEDSN2RM2X2, "DIEDSN2RM2X2", "died",2,2,3);
+    doRes(DIEDSN2RM2X1, "DIEDSN2RM2X1", "died",2,2,3);
+    doRes(DIEDSN2RM1X4, "DIEDSN2RM1X4", "died",2,2,3);
+    doRes(DIEDSN2RM1X3, "DIEDSN2RM1X3", "died",2,2,3);
+    doRes(DIEDSN2RM1X2, "DIEDSN2RM1X2", "died",2,2,3);
+    doRes(DIEDSN2RM1X1, "DIEDSN2RM1X1", "died",2,2,3);
+    doRes(DIEDSN1RN3, "DIEDSN1RN3", "died",2,2,3);
+    doRes(DIEDSN1RN2, "DIEDSN1RN2", "died",2,2,3);
+    doRes(DIEDSN1RM3X4, "DIEDSN1RM3X4", "died",2,2,3);
+    doRes(DIEDSN1RM3X3, "DIEDSN1RM3X3", "died",2,2,3);
+    doRes(DIEDSN1RN1, "DIEDSN1RN1", "died",2,2,3);
+    doRes(DIEDSN1RM3X2, "DIEDSN1RM3X2", "died",2,2,3);
+    doRes(DIEDSN1RM3X1, "DIEDSN1RM3X1", "died",2,2,3);
+    doRes(DIEDSN1RM2X4, "DIEDSN1RM2X4", "died",2,2,3);
+    doRes(DIEDSN1RM2X3, "DIEDSN1RM2X3", "died",2,2,3);
+    doRes(DIEDSN1RM2X2, "DIEDSN1RM2X2", "died",2,2,3);
+    doRes(DIEDSN1RM2X1, "DIEDSN1RM2X1", "died",2,2,3);
+    doRes(DIEDSN1RM1X4, "DIEDSN1RM1X4", "died",2,2,3);
+    doRes(DIEDSN1RM1X3, "DIEDSN1RM1X3", "died",2,2,3);
+    doRes(DIEDSN1RM1X2, "DIEDSN1RM1X2", "died",2,2,3);
+    doRes(DIEDSM3X4RN3, "DIEDSM3X4RN3", "died",2,2,3);
+    doRes(DIEDSM3X3RN3, "DIEDSM3X3RN3", "died",2,2,3);
+    doRes(DIEDSM3X2RN3, "DIEDSM3X2RN3", "died",2,2,3);
+    doRes(DIEDSM3X1RN3, "DIEDSM3X1RN3", "died",2,2,3);
+    doRes(DIEDSM2X4RN3, "DIEDSM2X4RN3", "died",2,2,3);
+    doRes(DIEDSM2X3RN3, "DIEDSM2X3RN3", "died",2,2,3);
+    doRes(DIEDSM2X2RN3, "DIEDSM2X2RN3", "died",2,2,3);
+    doRes(DIEDSM2X1RN3, "DIEDSM2X1RN3", "died",2,2,3);
+    doRes(DIEDSM1X4RN3, "DIEDSM1X4RN3", "died",2,2,3);
+    doRes(DIEDSM1X3RN3, "DIEDSM1X3RN3", "died",2,2,3);
+    doRes(DIEDSM1X2RN3, "DIEDSM1X2RN3", "died",2,2,3);
+    doRes(DIEDSM1X1RN3, "DIEDSM1X1RN3", "died",2,2,3);
+    doRes(DIEDSM3X4RN2, "DIEDSM3X4RN2", "died",2,2,3);
+    doRes(DIEDSM3X3RN2, "DIEDSM3X3RN2", "died",2,2,3);
+    doRes(DIEDSM3X2RN2, "DIEDSM3X2RN2", "died",2,2,3);
+    doRes(DIEDSM3X1RN2, "DIEDSM3X1RN2", "died",2,2,3);
+    doRes(DIEDSM2X4RN2, "DIEDSM2X4RN2", "died",2,2,3);
+    doRes(DIEDSM2X3RN2, "DIEDSM2X3RN2", "died",2,2,3);
+    doRes(DIEDSM2X2RN2, "DIEDSM2X2RN2", "died",2,2,3);
+    doRes(DIEDSM2X1RN2, "DIEDSM2X1RN2", "died",2,2,3);
+    doRes(DIEDSM1X4RN2, "DIEDSM1X4RN2", "died",2,2,3);
+    doRes(DIEDSM1X3RN2, "DIEDSM1X3RN2", "died",2,2,3);
+    doRes(DIEDSM1X2RN2, "DIEDSM1X2RN2", "died",2,2,3);
+    doRes(DIEDSM1X1RN1, "DIEDSM1X1RN1", "died",2,2,3);
+    doRes(DIEDSM3X4RN1, "DIEDSM3X4RN1", "died",2,2,3);
+    doRes(DIEDSM3X3RN1, "DIEDSM3X3RN1", "died",2,2,3);
+    doRes(DIEDSM3X2RN1, "DIEDSM3X2RN1", "died",2,2,3);
+    doRes(DIEDSM3X1RN1, "DIEDSM3X1RN1", "died",2,2,3);
+    doRes(DIEDSM2X4RN1, "DIEDSM2X4RN1", "died",2,2,3);
+    doRes(DIEDSM2X3RN1, "DIEDSM2X3RN1", "died",2,2,3);
+    doRes(DIEDSM2X2RN1, "DIEDSM2X2RN1", "died",2,2,3);
+    doRes(DIEDSM2X1RN1, "DIEDSM2X1RN1", "died",2,2,3);
+    doRes(DIEDSM1X4RN1, "DIEDSM1X4RN1", "died",2,2,3);
+    doRes(DIEDSM1X3RN1, "DIEDSM1X3RN1", "died",2,2,3);
+    doRes(DIEDSM1X2RN1, "DIEDSM1X2RN1", "died",2,2,3);
+    doRes(DIEDSN1RM1X1, "DIEDSN1RM1X1", "died",2,2,3);
+    doRes("DeadNegN", "DeadNegSwapN", "Dead Swaps never entered",2,2, 3, ROWS2 | LIST2 | LIST3 | LIST2YRS | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L,0L);
+    doRes("DeadLt5", "DeadLt5", "no more than 15 swaps",2,2, 3);
+    doRes("DeadLt10", "DeadLt10", "no more than 10 swaps",2,2, 3);
+    doRes("DeadLt20", "DeadLt20", "no more than 20 swaps",2,2, 3);
+    doRes("DeadNegProsp", "DeadNegProsp", "Died either R or S had a negative",2,2, 3);
+    doRes("DeadRatioS", "DeadRatioS", "Resource  S values simply too small",2,2, 3);
+    doRes("DeadRatioR", "DeadRatioR", "R values simply too small",2,2, 3);
+    doRes("died", "died", "died from any set of causes",2,2, 3, 0L, ROWS1 | LIST0 | LIST9 | LIST3 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |  LIST0 | LIST2 | LIST3 | LIST9 | CUMUNITS | BOTH | SKIPUNSET, 0L);
     doRes(MISSINGNAME, "missing name", "tried an unknown name", 6, 0, list0 | cumUnits | curUnits | curAve | cumAve | both, 0, 0, 0);
-    doRes(DEADRATIO, "diedRatio", "died,average mult year last/initial worth death",2,2, 3, ROWS1 | LIST0 | LIST9 | LIST3 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |  LIST0 | LIST2 | LIST9 | CUMUNITS | BOTH | SKIPUNSET, 0L, 0L);
-    doRes(DEADHEALTH, "died health", "died,average negative minimum health at death",2,2, 3, ROWS1 | LIST0 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST7 | LIST8 | LIST9 | CUMUNITS | LISTYRS | BOTH | SKIPUNSET, 0L, 0L);
-    doRes(DEADFERTILITY, "died fertility", "died,average negative minimum fertility at death",2,2, 3, ROWS1 | LIST0 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST7 | LIST8 | LIST9 | CUMUNITS | LISTYRS | BOTH | SKIPUNSET, 0L, 0L);
-    doRes(DEADSWAPSMOVED, "diedSwapMoves", "died,average Swap Moves at death",2,2, 3, ROWS1 | LIST0 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST7 | LIST8 | LIST9 | CUMUNITS | LISTYRS | BOTH | SKIPUNSET, 0L, 0L);
-    doRes(DEADSWAPSCOSTS, "diedSwapCosts", "died,average SwapCosts at death",2,2, 3, ROWS1 | LIST0 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST7 | LIST8 | LIST9 | CUMUNITS | LISTYRS | BOTH | SKIPUNSET, 0L, 0L);
-    doRes(DEADTRADED, "diedTraded", "died,even after trading",2,2, 3, ROWS1 | LIST0 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST7 | LIST8 | LIST9 | CUMUNITS | LISTYRS | BOTH | SKIPUNSET, 0L, 0L);
+    doRes(DEADRATIO, "diedRatio", "died,average mult year last/initial worth death",2,2, 3, 0L, 0L, ROWS2 | LIST2 | LIST3 | LIST2YRS | CUMUNITS | BOTH | SKIPUNSET,0L);
+    doRes(DEADHEALTH, "died health", "died,average negative minimum health at death",2,2, 3);
+    doRes(DEADFERTILITY, "died fertility", "died,average negative minimum fertility at death",2,2, 3);
+    doRes(DEADSWAPSMOVED, "diedSwapMoves", "died,average Swap Moves at death",2,2, 3);
+    doRes(DEADSWAPSCOSTS, "diedSwapCosts", "died,average SwapCosts at death",2,2, 3);
+    doRes(DEADTRADED, "diedTraded", "died,even after trading",2,2, 3,0L, ROWS1 | LIST3 | LIST2 | LIST4 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 | LIST7 | LIST8 | LIST9 | CUMUNITS | LISTYRS | BOTH | SKIPUNSET, 0L);
 
     doRes(SGMTGC, "SGmtgCosts", "SG Maintenance,Travel,Growth Costs / RCSGBal", 6, 1, 1, (LISTYRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
     doRes(RCMTGC, "RCmtgCosts", "RC Maintenance,Travel,Growth Costs / RCSGBal", 6, 1, 1, (LISTYRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
@@ -2639,7 +2569,7 @@ class EM {
     doRes(NEWKNOWLEDGEINCR, "incNewKnowledge", "Percent New Knowledge Incr/Year", 4, 3, 1, (LIST7 | LISTYRS | curAve | both), 0, 0, 0);
     doRes(COMMONKNOWLEDGEINCR, "incCommonKnowledge", "Percent Common Knowledge increase by year", 4, 3, 1, (LIST7 | LISTYRS | curAve | both), 0, 0, 0);
     doRes(MANUALSINCR, "PercIncrManuals", "Percent Manuals increase by years", 4, 3, 1, (LIST7 | LISTYRS | curAve | both), 0, 0, 0);
-    doRes(INCRAVAILFRAC5, "IncrAvailFrac5", "Percent increase in avail frac after trade at favor 5",2, 3,2,THISYEARAVE | both | SKIPUNSET , ROWS1 | CURAVE| BOTH | SKIPUNSET , ROWS2 | LIST41 | THISYEARUNITS  | BOTH | SKIPUNSET , ROWS3 | LIST41 | CUMUNITS | BOTH | SKIPUNSET );
+    doRes(INCRAVAILFRAC5, "IncrAvailFrac5", "Percent increase in avail frac after trade at favor 5",2, 3,2, THISYEARAVE | both | SKIPUNSET , ROWS1 | LIST41 | CURAVE| BOTH | SKIPUNSET , ROWS2  | THISYEARUNITS  | BOTH | SKIPUNSET , ROWS3 |  CUMUNITS | BOTH | SKIPUNSET );
     doRes(INCRAVAILFRAC4, "IncrAvailFrac4", "Percent increase in avail frac after trade at favor 4",2, 3,2, DUP, 0, 0, 0);
     doRes(INCRAVAILFRAC3, "IncrAvailFrac3", "Percent increase in avail frac after trade at favor 3",2, 3,2, DUP, 0, 0, 0);
     doRes(INCRAVAILFRAC2, "IncrAvailFrac2", "Percent increase in avail frac after trade at favor 2",2, 3,2, DUP, 0, 0, 0);
@@ -2648,7 +2578,7 @@ class EM {
     doRes(INCRAVAILFRAC, "IncrAvailFrac", "Percent increase in avail frac after trade  at any trade",2, 3,2, DUP, 0, 0, 0);
     doRes(INCRAVAILFRACa, "IncrAvailFracRej", "Percent increase in avail frac trade rejected",2, 3,2, DUP, 0, 0, 0);
     doRes(INCRAVAILFRACb, "IncrAvailFracb", "Percent increase in avail frac after trade rejected at trade failure",2, 3,2, DUP, 0, 0, 0);
-    doRes(TRADEFIRSTRECEIVE, "First Received", "First amount received in a trade",2, 3,2, DUP, 0, 0, 0);
+    doRes(TRADEFIRSTRECEIVE, "First Received", "First amount received in a trade",2, 3,2,  LIST41 | CURAVE| BOTH | SKIPUNSET ,0L ,0L,0L );
     doRes(TRADELASTRECEIVE, "Last Received", "Final amount received in a trade",2, 3,2, DUP, 0, 0, 0);
     doRes(TRADEFIRSTGAVE, "First given", "First amount given in trade",2, 3,2, DUP, 0, 0, 0);
     doRes(TRADELASTGAVE, "Last Given", "Final amount given in trade",2, 3,2, DUP, 0, 0, 0);
@@ -2658,7 +2588,7 @@ class EM {
     doRes(TRADESTRATLASTGAVE, "TradeStrategicLastGave", "Final Amount given in trade",2, 3,2, DUP, 0, 0, 0);
     doRes(BEFORETRADEWORTH, "BeforeTradeWorth", "Worth before A trade",2, 3,2, DUP, 0, 0, 0);
     doRes(AFTERTRADEWORTH, "AfterTradeWorth", "Worth after a trade",2, 3,2, DUP, 0, 0, 0);
-    doRes(TRADEWORTHINCRPERCENT, "TradeWorthIncrPercent", "Percent increase in Worth after trade",2, 3,2, DUP, 0, 0, 0);
+    doRes(TRADEWORTHINCRPERCENT, "TradeWorthIncrPercent", "Percent increase in Worth after trade",2, 3,2, SKIPDUP | LIST4 | THISYEARAVE , 0, 0, LIST41 | ROWS3 | CUMUNITS );
     doRes(TradeFirstStrategicGoal, "FirstStrategicGoal", "First Strategic Goal",2, 3,2, DUP, 0, 0, 0);
     doRes(TradeLastStrategicGoal, "LastStrategicGoal", "Strategic Goal after trade",2, 3,2, DUP, 0, 0, 0);
     doRes(TradeFirstStrategicValue, "FirstStrategicValue", "First Strategic Value",2, 3,2, DUP, 0, 0, 0);
@@ -2668,8 +2598,8 @@ class EM {
     doRes(TradeRejectedStrategicValue, "RejectedtStrategicValue", "Strategic Value after Trade rejected",2, 3,2, DUP, 0, 0, 0);
     doRes(TradeLostStrategicValue, "LostStrategicValue", "Strategic Value after trade lost",2, 3,2, DUP, 0, 0, 0);
      doRes(TradeMissedStrategicGoal, "MissedStrategicGoal", "Trade Missed no value",2, 3,2, DUP, 0, 0, 0);
-     doRes(TradeDeadMissedStrategicGoal, "DeadMissedStrategicGoal", "Dead No Strategic Goal no trade",2, 3,2, DUP, 0, 0, 0);
-    doRes(TradeDeadLostStrategicGoal, "DeadLostStrategicGoal", "Strategic Goal after trade lost and dead",2, 3,2,THISYEARAVE | both | SKIPUNSET , ROWS1 | CURAVE| BOTH | SKIPUNSET , ROWS2 | LIST94321 | THISYEARUNITS  | BOTH | SKIPUNSET , ROWS3 | LIST94321 | CUMUNITS | BOTH | SKIPUNSET );    
+     doRes(TradeDeadMissedStrategicGoal, "DeadMissedStrategicGoal", "Dead No Strategic Goal no trade",2, 3,2, THISYEARAVE | both | SKIPUNSET , ROWS1 | LIST94321 | CURAVE| BOTH | SKIPUNSET , ROWS2 | THISYEARUNITS  | BOTH | SKIPUNSET , ROWS3  | CUMUNITS | BOTH | SKIPUNSET );  
+    doRes(TradeDeadLostStrategicGoal, "DeadLostStrategicGoal", "Strategic Goal after trade lost and dead",2, 3,2,THISYEARAVE | both | SKIPUNSET , ROWS1 | LIST94321 | CURAVE| BOTH | SKIPUNSET , ROWS2 | THISYEARUNITS  | BOTH | SKIPUNSET , ROWS3  | CUMUNITS | BOTH | SKIPUNSET );    
     doRes(TradeDeadLostStrategicValue, "DeadLostStrategicValue", "Strategic Value after trade lost and dead",2, 3,2, DUP, 0, 0, 0);
      doRes(TradeDeadRejectedStrategicGoal, "DeadRejectedStrategicGoal", "Strategic Goal after trade rejected and dead",2, 3,2, DUP, 0, 0, 0);
     doRes(TradeDeadStrategicGoal, "DeadStrategicGoal", "Strategic Goal after trade then died",2, 3,2, DUP, 0, 0, 0);
@@ -2677,14 +2607,14 @@ class EM {
     doRes(TradeDeadStrategicValue, "DeadStrategicValue", "Strategic Value after trade then died",2, 3,2, DUP, 0, 0, 0);
 
     // repeatlists at "W..." at a later point rn 
-    doRes("WTRADEDINCRF5", "incrWFav5Trade", "Percent Years worth increase at Favor5/start year worth",2, 3,2, both | SKIPUNSET , ROWS1 | CURAVE| BOTH | SKIPUNSET , ROWS2 |  THISYEARUNITS  | BOTH | SKIPUNSET , ROWS3 | LIST41 | THISYEARAVE | BOTH | SKIPUNSET );
+    doRes("WTRADEDINCRF5", "incrWFav5Trade", "Percent Years worth increase at Favor5/start year worth",2, 3,2, both | SKIPUNSET , ROWS1 | LIST41 | CURAVE | BOTH | SKIPUNSET , ROWS2 |  THISYEARUNITS  | BOTH | SKIPUNSET , ROWS3 | THISYEARAVE | BOTH | SKIPUNSET );
     doRes("WTRADEDINCRF4", "incrWFav4Trade", "Percent Years worth increase at Favor4/start year worth",2, 3,2, DUP, 0, 0, 0);
     doRes("WTRADEDINCRF3", "incrWFav3Trade", "Percent Years worth increase at Favor3/start year worth",2, 3,2, DUP, 0, 0, 0);
     doRes("WTRADEDINCRF2", "incrWFav2Trade", "Percent Years worth increase at Favor2/start year worth",2, 3,2, DUP, 0, 0, 0);
     doRes("WTRADEDINCRF1", "incrWFav1Trade", "Years worth increase at Favor1/start year worth",2, 3,2, DUP, 0, 0, 0);
     doRes("WTRADEDINCRF0", "incrWFav0Trade", "Percent Years worth increase at Favor0/start year worth",2, 3,2, DUP, 0, 0, 0);
-    doRes("WTRADEDINCRMULT", "incrWTrade", "Percent Years worth increase at multiple trades this year/start year worth",2, 3,2,  both | LIST41 | THISYEARAVE | SKIPUNSET , ROWS1 | CURAVE| BOTH | SKIPUNSET , ROWS2 |  THISYEARUNITS  | BOTH | SKIPUNSET , ROWS3 | BOTH | SKIPUNSET );
-    doRes("WTRADEDINCRSOS", "incrWSOSTrade", "Percent Years worth increase at an planet SOS flag trade this year/start year worth",2, 3,2, both | SKIPUNSET , ROWS1 | CURAVE| BOTH | SKIPUNSET , ROWS2 |  THISYEARUNITS  | BOTH | SKIPUNSET , ROWS3 | LIST41 | THISYEARAVE | BOTH | SKIPUNSET );
+    doRes("WTRADEDINCRMULT", "incrWTrade", "Percent Years worth increase at multiple trades this year/start year worth",2, 3,2,   LIST41 | CURAVE| BOTH | SKIPUNSET ,0,0,0);
+    doRes("WTRADEDINCRSOS", "incrWSOSTrade", "Percent Years worth increase at an planet SOS flag trade this year/start year worth",2, 3,2,  LIST41 | CURAVE| BOTH | SKIPUNSET ,0,0,0);
     doRes("WREJTRADEDPINCR", "incrWRejectedTrade", "Percent Worth incr if the other rejected the trade/start yr worth",2, 3,2, DUP, 0, 0, 0);
     doRes("WLOSTTRADEDINCR", "incrWLostTrade", "Percent Worth incr if other rejected the trade/start yr worth",2, 3,2, DUP, 0, 0, 0);
     doRes("UNTRADEDWINCR", "DEAD no trade Incr", "Percent no trade offered yearly growth including working, reserve: resource, staff, knowledge",2, 3,2, DUP, 0, 0, 0);
@@ -2705,7 +2635,7 @@ class EM {
     doRes("CRITICALRECEIPTSFRACWORTHF3", "CritTradeFracF3", "Percent of critical receipts worth favor3 Trades/start totWorth  ",2, 3,2, DUP, 0, 0, 0);
     doRes("CRITICALRECEIPTSFRACWORTHF2", "CritTradeFracF2", "Percent of critical receipts worth favor2 Trades/start totWorth  ",2, 3,2, DUP, 0, 0, 0);
     doRes("CRITICALRECEIPTSFRACWORTHF1", "CritTradeFracF1", "Percent of critical receipts worth favor1 Trades/start totWorth  ",2, 3,2, DUP, 0, 0, 0);
-     doRes("WTRADEDINCR", "WTradedIncr", "Percent Years worth increase/start year worth",2,2, 1, (LIST41YRS | THISYEARAVE | BOTH  | BOTH | SKIPUNSET), ROWS1 | SKIPUNSET | CURAVE | SKIPUNSET | BOTH,ROWS2 |  SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0);
+     doRes("WTRADEDINCR", "WTradedIncr", "Percent Years worth increase/start year worth",2,2, 1,   LIST41 | CURAVE| BOTH | SKIPUNSET ,0,0,0);
     doRes("WORTHAYRNOTRADEINCR", "IncWorth aYr NoTrade", "Percent Year increase Worrth/worth if no trades this year",2, 3,2, DUP, 0, 0, 0);
     doRes("WORTH2YRNOTRADEINCR", "IncWorth 2Yr No Trade", "Percent Year increase Worrth/worth if  2 years of no trades",2, 3,2, DUP, 0, 0, 0);
     doRes("WORTH3YRNOTRADEINCR", "IncWorth 3Yrs No Trade", "Percent Year increase Worth/worth if 3 or more years of no trades",2, 3,2, DUP, 0, 0, 0);
@@ -2713,12 +2643,12 @@ class EM {
     doRes("WORTH2YRTRADEINCR", "IncWorth 2Yr Trade", "Percent Year increase Worrth/worth if  2 succesive year of trades",2, 3,2, DUP, 0, 0, 0);
     doRes("WORTH3YRTRADEINCR", "IncWorth 3Yr Trade", "Percent Year increase Worrth/worth if 3 years of trades",2, 3,2, DUP, 0, 0, 0);
     //  doRes("WORTH1YRNOTRADEINCR", "IncWorth 1Yr No Trade", "Percent Year increase Worrth/worth if at least 1 succesive year of trades",2,2, 1, LIST2 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET , LISTYRS | SKIPUNSET | BOTH | CUR  | CURAVE, ROWS3 | LIST4 | THISYEARUNITS , 0);
-    doRes(SWAPRINCRCOST, "Swap RIncr Cost", "Fraction of R INCR swap cost/sum of R units", 3, 4, 1, list8 | curAve | curUnits | both | skipUnset, 0, 0, 0);
-    doRes(SWAPSINCRCOST, "Swap SIncr Cost", "Fraction of SR INCR swap cost/sum of S units", 3, 4, 1, list8 | curAve | curUnits | both | skipUnset, 0, 0, 0);
-    doRes(SWAPRDECRCOST, "Swap RDECR Cost", "Fraction of R DECR swap cost/sum of R units", 3, 4, 1, list8 | curAve | curUnits | both | skipUnset, 0, 0, 0);
-    doRes(SWAPSDECRCOST, "Swap SDecr Cost", "Fraction of S Decr swap cost/sum of S units", 3, 4, 1, list8 | curAve | curUnits | both | skipUnset, 0, 0, 0);
-    doRes(SWAPRXFERCOST, "Swap RXfer Cost", "Fraction of R XFER swap cost/sum of R units", 3, 4, 1, list8 | curAve | curUnits | both | skipUnset, 0, 0, 0);
-    doRes(SWAPSXFERCOST, "Swap SXfer Cost", "Fraction of S XFER swap cost/sum of R units", 3, 4, 1, list8 | curAve | curUnits | both | skipUnset, 0, 0, 0);
+    doRes(SWAPRINCRCOST, "Swap RIncr Cost", "Fraction of R INCR swap cost/sum of R units", 2, 2, 1, list8 | curAve | curUnits | both | skipUnset, 0, 0, 0);
+    doRes(SWAPSINCRCOST, "Swap SIncr Cost", "Fraction of SR INCR swap cost/sum of S units", 2,2,1);
+    doRes(SWAPRDECRCOST, "Swap RDECR Cost", "Fraction of R DECR swap cost/sum of R units",2,2,1);
+    doRes(SWAPSDECRCOST, "Swap SDecr Cost", "Fraction of S Decr swap cost/sum of S units", 2,2,1);
+    doRes(SWAPRXFERCOST, "Swap RXfer Cost", "Fraction of R XFER swap cost/sum of R units", 2,2,1);
+    doRes(SWAPSXFERCOST, "Swap SXfer Cost", "Fraction of S XFER swap cost/sum of R units",2,2,1);
     doRes("EmergFF", "EmergFF", "emergency resource/staff sums tranfer resource to FutureFund",2,2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST6 | THISYEARUNITS, 0);
     doRes("SizeFF", "SizeFF", "Size resource/staff sums tranfer resource to FutureFund",2,2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | THISYEARUNITS, 0);
     doRes("FutureFundSaved", "FutureFundsSaved", "Total resource/staff sums tranfered to FutureFund",2,2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST6 | THISYEARUNITS, 0);
@@ -2750,8 +2680,6 @@ class EM {
     doRes("sCatNegDecay", "s Catast ReduceDecay", "staff catastrophy bonus neg unit value  ave per catastrophy", 1, 1, 3, (LIST2 | LIST9 | skipUnset | curAve), 0, 0, 0);
     doRes("sCatBonusManuals", "s Catast Bonus Manuals", "catastrophy bonus manuals add value ave per catastrophy", 1, 1, 0, (LIST2 | LIST9 | skipUnset | curAve), 0, 0, 0);
     doRes("sCatBonusNewKnowledge", "s Catast Bonus New Knowledge", "catastrophy bonus newKnowledge add value ave per catastrophy", 1, 1, 0, (LIST2 | LIST9 | skipUnset | THISYEARAVE), LIST8 | SKIPUNSET | CURAVE, 0, 0);
-   
-   
     doRes("DEADWTRADEDINCR", "DEAD trade Incr", "DEAD Percent Years worth increase/start year worth",2,2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
     doRes("DEADWTRADEDINCRF5", "DEAD fav5 trade Incr", "DEAD Percent Years worth increase at Favor5/start year worth",2,2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
     doRes("DEADWTRADEDINCRF4", "DEAD fav4 trade Incr", "Percent Years worth increase at Favor4/start year worth",2,2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
@@ -2860,7 +2788,7 @@ class EM {
    * @param fracs number of fraction digits
    *
    * @return rN the index of a vector of result integer index into resI,resV,resS
-   *
+   */
   int doRes(String dName, String desc, String detail, int depth, int ydepth, int fracs){
     return doRes(dName,desc,detail,depth,ydepth,fracs,DUP,0L,0L,0L); 
   }
@@ -2880,7 +2808,7 @@ class EM {
    * @param lock3 3rd lock to match offered keys may be empty
    *
    * @return rN the index of a vector of result integer index into resI,resV,resS
-   *
+   */
   int doRes(String dName, String desc, String detail, int fracs, long lock0, long lock1, long lock2, long lock3) {
     return doRes(dName, desc, detail, 1, 1, fracs, lock0, lock1, lock2, lock3);
   }
@@ -2899,7 +2827,7 @@ class EM {
    * @param lock3 3rd lock to match offered keys may be empty
    *
    * @return rN the index of a vector of result integer index into resI,resV,resS
-   *
+   */
   int doRes(String dName, String desc, String detail, int depth, int fracs, long lock0, long lock1, long lock2, long lock3) {
     return doRes(dName, desc, detail, depth, 1, fracs, lock0, lock1, lock2, lock3);
   }
