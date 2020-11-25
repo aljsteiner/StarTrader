@@ -6832,10 +6832,11 @@ public class Assets {
           eM.porsClanVisited[pors][clan]++;
           setStat(EM.TRADEFIRSTRECEIVE, requestsFirst, 1);
           setStat(EM.TRADELASTRECEIVE, pors, clan, requests, 1);
+          setStat(EM.TRADERECEIVELASTPERCENTFIRST, pors, clan, requests*100./requestsFirst, 1);
           setStat(EM.TRADEFIRSTGAVE, oPors, oClan, requestsFirst, 1);
           setStat(EM.TRADELASTGAVE, oPors, oClan, requests, 1);
-          setStat(EM.TRADESTRATFIRSTGAVE, oPors, oClan, requestsFirst, 1);
-          setStat(EM.TRADESTRATLASTGAVE, oPors, oClan, requests, 1);
+          setStat(EM.TRADESTRATFIRSTGAVE, oPors, oClan, totalStrategicRequestsFirst, 1);
+          setStat(EM.TRADESTRATLASTGAVE, oPors, oClan, totalStrategicRequests , 1);
           setStat(EM.TRADESTRATFIRSTRECEIVE, pors, clan, totalStrategicRequestsFirst, 1);
           setStat(EM.TRADESTRATLASTRECEIVE, pors, clan, totalStrategicRequests, 1);
           setStat(EM.BEFORETRADEWORTH, pors, clan, btWTotWorth, 1);
@@ -6845,6 +6846,7 @@ public class Assets {
           setStat(EM.TradeLastStrategicGoal,pors,clan,strategicGoal,1);
           setStat(EM.TradeFirstStrategicValue,pors,clan,firstStrategicValue,1);
           setStat(EM.TradeLastStrategicValue,pors,clan,strategicValue,1);
+          setStat(EM.TradeStrategicValueLastPercentFirst,pors,clan,strategicValue*100/firstStrategicValue,1);
           // leave fav set 5 to 0
           if (entryTerm == 0) {
             retOffer.setTerm(-2); // other so no more return

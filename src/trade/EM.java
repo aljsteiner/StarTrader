@@ -2265,6 +2265,7 @@ class EM {
   static final int INCRAVAILFRACb = ++e4;
   static final int TRADEFIRSTRECEIVE = ++e4;
   static final int TRADELASTRECEIVE = ++e4;
+  static final int TRADERECEIVELASTPERCENTFIRST = ++e4;
   static final int TRADEFIRSTGAVE = ++e4;
   static final int TRADELASTGAVE = ++e4;
   static final int TRADESTRATFIRSTRECEIVE = ++e4;
@@ -2365,13 +2366,13 @@ class EM {
   static final int TradeLastStrategicGoal = ++e4;
   static final int TradeFirstStrategicValue = ++e4;
   static final int TradeLastStrategicValue = ++e4;
+  static final int TradeStrategicValueLastPercentFirst = ++e4;
   static final int TradeRejectedStrategicGoal = ++e4;
   static final int TradeLostStrategicGoal = ++e4;
   static final int TradeRejectedStrategicValue = ++e4;
   static final int TradeLostStrategicValue = ++e4;
   static final int TradeMissedStrategicGoal = ++e4;
   static final int TradeDeadLostStrategicGoal = ++e4;
-
   static final int TradeDeadLostStrategicValue = ++e4;
   static final int TradeDeadRejectedStrategicGoal = ++e4;
   static final int TradeDeadStrategicGoal = ++e4;
@@ -2578,8 +2579,9 @@ class EM {
     doRes(INCRAVAILFRAC, "IncrAvailFrac", "Percent increase in avail frac after trade  at any trade",2, 3,2, DUP, 0, 0, 0);
     doRes(INCRAVAILFRACa, "IncrAvailFracRej", "Percent increase in avail frac trade rejected",2, 3,2, DUP, 0, 0, 0);
     doRes(INCRAVAILFRACb, "IncrAvailFracb", "Percent increase in avail frac after trade rejected at trade failure",2, 3,2, DUP, 0, 0, 0);
-    doRes(TRADEFIRSTRECEIVE, "First Received", "First amount received in a trade",2, 3,2,  LIST41 | CURAVE| BOTH | SKIPUNSET ,0L ,0L,0L );
-    doRes(TRADELASTRECEIVE, "Last Received", "Final amount received in a trade",2, 3,2, DUP, 0, 0, 0);
+    doRes(TRADEFIRSTRECEIVE, "First Received", "First amount received in a trade",2, 3,2,  LIST41 | THISYEARAVE| BOTH | SKIPUNSET ,ROWS2 | LIST4YRS | CUMUNITS,0L,0L );
+    doRes(TRADELASTRECEIVE, "Last Received", "Final amount received in a trade",2, 3,2, LIST41 | THISYEARAVE| BOTH | SKIPUNSET ,ROWS1 | LIST4YRS | CURAVE | BOTH | SKIPUNSET ,ROWS2 | LIST4YRS | CUMAVE | CUMUNITS | BOTH | SKIPUNSET ,0L );
+    doRes(TRADERECEIVELASTPERCENTFIRST, "percent final/first requested amount", "Final percent of First  amount requested in a trade",2, 3,2, LIST41 | THISYEARAVE| BOTH | SKIPUNSET ,ROWS1 | LIST4YRS | CURAVE | BOTH | SKIPUNSET ,ROWS2 | LIST4YRS | CUMAVE | BOTH | SKIPUNSET ,0L );
     doRes(TRADEFIRSTGAVE, "First given", "First amount given in trade",2, 3,2, DUP, 0, 0, 0);
     doRes(TRADELASTGAVE, "Last Given", "Final amount given in trade",2, 3,2, DUP, 0, 0, 0);
     doRes(TRADESTRATFIRSTRECEIVE, "StrategicFirstReceived", "First strategic amount received in trade",2, 3,2, DUP, 0, 0, 0);
@@ -2589,10 +2591,11 @@ class EM {
     doRes(BEFORETRADEWORTH, "BeforeTradeWorth", "Worth before A trade",2, 3,2, DUP, 0, 0, 0);
     doRes(AFTERTRADEWORTH, "AfterTradeWorth", "Worth after a trade",2, 3,2, DUP, 0, 0, 0);
     doRes(TRADEWORTHINCRPERCENT, "TradeWorthIncrPercent", "Percent increase in Worth after trade",2, 3,2, SKIPDUP | LIST4 | THISYEARAVE , 0, 0, LIST41 | ROWS3 | CUMUNITS );
-    doRes(TradeFirstStrategicGoal, "FirstStrategicGoal", "First Strategic Goal",2, 3,2, DUP, 0, 0, 0);
+    doRes(TradeFirstStrategicGoal, "FirstStrategicGoal", "First Strategic Goal",2, 3,2, LIST41 | THISYEARAVE| BOTH | SKIPUNSET ,ROWS1 | LIST4YRS | CURAVE | BOTH | SKIPUNSET ,ROWS2 | LIST4YRS | CUMAVE | BOTH | SKIPUNSET ,0L );
     doRes(TradeLastStrategicGoal, "LastStrategicGoal", "Strategic Goal after trade",2, 3,2, DUP, 0, 0, 0);
     doRes(TradeFirstStrategicValue, "FirstStrategicValue", "First Strategic Value",2, 3,2, DUP, 0, 0, 0);
-    doRes(TradeLastStrategicValue, "LastStrategicValue", "Strategic Value after trade",2, 3,2, DUP, 0, 0, 0);
+    doRes(TradeLastStrategicValue, "LastStrategicValue", "Last strategic Value just before trade",2, 3,2, DUP, 0, 0, 0);
+    doRes(TradeStrategicValueLastPercentFirst, "LastPercentFirstStrategicValue", "LastStrategic Value percent of First Strategic Value just before trade",2, 3,2, DUP, 0, 0, 0);
      doRes(TradeRejectedStrategicGoal, "RejectedStrategicGoal", "Trade rejected Strategic Goal",2, 3,2, DUP, 0, 0, 0);
     doRes(TradeLostStrategicGoal, "LostStrategicGoal", "Strategic Goal after trade lost",2, 3,2, DUP, 0, 0, 0);
     doRes(TradeRejectedStrategicValue, "RejectedtStrategicValue", "Strategic Value after Trade rejected",2, 3,2, DUP, 0, 0, 0);
