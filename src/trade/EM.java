@@ -2558,13 +2558,13 @@ class EM {
     doRes(RCfrac, "RC/yr Worth", "RC / yr Worth", 6, 1, 1, (LISTYRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
     doRes(SGfrac, "SG/yr Worth", "SG / yr Worth", 6, 1, 1, (LISTYRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
     //chgd KNOWLEDGEB MANUALSfrac NEWKNOWLEDGEfrac COMMONKNOWLEDGEfrac KNOWLEDGEINCR NEWKNOWLEDGEINCR MANUALSINCR COMMONKNOWLEDGEINCR
-    doRes(POORKNOWLEDGEEFFECT, "Knowledge Effect", "Increase in costs due to limited knowledge(ignorance)",2, 1, 1, (LIST0YRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
-    doRes(POORHEALTHEFFECT, "Health Effect", "Increase in costs due to limited Health",2, 1, 1, (LIST0YRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
+    doRes(POORKNOWLEDGEEFFECT, "Ignorance costs", "Increase in costs due to limited knowledge(ignorance)",2, 1, 1, (LIST0YRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
+    doRes(POORHEALTHEFFECT, "Poor Health Cost", "Increase in costs due to insufficient required resources and staff",2, 1, 1, (LIST0YRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
     doRes(NEWKNOWLEDGEFRAC, "New KnowledgeFrac", "New knowledge / Knowledge ",2, 3, 1, (LIST0YRS | curAve | both), 0, 0, 0);
     doRes(KNOWLEDGEFRAC, "Knowledge Frac", "Knowledge worth / year worth",2, 3, 1, (LIST0YRS | curAve | both), 0, 0, 0);
     doRes(COMMONKNOWLEDGEFRAC, "Common Knowledge", "Common knowledge/knowledge",2, 3, 1, (LIST7 | LIST0YRS | curAve | both), 0, 0, 0);
 
-    doRes(MANUALSFRAC, "Manualsfrac", "Manuals /knowledge", 4, 3, 1, (LISTYRS | LIST7 | curAve | both), 0, 0, 0);
+    doRes(MANUALSFRAC, "Manualsfrac", "Manuals /knowledge, you get manuals in trades, faculty and researcher turn manuals into knowledge", 4, 3, 1, (LISTYRS | LIST7 | curAve | both), 0, 0, 0);
     doRes(WORTHINCR, "PercIncWorth", "Percent worth increase per year", 3, 4, 1, (LIST0YRS | curAve | both), 0, 0, 0);
     doRes(KNOWLEDGEINCR, "PercIncrKnowledge", "Percent Knowledge Increase per year", 4, 3, 1, (LIST7 | LISTYRS | curAve | both), 0, 0, 0);
     doRes(NEWKNOWLEDGEINCR, "incNewKnowledge", "Percent New Knowledge Incr/Year", 4, 3, 1, (LIST7 | LISTYRS | curAve | both), 0, 0, 0);
@@ -2717,8 +2717,8 @@ class EM {
     doRes("TRADEDRCDF1", "W rcd fav1", "Percent Worth received when trade at fav1/initial worth",2,2,2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4 | SKIPUNSET | CUMAVE | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
     doRes("TRADEDRCDF0", "W rcd fav0", "Percent Worth received when trade at fav 0/initial worth",2,2,2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4 | SKIPUNSET | CUMAVE | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
     doRes("TRADEDRCD", "W rcd", "Percent Worth received when trade/initial worth",2,2,2, (list1 | LIST4 | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | LIST1 | LIST4 | SKIPUNSET | CUMAVE | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
-    doRes("TRADES%", "TRADES %", "Percent of trades per economy",2,2,2, (list1 | LIST4 | thisYr | BOTH | BOTH | SKIPUNSET), ROWS2 | LIST0YRS | LIST1 | LIST4  | CUMUNITS | SKIPUNSET | BOTH, 0, 0);
-    doRes("DEADTRADES%", "Dead Trades %", "Percent of trades per dead economy",2,2,2, (list1 | thisYr | BOTH | SKIPUNSET), (list1 | curUnitAve | CUMAVE | BOTH | SKIPUNSET), LIST0 | SKIPUNSET | CUMAVE | BOTH, 0);
+    doRes("TRADES%", "TRADES %", "Percent of trades per economy",2,2,2, (list1 | LIST4 | THISYEARAVE | BOTH | BOTH | SKIPUNSET), ROWS2 | LIST0YRS | LIST1 | LIST4  | CURAVE | CUMAVE |CUMUNITS | SKIPUNSET | BOTH, 0, 0);
+    doRes("DEADTRADES%", "Dead Trades %", "Percent of trades per dead economy",2,2,2, (list1 | THISYEARAVE | BOTH | SKIPUNSET), (list1 | CURAVE | CUMAVE | BOTH | SKIPUNSET), LIST0 | SKIPUNSET | CUMAVE | BOTH, 0);
     doRes(RCTBAL, "RCBal/TBal", "Percent RC balance/tbal", 1, 1, 0, (LIST7 | skipUnset | curAve), 0, 0, 0);
     doRes(RCBAL, "RCBal", "RC balance", 1, 1, 0, (LIST7 | curAve), 0, 0, 0);
     doRes("SGTBAL", "SG Balance", "Percent SG balance/worth", 1, 1, 0, (LIST7 | curAve), 0, 0, 0);
@@ -3670,7 +3670,7 @@ class EM {
     String description = resS[rn][rDesc];
     String detail = resS[rn][rDetail];
     String dds = description + detail;
-    String isPercent = (dds.contains("%") || dds.contains("Per") || dds.contains("per")) && ((aop & (THISYEARAVE | CURAVE | CUMAVE) ) > 0L )?"%":"";
+    String isPercent = (dds.contains("%") || dds.contains("Per") || dds.contains("per")) && ((aop & (THISYEARAVE | CURAVE | CUMAVE | THISYEAR | CUR | CUM) ) > 0L )?"%":"";
     
     
     double aVal;
@@ -3763,7 +3763,7 @@ class EM {
           table.setValueAt(description + suffix + powers, row, 0);
           resExt[row] = detail + powers;
           row++;
-          doSum = didSum;
+          doSum = didSum;  // restore doSum
         }
       }
     }

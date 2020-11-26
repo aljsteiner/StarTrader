@@ -5314,7 +5314,7 @@ public class StarTrader extends javax.swing.JFrame {
    * @return seconds nnn.mmm
    */
   public String sinceRunYear() {
-    return since("", startYear);
+    return since("Since Start Year", startYear);
   }
 
   /**
