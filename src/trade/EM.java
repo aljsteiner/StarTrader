@@ -2584,7 +2584,7 @@ class EM {
     doRes(TRADERECEIVELASTPERCENTFIRST, "percent final/first requested amount", "Final percent of First  amount requested in a trade",2, 3,2, LIST41 | THISYEARAVE| BOTH | SKIPUNSET ,ROWS1 | LIST4YRS | CURAVE | BOTH | SKIPUNSET ,ROWS2 | LIST4YRS | CUMAVE | BOTH | SKIPUNSET ,0L );
     doRes(TRADEFIRSTGAVE, "First given", "First amount given in trade",2, 3,2, DUP, 0, 0, 0);
     doRes(TRADELASTGAVE, "Last Given", "Final amount given in trade",2, 3,2, DUP, 0, 0, 0);
-    doRes(TRADESTRATFIRSTRECEIVE, "StrategicFirstReceived", "First strategic amount received in trade",2, 3,2, DUP, 0, 0, 0);
+    doRes(TRADESTRATFIRSTRECEIVE, "StrategicFirstReceived", "First strategic amount received in trade",2, 3,2, LIST41 | THISYEAR | THISYEARAVE| BOTH | SKIPUNSET ,ROWS1 | LIST4YRS | CURAVE | BOTH | SKIPUNSET ,ROWS2 | LIST4YRS | CUMAVE | BOTH | SKIPUNSET ,0L );
     doRes(TRADESTRATLASTRECEIVE, "StrategicLastReceived", "Final strategic amount eeceived in trade",2, 3,2, DUP, 0, 0, 0);
     doRes(TRADESTRATFIRSTGAVE, "TradeStrategicFirstGave", "First amount given in trade",2, 3,2, DUP, 0, 0, 0);
     doRes(TRADESTRATLASTGAVE, "TradeStrategicLastGave", "Final Amount given in trade",2, 3,2, DUP, 0, 0, 0);
@@ -2692,9 +2692,9 @@ class EM {
     doRes("DEADWTRADEDINCRF0", "DEAD fav0 trade Incr", "Percent Years worth increase at Favor0/start year worth",2,2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
     doRes("DEADWTRADEDINCRMULT", "DEAD TradeWIncr", "Percent Years worth increase at trades this year/start year worth",2,2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
     doRes("DEADWTRADEDINCRSOS", "DEAD SOS trade incr Worth", "Percent Years worth increase at an planet SOS flag trade this year/start year worth",2,2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
-    doRes("DEADWREJTRADEDINCR", "DEAD Trade incr rejected", "Percent Worth incr if the other rejected the trade/start yr worth",2,2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
-    doRes("DEADWLOSTTRADEDINCR", "DEAD Trade Incr Lost", "Percent Worth incr if other rejected the trade/start yr worth",2,2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
-    doRes("DEADUNTRADEDWINCR", "DEAD incrWorthNoTrade", "Percent no trade offered yearly growth including working, reserve: resource, staff, knowledge",2,2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
+    doRes("DEADWREJTRADEDINCR", "DEAD Trade Rejected %Incr", "Percent Worth incr of a rejected trade trade/start yr worth when dead",2,2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
+    doRes("DEADWLOSTTRADEDINCR", "DEAD Trade Incr Lost", "Percent Worth incr if other rejected the trade/start yr worth when dead",2,2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
+    doRes("DEADUNTRADEDWINCR", "DEAD incrWorthNoTrade", "no trade offered percent yearly growth when dead including working, reserve: resource, staff, knowledge",2,2, 3, LIST32YRS | thisYr | BOTH | BOTH | SKIPUNSET, ROWS2 | LIST32YRS | LIST20 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
     doRes("WTRADEDF5", "fav5 received/init worth", "Percent received at favor 5 trade/initial worth",2,2,2, (LIST431YRS | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST431YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
     doRes("WTRADEDF4", "fav4 received/init worth", "Percent received at favor 4 trade/initial worth",2,2,2, (LIST431YRS | thisYr | BOTH | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST431YRS | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0, 0);
     //   doRes("WTRADEDF4", "fav4 received/init worth","Frac initial offer at favor 4 trade/initial offer",2,2,2,(list1 |LIST4 | thisYr | BOTH  | curUnitAve | BOTH | SKIPUNSET), ROWS2 | LIST0 | SKIPUNSET | CUMAVE | SKIPUNSET | BOTH, 0,0);;

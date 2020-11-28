@@ -6388,6 +6388,8 @@ public class StarTrader extends javax.swing.JFrame {
        * now initialize values for display
        */
 //    E.incrFracStaffForRes[1][4]++;
+      String eMCurEcon = (eM.curEcon != null && eM.curEcon.name != null ? eM.curEcon.name : "**none**");
+      eM.wasHere = "In doYear finally econ=" + eMCurEcon;
       String xxx = since() + " In doYear finally econs=" + eM.econs.size();
       if (eM.curEcon != null && eM.curEcon.name != null) {
         xxx += " name=" + eM.curEcon.getName();
@@ -6408,12 +6410,14 @@ public class StarTrader extends javax.swing.JFrame {
           NumberFormat whole = NumberFormat.getNumberInstance();
           whole.setMaximumFractionDigits(0);
           if (e.getValueIsAdjusting()) {
+            eM.wasHere = "econ=" + eMCurEcon + " doYear finally Names: adjusting"; 
             System.out.println(since() + " Names: adjusting");
             return;
           }
           ListSelectionModel lsm = (ListSelectionModel) e.getSource();
           if (lsm.isSelectionEmpty()) {
             System.out.println(since() + "Names: No rows are selected.");
+            eM.wasHere = "econ=" + eMCurEcon + " doYear finally Names: No rows are selected."; 
           }
           else {
             int selectedRow = lsm.getMinSelectionIndex();
@@ -6422,13 +6426,14 @@ public class StarTrader extends javax.swing.JFrame {
             eM.curEcon = eM.econs.get(namesListRow);
             setLogEnvirn(E.dN, eM.curEcon);
             System.out.println(since() + "ListSelectionModel namesListRow=" + namesListRow + "name=" + eM.curEcon.name);
-
+            eM.wasHere = "econ=" + eMCurEcon + " doYear finally Names: ListSelectionModel namesListRow=" + namesListRow + ".";
             int row = displayLog();
           }
         }
       });
+       eM.wasHere = "econ=" + eMCurEcon + " doYear finally at end";
     }// end finally
-
+     eM.wasHere = " doYear at end after finally";
   } // end doYear
 
   void paintEconCreate() {
@@ -6502,7 +6507,7 @@ public class StarTrader extends javax.swing.JFrame {
         case WAITING:
         case STARTING:
           displayPanel0Text.setText(
-         "Starting   " +  "year" + eM.year +" " + sinceEcon() +curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine + 
+         "Starting   " +  "year" + eM.year +" " + sinceEcon() + " " +curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine + 
        " Starting   " + eM.getCurCumPorsClanUnitSum(rNCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
                    "BothCreatd " + eM.getCurCumPorsClanUnitSum(rNCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
                   "Created    " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNFutCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
@@ -6514,7 +6519,7 @@ public class StarTrader extends javax.swing.JFrame {
           break;
         case CREATING:
            displayPanel0Text.setText(
-           "Creating   "  +  "year" + eM.year +" " + sinceEcon() +curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine +
+           "Creating   " + eM.year +" " + sinceEcon() + " " +curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine + 
                    "BothCreatd " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNFutCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
                   "Created    " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNFutCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
          "FutCreated  " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNFutCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine + 
@@ -6524,7 +6529,7 @@ public class StarTrader extends javax.swing.JFrame {
                            "year" + eM.year +" " +  since() + sinceRunYear() + newLine + newLine + newLine) ;
         case FUTUREFUNDCREATE:
           displayPanel0Text.setText(
-                  "FutCreate  "  +  "year" + eM.year +" " + sinceEcon() +curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine +
+                  "FutCreate  " + eM.year +" " + sinceEcon() + " " +curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine + 
                    "BothCreatd " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNFutCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
                   "Created    " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNFutCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
          "FutCreated  " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNFutCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine + 
@@ -6535,7 +6540,7 @@ public class StarTrader extends javax.swing.JFrame {
           break;
         case STARTYR:
           displayPanel0Text.setText(
-         "StartYear  "  +  "year" + eM.year +" " + sinceEcon() +curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine +
+         "StartYear  " + eM.year +" " + sinceEcon() + " " +curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine + 
                    "BothCreatd " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNFutCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
                   "Created    " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNFutCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
          "FutCreated  " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNFutCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine + 
@@ -6546,7 +6551,7 @@ public class StarTrader extends javax.swing.JFrame {
           break;
         case SEARCH:
            displayPanel0Text.setText(
-         "Searching  "  +  "year" + eM.year +" " + sinceEcon() +curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine +
+         "Searching  " + eM.year +" " + sinceEcon() + " " +curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine + 
                    "BothCreatd " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNFutCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
                   "Created    " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNFutCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
          "FutCreated  " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNFutCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine + 
@@ -6557,7 +6562,7 @@ public class StarTrader extends javax.swing.JFrame {
           break;
         case SWAPS:
          displayPanel0Text.setText(
-        "Swaping    "  +  "year" + eM.year +" " + sinceEcon() +curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine +
+        "Swaping    " + eM.year +" " + sinceEcon() + " " +curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine + 
                    "BothCreatd " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNFutCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
                   "Created    " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNFutCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
          "FutCreated  " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNFutCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine + 
@@ -6568,7 +6573,7 @@ public class StarTrader extends javax.swing.JFrame {
           break;
         case TRADING:
          displayPanel0Text.setText(
-        "Trading    "  +  "year" + eM.year +" " + sinceEcon() +curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine +
+        "Trading    " + eM.year +" " + sinceEcon() + " " +curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine + 
                    "BothCreatd " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNFutCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
                   "Created    " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNFutCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
          "FutCreated  " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNFutCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine + 
@@ -6579,14 +6584,14 @@ public class StarTrader extends javax.swing.JFrame {
           break;
         case ENDYR:
           displayPanel0Text.setText(
-        "EndYear    "   +  "year" + eM.year +" " + sinceEcon() +curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine +
+        "EndYear    " + eM.year +" " + sinceEcon() + " " +curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine + 
                    "BothCreatd " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNFutCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
                   "Created    " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNFutCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
          "FutCreated  " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNFutCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine + 
           "TradedYear " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUR0,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUR0,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNTraded,EM.ICUR0,E.S,E.S+1,0,5) + newLine +
         " TradedGame " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNTraded,EM.ICUM,E.S,E.S+1,0,5) + newLine +
           " DiedGame " + eM.getCurCumPorsClanUnitSum(rNDied,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNDied,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNDied,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-                   "year" + eM.year +" " +  since() + sinceRunYear() + newLine + newLine + newLine) ;
+                   "year" + eM.year +" " +  since() + " " + sinceRunYear() + newLine + newLine + newLine) ;
           break;
         case STATS:
           controlPanels.setSelectedIndex(4);

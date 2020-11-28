@@ -7553,7 +7553,7 @@ public class Assets {
             setStat("DEADWTRADEDINCRF0", pors, clan, worthincr1, 1);
           } else if (tradeRejected) {
 
-            setStat("DEADWREJTRADEDPINCR", pors, clan, worthincr1, 1);
+            setStat("DEADWREJTRADEDINCR", pors, clan, worthincr1, 1);
           } else if (tradeLost) {
             setStat("DEADWLOSTTRADEDINCR", pors, clan, worthincr1, 1);
           } else {
