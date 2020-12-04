@@ -7,4 +7,6 @@ The game-master chooses which results are most important for deciding the winner
 
 After players have set their priorities and other levels, the game-master can run the game for 1,5,10, or 20 years.  When the years are finished, results are available, there are 20 different pages showing different results and showing some of the same results in different ways.  Pages 0,1,2 list the most important results.  Any page with the score at the top will be set to the background color of the winner.
 
+Each planet and ship have seven financial sectors.  Each sector has resources, cargo(resource not working but in reserve), staff, guests(staff not working but in reserve), and knowledge of 3 kinds (common knowledge, new knowledge, and manuals(researchers work to get new knowledge or common knowledge from manual, but trades can only trade manuals).
+
 */
