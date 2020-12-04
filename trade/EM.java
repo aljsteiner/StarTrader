@@ -774,8 +774,8 @@ class EM {
   double[][] iNumberDied = {{-.3}};
    
   // multiply table cargo costs by cargoBias when calculating Maint Travel Growth Req cargo costs
-  double[] cargoWorthBias = {1.};
-  double[][] mCargoWorthBias = {{.2, 1.5}, {.2, 1.5}};
+  double[] cargoWorthBias = {1.}; // reservs have the same value as working
+  //  double[][] mCargoWorthBias = {{.2, 1.5}, {.2, 1.5}}; no chasngeable
   // static final protected double calcShortBias = .3;
   /**
    * multipliers for annual costs 3/10/27 Required assets should be 2 to 3 times
@@ -803,8 +803,9 @@ class EM {
   double[] sa = {.25}; //ship mult 3/10/17 .4 -> .25
   double[] rb = {1.};
   double[] sb = {1.};
-  double[] cb = {.3};  // bias for cargo
-  double[] gb = {.3};  // bias for guests
+  static final double[][] mcb = {{.1,.95},{.1,.95}};
+  double[] cb = {.3,.3};  // cargo cost this fraction of resource costs p,s
+  double[] gb = cb;  // guest cost this fraction of staff costs
   double[] rcsgMult = {rb[0], cb[0], sb[0], gb[0]};
   //[p|s][r|c|s|g]
   double econMult[][] = {{.5, .15, .5, .15}, {.25, .075, .25, .075}};
@@ -824,13 +825,15 @@ class EM {
   double aa[] = {pa[0], sa[0]};
 
   // the following is {{planet r,c,s,g},{ship r,c,s,g} using the above numbers
-  double ps[][] = {{pa[0], pa[0] * cb[0], pa[0], pa[0] * gb[0]}, {sa[0], sa[0] * cb[0], sa[0], sa[0] * gb[0]}};
+  //double ps[][] = {{pa[0], pa[0] * cb[0], pa[0], pa[0] * gb[0]}, {sa[0], sa[0] * cb[0], sa[0], sa[0] * gb[0]}};
+  double ps1[] = {1.,1.,1.,1.};
+  double ps[][] = { ps1,ps1};
 
   /**
-   * sysBias, bias to worth, work by sIx
+   * sysBias, bias to cost, work by sIx
    */
   public double[] sysBias = {1., cb[0], 1., gb[0]};
-  public double[] wBias = {1., 1., 1., 1.};
+  public double[] xwBias = {1., 1., 1., 1.}; // not really used
 
 //  static double growthFactor = .5;  // reduces growth after meeting req
 //  static double healthFactor = .45; // reduces health after meeting req
@@ -874,24 +877,32 @@ class EM {
   int growthCostTabRow[] = {0, 0, 7, 7};
   int travelCostTabRow[] = {0, 0, 7, 7};
 
-  double maa[] = {1., 1., 1., 1., 1.}; //c type reqM reqG M T G
-  static double[][]mmab2= {{.5,1.5},{.5,1.5}};
+  double[] multReqMaintC = {1.,1.}; // mult ReqM costs p,s
+  static final double[][]mmult5Ctbl = {{.2,2.},{.2,2.}}; // limits all 5
+  double[] multReqGrowthC = multReqMaintC;
+  double[] multMaintC = multReqMaintC;
+  double[] multTravC = multReqMaintC;
+  double[] multGrowthC = multReqMaintC;
+  
+  double mult5Ctbl[][] = {multReqMaintC, multReqGrowthC, multMaintC, multTravC, multGrowthC}; 
   double mab1[] = {.45,1.35}; // resource costs planet,ship
   double mac1[] = {.45,1.35}; // staff costs planet ship 
-  static double mmab1[][] = {{.09,3.1},{.09,3.1}}; // resource planet,ship
+  double mabc[][] = {mab1,mac1}; //r or s, p or s
+  static double mmab1[][] = {{.09,3.1},{.09,3.1}}; // resource costs planet,ship
+  static double[][]mmab2= {{.5,1.9},{.5,1.9}};
   static double mmac1[][] = {{.09,3.1},{.09,3.1}}; 
   double mab2[] = {.9, .9}; // resource, staff cost
-  static double[][]mmac2 = {{.1,2.1},{.1,2.1}};
-  double mac2[] = {.5, 1.5}; //planet or ship
+  static double[][]mmac2 = {{.1,2.6},{.1,2.6}};
+  double mac2[] = {.5, 1.8}; //planet or ship costs
   double mad[] = {1., 1.}; //rc costs, sg costs
   // multiply the rs4 above by the above maa to mad
 
-  double[][][][] makeRS(double[][][][] rs4) {
+  double[][][][] makeRS(double[][][][] rs4,double[][] mult5Ctbl,double[][] ps) {
     rs = new double[5][][][];
     //make the table
-    for (int aa = 0; aa < 5; aa++) {
+    for (int aa = 0; aa < 5; aa++) { //type
       rs[aa] = new double[2][][];
-      for (int ab = 0; ab < 2; ab++) {
+      for (int ab = 0; ab < 2; ab++) { //
         rs[aa][ab] = new double[2][];
         for (int ac = 0; ac < 2; ac++) {
           rs[aa][ab][ac] = new double[2];
@@ -899,16 +910,30 @@ class EM {
       }
     }
     //now set the table elements
-    for (int aa = 0; aa < 5; aa++) {
-      for (int ab = 0; ab < 2; ab++) {
-        for (int ac = 0; ac < 2; ac++) {
-          for (int ad = 0; ad < 2; ad++) {
-            rs[aa][ab][ac][ad] = rs4[aa][ab][ac][ad] * maa[aa] * mab1[ab] * mac1[ac] * mad[ad];
+    for (int aa = 0; aa < 5; aa++) { // type
+      for (int ab = 0; ab < 2; ab++) { // r or s
+        for (int ac = 0; ac < 2; ac++) { // p or ship
+          for (int ad = 0; ad < 4; ad++) {  // rcsg
+            rs[aa][ab][ac][ad] = rs4[aa][ab][ac][ad] * mmult5Ctbl[aa][ac] * mabc[ab][ac] * ps[ac][ad];
           }
         }
       }
     }
     return rs;
+  }
+  
+  double [][] makePS(double[]cb, double[]gb){
+    double ps0[] = {1.,cb[0],1.,gb[0]};
+    double ps1[] = {1.,cb[1],1.,gb[1]};
+    double[][] ps = {ps0,ps1};
+    return ps; // p,s  r,c,s,g
+  }
+  
+  //set values dependent on some values set by StarTrader.getGameValues
+  // called in StarTrader after input of gameValues
+  void setMoreValues() {
+    double [][]ps3 = makePS(cb,gb);
+    makeRS(rs4,mult5Ctbl,ps3);
   }
   // the following variables are used to calculate the knowledgeBias which is
   // used to calculate the SEfficiency and REfficiency in CalcReq see CalcReq
@@ -1293,12 +1318,6 @@ class EM {
   double[] hmFrac = {.7, .7};  // h more from 0
   double[] heFrac = {.85, .85};// health emergency above this value
 
-
- //set values dependent on some values set by StarTrader.getGameValues
-  // called in StarTrader after input of gameValues
-  void setMoreValues() {
-    makeRS(rs4);
-  }
 
   // static double gameMaxRandomSum = .7;
   /**
@@ -2016,9 +2035,9 @@ class EM {
     doVal("wTraderMultI", wTraderMultI, mScoreMult, "increased slider, increase the value of TraderMult units values in the winning Score");
     doVal("iNumberDiedI", iNumberDied, mScoreMult, "decrease slider below 50, further reduce the score by the number of dead planets and ships, increase slider above 50, further increase the score by dead economies ");
   //  doVal("wTraderMultI", wTraderMultI, mScoreMult, "increased slider, increase the value of TraderMult units values in the winning Score");
-    doVal("costsResourceStaff",mab1,mmab1,"raise the cost of resources planet and ship, makes game harder");
-    doVal("costPlanetShip",mac1,mmac1,"raise the costs of staff for planets and ships, makes planets and ships die more often");
-    doVal("tradeReservFrac  ", tradeReservFrac, mTradeReservFrac, "raise the amount of resource or staff to reserve during a trade, higher reduces risk and reduces gain");
+    doVal("resourceCosts",mab1,mmab1,"raise the cost of resources planet and ship, makes game harder");
+    doVal("staffCosts",mac1,mmac1,"raise the costs of staff for planets and ships, makes planets and ships die more often");
+    doVal("tradeReservFrac", tradeReservFrac, mTradeReservFrac, "raise the amount of resource or staff to reserve during a trade, higher reduces risk and reduces gain");
     doVal("Max LY  ", maxLY, mMaxLY, "adjust the max Light Years distance of planets for trades");
     doVal("Add LY  ", addLY, mAddLY, "adjust addition per round to the max Light Years distance of planets for traded");
     doVal("SearchYearlyBias  ", searchYearBias, mSearchYearBias, "increase,decrease value of prospective trade for earlier years");
@@ -2065,16 +2084,17 @@ class EM {
     doVal("tradeEmergency", tradeEmergFrac, mTradeEmergFrac, "adjust the level of min rawProspects2 causing a planet or ship to shift to emergency trading");
     doVal("sectorDifficultyByPriority", difficultyByPriorityMult, mDifficultyByPriorityMult, "Used in reducing the effect of cargo and guests in worth and work");
 
-    doVal("initialColonists", initialColonists, mInitialColonists, "adjust the minimum worth of colonists");
-    doVal("initialColonistFrac", initialColonistFrac, mInitialColonistFrac, "adjust the frac of cinitial colonists from initial worth");
-    doVal("initialResources", initialResources, mInitialResources, "adjust the minimum worth of resources");
-    doVal("initialResourceFrac", initialResourceFrac, mInitialResourceFrac, "adjust the frac of cinitial resources from initial worth");
-    doVal("initialReserve", initialReserve, mInitialReserve, "adjust the reserves as a fraction of the working resource or staff");
-    doVal("initialCash", initialWealth, mInitialWealth, "adjust the worth of initial cash");
-    doVal("initialWealthFrac", initialWealthFrac, mInitialWealthFrac, "adjust the initial cash as a fraction of initial worth");
+    doVal("initialWorth", initialWorth, mInitialWorth, "adjust the initial worth of a new planet or ship");
+    doVal("initialColonists", initialColonists, mInitialColonists, "adjust the minimum  of colonists");
+    doVal("initialColonistFrac", initialColonistFrac, mInitialColonistFrac, "increase the initial colonists fraction of initial worth");
+    doVal("initialResources", initialResources, mInitialResources, "adjust the minimum h of resources");
+    doVal("initialResourceFrac", initialResourceFrac, mInitialResourceFrac, "adjust the initial resources fraction of initial worth");
+    doVal("initialReserve", initialReserve, mInitialReserve, "adjust the initial cargo or guests as a fraction of resources or staff");
+    doVal("initialCash", initialWealth, mInitialWealth, "adjust the minimum of initial cash");
+    doVal("initialWealthFrac", initialWealthFrac, mInitialWealthFrac, "adjust the initial cash fraction of initial worth");
     doVal("Knowledge worth", nominalWealthPerCommonKnowledge, mNominalWealthPerCommonKnowledge, "adjust the worth of knowledge");
-    doVal("Frac New Knowledge", fracNewKnowledge, mFracNewKnowledge, "adjust the worth of new knowledge in relation to knowledge");
-    doVal("Frac Common Knowledge", initialCommonKnowledgeFrac, mInitialCommonKnowledgeFrac, "adjust the frac of Initial Common Knowledge in Initial Worth");
+    doVal("Frac New Knowledge", fracNewKnowledge, mFracNewKnowledge, "adjust the fraction of new knowledge in relation to knowledge");
+    doVal("Frac Common Knowledge", initialCommonKnowledgeFrac, mInitialCommonKnowledgeFrac, "adjust the initial fraction of Initial Common Knowledge in Initial Worth");
     doVal("Manuals Worth", manualFracKnowledge, mManualFracKnowledge, "adjust the worth of manuals in relation to knowledge");
 
     doVal("tradeStrtAvail", startAvail, mStartAvail, "increase the number of staff&resource sectors available for trade");
@@ -2090,11 +2110,11 @@ class EM {
     doVal("PriorityRandomAddition", priorityRandAdditions, mPriorityRandAdditions, "adjust possible size of random additons to sector priorities");
     doVal("CatastrophiesFrequency", userCatastrophyFreq, mUserCatastrophyFreq, "increase frequesncy of catastrophies");
     doVal("Catastrophy Size", gameUserCatastrophyMult, mGameUserCatastrophyMult, "increase size and frequency of catastrophies");
-    doVal("Clan Ships Frac", clanShipFrac, mClanShipFrac, "increase faction of ships/economies for this clan only");
-    doVal("Clan All Ships Frac", clanAllShipFrac, mClanAllShipFrac, "for this clan increase the fraction of ships/all economies ");
-    doVal("Ships Frac", gameShipFrac, mGameShipFrac, "increase the fraction of ships in the game");
-    doVal("CWorthBias", cargoWorthBias, mCargoWorthBias, "increase the worth of cargo in relation to the worth of resources");
-    doVal("GWorthBias", guestWorthBias, mGuestWorthBias, "increase the worth of guests in relation to the worth of staff");
+    doVal("Clan Ships Frac", clanShipFrac, mClanShipFrac, "increase faction of ships/economies for this clan only, limited by clanAllShipFrac and gameShipFrac");
+    doVal("Clan All Ships Frac", clanAllShipFrac, mClanAllShipFrac, "for this clan increase the fraction of ships/all economies, limited by clanShipFrac and gameShipFrac ");
+    doVal("Ships Frac", gameShipFrac, mGameShipFrac, "increase the fraction of ships in the game. bit for each clan, limited by clanShipFrac and clanAllShipFrac");
+   // doVal("CWorthBias", cargoWorthBias, mCargoWorthBias, "increase the worth of cargo in relation to the worth of resources"); cargo worth matches resoruce worth, costs are however less
+  //  doVal("GWorthBias", guestWorthBias, mGuestWorthBias, "increase the worth of guests in relation to the worth of staff");  guest worth matches staff worth, costs are less
 
     doVal("growthGoal", goalGrowth, mRegGoals, "set normal, non-emergency growth goal, may increase growth");
     doVal("emergGrowthGoal", emergGrowth, mAllGoals, "set emergency growth goals for when economies are weak more might help or might may make them worse");

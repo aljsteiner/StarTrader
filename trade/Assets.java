@@ -3186,7 +3186,7 @@ public class Assets {
         faculty = makeZero(faculty);
         researchers = makeZero(researchers);
         knowledge.set(commonKnowledge, newKnowledge);
-        double[] sgWork = {0, 0, 1., 0.};
+       // double[] sgWork = {0, 0, 1., 0.};
         double sumG = 0;
         for (int i = 0; i < E.lsecs; i++) {
           for (int j = 0; j < lgrades2; j++) {
@@ -3195,20 +3195,29 @@ public class Assets {
             }
             balance.add(i, doubleTrouble(grades[i][j]));
             sumG += grades[i][j];
-            worth.add(i, grades[i][j] * (.5 + .5 * E.sumWorkerMults[j]) * eM.nominalWealthPerStaff[pors] * E.staffWorthBias[j] * eM.wBias[sIx]);
-            work.add(i, grades[i][j] * E.sumWorkerMults[j] * sgWork[sIx]);
+           // worth.add(i, grades[i][j] * (.5 + .5 * E.sumWorkerMults[j]) * eM.nominalWealthPerStaff[pors] * E.staffWorthBias[j] * eM.wBias[sIx]);
+            worth.add(i, grades[i][j] * (.5 + .5 * E.sumWorkerMults[j]) * eM.nominalWealthPerStaff[pors] * E.staffWorthBias[j]);
+          }
+          // count titles for Staff & Guests
+           for (int j = 0; j < 4; j++) {
+            colonists.add(i, grades[i][j]);
+            engineers.add(i, grades[i][j + 4]);
+            faculty.add(i, grades[i][j + 8]);
+            researchers.add(i, grades[i][j + 12]);
+          }
+        }
+        if(sIx == 2){ // staff only sums
+        for (int i = 0; i < E.lsecs; i++) {
+          for (int j = 0; j < lgrades2; j++) {
+            work.add(i, sIx == 2 ? grades[i][j] * E.sumWorkerMults[j]: 0);
             facultyEquiv.add(i, grades[i][j] * E.sumFacultyMults[j]);
             researcherEquiv.add(i, grades[i][j] * E.sumResearchMults[j]);
             manualsToKnowledgeEquiv.add(i, grades[i][j] * E.sumManualToKnowledgeByStaff[j]);
           }
 
           // now sum the subgrades of staff / guests
-          for (int j = 0; j < 4; j++) {
-            colonists.add(i, grades[i][j]);
-            engineers.add(i, grades[i][j + 4]);
-            faculty.add(i, grades[i][j + 8]);
-            researchers.add(i, grades[i][j + 12]);
-          }
+         
+        }
         }
         return sumG;
       } // Assets.CashFlow.SubAsset.sumGrades
@@ -8049,16 +8058,11 @@ public class Assets {
 
     } // end doLoop
 
-    /**
-     * compute Total Worth, and find difference with previous worths
-     *
-     * @param prevTs
-     * @param difTs
-     * @param newTs
-     * @return totalWorth
-     */
+ 
     /**
      * calculate the subAsset costs for a year
+     * These costs are used in getNeeds to calculate the yearly need
+     * See getNeeds to understand how costs are used
      *
      * @param balances the number of units of each SubAsset per sector
      * @param rawUnitGrowths input rawUnitGrowths of each subasset
@@ -8083,7 +8087,7 @@ public class Assets {
      */
     void calcRawCosts(A6Row balances, A6Row rawUnitGrowths, A6Row rawGrowths, A6Row invMEfficiency, A6Row invGEfficiency, int ix, int tIx, A10Row consumerReqMaintCosts10, A10Row nReqMaint, A10Row consumerReqGrowthCosts10, A10Row nReqGrowth, A10Row consumerMaintCosts10, A10Row nMaint, A10Row mTravel1Yr, A10Row nTravel1Yr, A10Row travelYearsCosts, A10Row consumerGrowthCosts10, A10Row nGrowth, ARow swork, double yearsTraveled) {  // Assets.CashFlow.calcRawCosts
       double t1, t2, t3, t4 = -999., t5, t6, t7, rawG;
-      int rcorsg = (int) (ix / 2);
+      int rsORcg = (int) (ix % 2);
       Double d, d1, d2;
       /**
        * now loop through i = consumer aspect of financial sectors j is the
@@ -8115,14 +8119,14 @@ public class Assets {
           // calculate required maintenance, a requirement not a cost subtracted
           // the prospects calculate from this and must be positive for health
           // a negative required maintenance remainder bal -reqm means death
-          t1 = balances.get(2 + ix, i) * cRand(i * E.lsecs + j) * E.maintRequired[pors][i][j] * eM.rs[0][0][pors][rcorsg]
+          t1 = balances.get(2 + ix, i) * cRand(i * E.lsecs + j) * E.maintRequired[pors][i][j] * eM.rs[0][0][pors][rsORcg]
                   * eM.ps[pors][ix]
                   * (tIx == 0 ? 1. : E.maintRequired[pors][tIx][i])
                   * invMEfficiency.get(ix + 2, i);
           // these values are all staff counts, converted from work counts by bal/swork
           d = swork.get(j);
           d = (d.isInfinite() || d.isNaN()) || d < E.PZERO ? E.UNZERO : d;
-          t2 = balances.get(2 + ix, i) * cRand(i * E.lsecs + ix + 8 + j) * E.maintRequired[pors][i][j + E.lsecs] * eM.rs[0][1][pors][rcorsg] * eM.ps[pors][ix] * (tIx == 0 ? 1. : E.maintRequired[pors][tIx][i + E.lsecs]) * invMEfficiency.get(ix + 2, i) * balances.get(4, j) / d;
+          t2 = balances.get(2 + ix, i) * cRand(i * E.lsecs + ix + 8 + j) * E.maintRequired[pors][i][j + E.lsecs] * eM.rs[0][1][pors][rsORcg] * eM.ps[pors][ix] * (tIx == 0 ? 1. : E.maintRequired[pors][tIx][i + E.lsecs]) * invMEfficiency.get(ix + 2, i) * balances.get(4, j) / d;
           // gather 7 service requests to i  (7 j values, service by i
           consumerReqMaintCosts10.add(2 + ix, i, t1);
           // consumerReqMaintCosts10.add(0, i, t1);  done by auto resum
@@ -8135,11 +8139,11 @@ public class Assets {
 
           // calculate requried Growth resources, calculates growth fraction
           // is not part of yearly costs.
-          t1 = balances.get(2 + ix, i) * cRand(i * E.lsecs + ix + j) * E.resourceGrowthRequirementBySourcePerConsumer[pors][i][j] * eM.rs[1][0][pors][rcorsg] * eM.ps[pors][ix] * (tIx == 0 ? 1. : E.resourceGrowthRequirementBySourcePerConsumer[pors][tIx][i]) * invMEfficiency.get(ix + 2, i);
+          t1 = balances.get(2 + ix, i) * cRand(i * E.lsecs + ix + j) * E.resourceGrowthRequirementBySourcePerConsumer[pors][i][j] * eM.rs[1][0][pors][rsORcg] * eM.ps[pors][ix] * (tIx == 0 ? 1. : E.resourceGrowthRequirementBySourcePerConsumer[pors][tIx][i]) * invMEfficiency.get(ix + 2, i);
           // these values are all staff costs, converted from work counts by bal/swork
-          t2 = balances.get(2 + ix, i) * cRand(i * E.lsecs + 8 + j) * E.resourceGrowthRequirementBySourcePerConsumer[pors][i][j + E.lsecs] * eM.rs[1][1][pors][rcorsg] * eM.ps[pors][ix] * (tIx == 0 ? 1. : E.resourceGrowthRequirementBySourcePerConsumer[pors][tIx][i + E.lsecs]) * invMEfficiency.get(ix + 2, i) * balances.get(4, j) / d;
-          consumerReqGrowthCosts10.add(ix + 2, i, t1);
-          consumerReqGrowthCosts10.add(ix + 6, i, t2);
+          t2 = balances.get(2 + ix, i) * cRand(i * E.lsecs + 8 + j) * E.resourceGrowthRequirementBySourcePerConsumer[pors][i][j + E.lsecs] * eM.rs[1][1][pors][rsORcg] * eM.ps[pors][ix] * (tIx == 0 ? 1. : E.resourceGrowthRequirementBySourcePerConsumer[pors][tIx][i + E.lsecs]) * invMEfficiency.get(ix + 2, i) * balances.get(4, j) / d;
+          consumerReqGrowthCosts10.add(ix + 2, i, t1); //subasset costs
+          consumerReqGrowthCosts10.add(ix + 6, i, t2); // subasset costs
           nReqGrowth.add(ix + 2, j, t1);
           nReqGrowth.add(ix + 6, j, t2);
           consumerReqGrowthCosts10.add(0, i, t1);
@@ -8153,11 +8157,11 @@ public class Assets {
             hist.add(new History("#b", History.valuesMajor6, "nRGrowth6 i=" + i, nReqGrowth.A[6]));
           }
 
-          t1 = balances.get(2 + ix, i) * cRand(i * E.lsecs + ix + j + 31) * E.maintCost[pors][i][j] * eM.rs[2][0][pors][rcorsg] * eM.ps[pors][ix] * (tIx == 0 ? 1. : E.maintCost[pors][tIx][i]) * invMEfficiency.get(ix + 2, i);
-          t4 = t2 = balances.get(2 + ix, i) * cRand(i * E.lsecs + ix + j + 41) * E.maintCost[pors][i][j + E.lsecs] * eM.rs[2][1][pors][rcorsg] * eM.ps[pors][ix] * (tIx == 0 ? 1. : E.maintCost[pors][tIx][i + E.lsecs]) * invMEfficiency.get(ix + 2, i) * balances.get(4, j) / d;
+          t1 = balances.get(2 + ix, i) * cRand(i * E.lsecs + ix + j + 31) * E.maintCost[pors][i][j] * eM.rs[2][0][pors][rsORcg] * eM.ps[pors][ix] * (tIx == 0 ? 1. : E.maintCost[pors][tIx][i]) * invMEfficiency.get(ix + 2, i);
+          t4 = t2 = balances.get(2 + ix, i) * cRand(i * E.lsecs + ix + j + 41) * E.maintCost[pors][i][j + E.lsecs] * eM.rs[2][1][pors][rsORcg] * eM.ps[pors][ix] * (tIx == 0 ? 1. : E.maintCost[pors][tIx][i + E.lsecs]) * invMEfficiency.get(ix + 2, i) * balances.get(4, j) / d;
 
-          consumerMaintCosts10.add(ix + 2, i, t1);
-          consumerMaintCosts10.add(ix + 6, i, t2);
+          consumerMaintCosts10.add(ix + 2, i, t1); // the r set of subcosts
+          consumerMaintCosts10.add(ix + 6, i, t2); // the s set of subcosts
           nMaint.add(ix + 2, j, t1);
           nMaint.add(ix + 6, j, t2);
           //    consumerMaintCosts10.add(0, i, t1);
@@ -8171,11 +8175,11 @@ public class Assets {
             hist.add(new History("#c", History.valuesMajor6, "kM i=" + i + " j=" + j, kMaint));
           }
 
-          t1 = balances.get(2 + ix, i) * cRand(i * E.lsecs + ix + j + 46) * tCosts[pors][i][j] * eM.rs[3][0][pors][rcorsg] * eM.ps[pors][ix] * (tIx == 0 ? 1. : tCosts[pors][tIx][i]) * invMEfficiency.get(ix + 2, i);
+          t1 = balances.get(2 + ix, i) * cRand(i * E.lsecs + ix + j + 46) * tCosts[pors][i][j] * eM.rs[3][0][pors][rsORcg] * eM.ps[pors][ix] * (tIx == 0 ? 1. : tCosts[pors][tIx][i]) * invMEfficiency.get(ix + 2, i);
           if ((t7 = swork.get(j)) < PZERO) {
             t2 = 0.0;
           } else {
-            t2 = balances.get(2 + ix, i) * cRand(i * E.lsecs + ix + j + 55) * tCosts[pors][i][j + E.lsecs] * eM.rs[3][1][pors][rcorsg] * eM.ps[pors][ix] * (tIx == 0 ? 1. : tCosts[pors][tIx][i + E.lsecs]) * invMEfficiency.get(ix + 2, i) * balances.get(4, j) / d;
+            t2 = balances.get(2 + ix, i) * cRand(i * E.lsecs + ix + j + 55) * tCosts[pors][i][j + E.lsecs] * eM.rs[3][1][pors][rsORcg] * eM.ps[pors][ix] * (tIx == 0 ? 1. : tCosts[pors][tIx][i + E.lsecs]) * invMEfficiency.get(ix + 2, i) * balances.get(4, j) / d;
             //    d = t2;
             //   E.myTestDouble(d,"t2","calcRawCosts process ix=%d, i=%d,j=%d,swork=%7.2f,t2=%7.5f, d string=%s",ix,i,j,t7,t2,String.valueOf(d));
           }
@@ -8193,8 +8197,8 @@ public class Assets {
             hist.add(new History("#d", History.valuesMajor6, "lYT=" + df(lightYearsTraveled), nTravel1Yr.A[6]));
           }
 
-          t1 = rawG * gCosts[pors][i][j] * eM.rs[4][0][pors][rcorsg] * eM.ps[pors][ix] * (tIx == 0 ? 1. : gCosts[pors][tIx][i]) * invGEfficiency.get(ix + 2, i);
-          t2 = rawG * gCosts[pors][i][j + E.lsecs] * eM.rs[4][1][pors][rcorsg] * eM.ps[pors][ix] * (tIx == 0 ? 1. : gCosts[pors][tIx][i + E.lsecs]) * invGEfficiency.get(ix + 2, i) * balances.get(4, j) / d;
+          t1 = rawG * gCosts[pors][i][j] * eM.rs[4][0][pors][rsORcg] * eM.ps[pors][ix] * (tIx == 0 ? 1. : gCosts[pors][tIx][i]) * invGEfficiency.get(ix + 2, i);
+          t2 = rawG * gCosts[pors][i][j + E.lsecs] * eM.rs[4][1][pors][rsORcg] * eM.ps[pors][ix] * (tIx == 0 ? 1. : gCosts[pors][tIx][i + E.lsecs]) * invGEfficiency.get(ix + 2, i) * balances.get(4, j) / d;
 
           consumerGrowthCosts10.add(ix + 2, i, t1);
           consumerGrowthCosts10.add(ix + 6, i, t2);
@@ -8569,11 +8573,20 @@ public class Assets {
     } //CashFlow.yCalcRawCosts
 
     /**
-     * Calculate the needs for each sector to either reach the goals, If no
-     * goals are set, the implied goal is health +.01, fertility .01, the need
-     * is what each sector needs so that all sectors are at or above the goal.
+     * Calculate the needs for each sector to either reach the goals,
+     * The costs come from calcRawCosts through yCalcRawCosts
+     * and through yCalcCosts
+     * If at the end of yearEnd any financial sector has an unmet need
+     * (a positive need in a sector) the economy cannot survive the next 
+     * year and it is set dead.
+     * If at the end of year a sector balance is not greater than twice the cost
+     * the sector has a poor health effect, the cost is proportionally higher
+     * but the economy survives to the year.
+     * <P>Trades are done before calculating the end of year need, to prevent 
+     * deaths and reduce poor health effects.
+     * </P>
      * <P>
-     * the parameters rawFertilities, rawHealth, rawProspects are fractions
+     * The parameters rawFertilities, rawHealth, rawProspects are fractions
      * related to the goals, any negative fraction means an unmet goal. The
      * fractions of rawHealth and rawFertility are calculated with the surplus
      * after the required amounts, so that rawHealth of .5 = (balance -

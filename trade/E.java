@@ -2023,8 +2023,8 @@ static double doubleTrouble(Double trouble, String vs){
   // 4 trainee, 4 engineer, 4 faculty, 4 researcher
   static final double[] sumWorkerMults = {.2,.3,.5,.9,  1.6,3.8,5.6,10., 7.0,7.0,6.0,5., 4.,4.,3.,3.};
   // for facultyEqv,  used to promote staff to next position
-  static final double[] sumFacultyMults = {0., 0., 0., 0., 0., 0., 0., 0., .3, .4, .7, 1., .7, .5, .5, .5, .3};
-  static final double[] staffPromotePerFaculty = {20.,15.,13.,12., 10.,9.,8.,7., 1., .6, .5, .3, .3, .3, .2, .2};
+  static final double[] sumFacultyMults = {0., 0., 0., 0., 0., 0., 0.1, 0.2, .3, .4, .7, 1., .7, .5, .5, .5, .3};
+  static final double[] staffPromotePerFaculty = {20.,15.,13.,12.,  10.,9.,8.,7., 1.,  .6, .5, .3,  .3, .3, .2, .2};
   // 4 trainee, 4 engineer, 4 faculty, 4 researcher
   static final double[] staffPromotePerResearcher = {0., 0., 0., 0., 0., 0., 0., 0., 1.8, 1.7, 1.6, 1.5, 1.4, 1., .8, .6};
   // use multiplier for the sum of Knowledge can be created,and researcher equiv for staff permotion above
