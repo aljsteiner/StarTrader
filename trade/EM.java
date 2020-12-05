@@ -870,7 +870,7 @@ class EM {
   //[reqM reqG m,t,g][r or s][p or s][rc sg]
   double rs4[][][][] = {maintReqAdj1, growthReqAdj1, maintCostAdj1, travelCostAdj1, growthCostAdj1};
   // a second set of options
-  double rs[][][][]; //[5 reqM reqG m t g][2 r s][2 p s][2 rc sg]
+  double rs[][][][]; //[5 reqM reqG m t g][2 r s][2 p s][4 rcsg]
   int maintReqTabRow[] = {0, 9, 7, 8};
   int growthReqTabRow[] = {0, 9, 7, 8};
   int maintCostTabRow[] = {0, 0, 7, 7};
@@ -905,7 +905,7 @@ class EM {
       for (int ab = 0; ab < 2; ab++) { //
         rs[aa][ab] = new double[2][];
         for (int ac = 0; ac < 2; ac++) {
-          rs[aa][ab][ac] = new double[2];
+          rs[aa][ab][ac] = new double[4];
         }
       }
     }
@@ -914,7 +914,17 @@ class EM {
       for (int ab = 0; ab < 2; ab++) { // r or s
         for (int ac = 0; ac < 2; ac++) { // p or ship
           for (int ad = 0; ad < 4; ad++) {  // rcsg
-            rs[aa][ab][ac][ad] = rs4[aa][ab][ac][ad] * mmult5Ctbl[aa][ac] * mabc[ab][ac] * ps[ac][ad];
+            /*
+            rs[aa][ab][ac][ad] = 1.;  // finding out of range
+            double xx = rs4[aa][ab][ac][(int)ad/2];
+            double xy = ps[ac][ad];
+            double x1 = mult5Ctbl[aa][ac];
+            double x2 = mabc[ab][ac];
+            */
+            rs[aa][ab][ac][ad] = 
+                    rs4[aa][ab][ac][(int)ad/2] * 
+                    mult5Ctbl[aa][ac] * 
+                    mabc[ab][ac] * ps[ac][ad];
           }
         }
       }
