@@ -885,8 +885,8 @@ class EM {
   double[] multGrowthC = multReqMaintC;
   
   double mult5Ctbl[][] = {multReqMaintC, multReqGrowthC, multMaintC, multTravC, multGrowthC}; 
-  double mab1[] = {.45,1.35}; // resource costs planet,ship
-  double mac1[] = {.45,1.35}; // staff costs planet ship 
+  double mab1[] = {.50,.70}; // resource costs planet,ship
+  double mac1[] = {.50,.70}; // staff costs planet ship 
   double mabc[][] = {mab1,mac1}; //r or s, p or s
   static double mmab1[][] = {{.09,3.1},{.09,3.1}}; // resource costs planet,ship
   static double[][]mmab2= {{.5,1.9},{.5,1.9}};
@@ -2631,8 +2631,8 @@ class EM {
     doRes(TradeRejectedStrategicValue, "RejectedtStrategicValue", "Strategic Value after Trade rejected",2, 3,2, DUP, 0, 0, 0);
     doRes(TradeLostStrategicValue, "LostStrategicValue", "Strategic Value after trade lost",2, 3,2, DUP, 0, 0, 0);
      doRes(TradeMissedStrategicGoal, "MissedStrategicGoal", "Trade Missed no value",2, 3,2, DUP, 0, 0, 0);
-     doRes(TradeDeadMissedStrategicGoal, "DeadMissedStrategicGoal", "Dead No Strategic Goal no trade",2, 3,2, THISYEARAVE | both | SKIPUNSET , ROWS1 | LIST94321 | CURAVE| BOTH | SKIPUNSET , ROWS2 | THISYEARUNITS  | BOTH | SKIPUNSET , ROWS3  | CUMUNITS | BOTH | SKIPUNSET );  
-    doRes(TradeDeadLostStrategicGoal, "DeadLostStrategicGoal", "Strategic Goal after trade lost and dead",2, 3,2,THISYEARAVE | both | SKIPUNSET , ROWS1 | LIST94321 | CURAVE| BOTH | SKIPUNSET , ROWS2 | THISYEARUNITS  | BOTH | SKIPUNSET , ROWS3  | CUMUNITS | BOTH | SKIPUNSET );    
+     doRes(TradeDeadMissedStrategicGoal, "DeadMissedStrategicGoal", "Dead No Strategic Goal no trade",2, 3,2, THISYEARAVE | both | SKIPUNSET , ROWS1 | LIST94321 | CURAVE| BOTH | SKIPUNSET , ROWS2 | LIST94321| THISYEARUNITS  | BOTH | SKIPUNSET , ROWS3 | LIST94321 | CUMUNITS | BOTH | SKIPUNSET );  
+    doRes(TradeDeadLostStrategicGoal, "DeadLostStrategicGoal", "Strategic Goal after trade lost and dead",2, 3,2,THISYEARAVE | both | SKIPUNSET , ROWS1 | LIST94321 | CURAVE| BOTH | SKIPUNSET , ROWS2 | LIST94321| THISYEARUNITS  | BOTH | SKIPUNSET , ROWS3 | LIST94321 | CUMUNITS | BOTH | SKIPUNSET );    
     doRes(TradeDeadLostStrategicValue, "DeadLostStrategicValue", "Strategic Value after trade lost and dead",2, 3,2, DUP, 0, 0, 0);
      doRes(TradeDeadRejectedStrategicGoal, "DeadRejectedStrategicGoal", "Strategic Goal after trade rejected and dead",2, 3,2, DUP, 0, 0, 0);
     doRes(TradeDeadStrategicGoal, "DeadStrategicGoal", "Strategic Goal after trade then died",2, 3,2, DUP, 0, 0, 0);

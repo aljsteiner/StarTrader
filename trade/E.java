@@ -73,6 +73,7 @@ public class E {
   static final boolean debugMaster = true;
   static final boolean debugOutput = distributable;
   static final boolean resetOut = distributable;
+  static final boolean debugCheckBalances = debugMaster; //check balances in loops
   static final boolean debugNegGrowth = debugMaster; // neg Growth made negCosts
   static final boolean debugNegCosts = debugMaster; // checking for neg Costs
   static final boolean debugNoTerm = debugMaster; // term undefined in assets, find whyu

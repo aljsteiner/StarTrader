@@ -3049,7 +3049,7 @@ public class Assets {
             didDecay = true;
           }
           
-          if(rawValue <  eM.mRCSGGrowth[sIx][pors][0]){
+          if(rawValue <  -0.0){
             if(E.debugNegGrowth){
            throw new MyErr(String.format(">>>>ERROR rawGrowth %14.10f too small,eM.Growth=%14.10f,yearlyUnitGrowth=%14.10f,rawUG1=%14.10f, rawUnitGrowth %14.10f, min %14.10f,n=%d,%s,lightYearsTraveled=%10.7f", rawValue, eM.assetsGrowth[sIx][pors], yug, rawUnitGrowthd, rawUValue, eM.mRCSGGrowth[sIx][pors][0], n, name, lightYearsTraveled));
             } else {rawGrowth.set(n, eM.mRCSGGrowth[sIx][pors][0]);}
@@ -8052,7 +8052,7 @@ public class Assets {
         // get the old swap values but the new Cost values
         //  prevns[0].copyn(cur, n);
 
-        balances.checkBalances(cur);
+        if(E.debugCheckBalances)balances.checkBalances(cur);
         yphase = yrphase.SWAPING;
         swapped = swaps("S&", lightYearsTraveled); // do possible swaps
         failed = !swapped;

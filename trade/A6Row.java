@@ -463,23 +463,18 @@ public class A6Row extends A6Rowa {
     E.myTest(cr.g.partner.balance != A[4], "g.partner connection lost");
     E.myTest(cr.s.partner.balance != A[5], "s.partner connection lost");
     // so a test for null pointer
-    double dif = 0.0;
-    double[][][] bb = as.
-            bals
-    .gradesA;
+    double[][][] bb = as.bals.gradesA;
+    if(E.debugSumGrades){
     if (as.bals.gradesA[2] != 
-            as.cur.s.grades && E.debugSumGrades) {
+            as.cur.s.grades) {
       throw new MyErr(String.format("bals grades != s.grades, term%d, i%d, j%d, m%d, n%d", as.term, as.i, as.j, as.m, as.n));
     }
     if (as.bals.gradesA[3] != 
-            as.cur.g.grades && E.debugSumGrades) {
+            as.cur.g.grades) {
       throw new MyErr(String.format("bals grades != g.grades, term%d, i%d, j%d, m%d, n%d", as.term, as.i, as.j, as.m, as.n));
     }
-    if ((dif = as.cur.s.balance.sum() - as.cur.s.checkSumGrades()) > E.PZERO || dif < E.NZERO) {
-      throw new MyErr(String.format("s balance%7.3g != s checkSumGrades%7.3g, term%d, i%d, j%d, m%d, n%d", as.cur.s.balance.sum(), as.cur.s.checkSumGrades(), as.term, as.i, as.j, as.m, as.n));
-    }
-    if ((dif=as.cur.g.balance.sum() - as.cur.g.checkSumGrades()) > E.PZERO || dif < E.NZERO) {
-      throw new MyErr(String.format("g balance%7.3g != g checkSumGrades%7.3g, term%d, i%d, j%d, m%d, n%d", as.cur.g.balance.sum(), as.cur.g.checkSumGrades(), as.term, as.i, as.j, as.m, as.n));
+    as.cur.s.checkSumGrades();
+    as.cur.g.checkSumGrades();
     }
   }
 
