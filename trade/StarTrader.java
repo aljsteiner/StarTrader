@@ -172,7 +172,7 @@ public class StarTrader extends javax.swing.JFrame {
  */
 
   static final public String[] statsButtonsTips = {statsButton0Tip, statsButton1Tip, statsButton2Tip, statsButton3Tip, statsButton4Tip, statsButton5Tip, statsButton6Tip, statsButton7Tip, statsButton8Tip, statsButton9Tip, statsButton10Tip, statsButton11Tip, statsButton12Tip, statsButton13Tip, statsButton14Tip, statsButton15Tip, statsButton16Tip, statsButton17Tip, statsButton18Tip, statsButton19Tip, statsButton20Tip, gameTextFieldText};
-  static final public String versionText = "     Version 19.09";
+  static final public String versionText = "     Version 19.2";
   static final public String storyText = "This game is about trading not fighting. It is a economics strategy game.  Trading is done between planets and the starships which move between planets.  There are 5 clans and a gameMaster.  The gameMaster uses the settings tab and selects the gameMaster gray radio button to set overall game limits and priorities.  Each planet and ship is run by a robot using the priorities set for the owning clan.\n\n"
       + "Before you start the game, click the settings tab.  You can change settings for the whole game as the gameMaster by clicking the first gray \"master\" radio buttion.  There are 5 settings to decide how the winner of the game is detected.  There may a different winner after each running the economies by 1, 5, 10 or 20 years. \n\nThe settings pages have up to 10 rows of one or two sliders.  The settings are each named.  If you hover the mouse over the slider name, additional information about the setting appears in the bottom rightmost box.  The sliders set priorities or values for an option.  If a row has 2 sliders then you can set different values for the planets and the ships.  Usually increasing a slider increases an option, but occasionally as indicated in the additional information, an increased slider decreases the priority or size.\n\n"
       + "You can choose one of the the next 5 radio buttons to be the clanMaster of that clan.  The displayed settings, are the settings you can change to change the operation of your clan."
@@ -5013,7 +5013,7 @@ public class StarTrader extends javax.swing.JFrame {
       RunYrs rYrs = new RunYrs();
       rYrs.setPriority(3);
       rYrs.start();  // start runYears2
-      stateConst = STATS;
+  //    stateConst = STATS;
     }
     catch (Exception ex) {
       if (!resetOut) {
@@ -5306,7 +5306,7 @@ public class StarTrader extends javax.swing.JFrame {
    * 
    * @return Since P????? secs=nnn.mmm
    */
-  public String sinceEcon(){ return since("since " + eM.curEcon.name, startEconState);}
+  public String sinceEcon(){ return since("since " + eM.curEcon.name, startEconState) +", ";}
 
   /**
    * return the seconds since the start of RunYear
@@ -5929,7 +5929,7 @@ public class StarTrader extends javax.swing.JFrame {
     for (int yy = 0; yy < years; yy++) {
       runYear();
     }
-    stateConst = STATS;
+    //stateConst = STATS;
   }
 
   /**
@@ -5948,13 +5948,14 @@ public class StarTrader extends javax.swing.JFrame {
     planetsLoop = 0;
     shipsLoop = eM.ships.size() - 1;
     envsLoop2 = 0;
+
     E.msgs = E.dmsgs;   // reset messages for each year
     E.msgcnt = 0;
     System.out.println("in runYear, year=" + (eM.year + 1) + " now doYear");
     // all restarts after user input go to doYear keeping yearly variables
     if (!doStop && !eM.stopExe && !fatalError) {
       doYear();
-      stateConst = STATS;
+      //stateConst = STATS;
     }
   }
 
@@ -6078,13 +6079,14 @@ public class StarTrader extends javax.swing.JFrame {
         double rand1 = Math.random();
         clanBias = (int) rand1 % 5; // 0-4
         for (envsLoop = lEcons; envsLoop < yEcons; envsLoop++) {
+          startEconState = (new Date()).getTime();
           // dnow = new Date();
           // econCnt = envsLoop;
-          Thread.yield();
           econClan = (envsLoop + clanBias) % 5;
           System.out.println("------" + since() + "  envsLoop=" + envsLoop + " max econs this year=" + yEcons + " econCnt=" + eM.econCnt + " rand1=" + eM.df(rand1) + " clanBias=" + clanBias + " clan=" + econClan);
           eM.curEcon = newEcon(eM.initialWorth, econClan);  // include new of Econ
           curWorth = eM.curEcon.getWorth();
+          Thread.yield();
           eM.curEcon.as.setStat("yearCreate", eM.curEcon.pors, eM.curEcon.clan, curWorth, 1);
           System.out.println("++++++++" + since() + " after newEcon name=" + eM.curEcon.getName() + ", clan=" + eM.curEcon.clan + " econssize=" + eM.econs.size());
           printMem();
@@ -6102,6 +6104,7 @@ public class StarTrader extends javax.swing.JFrame {
         int finishedClans = 0; // end when all 5 clans can create no more econs
         for (int clansLoop = 0; clansLoop < nClans && finishedClans < 5; clansLoop++, finishedClans++) {
           econClan = (int) (clansLoop + clanBias) % 5;
+          startEconState = (new Date()).getTime();
           double limits3 = eM.econCnt - eM.econLimits3[0];
           double mDif = limits3 > E.PZERO ? limits3 / 5 : 1.;
           double clanWorth = eM.econCnt > eM.econLimits1[0] ? Math.max(eM.initialWorth[0] * 4., eM.clanFutureFunds[econClan] / ((eM.econLimits3[0] - eM.econCnt) / 5.)) : eM.initialWorth[0];

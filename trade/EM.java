@@ -983,28 +983,28 @@ class EM {
   double[] fracBiasInGrowth = {.2, .2};
   static double[][] mFracBiasInGrowth = {{.02, .9}, {.02, .9}};
   double[] fracPriorityInGrowth = {.5, .5};  //mult priority in growth calc and percent to frac
-  static double[][] mFracPriorityInGrowth = {{.1, .9}, {.1, .9}};
+  static final double[][] mFracPriorityInGrowth = {{.1, .9}, {.1, .9}};
   double[] resourceGrowth = {1., .002}; // growth per work
-  static double[][] mResourceGrowth = {{.01, 2.}, {0.002, .1}};
+  static final double[][] mResourceGrowth = {{.01, 2.}, {0.002, .1}};
   // decay mining cumulative related to each years growth
   double[] resourceGrowthDecay = {.0000006, .0000001};
   // decay mining cumulative related to each years growth
-  static double[][] mResourceGrowthDecay = {{.0000003, .0000009}, {.0000001, .0000009}};
+  static final double[][] mResourceGrowthDecay = {{.00000003, .0000009}, {.00000001, .0000009}};
   double[] cargoGrowth = {0.000001, .00000001};
-  static double[][] mCargoGrowth = {{0.0000001, 0.00009}, {0.000000001, 0.000009}};
+  static final double[][] mCargoGrowth = {{0.0000001, 0.00009}, {0.000000001, 0.000009}};
   // cargo decay use resourceGrowthDecay
   double[] staffGrowth = {1., .002}; // growth per work
-  static double[][] mStaffGrowth = {{.01, 2.}, {0.0002, .01}};
+  static final double[][] mStaffGrowth = {{.01, 2.}, {0.0002, .1}};
   double[] staffGrowthDecay = {.0000002, .0000003};
-  double[][] mStaffGrowthDecay = {{.00000005, .000005}, {.00000003, .000003}};
+  static final double[][] mStaffGrowthDecay = {{.00000005, .000005}, {.00000003, .000003}};
   double[] travelGrowth = {.0015, .0025}; // this multiplies against work
-  static double[][] mTravelGrowth = {{.0001, .001}, {.0001, .01}}; //
+  static final double[][] mTravelGrowth = {{.0001, .001}, {.0001, .01}}; //
   double[] guestsGrowth = {0.000001, .00000001};
-  static double[][] mGuestsGrowth = {{0.0000001, 0.00009}, {0.000000001, 0.0000009}};
+  static final double[][] mGuestsGrowth = {{0.0000001, 0.00009}, {0.000000001, 0.0000009}};
   static double[][][] mRCSGGrowth = {mResourceGrowth, mCargoGrowth, mStaffGrowth, mGuestsGrowth};
   // growth is in terms of staff units, decay is in term of previous yr growth
-  double[][] growth = {resourceGrowth, cargoGrowth, staffGrowth, guestsGrowth};
-  double[][] decay = {resourceGrowthDecay, resourceGrowthDecay, staffGrowthDecay, staffGrowthDecay};
+  double[][] assetsGrowth = {resourceGrowth, cargoGrowth, staffGrowth, guestsGrowth};
+  double[][] growthDecay = {resourceGrowthDecay, resourceGrowthDecay, staffGrowthDecay, staffGrowthDecay};
   double[][] mfracBiasInGrowth = {{.1, .3}, {.1, .3}};
   double[][] mfracPriorityInGrowth = {{.3, .7}, {.3, .7}};  //mult priority in growth calc and percent to frac
   double[][] clanFutureFundEmerg2 = {{.15, .15, .15, .15, .15}, {.15, .15, .15, .15, .15}};

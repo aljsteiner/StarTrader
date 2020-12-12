@@ -1329,7 +1329,7 @@ public class Assets {
         // decrement bonusYears
         bals.getRow(ABalRows.bonusYearsIx + m).set(n, (bals.getRow(ABalRows.bonusYearsIx + m).get(n) > PZERO ? bals.getRow(ABalRows.bonusYearsIx + m).get(n) - 1. : 0.));
         // now increment cumulativeDecay
-        bals.getRow(ABalRows.cumulativeDecayIx + m).add(n, bals.getRow(ABalRows.GROWTHSIX + m).get(n) * eM.decay[m][pors]);
+        bals.getRow(ABalRows.cumulativeDecayIx + m).add(n, bals.getRow(ABalRows.GROWTHSIX + m).get(n) * eM.growthDecay[m][pors]);
       }
     }
     // in Assets.yearEnd
@@ -1882,7 +1882,7 @@ public class Assets {
       StackTraceElement a2 = Thread.currentThread().getStackTrace()[2];
       StackTraceElement a3 = Thread.currentThread().getStackTrace()[3];
       StackTraceElement a4 = Thread.currentThread().getStackTrace()[4];
-      E.sysmsg("CF construct " + name + " at " + a4.getMethodName() + ", " + a3.getMethodName() + ", " + a2.getMethodName() + " wealth=" + df(wealth));
+      E.sysmsg("CF construct " + E.ROYGB.charAt(clan) + " " + name + " at " + a4.getMethodName() + ", " + a3.getMethodName() + ", " + a2.getMethodName() + " wealth=" + df(wealth));
       //    System.out.println("CashFlow(Assets) " + name + " constructor");
       as = aas;
 
@@ -2993,11 +2993,12 @@ public class Assets {
         if (didDecay) {
           prevGrowth.zero();
         } else {
-          prevGrowth.set(bals.getGrowthsRow(sIx));
+         // prevGrowth.set(bals.getGrowthsRow(sIx));
+         prevGrowth = growths.getRow(2+sIx);
           // later      didDecay = true;
         }
         // only do decay once a year
-        ARow newDecay = new ARow(ec).setAmultV(prevGrowth, eM.decay[sIx][pors]);
+        ARow newDecay = new ARow(ec).setAmultV(prevGrowth, eM.growthDecay[sIx][pors]);
         cumulativeDecay.add(newDecay);
         prevMaxLeft = make(maxLeft);
         bonusYears = bals.getBonusYearsRow(sIx);
@@ -3019,13 +3020,16 @@ public class Assets {
         // economy priorities, and groEfficiency
 
         double rawValue = 0., rawUValue = 0.;
-        double growthFrac = (eM.maxGrowth[pors] - bals.curSum()) / eM.maxGrowth[pors];
+        double growthFrac = (eM.maxGrowth[pors] - balance.sum()) / eM.maxGrowth[pors];
         //    double yuGrow[] = {0.,0.,0.,0.,0.,0.,0.,0.};
         for (int n = 0; n < LSECS; n++) {
           // double a1 = balance.get(n);
           // double a2 = partner.balance.get(n);
-          yuGrow[n] = yearlyUnitGrowth.set(n, eM.growth[sIx][pors] * growthFrac - cumulativeDecay.get(n) + (bonusLeft = (bonusYears.get(n) > PZERO ? bonusUnitGrowth.get(n) : 0.)));
+          double yug = yuGrow[n] = yearlyUnitGrowth.set(n, eM.assetsGrowth[sIx][pors] * growthFrac - cumulativeDecay.get(n) + (bonusLeft = (bonusYears.get(n) > PZERO ? bonusUnitGrowth.get(n) : 0.)));
 
+          // if cumulativeDecay too big, don't allow negative growth
+          if(yug < E.PZERO){yug = yuGrow[n] = yearlyUnitGrowth.set(n,0.0); }
+          
           //get unitGrowth1, step one in final unit growth
           double rawUnitGrowthd = uG1.set(n, rawBiasedUnitGrowth.set(n, (1.1 * yearlyUnitGrowth.get(n) * (eM.fracBiasInGrowth[pors])) + rawPriorityUnitGrowth.set(n, (yearlyUnitGrowth.get(n) * eM.fracPriorityInGrowth[pors] * ypriorityYr.get(n)) * groEfficiency.get(n) * cRand(3 * sIx + n + 30))));
           /**
@@ -3044,12 +3048,18 @@ public class Assets {
             }
             didDecay = true;
           }
-          //   E.myTest(rawValue < eM.mRCSGGrowth[sIx][pors][0], ">>>>ERROR rawGrowth %14.10f too small,eM.Growth=%14.10f,yearlyUnitGrowth=%14.10f,rawUG1=%14.10f, rawUnitGrowth %14.10f, min %14.10f,n=%d,%s,lightYearsTraveled=%10.7f", rawValue, eM.growth[sIx][pors], yug, rawUnitGrowthd, rawUValue, eM.mRCSGGrowth[sIx][pors][0], n, name, lightYearsTraveled);
+          
+          if(rawValue <  eM.mRCSGGrowth[sIx][pors][0]){
+            if(E.debugNegGrowth){
+           throw new MyErr(String.format(">>>>ERROR rawGrowth %14.10f too small,eM.Growth=%14.10f,yearlyUnitGrowth=%14.10f,rawUG1=%14.10f, rawUnitGrowth %14.10f, min %14.10f,n=%d,%s,lightYearsTraveled=%10.7f", rawValue, eM.assetsGrowth[sIx][pors], yug, rawUnitGrowthd, rawUValue, eM.mRCSGGrowth[sIx][pors][0], n, name, lightYearsTraveled));
+            } else {rawGrowth.set(n, eM.mRCSGGrowth[sIx][pors][0]);}
+           
+        }
         }//end for on n
 
         ec.aPre = aPre = "#G";
         if (History.dl > 9) {
-          hist.add(new History(aPre, 9, aschar + " growth[sIx][pors]", df(eM.growth[sIx][pors]), "sIx", wh(sIx), "pors", wh(pors), "fracBiax..", df(eM.fracBiasInGrowth[pors]), "fracPriority", df(eM.fracPriorityInGrowth[pors])));
+          hist.add(new History(aPre, 9, aschar + " growth[sIx][pors]", df(eM.assetsGrowth[sIx][pors]), "sIx", wh(sIx), "pors", wh(pors), "fracBiax..", df(eM.fracBiasInGrowth[pors]), "fracPriority", df(eM.fracPriorityInGrowth[pors])));
           hist.add(new History(aPre, 9, aschar + " balance", balance));
           hist.add(new History(aPre, 9, aschar + " prevGrowth", prevGrowth));
           hist.add(new History(aPre, 9, aschar + " cumulativeDecay", cumulativeDecay));
@@ -3148,8 +3158,9 @@ public class Assets {
             double sectU = balance.get(sourceIx2);
             double difMax = sectU * 0.0001 + .0001;
             double sumBal = balance.sum();
+            //check for more than a very small dif between sum of sector grades and  sector balance
             if (((dif = sectU - preGSums[sourceIx2]) < -difMax || dif > difMax)) {
-              throw (new MyErr("difference  too large" + "=" + df(dif) + " difMax " + df(difMax) + ", balance.get(" + sourceIx2 + ")" + df(balance.get(sourceIx2)) + " for pre grades " + aschar + sourceIx2 + " " + df(preGSums[sourceIx2]) + " pregrades2[sourceIx2]=" + df(sGSums[sourceIx2]) + "\n less units" + df(sectU) + " units sumBal=" + df(sumBal) + " grades sGSums[8]=" + df(sGSums[8]) + ", grades preGSums[8]=" + df(preGSums[8]) + ", sourceIx2=" + sourceIx2 + ", term" + as.term + ", i" + as.i + ", j" + as.j + ", m" + as.m + ", n" + as.n));
+              throw (new MyErr("sector grade sum difference too large=" + df(dif) + " difMax=" + df(difMax) + ", balance.get(" + sourceIx2 + ")=" + df(balance.get(sourceIx2)) + " for " + aschar + sourceIx2 + " grades sum=" + df(preGSums[sourceIx2]) + " pregrades2[sourceIx2]=" + df(sGSums[sourceIx2]) + "\n less units" + df(sectU) + " units sumBal=" + df(sumBal) + " grades sGSums[8]=" + df(sGSums[8]) + ", grades preGSums[8]=" + df(preGSums[8]) + ", sourceIx2=" + sourceIx2 + ", term" + as.term + ", i" + as.i + ", j" + as.j + ", m" + as.m + ", n" + as.n));
 
               //   throw(new MyErr(String.format("difference[%d] %7.3g is greater than difMax %7.3g for pre balance %7.3g  less pre grade units %7.3g   sourceIx%d, term%d, i%d, j%d, m%d,n%d",sourceIx2, dif,difMax,sectU,preGSums[sourceIx2],sourceIx,as.term,as.i,as.j,as.m,as.n)));
             }//dif
@@ -3707,8 +3718,12 @@ public class Assets {
         double prevbal = balance.get(sourceIx);
         double remMov = doubleTrouble(cost);
         double cost2 = cost;
-        if (cost < E.NNZERO) {
-          throw new MyErr(String.format("Negative cost%7.3g, term%d, i%d, j%d, m%d, n%d", as.term, as.i, as.j, as.m, as.n));
+        if (cost < E.NNZERO) { 
+          if(E.debugCosts){
+         throw new MyErr(String.format("Negative cost%7.3g, term%d, i%d, j%d, m%d, n%d",cost, as.term, as.i, as.j, as.m, as.n));
+          } else {
+            cost = 0.0;
+          }
         }
         //9/9/15 skip almost 0  cost, avoid infinite or NaN results
         //     hist.add(new History("cst1a", 7, n + " preCost", balance));
@@ -6352,10 +6367,10 @@ public class Assets {
         double rBonusVal2 = cRand(21) * cc * eM.catastrophyBonusGrowthValue[pors][0] * .5;
         double sBonusVal1 = cRand(22) * cc * eM.catastrophyBonusGrowthValue[pors][0] * 1.9;
         double sBonusVal2 = cRand(23) * cc * eM.catastrophyBonusGrowthValue[pors][0] * .5;
-        double rDecayReduce1 = cRand(24) * cc * eM.decay[0][pors] * .006 * balances.getRow(0).sum();
-        double rDecayReduce2 = cRand(25) * cc * eM.decay[0][pors] * .002 * balances.getRow(0).sum();
-        double sDecayReduce1 = cRand(26) * cc * eM.decay[2][pors] * .006 * balances.getRow(1).sum();
-        double sDecayReduce2 = cRand(27) * cc * eM.decay[2][pors] * .002 * balances.getRow(1).sum();
+        double rDecayReduce1 = cRand(24) * cc * eM.growthDecay[0][pors] * .006 * balances.getRow(0).sum();
+        double rDecayReduce2 = cRand(25) * cc * eM.growthDecay[0][pors] * .002 * balances.getRow(0).sum();
+        double sDecayReduce1 = cRand(26) * cc * eM.growthDecay[2][pors] * .006 * balances.getRow(1).sum();
+        double sDecayReduce2 = cRand(27) * cc * eM.growthDecay[2][pors] * .002 * balances.getRow(1).sum();
         int rBonusX1 = (int) (3 + cRand(28) * 5.) % 7;
         int rBonusX2 = (int) (4 + cRand(29) * 4.) % 7;
         int sBonusX1 = (int) (3 + cRand(30) * 5.) % 7;
@@ -8571,6 +8586,33 @@ public class Assets {
       rawProspectsNegSum = rawProspects2.negSum();
 
     } //CashFlow.yCalcRawCosts
+    
+    /** check all rows of an A10Row for a negative value
+     * 
+     * @param ccc  The A10Row
+     * @param who Description of the A10Row
+     */
+    void checkNegCosts(A10Row ccc,String who){
+      if(E.debugNegCosts){
+        for(int p = 0;p < 10;p++){
+          checkNegCostsR(ccc.getRow(p),who + "+r" + p);
+      }
+    }
+    }
+    /** check for a neg value in any sector of the ARow
+     * 
+     * @param rr  the ARow to be checked
+     * @param who The discription of the ARow
+     */ 
+    void checkNegCostsR(ARow rr,String who){
+      if(E.debugNegCosts){
+      for(int r=0;r<E.LSECS;r++){
+        if(rr.get(r) < E.NZERO){
+          throw new MyErr(who + " sector=" + r + "=" + df(rr.get(r)));
+        }
+      }
+      }
+    }
 
     /**
      * Calculate the needs for each sector to either reach the goals,
@@ -8816,13 +8858,19 @@ public class Assets {
       }
 
       A10Row mtCosts10 = new A10Row(ec,alev, "mtCosts10").setAdd(maintCosts, travelCosts);
+      checkNegCosts(mtCosts10,"mtCosts10");
+      checkNegCosts(maintCosts,"maintCosts");
+      checkNegCosts(travelCosts,"travelCosts");
       //  mtNegs.setAmultV(mtCosts10, PHE);  // output
       // apply the poor health penalty to mt costs
       A10Row pmtC = new A10Row(ec,alev, "pmtC").setAmultV(mtCosts10, PHE);
+      checkNegCosts(pmtC,"pmtC" + " P=" + df(PHE));
       pmNegs.setAmultV(maintCosts, PHE);
       ptNegs.setAmultV(travelCosts, PHE);
       mtNegs.set(pmtC);
       A10Row pRawGC = new A10Row(ec,alev, "pRawGC").setAmultV(rawGC, PHE);
+      checkNegCosts(rawGC,"rawGC");
+      checkNegCosts(pRawGC,"pRawGC" + " P=" + df(PHE));
 
       A6Row pRemMT = new A6Row(ec,alev, "pRemMt");
       // (bals-mt) = remMt amount left for growth cost
@@ -8836,8 +8884,10 @@ public class Assets {
       growths = growths.setAmultF(rawGrowths, minLFrac);
       // from the actual growths get negs (costs)
       growthNegs = growthNegs.setAmultF(pRawGC, minLFrac);
+      checkNegCosts(growthNegs,"growthNegs");
       // now get total costs mt and growth
       mtgNegs.setAdd(pmtC, growthNegs);
+      checkNegCosts(mtgNegs,"mtgNegs");
       // finish the return value
       // now start needs6 calculation for C and G & R and S
       // recalc rawProspects using only working R & S

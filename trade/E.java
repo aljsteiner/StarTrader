@@ -71,6 +71,10 @@ public class E {
    */
   static final boolean distributable = false;
   static final boolean debugMaster = true;
+  static final boolean debugOutput = distributable;
+  static final boolean resetOut = distributable;
+  static final boolean debugNegGrowth = debugMaster; // neg Growth made negCosts
+  static final boolean debugNegCosts = debugMaster; // checking for neg Costs
   static final boolean debugNoTerm = debugMaster; // term undefined in assets, find whyu
   static final boolean debutNoLastGoods = debugMaster; //error open TradeRecord
   static final boolean debugOfferCargos = debugMaster; //cargos in offer == cargo.balance
@@ -85,8 +89,6 @@ public class E {
   static final boolean debugPutValue = debugMaster; //test putValue processing
   static final boolean debugPutValue1 = debugMaster; //test putValue processing
   static final boolean debugPutValue2 = debugMaster; //test putValue processing
-  static final boolean debugOutput = distributable;
-  static final boolean resetOut = distributable;
   static final boolean debugThreads = debugMaster;
   /* Start Global data, set in tab init
    * [pors]
@@ -190,8 +192,8 @@ public class E {
   static final public long startTime = (new Date()).getTime();
 
   static double[] newPlanetPosition = {-2.7, -2.7, -2.7};
-  static String PSD = "PSD";  // Planet, Ship Dead
-  static String ROYGB = "ROYGB"; // clan characters
+  static final String PSD = "PSD";  // Planet, Ship Dead
+  static final String ROYGB = "ROYGB"; // clan characters
 
   //location parameters for planets and ships.
   // use only the positive section of sphere x, y,z
