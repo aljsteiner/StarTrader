@@ -38,6 +38,12 @@ public class ARow {
   protected double values[];
   private int ix[];
   double sum = 0.;
+  double plusSum = 0.;
+  double negSum = 0.;
+  double plusMax = 0.;
+  double negMin = 0.;
+  int plusCnt = 0;
+  int negCnt = 0;
   int setCnt = 0;
   int savCnt = -10;
   EM eM = EM.eM;
@@ -1811,6 +1817,7 @@ public class ARow {
    * order the ix from min to max of values then set valid
    */
   ARow makeOrderIx() {
+    if (setCnt != savCnt) {
     if (values == null) {
       fill();
     }
@@ -1819,12 +1826,21 @@ public class ARow {
     int[] minIx = new int[E.lsecs];
     double minC, minO;
     int minOIx, minCIx;
-    sum = 0.;
+    negSum = plusSum = sum = 0.;
+    negCnt = plusCnt = 0;
+    negMin = 9999999999.;
+    plusMax = -9999999999.;
+    // sort entries min to max, set minIx points to entry in original array
     for (int g = 0; g < E.lsecs; g++) {
       sum += minC = values[g];
+      if(minC < -0.0){
+        negSum += minC; negCnt++;
+      } else {
+        plusSum += minC; plusCnt++;
+      }
       minCIx = g;
-      for (int k = 0; k < g; k++) {
-        if (minC < min[k]) {
+      for (int k = 0; k < g; k++) { 
+        if (minC < min[k]) { // currentMin < new entry in min list
           minO = min[k];
           minOIx = ix[k];
           ix[k] = minCIx;
@@ -1836,7 +1852,9 @@ public class ARow {
       min[g] = minC;
       ix[g] = minCIx;
     }
+    negMin = min[0]; plusMax = min[E.LSECS-1];
     savCnt = setCnt;
+    }
     return this;
   }
 
@@ -1974,6 +1992,12 @@ public class ARow {
     return this;
   }
 
+  /** set ARow instance to the min of two ARows
+   * 
+   * @param A  the first ARow for mins
+   * @param B  the secon Arow for mins
+   * @return this an ARow each element the min of that in the 2 ARows
+   */
   public ARow setMin(ARow A, ARow B) {
     for (int m = 0; m < E.lsecs; m++) {
       set(m, Math.min(A.get(m), B.get(m)));

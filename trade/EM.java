@@ -127,12 +127,12 @@ class EM {
   // multiplier of the ship goals.
   double[] addGoal = {0.0, 0.015, .025, .045, .06, .08, 2.0, 2.3};//9
   // .25 = 1ship/3 planets
-  double[] gameShipFrac = {.501, .498};  // ships / econs .75 means 3ships/1 planet, .8 = 4ships/1planet
+  double[] gameShipFrac = {.67};  // ships / econs .75 means 3ships/1 planet, .8 = 4ships/1planet
   static double[][] mGameShipFrac = {{.25, .81}, {.25, .81}};
-  double[][] clanShipFrac = {{.501, .501, .501, .501, .6}, {.498, .498, .498, .498, .6}}; // .3->5. clan choice of clan ships / clan econs
-  static double[][] mClanShipFrac = {{.20, .81}, {.20,.81}};
-  double[][] clanAllShipFrac = {{.501, .501, .501, .501, .501}, {.5, .5, .5, .5, .5}}; // clan (ships/econs)
-  static double[][] mClanAllShipFrac = {{.2, .81}, {.2, .81}};
+  double[][] clanShipFrac = {{.501, .501, .501, .501, .6}}; // .3->5. clan choice of clan ships / clan econs
+  static double[][] mClanShipFrac = {{.25, .81}, {.20,.81}};
+  double[][] clanAllShipFrac = {{.501, .501, .501, .501, .501}}; // clan (ships/econs)
+  static double[][] mClanAllShipFrac = {{.25, .81}, {.2, .81}};
 
   static double mEconLimits1[][] = {{200., 500.}, {200., 500.}};
   double econLimits2[] = {350.}; // more limiting of econs
@@ -188,7 +188,7 @@ class EM {
   double[][] mManualFracKnowledge = {{.3, 1.5}, {.3, 2.}};
   double[] nominalWealthPerTradeManual = {manualFracKnowledge[0] * nominalWealthPerCommonKnowledge[0], manualFracKnowledge[1] * nominalWealthPerCommonKnowledge[1]};
   double[] initialWorth = {10000., 12000.};
-  static double[][] mInitialWorth = {{5000., 20000.}, {5000., 30000.}};
+  static double[][] mInitialWorth = {{5000., 20000.}, {2000., 30000.}};
   double[] initialKnowledge = {1000., 1000.}; //900
   static double[][] mInitialKnowledge = {{500., 4000.}, {500., 6000}};
   double[] initialCommonKnowledgeFrac = {0.106383, .106383};
@@ -757,10 +757,14 @@ class EM {
   static double[][] mGRGrowthMult1 = {{.03, .1}, {.01, .05}}; // higher growth .03 - .1
   double[][] gRGrowthMult2 = {{.2}, {.2}}; // lower growth .01 - .06;
   static double[][] mGRGrowthMult2 = {{.01, .6}, {.01, .6}};
-  double[][] userCatastrophyFreq = {{.2, .3, .2, .3, .4}, {.1, .2, .3, .2, .4}};
-  static double[][] mUserCatastrophyFreq = {{.0, .7}, {.0, .7}};
-  double[][] gameUserCatastrophyMult = {{.6, .6, .6, .6, .6}, {.6, .6, .6, .6, .6}};
-  static double[][] mGameUserCatastrophyMult = {{.0, .7}, {.0, .8}};
+  // freq .2 means chance for today is .2 or 1 in 5years, .333 = 1 in 3 years
+  // goal freq from 1 in 2yrs to 1 in 10 yrs .5
+  double[][] userCatastrophyFreq = {{.35, .33, .27, .35, .4}, {.28, .29, .34, .26, .4}};
+  static double[][] mUserCatastrophyFreq = {{.2, .55}, {.2, .55}};
+  // value 1.5 means  mult user value by 1.5 so .2 * 1.5= .3 about 1 in 3 yrs
+  // remember there are also random multipliers
+  double[][] gameUserCatastrophyMult = {{1.5}, {1.}};
+  static double[][] mGameUserCatastrophyMult = {{.5,2.2}, {.5,2.2}};
   double[][] gameClanRiskMult = {{.5}, {.5}};  // range .0 - .6
   static double[][] mGameClanRiskMult = {{.0, .6}, {.0, .6}};  // range .0 - .6
   // multiply table guest cost by guestBias when calculating Maint Travel Growth Req costs and worth
@@ -922,6 +926,8 @@ class EM {
             double x2 = mabc[ab][ac];
             */
             rs[aa][ab][ac][ad] = 
+                    // add difficultyPercent as a cost factor 50% = 1. mult
+                    difficultyPercent[ac] * .1 * 2. *
                     rs4[aa][ab][ac][(int)ad/2] * 
                     mult5Ctbl[aa][ac] * 
                     mabc[ab][ac] * ps[ac][ad];
@@ -3815,11 +3821,12 @@ class EM {
     // doSum doBoth global variables
     String ops = "unset";
     String doingSum = (doSum ? "doingSum" : "notDoingSum");
-    doPower = resI[rn][ICUM][CCONTROLD][IPOWER];
-    powers = "";
+  
     int pors = (int) (opr & psmask);
     int ii = 0;
     try {
+      doPower = resI[rn][ICUM][CCONTROLD][IPOWER];
+      powers = "";
       if (((cum | cumUnitAve | cumUnits) & opr) > 0) {
         if ((cum & opr) > 0) {
           ops = "cum";
@@ -3846,9 +3853,12 @@ class EM {
         sum = 0.;
         cnts = 0.;
         if (resI[rn] == null) {
-          bErr(">>>>>>in Getd1 null at resI[" + rn);
+          aErr(">>>>>>in Getd1 null at resI[" + rn);
           System.err.println("desc=" + resS[rn][0]);
         }
+        long resia[][] = resI[rn][ICUR0 + (int) lStart];
+        long resib[] = resia[CCONTROLD];
+        long dp = resib[IPOWER];
         doPower = resI[rn][ICUR0 + (int) lStart][CCONTROLD][IPOWER];
         powers = "";
         lEnd = Math.min(lEnd, valid); //restrict year 0 to 1 year,1 prior reset
@@ -3856,16 +3866,16 @@ class EM {
         for (ii = (int) lStart + ageIx * 7; ii < lEnd + ageIx * 7; ii++) {
           if (resV[rn] == null) {
             if (pors == 0 && dClan == 0) { //complain only once
-              bErr(">>>>>>in Getd1 null at resV[" + rn + "] desc=" + resS[rn][0]);
+              aErr(">>>>>>in Getd1 null at resV[" + rn + "] desc=" + resS[rn][0]);
             }
             return -98.;
           } else if (resV[rn][ICUR0 + ii] == null) {
             if (pors == 0 && dClan == 0) {
-              bErr(">>>>>>in Getd1 null at resV[" + rn + "] [cur0+ " + ii + "] desc=" + resS[rn][0]);
+              aErr(">>>>>>in Getd1 null at resV[" + rn + "] [cur0+ " + ii + "] desc=" + resS[rn][0]);
             }
             return -97.;
           } else if (resV[rn][ICUR0 + ii][0] == null) {
-            bErr(">>>>>>in Getd1 null at resV[" + rn + "] [cur0 + " + ii + "][0] desc=" + resS[rn][0]);
+            aErr(">>>>>>in Getd1 null at resV[" + rn + "] [cur0 + " + ii + "][0] desc=" + resS[rn][0]);
             return -98.78;
           }
           if ((rn == 96 || rn == 0 || rn == 2 || rn == 3) && pors == 0 && dClan == 0) {

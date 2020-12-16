@@ -6367,10 +6367,10 @@ public class Assets {
         double rBonusVal2 = cRand(21) * cc * eM.catastrophyBonusGrowthValue[pors][0] * .5;
         double sBonusVal1 = cRand(22) * cc * eM.catastrophyBonusGrowthValue[pors][0] * 1.9;
         double sBonusVal2 = cRand(23) * cc * eM.catastrophyBonusGrowthValue[pors][0] * .5;
-        double rDecayReduce1 = cRand(24) * cc * eM.growthDecay[0][pors] * .006 * balances.getRow(0).sum();
-        double rDecayReduce2 = cRand(25) * cc * eM.growthDecay[0][pors] * .002 * balances.getRow(0).sum();
-        double sDecayReduce1 = cRand(26) * cc * eM.growthDecay[2][pors] * .006 * balances.getRow(1).sum();
-        double sDecayReduce2 = cRand(27) * cc * eM.growthDecay[2][pors] * .002 * balances.getRow(1).sum();
+        double rDecayReduce1 = cRand(24) * cc * eM.growthDecay[0][pors]  * balances.getRow(0).sum();
+        double rDecayReduce2 = cRand(25) * cc * eM.growthDecay[0][pors] * .2 * balances.getRow(0).sum();
+        double sDecayReduce1 = cRand(26) * cc * eM.growthDecay[2][pors] * balances.getRow(1).sum();
+        double sDecayReduce2 = cRand(27) * cc * eM.growthDecay[2][pors] * .02 * balances.getRow(1).sum();
         int rBonusX1 = (int) (3 + cRand(28) * 5.) % 7;
         int rBonusX2 = (int) (4 + cRand(29) * 4.) % 7;
         int sBonusX1 = (int) (3 + cRand(30) * 5.) % 7;
@@ -6403,13 +6403,19 @@ public class Assets {
         setStat("sCatBonusY", pors, clan, sBonusYrs1, 1);
         s.bonusUnitGrowth.add(sBonusX1, sBonusVal1);
         setStat("sCatBonusVal", pors, clan, sBonusVal1, 1);
-        r.cumulativeDecay.add(r4, -rDecayReduce2);
-        setStat("rCatNegDecay", pors, clan, rDecayReduce1, 1);
-        s.cumulativeDecay.add(s3, -sDecayReduce1);
-        setStat("sCatNegDecay", pors, clan, sDecayReduce1, 1);
+        double rcd = r.cumulativeDecay.get(r4);
+        double rd1 = -rDecayReduce1 > rcd ? rcd : -rDecayReduce1;
+        r.cumulativeDecay.add(r4, rd1);
+        setStat("rCatNegDecay", pors, clan,-rd1, 1);
+        double scd = s.cumulativeDecay.get(s3);
+        double sd1 = -sDecayReduce1 > scd ? scd : -sDecayReduce1;
+        s.cumulativeDecay.add(s3, sd1);
+        setStat("sCatNegDecay", pors, clan, -sd1, 1);
         if (pors == E.P) {
-          r.cumulativeDecay.add(s4, -rDecayReduce2);
-          setStat("rCatNegDecay", pors, clan, rDecayReduce2, 1);
+           double rcd2 = r.cumulativeDecay.get(r5);
+           double rd2 = -rDecayReduce2 > rcd2 ? rcd2 : -rDecayReduce2;
+          r.cumulativeDecay.add(s4, rd2);
+          setStat("rCatNegDecay", pors, clan, -rd2, 0);
         } else {  // ships
           manuals.add(sBonusX2, sBonusManuals);  // Adds into value of trades
           setStat("sCatBonusManuals", pors, clan, sBonusManuals, 1);

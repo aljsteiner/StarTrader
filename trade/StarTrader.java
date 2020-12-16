@@ -5197,16 +5197,24 @@ public class StarTrader extends javax.swing.JFrame {
       eM.porsClanCnt[S][clan] < 1
         ? E.S
         : // S clanCnt[S} < 1
-        eM.porsCnt[S] / eM.econCnt > eM.clanAllShipFrac[S][clan]
+        eM.porsCnt[E.S] / eM.econCnt > eM.clanAllShipFrac[E.P][clan]
           ? E.P // P ships/tot > clanAllShipFrac 
-          : eM.porsCnt[S] / eM.econCnt > eM.gameShipFrac[S]
+          : eM.porsCnt[E.S] / eM.econCnt > eM.gameShipFrac[E.P]
             ? E.P
             : // P ships/tot > gameShipFrac
-            eM.porsClanCnt[S][clan] / eM.clanCnt[clan] > eM.clanShipFrac[S][clan]
+            eM.porsClanCnt[E.P][clan] / eM.clanCnt[clan] > eM.clanShipFrac[E.P][clan]
               ? E.P
               : // clan ship cnt/ clanCnt > clanShipFrac
               E.S;
-    // select a ship only if all the following conditions are true
+    // find the smallest ship frac for this clan
+    double smallestShipFrac = eM.clanAllShipFrac[E.P][clan]  < eM.gameShipFrac[E.P]? 
+            eM.clanAllShipFrac[E.P][clan] < eM.clanShipFrac[E.P][clan] ? 
+            eM.clanAllShipFrac[E.P][clan] :  eM.clanShipFrac[E.P][clan] :
+            eM.gameShipFrac[E.P] < eM.clanShipFrac[E.P][clan] ?
+            eM.gameShipFrac[E.P] : eM.clanShipFrac[E.P][clan];
+    double shipsPerPlanet = smallestShipFrac/(1.  - smallestShipFrac);
+    // reduce the cash per ship by the number of ships, similar cash between ships and planets
+    cash[E.S] = cash[E.S]/shipsPerPlanet;      
 
     double sFrac1 = 99.;
     double sFrac2 = 99.;
@@ -5267,6 +5275,7 @@ public class StarTrader extends javax.swing.JFrame {
     NumberFormat nameF = NumberFormat.getNumberInstance();
     nameF.setMinimumIntegerDigits(3);
     String name = (pors == 0 ? "P0" : "S0") + nameF.format(eM.nameCnt++);
+    cash = eM.initialWorth;
     eM.curEcon.init(this, eM, name, clan, eM.econCnt, pors, xpos, eM.difficultyPercent[0], cash[pors]);
     startEconState = (new Date()).getTime();
     // now update counts planets and ships
@@ -5696,8 +5705,8 @@ public class StarTrader extends javax.swing.JFrame {
     usedMem = totMem - freeMem;
     double tmem = (double) totMem/gigMem, fmem = (double) freeMem/gigMem, umem = (double) usedMem/gigMem;
     //System.out.println("");
-    prGigMem = since() + " Game Memory Gigs total=" + E.mf(tmem) + " used=" + E.mf(umem) + " free=" + E.mf(fmem); 
-    System.out.printf(">>>>>" + prGigMem + "<<<<<<");
+    prGigMem =  " Game Memory Gigs total=" + E.mf(tmem) + " used=" + E.mf(umem) + " free=" + E.mf(fmem); 
+    System.out.printf(">>>>>" + since() + prGigMem + "<<<<<<");
   }
 
   void printMem() {
@@ -5882,7 +5891,7 @@ public class StarTrader extends javax.swing.JFrame {
             boolean t0 = q0 || q1 || q3; // accept planet
 
             //test 1 the limit clan planets per clan ships 
-            double r1 = (1. - eM.gameShipFrac[E.P]) / eM.gameShipFrac[E.S];//goal P/s
+            double r1 = (1. - eM.gameShipFrac[E.P]) / eM.gameShipFrac[E.P];//goal P/s
             double r2 = (eM.porsClanVisited[E.P][planet.clan] + .0001) / (clanShipsDone[planet.clan] + .0001);
             boolean t1 = r2 <= r1; //ok more planet
 
@@ -6079,6 +6088,7 @@ public class StarTrader extends javax.swing.JFrame {
         //stateConst = CREATING;
         paintEconCreate();
         // randomize the first choice of clan
+        E.msgcnt = 0;
         double rand1 = Math.random();
         clanBias = (int) rand1 % 5; // 0-4
         for (envsLoop = lEcons; envsLoop < yEcons; envsLoop++) {
@@ -6103,6 +6113,7 @@ public class StarTrader extends javax.swing.JFrame {
       else {
         //stateConst = CREATEFUTURE;
         paintFutureFundEconCreate();
+        E.msgcnt = 0;
         int nClans = E.clan.values().length - 3;
         int finishedClans = 0; // end when all 5 clans can create no more econs
         for (int clansLoop = 0; clansLoop < nClans && finishedClans < 5; clansLoop++, finishedClans++) {
@@ -6147,6 +6158,7 @@ public class StarTrader extends javax.swing.JFrame {
       else {
         // stateConst = STARTYR;
         paintStartYear();
+        E.msgcnt = 0;
         // ignored planetsStart 0:planets.size(). start the years
         for (planetsLoop = 0; planetsLoop < eM.planets.size(); planetsLoop++) {
           eM.curEcon = eM.planets.get(planetsLoop);
@@ -6171,6 +6183,7 @@ public class StarTrader extends javax.swing.JFrame {
       // the oldest ships get first choice, and make the first trades
       stateConst = TRADING;
       paintTrade(curEc, curEc);
+      E.msgcnt = 0;
       if (doStop || fatalError) {
         paintStopped();
         stateConst = STOPPED;
@@ -6211,7 +6224,7 @@ public class StarTrader extends javax.swing.JFrame {
             eM.hists[0] = eM.logEnvirn[0].hist;
           //  distance = distance < .01 ? eM.nominalDistance[0] : distance; // add arbitrary distance if none
             eM.curEcon = cur1;
-         //   E.msgcnt = 0;
+            E.msgcnt = 0;
             paintEconYearStart(eM.curEcon);
             eM.curEcon.yearStart(distance);
         //    E.msgcnt = 0;
@@ -6248,6 +6261,7 @@ public class StarTrader extends javax.swing.JFrame {
       // end each year and build the final namelist
       namesList.clear();
       stateConst = ENDYR;
+      E.msgcnt = 0;
       int maxEcons = eM.econs.size();
       if (doStop || fatalError) {
         stateConst = STOPPED;
@@ -6261,7 +6275,7 @@ public class StarTrader extends javax.swing.JFrame {
           clearHist(eM.logEnvirn[0]);
           setLogEnvirn(0, eM.curEcon);  // set start1
           eM.hists[0] = eM.logEnvirn[0].hist;
-       //   E.msgcnt = 0;
+          E.msgcnt = 0;
           eM.curEcon.yearEnd();
           EM.wasHere = "after eM.curEcon.yearEnd()";
           //   paintEconEndYear(eM.curEcon);
