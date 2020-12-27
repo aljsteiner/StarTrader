@@ -63,7 +63,7 @@ public class History {
   static final int aux2Info = 13;
   static final int aux3Info = 14;
   static final int aux4Info = 15;
-  static final int highestListable = 15;
+  static final int highestListable = E.distributable ? 1:15;
   static final int aux5Info = 16;
   static final int aux6Info = 17;
   // headers appear as the first row of a section

@@ -647,7 +647,7 @@ public class Econ{
  * @return true if hist is not to be kept;
  */
   boolean saveHist = false;
-  boolean myClearHist=false;
+  boolean myClearHist= true;
   boolean clearHist(){
     if(saveHist) { return false; }
     if(myClearHist){ return true; }

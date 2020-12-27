@@ -1,4 +1,7 @@
+******* sometimes new lines went to the end, recently they went to start.  no always done
+
 This is the development log and planning for Star Trader, along with a description of the story of the game
+12/19/2020 Start the routine startNextYear in CashFlows to have everything prepared for a trade the next year, this does the calcCatastrophy, calcGrowth, calcEfficiency and handles the 1 time year 0 allocation of cash in to the SubAssets by financial sectors, knowledge by sectors, bad health and trading options.
 
 Warning when moving trade, be sure to either restart project, or scan infrastructure files to move location of all project files.
 

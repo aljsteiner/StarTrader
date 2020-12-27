@@ -180,8 +180,8 @@ public class StarTrader extends javax.swing.JFrame {
       + "Each financial sector of an economy also has knowledge.  As the knowledge in a sector increases the efficiency of that sector increases and the yearly cost per unit for that sector decreases and in some sectors the new units of resource, staff, and knowledge increase. As in most games, random factors influence costs and growths in the game.  GameMaster settings change each clan equally, clanMaster setting increase or decrease the score for his clan."
       + "\n\nPlanets mine resources and grow staff, but each planet is created to have surpluses in some random financial sectors, and famines in some other random financial sectors, .  Ships move resources between planets, often trading the resources that are lacking at a given planet in exchange for some other resources and staff and knowledge.  Since ships generally cannot grow staff or mine/find resources, they must receive significant resources and staff in each trade to allow growth to increase the size of resources they carry to to trade with planets.  In general new smaller ships trade with the smaller new planets, older larger ships trade with the larger older planets."
        + "\n\nThe game proceeds either 1, 5, 10, or 20 years at a time depending on the button in the stats tab.  When all the years have run, the statistics tab is selected. The statistics have a name followed by 10 values, first 5 values for the 5 clan planets, followed by 5 values for the clan ships. Players can go back and forth between the settings tab changing some settings for the game or for a clan,  and the stats tab to see how well each clan has proceeded.  It is possible in some systems to have multiple games running, each game with different gamemaster priorities.  The initial priorities are set to make the game interesting with possibilities of growth.  Some priority changes by gamemaster or clanmaster may increase growth, or may decrease growth causing a death of some or most clan ships and clan planets.  The balancing of economies is not simple or easy.  Setting changes are more likely to crash an economy than to grow it, so don\'t be greedy, make small changes until you understand the game better.\n\n "
-  + "Click on the tab labled \"game\" to change game parameters.  Click the first gray radio button master, to change overall game parameters as the \"gamemaster\". "
-      + "The next 5 radio buttons are for the 5 clans, \"red\", \"orange\", \"yellow\", \"green\" and \"blue\".  When you click on the parameter name," 
+  + "Click on the tab labled \"Settings\" to change game settings.  Click the first gray radio button master, to change overall game settings as the \"game-master\". "
+      + "The next 5 radio buttons are for the 5 clan-masters, \"red\", \"orange\", \"yellow\", \"green\" and \"blue\".  When you click on the parameter name," 
   + " the green field on the right side is set to a description of what that parameter does.  You can then move the slides to change the parameter.  Careful, economies are touchy, and  changes can make stop working, all the planets and ships start dieing.  At the initial difficulty, about 1 in 10 ships or plaets should die each year.  The forward fund taken from the other ships and planets is used to finance new ships or planets.\n\n Each year creates costs of all sectors of both resources and staff.  Costs increase as the game difficulty increases. Costs decrease as the knowledge increases.  Knowledge increases with each years growth, also manuals are studied and some become knowledge each year.  When trades occur, knowledge is also traded between ships and planets as manuals, depending on the higher grade staff of each ship or planet and the amount of knowledge with that economy.  Each of the 7 financial sectors have their own knowledge. their own priority, their own resources and staff, but costs that as each sector uses every sector each year.  Random factors occur with costs, growths and trading.\n\n"
           + "As each year begins some ships and planets encounter catastrophies.  Clanmasters that choose higher random activity encountor more catastrophies.  Catastrophies remove some resources and some staff, but they also reveal additional resources that planets can mine, they can increase resources that ships can find while traveling between planets, they can ships to uncover caches of  manuals for techniques in one or more sectors.  In each case, a trade is very useful to get back resources and/or staff in crippled sectors.\n\nAfter catastrophies ships and planets do trading.  For planets the goal is to even out resources and staff as much as possible, and to gain tech manuals to be turned into knowledge.  For ships the goal is to pick friendly planets which will do reasonable trades, and to try to grow in all resources and staff, whle also getting cargo and guests that can be traded to some other planet, the ship also gets manuals from the planet of new technologies that have not been found elsewhere.  The gamemaster sets the amount of new knowledge that can be turned into manuals for trade.\n\nAfter zero to 15 ships trade with a planet, and ships trade with up to 5 ships at the same planet.\n\nThe next activity is swapping resources to prevent death, reduce costs and to enhance growth.  Units of resource or staff can be moved between working and reserve status at a modest cost.  Moving resorces between sectors has a much higher cost, you can call the move transmuting a resource or repurposing a resource depending on you view of magic and economic theory.  The gamemaster can change the costs of movement.\n\nAfter the swapping the planet dies if some sector does not have enough working staff or resources.  Each year has a requirment for there to be enough buildings to survive winter, enough food production to not starve etc.  The required working units are higher than the cost of units for a given year, and growth is done before taking costs.<p>The stregth of sectors may influence some operations, E.G. a strong defense may reduce the size of catastrophies, a strong, strong lifeneed may aid staff growth and decreas staff deaths, strong transportation may decrease cost of moving staff and resources."
           + "\n\nClanmasters can change priorities that influence how the robots runing each clan ship and clan planet make decisions.  The gamemaster sets overall parameters that can change the nature of the game in some way for all of the clans.\n\nThe window for the game has a number of named tabs.\n\nThe \"game\" tab displays ways for the gamemaster and each clanmaster to change priorities. \n\n Planets and ships make increasing contributions to the forward fund as their worth increases.  At the beginning of each yaar, new planets and ships are created from the forward fund and/or from the game initialization.  As the game reaches the maximum number of plaets and ships, contributions to the forward fund are reduced.  The memory assigned to the game limits the number of planets and ships.\n\nThe \"stats\" tab shows many different values about the position of each clan.  The stats can be used to decide how to change input values at the \"game\" tab.<p>The \"display\" tab will change as the game progresses each year.\n\n" +
@@ -470,7 +470,7 @@ public class StarTrader extends javax.swing.JFrame {
         formWindowClosed(evt);
       }
     });
-    getContentPane().setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+    getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
     controlPanels.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
     controlPanels.setAutoscrolls(true);
@@ -1680,16 +1680,16 @@ public class StarTrader extends javax.swing.JFrame {
     gamePanelBottomPanel.setLayout(gamePanelBottomPanelLayout);
     gamePanelBottomPanelLayout.setHorizontalGroup(
       gamePanelBottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, gamePanelBottomPanelLayout.createSequentialGroup()
-        .addGap(0, 887, Short.MAX_VALUE)
-        .addComponent(gameTextPane, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE))
+      .addGroup(gamePanelBottomPanelLayout.createSequentialGroup()
+        .addGap(19, 19, 19)
+        .addComponent(gameTextPane, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addContainerGap(868, Short.MAX_VALUE))
     );
     gamePanelBottomPanelLayout.setVerticalGroup(
       gamePanelBottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(gamePanelBottomPanelLayout.createSequentialGroup()
-        .addContainerGap()
         .addComponent(gameTextPane, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addContainerGap(309, Short.MAX_VALUE))
+        .addGap(0, 320, Short.MAX_VALUE))
     );
 
     gridBagConstraints = new java.awt.GridBagConstraints();
@@ -3194,7 +3194,7 @@ public class StarTrader extends javax.swing.JFrame {
 
     controlPanels.addTab("display", display);
 
-    getContentPane().add(controlPanels);
+    getContentPane().add(controlPanels, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 5, -1, -1));
     controlPanels.getAccessibleContext().setAccessibleName("traderPanel");
   }// </editor-fold>//GEN-END:initComponents
 
@@ -5078,7 +5078,7 @@ public class StarTrader extends javax.swing.JFrame {
         // System.out.println("***************runYears;" + since() + " " + stateStringNames[stateConst]+ stateCnt + " year=" + eM.year + ", econ=" + prevEconName);
         setEconState(stateConst);
  
-        if(E.debugThreads)System.out.println("$$$$$$$$$$$$$runYears2 " + since() + " " + stateStringNames[stateConst] + sameEconState + " " + EM.wasHere);
+        if(E.debugThreads)System.out.println("$$$$$$$$$$$$$^^runYears2 " + since() + " " + stateStringNames[stateConst] + " " + sameEconState + "::" + EM.wasHere);
         paintCurDisplay(eM.curEcon);
         switch (stateConst) {
           case WAITING:
@@ -5125,7 +5125,7 @@ public class StarTrader extends javax.swing.JFrame {
             break;
           case STATS:
             done = true;
-            if(E.debugThreads)System.out.println("$$$$$$$$$$$$$$$runYears2;" + since() + " STATS stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year);
+            if(E.debugThreads)System.out.println("$$$$$$$$$$$$$$$>>runYears2;" + since() + " STATS stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year);
             listRes(fullRes);
             break;
           default:
@@ -5135,7 +5135,7 @@ public class StarTrader extends javax.swing.JFrame {
             else {
               Thread.sleep(blip30);
             }
-            if(E.debugThreads)System.out.println("$$$$$$$$$$$$$$$runYears2;" + since() + " DEFAULT; stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year);
+            if(E.debugThreads)System.out.println("$$$$$$$$$$$$$$$>runYears2;" + since() + " DEFAULT; stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year);
 
         }
       }
@@ -6523,11 +6523,7 @@ public class StarTrader extends javax.swing.JFrame {
      // line0 = line1 = line2 = line3 = line4 = line5 = "";
      // line0 = stateStringNames[stateConst];
       displayPanel0Text.setBackground(E.clan.values()[curEc.clan].getColor(curEc.pors));
-      switch (stateConst) {
-        case WAITING:
-        case STARTING:
-          displayPanel0Text.setText(
-         "Starting   " +  "year" + eM.year +" " + sinceEcon() + " " +curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine + 
+      String disp1 = "year" + eM.year +" " + sinceEcon() + " " +curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine + 
        " Starting   " + eM.getCurCumPorsClanUnitSum(rNCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
                    "BothCreatd " + eM.getCurCumPorsClanUnitSum(rNCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
                   "Created    " + eM.getCurCumPorsClanUnitSum(rNyCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNyCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNyCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
@@ -6535,83 +6531,39 @@ public class StarTrader extends javax.swing.JFrame {
           "TradedYear " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUR0,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUR0,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNTraded,EM.ICUR0,E.S,E.S+1,0,5) + newLine +
            "TradedGame " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNTraded,EM.ICUM,E.S,E.S+1,0,5) + newLine +
            "DiedGame " + eM.getCurCumPorsClanUnitSum(rNDied,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNDied,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNDied,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-                           "year" + eM.year +" " +  since() + sinceRunYear() + "  " + newLine + prGigMem + newLine + newLine) ;
+  "year" + eM.year +" " +  since() + " " + sinceRunYear() + "  " + newLine + prGigMem + newLine + newLine ;
+      switch (stateConst) {
+        case WAITING:
+        case STARTING:
+          displayPanel0Text.setText(
+         "Starting   " +  disp1);
           break;
         case CREATING:
            displayPanel0Text.setText(
-           "Creating   " + eM.year +" " + sinceEcon() + " " +curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine + 
-                   "BothCreated " + eM.getCurCumPorsClanUnitSum(rNCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-                  "Created    " + eM.getCurCumPorsClanUnitSum(rNyCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNyCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum(rNyCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-         "FutCreated  " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNFutCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine + 
-          "TradedYear " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUR0,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUR0,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNTraded,EM.ICUR0,E.S,E.S+1,0,5) + newLine +
-           "TradedGame " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNTraded,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-           "DiedGame " + eM.getCurCumPorsClanUnitSum(rNDied,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNDied,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNDied,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-                           "year" + eM.year +" " +  since() + sinceRunYear() + "  " + newLine + prGigMem + newLine + newLine) ;
+           "Creating   "+  disp1);
         case FUTUREFUNDCREATE:
           displayPanel0Text.setText(
-                  "FutCreate  " + eM.year +" " + sinceEcon() + " " +curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine + 
-                   "BothCreated " + eM.getCurCumPorsClanUnitSum(rNCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-                  "Created    " + eM.getCurCumPorsClanUnitSum(rNyCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNyCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum(rNyCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-         "FutCreated  " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNFutCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine + 
-          "TradedYear " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUR0,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUR0,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNTraded,EM.ICUR0,E.S,E.S+1,0,5) + newLine +
-           "TradedGame " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNTraded,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-           "DiedGame " + eM.getCurCumPorsClanUnitSum(rNDied,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNDied,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNDied,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-                          "year" + eM.year +" " +  since() + sinceRunYear() + "  " + newLine + prGigMem + newLine + newLine) ;
+                  "FutCreate  " +  disp1);
           break;
         case STARTYR:
           displayPanel0Text.setText(
-         "StartYear  " + eM.year +" " + sinceEcon() + " " +curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine + 
-                   "BothCreated " + eM.getCurCumPorsClanUnitSum(rNCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-                  "Created    " + eM.getCurCumPorsClanUnitSum(rNyCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNyCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum(rNyCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-         "FutCreated  " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNFutCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine + 
-          "TradedYear " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUR0,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUR0,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNTraded,EM.ICUR0,E.S,E.S+1,0,5) + newLine +
-           "TradedGame " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNTraded,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-           "DiedGame " + eM.getCurCumPorsClanUnitSum(rNDied,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNDied,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNDied,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-                           "year" + eM.year +" " +  since() + sinceRunYear() + "  " + newLine + prGigMem + newLine + newLine) ;
+         "StartYear  " +  disp1);
           break;
         case SEARCH:
            displayPanel0Text.setText(
-         "Searching  " + eM.year +" " + sinceEcon() + " " +curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine + 
-                   "BothCreated " + eM.getCurCumPorsClanUnitSum(rNCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-                  "Created    " + eM.getCurCumPorsClanUnitSum(rNyCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNyCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum(rNyCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-         "FutCreated  " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNFutCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine + 
-          "TradedYear " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUR0,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUR0,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNTraded,EM.ICUR0,E.S,E.S+1,0,5) + newLine +
-           "TradedGame " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNTraded,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-           "DiedGame " + eM.getCurCumPorsClanUnitSum(rNDied,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNDied,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNDied,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-                          "year" + eM.year +" " +  since() + sinceRunYear() + "  " + newLine + prGigMem + newLine + newLine) ;
+         "Searching  " +  disp1);
           break;
         case SWAPS:
          displayPanel0Text.setText(
-        "Swaping    " + eM.year +" " + sinceEcon() + " " +curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine + 
-                   "BothCreated " + eM.getCurCumPorsClanUnitSum(rNCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-                  "Created    " + eM.getCurCumPorsClanUnitSum(rNyCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNyCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum(rNyCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-         "FutCreated  " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNFutCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine + 
-          "TradedYear " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUR0,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUR0,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNTraded,EM.ICUR0,E.S,E.S+1,0,5) + newLine +
-           "TradedGame " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNTraded,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-           "DiedGame " + eM.getCurCumPorsClanUnitSum(rNDied,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNDied,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNDied,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-                          "year" + eM.year +" " +  since() + sinceRunYear() + "  " + newLine + prGigMem + newLine + newLine) ;
+        "Swaping    " +  disp1);
           break;
         case TRADING:
          displayPanel0Text.setText(
-        "Trading    " + eM.year +" " + sinceEcon() + " " +curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine + 
-                   "BothCreated " + eM.getCurCumPorsClanUnitSum(rNCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-                  "Created    " + eM.getCurCumPorsClanUnitSum(rNyCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNyCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum(rNyCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-         "FutCreated  " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNFutCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine + 
-          "TradedYear " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUR0,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUR0,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNTraded,EM.ICUR0,E.S,E.S+1,0,5) + newLine +
-           "TradedGame " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNTraded,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-           "DiedGame " + eM.getCurCumPorsClanUnitSum(rNDied,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNDied,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNDied,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-                           "year" + eM.year +" " +  since() + sinceRunYear() + "  " + newLine + prGigMem + newLine + newLine) ;
+        "Trading    " +  disp1);
           break;
         case ENDYR:
           displayPanel0Text.setText(
-        "EndYear    " + eM.year +" " + sinceEcon() + " " +curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine + 
-                   "BothCreated " + eM.getCurCumPorsClanUnitSum(rNCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-                  "Created    " + eM.getCurCumPorsClanUnitSum(rNyCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNyCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum(rNyCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-         "FutCreated  " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNFutCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine + 
-          "TradedYear " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUR0,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUR0,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNTraded,EM.ICUR0,E.S,E.S+1,0,5) + newLine +
-           "TradedGame " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNTraded,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-           "DiedGame " + eM.getCurCumPorsClanUnitSum(rNDied,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNDied,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNDied,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-                           "year" + eM.year +" " +  since() + sinceRunYear() + "  " + newLine + prGigMem + newLine + newLine) ;
+        "EndYear    " +  disp1);
           break;
         case STATS:
           controlPanels.setSelectedIndex(4);
@@ -6836,9 +6788,9 @@ public class StarTrader extends javax.swing.JFrame {
    * get any values already set into currentVals, ignore disabled elements then
    * disable each element
    *
-   * @param currentVals
-   * @param panelAR
-   * @param textFieldsAR
+   * @param currentVals1
+   * @param panelAr
+   * @param textFieldsAr
    * @param gamePSliders
    * @param gameSSliders}
    */
@@ -6876,7 +6828,7 @@ public class StarTrader extends javax.swing.JFrame {
       }
       //  panelAr[p].setEnabled(false);
     }
-  }
+  } // gameValues
 
   /**
    * change a whole gamePanel
@@ -6885,11 +6837,11 @@ public class StarTrader extends javax.swing.JFrame {
    * @param action -2 restart display from the first enum, 0 redisplay page 1 go
    * to the next page, -1 go to the previous page
    * @param panelAr array of 0-9 panels
-   * @param textFieldsAr array of 0-9 descriptor fields
+   * @param textFieldsAr array of 0-9 descriptor fields for a row of sliders
    * @param gamePSliders array of 0-9 planet sliders
    * @param gameSSliders array of 0-9 Ship sliders
    * @param unusedVals fullVals do not change many calls
-   * @param currentVals1 the array of vv's at each of the 10 panels
+   * @param currentVals1 the array of panelStarts's starting the next 10 sliders
    */
   public void gamePanelChange(int clan, int action, JPanel[] panelAr, JTextField[] textFieldsAr, JSlider[] gamePSliders, JSlider[] gameSSliders, int[] unusedVals, int[] currentVals1) {
     /**
