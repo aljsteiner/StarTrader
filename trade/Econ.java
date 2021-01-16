@@ -434,7 +434,7 @@ public class Econ{
   /**
    * generate an array of random numbers using . E.gameRandomFrac and
    * E.clanRisk[pors][clan] if E.gameRandomFrac == 0, always trand[] to 1. noop
-   * otherwise set to a random number between .1 &lt random &lt 1.9
+   * otherwise set to a random number between .1 &lt; random &lt; 1.9
    * @param trand  this is actually ignored
    *
    * @return a new trand of E.lrand length

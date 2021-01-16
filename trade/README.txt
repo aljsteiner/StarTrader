@@ -1,5 +1,6 @@
 /* README is the text for gitHub README at
-StarTrader has be in development for the 10 years after my retirement from IT jobs at Universities
+StarTrader has be in development for the 10 years after my retirement from IT jobs at Universities,
+It is publically available as a mittle beta.
 
 StartTrader is a strategy game of trading and helping each other to save the most planets and ships from death because of insufficient staff or resources in one or more financial sectors.  The game-master resets a number of priorities and values for the game.  The game-master adjusts the difficulty of the game and other options that significantly change the nature of challenges in the game.  A normal goal is to have no more than 10% of ships and 10% of planets die in a single year of the game.  Planets and ships die when they are bankrupt, and cannot pay current costs and have enough resources and staff left to get through the next year.  Catastrophes destroy a fraction of the resources for one or two financial sectors, and the staff for one financial sector, but they also benefit some sectors.
 

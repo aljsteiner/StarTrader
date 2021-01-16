@@ -29,25 +29,26 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 /**
- *This is in many ways an extension of the StarTrader main class with the 
- * user interface methods.  E contains constants and a few methods
- * see EM for values that StarTrader can change during the game
+ * This is in many ways an extension of the StarTrader main class with the user
+ * interface methods. E contains constants and a few methods see EM for values
+ * that StarTrader can change during the game
+ *
  * @author Albert Steiner
  */
 public class E {
 // this class hold all of the constants that are used for rows and columns in req
   // it also holds tables used to calculate growth etc.
-  /** StarTrader contains THIS set of stats descriptors
-   * 
+  // StarTrader working set of statsButto?nTip
+
   static final public String statsButton0Tip = "0: Current Game Worths";
   static final public String statsButton1Tip = "1: Favors and trade effects";
   static final public String statsButton2Tip = "2: Catastrophes, deaths, randoms, forwardfund";
-  static final public String statsButton3Tip = "3: Deaths";
-  static final public String statsButton4Tip = "4: Trades";
-  static final public String statsButton5Tip = "5: Creates";
-  static final public String statsButton6Tip = "6: ForwardFund";
+  static final public String statsButton3Tip = "3: Deaths. rejected or missed deaths";
+  static final public String statsButton4Tip = "4: Trades, AcceptedDeaths";
+  static final public String statsButton5Tip = "5: Death other factors";
+  static final public String statsButton6Tip = "6: ForwardFund, ForFunds&deaths";
   static final public String statsButton7Tip = "7: Resource, staff, knowledge values";
-  static final public String statsButton8Tip = "8: growth and costs details";
+  static final public String statsButton8Tip = "8: creates. growth and costs details";
   static final public String statsButton9Tip = "9: Catastrophes, Fertility, health and effects";
   static final public String statsButton10Tip = "10: years 0,1,2,3 worth inc, costs, efficiency,knowledge,phe";
   static final public String statsButton11Tip = "11: years 4,5,6,7 worth inc, costs, efficiency,knowledge,phe ";
@@ -59,19 +60,21 @@ public class E {
   static final public String statsButton17Tip = "17: Swaps years decr skips, redos and dos";
   static final public String statsButton18Tip = "18: Swaps years xfer skips, redos and dos";
   static final public String statsButton19Tip = "19: Swaps years Forward Fund imbalance or save";
-  static final public String statsButton20Tip = "20: Death factors";
-  0:worths,1:trade favor,2:random,deaths,forward,34567 ages,8:swap,9 rcsg bal,10:growth,cost,11:fertility health effect
-*/
+  static final public String statsButton20Tip = "20: TB assigned";
+
   /**
    * ***********************************************************************
    * START DATA
    */
-  /** start debug flags, it is possible if static final boolean is false the code enclosed by an if on this flag will never be compiled.
-   * In any case execution speeds up if the debugging code is not reached
+  /**
+   * start debug flags, it is possible if static final boolean is false the code
+   * enclosed by an if on this flag will never be compiled. In any case
+   * execution speeds up if the debugging code is not reached
    */
   static final boolean distributable = false;
   static final boolean debugMaster = true && !distributable;
   static final boolean debugOutput = distributable;
+  //static final boolean debugOutput = true;
   static final boolean resetOut = distributable;
   static final boolean debugCheckBalances = debugMaster; //check balances in loops
   static final boolean debugNegGrowth = debugMaster; // neg Growth made negCosts
@@ -106,17 +109,15 @@ public class E {
   static final int statsTeamStatus = statsClanStatus;
   static final int initTeamStatus = initClanStatus;
   static final int INITTEAMSTATUS = initClanStatus;
-  
 
   public static String savedgameTextField;
   public static String savedgameTextField2;
   public static String savedgameTextField3;
   public static String savedgameTextField4;
-  
+
   static NumberFormat dFrac = NumberFormat.getNumberInstance();
   static NumberFormat whole = NumberFormat.getNumberInstance();
   static NumberFormat exp = new DecimalFormat("0.######E0");
-
 
   // there are 3 value sets oringinal, user, envirn averages(function ave and years)
   // There are two contexts
@@ -124,10 +125,10 @@ public class E {
 
     PLANET, SHIP
   }
- 
+
   static final protected String[] contextName = {"planet", "ship"};
-  static final protected String[] contextNameAlpha = {"P","S"};
-  static final protected String[] cna = {"P","S"};
+  static final protected String[] contextNameAlpha = {"P", "S"};
+  static final protected String[] cna = {"P", "S"};
   public static final int planet = 0;
   public static final int P = 0;
   public static final int ship = 1;
@@ -138,22 +139,23 @@ public class E {
   public static final double PPZERO = .0000000000000001; //for a > pzero
   public static final double NNZERO = -.0000000000000001; // for a < nzero
   static double pzero = PZERO, nzero = NZERO;
-  public static final double  UNZERO = PZERO*PZERO*PZERO;
-  public static final double INVZERO = 1./UNZERO;
-  public static final int[] d2 = {0, 1},A01=d2;
-  public static final int[] d4 = {0, 1, 2, 3},A03=d4;
-  public static final int[] d6 = {0, 1, 2, 3, 4, 5},A05=d6;
-  public static final int[] d8 = {0, 1, 2, 3, 4, 5, 6, 7},A07=d8;
-   public enum sectors {
+  public static final double UNZERO = PZERO * PZERO * PZERO;
+  public static final double INVZERO = 1. / UNZERO;
+  public static final int[] d2 = {0, 1}, A01 = d2;
+  public static final int[] d4 = {0, 1, 2, 3}, A03 = d4;
+  public static final int[] d6 = {0, 1, 2, 3, 4, 5}, A05 = d6;
+  public static final int[] d8 = {0, 1, 2, 3, 4, 5, 6, 7}, A07 = d8;
+
+  public enum sectors {
     LIFE, STRUCT, ENERGY, PROPEL, DEFENSE, GOV, COLONIST
   };
   public final static int lsecs = sectors.COLONIST.ordinal() + 1;
   public final static int LSECS = lsecs;
   public final static int L2SECS = LSECS + LSECS;
-  public final static double INVLSECS = 1/LSECS;
-  public final static double INVL2SECS = 1/L2SECS;
-  public  final static int[] ASECS = {0,1,2,3,4,5,6};
-  public final static int[] A2SECS = {0,1,2,3,4,5,6,7,8,9,10,11,12,13};
+  public final static double INVLSECS = 1 / LSECS;
+  public final static double INVL2SECS = 1 / L2SECS;
+  public final static int[] ASECS = {0, 1, 2, 3, 4, 5, 6};
+  public final static int[] A2SECS = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
   public static int pors = 0;
   public static int iClanPors = 0;  // flag for the clan tab
   public static int iClanClan = 0;  // clan flag for the clan tab
@@ -199,7 +201,7 @@ public class E {
   //location parameters for planets and ships.
   // use only the positive section of sphere x, y,z
   public enum clan {
-    RED("rodalians", 0xa92e22, 0xc61331,0xFFCFAD), ORANGE("irgabtucs", 0xd9850e, 0xe87722,0xFFCFAD), YELLOW("yankels", 0xffdc23, 0xe8c155,0xFDFDC3), GREEN("groknes", 0xb0b332, 0x9ff365,0xD7F300), BLUE("brogles", 0x9eced7, 0x84b0d8,0x00849A), GAMEMASTER("gameMaster", 0xbbbbbb, 0x666666,0xFFD55F), COMPARE("Compare Clans", 0x888888, 0x888888,0xFFD55F);
+    RED("rodalians", 0xa92e22, 0xc61331, 0xFFCFAD), ORANGE("irgabtucs", 0xd9850e, 0xe87722, 0xFFCFAD), YELLOW("yankels", 0xffdc23, 0xe8c155, 0xFDFDC3), GREEN("groknes", 0xb0b332, 0x9ff365, 0xD7F300), BLUE("brogles", 0x9eced7, 0x84b0d8, 0x00849A), GAMEMASTER("gameMaster", 0xbbbbbb, 0x666666, 0xFFD55F), COMPARE("Compare Clans", 0x888888, 0x888888, 0xFFD55F);
     private final String name;
     private final Color colorPlanet;
     private final Color colorShip;
@@ -219,8 +221,7 @@ public class E {
     public Color getColor(int ipors) {
       if (ipors == E.P) {
         return colorPlanet;
-      }
-      else {
+      } else {
         return colorShip;
       }
     }
@@ -228,8 +229,10 @@ public class E {
     public Color getPlanetColor() {
       return colorPlanet;
     }
-    
-    public Color getBackgroundColor(){ return colorBackGround; }
+
+    public Color getBackgroundColor() {
+      return colorBackGround;
+    }
 
     public Color getShipColor() {
       return colorShip;
@@ -238,8 +241,7 @@ public class E {
     public Color getInvColor(int ipors) {
       if (ipors == E.P) {
         return invPlanet;
-      }
-      else {
+      } else {
         return invShip;
       }
     }
@@ -247,9 +249,9 @@ public class E {
   static protected String[] groupNames = {"red", "orange", "yellow", "green", "blue"};
   public static final String[] clanNames = {"rodalians", "organtics", "yankels", "groknes", "brogles"};
   public static final int lclans = 5;
-  Color ccc = new Color(0xa92e22);
-  public static int backGroundColors[] = {0xa92e22,0xd9850e,0xffdc23,0xb0b332,0x9eced7};
-  public Enum clans[] = {clan.RED,clan.ORANGE,clan.YELLOW,clan.GREEN,clan.BLUE};
+  Color ccc = new Color(255,204,204);
+  public static int backGroundColors[] = {0xa98a80, 0xd9850e, 0xffdc23, 0xb0b332, 0x9eced7};
+  public Enum clans[] = {clan.RED, clan.ORANGE, clan.YELLOW, clan.GREEN, clan.BLUE};
   /**
    * foreground colors for planet,ship clan 0-4, 5 = all clans
    */
@@ -282,7 +284,7 @@ public class E {
 
   static protected int printlnLimit = 3;
   static boolean alternateNoTrade = false; // evaluate growth without trade
-  
+
   static final String[] aChar = {"r", "c", "s", "g"};
   //static String[] rcsq = aChar;
   static String[] rcsg = aChar;
@@ -307,24 +309,26 @@ public class E {
   static final int[] IA25 = d25;
   static final int[] IA03 = {0, 1, 2, 3};
   static final int[] IA4 = IA03;
-  
-  /** generate string of r or s source and index scrIx
-   * 
+
+  /**
+   * generate string of r or s source and index scrIx
+   *
    * @param ixSrc 0,1 index of source r or s
    * @param srcIx index of sector
    * @return rNs[ixSrc] + srcIx
    */
-  static String rNsIx(int ixSrc, int srcIx){
+  static String rNsIx(int ixSrc, int srcIx) {
     return rNs[ixSrc] + srcIx;
   }
-  
-  /** generate String of r or s source and index
-   * 
-   * @param n 
-   * @return 
+
+  /**
+   * generate String of r or s source and index
+   *
+   * @param n
+   * @return
    */
-  static String rNsIx(int n){
-    return rNs[(int)n/LSECS] + n%LSECS;
+  static String rNsIx(int n) {
+    return rNs[(int) n / LSECS] + n % LSECS;
   }
   /**
    * the following variable control generation of manuals during a trade
@@ -366,7 +370,7 @@ public class E {
     }
 
   }
-         
+
   SwpCmd[][] tst = incrs;
   static SwpCmd[][] incrs = {{SwpCmd.RINCR, SwpCmd.RINCR1, SwpCmd.RINCR2, SwpCmd.RINCR3}, {SwpCmd.SINCR, SwpCmd.SINCR1, SwpCmd.SINCR2, SwpCmd.GROW.SINCR3}};
   static SwpCmd[][] decrs = {{SwpCmd.RDECR, SwpCmd.RDECR1, SwpCmd.RDECR2, SwpCmd.RDECR3}, {SwpCmd.SDECR, SwpCmd.SDECR1, SwpCmd.SDECR2, SwpCmd.SDECR3}};
@@ -375,13 +379,13 @@ public class E {
   static SwpCmd[][] xdecrs = {{SwpCmd.RXDECR, SwpCmd.RXDECR1, SwpCmd.RXDECR2, SwpCmd.RXDECR3}, {SwpCmd.SXDECR, SwpCmd.SXDECR1, SwpCmd.SXDECR2, SwpCmd.SXDECR3}};
   static SwpCmd[][] udecrs = {{SwpCmd.TXDECR, SwpCmd.TXDECR1, SwpCmd.TXDECR2, SwpCmd.TXDECR3}, {SwpCmd.UXDECR, SwpCmd.UXDECR1, SwpCmd.UXDECR2, SwpCmd.UXDECR3}};
   static SwpCmd[][][] uxdecrs = {xdecrs, udecrs};
-         
+
   EnumSet<SwpCmd> setTst = setIncr;
   static EnumSet<SwpCmd> setIncr = EnumSet.of(SwpCmd.RINCR, SwpCmd.SINCR, SwpCmd.RINCR1, SwpCmd.SINCR1, SwpCmd.RINCR2, SwpCmd.SINCR2, SwpCmd.RINCR3, SwpCmd.SINCR3);
   static EnumSet<SwpCmd> setDecr = EnumSet.of(SwpCmd.SDECR, SwpCmd.SDECR1, SwpCmd.SDECR2, SwpCmd.SDECR3, SwpCmd.RDECR, SwpCmd.RDECR1, SwpCmd.RDECR2, SwpCmd.RDECR3);
   static EnumSet<SwpCmd> setRDecr = EnumSet.of(SwpCmd.RDECR, SwpCmd.RDECR1);
   static EnumSet<SwpCmd> setSDecr = EnumSet.of(SwpCmd.SDECR, SwpCmd.SDECR1);
-  static EnumSet<SwpCmd> setXXdecr = EnumSet.of(SwpCmd.RXDECR, SwpCmd.RXDECR1, SwpCmd.RXDECR2, SwpCmd.RXDECR3, SwpCmd.SXDECR, SwpCmd.SXDECR1, SwpCmd.SXDECR2, SwpCmd.SXDECR3, SwpCmd.TXDECR, SwpCmd.TXDECR1, SwpCmd.TXDECR2, SwpCmd.TXDECR3,SwpCmd.UXDECR, SwpCmd.UXDECR1, SwpCmd.UXDECR2, SwpCmd.UXDECR3);
+  static EnumSet<SwpCmd> setXXdecr = EnumSet.of(SwpCmd.RXDECR, SwpCmd.RXDECR1, SwpCmd.RXDECR2, SwpCmd.RXDECR3, SwpCmd.SXDECR, SwpCmd.SXDECR1, SwpCmd.SXDECR2, SwpCmd.SXDECR3, SwpCmd.TXDECR, SwpCmd.TXDECR1, SwpCmd.TXDECR2, SwpCmd.TXDECR3, SwpCmd.UXDECR, SwpCmd.UXDECR1, SwpCmd.UXDECR2, SwpCmd.UXDECR3);
   static EnumSet<SwpCmd> setRXdecr = EnumSet.of(SwpCmd.RXDECR, SwpCmd.RXDECR1);
   static EnumSet<SwpCmd> setSXdecr = EnumSet.of(SwpCmd.SXDECR, SwpCmd.SXDECR1);
   public static final int swpIncrv[] = {SwpCmd.RINCR.n(), SwpCmd.SINCR.n(), SwpCmd.RINCR1.n(), SwpCmd.SINCR1.n()};
@@ -520,8 +524,6 @@ public class E {
    *
    * }
    */
- 
-
   // public final static double invLsecs = 1 / lsecs;
   @Override
   protected void finalize() throws Throwable {
@@ -681,17 +683,17 @@ public class E {
    */
   static double[][] emergRTrade = {{.1, .1, .1, .1, .1}, {.1, .1, .1, .1, .1}};
   static double[][] emergSTrade = {{.1, .1, .1, .1, .1}, {.1, .1, .1, .1, .1}};
-  static double[][][] emergTrade = {emergRTrade,emergSTrade};
+  static double[][][] emergTrade = {emergRTrade, emergSTrade};
   static double[][] regRTrade = {{.2, .2, .2, .2, .2}, {.2, .2, .2, .2, .2}};
   static double[][] regSTrade = {{.2, .2, .2, .2, .2}, {.2, .2, .2, .2, .2}};
-  static double[][][] regTrade = {regRTrade,regSTrade};
+  static double[][][] regTrade = {regRTrade, regSTrade};
   static double[][] regSReserve = {{.3, .3, .3, .3, .3}, {.3, .3, .3, .3, .3}};
   static double[][] regRReserve = {{.3, .3, .3, .3, .3}, {.3, .3, .3, .3, .3}};
   //   [rors][pors][clan]
-  static double[][][] regReserve = {regRReserve,regSReserve};
-  static double[][] emergRReserve = {{.02,.02,.02,.02,.02},{.02,.02,.02,.02,.02}};
-  static double[][] emergSReserve = {{.02,.02,.02,.02,.02},{.02,.02,.02,.02,.02}};
-  static double[][][] emergReserve = {emergRReserve,emergSReserve};
+  static double[][][] regReserve = {regRReserve, regSReserve};
+  static double[][] emergRReserve = {{.02, .02, .02, .02, .02}, {.02, .02, .02, .02, .02}};
+  static double[][] emergSReserve = {{.02, .02, .02, .02, .02}, {.02, .02, .02, .02, .02}};
+  static double[][][] emergReserve = {emergRReserve, emergSReserve};
 
   /**
    * multiply the jsrcASwap > 0., to increase S need when R was swapped to
@@ -795,7 +797,7 @@ public class E {
   static public int Av = 0, St = 1, high = 0, mid = 1, low = 2;
   //fracBelowMin[pors][clan][R.yearPhase3][E.Av][E.high]
   static public double fracBelowMin[][][][][]
-                                 = {{{{{.5, .3, .2}, {.5, .3, .2}}, {{.5, .3, .2}, {.5, .3, .2}},
+          = {{{{{.5, .3, .2}, {.5, .3, .2}}, {{.5, .3, .2}, {.5, .3, .2}},
           {{.5, .3, .2}, {.5, .3, .2}}, {{.5, .3, .2}, {.5, .3, .2}}},
           {{{.5, .3, .2}, {.5, .3, .2}}, {{.5, .3, .2}, {.5, .3, .2}},
           {{.5, .3, .2}, {.5, .3, .2}}, {{.5, .3, .2}, {.5, .3, .2}}},
@@ -1395,14 +1397,14 @@ public class E {
    * cost of travel for ships with guests and cargo.
    */
   static final protected double[][][] shipTravelLightyearCostsBySourcePerConsumer = {
-   {
-      {.001, .001, .005,.001,  .005, .002, .001,
-        .0002,.0009,  .0002, .0009, .0002, .0002, .0003, .0, .0}, //life
-      {.001, .005,.001, .005,  .005, .001, .005,
+    {
+      {.001, .001, .005, .001, .005, .002, .001,
+        .0002, .0009, .0002, .0009, .0002, .0002, .0003, .0, .0}, //life
+      {.001, .005, .001, .005, .005, .001, .005,
         .0003, .0003, .0009, .0009, .0002, .0002, .0003, .0, .0}, //struct
-      {.001, .002, .005,.001,  .005, .001, .001,
-        .0003,.0002,  .0003, .0003, .0003, .0002, .0003, .0, .0}, // energy
-      {.001,.005,  .002, .005, .001, .001, .001,
+      {.001, .002, .005, .001, .005, .001, .001,
+        .0003, .0002, .0003, .0003, .0003, .0002, .0003, .0, .0}, // energy
+      {.001, .005, .002, .005, .001, .001, .001,
         .0003, .0003, .0009, .0009, .0002, .0002, .0003, .0, .0}, // propel
       {.001, .002, .005, .005, .001, .002, .001,
         .0003, .0003, .0009, .0009, .0002, .0002, .0003, .0, .0}, //defense
@@ -1515,7 +1517,7 @@ public class E {
    */
   static protected double[][] gCostMult = {{1., 1., .9, .9}, {1., 1., .9, .9}};
   static final protected double[][][] resourceGrowthCostBySourcePerConsumer
-                                      = // planet
+          = // planet
           {
             {
               {.0003, .003, .003, .003, .002, .001, .003,
@@ -1611,140 +1613,149 @@ public class E {
   public static ARow copy(ARow old) {
     if (old == null) {
       return new ARow(EM.curEcon).zero();
-    }
-    else {
+    } else {
       return new ARow(old.ec).set(old);
     }
 
   }
-    /** format the value
- * 
- * @param v input value
- * @return value as a string
- */
- static public  String mf(double v){
-      if(v%1 > E.NZERO && v%1 < E.PZERO){  //very close to zero
-        return whole.format(v);
-      }
-      dFrac.setMaximumIntegerDigits(7);
-      dFrac.setMinimumIntegerDigits(1);
-      if(v ==.0 || v == -0){  // actual zero
-        dFrac.setMinimumFractionDigits(0);
-        dFrac.setMaximumFractionDigits(1);
-        
+
+  /**
+   * format the value
+   *
+   * @param v input value
+   * @return value as a string
+   */
+  static public String mf(double v) {
+    if (v % 1 > E.NZERO && v % 1 < E.PZERO) {  //very close to zero
+      return whole.format(v);
+    }
+    dFrac.setMaximumIntegerDigits(7);
+    dFrac.setMinimumIntegerDigits(1);
+    if (v == .0 || v == -0) {  // actual zero
+      dFrac.setMinimumFractionDigits(0);
+      dFrac.setMaximumFractionDigits(1);
+
       return dFrac.format(v);
-      } else if((v > -999999. && v < -.001) || (v > .001 && v < 999999.)){
-       dFrac.setMinimumFractionDigits(2);
+    } else if ((v > -999999. && v < -.001) || (v > .001 && v < 999999.)) {
+      dFrac.setMinimumFractionDigits(2);
       dFrac.setMaximumFractionDigits(3);
       return dFrac.format(v);
-      } else if((v > -.001 && v < -.0000001) || (v > .0000001 && v < .001)){
-       dFrac.setMinimumFractionDigits(2);
+    } else if ((v > -.001 && v < -.0000001) || (v > .0000001 && v < .001)) {
+      dFrac.setMinimumFractionDigits(2);
       dFrac.setMaximumFractionDigits(7);
       return dFrac.format(v);
     } else {
       return exp.format(v);
     }
-   }
- 
- /** test of double NaN or Infinite
-  * skip testing if not debugDouble
-  * @param trouble value to be tested
-  * @return if debugDouble (if NaN 0, if Infinite 100.0) otherwise trouble
-  */
-static double doubleTrouble(Double trouble, String vs){
-   if(debugDouble){
-  Econ ec = EM.curEcon;
-    Assets as = ec.as; 
-  if(trouble.isNaN()){
-      if(E.debugDouble){
-        throw new MyErr(String.format(" Not a number found, %s term%d, i%d, j%d, m%d, n%d",vs,as.term,as.i,as.j,as.m,as.n)); 
-      } else {
-        return 0.0;
+  }
+
+  /**
+   * test of double NaN or Infinite skip testing if not debugDouble
+   *
+   * @param trouble value to be tested
+   * @return if debugDouble (if NaN 0, if Infinite 100.0) otherwise trouble
+   */
+  static double doubleTrouble(Double trouble, String vs) {
+    if (debugDouble) {
+      Econ ec = EM.curEcon;
+      Assets as = ec.as;
+      if (trouble.isNaN()) {
+        if (E.debugDouble) {
+          throw new MyErr(String.format(" Not a number found, %s term%d, i%d, j%d, m%d, n%d", vs, as.term, as.i, as.j, as.m, as.n));
+        } else {
+          return 0.0;
+        }
       }
-    }
-    if(trouble.isInfinite()){
-      if(E.debugDouble){
-      throw new MyErr(String.format("Infinite number found, %s term%d,i%d,j%d,m%d,n%d",vs,as.term,as.i,as.j,as.m,as.n));
-      } else {
-        return 100.0;
+      if (trouble.isInfinite()) {
+        if (E.debugDouble) {
+          throw new MyErr(String.format("Infinite number found, %s term%d,i%d,j%d,m%d,n%d", vs, as.term, as.i, as.j, as.m, as.n));
+        } else {
+          return 100.0;
+        }
       }
+      return (double) trouble;
+    } else {
+      return trouble;
     }
-      return (double)trouble;
-   } else {
-     return trouble;
-   }
-    }
-  
-  /** test if a number is infinite or not a number'
-   * 
+  }
+
+  /**
+   * test if a number is infinite or not a number'
+   *
    * @param myD number to test
    * @param nD name of the number being tested
    */
-  static public void myTestDouble(Object amyD,String nD){
-    Double myD = (Double)amyD;
-   
-    if(myD.isInfinite()){
-      myTest(true,"Found %s infinite ",nD);
-    } else if(myD.isNaN()){
-      
-      myTest(true,"Found %s not a number",nD);
+  static public void myTestDouble(Object amyD, String nD) {
+    Double myD = (Double) amyD;
+
+    if (myD.isInfinite()) {
+      myTest(true, "Found %s infinite ", nD);
+    } else if (myD.isNaN()) {
+
+      myTest(true, "Found %s not a number", nD);
     }
   }
-  /** test if a number is infinite or not a number'
-   * 
+
+  /**
+   * test if a number is infinite or not a number'
+   *
    * @param myD number to test
    * @param nD name of myD variable
    * @param form output form
    * @param oargs arguments for form
    */
-  static public void myTestDouble(Object amyD,String nD,String form,Object...dargs){
-    Double myD= (Double)amyD;
+  static public void myTestDouble(Object amyD, String nD, String form, Object... dargs) {
+    Double myD = (Double) amyD;
     Object v[] = new Object[21];
-      for (int i = 0; i < v.length; i++) {
-        v[i] = 0.;
-      }
-      for (int i = 0; i < dargs.length && i < v.length; i++) {
-        v[i] = dargs[i];
-      }
-    if(myD.isInfinite()){
-      myTest(true,"Found %s = \"%s\" infinite " + form,nD,myD, v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7], v[8], v[9], v[10], v[11], v[12], v[13], v[14], v[15], v[16], v[17], v[18], v[19], v[20]);
-    } else if(myD.isNaN()){
-      myTest(true,"Found %s = \"%s\" is not a number " + form,nD,myD, v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7], v[8], v[9], v[10], v[11], v[12], v[13], v[14], v[15], v[16], v[17], v[18], v[19], v[20]);
+    for (int i = 0; i < v.length; i++) {
+      v[i] = 0.;
+    }
+    for (int i = 0; i < dargs.length && i < v.length; i++) {
+      v[i] = dargs[i];
+    }
+    if (myD.isInfinite()) {
+      myTest(true, "Found %s = \"%s\" infinite " + form, nD, myD, v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7], v[8], v[9], v[10], v[11], v[12], v[13], v[14], v[15], v[16], v[17], v[18], v[19], v[20]);
+    } else if (myD.isNaN()) {
+      myTest(true, "Found %s = \"%s\" is not a number " + form, nD, myD, v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7], v[8], v[9], v[10], v[11], v[12], v[13], v[14], v[15], v[16], v[17], v[18], v[19], v[20]);
     }
   }
-  
-   /** second test if a number is infinite or not a number'
-   * 
+
+  /**
+   * second test if a number is infinite or not a number'
+   *
    * @param myD number to test
    * @param nD name of myD variable
    * @param form output form
    * @param oargs arguments for form
    */
-  static public void myTestDouble2(Object amyD,String nD,String form,Object...dargs){
-    Double myD= (Double)amyD;
+  static public void myTestDouble2(Object amyD, String nD, String form, Object... dargs) {
+    Double myD = (Double) amyD;
     Object v[] = new Object[21];
-      for (int i = 0; i < v.length; i++) {
-        v[i] = 0.;
-      }
-      for (int i = 0; i < dargs.length && i < v.length; i++) {
-        v[i] = dargs[i];
-      }
-    if(myD.isInfinite()){
-      myTest(true,"Found %s = \"%s\" infinite " + form,nD,myD, v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7], v[8], v[9], v[10], v[11], v[12], v[13], v[14], v[15], v[16], v[17], v[18], v[19], v[20]);
-    } else if(myD.isNaN()){
-      myTest(true,"Found %s = \"%s\" is not a number " + form,nD,myD, v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7], v[8], v[9], v[10], v[11], v[12], v[13], v[14], v[15], v[16], v[17], v[18], v[19], v[20]);
+    for (int i = 0; i < v.length; i++) {
+      v[i] = 0.;
+    }
+    for (int i = 0; i < dargs.length && i < v.length; i++) {
+      v[i] = dargs[i];
+    }
+    if (myD.isInfinite()) {
+      myTest(true, "Found %s = \"%s\" infinite " + form, nD, myD, v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7], v[8], v[9], v[10], v[11], v[12], v[13], v[14], v[15], v[16], v[17], v[18], v[19], v[20]);
+    } else if (myD.isNaN()) {
+      myTest(true, "Found %s = \"%s\" is not a number " + form, nD, myD, v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7], v[8], v[9], v[10], v[11], v[12], v[13], v[14], v[15], v[16], v[17], v[18], v[19], v[20]);
     }
   }
-   /** flag of done
-    * 
-    */
+  /**
+   * flag of done
+   *
+   */
   public static boolean myTestDone = false;
-/** test truth of tt, invoke a formated response
- * 
- * @param tt      test for true
- * @param form    form for output of true tt
- * @param dargs   arguments for form
- */
+
+  /**
+   * test truth of tt, invoke a formated response
+   *
+   * @param tt test for true
+   * @param form form for output of true tt
+   * @param dargs arguments for form
+   */
   static public void myTest(boolean tt, String form, Object... dargs) {
     if (tt) {
       // StringBuffer m = "Exception";
@@ -1762,7 +1773,7 @@ static double doubleTrouble(Double trouble, String vs){
       System.err.flush();
       System.err.flush();
       System.err.flush();
-      System.err.format((EM.curEcon == null ? "" : EM.curEcon.name) + ":" + form + EM.andMore() +"%n" , v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7], v[8], v[9], v[10], v[11], v[12], v[13], v[14], v[15], v[16], v[17], v[18], v[19], v[20],v[21], v[22], v[23], v[24], v[25], v[26], v[27], v[28], v[29],v[30],v[31],v[32],v[33],v[34],v[35],v[36],v[37],v[38],v[39]);
+      System.err.format((EM.curEcon == null ? "" : EM.curEcon.name) + ":" + form + EM.andMore() + "%n", v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7], v[8], v[9], v[10], v[11], v[12], v[13], v[14], v[15], v[16], v[17], v[18], v[19], v[20], v[21], v[22], v[23], v[24], v[25], v[26], v[27], v[28], v[29], v[30], v[31], v[32], v[33], v[34], v[35], v[36], v[37], v[38], v[39]);
       new Throwable().printStackTrace(System.err);
       System.err.flush();
       System.out.flush();
@@ -1778,30 +1789,30 @@ static double doubleTrouble(Double trouble, String vs){
   static public int dmsgs = 1900;
   static public int msgs = dmsgs;
   static public int msgcnt = 0;
-  
+
   static void resetMsgs() {
     msgs = dmsgs;
     msgcnt = 0;
   }
 
-  static public Object sysmsg(String form,Object... dargs) {
+  static public Object sysmsg(String form, Object... dargs) {
 
     Object v[] = new Object[31];
-      for (int i = 0; i < v.length; i++) {
-        v[i] = 0.; //preset all v to 0
-      }
-      for (int i = 0; i < dargs.length && i < v.length; i++) {
-        v[i] = dargs[i]; // move object
-      }
+    for (int i = 0; i < v.length; i++) {
+      v[i] = 0.; //preset all v to 0
+    }
+    for (int i = 0; i < dargs.length && i < v.length; i++) {
+      v[i] = dargs[i]; // move object
+    }
     // StringBuffer m = "Exception";
     //throw MyTestException()
     int ss = Thread.currentThread().getStackTrace().length;
     //System.out.println(" length Thread.currentThread().StackTraceLength=" + ss);
     StackTraceElement aa = Thread.currentThread().getStackTrace()[3];
-    StackTraceElement ab = (ss < 5 ?aa:Thread.currentThread().getStackTrace()[4]);
-    StackTraceElement ac = (ss < 6?aa:Thread.currentThread().getStackTrace()[5]);
-    StackTraceElement ad = (ss < 7?aa:Thread.currentThread().getStackTrace()[6]);
-    StackTraceElement ae = (ss < 8?aa:Thread.currentThread().getStackTrace()[7]);
+    StackTraceElement ab = (ss < 5 ? aa : Thread.currentThread().getStackTrace()[4]);
+    StackTraceElement ac = (ss < 6 ? aa : Thread.currentThread().getStackTrace()[5]);
+    StackTraceElement ad = (ss < 7 ? aa : Thread.currentThread().getStackTrace()[6]);
+    StackTraceElement ae = (ss < 8 ? aa : Thread.currentThread().getStackTrace()[7]);
 
     String Fname = aa.getFileName();
     String Cname = aa.getClassName();
@@ -1813,12 +1824,12 @@ static double doubleTrouble(Double trouble, String vs){
     String Fname3 = ac.getFileName();
     int Fline3 = ac.getLineNumber();
     String Mname3 = ac.getMethodName();
-    
+
     String aDate = new Date().toString();
     //System.out.println(EM.st.since() + ">>>>>>>>>sysmsg" + EM.st.since());
     msgcnt++;
-    System.out.format( ">>>>>>>>>sysmsg" + msgcnt + "<" + msgs + EM.st.since() + ";econ=" + (EM.curEcon == null?" nullEcon" :EM.curEcon.name ) + ":" + Fname3 + "." + Fline3 + "." + Mname3 + ";" + Fname2 + "." + Fline2 + "." + Mname2 + ";" + Fname + "." + Fline + "." + Cname + "." + Mname 
-            + "<<<<<<<<<<\n>>>>>>>>>> " + form + "%n",v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7], v[8], v[9], v[10], v[11], v[12], v[13], v[14], v[15], v[16], v[17], v[18], v[19], v[20], v[21], v[22], v[23], v[24], v[25], v[26], v[27], v[28], v[29], v[30]);
+    System.out.format(">>>>>>>>>sysmsg" + msgcnt + "<" + msgs + EM.st.since() + ";econ=" + (EM.curEcon == null ? " nullEcon" : EM.curEcon.name) + ":" + Fname3 + "." + Fline3 + "." + Mname3 + ";" + Fname2 + "." + Fline2 + "." + Mname2 + ";" + Fname + "." + Fline + "." + Cname + "." + Mname
+            + "<<<<<<<<<<\n>>>>>>>>>> " + form + "%n", v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7], v[8], v[9], v[10], v[11], v[12], v[13], v[14], v[15], v[16], v[17], v[18], v[19], v[20], v[21], v[22], v[23], v[24], v[25], v[26], v[27], v[28], v[29], v[30]);
     if (msgcnt > msgs) {
       new Throwable().printStackTrace();
       sysmsgDone = true;
@@ -1886,7 +1897,6 @@ static double doubleTrouble(Double trouble, String vs){
   static boolean trade2HistOutputs = false;
   static int trade1PlanetOverrideShipGoods = 6;
   static int tradePlanetAcceptHigherOffer = 7;
-  
 
   // penalty in move to earlier position if swapped across resources
   static public int[] sXSwapPenalty = {2, 2};
@@ -2019,15 +2029,14 @@ static double doubleTrouble(Double trouble, String vs){
    * knowledge No manuals are created here, only in trades, if all manuals are
    * transformed, than no increase of knowledge occurs.
    */
-  
   static protected double[] knowledgeRequiredPerFacultyForJumping = {7., 7., 7., 7., 10., 10., 10., 10., 12., 12., 12., 12., 15., 15., 15., 15.};
   // static protected int[] jumpStageWithEffectiveFaculty = {2, 3, 2, 2};
   // static int[] allowedJumpsPerEffectiveFaculty = {15, 15, 15, 15, 12, 12, 12, 12, 10, 10, 10, 10, 8, 8, 8, 8};
   // 4 trainee, 4 engineer, 4 faculty, 4 researcher
-  static final double[] sumWorkerMults = {.2,.3,.5,.9,  1.6,3.8,5.6,10., 7.0,7.0,6.0,5., 4.,4.,3.,3.};
+  static final double[] sumWorkerMults = {.2, .3, .5, .9, 1.6, 3.8, 5.6, 10., 7.0, 7.0, 6.0, 5., 4., 4., 3., 3.};
   // for facultyEqv,  used to promote staff to next position
   static final double[] sumFacultyMults = {0., 0., 0., 0., 0., 0., 0.1, 0.2, .3, .4, .7, 1., .7, .5, .5, .5, .3};
-  static final double[] staffPromotePerFaculty = {20.,15.,13.,12.,  10.,9.,8.,7., 1.,  .6, .5, .3,  .3, .3, .2, .2};
+  static final double[] staffPromotePerFaculty = {20., 15., 13., 12., 10., 9., 8., 7., 1., .6, .5, .3, .3, .3, .2, .2};
   // 4 trainee, 4 engineer, 4 faculty, 4 researcher
   static final double[] staffPromotePerResearcher = {0., 0., 0., 0., 0., 0., 0., 0., 1.8, 1.7, 1.6, 1.5, 1.4, 1., .8, .6};
   // use multiplier for the sum of Knowledge can be created,and researcher equiv for staff permotion above
@@ -2037,12 +2046,11 @@ static double doubleTrouble(Double trouble, String vs){
   // 4 trainee, 4 engineer, 4 faculty, 4 researcher
   // used to calculate worth of staff
   static protected double[] staffWorthBias = {.4, .5, .7, 1., .8, .9, 1.1, 1.4, 1.2, 1.4, 1.8, 2., 1.3, 1.5, 2., 2.5};
- 
 
   static public double additionalWorkerBonusForKnowledge = .02;
   static public double aGrowthBias[] = {1.0, 1.0};
   static public double sGrowthBias[] = {1.0, 1.0};
- 
+
   // [planet,ship][colonist,engineer,faculty,researcher,guest]
   static final protected double[][] upgradeToNextTypeByContext = {{40, .1, .1, .2, 0}, {2., .1, .05, .2, 0}};
 // multiply table guest cost by guestBias when calculating Maint Travel Growth Req costs and worth

@@ -1645,6 +1645,7 @@ public class Assets {
     // in Assets.CashFlow
     DoTotalWorths btW, tW, rawCW, gSwapW, gGrowW, gCostW, fyW;
     double iyWTotWorth, syWTotWorth, btWTotWorth, tWTotWorth, rawCWTotWorth, gSwapWTotWorth, gGrowWTotWorth, gCostWTotWorth, fyWTotWorth;
+    double btWrcsgSum;
     double NeedsPlusSum, NeedsNegSum, rawProspectsMin, rawProspectsMin2, rawProspectsNegSum;
     double curSum, needsSum;
 
@@ -1661,6 +1662,7 @@ public class Assets {
     double sumRCWorth = 0.;
     double sumSGWorth = 0.;
     double preTradeWorth = 0.;
+    double sendSum=0.;
     double postNHealth;
     double postNHealthWorth;
     double additionToKnowledgeBiasForSumKnowledge
@@ -1679,7 +1681,7 @@ public class Assets {
 
     double minRH, minRF;
     int minRHIx = -1, minRFIx = -1;
-
+// in Assets.CashFlows
     A6Row worths = new A6Row(ec,lev, "worths");
     A6Row yrStrtWorths = new A6Row(ec,lev, "yrStrtWorths");
     // swapCosts 0,1 incr, 2,3 decr, 4,5 exchange
@@ -3624,7 +3626,7 @@ public class Assets {
           E.myTest(true, "Error cost negative = %10.5g", cost);
         }
         if (E.debugCosts && avail - cost < -0.0) {
-          E.myTest(true, "cost=" + df(cost) + " exceeds available=" + df(avail) + ", " + sp.aschar + sourceIx + "=" + df(avail) + ", O" + op.aschar + sourceIx + "=" + df(availOp) + ", n=" + n + ", reDo" + reDo + ", i=" + i + ", j=" + j);
+              E.myTest(true, "cost=" + df(cost) + " exceeds available=" + df(avail) + ", " + sp.aschar + sourceIx + "=" + df(avail) + ", O" + op.aschar + sourceIx + "=" + df(availOp) + ", n=" + n + ", reDo" + reDo + ", i=" + i + ", j=" + j);
         }
 
         if (E.debugCosts && avail - cost > +0.0) {
@@ -5007,6 +5009,7 @@ public class Assets {
         // if 0 bids.negSum() set 1;
         goodFrac = bids.negSum() > NZERO || -goodC.negSum() * 2 > -bids.negSum() ? 1. : -goodC.negSum() * 2 / -bids.negSum();
         offers = totalStrategicOffers = multV.plusSum() + offeredManuals * eM.tradeManualsFrac[pors][clan] + plusCash;
+        sendSum = bids.plusSum() + offeredManuals + plusCash;
         totalSend = unitOffers = multV.plusSum() + plusCash;
         requests = totalStrategicReceipts = -multV.negSum() + requestedManuals * eM.tradeManualsFrac[pors][clan] + negCash;
         unitRequests = -multV.negSum() + negCash;
@@ -5064,6 +5067,7 @@ public class Assets {
           requestsFirst = requests;
           sumNominalRequestsFirst = sumNominalRequests;
           offersFirst = offers;
+          sendSumFirst = sendSum;
           bidsFirst = bids.copy();
           strategicValuesFirst = strategicValues.copy();
           firstStrategicValue = strategicValue;
@@ -6336,7 +6340,8 @@ public class Assets {
     void calcCatastrophy() {
       double t1 = 0.,t2=0., cc = 1.;
 
-      if (eM.randFrac[pors][0] > PZERO && ec.age > 2 && ((t1 = cRand(31)) < (t2 =eM.userCatastrophyFreq[pors][clan] * (cc = eM.gameUserCatastrophyMult[pors][0]) * cRand(34))) && t1 > 0.) {
+    //  if (eM.randFrac[pors][0] > PZERO && ec.age > 2 && ((t1 = cRand(31)) < (t2 =eM.userCatastrophyFreq[pors][clan] * (cc = eM.gameUserCatastrophyMult[pors][0]) * cRand(34))) && t1 > 0.) {
+        if ( ((t1 = Math.random()) < (t2 =eM.userCatastrophyFreq[pors][clan] * (cc = eM.gameUserCatastrophyMult[pors][0]) * cRand(34))) && t1 > 0.) {
 
         int r1 = (int)(cRand(6) * balances.get(0, 0)) % 7;
         int r2 = (int)(cRand(7) * balances.get(0, 1)) % 7;
@@ -6347,10 +6352,10 @@ public class Assets {
         int s3 = (int)(cRand(12) * balances.get(1, 2)) % 7;
         int s4 = (int)(cRand(13) * balances.get(1, 3)) % 7;
         int r5 = (int)(cRand(14) * balances.get(0, 5)) % 7;
-        double rReduce1 = 1. / (cRand(14) * cc * eM.catastrophyUnitReduction[pors][0] * 1.5);
-        double rReduce2 = 1. / (cRand(15) * cc * eM.catastrophyUnitReduction[pors][0] * .6);
-        double sReduce1 = 1. / (cRand(16) * cc * eM.catastrophyUnitReduction[pors][0] * 1.5);
-        double sReduce2 = 1. / (cRand(17) * cc * eM.catastrophyUnitReduction[pors][0] * .6);
+        double rReduce1 = Math.min(.65,(cRand(14) * cc * eM.catastrophyUnitReduction[pors][0] * 1.5));
+        double rReduce2 = Math.min(.65,(cRand(15) * cc * eM.catastrophyUnitReduction[pors][0] * .6));
+        double sReduce1 = Math.min(.65,(cRand(16) * cc * eM.catastrophyUnitReduction[pors][0] * 1.5));
+        double sReduce2 = Math.min(.65,(cRand(17) * cc * eM.catastrophyUnitReduction[pors][0] * .6));
         int rBonusYrs1 = (int) (cRand(16) * cc * eM.catastrophyBonusYears[pors][0] * 2);
         int rBonusYrs2 = (int) (cRand(17) * cc * eM.catastrophyBonusYears[pors][0] * .8);
         int sBonusYrs1 = (int) (cRand(18) * cc * eM.catastrophyBonusYears[pors][0] * 2);
@@ -6371,20 +6376,23 @@ public class Assets {
         double sBonusNewKnowledge = cRand(45) * cc * eM.catastrophyManualsMultSumKnowledge[pors][0] * 2.7 * knowledge.sum();
 
         /*
-  static final int CRISISMINEDRESPERCENTINCR = ++e4; // 
+  static final int CRISISRESREDUCEPERCENT = ++e4; // 
+  static final int CRISISSTAFFREDUCEPERCENT = ++e4; // 
   static final int CRISISSTAFFGROWTHPERCENTINCR = ++e4;
   static final int CRISISSTAFFGROWTHYEARSINCR = ++e4;
   static final int CRISISRESGROWTHPERCENTINCR = ++e4;
   static final int CRISISRESGROWTHYEARSINCR = ++e4;
   static final int CRISISMANUALSPERCENTINCR = ++e4;
+        static final int CRISISRESREDUCESURPLUSPERCENT = ++e4;
+        static final int CRISISSTAFFREDUCESURPLUSPERCENT = ++e4;
         */
         double rc1, sc2, rc3,rreduced,sreduced;
         yearCatastrophy = year; // flag entered
-        r.cost3((rc1 = balances.get(0, r1) * rReduce1), r1, 0);  // apply costs to P and S
+        r.cost3((rc1 = balances.get(2, r1) * rReduce1), r1, 0);  // apply costs to P and S
         setStat("rCatCosts", pors, clan, rc1, 1);
-        s.cost3((sc2 = balances.get(0, s1) * sReduce1), s1, 0);
+        s.cost3((sc2 = balances.get(4, s1) * sReduce1), s1, 0);
         setStat("sCatCosts", pors, clan, sc2, 1);
-        r.cost3((rc3 = balances.get(0, r2) * rReduce2), r2, 0);
+        r.cost3((rc3 = balances.get(2, r2) * rReduce2), r2, 0);
         setStat("rCatCosts", pors, clan, rc3, 1);
         rreduced = rc1+rc3;
         sreduced = sc2;
@@ -6399,18 +6407,41 @@ public class Assets {
         s.bonusUnitGrowth.add(sBonusX1, sBonusVal1);
         setStat("sCatBonusVal", pors, clan, sBonusVal1, 1);
         double rcd = r.cumulativeDecay.get(r4);
-        double rd1 = -rDecayReduce1 > rcd ? rcd : -rDecayReduce1; //rd1 < -0.0
+        double rd1 = -rDecayReduce1;
+        double rBal = r.balance.get(r4);
+        if(-rDecayReduce1 > rcd){
+          double rm = -rDecayReduce1 - rcd;
+          setStat(EM.CRISISRESREDUCESURPLUSPERCENT, pors, clan,rm*100/rBal, 1);
+          rd1 = rcd;
+        }
+       // double rd1 = -rDecayReduce1 > rcd ? rcd : -rDecayReduce1; //rd1 < -0.0
         r.cumulativeDecay.add(r4, rd1);
-        setStat("rCatNegDecay", pors, clan,-rd1, 1);
+        setStat("rCatNegDecay", pors, clan,-rd1, 1);// ?? rd1 < 0???
+        setStat(eM.CRISISRESREDUCEPERCENT, pors, clan,-rd1*100/rBal, 1);
+        double sBal = s.balance.get(s3);
         double scd = s.cumulativeDecay.get(s3);
-        double sd1 = -sDecayReduce1 > scd ? scd : -sDecayReduce1; // sd1 < -0.0
+        double sd1 = -sDecayReduce1;
+        if(-sDecayReduce1 > scd){
+          double rm = -sDecayReduce1 - scd;
+          setStat(EM.CRISISSTAFFREDUCESURPLUSPERCENT, pors, clan,rm*100/sBal, 1);
+          sd1 = scd;
+        }
+        //double sd1 = -sDecayReduce1 > scd ? scd : -sDecayReduce1; // sd1 < -0.0
         s.cumulativeDecay.add(s3, sd1);
         setStat("sCatNegDecay", pors, clan, -sd1, 1);
+        setStat(EM.CRISISSTAFFREDUCEPERCENT, pors, clan,-sd1*100/sBal, 1);
         if (pors == E.P) {
-           double rcd2 = r.cumulativeDecay.get(r5);
-           double rd2 = -rDecayReduce2 > rcd2 ? rcd2*.99 : -rDecayReduce2;
-          r.cumulativeDecay.add(s4, rd2);
-          setStat("rCatNegDecay", pors, clan, -rd2, 0);
+           double rcd5 = r.cumulativeDecay.get(r5);
+           double rd5 = -rDecayReduce2;
+           rBal = r.balance.get(r5);
+        if(-rDecayReduce2 > rcd5){
+          double rm = -rDecayReduce2 - rcd5;
+          setStat(EM.CRISISRESREDUCESURPLUSPERCENT, pors, clan,rm*100/rBal, 1);
+          rd5 = rcd5;
+        }
+          // double rd5 = -rDecayReduce2 > rcd5 ? rcd5*.99 : -rDecayReduce2;
+          r.cumulativeDecay.add(r5, rd5);
+          setStat("rCatNegDecay", pors, clan, -rd5, 0);
         } else {  // ships
           manuals.add(sBonusX2, sBonusManuals);  // Adds into value of trades
           setStat("sCatBonusManuals", pors, clan, sBonusManuals, 1);
@@ -6674,7 +6705,7 @@ public class Assets {
     double totalStrategicOffersFirst = totalStrategicOffers;
     double totalStrategicFracFirst = totalStrategicFrac;
     double strategicFracFirst, strategicValueFirst;
-    double requestsFirst, offersFirst, sumRequestsFirst, totalSendFirst, totalRequestsFirst, totalOffersFirst, needsFirst;
+    double requestsFirst, offersFirst, sumRequestsFirst, totalSendFirst, totalRequestsFirst, totalOffersFirst, needsFirst,sendSumFirst;
     double strategicReceiptsFirst = 0., strategicOffersFirst = 0., totalStrategicReceiptsFirst = 0.;
     double sumNominalRequestsFirst = 0.;
     double criticalStrategicRequestsFirst = 0., criticalStrategicOffersFirst = 0., criticalStrategicFracFirst = 0.;
@@ -6839,6 +6870,7 @@ public class Assets {
         tW = new DoTotalWorths();  // in Assets.CashFlow.Barter
         tWTotWorth = tW.getTotWorth();
         btWTotWorth = btW.getTotWorth();
+        btWrcsgSum = btW.getSumRCSGBal();
         double worthIncrPercent = (tWTotWorth - btWTotWorth) * 100 / btWTotWorth;
 
         retOffer.set2Values(ec, btWTotWorth,btW.getSumRCSGBal(), tWTotWorth); // needed in TradeRecord SearchRecord
@@ -6856,15 +6888,15 @@ public class Assets {
           EM.clanTraded[clan]++;
           eM.porsVisited[pors]++;
           eM.porsClanVisited[pors][clan]++;
-          setStat(EM.TRADEFIRSTRECEIVE, requestsFirst, 1);
-          setStat(EM.TRADELASTRECEIVE, pors, clan, requests, 1);
+          setStat(EM.TRADEFIRSTRECEIVE, requestsFirst*100/btWrcsgSum, 1);
+          setStat(EM.TRADELASTRECEIVE, pors, clan, requests*100/btWrcsgSum, 1);
           setStat(EM.TRADERECEIVELASTPERCENTFIRST, pors, clan, requests*100./requestsFirst, 1);
-          setStat(EM.TRADEFIRSTGAVE, oPors, oClan, requestsFirst, 1);
-          setStat(EM.TRADELASTGAVE, oPors, oClan, requests, 1);
-          setStat(EM.TRADESTRATFIRSTGAVE, oPors, oClan, totalStrategicRequestsFirst, 1);
-          setStat(EM.TRADESTRATLASTGAVE, oPors, oClan, totalStrategicRequests , 1);
-          setStat(EM.TRADESTRATFIRSTRECEIVE, pors, clan, totalStrategicRequestsFirst, 1);
-          setStat(EM.TRADESTRATLASTRECEIVE, pors, clan, totalStrategicRequests, 1);
+          setStat(EM.TRADEFIRSTGAVE, pors, clan, sendSumFirst*100/btWrcsgSum, 1);
+          setStat(EM.TRADELASTGAVE, pors, clan, sendSum*100/btWrcsgSum, 1);
+          setStat(EM.TRADESTRATFIRSTGAVE, oPors, oClan, totalStrategicRequestsFirst*100/btWrcsgSum, 1);
+          setStat(EM.TRADESTRATLASTGAVE, oPors, oClan, totalStrategicRequests*100/btWrcsgSum , 1);
+          setStat(EM.TRADESTRATFIRSTRECEIVE, pors, clan, totalStrategicRequestsFirst*100/btWrcsgSum, 1);
+          setStat(EM.TRADESTRATLASTRECEIVE, pors, clan, totalStrategicRequests*100/btWrcsgSum, 1);
           setStat(EM.BEFORETRADEWORTH, pors, clan, btWTotWorth, 1);
           setStat(EM.AFTERTRADEWORTH, pors, clan, tWTotWorth, 1);
           setStat(EM.TRADEWORTHINCRPERCENT, pors, clan, worthIncrPercent, 1);
@@ -6887,14 +6919,15 @@ public class Assets {
           EM.porsTraded[pors]++;
           EM.porsClanTraded[pors][clan]++;
           EM.clanTraded[clan]++;
-          setStat(EM.TRADEFIRSTRECEIVE, requestsFirst, 1);
-          setStat(EM.TRADELASTRECEIVE, pors, clan, requests, 1);
-          setStat(EM.TRADEFIRSTGAVE, oPors, oClan, requestsFirst, 1);
-          setStat(EM.TRADELASTGAVE, oPors, oClan, requests, 1);
-          setStat(EM.TRADESTRATFIRSTGAVE, oPors, oClan, requestsFirst, 1);
-          setStat(EM.TRADESTRATLASTGAVE, oPors, oClan, requests, 1);
-          setStat(EM.TRADESTRATFIRSTRECEIVE, pors, clan, totalStrategicRequestsFirst, 1);
-          setStat(EM.TRADESTRATLASTRECEIVE, pors, clan, totalStrategicRequests, 1);
+         setStat(EM.TRADEFIRSTRECEIVE, requestsFirst*100/btWrcsgSum, 1);
+          setStat(EM.TRADELASTRECEIVE, pors, clan, requests*100/btWrcsgSum, 1);
+          setStat(EM.TRADERECEIVELASTPERCENTFIRST, pors, clan, requests*100./requestsFirst, 1);
+          setStat(EM.TRADEFIRSTGAVE, pors, clan, sendSumFirst*100/btWrcsgSum, 1);
+          setStat(EM.TRADELASTGAVE, pors, clan, sendSum*100/btWrcsgSum, 1);
+          setStat(EM.TRADESTRATFIRSTGAVE, oPors, oClan, totalStrategicRequestsFirst*100/btWrcsgSum, 1);
+          setStat(EM.TRADESTRATLASTGAVE, oPors, oClan, totalStrategicRequests*100/btWrcsgSum , 1);
+          setStat(EM.TRADESTRATFIRSTRECEIVE, pors, clan, totalStrategicRequestsFirst*100/btWrcsgSum, 1);
+          setStat(EM.TRADESTRATLASTRECEIVE, pors, clan, totalStrategicRequests*100/btWrcsgSum, 1);
           setStat(EM.BEFORETRADEWORTH, pors, clan, btWTotWorth, 1);
           setStat(EM.AFTERTRADEWORTH, pors, clan, tWTotWorth, 1);
           setStat(EM.TRADEWORTHINCRPERCENT, pors, clan, worthIncrPercent, 1);
@@ -6902,6 +6935,7 @@ public class Assets {
           setStat(EM.TradeLastStrategicGoal,pors,clan,strategicGoal,1);
           setStat(EM.TradeFirstStrategicValue,pors,clan,firstStrategicValue,1);
           setStat(EM.TradeLastStrategicValue,pors,clan,strategicValue,1);
+          setStat(EM.TradeStrategicValueLastPercentFirst,pors,clan,strategicValue*100/firstStrategicValue,1);
           retOffer.setTerm(-4);
         } else if (entryTerm == -1) {  // Trade lost, others barter
           tradedShipOrdinal++; // set ordinal of the next ship if any
@@ -7501,6 +7535,8 @@ public class Assets {
         if(year == yearTradeAccepted && oclan >= 0){
         if(tradedFirstNegProspectsSum < eM.rawHealthsSOS1[0][0]){
           setStat(eM.TRADESOS1, pors, clan, worthIncrPercent, 1);
+          // percent worth incr given by other,
+          // higer value, more charatible
           setStat(eM.TRADEOSOS1, opors, oclan, worthIncrPercent, 1); // HELPER
         }
         if(tradedFirstNegProspectsSum < eM.rawHealthsSOS2[0][0]){
@@ -7587,12 +7623,17 @@ public class Assets {
           double tt3 = 0;
           fyW = new DoTotalWorths();
 
-          setStat(EM.DIEDPERCENT, pors, clan, 100., 1);
+    //      setStat(EM.DIEDPERCENT, pors, clan, 100., 1);
           double worthincr1 = (fyW.sumTotWorth - syW.sumTotWorth) * 100 / syW.sumTotWorth;
-          setStat("DEADWTRADEDINCR", pors, clan, worthincr1, 1);
+          setStat(EM.DIED, pors, clan, worthincr1, 1);
+          //setStat("died", pors, clan, worthincr1, 1);
+          if(yearCatastrophy == year){
+            setStat(EM.DIEDCATASTROPHY,pors,clan,worthincr1,1);
+          }
           //    setStat("TRADES%", pors, clan, fav > NZERO ? 100. : 0., 1);
-            if(yearTradeLost == year && oclan >= 0){
+      if(yearTradeAccepted <= year && oclan >= 0){
         if(tradedFirstNegProspectsSum < eM.rawHealthsSOS1[0][0]){
+          // Help that was not given higher is worse
           setStat(eM.DTRADEOSOSR1, opors, oclan, worthIncrPercent, 1); // HELPER
         }
         if(tradedFirstNegProspectsSum < eM.rawHealthsSOS2[0][0]){
@@ -7768,7 +7809,6 @@ public class Assets {
             setStat(EM.DIEDSM1X2RN1, pors, clan, worthincr1, 1);
           }
 
-          setStat("died", pors, clan, worthincr1, 1);
           EM.wasHere = " CashFlow.yearEnd into deac, and died ccch=" + ++ccch;
           if (swapsN < 0) {
             setStat("DeadNegN", pors, clan, worthincr1, 1);

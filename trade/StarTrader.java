@@ -148,12 +148,12 @@ public class StarTrader extends javax.swing.JFrame {
   static final public String statsButton0Tip = "0: Current Game Worths";
   static final public String statsButton1Tip = "1: Favors and trade effects";
   static final public String statsButton2Tip = "2: Catastrophes, deaths, randoms, forwardfund";
-  static final public String statsButton3Tip = "3: Deaths";
-  static final public String statsButton4Tip = "4: Trades";
-  static final public String statsButton5Tip = "5: Creates";
-  static final public String statsButton6Tip = "6: ForwardFund";
+  static final public String statsButton3Tip = "3: Deaths. rejected or missed deaths";
+  static final public String statsButton4Tip = "4: Trades, AcceptedDeaths";
+  static final public String statsButton5Tip = "5: Death other factors";
+  static final public String statsButton6Tip = "6: ForwardFund, ForFunds&deaths";
   static final public String statsButton7Tip = "7: Resource, staff, knowledge values";
-  static final public String statsButton8Tip = "8: growth and costs details";
+  static final public String statsButton8Tip = "8: creates. growth and costs details";
   static final public String statsButton9Tip = "9: Catastrophes, Fertility, health and effects";
   static final public String statsButton10Tip = "10: years 0,1,2,3 worth inc, costs, efficiency,knowledge,phe";
   static final public String statsButton11Tip = "11: years 4,5,6,7 worth inc, costs, efficiency,knowledge,phe ";
@@ -165,7 +165,7 @@ public class StarTrader extends javax.swing.JFrame {
   static final public String statsButton17Tip = "17: Swaps years decr skips, redos and dos";
   static final public String statsButton18Tip = "18: Swaps years xfer skips, redos and dos";
   static final public String statsButton19Tip = "19: Swaps years Forward Fund imbalance or save";
-  static final public String statsButton20Tip = "20: Death factors";
+  static final public String statsButton20Tip = "20: TB assigned";
 
   static final public String gameTextFieldText = "This is to be filled with descriptions of the field over which the mouse hovers";
   /* 0:worths,1:trade favor,2:random,crisis,deaths,forward,3:deaths,4:trades,5:creates,6:forwardFund,7:resource,staff,knowledge,8:growth,costs,9:Fertility,health,effects,10 11 12 13 14 1years,15:swaps,16:swapincr,17:swapdecr,18:xfer, 19:swap forwardFund balance orsave, 20:Swaps cum 
@@ -261,6 +261,7 @@ public class StarTrader extends javax.swing.JFrame {
     logBGactions = new javax.swing.ButtonGroup();
     gameButtonGroup = new javax.swing.ButtonGroup();
     gameButtonUp = new java.awt.Button();
+    statsField2 = new javax.swing.JTextField();
     controlPanels = new javax.swing.JTabbedPane();
     story = new javax.swing.JPanel();
     storyVersionField = new javax.swing.JTextField();
@@ -404,36 +405,6 @@ public class StarTrader extends javax.swing.JFrame {
     jSeparator10 = new javax.swing.JSeparator();
     clanLabelS4 = new javax.swing.JLabel();
     clanSliderS4 = new javax.swing.JSlider();
-    stats = new javax.swing.JPanel();
-    statsButton0 = new javax.swing.JRadioButton();
-    statsButton1 = new javax.swing.JRadioButton();
-    statsButton2 = new javax.swing.JRadioButton();
-    statsButton3 = new javax.swing.JRadioButton();
-    statsButton4 = new javax.swing.JRadioButton();
-    statsButton5 = new javax.swing.JRadioButton();
-    statsButton6 = new javax.swing.JRadioButton();
-    statsButton7 = new javax.swing.JRadioButton();
-    statsButton8 = new javax.swing.JRadioButton();
-    statsButton9 = new javax.swing.JRadioButton();
-    statsButton10 = new javax.swing.JRadioButton();
-    statsCtlButtonRun1Yr = new javax.swing.JButton();
-    statsField = new javax.swing.JTextField();
-    statsButton11 = new javax.swing.JRadioButton();
-    statsCtlButtonRun5Yr = new javax.swing.JButton();
-    statsButton12 = new javax.swing.JRadioButton();
-    statsButton13 = new javax.swing.JRadioButton();
-    statsButton14 = new javax.swing.JRadioButton();
-    statsButton15 = new javax.swing.JRadioButton();
-    statsButton16 = new javax.swing.JRadioButton();
-    statsButton17 = new javax.swing.JRadioButton();
-    statsButton18 = new javax.swing.JRadioButton();
-    statsButton19 = new javax.swing.JRadioButton();
-    statsButton20 = new javax.swing.JRadioButton();
-    statsField2 = new javax.swing.JTextField();
-    statsCtlButtonRun10Yr = new javax.swing.JButton();
-    statsCtlButtonRun20Yr = new javax.swing.JButton();
-    jScrollPane2 = new javax.swing.JScrollPane();
-    statsTable1 = new javax.swing.JTable();
     display = new javax.swing.JPanel();
     displayPanel0 = new javax.swing.JPanel();
     jScrollPane1 = new javax.swing.JScrollPane();
@@ -446,14 +417,60 @@ public class StarTrader extends javax.swing.JFrame {
     displayPanel2EconName = new javax.swing.JTextField();
     displayPanel2Operation = new javax.swing.JTextField();
     displayPanel2SinceYearStart = new javax.swing.JTextField();
+    stats = new javax.swing.JPanel();
+    topPane = new javax.swing.JPanel();
+    rbuttons12 = new javax.swing.JPanel();
+    rbuttons1 = new javax.swing.JPanel();
+    statsButton0 = new javax.swing.JRadioButton();
+    statsButton1 = new javax.swing.JRadioButton();
+    statsButton2 = new javax.swing.JRadioButton();
+    statsButton3 = new javax.swing.JRadioButton();
+    statsButton4 = new javax.swing.JRadioButton();
+    statsButton5 = new javax.swing.JRadioButton();
+    statsButton6 = new javax.swing.JRadioButton();
+    statsButton7 = new javax.swing.JRadioButton();
+    statsButton8 = new javax.swing.JRadioButton();
+    statsButton9 = new javax.swing.JRadioButton();
+    statsButton10 = new javax.swing.JRadioButton();
+    rbuttons2 = new javax.swing.JPanel();
+    statsButton11 = new javax.swing.JRadioButton();
+    statsButton12 = new javax.swing.JRadioButton();
+    statsButton13 = new javax.swing.JRadioButton();
+    statsButton14 = new javax.swing.JRadioButton();
+    statsButton15 = new javax.swing.JRadioButton();
+    statsButton16 = new javax.swing.JRadioButton();
+    statsButton17 = new javax.swing.JRadioButton();
+    statsButton18 = new javax.swing.JRadioButton();
+    statsButton19 = new javax.swing.JRadioButton();
+    statsButton20 = new javax.swing.JRadioButton();
+    ybuttons = new javax.swing.JPanel();
+    statsCtlButtonRun1Yr = new javax.swing.JButton();
+    statsCtlButtonRun10Yr = new javax.swing.JButton();
+    statsCtlButtonRun5Yr = new javax.swing.JButton();
+    statsCtlButtonRun20Yr = new javax.swing.JButton();
+    statsField = new javax.swing.JTextField();
+    jScrollPane2 = new javax.swing.JScrollPane();
+    statsTable1 = new javax.swing.JTable();
 
     gameButtonUp.setLabel("up");
     gameButtonUp.setMaximumSize(new java.awt.Dimension(70, 55));
     gameButtonUp.setMinimumSize(new java.awt.Dimension(30, 45));
 
+    statsField2.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+    statsField2.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
+    statsField2.setText("jTextField1");
+    statsField2.setToolTipText("");
+    statsField2.setMinimumSize(new java.awt.Dimension(200, 30));
+    statsField2.setPreferredSize(new java.awt.Dimension(400, 30));
+    statsField2.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        statsField2ActionPerformed(evt);
+      }
+    });
+
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
     setBackground(new java.awt.Color(240, 180, 240));
-    setBounds(new java.awt.Rectangle(0, 0, 1200, 1200));
+    setBounds(new java.awt.Rectangle(0, 0, 1250, 1250));
     setMaximizedBounds(new java.awt.Rectangle(0, 0, 1, 0));
     setMinimumSize(new java.awt.Dimension(800, 600));
     setResizable(false);
@@ -470,7 +487,7 @@ public class StarTrader extends javax.swing.JFrame {
         formWindowClosed(evt);
       }
     });
-    getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+    getContentPane().setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
 
     controlPanels.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
     controlPanels.setAutoscrolls(true);
@@ -478,7 +495,7 @@ public class StarTrader extends javax.swing.JFrame {
     controlPanels.setDoubleBuffered(true);
     controlPanels.setMaximumSize(new java.awt.Dimension(1700, 1400));
     controlPanels.setMinimumSize(new java.awt.Dimension(500, 550));
-    controlPanels.setPreferredSize(new java.awt.Dimension(1200, 1250));
+    controlPanels.setPreferredSize(new java.awt.Dimension(1250, 1250));
     controlPanels.setBackground(bg1);
     controlPanels.addChangeListener(new javax.swing.event.ChangeListener() {
       public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -697,7 +714,7 @@ public class StarTrader extends javax.swing.JFrame {
     );
     gameXtraPanel1Layout.setVerticalGroup(
       gameXtraPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGap(0, 0, Short.MAX_VALUE)
+      .addGap(0, 21, Short.MAX_VALUE)
     );
 
     gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1683,13 +1700,13 @@ public class StarTrader extends javax.swing.JFrame {
       .addGroup(gamePanelBottomPanelLayout.createSequentialGroup()
         .addGap(19, 19, 19)
         .addComponent(gameTextPane, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addContainerGap(868, Short.MAX_VALUE))
+        .addContainerGap(988, Short.MAX_VALUE))
     );
     gamePanelBottomPanelLayout.setVerticalGroup(
       gamePanelBottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(gamePanelBottomPanelLayout.createSequentialGroup()
         .addComponent(gameTextPane, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addGap(0, 320, Short.MAX_VALUE))
+        .addGap(0, 340, Short.MAX_VALUE))
     );
 
     gridBagConstraints = new java.awt.GridBagConstraints();
@@ -2425,637 +2442,6 @@ public class StarTrader extends javax.swing.JFrame {
 
     controlPanels.addTab("clan", clan);
 
-    stats.setMaximumSize(new java.awt.Dimension(1200, 1200));
-    stats.setMinimumSize(new java.awt.Dimension(800, 500));
-    stats.setPreferredSize(new java.awt.Dimension(1200, 1200));
-
-    statsButtonGroupReportNumber.add(statsButton0);
-    statsButton0.setText("0");
-    statsButton0.addItemListener(new java.awt.event.ItemListener() {
-      public void itemStateChanged(java.awt.event.ItemEvent evt) {
-        statsButton0ItemStateChanged(evt);
-      }
-    });
-    statsButton0.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseEntered(java.awt.event.MouseEvent evt) {
-        statsButton0MouseEntered(evt);
-      }
-    });
-
-    statsButtonGroupReportNumber.add(statsButton1);
-    statsButton1.setText("1");
-    statsButton1.addItemListener(new java.awt.event.ItemListener() {
-      public void itemStateChanged(java.awt.event.ItemEvent evt) {
-        statsButton1ItemStateChanged(evt);
-      }
-    });
-    statsButton1.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseEntered(java.awt.event.MouseEvent evt) {
-        statsButton1MouseEntered(evt);
-      }
-    });
-    statsButton1.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        statsButton1ActionPerformed(evt);
-      }
-    });
-
-    statsButtonGroupReportNumber.add(statsButton2);
-    statsButton2.setText("2");
-    statsButton2.addItemListener(new java.awt.event.ItemListener() {
-      public void itemStateChanged(java.awt.event.ItemEvent evt) {
-        statsButton2ItemStateChanged(evt);
-      }
-    });
-    statsButton2.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseEntered(java.awt.event.MouseEvent evt) {
-        statsButton2MouseEntered(evt);
-      }
-    });
-
-    statsButtonGroupReportNumber.add(statsButton3);
-    statsButton3.setText("3");
-    statsButton3.addItemListener(new java.awt.event.ItemListener() {
-      public void itemStateChanged(java.awt.event.ItemEvent evt) {
-        statsButton3ItemStateChanged(evt);
-      }
-    });
-    statsButton3.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseEntered(java.awt.event.MouseEvent evt) {
-        statsButton3MouseEntered(evt);
-      }
-    });
-    statsButton3.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        statsButton3ActionPerformed(evt);
-      }
-    });
-
-    statsButtonGroupReportNumber.add(statsButton4);
-    statsButton4.setText("4");
-    statsButton4.addItemListener(new java.awt.event.ItemListener() {
-      public void itemStateChanged(java.awt.event.ItemEvent evt) {
-        statsButton4ItemStateChanged(evt);
-      }
-    });
-    statsButton4.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseEntered(java.awt.event.MouseEvent evt) {
-        statsButton4MouseEntered(evt);
-      }
-    });
-
-    statsButtonGroupReportNumber.add(statsButton5);
-    statsButton5.setText("5");
-    statsButton5.setToolTipText("GameMaster");
-    statsButton5.addItemListener(new java.awt.event.ItemListener() {
-      public void itemStateChanged(java.awt.event.ItemEvent evt) {
-        statsButton5ItemStateChanged(evt);
-      }
-    });
-    statsButton5.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseEntered(java.awt.event.MouseEvent evt) {
-        statsButton5MouseEntered(evt);
-      }
-    });
-    statsButton5.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        statsButton5ActionPerformed(evt);
-      }
-    });
-
-    statsButtonGroupReportNumber.add(statsButton6);
-    statsButton6.setText(" 6");
-    statsButton6.addItemListener(new java.awt.event.ItemListener() {
-      public void itemStateChanged(java.awt.event.ItemEvent evt) {
-        statsButton6ItemStateChanged(evt);
-      }
-    });
-    statsButton6.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseEntered(java.awt.event.MouseEvent evt) {
-        statsButton6MouseEntered(evt);
-      }
-    });
-
-    statsButtonGroupReportNumber.add(statsButton7);
-    statsButton7.setText("7");
-    statsButton7.addItemListener(new java.awt.event.ItemListener() {
-      public void itemStateChanged(java.awt.event.ItemEvent evt) {
-        statsButton7ItemStateChanged(evt);
-      }
-    });
-    statsButton7.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseEntered(java.awt.event.MouseEvent evt) {
-        statsButton7MouseEntered(evt);
-      }
-    });
-
-    statsButtonGroupReportNumber.add(statsButton8);
-    statsButton8.setText("8");
-    statsButton8.addItemListener(new java.awt.event.ItemListener() {
-      public void itemStateChanged(java.awt.event.ItemEvent evt) {
-        statsButton8ItemStateChanged(evt);
-      }
-    });
-    statsButton8.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseEntered(java.awt.event.MouseEvent evt) {
-        statsButton8MouseEntered(evt);
-      }
-    });
-
-    statsButtonGroupReportNumber.add(statsButton9);
-    statsButton9.setText("9");
-    statsButton9.addItemListener(new java.awt.event.ItemListener() {
-      public void itemStateChanged(java.awt.event.ItemEvent evt) {
-        statsButton9ItemStateChanged(evt);
-      }
-    });
-    statsButton9.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseEntered(java.awt.event.MouseEvent evt) {
-        statsButton9MouseEntered(evt);
-      }
-    });
-
-    statsButtonGroupReportNumber.add(statsButton10);
-    statsButton10.setText("10");
-    statsButton10.addItemListener(new java.awt.event.ItemListener() {
-      public void itemStateChanged(java.awt.event.ItemEvent evt) {
-        statsButton10ItemStateChanged(evt);
-      }
-    });
-    statsButton10.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseEntered(java.awt.event.MouseEvent evt) {
-        statsButton10MouseEntered(evt);
-      }
-    });
-    statsButton10.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        statsButton10ActionPerformed(evt);
-      }
-    });
-
-    statsCtlButtonRun1Yr.setText("1 yr");
-    statsCtlButtonRun1Yr.setMargin(new java.awt.Insets(2, 0, 2, 0));
-    statsCtlButtonRun1Yr.setMaximumSize(new java.awt.Dimension(20, 20));
-    statsCtlButtonRun1Yr.setMinimumSize(new java.awt.Dimension(20, 20));
-    statsCtlButtonRun1Yr.setName("5yr"); // NOI18N
-    statsCtlButtonRun1Yr.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseClicked(java.awt.event.MouseEvent evt) {
-        statsCtlButtonRun1YrMouseClicked(evt);
-      }
-    });
-    statsCtlButtonRun1Yr.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        statsCtlButtonRun1YrActionPerformed(evt);
-      }
-    });
-
-    statsField.setText("jTextField");
-
-    statsButtonGroupReportNumber.add(statsButton11);
-    statsButton11.setText("11");
-    statsButton11.addItemListener(new java.awt.event.ItemListener() {
-      public void itemStateChanged(java.awt.event.ItemEvent evt) {
-        statsButton11ItemStateChanged(evt);
-      }
-    });
-    statsButton11.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseEntered(java.awt.event.MouseEvent evt) {
-        statsButton11MouseEntered(evt);
-      }
-    });
-
-    statsCtlButtonRun5Yr.setText("5 yr");
-    statsCtlButtonRun5Yr.setMargin(new java.awt.Insets(2, 0, 2, 0));
-    statsCtlButtonRun5Yr.setMaximumSize(new java.awt.Dimension(25, 40));
-    statsCtlButtonRun5Yr.setMinimumSize(new java.awt.Dimension(20, 20));
-    statsCtlButtonRun5Yr.setName("1 yr"); // NOI18N
-    statsCtlButtonRun5Yr.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseClicked(java.awt.event.MouseEvent evt) {
-        statsCtlButtonRun5YrMouseClicked(evt);
-      }
-    });
-
-    statsButtonGroupReportNumber.add(statsButton12);
-    statsButton12.setText("12");
-    statsButton12.addItemListener(new java.awt.event.ItemListener() {
-      public void itemStateChanged(java.awt.event.ItemEvent evt) {
-        statsButton12ItemStateChanged(evt);
-      }
-    });
-    statsButton12.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseEntered(java.awt.event.MouseEvent evt) {
-        statsButton12MouseEntered(evt);
-      }
-    });
-
-    statsButtonGroupReportNumber.add(statsButton13);
-    statsButton13.setText("13");
-    statsButton13.addItemListener(new java.awt.event.ItemListener() {
-      public void itemStateChanged(java.awt.event.ItemEvent evt) {
-        statsButton13ItemStateChanged(evt);
-      }
-    });
-    statsButton13.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseEntered(java.awt.event.MouseEvent evt) {
-        statsButton13MouseEntered(evt);
-      }
-    });
-
-    statsButtonGroupReportNumber.add(statsButton14);
-    statsButton14.setText("14");
-    statsButton14.addItemListener(new java.awt.event.ItemListener() {
-      public void itemStateChanged(java.awt.event.ItemEvent evt) {
-        statsButton14ItemStateChanged(evt);
-      }
-    });
-    statsButton14.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseEntered(java.awt.event.MouseEvent evt) {
-        statsButton14MouseEntered(evt);
-      }
-    });
-
-    statsButtonGroupReportNumber.add(statsButton15);
-    statsButton15.setText("15");
-    statsButton15.addItemListener(new java.awt.event.ItemListener() {
-      public void itemStateChanged(java.awt.event.ItemEvent evt) {
-        statsButton15ItemStateChanged(evt);
-      }
-    });
-    statsButton15.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseEntered(java.awt.event.MouseEvent evt) {
-        statsButton15MouseEntered(evt);
-      }
-    });
-
-    statsButtonGroupReportNumber.add(statsButton16);
-    statsButton16.setText("16");
-    statsButton16.addItemListener(new java.awt.event.ItemListener() {
-      public void itemStateChanged(java.awt.event.ItemEvent evt) {
-        statsButton16ItemStateChanged(evt);
-      }
-    });
-    statsButton16.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseEntered(java.awt.event.MouseEvent evt) {
-        statsButton16MouseEntered(evt);
-      }
-    });
-
-    statsButtonGroupReportNumber.add(statsButton17);
-    statsButton17.setText("17");
-    statsButton17.addItemListener(new java.awt.event.ItemListener() {
-      public void itemStateChanged(java.awt.event.ItemEvent evt) {
-        statsButton17ItemStateChanged(evt);
-      }
-    });
-    statsButton17.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseEntered(java.awt.event.MouseEvent evt) {
-        statsButton17MouseEntered(evt);
-      }
-    });
-
-    statsButtonGroupReportNumber.add(statsButton18);
-    statsButton18.setText("18");
-    statsButton18.addItemListener(new java.awt.event.ItemListener() {
-      public void itemStateChanged(java.awt.event.ItemEvent evt) {
-        statsButton18ItemStateChanged(evt);
-      }
-    });
-    statsButton18.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseEntered(java.awt.event.MouseEvent evt) {
-        statsButton18MouseEntered(evt);
-      }
-    });
-
-    statsButtonGroupReportNumber.add(statsButton19);
-    statsButton19.setText("19");
-    statsButton19.addItemListener(new java.awt.event.ItemListener() {
-      public void itemStateChanged(java.awt.event.ItemEvent evt) {
-        statsButton19ItemStateChanged(evt);
-      }
-    });
-    statsButton19.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseEntered(java.awt.event.MouseEvent evt) {
-        statsButton19MouseEntered(evt);
-      }
-    });
-
-    statsButtonGroupReportNumber.add(statsButton20);
-    statsButton20.setText("20");
-    statsButton20.addItemListener(new java.awt.event.ItemListener() {
-      public void itemStateChanged(java.awt.event.ItemEvent evt) {
-        statsButton20ItemStateChanged(evt);
-      }
-    });
-    statsButton20.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseEntered(java.awt.event.MouseEvent evt) {
-        statsButton20MouseEntered(evt);
-      }
-    });
-
-    statsField2.setText("jTextField1");
-    statsField2.setToolTipText("");
-    statsField2.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        statsField2ActionPerformed(evt);
-      }
-    });
-
-    statsCtlButtonRun10Yr.setText("10 yr");
-    statsCtlButtonRun10Yr.setMargin(new java.awt.Insets(2, 0, 2, 0));
-    statsCtlButtonRun10Yr.setMaximumSize(new java.awt.Dimension(25, 40));
-    statsCtlButtonRun10Yr.setMinimumSize(new java.awt.Dimension(20, 20));
-    statsCtlButtonRun10Yr.setName("10 yr"); // NOI18N
-    statsCtlButtonRun10Yr.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseClicked(java.awt.event.MouseEvent evt) {
-        statsCtlButtonRun10YrMouseClicked(evt);
-      }
-    });
-
-    statsCtlButtonRun20Yr.setText("20 yr");
-    statsCtlButtonRun20Yr.setMargin(new java.awt.Insets(2, 0, 2, 0));
-    statsCtlButtonRun20Yr.setMaximumSize(new java.awt.Dimension(25, 40));
-    statsCtlButtonRun20Yr.setMinimumSize(new java.awt.Dimension(20, 20));
-    statsCtlButtonRun20Yr.setName("20 yr"); // NOI18N
-    statsCtlButtonRun20Yr.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseClicked(java.awt.event.MouseEvent evt) {
-        statsCtlButtonRun20YrMouseClicked(evt);
-      }
-    });
-
-    jScrollPane2.setMinimumSize(new java.awt.Dimension(700, 700));
-    jScrollPane2.setPreferredSize(new java.awt.Dimension(1200, 1100));
-
-    statsTable1.setModel(new javax.swing.table.DefaultTableModel(
-      new Object [][] {
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null}
-      },
-      new String [] {
-        "title", "P-red", "P-orange", "P-yellow", "P-green", "P-blue", "S-red", "S-orange", "S-yellow", "S-green", "S-blue"
-      }
-    ) {
-      Class[] types = new Class [] {
-        java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-      };
-      boolean[] canEdit = new boolean [] {
-        false, false, false, false, false, false, false, false, false, false, false
-      };
-
-      public Class getColumnClass(int columnIndex) {
-        return types [columnIndex];
-      }
-
-      public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return canEdit [columnIndex];
-      }
-    });
-    statsTable1.setColumnSelectionAllowed(true);
-    statsTable1.setMaximumSize(new java.awt.Dimension(1200, 1200));
-    statsTable1.setMinimumSize(new java.awt.Dimension(600, 400));
-    statsTable1.setPreferredSize(new java.awt.Dimension(1200, 1100));
-    statsTable1.getTableHeader().setReorderingAllowed(false);
-    jScrollPane2.setViewportView(statsTable1);
-    statsTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-    if (statsTable1.getColumnModel().getColumnCount() > 0) {
-      statsTable1.getColumnModel().getColumn(0).setResizable(false);
-      statsTable1.getColumnModel().getColumn(0).setPreferredWidth(250);
-      statsTable1.getColumnModel().getColumn(1).setResizable(false);
-      statsTable1.getColumnModel().getColumn(2).setResizable(false);
-      statsTable1.getColumnModel().getColumn(3).setResizable(false);
-      statsTable1.getColumnModel().getColumn(4).setResizable(false);
-      statsTable1.getColumnModel().getColumn(5).setResizable(false);
-      statsTable1.getColumnModel().getColumn(6).setResizable(false);
-      statsTable1.getColumnModel().getColumn(7).setResizable(false);
-      statsTable1.getColumnModel().getColumn(8).setResizable(false);
-      statsTable1.getColumnModel().getColumn(10).setResizable(false);
-    }
-
-    javax.swing.GroupLayout statsLayout = new javax.swing.GroupLayout(stats);
-    stats.setLayout(statsLayout);
-    statsLayout.setHorizontalGroup(
-      statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(statsLayout.createSequentialGroup()
-        .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addGroup(statsLayout.createSequentialGroup()
-            .addGap(10, 10, 10)
-            .addComponent(statsButton0)
-            .addGap(9, 9, 9)
-            .addComponent(statsButton11)
-            .addGap(3, 3, 3)
-            .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-              .addComponent(statsButton2)
-              .addComponent(statsButton12))
-            .addGap(3, 3, 3)
-            .addComponent(statsButton13)
-            .addGap(3, 3, 3)
-            .addComponent(statsButton14)
-            .addGap(123, 123, 123)
-            .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-              .addComponent(statsButton18)
-              .addComponent(statsButton8))
-            .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-              .addGroup(statsLayout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addComponent(statsButton10))
-              .addGroup(statsLayout.createSequentialGroup()
-                .addGap(3, 3, 3)
-                .addComponent(statsButton9))
-              .addGroup(statsLayout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addComponent(statsButton20))
-              .addGroup(statsLayout.createSequentialGroup()
-                .addGap(3, 3, 3)
-                .addComponent(statsButton19)))
-            .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-              .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, statsLayout.createSequentialGroup()
-                .addGap(2, 2, 2)
-                .addComponent(statsCtlButtonRun1Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-              .addGroup(statsLayout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(statsCtlButtonRun5Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
-          .addGroup(statsLayout.createSequentialGroup()
-            .addGap(50, 50, 50)
-            .addComponent(statsButton1))
-          .addGroup(statsLayout.createSequentialGroup()
-            .addGap(290, 290, 290)
-            .addComponent(statsButton7))
-          .addGroup(statsLayout.createSequentialGroup()
-            .addGap(170, 170, 170)
-            .addComponent(statsButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-          .addGroup(statsLayout.createSequentialGroup()
-            .addGap(210, 210, 210)
-            .addComponent(statsButton15))
-          .addGroup(statsLayout.createSequentialGroup()
-            .addGap(250, 250, 250)
-            .addComponent(statsButton6))
-          .addGroup(statsLayout.createSequentialGroup()
-            .addGap(130, 130, 130)
-            .addComponent(statsButton3))
-          .addGroup(statsLayout.createSequentialGroup()
-            .addGap(250, 250, 250)
-            .addComponent(statsButton16))
-          .addGroup(statsLayout.createSequentialGroup()
-            .addGap(290, 290, 290)
-            .addComponent(statsButton17))
-          .addGroup(statsLayout.createSequentialGroup()
-            .addGap(210, 210, 210)
-            .addComponent(statsButton5)))
-        .addGap(2, 2, 2)
-        .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-          .addComponent(statsCtlButtonRun10Yr, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
-          .addComponent(statsCtlButtonRun20Yr, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        .addComponent(statsField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addComponent(statsField, javax.swing.GroupLayout.PREFERRED_SIZE, 649, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addContainerGap())
-      .addGroup(statsLayout.createSequentialGroup()
-        .addContainerGap()
-        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1178, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-    );
-    statsLayout.setVerticalGroup(
-      statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(statsLayout.createSequentialGroup()
-        .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addComponent(statsButton0)
-          .addComponent(statsButton2)
-          .addComponent(statsButton8)
-          .addComponent(statsButton10)
-          .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-            .addComponent(statsCtlButtonRun10Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(statsCtlButtonRun1Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-          .addComponent(statsButton1)
-          .addComponent(statsButton7)
-          .addComponent(statsButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-          .addComponent(statsButton6)
-          .addComponent(statsButton3)
-          .addComponent(statsButton5)
-          .addComponent(statsButton9)
-          .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-            .addComponent(statsField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(statsField2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-          .addGroup(statsLayout.createSequentialGroup()
-            .addGap(20, 20, 20)
-            .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-              .addComponent(statsButton11)
-              .addComponent(statsButton12)
-              .addComponent(statsButton13)
-              .addComponent(statsButton14)
-              .addComponent(statsButton18)
-              .addComponent(statsButton15)
-              .addComponent(statsButton16)
-              .addComponent(statsButton17)
-              .addComponent(statsButton19)
-              .addGroup(statsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(statsButton20)
-                .addComponent(statsCtlButtonRun20Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(statsCtlButtonRun5Yr, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1132, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addContainerGap(43, Short.MAX_VALUE))
-    );
-
-    controlPanels.addTab("stats", stats);
-
     display.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
     display.setAlignmentY(300.0F);
     display.setMaximumSize(new java.awt.Dimension(900, 700));
@@ -3194,7 +2580,634 @@ public class StarTrader extends javax.swing.JFrame {
 
     controlPanels.addTab("display", display);
 
-    getContentPane().add(controlPanels, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 5, -1, -1));
+    stats.setAutoscrolls(true);
+    stats.setMaximumSize(new java.awt.Dimension(1500, 1500));
+    stats.setMinimumSize(new java.awt.Dimension(800, 500));
+    stats.setPreferredSize(new java.awt.Dimension(1250, 1250));
+    stats.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEADING, 1, 1));
+
+    topPane.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 255, 153), 2));
+    topPane.setAlignmentX(0.0F);
+    topPane.setAlignmentY(0.0F);
+    topPane.setPreferredSize(new java.awt.Dimension(1010, 110));
+    topPane.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
+
+    rbuttons12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 51), 2));
+    rbuttons12.setAlignmentX(0.0F);
+    rbuttons12.setAlignmentY(0.0F);
+    rbuttons12.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+    rbuttons12.setMinimumSize(new java.awt.Dimension(375, 27));
+    rbuttons12.setName(""); // NOI18N
+    rbuttons12.setPreferredSize(new java.awt.Dimension(401, 60));
+    rbuttons12.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
+
+    rbuttons1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 255, 255), 2));
+    rbuttons1.setAlignmentX(0.0F);
+    rbuttons1.setAlignmentY(0.0F);
+    rbuttons1.setMinimumSize(new java.awt.Dimension(415, 23));
+    rbuttons1.setPreferredSize(new java.awt.Dimension(405, 23));
+    rbuttons1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+    statsButtonGroupReportNumber.add(statsButton0);
+    statsButton0.setText("0");
+    statsButton0.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton0ItemStateChanged(evt);
+      }
+    });
+    statsButton0.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton0MouseEntered(evt);
+      }
+    });
+    statsButton0.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        statsButton0ActionPerformed(evt);
+      }
+    });
+    rbuttons1.add(statsButton0);
+
+    statsButtonGroupReportNumber.add(statsButton1);
+    statsButton1.setText("1");
+    statsButton1.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton1ItemStateChanged(evt);
+      }
+    });
+    statsButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton1MouseEntered(evt);
+      }
+    });
+    statsButton1.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        statsButton1ActionPerformed(evt);
+      }
+    });
+    rbuttons1.add(statsButton1);
+
+    statsButtonGroupReportNumber.add(statsButton2);
+    statsButton2.setText("2");
+    statsButton2.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton2ItemStateChanged(evt);
+      }
+    });
+    statsButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton2MouseEntered(evt);
+      }
+    });
+    rbuttons1.add(statsButton2);
+
+    statsButtonGroupReportNumber.add(statsButton3);
+    statsButton3.setText("3");
+    statsButton3.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton3ItemStateChanged(evt);
+      }
+    });
+    statsButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton3MouseEntered(evt);
+      }
+    });
+    statsButton3.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        statsButton3ActionPerformed(evt);
+      }
+    });
+    rbuttons1.add(statsButton3);
+
+    statsButtonGroupReportNumber.add(statsButton4);
+    statsButton4.setText("4");
+    statsButton4.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton4ItemStateChanged(evt);
+      }
+    });
+    statsButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton4MouseEntered(evt);
+      }
+    });
+    rbuttons1.add(statsButton4);
+
+    statsButtonGroupReportNumber.add(statsButton5);
+    statsButton5.setText("5");
+    statsButton5.setToolTipText("GameMaster");
+    statsButton5.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton5ItemStateChanged(evt);
+      }
+    });
+    statsButton5.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton5MouseEntered(evt);
+      }
+    });
+    statsButton5.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        statsButton5ActionPerformed(evt);
+      }
+    });
+    rbuttons1.add(statsButton5);
+
+    statsButtonGroupReportNumber.add(statsButton6);
+    statsButton6.setText(" 6");
+    statsButton6.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton6ItemStateChanged(evt);
+      }
+    });
+    statsButton6.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton6MouseEntered(evt);
+      }
+    });
+    rbuttons1.add(statsButton6);
+
+    statsButtonGroupReportNumber.add(statsButton7);
+    statsButton7.setText("7");
+    statsButton7.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton7ItemStateChanged(evt);
+      }
+    });
+    statsButton7.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton7MouseEntered(evt);
+      }
+    });
+    rbuttons1.add(statsButton7);
+
+    statsButtonGroupReportNumber.add(statsButton8);
+    statsButton8.setText("8");
+    statsButton8.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton8ItemStateChanged(evt);
+      }
+    });
+    statsButton8.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton8MouseEntered(evt);
+      }
+    });
+    rbuttons1.add(statsButton8);
+
+    statsButtonGroupReportNumber.add(statsButton9);
+    statsButton9.setText("9");
+    statsButton9.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton9ItemStateChanged(evt);
+      }
+    });
+    statsButton9.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton9MouseEntered(evt);
+      }
+    });
+    rbuttons1.add(statsButton9);
+
+    statsButtonGroupReportNumber.add(statsButton10);
+    statsButton10.setText("10");
+    statsButton10.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton10ItemStateChanged(evt);
+      }
+    });
+    statsButton10.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton10MouseEntered(evt);
+      }
+    });
+    statsButton10.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        statsButton10ActionPerformed(evt);
+      }
+    });
+    rbuttons1.add(statsButton10);
+
+    rbuttons12.add(rbuttons1);
+
+    rbuttons2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 153), 2));
+    rbuttons2.setAlignmentX(0.0F);
+    rbuttons2.setAlignmentY(0.0F);
+    rbuttons2.setMinimumSize(new java.awt.Dimension(429, 23));
+    rbuttons2.setPreferredSize(new java.awt.Dimension(401, 24));
+    rbuttons2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+    statsButtonGroupReportNumber.add(statsButton11);
+    statsButton11.setText("11");
+    statsButton11.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton11ItemStateChanged(evt);
+      }
+    });
+    statsButton11.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton11MouseEntered(evt);
+      }
+    });
+    rbuttons2.add(statsButton11);
+
+    statsButtonGroupReportNumber.add(statsButton12);
+    statsButton12.setText("12");
+    statsButton12.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton12ItemStateChanged(evt);
+      }
+    });
+    statsButton12.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton12MouseEntered(evt);
+      }
+    });
+    rbuttons2.add(statsButton12);
+
+    statsButtonGroupReportNumber.add(statsButton13);
+    statsButton13.setText("13");
+    statsButton13.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton13ItemStateChanged(evt);
+      }
+    });
+    statsButton13.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton13MouseEntered(evt);
+      }
+    });
+    rbuttons2.add(statsButton13);
+
+    statsButtonGroupReportNumber.add(statsButton14);
+    statsButton14.setText("14");
+    statsButton14.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton14ItemStateChanged(evt);
+      }
+    });
+    statsButton14.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton14MouseEntered(evt);
+      }
+    });
+    rbuttons2.add(statsButton14);
+
+    statsButtonGroupReportNumber.add(statsButton15);
+    statsButton15.setText("15");
+    statsButton15.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton15ItemStateChanged(evt);
+      }
+    });
+    statsButton15.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton15MouseEntered(evt);
+      }
+    });
+    rbuttons2.add(statsButton15);
+
+    statsButtonGroupReportNumber.add(statsButton16);
+    statsButton16.setText("16");
+    statsButton16.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton16ItemStateChanged(evt);
+      }
+    });
+    statsButton16.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton16MouseEntered(evt);
+      }
+    });
+    rbuttons2.add(statsButton16);
+
+    statsButtonGroupReportNumber.add(statsButton17);
+    statsButton17.setText("17");
+    statsButton17.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton17ItemStateChanged(evt);
+      }
+    });
+    statsButton17.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton17MouseEntered(evt);
+      }
+    });
+    rbuttons2.add(statsButton17);
+
+    statsButtonGroupReportNumber.add(statsButton18);
+    statsButton18.setText("18");
+    statsButton18.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton18ItemStateChanged(evt);
+      }
+    });
+    statsButton18.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton18MouseEntered(evt);
+      }
+    });
+    rbuttons2.add(statsButton18);
+
+    statsButtonGroupReportNumber.add(statsButton19);
+    statsButton19.setText("19");
+    statsButton19.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton19ItemStateChanged(evt);
+      }
+    });
+    statsButton19.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton19MouseEntered(evt);
+      }
+    });
+    rbuttons2.add(statsButton19);
+
+    statsButtonGroupReportNumber.add(statsButton20);
+    statsButton20.setText("20");
+    statsButton20.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        statsButton20ItemStateChanged(evt);
+      }
+    });
+    statsButton20.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseEntered(java.awt.event.MouseEvent evt) {
+        statsButton20MouseEntered(evt);
+      }
+    });
+    rbuttons2.add(statsButton20);
+
+    rbuttons12.add(rbuttons2);
+
+    topPane.add(rbuttons12);
+
+    ybuttons.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 204, 204), 2));
+    ybuttons.setAlignmentX(450.0F);
+    ybuttons.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+    ybuttons.setMinimumSize(new java.awt.Dimension(80, 26));
+    ybuttons.setPreferredSize(new java.awt.Dimension(120, 70));
+    java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 1, 1);
+    flowLayout1.setAlignOnBaseline(true);
+    ybuttons.setLayout(flowLayout1);
+
+    statsCtlButtonRun1Yr.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+    statsCtlButtonRun1Yr.setText("1 yr");
+    statsCtlButtonRun1Yr.setActionCommand("1");
+    statsCtlButtonRun1Yr.setAlignmentY(0.0F);
+    statsCtlButtonRun1Yr.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 255, 0), 2));
+    statsCtlButtonRun1Yr.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+    statsCtlButtonRun1Yr.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+    statsCtlButtonRun1Yr.setMargin(new java.awt.Insets(2, 0, 2, 0));
+    statsCtlButtonRun1Yr.setMaximumSize(new java.awt.Dimension(40, 40));
+    statsCtlButtonRun1Yr.setMinimumSize(new java.awt.Dimension(20, 20));
+    statsCtlButtonRun1Yr.setName("1yr"); // NOI18N
+    statsCtlButtonRun1Yr.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        statsCtlButtonRun1YrMouseClicked(evt);
+      }
+    });
+    statsCtlButtonRun1Yr.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        statsCtlButtonRun1YrActionPerformed(evt);
+      }
+    });
+    ybuttons.add(statsCtlButtonRun1Yr);
+
+    statsCtlButtonRun10Yr.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+    statsCtlButtonRun10Yr.setText("10 yr");
+    statsCtlButtonRun10Yr.setActionCommand("10 ");
+    statsCtlButtonRun10Yr.setAlignmentX(5.0F);
+    statsCtlButtonRun10Yr.setAlignmentY(0.0F);
+    statsCtlButtonRun10Yr.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 255), 2));
+    statsCtlButtonRun10Yr.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+    statsCtlButtonRun10Yr.setMargin(new java.awt.Insets(0, 0, 0, 0));
+    statsCtlButtonRun10Yr.setMaximumSize(new java.awt.Dimension(50, 40));
+    statsCtlButtonRun10Yr.setMinimumSize(new java.awt.Dimension(20, 20));
+    statsCtlButtonRun10Yr.setName("10 yr"); // NOI18N
+    statsCtlButtonRun10Yr.setPreferredSize(new java.awt.Dimension(45, 23));
+    statsCtlButtonRun10Yr.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+    statsCtlButtonRun10Yr.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        statsCtlButtonRun10YrMouseClicked(evt);
+      }
+    });
+    ybuttons.add(statsCtlButtonRun10Yr);
+
+    statsCtlButtonRun5Yr.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+    statsCtlButtonRun5Yr.setText("5 yr");
+    statsCtlButtonRun5Yr.setActionCommand("5");
+    statsCtlButtonRun5Yr.setMargin(new java.awt.Insets(2, 0, 2, 0));
+    statsCtlButtonRun5Yr.setMaximumSize(new java.awt.Dimension(25, 40));
+    statsCtlButtonRun5Yr.setMinimumSize(new java.awt.Dimension(20, 20));
+    statsCtlButtonRun5Yr.setName("5 yr"); // NOI18N
+    statsCtlButtonRun5Yr.setPreferredSize(new java.awt.Dimension(41, 23));
+    statsCtlButtonRun5Yr.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        statsCtlButtonRun5YrMouseClicked(evt);
+      }
+    });
+    ybuttons.add(statsCtlButtonRun5Yr);
+
+    statsCtlButtonRun20Yr.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+    statsCtlButtonRun20Yr.setText("20 yr");
+    statsCtlButtonRun20Yr.setActionCommand("20");
+    statsCtlButtonRun20Yr.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 255), 2));
+    statsCtlButtonRun20Yr.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+    statsCtlButtonRun20Yr.setMargin(new java.awt.Insets(2, 0, 2, 0));
+    statsCtlButtonRun20Yr.setMaximumSize(new java.awt.Dimension(25, 40));
+    statsCtlButtonRun20Yr.setMinimumSize(new java.awt.Dimension(20, 20));
+    statsCtlButtonRun20Yr.setName("20 yr"); // NOI18N
+    statsCtlButtonRun20Yr.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        statsCtlButtonRun20YrMouseClicked(evt);
+      }
+    });
+    ybuttons.add(statsCtlButtonRun20Yr);
+
+    topPane.add(ybuttons);
+
+    statsField.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+    statsField.setText("description");
+    statsField.setToolTipText("");
+    statsField.setAlignmentX(0.0F);
+    statsField.setAlignmentY(0.0F);
+    statsField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 51, 102), 2));
+    statsField.setMargin(new java.awt.Insets(0, 0, 0, 0));
+    statsField.setMaximumSize(new java.awt.Dimension(600, 50));
+    statsField.setMinimumSize(new java.awt.Dimension(200, 30));
+    statsField.setPreferredSize(new java.awt.Dimension(500, 30));
+    statsField.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        statsFieldActionPerformed(evt);
+      }
+    });
+    topPane.add(statsField);
+
+    stats.add(topPane);
+
+    jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+    jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+    jScrollPane2.setAlignmentX(0.0F);
+    jScrollPane2.setAlignmentY(5.0F);
+    jScrollPane2.setAutoscrolls(true);
+    jScrollPane2.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+    jScrollPane2.setMinimumSize(new java.awt.Dimension(700, 700));
+    jScrollPane2.setName("StatsScroll"); // NOI18N
+    jScrollPane2.setPreferredSize(new java.awt.Dimension(1100, 1000));
+    jScrollPane2.setVerifyInputWhenFocusTarget(false);
+
+    statsTable1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+    statsTable1.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+    statsTable1.setModel(new javax.swing.table.DefaultTableModel(
+      new Object [][] {
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null}
+      },
+      new String [] {
+        "title", "P-red", "P-orange", "P-yellow", "P-green", "P-blue", "S-red", "S-orange", "S-yellow", "S-green", "S-blue"
+      }
+    ) {
+      Class[] types = new Class [] {
+        java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+      };
+      boolean[] canEdit = new boolean [] {
+        false, false, false, false, false, false, false, false, false, false, false
+      };
+
+      public Class getColumnClass(int columnIndex) {
+        return types [columnIndex];
+      }
+
+      public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return canEdit [columnIndex];
+      }
+    });
+    statsTable1.setAlignmentY(20.0F);
+    statsTable1.setColumnSelectionAllowed(true);
+    statsTable1.setMaximumSize(new java.awt.Dimension(1400, 1400));
+    statsTable1.setMinimumSize(new java.awt.Dimension(600, 400));
+    statsTable1.setPreferredSize(new java.awt.Dimension(1200, 1000));
+    statsTable1.getTableHeader().setReorderingAllowed(false);
+    jScrollPane2.setViewportView(statsTable1);
+    statsTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+    if (statsTable1.getColumnModel().getColumnCount() > 0) {
+      statsTable1.getColumnModel().getColumn(0).setResizable(false);
+      statsTable1.getColumnModel().getColumn(0).setPreferredWidth(250);
+      statsTable1.getColumnModel().getColumn(1).setResizable(false);
+      statsTable1.getColumnModel().getColumn(2).setResizable(false);
+      statsTable1.getColumnModel().getColumn(3).setResizable(false);
+      statsTable1.getColumnModel().getColumn(4).setResizable(false);
+      statsTable1.getColumnModel().getColumn(5).setResizable(false);
+      statsTable1.getColumnModel().getColumn(6).setResizable(false);
+      statsTable1.getColumnModel().getColumn(7).setResizable(false);
+      statsTable1.getColumnModel().getColumn(8).setResizable(false);
+      statsTable1.getColumnModel().getColumn(10).setResizable(false);
+    }
+    statsTable1.getAccessibleContext().setAccessibleName("stats table");
+
+    stats.add(jScrollPane2);
+
+    controlPanels.addTab("stats", stats);
+
+    getContentPane().add(controlPanels);
     controlPanels.getAccessibleContext().setAccessibleName("traderPanel");
   }// </editor-fold>//GEN-END:initComponents
 
@@ -4573,6 +4586,14 @@ public class StarTrader extends javax.swing.JFrame {
       runYears(20);
     }
   }//GEN-LAST:event_statsCtlButtonRun20YrMouseClicked
+
+  private void statsFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statsFieldActionPerformed
+    // TODO add your handling code here:
+  }//GEN-LAST:event_statsFieldActionPerformed
+
+  private void statsButton0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statsButton0ActionPerformed
+    // TODO add your handling code here:
+  }//GEN-LAST:event_statsButton0ActionPerformed
   static Boolean resetOut = false;
 
   /**
@@ -4587,16 +4608,25 @@ public class StarTrader extends javax.swing.JFrame {
      */
     try {
 
-      PrintStream o, er, console, errNew;
+      PrintStream jout, jerr, jout1, jerr1;
       if(E.debugOutput){    
-          o = new PrintStream(new File("StarTraderOutput.txt"));
-          console = System.out;
-          er = new PrintStream(new File("StarTraderErrors.txt"));
-          errNew = System.err;
+          jout = new PrintStream(new File("StarTraderOutput.txt"));
+          jout1 = new PrintStream(new File("StarTraderOut1.txt"));
+          jout1.println("jout1 line");
+          jout.println("jout line0");
+          System.out.println("System.out line 0");
+          jerr = new PrintStream(new File("StarTraderErrors.txt"));
+          jerr1 = new PrintStream(new File("StarTraderErr1.txt"));
           if (E.resetOut) {
-            System.setOut(o);
-            System.setErr(er);
-      }}
+            System.setOut(jout);
+            System.out.println("output to System.out after setOut");
+            System.setErr(jerr);
+            System.out.println("output to System.err after setErr");
+            
+          }
+          System.out.println("output after if statment");
+          System.err.println("output to err after if statment");
+      }
 
       for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
 
@@ -4791,6 +4821,9 @@ public class StarTrader extends javax.swing.JFrame {
   protected javax.swing.JRadioButton logRadioButtonStart1;
   protected javax.swing.JRadioButton logRadioButtonStart2;
   protected javax.swing.JScrollPane logTableScrollPanel;
+  protected javax.swing.JPanel rbuttons1;
+  protected javax.swing.JPanel rbuttons12;
+  protected javax.swing.JPanel rbuttons2;
   protected javax.swing.JPanel stats;
   protected javax.swing.JRadioButton statsButton0;
   protected javax.swing.JRadioButton statsButton1;
@@ -4826,6 +4859,8 @@ public class StarTrader extends javax.swing.JFrame {
   protected javax.swing.JTextArea storyTextField1;
   protected javax.swing.JScrollPane storyTextPane;
   protected javax.swing.JTextField storyVersionField;
+  protected javax.swing.JPanel topPane;
+  protected javax.swing.JPanel ybuttons;
   // End of variables declaration//GEN-END:variables
 
   private void logM1SpinnerStateChanged(javax.swing.event.ChangeEvent evt) {
@@ -5207,12 +5242,13 @@ public class StarTrader extends javax.swing.JFrame {
               : // clan ship cnt/ clanCnt > clanShipFrac
               E.S;
     // find the smallest ship frac for this clan
-    double smallestShipFrac = eM.clanAllShipFrac[E.P][clan]  < eM.gameShipFrac[E.P]? 
-            eM.clanAllShipFrac[E.P][clan] < eM.clanShipFrac[E.P][clan] ? 
-            eM.clanAllShipFrac[E.P][clan] :  eM.clanShipFrac[E.P][clan] :
-            eM.gameShipFrac[E.P] < eM.clanShipFrac[E.P][clan] ?
-            eM.gameShipFrac[E.P] : eM.clanShipFrac[E.P][clan];
-    double shipsPerPlanet = smallestShipFrac/(1.  - smallestShipFrac);
+  //  double smallestShipFrac = eM.clanAllShipFrac[E.P][clan]  < eM.gameShipFrac[E.P]? 
+   //         eM.clanAllShipFrac[E.P][clan] < eM.clanShipFrac[E.P][clan] ? 
+   //         eM.clanAllShipFrac[E.P][clan] :  eM.clanShipFrac[E.P][clan] :
+   //         eM.gameShipFrac[E.P] < eM.clanShipFrac[E.P][clan] ?
+     //       eM.gameShipFrac[E.P] : eM.clanShipFrac[E.P][clan];
+    // double shipsPerPlanet = smallestShipFrac/(1.  - smallestShipFrac);
+    double shipsPerPlanet = eM.shipsPerPlanet(clan);
     // reduce the cash per ship by the number of ships, similar cash between ships and planets
     cash[E.S] = cash[E.S]/shipsPerPlanet;      
 
@@ -6514,7 +6550,9 @@ public class StarTrader extends javax.swing.JFrame {
     int rNCreated = rN = eM.getStatrN( "bothCreate"); 
     int rNFutCreated = eM.getStatrN("FutureCreate"); // "FutureCreate"
     int rNTraded = eM.getStatrN("WTRADEDINCR");
-    int rNDied = eM.getStatrN("died");
+    int rNDied = eM.DIED;
+    int rNCrisis = eM.getStatrN("sCatCosts");
+    int rNDiedCrisis = EM.DIEDCATASTROPHY;
     if (curEc != null) {
       econCnt = curEc.econCnt;
      // controlPanels.setSelectedIndex(5);
@@ -6524,13 +6562,15 @@ public class StarTrader extends javax.swing.JFrame {
      // line0 = stateStringNames[stateConst];
       displayPanel0Text.setBackground(E.clan.values()[curEc.clan].getColor(curEc.pors));
       String disp1 = "year" + eM.year +" " + sinceEcon() + " " +curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine + 
-       " Starting   " + eM.getCurCumPorsClanUnitSum(rNCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
+       " Started    " + eM.getCurCumPorsClanUnitSum(rNCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
                    "BothCreatd " + eM.getCurCumPorsClanUnitSum(rNCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
                   "Created    " + eM.getCurCumPorsClanUnitSum(rNyCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNyCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNyCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
          "FutCreated  " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNFutCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine + 
           "TradedYear " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUR0,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUR0,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNTraded,EM.ICUR0,E.S,E.S+1,0,5) + newLine +
            "TradedGame " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNTraded,EM.ICUM,E.S,E.S+1,0,5) + newLine +
            "DiedGame " + eM.getCurCumPorsClanUnitSum(rNDied,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNDied,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNDied,EM.ICUM,E.S,E.S+1,0,5) + newLine +
+              "GCatastrophies " + eM.getCurCumPorsClanUnitSum(rNCrisis,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNCrisis,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum(rNCrisis,EM.ICUM,E.S,E.S+1,0,5) + newLine +
+              "DiedCrisis " + eM.getCurCumPorsClanUnitSum(rNDiedCrisis,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNDiedCrisis,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum(rNDiedCrisis,EM.ICUM,E.S,E.S+1,0,5) + newLine +
   "year" + eM.year +" " +  since() + " " + sinceRunYear() + "  " + newLine + prGigMem + newLine + newLine ;
       switch (stateConst) {
         case WAITING:
