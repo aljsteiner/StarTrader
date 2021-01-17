@@ -189,30 +189,30 @@ public class StarTrader extends javax.swing.JFrame {
 
   static int iii = 0;
   static final int STARTING = 0; // start list of constants
-  static String sn0 = "Starting";
+  static final String sn0 = "Starting";
   static final int CREATING = 1;
-  static String sn1 = "Creating";
+  static final String sn1 = "Creating";
   static final int FUTUREFUNDCREATE = 2;
-  static String sn2 = "CreatingFutureF";
+  static final String sn2 = "CreatingFutureF";
   static final int STARTYR = 3;
-  static String sn3 = "StartYear";
+  static final String sn3 = "StartYear";
   static final int SEARCH = 4;
-  static String sn4 = "Search to Trade";
+  static final String sn4 = "Search to Trade";
   static final int TRADING = 5;
-  static String sn5 = "Trading";
+  static final String sn5 = "Trading";
   static final int ENDYR = 6;
-  static String sn6 = "EndYear";
+  static final String sn6 = "EndYear";
   static final int STATS = 7;
-  static String sn7 = "Stats";
+  static final String sn7 = "Stats";
   static final int SWAPS = 8;
-  static String sn8 = "Swaping";
+  static final String sn8 = "Swaping";
   static final int WAITING = 9;
-  static String sn9 = "Waiting for action";
+  static final String sn9 = "Waiting for action";
   static final int STOPPED = 10;
-  static String sn10 = "Stopped";
+  static final String sn10 = "Stopped";
   static final int FATALERR = 11;
-  static String sn11 = "Fatal Error";
-  static String[] stateStringNames = {sn0, sn1, sn2, sn3, sn4, sn5, sn6, sn7, sn8, sn9, sn10, sn11};
+  static final String sn11 = "Fatal Error";
+  static final String[] stateStringNames = {sn0, sn1, sn2, sn3, sn4, sn5, sn6, sn7, sn8, sn9, sn10, sn11};
   static int stateConst = WAITING;  // constant set to stated
   static int prevState = WAITING;
   static Econ curEc = EM.curEcon;
@@ -5643,6 +5643,8 @@ public class StarTrader extends javax.swing.JFrame {
     return bytes / MEGABYTE;
   }
 
+  Dimension screenSize;
+  int screenHeight=-2,screenWidth=-2;
 //  String[][] statsData;
   /**
    * Creates new Class/Form StarTrader
@@ -5663,6 +5665,9 @@ public class StarTrader extends javax.swing.JFrame {
      */
     initComponents();
     Object statsData[][];
+    screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    screenHeight = screenSize.height;
+    screenWidth = screenSize.width;
 
     //   statsTable = new javax.swing.JTable();
     JSlider[] gameSlidersP1 = {gameSliderP0, gameSliderP1, gameSliderP2, gameSliderP3, gameSliderP4, gameSliderP5, gameSliderP6, gameSliderP7, gameSliderP8, gameSliderP9};
