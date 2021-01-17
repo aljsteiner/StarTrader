@@ -2645,7 +2645,7 @@ class EM {
     doRes(RCfrac, "RC/yr Worth", "RC / yr Worth", 6, 1, 1, (LISTYRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
     doRes(SGfrac, "SG/yr Worth", "SG / yr Worth", 6, 1, 1, (LISTYRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
     //chgd KNOWLEDGEB MANUALSfrac NEWKNOWLEDGEfrac COMMONKNOWLEDGEfrac KNOWLEDGEINCR NEWKNOWLEDGEINCR MANUALSINCR COMMONKNOWLEDGEINCR
-    doRes(POORKNOWLEDGEEFFECT, "Ignorance costs", "Increase in costs due to limited knowledge(ignorance)",2, 1, 1, (LIST0YRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
+    doRes(POORKNOWLEDGEEFFECT, "Dumb csts", "Increase in costs due to limited knowledge(ignorance)",2, 1, 1, (LIST0YRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
     doRes(POORHEALTHEFFECT, "Poor Health Cost", "Increase in costs due to insufficient required resources and staff",2, 1, 1, (LIST0YRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
     doRes(NEWKNOWLEDGEFRAC, "New KnowledgeFrac", "New knowledge / Knowledge ",2, 3, 1, (LIST7 |LIST0YRS | curAve | both), 0, 0, 0);
     doRes(KNOWLEDGEFRAC, "Knowledge Frac", "Knowledge worth / year worth",2, 3, 1, (LIST0YRS | curAve | both), 0, 0, 0);
@@ -3669,7 +3669,7 @@ class EM {
             System.out.printf("EM.putrow6 rn=%d %s, %s,list%d, depth%d, valid%d, ageIx%d, cum%d, rende4=%d,%d putRowsPrint6Count= " + putRowsPrint6Count + " \n", rn, (unset ? "UNSET" : "ISSET"), resS[rn][0], ((aop & list0) > 0 ? 0 : (aop & list1) > 0 ? 1 : (aop & LIST8) > 10 ? 2 : (aop & LIST3) > 0 ? 17 : aop), depth, valid, ageIx, resI[rn][ICUM][0][0], rende4,rendae4);
           }
           if (unset) {
-            suffix = " cur yr:";
+            suffix = " curYr:";
 
           }
           if (false && (opr & CUM) > 0L) {
@@ -3681,14 +3681,14 @@ class EM {
             }
           }
           if ((opr & cur) > 0L) {
-            suffix = " cur yr:";
+            suffix = " cuYr:";
             if ((resS[rn][rDesc].contains("WORTH") || resS[rn][rDesc].contains("KNOWLEDGE") || resS[rn][rDesc].contains("Create") || true) && (putRowsPrint7Count < 12)) {
               System.out.flush();
               System.out.printf("EM.putrow7=%d %s,list%d, depth%d, valid%d, ageIx%d\n", rn, resS[rn][0], putRowsPrint7Count++, (aop & list0) > 0 ? 0 : (aop & list1) > 0 ? 1 : (aop & list2) > 0 ? 2 : -1, depth, valid, ageIx, putRowsPrint7Count++);
               //  System.out.println("rWORTH putrow =" + row + " aop=" + Integer.toOctalString(aop) + ((aop & list0) > 0 ? " list0" : "") + ((aop & list1) > 0 ? " list1" : "") + ((aop & list2) > 0 ? " list2" : ""));
             }
             for (int m = 0; m < valid; m++) {
-              suffix = " cur yr:" + wh(m + 1) + "/" + wh(valid);
+              suffix = " curYr:" + wh(m + 1) + "/" + wh(valid);
               lStart = m;
               lEnd = m + 1;
               row = getD(table, resExt, rn, cur, row, suffix, ageIx);
@@ -3702,7 +3702,7 @@ class EM {
 
           // do not process thisYear if cur was already processed
           if (((opr & cur) == 0) && ((opr & thisYr) > 0)) {
-            suffix = " this yr";
+            suffix = " thisYr";
             lStart = 0;
             lEnd = 1;
             row = getD(table, resExt, rn, thisYr, row, suffix, ageIx);
@@ -3710,7 +3710,7 @@ class EM {
 
           if ((opr & curUnitAve) > 0 && !unset) {
             for (int m = 0; m < valid; m++) {
-              suffix = " cur unit ave yr:" + wh(m + 1) + "/" + wh(valid);
+              suffix = " curAve yr:" + wh(m + 1) + "/" + wh(valid);
               lStart = m;
               lEnd = m + 1;
               row = getD(table, resExt, rn, curUnitAve, row, suffix, ageIx);
@@ -3720,7 +3720,7 @@ class EM {
 
           // do not process thisYear if cur was already processed
           if (((opr & curUnitAve) == 0) && ((opr & thisYearUnitAve) > 0)) {
-            suffix = " This yr ave val/units";
+            suffix = " ThisYrAve";
             lStart = 0;
             lEnd = 1;
             row = getD(table, resExt, rn, thisYearUnitAve, row, suffix, ageIx);
@@ -3728,27 +3728,27 @@ class EM {
           }
 
           if ((opr & cum) > 0) {
-            suffix = " CUM";
+            suffix = " Cum";
             lStart = 0;
             lEnd = 1;
             row = getD(table, resExt, rn, cum, row, suffix, ageIx);
           }
           if ((opr & cumUnits) > 0 && !unset) {
-            suffix = " Cum Units";
+            suffix = " CumU";
             doUnits = true;
             lStart = 0;
             lEnd = 1;
             row = getD(table, resExt, rn, cumUnits, row, suffix, ageIx);
           }
           if ((opr & cumUnitAve) > 0 && !unset) {
-            suffix = " Cum Unit Ave";
+            suffix = " CumAve";
             lStart = 0;
             lEnd = 1;
             row = getD(table, resExt, rn, cumUnitAve, row, suffix, ageIx);
           }
           if ((opr & curUnits) > 0) {
             for (int m = 0; m < valid; m++) {
-              suffix = " cur units yr:" + wh(m + 1) + "/" + wh(valid);
+              suffix = " curU yr:" + wh(m + 1) + "/" + wh(valid);
               doUnits = true;
               lStart = m;
               lEnd = m + 1;
@@ -3758,7 +3758,7 @@ class EM {
           // do not process thisYear if cur was already processed
           // if ((opr & (myOp = thisYearUnits)) > 0 && !unset) {
           if (((opr & curUnits) == 0) && ((opr & thisYearUnits) > 0)) {
-            suffix = " this yr units";
+            suffix = " thisyrU";
             doUnits = true;
             lStart = 0;
             lEnd = 1;

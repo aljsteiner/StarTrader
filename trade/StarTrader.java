@@ -493,9 +493,9 @@ public class StarTrader extends javax.swing.JFrame {
     controlPanels.setAutoscrolls(true);
     controlPanels.setDebugGraphicsOptions(javax.swing.DebugGraphics.BUFFERED_OPTION);
     controlPanels.setDoubleBuffered(true);
-    controlPanels.setMaximumSize(new java.awt.Dimension(1700, 1400));
+    controlPanels.setMaximumSize(new java.awt.Dimension(1700, 1800));
     controlPanels.setMinimumSize(new java.awt.Dimension(500, 550));
-    controlPanels.setPreferredSize(new java.awt.Dimension(1250, 1250));
+    controlPanels.setPreferredSize(new java.awt.Dimension(1250, 1600));
     controlPanels.setBackground(bg1);
     controlPanels.addChangeListener(new javax.swing.event.ChangeListener() {
       public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -1706,7 +1706,7 @@ public class StarTrader extends javax.swing.JFrame {
       gamePanelBottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(gamePanelBottomPanelLayout.createSequentialGroup()
         .addComponent(gameTextPane, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addGap(0, 340, Short.MAX_VALUE))
+        .addGap(0, 670, Short.MAX_VALUE))
     );
 
     gridBagConstraints = new java.awt.GridBagConstraints();
@@ -2583,7 +2583,7 @@ public class StarTrader extends javax.swing.JFrame {
     stats.setAutoscrolls(true);
     stats.setMaximumSize(new java.awt.Dimension(1500, 1500));
     stats.setMinimumSize(new java.awt.Dimension(800, 500));
-    stats.setPreferredSize(new java.awt.Dimension(1250, 1250));
+    stats.setPreferredSize(new java.awt.Dimension(1250, 1500));
     stats.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEADING, 1, 1));
 
     topPane.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 255, 153), 2));
@@ -2996,11 +2996,12 @@ public class StarTrader extends javax.swing.JFrame {
     statsCtlButtonRun5Yr.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
     statsCtlButtonRun5Yr.setText("5 yr");
     statsCtlButtonRun5Yr.setActionCommand("5");
-    statsCtlButtonRun5Yr.setMargin(new java.awt.Insets(2, 0, 2, 0));
-    statsCtlButtonRun5Yr.setMaximumSize(new java.awt.Dimension(25, 40));
+    statsCtlButtonRun5Yr.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 255), 3));
+    statsCtlButtonRun5Yr.setMargin(new java.awt.Insets(0, 0, 0, 0));
+    statsCtlButtonRun5Yr.setMaximumSize(new java.awt.Dimension(50, 40));
     statsCtlButtonRun5Yr.setMinimumSize(new java.awt.Dimension(20, 20));
     statsCtlButtonRun5Yr.setName("5 yr"); // NOI18N
-    statsCtlButtonRun5Yr.setPreferredSize(new java.awt.Dimension(41, 23));
+    statsCtlButtonRun5Yr.setPreferredSize(new java.awt.Dimension(45, 23));
     statsCtlButtonRun5Yr.addMouseListener(new java.awt.event.MouseAdapter() {
       public void mouseClicked(java.awt.event.MouseEvent evt) {
         statsCtlButtonRun5YrMouseClicked(evt);
@@ -3033,9 +3034,9 @@ public class StarTrader extends javax.swing.JFrame {
     statsField.setAlignmentY(0.0F);
     statsField.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 51, 102), 2));
     statsField.setMargin(new java.awt.Insets(0, 0, 0, 0));
-    statsField.setMaximumSize(new java.awt.Dimension(600, 50));
+    statsField.setMaximumSize(new java.awt.Dimension(900, 50));
     statsField.setMinimumSize(new java.awt.Dimension(200, 30));
-    statsField.setPreferredSize(new java.awt.Dimension(500, 30));
+    statsField.setPreferredSize(new java.awt.Dimension(650, 30));
     statsField.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
         statsFieldActionPerformed(evt);
@@ -3051,9 +3052,10 @@ public class StarTrader extends javax.swing.JFrame {
     jScrollPane2.setAlignmentY(5.0F);
     jScrollPane2.setAutoscrolls(true);
     jScrollPane2.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+    jScrollPane2.setMaximumSize(new java.awt.Dimension(1200, 1700));
     jScrollPane2.setMinimumSize(new java.awt.Dimension(700, 700));
     jScrollPane2.setName("StatsScroll"); // NOI18N
-    jScrollPane2.setPreferredSize(new java.awt.Dimension(1100, 1000));
+    jScrollPane2.setPreferredSize(new java.awt.Dimension(1100, 1700));
     jScrollPane2.setVerifyInputWhenFocusTarget(false);
 
     statsTable1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
@@ -3181,10 +3183,11 @@ public class StarTrader extends javax.swing.JFrame {
       }
     });
     statsTable1.setAlignmentY(20.0F);
+    statsTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
     statsTable1.setColumnSelectionAllowed(true);
-    statsTable1.setMaximumSize(new java.awt.Dimension(1400, 1400));
+    statsTable1.setMaximumSize(new java.awt.Dimension(1600, 1700));
     statsTable1.setMinimumSize(new java.awt.Dimension(600, 400));
-    statsTable1.setPreferredSize(new java.awt.Dimension(1200, 1000));
+    statsTable1.setPreferredSize(new java.awt.Dimension(1600, 1500));
     statsTable1.getTableHeader().setReorderingAllowed(false);
     jScrollPane2.setViewportView(statsTable1);
     statsTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -5644,7 +5647,7 @@ public class StarTrader extends javax.swing.JFrame {
   }
 
   Dimension screenSize;
-  int screenHeight=-2,screenWidth=-2;
+  int screenHeight=-2,screenWidth=-2,myHeight=-2,myWidth=-2;
 //  String[][] statsData;
   /**
    * Creates new Class/Form StarTrader
@@ -5668,6 +5671,20 @@ public class StarTrader extends javax.swing.JFrame {
     screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     screenHeight = screenSize.height;
     screenWidth = screenSize.width;
+    myHeight = Math.min((int)(screenHeight*.97),1250);
+    myWidth = Math.min((int)(screenWidth*.97),1800);
+    E.sysmsg("resize1 height=" + screenHeight + "->" + myHeight + ", width=" + screenWidth + "=>" + myWidth);
+    if(screenHeight < 1300 || screenWidth < 1800){
+      myHeight = Math.min((int)(screenHeight*.97),1250); // could be diff from above
+      myWidth = Math.min((int)(screenWidth*.97),1500);
+      E.sysmsg("resize2 height=" + screenHeight + "->" + myHeight + ", width=" + screenWidth + "=>" + myWidth);
+      controlPanels.setSize(myWidth, myHeight);
+      stats.setMaximumSize(new Dimension((int)(myHeight*1.50),(int)(myWidth*1.50)));
+      stats.setMinimumSize(new Dimension((int)(myHeight*.9),(int)(myWidth*.9)));
+      stats.setPreferredSize(new Dimension(myHeight,myWidth));
+      jScrollPane2.setPreferredSize(new Dimension(myHeight-100,myWidth-10));
+    }
+    this.pack();
 
     //   statsTable = new javax.swing.JTable();
     JSlider[] gameSlidersP1 = {gameSliderP0, gameSliderP1, gameSliderP2, gameSliderP3, gameSliderP4, gameSliderP5, gameSliderP6, gameSliderP7, gameSliderP8, gameSliderP9};
@@ -7197,7 +7214,8 @@ public class StarTrader extends javax.swing.JFrame {
   static int listResNoteCount = 0;
   void listRes(int list, long resLoops[][], double[] fullRes) {
     arow = 0;
-    statsField2.setText("year" + eM.year);
+   // statsField2.setText("year" + eM.year);
+    statsField.setText("year" + eM.year + " " + statsButtonsTips[list]);
     int lrows = statsTable1.getRowCount();
     int cntLoops = 0;
     int [] rowsCnts = {100,0,0,0};
@@ -7214,8 +7232,6 @@ public class StarTrader extends javax.swing.JFrame {
         arow = eM.putRows(statsTable1, resExt, arow, i);
         }
 
-     
-      
    
     // now blank the rest of the table
     System.out.println("listRes blank rest of table arow=" + arow );
