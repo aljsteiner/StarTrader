@@ -21,9 +21,9 @@
 
  CashFlow  contains subclasses SubAssets for the resource and reserved resoure cargo, and for staff and reserved staff guests.  In addition, CashFlow contains the subclass Trades, this class uses many members of CashFlow, but is only instantiated during the trading process this economy and another economy.  Within the game no more than 2 Economies are in the process of trade at any one time.  
 
-Assets.CashFlow.DoTotalWorths saves worths for a later comparison
+Assets.CashFlow.DoTotalWorths saves worths for a later comparison.
 
-Assets.CashFlow.HSwaps holds history of swaps to be used in an udo,redo of the swap over with different vals
+Assets.CashFlow.HSwaps holds history of swaps to be used in an udo,redo of the swap over with different vals.
 
 The game attempts to minimize the storage used by the game by allocatting full storage for no more than two economies at a time.
  */
@@ -1652,7 +1652,10 @@ public class Assets {
     double rFutureFundDue = 0., sFutureFundDue = 0., rEmergFutFund = 0., sEmergFutFund = 0.;
     double movd = 0., rcost = 0., scost = 0., need = 0., tmin = 0.;
     double prevsrc = 0., prevdest = 0., prevosrc = 0., prevodest = 0.;
-    double fracN = n / eM.maxn[pors];
+    double fracN = 
+            n / 
+            eM.maxn[
+            pors];
     int prevn;
     double prevNextN;
     double nextN;
@@ -7605,6 +7608,12 @@ public class Assets {
             setStat("WORTH3YRNOTRADEINCR", pors, clan, worthIncrPercent, 1);
           }
         } //--- did year missed stats, years traded stats
+        if(tradeAccepted){
+          setStat("WTRADEDINCRMULT", pors, clan, worthIncrPercent, 1);
+        }
+        if(sos && tradeAccepted){
+          setStat("WTRADEDINCRSOS", pors, clan, worthIncrPercent, 1);
+        }
         if (prevNoBarterYear != eM.year) { // had a barter
           if (eM.year - prevNoBarterYear == 1) {
             setStat("WORTHAYRTRADEINCR", pors, clan, worthIncrPercent, 1);
@@ -7624,6 +7633,7 @@ public class Assets {
           fyW = new DoTotalWorths();
 
     //      setStat(EM.DIEDPERCENT, pors, clan, 100., 1);
+    //(final worth - start year worth)* 100/start year worth is percent increase
           double worthincr1 = (fyW.sumTotWorth - syW.sumTotWorth) * 100 / syW.sumTotWorth;
           setStat(EM.DIED, pors, clan, worthincr1, 1);
           //setStat("died", pors, clan, worthincr1, 1);
@@ -7631,10 +7641,11 @@ public class Assets {
             setStat(EM.DIEDCATASTROPHY,pors,clan,worthincr1,1);
           }
           //    setStat("TRADES%", pors, clan, fav > NZERO ? 100. : 0., 1);
-      if(yearTradeAccepted <= year && oclan >= 0){
+      if(yearTradeAccepted == year && oclan >= 0){
         if(tradedFirstNegProspectsSum < eM.rawHealthsSOS1[0][0]){
-          // Help that was not given higher is worse
+          // Help that was given but still died
           setStat(eM.DTRADEOSOSR1, opors, oclan, worthIncrPercent, 1); // HELPER
+          setStat(eM.DTRADESOSR1, pors, clan, worthIncrPercent, 1); // HELPER
         }
         if(tradedFirstNegProspectsSum < eM.rawHealthsSOS2[0][0]){
           //setStat(eM.TRADESOSR2, pors, clan, worthIncrPercent, 1);
@@ -7644,7 +7655,27 @@ public class Assets {
          // setStat(eM.TRADESOSR3, pors, clan, worthIncrPercent, 1);
           setStat(eM.DTRADEOSOSR3, opors, oclan, worthIncrPercent, 1);
         }
-        } // trade rejected/lost
+        }
+      if(yearTradeLost == year && oclan >= 0){
+        if(tradedFirstNegProspectsSum < eM.rawHealthsSOS1[0][0]){
+          // Help that was given but still died
+          setStat(eM.DLOSTOSOSR1, opors, oclan, worthIncrPercent, 1); // HELPER
+         }
+        }
+       if(yearTradeRejected == year) {
+         if(tradedFirstNegProspectsSum < eM.rawHealthsSOS1[0][0]){
+          setStat(eM.DTRADESOSR1, pors, clan, worthIncrPercent, 1); // self reject
+          }
+        }
+        if(tradedFirstNegProspectsSum < eM.rawHealthsSOS2[0][0]){
+          //setStat(eM.TRADESOSR2, pors, clan, worthIncrPercent, 1);
+          setStat(eM.DLOSTOSOSR2, opors, oclan, worthIncrPercent, 1);
+        }
+        if(tradedFirstNegProspectsSum < eM.rawHealthsSOS3[0][0]){
+         // setStat(eM.TRADESOSR3, pors, clan, worthIncrPercent, 1);
+          setStat(eM.DLOSTOSOSR3, opors, oclan,yearTradeRejected, 1);
+        } 
+          // trade rejected/lost
           // fav was set in Assets.CashFlow.barter
           if (fav >= 4.7) {
             // gameRes.WTRADEDINCRF5.wet(pors, clan, worthincr1, 1);

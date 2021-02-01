@@ -87,9 +87,11 @@ public class E {
   static final boolean debugDouble = debugMaster; //doubleTrouble and infinity or NaN
   static final boolean debugTradeRecord = debugMaster; // or false
   static final boolean debugStats = debugMaster; // why stats aren't showing
+  static final boolean debugStatsOut = debugMaster; // stats output
   static final boolean debugMisc = debugMaster; // other debug tests
   static final boolean debugCanTrade = debugMaster; // planet can trade
-  static final boolean debugGameTab = debugMaster; // output from game output
+  static final boolean debugSettingsTab = debugMaster; //errors from settings doValx
+  static final boolean debugSettingsTabOut = debugMaster; //errors from settings doValx
   static final boolean debugPutValue = debugMaster; //test putValue processing
   static final boolean debugPutValue1 = debugMaster; //test putValue processing
   static final boolean debugPutValue2 = debugMaster; //test putValue processing
