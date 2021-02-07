@@ -173,13 +173,15 @@ public class StarTrader extends javax.swing.JFrame {
 
   static final public String[] statsButtonsTips = {statsButton0Tip, statsButton1Tip, statsButton2Tip, statsButton3Tip, statsButton4Tip, statsButton5Tip, statsButton6Tip, statsButton7Tip, statsButton8Tip, statsButton9Tip, statsButton10Tip, statsButton11Tip, statsButton12Tip, statsButton13Tip, statsButton14Tip, statsButton15Tip, statsButton16Tip, statsButton17Tip, statsButton18Tip, statsButton19Tip, statsButton20Tip, gameTextFieldText};
   static final public String versionText = "     Version 19.2";
-  static final public String storyText = "“Save the Planets: is an economics strategy game with ships carrying necessary resources between planets. The planets and ships are each different economies with a lot of similar rules and some significantly different values. Each economy has 2 very stressed financial sectors, two very successful financial sectors  The other 3 financial sectors are ok.   Generally each year planets increase resources by mining and new staff are added at the lowest grade while many staff move up one or more grades. Ships hold and carry resources and staff between planets, trading resources a planet needs  for surplus resources or staff from the planets but ships generally do not grow new staff and ships generally do not mine resources. \n" +
+  static final public String storyText = "   Version 19.23\n" +
+"\n" +
+"â€œSave the Planetsâ€�: is an economics strategy game with ships carrying necessary resources between planets. The planets and ships are each different economies with a lot of similar rules and some significantly different values. Each economy has 2 very stressed financial sectors, two very successful financial sectors  The other 3 financial sectors are ok.   Generally each year planets increase resources by mining and new staff are added at the lowest grade while many staff move up one or more grades. Ships hold and carry resources and staff between planets, trading resources a planet needs  for surplus resources or staff from the planets but ships generally do not grow new staff and ships generally do not mine resources.  \n" +
 "\n" +
 "The game-master changes settings which set overall rules for all ships and planets, thus the game-master sets up many different games of economics strategies.   The game-master sets the difficulty of the game, and the amount of random increases or decreases to the priorities,  costs, growth, etc. There are five clans each with a clan-master.  One or more players can divide up the roles of game-master and clan-masters.  Clans without a clan-master run with the preset settings for that clan.  The clan-masters can alter any of the priority settings and leave unchanged the rest of the clan settings for the robots which calculate the moves for each clan planet and ship.  \n" +
 "\n" +
 "Planets and ships which did not have enough infrastructure to survive the year die, all resources and staff are lost, and the economy disappears.  Otherwise when resources and staff are available, growth is applied to resources, staff and knowledge.  After each run a large set of statistics is available to be viewed about the planets and ships,  Runs can be 1 year, 5 years, 10 or 20 years.  Statistics after each run help show the problems the ship and planets faced and may give some ideas about changing clan priorities to increase planet and ship survival.  After viewing their statistics each clan-master changes a few settings then the game-master starts another run.\n" +
 "\n" +
-"The game-master changes settings to change the nature of the rules for the planets and ships.  Also the settings determine how the winning score is calculated at the end of each run.  “Save the planets”  game increases the value of the count of the planets and ships that each clan's barters have helped.  The game-master can change settings so that  “Highest worth wins”, or “most planets wins” or many other games.  You can play the game for as many runs as you choose. \n" +
+"The game-master changes settings to change the nature of the rules for the planets and ships.  Also the settings determine how the winning score is calculated at the end of each run.  â€œSave the planetsâ€�  game increases the value of the count of the planets and ships that each clan's barters have helped.  The game-master can change settings so that  â€œHighest worth winsâ€�, or â€œmost planets winsâ€� or many other games.  You can play the game for as many runs as you choose. \n" +
 "\n" +
 "At the start of the year each economy projects what its resources will be at the end of the year,  Each resource and staff sector is given a strategic value  related to how much more is needed for a good year.  In addition, if a planet or ship will not survive the year with the current resources and staff an SOS value is set.  Each year every ship tries to find a planet for a good trade in a way that both of them will be more able to survive and have good growth.  The game-master can adjust how much the ship knows about planets. Ships may know nothing and just make a random choice.  Ships may be able to use a history that is updated every time they trade with a planet,  Ships may be able to get direct knowledge about what planets have to make the best trade, combined with the cost of travel to that planet.\n" +
 "\n" +
@@ -204,7 +206,7 @@ public class StarTrader extends javax.swing.JFrame {
 "The jar of the game is available at: https://drive.google.com/drive/folders/1P-hw8Wk9BcwEdHSS8CdAbDDjtjyEQTF_?usp=sharing\n" +
 "This is a folder because virus protect will not allow passing a jar file.\n" +
 "The folder contains a pdf of this README and the file startrader.jar.  You must have downloaded and installed the latest public Java jre (java runtime environment).  The jre is a version of java.1.8.0_281.\n" +
-"With the jre installed, you should be able to run the game by clicking on the jar.  After reading the story tabe, go to the Settings tab to make any changes.  There are six colored radio buttons, the first is labed “master” for game-master, the clans are labeled red, orange, yellow, green, and blue.  There are 10 sliders for the game-master or a different set for any one of the clan-masters.  The sliders are preset to the existing value, changing a slider causes the named value to be changed.\n" +
+"With the jre installed, you should be able to run the game by clicking on the jar.  After reading the story tabe, go to the Settings tab to make any changes.  There are six colored radio buttons, the first is labed â€œmasterâ€� for game-master, the clans are labeled red, orange, yellow, green, and blue.  There are 10 sliders for the game-master or a different set for any one of the clan-masters.  The sliders are preset to the existing value, changing a slider causes the named value to be changed.\n" +
 "\n" +
 "Hovering over a name, or clicking the name causes an explanation of that sliders action at the bottom of the page.  Many of the names have two sliders, one for planets and one for ships.  For example growths would have a moderate or large growth for planets and a small or zero value of growth for ships.  But the game-master could move the ships slider to have some growth from ships.\n" +
 "\n" +
@@ -298,9 +300,39 @@ public class StarTrader extends javax.swing.JFrame {
     statsField2 = new javax.swing.JTextField();
     controlPanels = new javax.swing.JTabbedPane();
     story = new javax.swing.JPanel();
-    storyVersionField = new javax.swing.JTextField();
     storyTextPane = new javax.swing.JScrollPane();
     storyTextField1 = new javax.swing.JTextArea();
+    javax.swing.JPanel log = new javax.swing.JPanel();
+    logTableScrollPanel = new javax.swing.JScrollPane();
+    logDisplayTable = new javax.swing.JTable();
+    logDlevel2 = new javax.swing.JLabel();
+    LogDlen1Slider = new javax.swing.JSlider();
+    logDlen1 = new javax.swing.JLabel();
+    logDLevel1Slider = new javax.swing.JSlider();
+    SpinnerModel startModel1 = new SpinnerNumberModel(10,
+      0, //min
+      2000000, //max
+      10);
+    logM1Spinner = new javax.swing.JSpinner(startModel1);
+    LogDLen2Slider = new javax.swing.JSlider();
+    logDLevel2Slider = new javax.swing.JSlider();
+    logDlen2 = new javax.swing.JLabel();
+    logDlevel1 = new javax.swing.JLabel();
+    SpinnerModel startModel2 = new SpinnerNumberModel(10,
+      0, //min
+      2000000, //max
+      10);
+    logM2Spinner = new javax.swing.JSpinner(startModel2);
+    logNamesScrollPanel = new javax.swing.JScrollPane();
+    namesList = new DefaultListModel();
+    logEnvirnNamesList = new javax.swing.JList(namesList);
+    Start1Name = new javax.swing.JLabel();
+    Start2Name = new javax.swing.JLabel();
+    logRadioButtonStart1 = new javax.swing.JRadioButton();
+    logRadioButtonStart2 = new javax.swing.JRadioButton();
+    logActionJump = new javax.swing.JRadioButton();
+    logActionAdd = new javax.swing.JRadioButton();
+    logActionDel = new javax.swing.JRadioButton();
     game = new javax.swing.JPanel();
     gameMaster = new javax.swing.JRadioButton();
     clanRed = new javax.swing.JRadioButton();
@@ -370,37 +402,6 @@ public class StarTrader extends javax.swing.JFrame {
     gameTextPane = new javax.swing.JScrollPane();
     gameTextField = new javax.swing.JTextArea();
     gameButtonDown = new java.awt.Button();
-    javax.swing.JPanel log = new javax.swing.JPanel();
-    logTableScrollPanel = new javax.swing.JScrollPane();
-    logDisplayTable = new javax.swing.JTable();
-    logDlevel2 = new javax.swing.JLabel();
-    LogDlen1Slider = new javax.swing.JSlider();
-    logDlen1 = new javax.swing.JLabel();
-    logDLevel1Slider = new javax.swing.JSlider();
-    SpinnerModel startModel1 = new SpinnerNumberModel(10,
-      0, //min
-      2000000, //max
-      10);
-    logM1Spinner = new javax.swing.JSpinner(startModel1);
-    LogDLen2Slider = new javax.swing.JSlider();
-    logDLevel2Slider = new javax.swing.JSlider();
-    logDlen2 = new javax.swing.JLabel();
-    logDlevel1 = new javax.swing.JLabel();
-    SpinnerModel startModel2 = new SpinnerNumberModel(10,
-      0, //min
-      2000000, //max
-      10);
-    logM2Spinner = new javax.swing.JSpinner(startModel2);
-    logNamesScrollPanel = new javax.swing.JScrollPane();
-    namesList = new DefaultListModel();
-    logEnvirnNamesList = new javax.swing.JList(namesList);
-    Start1Name = new javax.swing.JLabel();
-    Start2Name = new javax.swing.JLabel();
-    logRadioButtonStart1 = new javax.swing.JRadioButton();
-    logRadioButtonStart2 = new javax.swing.JRadioButton();
-    logActionJump = new javax.swing.JRadioButton();
-    logActionAdd = new javax.swing.JRadioButton();
-    logActionDel = new javax.swing.JRadioButton();
     clan = new javax.swing.JPanel();
     clanTextPane = new javax.swing.JScrollPane();
     clanTextField = new javax.swing.JTextArea();
@@ -482,6 +483,7 @@ public class StarTrader extends javax.swing.JFrame {
     statsCtlButtonRun10Yr = new javax.swing.JButton();
     statsCtlButtonRun5Yr = new javax.swing.JButton();
     statsCtlButtonRun20Yr = new javax.swing.JButton();
+    bigPanel = new javax.swing.JPanel();
     statsField = new javax.swing.JTextField();
     jScrollPane2 = new javax.swing.JScrollPane();
     statsTable1 = new javax.swing.JTable();
@@ -506,7 +508,9 @@ public class StarTrader extends javax.swing.JFrame {
     setBackground(new java.awt.Color(240, 180, 240));
     setBounds(new java.awt.Rectangle(0, 0, 1250, 1250));
     setMaximizedBounds(new java.awt.Rectangle(0, 0, 1, 0));
+    setMaximumSize(new java.awt.Dimension(2000, 1700));
     setMinimumSize(new java.awt.Dimension(800, 600));
+    setPreferredSize(new java.awt.Dimension(1400, 1600));
     setResizable(false);
     addInputMethodListener(new java.awt.event.InputMethodListener() {
       public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
@@ -530,7 +534,7 @@ public class StarTrader extends javax.swing.JFrame {
     controlPanels.setMaximumSize(new java.awt.Dimension(1700, 1800));
     controlPanels.setMinimumSize(new java.awt.Dimension(1200, 900));
     controlPanels.setOpaque(true);
-    controlPanels.setPreferredSize(new java.awt.Dimension(1250, 1600));
+    controlPanels.setPreferredSize(new java.awt.Dimension(1900, 1600));
     controlPanels.setBackground(bg1);
     controlPanels.addChangeListener(new javax.swing.event.ChangeListener() {
       public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -543,25 +547,20 @@ public class StarTrader extends javax.swing.JFrame {
       }
     });
 
+    story.setAlignmentX(0.0F);
+    story.setAlignmentY(0.0F);
     story.setAutoscrolls(true);
     story.setMaximumSize(new java.awt.Dimension(1000, 800));
-    story.setMinimumSize(new java.awt.Dimension(800, 700));
+    story.setMinimumSize(new java.awt.Dimension(600, 400));
     story.setName(""); // NOI18N
     story.setPreferredSize(new java.awt.Dimension(800, 700));
-
-    storyVersionField.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
-    storyVersionField.setText("jTextField1");
-    storyVersionField.setBorder(null);
-    storyVersionField.setMaximumSize(new java.awt.Dimension(400, 50));
-    storyVersionField.setMinimumSize(new java.awt.Dimension(100, 30));
-    storyVersionField.setPreferredSize(new java.awt.Dimension(200, 40));
-    story.add(storyVersionField);
+    story.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
 
     storyTextPane.setAutoscrolls(true);
     storyTextPane.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
     storyTextPane.setMaximumSize(new java.awt.Dimension(1200, 1000));
     storyTextPane.setMinimumSize(new java.awt.Dimension(400, 500));
-    storyTextPane.setPreferredSize(new java.awt.Dimension(1200, 900));
+    storyTextPane.setPreferredSize(new java.awt.Dimension(800, 700));
 
     storyTextField1.setEditable(false);
     storyTextField1.setColumns(200);
@@ -573,6 +572,8 @@ public class StarTrader extends javax.swing.JFrame {
     storyTextField1.setMargin(new java.awt.Insets(4, 5, 4, 4));
     storyTextField1.setMaximumSize(new java.awt.Dimension(1200, 1000));
     storyTextField1.setMinimumSize(new java.awt.Dimension(600, 400));
+    storyTextField1.setPreferredSize(new java.awt.Dimension(800, 700));
+    storyTextField1.setRequestFocusEnabled(false);
     storyTextPane.setViewportView(storyTextField1);
     storyTextField1.getAccessibleContext().setAccessibleParent(storyTextPane);
 
@@ -580,13 +581,419 @@ public class StarTrader extends javax.swing.JFrame {
 
     controlPanels.addTab("story", story);
 
+    log.setBackground(new java.awt.Color(255, 255, 255));
+    log.setAutoscrolls(true);
+    log.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+    log.setMaximumSize(new java.awt.Dimension(1200, 1200));
+    log.setMinimumSize(new java.awt.Dimension(500, 500));
+    log.setPreferredSize(new java.awt.Dimension(1200, 1200));
+
+    logTableScrollPanel.setAutoscrolls(true);
+    logTableScrollPanel.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
+    logTableScrollPanel.setMaximumSize(new java.awt.Dimension(1200, 1200));
+    logTableScrollPanel.setMinimumSize(new java.awt.Dimension(800, 600));
+    logTableScrollPanel.setPreferredSize(new java.awt.Dimension(1200, 1200));
+    logTableScrollPanel.addInputMethodListener(new java.awt.event.InputMethodListener() {
+      public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+        logTableScrollPanelCaretPositionChanged(evt);
+      }
+      public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+        logTableScrollPanelInputMethodTextChanged(evt);
+      }
+    });
+
+    logDisplayTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+    logDisplayTable.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+    logDisplayTable.setModel(new javax.swing.table.DefaultTableModel(
+      new Object [][] {
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null, null, null, null, null}
+      },
+      new String [] {
+        "Title", "col0", "col1", "col2", "col3", "col4", "col5", "col6", "col7", "col8", "col9"
+      }
+    ) {
+      Class[] types = new Class [] {
+        java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+      };
+      boolean[] canEdit = new boolean [] {
+        false, false, false, false, false, false, false, false, false, false, false
+      };
+
+      public Class getColumnClass(int columnIndex) {
+        return types [columnIndex];
+      }
+
+      public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return canEdit [columnIndex];
+      }
+    });
+    logDisplayTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+    logDisplayTable.setColumnSelectionAllowed(true);
+    logDisplayTable.setGridColor(new java.awt.Color(153, 153, 255));
+    logDisplayTable.setMaximumSize(new java.awt.Dimension(1200, 1200));
+    logDisplayTable.setMinimumSize(new java.awt.Dimension(11200, 900));
+    logDisplayTable.setPreferredSize(new java.awt.Dimension(1200, 1200));
+    logDisplayTable.setRowHeight(13);
+    logDisplayTable.getTableHeader().setResizingAllowed(false);
+    logDisplayTable.getTableHeader().setReorderingAllowed(false);
+    logTableScrollPanel.setViewportView(logDisplayTable);
+    logDisplayTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+    if (logDisplayTable.getColumnModel().getColumnCount() > 0) {
+      logDisplayTable.getColumnModel().getColumn(0).setResizable(false);
+      logDisplayTable.getColumnModel().getColumn(0).setPreferredWidth(110);
+      logDisplayTable.getColumnModel().getColumn(1).setResizable(false);
+      logDisplayTable.getColumnModel().getColumn(2).setResizable(false);
+      logDisplayTable.getColumnModel().getColumn(3).setResizable(false);
+      logDisplayTable.getColumnModel().getColumn(4).setResizable(false);
+      logDisplayTable.getColumnModel().getColumn(5).setResizable(false);
+      logDisplayTable.getColumnModel().getColumn(6).setResizable(false);
+      logDisplayTable.getColumnModel().getColumn(7).setResizable(false);
+      logDisplayTable.getColumnModel().getColumn(8).setResizable(false);
+      logDisplayTable.getColumnModel().getColumn(9).setResizable(false);
+      logDisplayTable.getColumnModel().getColumn(10).setResizable(false);
+    }
+    logDisplayTable.getAccessibleContext().setAccessibleName("logTable");
+
+    logDlevel2.setText("DLevel2");
+
+    LogDlen1Slider.setMajorTickSpacing(25);
+    LogDlen1Slider.setMaximum(75);
+    LogDlen1Slider.setMinorTickSpacing(5);
+    LogDlen1Slider.setPaintLabels(true);
+    LogDlen1Slider.setPaintTicks(true);
+    LogDlen1Slider.setValue(20);
+    LogDlen1Slider.setMaximumSize(new java.awt.Dimension(60, 35));
+    LogDlen1Slider.setMinimumSize(new java.awt.Dimension(24, 12));
+    LogDlen1Slider.setName("Length"); // NOI18N
+    LogDlen1Slider.setPreferredSize(new java.awt.Dimension(60, 35));
+    LogDlen1Slider.addChangeListener(new javax.swing.event.ChangeListener() {
+      public void stateChanged(javax.swing.event.ChangeEvent evt) {
+        LogDlen1SliderStateChanged(evt);
+      }
+    });
+
+    logDlen1.setText("DLen1");
+
+    logDLevel1Slider.setMajorTickSpacing(5);
+    logDLevel1Slider.setMaximum(15);
+    logDLevel1Slider.setMinorTickSpacing(1);
+    logDLevel1Slider.setPaintLabels(true);
+    logDLevel1Slider.setPaintTicks(true);
+    logDLevel1Slider.setValue(2);
+    logDLevel1Slider.setMinimumSize(new java.awt.Dimension(36, 35));
+    logDLevel1Slider.setPreferredSize(new java.awt.Dimension(200, 35));
+    logDLevel1Slider.setValueIsAdjusting(true);
+    logDLevel1Slider.setVerifyInputWhenFocusTarget(false);
+    logDLevel1Slider.addChangeListener(new javax.swing.event.ChangeListener() {
+      public void stateChanged(javax.swing.event.ChangeEvent evt) {
+        logDLevel1SliderStateChanged(evt);
+      }
+    });
+
+    logM1Spinner.setName("histStartValue"); // NOI18N
+    logM1Spinner.setValue(1);
+    logM1Spinner.addChangeListener(new javax.swing.event.ChangeListener() {
+      public void stateChanged(javax.swing.event.ChangeEvent evt) {
+        logM1SpinnerStateChanged(evt);
+      }
+    });
+
+    LogDLen2Slider.setMajorTickSpacing(25);
+    LogDLen2Slider.setMaximum(75);
+    LogDLen2Slider.setMinorTickSpacing(5);
+    LogDLen2Slider.setPaintLabels(true);
+    LogDLen2Slider.setPaintTicks(true);
+    LogDLen2Slider.setValue(20);
+    LogDLen2Slider.setMaximumSize(new java.awt.Dimension(100, 24));
+    LogDLen2Slider.setName("Length"); // NOI18N
+    LogDLen2Slider.addChangeListener(new javax.swing.event.ChangeListener() {
+      public void stateChanged(javax.swing.event.ChangeEvent evt) {
+        LogDLen2SliderStateChanged(evt);
+      }
+    });
+
+    logDLevel2Slider.setMajorTickSpacing(5);
+    logDLevel2Slider.setMaximum(15);
+    logDLevel2Slider.setMinorTickSpacing(1);
+    logDLevel2Slider.setPaintLabels(true);
+    logDLevel2Slider.setPaintTicks(true);
+    logDLevel2Slider.setValue(2);
+    logDLevel2Slider.setValueIsAdjusting(true);
+    logDLevel2Slider.setVerifyInputWhenFocusTarget(false);
+    logDLevel2Slider.addChangeListener(new javax.swing.event.ChangeListener() {
+      public void stateChanged(javax.swing.event.ChangeEvent evt) {
+        logDLevel2SliderStateChanged(evt);
+      }
+    });
+
+    logDlen2.setText("DLen2");
+
+    logDlevel1.setText("DLevel1");
+
+    logM2Spinner.setName("histStartValue"); // NOI18N
+    logM2Spinner.setValue(1);
+    logM2Spinner.addChangeListener(new javax.swing.event.ChangeListener() {
+      public void stateChanged(javax.swing.event.ChangeEvent evt) {
+        logM2SpinnerStateChanged(evt);
+      }
+    });
+    logM2Spinner.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseReleased(java.awt.event.MouseEvent evt) {
+        logM2SpinnerMouseReleased(evt);
+      }
+    });
+
+    logNamesScrollPanel.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+    logNamesScrollPanel.setPreferredSize(new java.awt.Dimension(350, 2000));
+
+    logEnvirnNamesList.setModel(namesList
+    );
+    logEnvirnNamesList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+    logEnvirnNamesList.setMaximumSize(new java.awt.Dimension(300, 2000));
+    logEnvirnNamesList.setMinimumSize(new java.awt.Dimension(50, 50));
+    logEnvirnNamesList.setPreferredSize(new java.awt.Dimension(300, 2000));
+    logEnvirnNamesList.setVisibleRowCount(3);
+    logEnvirnNamesList.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        logEnvirnNamesListMouseClicked(evt);
+      }
+    });
+    logNamesScrollPanel.setViewportView(logEnvirnNamesList);
+
+    Start1Name.setBackground(new java.awt.Color(255, 102, 204));
+    Start1Name.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+    Start1Name.setForeground(new java.awt.Color(204, 0, 0));
+    Start1Name.setText("P000001");
+
+    Start2Name.setBackground(new java.awt.Color(255, 102, 204));
+    Start2Name.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+    Start2Name.setForeground(new java.awt.Color(204, 0, 0));
+    Start2Name.setText("P00001");
+
+    logButtonGroup1or2.add(logRadioButtonStart1);
+    logRadioButtonStart1.setText("Start1");
+    logRadioButtonStart1.setToolTipText("Planet");
+    logRadioButtonStart1.setActionCommand("1");
+    logRadioButtonStart1.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        logRadioButtonStart1ItemStateChanged(evt);
+      }
+    });
+
+    logButtonGroup1or2.add(logRadioButtonStart2);
+    logRadioButtonStart2.setText("Start2");
+    logRadioButtonStart2.setActionCommand("2");
+    logRadioButtonStart2.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        logRadioButtonStart2ItemStateChanged(evt);
+      }
+    });
+
+    logBGactions.add(logActionJump);
+    logActionJump.setText("Jump");
+    logActionJump.setName("logActionJump22"); // NOI18N
+    logActionJump.addItemListener(new java.awt.event.ItemListener() {
+      public void itemStateChanged(java.awt.event.ItemEvent evt) {
+        logActionJumpItemStateChanged(evt);
+      }
+    });
+
+    logBGactions.add(logActionAdd);
+    logActionAdd.setText("add");
+    logActionAdd.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        logActionAddActionPerformed(evt);
+      }
+    });
+
+    logBGactions.add(logActionDel);
+    logActionDel.setText("del");
+    logActionDel.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        logActionDelActionPerformed(evt);
+      }
+    });
+
+    javax.swing.GroupLayout logLayout = new javax.swing.GroupLayout(log);
+    log.setLayout(logLayout);
+    logLayout.setHorizontalGroup(
+      logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(logLayout.createSequentialGroup()
+        .addGap(6, 6, 6)
+        .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addGroup(logLayout.createSequentialGroup()
+            .addGap(4, 4, 4)
+            .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+              .addComponent(logRadioButtonStart1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+              .addComponent(logRadioButtonStart2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGap(6, 6, 6)
+            .addComponent(logM1Spinner, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+          .addGroup(logLayout.createSequentialGroup()
+            .addComponent(logActionJump, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(3, 3, 3)
+            .addComponent(logActionAdd)
+            .addGap(2, 2, 2)
+            .addComponent(logActionDel)))
+        .addGap(4, 4, 4)
+        .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addComponent(Start1Name, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+          .addComponent(Start2Name, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+        .addGap(10, 10, 10)
+        .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addComponent(logDlen1)
+          .addComponent(logDlen2))
+        .addGap(142, 142, 142)
+        .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addComponent(logDlevel1)
+          .addComponent(logDlevel2))
+        .addGap(12, 12, 12)
+        .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addComponent(logDLevel1Slider, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+          .addGroup(logLayout.createSequentialGroup()
+            .addGap(10, 10, 10)
+            .addComponent(logDLevel2Slider, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
+      .addComponent(logTableScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1195, javax.swing.GroupLayout.PREFERRED_SIZE)
+      .addGroup(logLayout.createSequentialGroup()
+        .addGap(276, 276, 276)
+        .addComponent(LogDlen1Slider, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+      .addGroup(logLayout.createSequentialGroup()
+        .addGap(276, 276, 276)
+        .addComponent(LogDLen2Slider, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+      .addGroup(logLayout.createSequentialGroup()
+        .addGap(86, 86, 86)
+        .addComponent(logM2Spinner, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+      .addGroup(logLayout.createSequentialGroup()
+        .addGap(600, 600, 600)
+        .addComponent(logNamesScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE))
+    );
+    logLayout.setVerticalGroup(
+      logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(logLayout.createSequentialGroup()
+        .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addGroup(logLayout.createSequentialGroup()
+            .addGap(1, 1, 1)
+            .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+              .addComponent(logRadioButtonStart1)
+              .addGroup(logLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(logRadioButtonStart2))
+              .addComponent(logM1Spinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGap(4, 4, 4)
+            .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+              .addComponent(logActionJump, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+              .addComponent(logActionAdd)
+              .addComponent(logActionDel)))
+          .addGroup(logLayout.createSequentialGroup()
+            .addGap(3, 3, 3)
+            .addComponent(Start1Name)
+            .addGap(7, 7, 7)
+            .addComponent(Start2Name))
+          .addGroup(logLayout.createSequentialGroup()
+            .addGap(4, 4, 4)
+            .addComponent(logDlen1)
+            .addGap(27, 27, 27)
+            .addComponent(logDlen2))
+          .addGroup(logLayout.createSequentialGroup()
+            .addGap(10, 10, 10)
+            .addComponent(logDlevel1)
+            .addGap(26, 26, 26)
+            .addComponent(logDlevel2))
+          .addGroup(logLayout.createSequentialGroup()
+            .addComponent(logDLevel1Slider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(15, 15, 15)
+            .addComponent(logDLevel2Slider, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        .addGap(19, 19, 19)
+        .addComponent(logTableScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 915, javax.swing.GroupLayout.PREFERRED_SIZE))
+      .addGroup(logLayout.createSequentialGroup()
+        .addGap(1, 1, 1)
+        .addComponent(LogDlen1Slider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+      .addGroup(logLayout.createSequentialGroup()
+        .addGap(45, 45, 45)
+        .addComponent(LogDLen2Slider, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+      .addGroup(logLayout.createSequentialGroup()
+        .addGap(23, 23, 23)
+        .addComponent(logM2Spinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+      .addGroup(logLayout.createSequentialGroup()
+        .addGap(10, 10, 10)
+        .addComponent(logNamesScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+    );
+
+    LogDlen1Slider.getAccessibleContext().setAccessibleName("Length");
+    logDLevel1Slider.getAccessibleContext().setAccessibleName("Level Slider");
+
+    controlPanels.addTab("logs", log);
+
     game.setBackground(new java.awt.Color(255, 255, 255));
     game.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
     game.setAlignmentX(0.0F);
     game.setAlignmentY(0.0F);
     game.setAutoscrolls(true);
     game.setMaximumSize(new java.awt.Dimension(1200, 1200));
-    game.setMinimumSize(new java.awt.Dimension(300, 100));
+    game.setMinimumSize(new java.awt.Dimension(800, 600));
     game.setName("Settings"); // NOI18N
     game.setPreferredSize(new java.awt.Dimension(900, 900));
     game.addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -1735,7 +2142,7 @@ public class StarTrader extends javax.swing.JFrame {
       .addGroup(gamePanelBottomPanelLayout.createSequentialGroup()
         .addGap(19, 19, 19)
         .addComponent(gameTextPane, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addContainerGap(988, Short.MAX_VALUE))
+        .addContainerGap(868, Short.MAX_VALUE))
     );
     gamePanelBottomPanelLayout.setVerticalGroup(
       gamePanelBottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1774,412 +2181,6 @@ public class StarTrader extends javax.swing.JFrame {
     game.add(gameButtonDown, gridBagConstraints);
 
     controlPanels.addTab("Settings", game);
-
-    log.setBackground(new java.awt.Color(255, 255, 255));
-    log.setAutoscrolls(true);
-    log.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-    log.setMaximumSize(new java.awt.Dimension(1200, 1200));
-    log.setMinimumSize(new java.awt.Dimension(500, 500));
-    log.setPreferredSize(new java.awt.Dimension(1200, 1200));
-
-    logTableScrollPanel.setAutoscrolls(true);
-    logTableScrollPanel.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
-    logTableScrollPanel.setMaximumSize(new java.awt.Dimension(1200, 1200));
-    logTableScrollPanel.setMinimumSize(new java.awt.Dimension(800, 600));
-    logTableScrollPanel.setPreferredSize(new java.awt.Dimension(1200, 1200));
-    logTableScrollPanel.addInputMethodListener(new java.awt.event.InputMethodListener() {
-      public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-        logTableScrollPanelCaretPositionChanged(evt);
-      }
-      public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-        logTableScrollPanelInputMethodTextChanged(evt);
-      }
-    });
-
-    logDisplayTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-    logDisplayTable.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-    logDisplayTable.setModel(new javax.swing.table.DefaultTableModel(
-      new Object [][] {
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null, null, null, null, null}
-      },
-      new String [] {
-        "Title", "col0", "col1", "col2", "col3", "col4", "col5", "col6", "col7", "col8", "col9"
-      }
-    ) {
-      Class[] types = new Class [] {
-        java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-      };
-      boolean[] canEdit = new boolean [] {
-        false, false, false, false, false, false, false, false, false, false, false
-      };
-
-      public Class getColumnClass(int columnIndex) {
-        return types [columnIndex];
-      }
-
-      public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return canEdit [columnIndex];
-      }
-    });
-    logDisplayTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-    logDisplayTable.setColumnSelectionAllowed(true);
-    logDisplayTable.setGridColor(new java.awt.Color(153, 153, 255));
-    logDisplayTable.setMaximumSize(new java.awt.Dimension(1200, 1200));
-    logDisplayTable.setMinimumSize(new java.awt.Dimension(11200, 900));
-    logDisplayTable.setPreferredSize(new java.awt.Dimension(1200, 1200));
-    logDisplayTable.setRowHeight(13);
-    logDisplayTable.getTableHeader().setResizingAllowed(false);
-    logDisplayTable.getTableHeader().setReorderingAllowed(false);
-    logTableScrollPanel.setViewportView(logDisplayTable);
-    logDisplayTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-    if (logDisplayTable.getColumnModel().getColumnCount() > 0) {
-      logDisplayTable.getColumnModel().getColumn(0).setResizable(false);
-      logDisplayTable.getColumnModel().getColumn(0).setPreferredWidth(110);
-      logDisplayTable.getColumnModel().getColumn(1).setResizable(false);
-      logDisplayTable.getColumnModel().getColumn(2).setResizable(false);
-      logDisplayTable.getColumnModel().getColumn(3).setResizable(false);
-      logDisplayTable.getColumnModel().getColumn(4).setResizable(false);
-      logDisplayTable.getColumnModel().getColumn(5).setResizable(false);
-      logDisplayTable.getColumnModel().getColumn(6).setResizable(false);
-      logDisplayTable.getColumnModel().getColumn(7).setResizable(false);
-      logDisplayTable.getColumnModel().getColumn(8).setResizable(false);
-      logDisplayTable.getColumnModel().getColumn(9).setResizable(false);
-      logDisplayTable.getColumnModel().getColumn(10).setResizable(false);
-    }
-    logDisplayTable.getAccessibleContext().setAccessibleName("logTable");
-
-    logDlevel2.setText("DLevel2");
-
-    LogDlen1Slider.setMajorTickSpacing(25);
-    LogDlen1Slider.setMaximum(75);
-    LogDlen1Slider.setMinorTickSpacing(5);
-    LogDlen1Slider.setPaintLabels(true);
-    LogDlen1Slider.setPaintTicks(true);
-    LogDlen1Slider.setValue(20);
-    LogDlen1Slider.setMaximumSize(new java.awt.Dimension(60, 35));
-    LogDlen1Slider.setMinimumSize(new java.awt.Dimension(24, 12));
-    LogDlen1Slider.setName("Length"); // NOI18N
-    LogDlen1Slider.setPreferredSize(new java.awt.Dimension(60, 35));
-    LogDlen1Slider.addChangeListener(new javax.swing.event.ChangeListener() {
-      public void stateChanged(javax.swing.event.ChangeEvent evt) {
-        LogDlen1SliderStateChanged(evt);
-      }
-    });
-
-    logDlen1.setText("DLen1");
-
-    logDLevel1Slider.setMajorTickSpacing(5);
-    logDLevel1Slider.setMaximum(15);
-    logDLevel1Slider.setMinorTickSpacing(1);
-    logDLevel1Slider.setPaintLabels(true);
-    logDLevel1Slider.setPaintTicks(true);
-    logDLevel1Slider.setValue(2);
-    logDLevel1Slider.setMinimumSize(new java.awt.Dimension(36, 35));
-    logDLevel1Slider.setPreferredSize(new java.awt.Dimension(200, 35));
-    logDLevel1Slider.setValueIsAdjusting(true);
-    logDLevel1Slider.setVerifyInputWhenFocusTarget(false);
-    logDLevel1Slider.addChangeListener(new javax.swing.event.ChangeListener() {
-      public void stateChanged(javax.swing.event.ChangeEvent evt) {
-        logDLevel1SliderStateChanged(evt);
-      }
-    });
-
-    logM1Spinner.setName("histStartValue"); // NOI18N
-    logM1Spinner.setValue(1);
-    logM1Spinner.addChangeListener(new javax.swing.event.ChangeListener() {
-      public void stateChanged(javax.swing.event.ChangeEvent evt) {
-        logM1SpinnerStateChanged(evt);
-      }
-    });
-
-    LogDLen2Slider.setMajorTickSpacing(25);
-    LogDLen2Slider.setMaximum(75);
-    LogDLen2Slider.setMinorTickSpacing(5);
-    LogDLen2Slider.setPaintLabels(true);
-    LogDLen2Slider.setPaintTicks(true);
-    LogDLen2Slider.setValue(20);
-    LogDLen2Slider.setMaximumSize(new java.awt.Dimension(100, 24));
-    LogDLen2Slider.setName("Length"); // NOI18N
-    LogDLen2Slider.addChangeListener(new javax.swing.event.ChangeListener() {
-      public void stateChanged(javax.swing.event.ChangeEvent evt) {
-        LogDLen2SliderStateChanged(evt);
-      }
-    });
-
-    logDLevel2Slider.setMajorTickSpacing(5);
-    logDLevel2Slider.setMaximum(15);
-    logDLevel2Slider.setMinorTickSpacing(1);
-    logDLevel2Slider.setPaintLabels(true);
-    logDLevel2Slider.setPaintTicks(true);
-    logDLevel2Slider.setValue(2);
-    logDLevel2Slider.setValueIsAdjusting(true);
-    logDLevel2Slider.setVerifyInputWhenFocusTarget(false);
-    logDLevel2Slider.addChangeListener(new javax.swing.event.ChangeListener() {
-      public void stateChanged(javax.swing.event.ChangeEvent evt) {
-        logDLevel2SliderStateChanged(evt);
-      }
-    });
-
-    logDlen2.setText("DLen2");
-
-    logDlevel1.setText("DLevel1");
-
-    logM2Spinner.setName("histStartValue"); // NOI18N
-    logM2Spinner.setValue(1);
-    logM2Spinner.addChangeListener(new javax.swing.event.ChangeListener() {
-      public void stateChanged(javax.swing.event.ChangeEvent evt) {
-        logM2SpinnerStateChanged(evt);
-      }
-    });
-    logM2Spinner.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseReleased(java.awt.event.MouseEvent evt) {
-        logM2SpinnerMouseReleased(evt);
-      }
-    });
-
-    logNamesScrollPanel.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-    logNamesScrollPanel.setPreferredSize(new java.awt.Dimension(350, 2000));
-
-    logEnvirnNamesList.setModel(namesList
-    );
-    logEnvirnNamesList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-    logEnvirnNamesList.setMaximumSize(new java.awt.Dimension(300, 2000));
-    logEnvirnNamesList.setMinimumSize(new java.awt.Dimension(50, 50));
-    logEnvirnNamesList.setPreferredSize(new java.awt.Dimension(300, 2000));
-    logEnvirnNamesList.setVisibleRowCount(3);
-    logEnvirnNamesList.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseClicked(java.awt.event.MouseEvent evt) {
-        logEnvirnNamesListMouseClicked(evt);
-      }
-    });
-    logNamesScrollPanel.setViewportView(logEnvirnNamesList);
-
-    Start1Name.setBackground(new java.awt.Color(255, 102, 204));
-    Start1Name.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-    Start1Name.setForeground(new java.awt.Color(204, 0, 0));
-    Start1Name.setText("P000001");
-
-    Start2Name.setBackground(new java.awt.Color(255, 102, 204));
-    Start2Name.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-    Start2Name.setForeground(new java.awt.Color(204, 0, 0));
-    Start2Name.setText("P00001");
-
-    logButtonGroup1or2.add(logRadioButtonStart1);
-    logRadioButtonStart1.setText("Start1");
-    logRadioButtonStart1.setToolTipText("Planet");
-    logRadioButtonStart1.setActionCommand("1");
-    logRadioButtonStart1.addItemListener(new java.awt.event.ItemListener() {
-      public void itemStateChanged(java.awt.event.ItemEvent evt) {
-        logRadioButtonStart1ItemStateChanged(evt);
-      }
-    });
-
-    logButtonGroup1or2.add(logRadioButtonStart2);
-    logRadioButtonStart2.setText("Start2");
-    logRadioButtonStart2.setActionCommand("2");
-    logRadioButtonStart2.addItemListener(new java.awt.event.ItemListener() {
-      public void itemStateChanged(java.awt.event.ItemEvent evt) {
-        logRadioButtonStart2ItemStateChanged(evt);
-      }
-    });
-
-    logBGactions.add(logActionJump);
-    logActionJump.setText("Jump");
-    logActionJump.setName("logActionJump22"); // NOI18N
-    logActionJump.addItemListener(new java.awt.event.ItemListener() {
-      public void itemStateChanged(java.awt.event.ItemEvent evt) {
-        logActionJumpItemStateChanged(evt);
-      }
-    });
-
-    logBGactions.add(logActionAdd);
-    logActionAdd.setText("add");
-    logActionAdd.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        logActionAddActionPerformed(evt);
-      }
-    });
-
-    logBGactions.add(logActionDel);
-    logActionDel.setText("del");
-    logActionDel.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        logActionDelActionPerformed(evt);
-      }
-    });
-
-    javax.swing.GroupLayout logLayout = new javax.swing.GroupLayout(log);
-    log.setLayout(logLayout);
-    logLayout.setHorizontalGroup(
-      logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(logLayout.createSequentialGroup()
-        .addGap(6, 6, 6)
-        .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addGroup(logLayout.createSequentialGroup()
-            .addGap(4, 4, 4)
-            .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-              .addComponent(logRadioButtonStart1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-              .addComponent(logRadioButtonStart2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(6, 6, 6)
-            .addComponent(logM1Spinner, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-          .addGroup(logLayout.createSequentialGroup()
-            .addComponent(logActionJump, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(3, 3, 3)
-            .addComponent(logActionAdd)
-            .addGap(2, 2, 2)
-            .addComponent(logActionDel)))
-        .addGap(4, 4, 4)
-        .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addComponent(Start1Name, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-          .addComponent(Start2Name, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-        .addGap(10, 10, 10)
-        .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addComponent(logDlen1)
-          .addComponent(logDlen2))
-        .addGap(142, 142, 142)
-        .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addComponent(logDlevel1)
-          .addComponent(logDlevel2))
-        .addGap(12, 12, 12)
-        .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addComponent(logDLevel1Slider, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-          .addGroup(logLayout.createSequentialGroup()
-            .addGap(10, 10, 10)
-            .addComponent(logDLevel2Slider, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
-      .addComponent(logTableScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1195, javax.swing.GroupLayout.PREFERRED_SIZE)
-      .addGroup(logLayout.createSequentialGroup()
-        .addGap(276, 276, 276)
-        .addComponent(LogDlen1Slider, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-      .addGroup(logLayout.createSequentialGroup()
-        .addGap(276, 276, 276)
-        .addComponent(LogDLen2Slider, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-      .addGroup(logLayout.createSequentialGroup()
-        .addGap(86, 86, 86)
-        .addComponent(logM2Spinner, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-      .addGroup(logLayout.createSequentialGroup()
-        .addGap(600, 600, 600)
-        .addComponent(logNamesScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE))
-    );
-    logLayout.setVerticalGroup(
-      logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(logLayout.createSequentialGroup()
-        .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addGroup(logLayout.createSequentialGroup()
-            .addGap(1, 1, 1)
-            .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-              .addComponent(logRadioButtonStart1)
-              .addGroup(logLayout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(logRadioButtonStart2))
-              .addComponent(logM1Spinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGap(4, 4, 4)
-            .addGroup(logLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-              .addComponent(logActionJump, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-              .addComponent(logActionAdd)
-              .addComponent(logActionDel)))
-          .addGroup(logLayout.createSequentialGroup()
-            .addGap(3, 3, 3)
-            .addComponent(Start1Name)
-            .addGap(7, 7, 7)
-            .addComponent(Start2Name))
-          .addGroup(logLayout.createSequentialGroup()
-            .addGap(4, 4, 4)
-            .addComponent(logDlen1)
-            .addGap(27, 27, 27)
-            .addComponent(logDlen2))
-          .addGroup(logLayout.createSequentialGroup()
-            .addGap(10, 10, 10)
-            .addComponent(logDlevel1)
-            .addGap(26, 26, 26)
-            .addComponent(logDlevel2))
-          .addGroup(logLayout.createSequentialGroup()
-            .addComponent(logDLevel1Slider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGap(15, 15, 15)
-            .addComponent(logDLevel2Slider, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        .addGap(19, 19, 19)
-        .addComponent(logTableScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 915, javax.swing.GroupLayout.PREFERRED_SIZE))
-      .addGroup(logLayout.createSequentialGroup()
-        .addGap(1, 1, 1)
-        .addComponent(LogDlen1Slider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-      .addGroup(logLayout.createSequentialGroup()
-        .addGap(45, 45, 45)
-        .addComponent(LogDLen2Slider, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-      .addGroup(logLayout.createSequentialGroup()
-        .addGap(23, 23, 23)
-        .addComponent(logM2Spinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-      .addGroup(logLayout.createSequentialGroup()
-        .addGap(10, 10, 10)
-        .addComponent(logNamesScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
-    );
-
-    LogDlen1Slider.getAccessibleContext().setAccessibleName("Length");
-    logDLevel1Slider.getAccessibleContext().setAccessibleName("Level Slider");
-
-    controlPanels.addTab("logs", log);
 
     clan.setAutoscrolls(true);
     clan.setMaximumSize(new java.awt.Dimension(1000, 800));
@@ -2503,12 +2504,14 @@ public class StarTrader extends javax.swing.JFrame {
     displayPanel0Text.setLineWrap(true);
     displayPanel0Text.setRows(10);
     displayPanel0Text.setWrapStyleWord(true);
+    displayPanel0Text.setAlignmentX(0.0F);
+    displayPanel0Text.setAlignmentY(0.0F);
     displayPanel0Text.setBorder(null);
-    displayPanel0Text.setMaximumSize(new java.awt.Dimension(1200, 600));
+    displayPanel0Text.setMaximumSize(new java.awt.Dimension(1300, 800));
     displayPanel0Text.setMinimumSize(new java.awt.Dimension(800, 300));
     displayPanel0Text.setName(""); // NOI18N
     displayPanel0Text.setOpaque(false);
-    displayPanel0Text.setPreferredSize(new java.awt.Dimension(1260, 600));
+    displayPanel0Text.setPreferredSize(new java.awt.Dimension(1260, 700));
     jScrollPane1.setViewportView(displayPanel0Text);
 
     displayPanel0.add(jScrollPane1);
@@ -2616,15 +2619,15 @@ public class StarTrader extends javax.swing.JFrame {
     controlPanels.addTab("display", display);
 
     stats.setAutoscrolls(true);
-    stats.setMaximumSize(new java.awt.Dimension(1500, 1500));
-    stats.setMinimumSize(new java.awt.Dimension(800, 500));
-    stats.setPreferredSize(new java.awt.Dimension(1250, 1500));
-    stats.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEADING, 1, 1));
+    stats.setMaximumSize(new java.awt.Dimension(1300, 1000));
+    stats.setMinimumSize(new java.awt.Dimension(600, 500));
+    stats.setPreferredSize(new java.awt.Dimension(1350, 1000));
+    stats.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
 
     topPane.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 255, 153), 2));
     topPane.setAlignmentX(0.0F);
     topPane.setAlignmentY(0.0F);
-    topPane.setPreferredSize(new java.awt.Dimension(1010, 110));
+    topPane.setPreferredSize(new java.awt.Dimension(1500, 110));
     topPane.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
 
     rbuttons12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 51), 2));
@@ -3062,6 +3065,25 @@ public class StarTrader extends javax.swing.JFrame {
 
     topPane.add(ybuttons);
 
+    bigPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 255), 2));
+    bigPanel.setAlignmentY(0.0F);
+    bigPanel.setMaximumSize(new java.awt.Dimension(32767, 100));
+    bigPanel.setMinimumSize(new java.awt.Dimension(300, 70));
+    bigPanel.setPreferredSize(new java.awt.Dimension(600, 70));
+
+    javax.swing.GroupLayout bigPanelLayout = new javax.swing.GroupLayout(bigPanel);
+    bigPanel.setLayout(bigPanelLayout);
+    bigPanelLayout.setHorizontalGroup(
+      bigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGap(0, 596, Short.MAX_VALUE)
+    );
+    bigPanelLayout.setVerticalGroup(
+      bigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGap(0, 66, Short.MAX_VALUE)
+    );
+
+    topPane.add(bigPanel);
+
     statsField.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
     statsField.setText("description");
     statsField.setToolTipText("");
@@ -3083,14 +3105,15 @@ public class StarTrader extends javax.swing.JFrame {
 
     jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
     jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+    jScrollPane2.setViewportBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 255, 255), 2));
     jScrollPane2.setAlignmentX(0.0F);
     jScrollPane2.setAlignmentY(5.0F);
-    jScrollPane2.setAutoscrolls(true);
     jScrollPane2.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-    jScrollPane2.setMaximumSize(new java.awt.Dimension(1600, 1700));
-    jScrollPane2.setMinimumSize(new java.awt.Dimension(700, 700));
+    jScrollPane2.setMaximumSize(new java.awt.Dimension(1300, 1000));
+    jScrollPane2.setMinimumSize(new java.awt.Dimension(700, 400));
     jScrollPane2.setName("StatsScroll"); // NOI18N
-    jScrollPane2.setPreferredSize(new java.awt.Dimension(1200, 1700));
+    jScrollPane2.setPreferredSize(new java.awt.Dimension(1250, 900));
+    jScrollPane2.setRequestFocusEnabled(false);
     jScrollPane2.setVerifyInputWhenFocusTarget(false);
 
     statsTable1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
@@ -3220,9 +3243,9 @@ public class StarTrader extends javax.swing.JFrame {
     statsTable1.setAlignmentY(20.0F);
     statsTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
     statsTable1.setColumnSelectionAllowed(true);
-    statsTable1.setMaximumSize(new java.awt.Dimension(2600, 1700));
-    statsTable1.setMinimumSize(new java.awt.Dimension(1200, 400));
-    statsTable1.setPreferredSize(new java.awt.Dimension(1600, 1500));
+    statsTable1.setMaximumSize(new java.awt.Dimension(1300, 1000));
+    statsTable1.setMinimumSize(new java.awt.Dimension(700, 400));
+    statsTable1.setPreferredSize(new java.awt.Dimension(1200, 1000));
     statsTable1.getTableHeader().setReorderingAllowed(false);
     jScrollPane2.setViewportView(statsTable1);
     statsTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -4714,6 +4737,7 @@ public class StarTrader extends javax.swing.JFrame {
   protected javax.swing.JSlider LogDlen1Slider;
   protected javax.swing.JLabel Start1Name;
   protected javax.swing.JLabel Start2Name;
+  protected javax.swing.JPanel bigPanel;
   protected javax.swing.JPanel clan;
   protected javax.swing.JRadioButton clanBlue;
   protected javax.swing.ButtonGroup clanButtonGroupActiveClan;
@@ -4896,7 +4920,6 @@ public class StarTrader extends javax.swing.JFrame {
   protected javax.swing.JPanel story;
   protected javax.swing.JTextArea storyTextField1;
   protected javax.swing.JScrollPane storyTextPane;
-  protected javax.swing.JTextField storyVersionField;
   protected javax.swing.JPanel topPane;
   protected javax.swing.JPanel ybuttons;
   // End of variables declaration//GEN-END:variables
@@ -5682,7 +5705,8 @@ public class StarTrader extends javax.swing.JFrame {
   }
 
   Dimension screenSize;
-  int screenHeight=-2,screenWidth=-2,myHeight=-2,myWidth=-2;
+  int screenHeight=-2,screenWidth=-2,myHeight=-2,myWidth=-2,myH2=-2,myW2=-2;
+  int myW3 = -2;
 //  String[][] statsData;
   /**
    * Creates new Class/Form StarTrader
@@ -5706,22 +5730,38 @@ public class StarTrader extends javax.swing.JFrame {
     screenHeight = screenSize.height;
     screenWidth = screenSize.width;
     myHeight = Math.min((int)(screenHeight*.97),1250);
+    myH2=myHeight - 200;
     myWidth = Math.min((int)(screenWidth*.97),2200);
-    E.sysmsg("resize1 height=" + screenHeight + "->" + myHeight + ", width=" + screenWidth + "=>" + myWidth);
-    if(screenHeight < 1300 || screenWidth < 1800){
+    myW3 = (myW2 = (int)(myWidth * .99)) - 300;
+    E.sysmsg("resize1 height=" + screenHeight + "->" + myHeight + ", " + myH2 + ", width=" + screenWidth + "=>" + myWidth + ", " + myW2 + ", " + myW3);
+    if(screenHeight < 600 || screenWidth < 600){
+   // if(screenHeight < 2700 || screenWidth < 1200){
       myHeight = Math.min((int)(screenHeight*.97),1250); // could be diff from above
-      myWidth = Math.min((int)(screenWidth*.97),1500);
-      E.sysmsg("resize2 height=" + screenHeight + "->" + myHeight + ", width=" + screenWidth + "=>" + myWidth);
+      myWidth = Math.min((int)(screenWidth*.96),2200);
+      myH2=myHeight - 200;
+      myW3 = (myW2 = (int)(myWidth * .99)) - 400;
+      E.sysmsg("resize2 height=" + screenHeight + "->" + myHeight + ", " + myH2 + ", width=" + screenWidth + "=>" + myWidth + ", " + myW2 + ", " + myW3);
+      this.setSize(myWidth, myHeight);
       controlPanels.setSize(myWidth, myHeight);
       stats.setMaximumSize(new Dimension((int)(myWidth*1.50),(int)(myHeight*1.50)));
       stats.setMinimumSize(new Dimension((int)(myWidth*.9),(int)(myHeight*.9)));
       stats.setPreferredSize(new Dimension(myWidth,myHeight));
-      jScrollPane2.setPreferredSize(new Dimension(myWidth-10,myHeight-100));
+      jScrollPane2.setPreferredSize(new Dimension(myW2,myH2));
+      statsTable1.setMaximumSize(new Dimension(myW3+100,myH2+100));
+      statsTable1.setMinimumSize(new Dimension(myW3-100,myH2-100));
+      statsTable1.setPreferredSize(new Dimension(myW3,myH2));
     }
-   
     eE.init();
     eM.init();
     this.pack();
+     Rectangle statsR = stats.getBounds();
+      int ss1 =  statsR.width;
+      Rectangle spR = jScrollPane2.getBounds();
+      Rectangle stR = statsTable1.getBounds();
+      System.out.println("===============resize2 height=" + screenHeight + "->" + myHeight + ", " + myH2 + ", width=" + screenWidth + "=>" + myWidth + ", " + myW2 + ", " + myW3);
+      System.out.println("=================sized stats w=" + statsR.width +", h=" + statsR.height + 
+              ", statsP w=" + spR.width + ", h=" + spR.height +
+              ", statsTable w=" + stR.width + ", h=" + stR.height);
    int statsTW = statsTable1.getWidth();
     E.sysmsg("after pack statsTable1.width=" + statsTW);
     //   statsTable = new javax.swing.JTable();
@@ -5771,9 +5811,21 @@ public class StarTrader extends javax.swing.JFrame {
 
     //   TreeMap<Double, Econ> runOrder = new TreeMap<Double, Econ>();
     putInitValues();
+     System.out.println("===================resize4 height=" + screenHeight + "->" + myHeight + ", " + myH2 + ", width=" + screenWidth + "=>" + myWidth + ", " + myW2 + ", " + myW3);
+     statsR = stats.getBounds();
+     ss1 =  statsR.width;
+     spR = jScrollPane2.getBounds();
+     stR = statsTable1.getBounds();
+     Rectangle scrnR = this.getBounds();
+     int scrnH = scrnR.height;
+     int scrnW = scrnR.width;
+      System.out.println("=================sized2 screen w=" + scrnW + ", h=" + scrnH +
+              ", stats w=" + statsR.width +", h=" + statsR.height + 
+              ", statsP w=" + spR.width + ", h=" + spR.height +
+              ", statsTable w=" + stR.width + ", h=" + stR.height);
     storyTextField1.setText(storyText);
     storyTextField1.setCaretPosition(0);
-    storyVersionField.setText(versionText);
+    //storyVersionField.setText(versionText);
 
     //  EM.clanVals.TEST.show();
     //  EM.clanVals.TEST2.show();
@@ -6286,8 +6338,9 @@ public class StarTrader extends javax.swing.JFrame {
         stateConst = STOPPED;
       }
       else {
-        // go latest to earliest, smallest to largest
+        // go latest to earliest, smallest to largest trades
        
+        printMem3();
         for(int n=0;n< E.lclans;n++){ clanShipsDone[n] = 0; }
         for (shipsLoop = eM.ships.size() - 1; shipsLoop >= 0; shipsLoop--) {
           eM.curEcon = eM.ships.get(shipsLoop);
@@ -6369,6 +6422,7 @@ public class StarTrader extends javax.swing.JFrame {
           startEconState = (new Date()).getTime();
           //    System.out.printf(new Date().toString() + " in doYear at envsLoop2 econ.yearEnd() name=" + eM.curEcon.name);
           // now reset the log environ to this current econ
+          if(0 == envsLoop2%25)printMem3();
           clearHist(eM.logEnvirn[0]);
           setLogEnvirn(0, eM.curEcon);  // set start1
           eM.hists[0] = eM.logEnvirn[0].hist;
@@ -6385,7 +6439,7 @@ public class StarTrader extends javax.swing.JFrame {
           //   System.out.println(new Date().toString() + disp1);
           namesList.add(envsLoop2, disp1);
 
-        }
+        } // finish curEcon.yearEnd
         long[][][] resii1 = eM.resI[0];
         long[][] resi2 = resii1[1];
         long[] resi23 = resi2[2];
@@ -6600,7 +6654,7 @@ public class StarTrader extends javax.swing.JFrame {
     controlPanels.getComponent(5);
     controlPanels.setSelectedIndex(5);
     displayPanel0Text.setRows(15);
-    displayPanel0Text.setSize(1200,450);
+    displayPanel0Text.setSize(1200,550);
     // display.setVisible(false);
     // displayPanel1.setVisible(false);
     // displayPanel2.setVisible(false);
@@ -7213,7 +7267,7 @@ public class StarTrader extends javax.swing.JFrame {
    * The display for each list consists of 4 rounds (no ROWS,ROWS1,ROWS2,ROWS3)
    */
   long [] rowsm = {0L,
-    0L | EM.THISYEAR | EM.THISYEARAVE | EM.THISYEARUNITS | EM.SUM |EM.BOTH | EM.CUMAVE | EM.CUM | EM.CUMUNITS
+    EM.THISYEAR | EM.THISYEARAVE | EM.THISYEARUNITS | EM.SUM |EM.BOTH | EM.CUMAVE | EM.CUM | EM.CUMUNITS
     ,EM.ROWS1 | EM.BOTH | EM.THISYEAR | EM.THISYEARAVE | EM.THISYEARUNITS | EM.CUM | EM.CUMAVE | EM.CURUNITS | EM.CUMUNITS
     ,EM.ROWS2 | EM.BOTH | EM.CUR | EM.CURAVE | EM.CURUNITS | EM.THISYEAR | EM.THISYEARAVE | EM.THISYEARUNITS | EM.CUM | EM.CUMAVE |EM.CUMUNITS
     ,EM.ROWS3 | EM.BOTH | EM.THISYEARUNITS | EM.CUR | EM.CURAVE | EM.CUM | EM.CUMAVE |EM.CUMUNITS
@@ -7263,12 +7317,12 @@ public class StarTrader extends javax.swing.JFrame {
     int mm = 0; // count of selected rows
     int ii=0;
     long i = 0l;
-    long i1 = resLoops[list][0];
-    for (int aa=1;aa<5 && aa < resLoops[list].length; aa++) { 
-        i = i1 | lists[list] | rowsm[aa] | resLoops[list][aa];
+    long myLIST = resLoops[list][0];
+    for (int rowsIx=1;rowsIx<5 && rowsIx < resLoops[list].length; rowsIx++) { 
+        i = myLIST  | rowsm[rowsIx] | resLoops[list][rowsIx];
 
         if((listResNoteCount++ < 10)){
-       System.out.printf("StarTrader.listRes resLoops[%d][%d] key%o row%d\n", list, aa,  i, arow);
+       System.out.printf("StarTrader.listRes resLoops[%d][%d] key%o row%d\n", list, rowsIx,  i, arow);
          }
         arow = eM.putRows(statsTable1, resExt, arow, i);
         }

@@ -149,6 +149,8 @@ class EM {
   static double[][] mWildCursCnt = {{3., 10.}};
   double[] difficultyPercent = {30., 30.};
   double[][] mDifficultyPercent = {{5., 69.}, {5., 69.}};
+  double[][] minEcons = {{1.5}};
+  static double [][] mminEcons = {{.5,10.0},{.5,10.0}};
   double[] sendHistLim = {20};
   static double[][] mSendHistLim = {{5., 50}, {-1, -1}};
   double[] nominalWealthPerCommonKnowledge = {.2, .3}; // was .9
@@ -904,8 +906,8 @@ class EM {
   double[] multGrowthC = multReqMaintC;
   
   double mult5Ctbl[][] = {multReqMaintC, multReqGrowthC, multMaintC, multTravC, multGrowthC}; 
-  double mab1[] = {.50,.70}; // resource costs planet,ship
-  double mac1[] = {.50,.70}; // staff costs planet ship 
+  double mab1[] = {.30,.40}; // resource costs planet,ship
+  double mac1[] = {.30,.40}; // staff costs planet ship 
   double mabc[][] = {mab1,mac1}; //r or s, p or s
   static double mmab1[][] = {{.09,3.1},{.09,3.1}}; // resource costs planet,ship
   static double[][]mmab2= {{.5,1.9},{.5,1.9}};
@@ -952,7 +954,12 @@ class EM {
     }
     return rs;
   }
-  
+  /** Calculate cost of cargo and quests for planets and ships
+   * 
+   * @param cb  currently .3 of resource for cargo costs
+   * @param gb  currently .3 of staff for quest costs
+   * @return 
+   */
   double [][] makePS(double[]cb, double[]gb){
     double ps0[] = {1.,cb[0],1.,gb[0]};
     double ps1[] = {1.,cb[1],1.,gb[1]};
@@ -2079,6 +2086,7 @@ class EM {
   void runVals() {
     doVal("difficulty  ", difficultyPercent, mDifficultyPercent, "For ships as well as  Planets , set the difficulty of the game, more difficulty increases costs of  resources and colonists each year, increases the possibility of economy death.  More difficulty requires more clan boss expertise.");
     doVal("randomActions  ", randFrac, mRandFrac, "increased random, increases possibility of gain, and of loss, including possibility of death");
+    doVal("Min Econs by Year",minEcons,mminEcons,"increase slider, increase min econs, create more econs to reach this years count");
     doVal("wGiven", wGiven, mScoreMult, "increase slider, increase the value of  the worth given in trade by the clan.");
     doVal("iGiven",iGiven, mScoreMult, "increase slider, increase the score for number of economies traded.");
     doVal("wLiveWorthScore", wLiveWorthScore, mScoreMult, "increase slider, increase the winning score for th clan worth.");
@@ -2186,6 +2194,7 @@ class EM {
   String[][] resS;  // [RN][rDesc,rDetail] result string values
   static int rDesc = 0;
   static int rDetail = 1; // detail or tip text
+  static final int CURMAXDEPTH = 7;
 
   /**
    * resV [resNum][cum,cur0-6,7-13,14-20,21-27,28-34,35-41][[p0-4],[s0-4]]
@@ -2194,12 +2203,12 @@ class EM {
   static final int DCUM = 0;
   // years starting all,<=3,<=7,<=15,<=31,32++
   static final int DCUR0 = 1;
-  static final int DCUR1 = 8;
-  static final int DCUR2 = 15;
-  static final int DCUR3 = 22;
-  static final int DCUR4 = 29;
-  static final int DCUR5 = 36;
-  static final int DCUR6 = 43;  // not used
+  static final int DCUR1 = DCUR0 + CURMAXDEPTH*1;
+  static final int DCUR2 = DCUR0 + CURMAXDEPTH*2;
+  static final int DCUR3 = DCUR0 + CURMAXDEPTH*3;
+  static final int DCUR4 = DCUR0 + CURMAXDEPTH*4;
+  static final int DCUR5 = DCUR0 + CURMAXDEPTH*5;
+  static final int DCUR6 = DCUR0 + CURMAXDEPTH*6;  // not used
   
   static final int D3CUR0 = DCUR0 + 3 * DCUR6; // 1+3*7 = 22
   static final int D7CUR0 = 45; //starts 1, 8 4=15 8=22 16=29,32=36,end=41+2=43,
@@ -2208,6 +2217,18 @@ class EM {
   static final int DVECTOR2MAX = 9;
   static final int DVECTOR2A = 8; //
   static final int DVECTOR3L = 2;  // P,S
+   // extra start next age group cur0-6 entries in vector2
+  static final int[] AGEBREAKS = {0, 4, 8, 16, 32, 999999}; // + over 31+ group
+  static final String[] AGESTR = {"", "0-3", "4-7", "8-15", "16-31", "32+"};
+  static final long[] AGELISTS = {list0 | list1 | list2, LIST10, LIST11, LIST12, LIST13, LIST14};
+  static final long[] SHORTAGELIST = {LIST0 | LIST1 | LIST2};
+  static final int shortLength = SHORTAGELIST.length;
+  static final int longLength = AGELISTS.length;
+  static final long AGEMASK = LIST10 | LIST11 | LIST12 | LIST13 | LIST14;
+  static final int minDepth = 1; // set min number of output for allYears
+  static final int maxDepth = 7;
+  static final int minYDepth = 1; // min number of output in year groups
+  static final int maxYDepth = 2;
   // vector 4 is LCLANS
   double[][][][] resV;
   /**
@@ -2250,19 +2271,8 @@ class EM {
 
   // third vector for pCnts and sCnts
   static final int LCLANS = E.lclans;
-  // third victor
-  // extra start next age group cur0-6 entries in vector2
-  static final int[] AGEBREAKS = {0, 4, 8, 16, 32, 999999}; // + over 31+ group
-  static final String[] AGESTR = {"", "0-3", "4-7", "8-15", "16-31", "32+"};
-  static final long[] AGELISTS = {list0 | list1 | list2, LIST10, LIST11, LIST12, LIST13, LIST14};
-  static final long[] SHORTAGELIST = {LIST0 | LIST1 | LIST2};
-  static final int shortLength = SHORTAGELIST.length;
-  static final int longLength = AGELISTS.length;
-  static final long AGEMASK = LIST10 | LIST11 | LIST12 | LIST13 | LIST14;
-  static final int minDepth = 1; // set min number of output for allYears
-  static final int maxDepth = 7;
-  static final int minYDepth = 1; // min number of output in year groups
-  static final int maxYDepth = 2;
+  // third vector
+ 
 
   int inputClan = 5; // set in game inputs, 5=game
   int inputPorS = 0; // in inputs 0=P
@@ -3095,13 +3105,12 @@ class EM {
     int bvector2l = mLocks == 0 ? DVECTOR2A : DVECTOR2L; // short if no age years option
     int[] yrs3 = mLocks == 0 ? yrs1 : yrs2;
     if(E.debugStats){if(!(resV[rN] == null) && resV[rN].length > 1){
-      throw new MyErr("duplicate doRes rN=" + rN + " prevDescription=" + description);
+      throw new MyErr("null doRes rN=" + rN + " prevDescription=" + description);
     }}
     resV[rN] = new double[bvector2l][][]; // create the values structure
     resI[rN] = new long[bvector2l][][];
     /**
-     * resI [resNum][ICUM,ICUR0,...ICUR6(7*6rounds
-     * +2][PCNTS,SCNTS,CCONTROLD][LCLANS :{over
+     * resI [resNum][ICUM,ICUR0,...ICUR6(7*6rounds+2][PCNTS,SCNTS,CCONTROLD][LCLANS :{over
      * CCONTROLD}ISSET,IVALID,IPOWER:{only for
      * ICUM,CCONTROLD}LOCKS0,LOCKS1,L0CKS2,LOCKS3,IFRACS,IDEPTH] valid number of
      * valid entries 0=unset,1=cur0,2=cur1,7=cur6
@@ -3316,9 +3325,9 @@ class EM {
         // LIST8-20
         for (int jj : spots) {
           newIx = (jj + 1) % 7;
-          yearsGrp = jj / 7;
+          yearsGrp = jj / CURMAXDEPTH;
           depth = resI[rN][ICUM][CCONTROLD][(yearsGrp == 0 ? IDEPTH : IYDEPTH)];
-          curIx = (jj) % 7; //index in relation to CUR0
+          curIx = (jj) % CURMAXDEPTH; //index in relation to CUR0
           cur0 = jj - curIx;
 
           // find the max value in cum and cur
@@ -3365,7 +3374,7 @@ class EM {
           for (int jjj = 1; jjj <= maxd && jj > 0; jjj++) {
             valid = resI[rN][jj + jjj - 1] != null && (isset1 = resI[rN][jj + jjj - 1][CCONTROLD][ISSET]) > 0 ? jjj : valid;
             if (maxd > 1 && rN < 0) {
-              if(E.debugStatsOut)System.out.printf("EM.doEndYear %s rN%d, valid%d,isseta%d,issetb%d, issetc%d depth%d, maxd%d, jjj%d,jj%d\n", resS[rN][0], rN, valid, isset1, (jj + jjj < resI[rN].length ? resI[rN][jj + jjj] != null ? resI[rN][jj + jjj][CCONTROLD][ISSET] : -1 : -2), (jj + 7 + jjj < resI[rN].length ? resI[rN][jj + 7 + jjj] != null ? resI[rN][jj + 7 + jjj][CCONTROLD][ISSET] : -1 : -2), depth, maxd, jjj, jj);
+              if(E.debugStatsOut)System.out.printf("EM.doEndYear %s rN%d, valid%d,isseta%d,issetb%d, issetc%d depth%d, maxd%d, jjj%d,jj%d\n", resS[rN][0], rN, valid, isset1, (jj + jjj < resI[rN].length ? resI[rN][jj + jjj] != null ? resI[rN][jj + jjj][CCONTROLD][ISSET] : -1 : -2), (jj + CURMAXDEPTH + jjj < resI[rN].length ? resI[rN][jj + CURMAXDEPTH + jjj] != null ? resI[rN][jj + CURMAXDEPTH + jjj][CCONTROLD][ISSET] : -1 : -2), depth, maxd, jjj, jj);
             }
 
           }// end of jjj
@@ -3453,18 +3462,18 @@ class EM {
     if (resI[rn].length > DVECTOR2A) {
       a = -5; b = -5;
       for (a = 1; a < 6 && b < 0; a++) {
-        //YEARS 0-99999   0,   4,   8,    16,    32,   999999}; // + over 31+ group
+        //AGEBREAKS   0,   4,   8,    16,    32,   999999}; 
         //  CUM CUR0  CUR1 CUR2  CUR3  CUR4  CUR5
-        //   LIST012 LIST10 LIST11 LIST12 LIST13 LIST14
-        // LIST8-20
+        //   LIST0-LIST9 LIST10 LIST11 LIST12 LIST13 LIST14 LIST15-LIST20
+        //   CURMAXDEPTH = 7
         if (age < AGEBREAKS[a]) {
           b = a;
         }
       }
       /* now set the values in the appropriate age group */
-      resV[rn][ICUR0 + 7 * b][pors][clan] = +v;
-      resI[rn][ICUR0 + 7 * b][pors][clan] = +i;
-      resI[rn][ICUR0 + 7 * b][CCONTROLD][ISSET] = 1;
+      resV[rn][ICUR0 + CURMAXDEPTH * b][pors][clan] = +v;
+      resI[rn][ICUR0 + CURMAXDEPTH * b][pors][clan] = +i;
+      resI[rn][ICUR0 + CURMAXDEPTH * b][CCONTROLD][ISSET] = 1;
     }
     } // end of lock on res..[rn]
     if (rn < 0) {
@@ -3557,17 +3566,17 @@ class EM {
         // now see if this row has an acceptable lock,
         // if the governing locks contain
         int maxc = resI[rn].length < DVECTOR2MAX ? shortLength : longLength;
-        for (c = 1, ageIx = 0; c < maxc && ageIx == 0; c++) {
+        for (c = 3, ageIx = 0; c < maxc && ageIx == 0; c++) {
           if (((aop & res2[ICUM][CCONTROLD][LOCKS0 + 0]) & AGELISTS[c]) > 0) {
-            ageIx = c; 
+            ageIx = c-shortLength+1; // LIST10 = 1
           }
         }
         // short look only at ICUR0 unset, long look at ICUR0 for the first 3 than at thee rest
         // so change ageIx to do the above
         ageIx = resI[rn].length < DVECTOR2MAX ? 0 : ageIx <= shortLength? 0 :ageIx - shortLength + 1;
-        myUnset = unset = resI[rn][ICUR0 + ageIx * 7][CCONTROLD][ISSET] < 1; // flag for age
-        myValid = valid = resI[rn][ICUR0 + ageIx * 7][CCONTROLD][IVALID];
-        depth = resI[rn][ICUR0 + ageIx * 7][CCONTROLD][IVALID];
+        myUnset = unset = resI[rn][ICUR0 + ageIx * CURMAXDEPTH][CCONTROLD][ISSET] < 1; // flag for age
+        myValid = valid = resI[rn][ICUR0 + ageIx * CURMAXDEPTH][CCONTROLD][IVALID];
+        depth = resI[rn][ICUR0 + ageIx * CURMAXDEPTH][CCONTROLD][IVALID];
         // set lla true to force a print below
         boolean lla = (rn > (rende4 - 2) ? true
             : (rn == RCGLT10PERCENT) ? true
@@ -3647,9 +3656,9 @@ class EM {
           // now process the selected age group by the first match
           // aop should containt no more than 1 age list
           
-          myUnset = unset = resI[rn][ICUR0 + ageIx * 7][CCONTROLD][ISSET] < 1; // flag for age
-          myValid = valid = resI[rn][ICUR0 + ageIx * 7][CCONTROLD][IVALID];
-          depth = resI[rn][ICUR0 + ageIx * 7][CCONTROLD][IVALID];
+          myUnset = unset = resI[rn][ICUR0 + ageIx * CURMAXDEPTH][CCONTROLD][ISSET] < 1; // flag for age
+          myValid = valid = resI[rn][ICUR0 + ageIx * CURMAXDEPTH][CCONTROLD][IVALID];
+          depth = resI[rn][ICUR0 + ageIx * CURMAXDEPTH][CCONTROLD][IVALID];
 
           doUnits = false;
           // set didSum if ever doSum and not both
@@ -3908,7 +3917,12 @@ class EM {
           resExt[row] = detail;
           for (long ij : d) {
             for (int m = 0; m < E.lclans; m++) {
-              table.setValueAt((((aVal = getD1(rn, (int) dd[(int) ij] + aop, m, ageIx)) < -93456789. ? aVal < -94567895. ? "--------" : "-----" : dFrac.format(aVal) + isPercent)), row, (int) ij * E.lclans + m + 1);
+              table.setValueAt((((aVal = getD1(rn, (int) dd[(int) ij] + aop, m, ageIx)) < -93456789. ? 
+                      aVal < -94567895. ?
+                              "--------" : 
+                              "-----" :
+                      mf(aVal) + isPercent)),
+                      row, (int) ij * E.lclans + m + 1);
             }
           }
           table.setValueAt(description + suffix + powers, row, 0);
@@ -3971,13 +3985,16 @@ class EM {
         cnts = 0.;
         if (resI[rn] == null) {
           cErr(">>>>>>in Getd1 null at resI[" + rn + "]=" + description);
+          return -88888888.;
         }
          if (resI[rn][ICUR0 + (int) lStart] != null && resI[rn][ICUR0 + (int) lStart][CCONTROLD] != null && resI[rn][ICUR0 + (int) lStart][CCONTROLD][IPOWER] < 0) {
           cErr(">>>>>>in Getd1 null at resI[rn][ICUR0 + (int) lStart=" + lStart + "] resI[" + rn + "]=" + description);
+          return -9999998888.;
         }
         long resia[][] = resI[rn][ICUR0 + (int) lStart];
         if (resia[CCONTROLD] == null) {
           cErr(">>>>>>in Getd1 null at resI[rn][ICUR0 + (int) lStart=" + lStart + "][CCONTROLD] resI[" + rn + "]=" + description);
+          return -99999999.;
         }
         long resib[] = resia[CCONTROLD];
         long dp = resib[IPOWER];
@@ -3985,7 +4002,7 @@ class EM {
         powers = "";
         lEnd = Math.min(lEnd, valid); //restrict year 0 to 1 year,1 prior reset
         ops = "some Cur";
-        for (ii = (int) lStart + ageIx * 7; ii < lEnd + ageIx * 7; ii++) {
+        for (ii = (int) lStart + ageIx * 7; ii < lEnd + ageIx * CURMAXDEPTH; ii++) {
           if (resV[rn] == null) {
             if (pors == 0 && dClan == 0) { //complain only once
               cErr(">>>>>>in Getd1 null at resV[" + rn + "] desc=" + resS[rn][0]);

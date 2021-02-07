@@ -6519,8 +6519,9 @@ public class Assets {
           // amount to tranfer due to size
           val = Math.min(excessForFF, bals.get(ixWRSrc, srcIx) * eM.futureFundTransferFrac[pors][clan]);
           remainingFF = excessForFF - val; // get any leftover
-
-          E.myTest(val < NZERO, "Negative val=%7.4f, bals=%9.4f", val, bals.get(ixWRSrc, srcIx));
+          if(E.debugFutureFund && val < -0.0){
+            EM.doMyErr("Negative val=" +mf(val) + ", bals=" + mf(bals.get(ixWRSrc, srcIx)));
+          }
           resTypeName = ixWRSrc > 0 ? "SizeFFs" : "SizeFFr";
           if (remainingFF > 0.0) {
             mMax++; // increase allowed loops

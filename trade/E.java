@@ -79,6 +79,7 @@ public class E {
   static final boolean debugCheckBalances = debugMaster; //check balances in loops
   static final boolean debugNegGrowth = debugMaster; // neg Growth made negCosts
   static final boolean debugNegCosts = debugMaster; // checking for neg Costs
+  static final boolean debugFutureFund = debugMaster; // checking for errors with future funds
   static final boolean debugNoTerm = debugMaster; // term undefined in assets, find whyu
   static final boolean debutNoLastGoods = debugMaster; //error open TradeRecord
   static final boolean debugOfferCargos = debugMaster; //cargos in offer == cargo.balance
