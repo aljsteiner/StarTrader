@@ -75,6 +75,7 @@ public class Offer {
   double[] startUnitsSum={0.,0.};
   double[] startWorth = {0.,0.}; // worth at start trade
   double[] endWorth = {0.,0.}; // worth after trade   
+  double[] distanceMoved = {0.,0.};
   /**
    * the following shipCG,otherCG,guestGrades are pointers to current values in
    * Assets.cur for the trading ship and other planet or ship these are used in
@@ -167,6 +168,7 @@ public class Offer {
       know[0][m] = cn[m].getNewKnowledge(); // get references
       know[1][m] = cn[m].getCommonKnowledge();
       know[2][m] = cn[m].getManuals();
+      distanceMoved[m] = cn[m].getDistance();
       valueMoreManuals[m] = calcValueMoreManuals(m);
       for (int n : nxyz) {
         xyzs[m][n] = cn[m].getXyz(n);

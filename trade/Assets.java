@@ -517,7 +517,7 @@ public class Assets {
    * @return value as a string
    */
   protected String df(double v) {
-    return ec.mf(v);
+    return EM.mf(v);
   }
 
   /**
@@ -528,7 +528,7 @@ public class Assets {
    * @return value as a string
    */
   protected String df(double v, int n) {
-    return ec.mf(v);
+    return EM.mf(v);
   }
 
   /**
@@ -538,7 +538,7 @@ public class Assets {
    * @return value as a string
    */
   String mf(double v) {
-    return ec.mf(v);
+    return EM.mf(v);
   }
 
   /**
@@ -548,18 +548,33 @@ public class Assets {
    * @return value as a string
    */
   protected String df7(double v) {
-    return ec.mf(v);
+    return EM.mf(v);
   }
 
+ /** convert double to a string
+   * 
+   * @param n double value
+   * @return string value
+   */
   String whole(double n) {
-    whole.setMaximumFractionDigits(0);
-    return whole.format(n);
+  return EM.mf(n);
   }
 
+  /** convert double to a string
+   * 
+   * @param n double value
+   * @return string value
+   */
   String wh(double n) {
-    whole.setMaximumFractionDigits(0);
-    return whole.format(n);
+    return EM.mf(n);
   }
+  
+  /** convert an int to string raw java
+   * 
+   * @param n int value
+   * @return string value of int
+   */
+  String wh(int n){ return n + "";}
 
   double doubleTrouble(Double trouble) {
     return E.doubleTrouble(trouble, "");
@@ -3035,7 +3050,7 @@ public class Assets {
             bonusYears.set(n, bonusYears.get(n) - 1);
             if (bonusYears.values[n] > 0
                     && bonusUnitGrowth.values[n] > 0.) {
-              bonusUnitGrowth.set(n, bonusUnitGrowth.get(n) - bonusUnitGrowth.get(n) / (bonusYears.get(n) + eM.catastrophyBonusYearsBias[0][pors]));
+              bonusUnitGrowth.set(n, bonusUnitGrowth.get(n) - bonusUnitGrowth.get(n) / (bonusYears.get(n) + eM.catastrophyBonusYearsBias[pors][0]));
             }
             didDecay = true;
           }
@@ -3970,6 +3985,7 @@ public class Assets {
           oTradedEcons[oTradedEconsNext++] = oEcon;
         }
         ec.blev1 = oBlev = eM.trade2HistOutputs ? -1 : History.dl; //blev of other lines
+        lightYearsTraveled = ec.distanceMoved; // set in sStartTrade
         lightYearsTraveled = ((lightYearsTraveled < .2)) ? eM.initTravelYears[pors][0] : lightYearsTraveled;
         //initialize for the growth and efficiency
         EM.wasHere = "initTrade... before calcEfficiency loop eeeh" + ++eeeh;
@@ -4005,10 +4021,10 @@ public class Assets {
         //    hist.add(new History(aPre, 7, name + "r balance", r.balance));
         //   hist.add(new History(aPre, 7, name + " s balance", s.balance));
 
-        // ------- do not set reserves --------------
+        // ------- set reserves --------------
         // set reserve to the enter trade value, before recalc costs
         // set large values higher and small least reserve
-        if (false) {
+        if (true) {
           histTitles("setReserves " + name);
           ARow rcRow = bals.getRow(BALANCESIX + RCIX);
           ARow sgRow = bals.getRow(BALANCESIX + SGIX);
@@ -5472,6 +5488,8 @@ public class Assets {
         fneedReq.sendHist(hist, aPre);
         strategicValues.sendHist(hist, aPre);
 
+        boolean isG = false; // if ix is a g index
+        int iXg = -5; // g index ix -E.LSECS
         // starting means set all avail > 0 to emerg, do not count as 
         // value changes tried
         boolean starting = term > eM.barterStart - 2; // 18,17
@@ -5491,6 +5509,8 @@ public class Assets {
             // go from the most strategicValues (m = index), we have least of them
             // request things we have least of.
             ix = strategicValues.maxIx(m); // requests <0, start least amount
+            iXg = ix - E.LSECS;
+            isG = ix >= E.LSECS;
 
             String sT = "T." + term + "." + mm;
             String gcN = sT + " " + ix + "->" + (ix / LSECS > 0. ? "G" : "C") + (int) (ix % E.LSECS);
@@ -5547,17 +5567,31 @@ public class Assets {
             xou = mf > PZERO ? excessOffers / mf : 0.; //convert to bid units
             xof = excessOffers;
             double gtst = myOffer.getG().get(ix % LSECS);
-            E.myTest(ix >= LSECS
-                    && (myOffer.getG().get(ix % LSECS) - emerg) < NZERO,
-                    "Emerg %8e is greater than Guest[%2d] %8e,%8e, m=%2d,ix=%2d,myIx=%1d,%1d,term=%3d",
-                    emerg,
-                    ix % LSECS,
-                    myOffer.getG().get(ix % LSECS),
-                    g.balance.get(ix % LSECS), m, ix,
-                    myIx, myOffer.myIx, term);
-            if (ix < LSECS && (myOffer.getC().get(ix % LSECS) - emerg) < NZERO) {
-              E.myTest(ix < LSECS && (myOffer.getC().get(ix % LSECS) - emerg) < NZERO, "Emerg %2.4g is greater than cargo[%2d] %2.4g,%4.4g, m=%2d,ix=%2d,myIx=%1d,%1d,term=%3d", emerg, ix % LSECS, myOffer.getC().get(ix % LSECS), c.balance.get(ix % LSECS), m, ix, myIx, myOffer.myIx, term);
+            if(E.debugTradeBarter){
+              if(isG && (myOffer.getG().get(iXg) - emerg) < NZERO){
+                  eM.doMyErr("Emerg=" + EM.mf(emerg) + " is more than Guest[" + iXg + "]=" 
+                  + EM.mf(myOffer.getG().get(iXg)) + ":" + EM.mf(g.balance.get(iXg))
+                  + " m=" + m + ", myIx=" + myIx + "," + myOffer.myIx + ", term=" + term
+                  );
+              } 
+              if(!isG && (myOffer.getC().get(ix % LSECS) - emerg) < NZERO){
+                EM.doMyErr("Emerg=" + EM.mf(emerg) + " is more than Cargo[" + ix + "]=" 
+                + EM.mf(myOffer.getC().get(ix)) + ":" + EM.mf(c.balance.get(ix))
+                + " m=" + m + ", myIx=" + myIx + "," + myOffer.myIx + ", term=" + term
+                );
+              }
             }
+           // E.myTest(ix >= LSECS
+            //        && (myOffer.getG().get(ix % LSECS) - emerg) < NZERO,
+            //        "Emerg %8e is greater than Guest[%2d] %8e,%8e, m=%2d,ix=%2d,myIx=%1d,%1d,term=%3d",
+            //        emerg,
+             //       ix % LSECS,
+            //        myOffer.getG().get(ix % LSECS),
+             //       g.balance.get(ix % LSECS), m, ix,
+              //      myIx, myOffer.myIx, term);
+         //   if (ix < LSECS && (myOffer.getC().get(ix % LSECS) - emerg) < NZERO) {
+         //     E.myTest(ix < LSECS && (myOffer.getC().get(ix % LSECS) - emerg) < NZERO, "Emerg %2.4g is greater than cargo[%2d] %2.4g,%4.4g, m=%2d,ix=%2d,myIx=%1d,%1d,term=%3d", emerg, ix % LSECS, myOffer.getC().get(ix % LSECS), c.balance.get(ix % LSECS), m, ix, myIx, myOffer.myIx, term);
+       //     }
 
             // when starting showing offerings takes priority, request
             // only if hiCrit
@@ -6262,6 +6296,7 @@ public class Assets {
      * @return the Econ of the selected planet
      */
     Econ selectPlanet(Econ[] wilda) {
+      yphase = yrphase.SEARCH;
       if (myTrade == null) {
         Offer myOffer = new Offer(ec);
         myTrade = new Trades();
@@ -6787,7 +6822,7 @@ public class Assets {
         hist.add(new History(aPre, 5, name + " initT G", g.balance));
         //only count unique planets visited, count once for each planet
         // Count each ship first entry also
-        if (econVisited++ == 0) {
+        if (++econVisited == 1) {
           EM.porsClanVisited[pors][clan]++;
           EM.porsVisited[pors]++;
           EM.clanVisited[clan]++;

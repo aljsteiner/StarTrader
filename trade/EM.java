@@ -149,8 +149,10 @@ class EM {
   static double[][] mWildCursCnt = {{3., 10.}};
   double[] difficultyPercent = {30., 30.};
   double[][] mDifficultyPercent = {{5., 69.}, {5., 69.}};
-  double[][] minEcons = {{1.5}};
-  static double [][] mminEcons = {{.5,10.0},{.5,10.0}};
+  double[][] minEconsMult = {{1.5}};
+  static double [][] mminEconsMult = {{.5,10.0},{.5,10.0}};
+  double[][] maxThreads = {{4.0}};
+  static double [][] mmaxThreads = {{1.0,11.0}};
   double[] sendHistLim = {20};
   static double[][] mSendHistLim = {{5., 50}, {-1, -1}};
   double[] nominalWealthPerCommonKnowledge = {.2, .3}; // was .9
@@ -2086,7 +2088,7 @@ class EM {
   void runVals() {
     doVal("difficulty  ", difficultyPercent, mDifficultyPercent, "For ships as well as  Planets , set the difficulty of the game, more difficulty increases costs of  resources and colonists each year, increases the possibility of economy death.  More difficulty requires more clan boss expertise.");
     doVal("randomActions  ", randFrac, mRandFrac, "increased random, increases possibility of gain, and of loss, including possibility of death");
-    doVal("Min Econs by Year",minEcons,mminEcons,"increase slider, increase min econs, create more econs to reach this years count");
+    doVal("Min Econs by Year",minEconsMult,mminEconsMult,"increase slider, increase min econs, create new free econs for clans starting at a random clan");
     doVal("wGiven", wGiven, mScoreMult, "increase slider, increase the value of  the worth given in trade by the clan.");
     doVal("iGiven",iGiven, mScoreMult, "increase slider, increase the score for number of economies traded.");
     doVal("wLiveWorthScore", wLiveWorthScore, mScoreMult, "increase slider, increase the winning score for th clan worth.");

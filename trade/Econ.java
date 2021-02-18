@@ -59,6 +59,7 @@ public class Econ{
   protected int clan;
   double xpos, ypos, zpos;
   double[] xyz = {xpos, ypos, zpos};
+  double distanceMoved = 0;
   // neighbors from
   //Neighbor[] neighbors = new Neighbor[20];
   protected int pors;
@@ -81,7 +82,10 @@ public class Econ{
   double knowledge;
   double colonists;
   double res;
-  boolean didYearEnd = false;
+  boolean alreadyTrading = false; //reset at start
+  boolean didYearEnd = false;  //reset at start
+  int visitedShipNext = -1;  //reset at start
+  Econ[] visitedShipList  = new Econ[40];
   protected int logM[] = {0, 0};  // initial hist row to be display per display level
   protected int logLev[] = {E.logDefaultLev[0], E.logDefaultLev[1]};
   protected int logLen[] = {E.logDefaultLen[0], E.logDefaultLen[1]};
@@ -636,7 +640,9 @@ public class Econ{
       logLen[1] = E.logDefaultLen[1];
     }
     trand = newRand(trand);  // generate the random array
-
+    alreadyTrading = false; //reset at start
+    didYearEnd = false;  //reset at start
+    visitedShipNext = -1;  //reset at start
     as.yearStart(trand, hist,lightYears);
     // health = R.yearStart(lightYears,trand);
     ArrayList<History> yy = hist;
@@ -662,15 +668,43 @@ public class Econ{
     }
     return false;
   }
+  
+  void doYearEnd(){
+    doMoreThreads("yearEnd");
+  }
+  
+  final static String[] threadFor = {"yearEnd"};
+  int[] threadCnt={0}; // synchronized count of started threads
+  /** initiate a new thread with yearEnd if no more than 4 yearEnds
+   * 
+   */
+  void doMoreThreads(String doFor){
+ //   didYearEnd = true;  // flag no longer available to barter of end
+    int tCnts=0;
+    boolean doLoops = true;
+    for(int timeLoop=0; timeLoop < 100 && doLoops;timeLoop++){
+      synchronized(threadCnt){tCnts = threadCnt[0];}
+      if(tCnts < eM.maxThreads[0][0]){
+        doLoops = false;
+      } else {
+        try{
+        Thread.sleep(1000L);
+        } catch (InterruptedException e) {}
+         doLoops = false;
+        }
+        
+      } // timeLoop
+      
+      
+    }
+
   int yyyee1=0,yyyee2=0,yyyee3=0,yyyee4=0;
   /** pass yearEnd on to trade.Assets
    * But only do it once a year
    * Ignore a second or more call to yearEnd in a given year
    */
   protected void yearEnd() {
-    // avoid second yearEnd in a given year
-    if(!didYearEnd){
-      didYearEnd = true;
+    visitedShipNext=-1; // ignore everything in the list
     as.yearEnd();
     EM.wasHere = "after as.yearEnd yyyee1=" + yyyee1++;
     if (as.getDie()) {
@@ -680,9 +714,10 @@ public class Econ{
     if (clearHist()) {
       hist.clear(); // wipe out previous hist
     }
-    }
+    
     EM.wasHere = "at econ.yearEnd end yyyee3=" + yyyee3++;
-  }
+  } //yearEnd
+
   
   /** add a line of History to ohist unless
    *  clearHist(), hh == null, hh.level > blev1
@@ -726,7 +761,12 @@ public class Econ{
     
   }
 
-  Econ selectPlanet(ArrayList<Econ> wilda) {
+  /** obsolete selectPlanetNot
+   * 
+   * @param wilda
+   * @return 
+   */
+  Econ selectPlanetnot(ArrayList<Econ> wilda) {
     String wildS = "in selectPlanet for:" + name + " ";
     int n=0,r=-1;
     for (Econ ww : wilda) {
@@ -764,6 +804,12 @@ public class Econ{
         }).start();
   */
   
+  /** select planet from the list of planet Econs in wilda
+   * 
+   * @param wilda  an array of econs
+   * @param wLen  the number of valid  entries in wilda
+   * @return 
+   */
   Econ selectPlanet(Econ[] wilda,int wLen) {
     TradePriority[] tPriority = new TradePriority[wLen];
     String[] sPriority = new String[wLen];
@@ -843,24 +889,7 @@ public class Econ{
  * @return value as a string
  */
  public  String mf(double v){
-      if(v%1 > E.NNZERO && v%1 < E.PPZERO){
-        return whole.format(v);
-      }
-      if(v ==.0 || v == -0){ // very close to zero
-        dFrac.setMinimumFractionDigits(0);
-        dFrac.setMaximumFractionDigits(1);
-      return dFrac.format(v);
-      } else if((v > -999999. && v < -.001) || (v > .001 && v < 999999.)){
-       dFrac.setMinimumFractionDigits(2);
-      dFrac.setMaximumFractionDigits(3);
-      return dFrac.format(v);
-      } else if((v > -.001 && v < E.NNZERO) || (v > E.PPZERO && v < .001)){
-       dFrac.setMinimumFractionDigits(2);
-      dFrac.setMaximumFractionDigits(7);
-      return dFrac.format(v);
-    } else {
-      return exp.format(v);
-    }
+      return EM.mf(v);
    }
   /** format the value
  * 
@@ -868,7 +897,7 @@ public class Econ{
  * @return value as a string
  */
   protected String df(double v) {
-    return mf(v);
+    return EM.mf(v);
   }
 /** return a whole number in the string
  * 
@@ -876,7 +905,7 @@ public class Econ{
  * @return n as a whole number no fraction digits
  */
   protected String wh(double n) {
-    return whole.format(n);
+    return EM.mf(n);
   }
 
   /** return a whole number in the string
@@ -885,7 +914,7 @@ public class Econ{
  * @return n as a whole number no fraction digits
  */
   protected String wh(int n) {
-    return whole.format(n);
+    return n + "";
   }
   
  
@@ -926,6 +955,33 @@ public class Econ{
      } // end for on ownerList
     return newOwnerList;
   }
+  
+  /** move a ship to the next planet, 
+   * and report the distance it is moved
+   * @param planet destination planet for the ship
+   * @return distance Light Years ship moved
+   */
+  double moveLocation(Econ planet){
+    if(E.debugTradeSetup){ 
+      if(planet.pors == E.S){
+      eM.doMyErr("Error cannot move to a star=" + planet.getName());
+    }
+    if(pors == E.P){
+      eM.doMyErr("Error cannot move a planet=" + getName());
+    }
+    }
+    double distance  = calcLY(this,planet);
+    xpos = planet.xpos;
+    ypos = planet.ypos;
+    zpos = planet.zpos;
+    return distance;
+  }
+  /** get the distance moved by this Econ
+   * only ships move, but planets have a default distance 0.0
+   * @return distanceMoved  the light years distance in the last move
+   */
+  double getDistance(){ return distanceMoved;}
+   
 
   /**
    * ship start trade after selecting a planet with selectPlanet and getting a
@@ -944,9 +1000,21 @@ public class Econ{
     if (!ship.getDie()) {
       eM.curEcon = ship;
       eM.otherEcon = planet;
+      ship.alreadyTrading = true;  // only used in main thread
+      planet.alreadyTrading=true;
+      if(ship.pors == E.S && planet.pors == E.P){
+      distanceMoved = ship.moveLocation(planet); //distanceMoved to As trade
+      } else if(ship.pors == E.S && planet.pors == E.S){
+        distanceMoved = 0.0; // just stay here
+      }
+      if(E.debugTradeSetup){
+        if(ship == planet){
+          EM.doMyErr("cannot Trade to self=" + planet.getName());
+        }
+      }
       Offer aOffer = new Offer(eM.year, eM.barterStart,ship, eM, ship, planet);
 
-      int bb = 1; // start barter with planet,
+      int bb = 0; // start barter with planet,
       // for will alternate bb++ each time to start with planet
       int bb1 = bb;
 
@@ -955,21 +1023,41 @@ public class Econ{
       // term = -3 means done 
       // term starts at eM.barterStart
       // see Assets.CashFlow.barter for the flow of term
-      for (int i = aOffer.getTerm(); i > -3; i = aOffer.getTerm()) {
-        bb1 = bb;
-        bb = ++bb % 2;
-        //send loop to both histories
-        cn[0].hist.add(new History(History.loopMinorConditionals5,"T" + aOffer.getTerm() + " " + cn[bb].getName() +  " loop>>>>> ",  "i=" + i, "bb=" + bb1, "cur name=" ,cn[bb1].getName(), "ship=" + ship.getName(), "planet=" , planet.getName(),"<<<<<<<<<<<<<<<<<"));
-        cn[1].hist.add(new History(History.loopMinorConditionals5, "**loop aOffer=", wh(aOffer.getTerm()), "i=" + i, "bb=" + bb1, "name=" + cn[bb1].getName(), "ship=" + ship.getName(), "planet=" + planet.getName()));
-        eM.curEcon = cn[bb1];
-        E.sysmsg("in " + cn[1].name + ".sStartTrade , " + cn[bb1].name + ".barter term=" + aOffer.getTerm() + "\n");
-        aOffer = cn[bb1].barter(aOffer,cn[bb]);
+      for (int termLoop = aOffer.getTerm(); termLoop > -3; termLoop = aOffer.getTerm()) {
+        bb1 = bb; // starts at 0
+        bb = ++bb % 2; // starts at 1
+        //send loop to both histories cn[0] planet
+        cn[0].hist.add(new History(History.loopMinorConditionals5,"T" + aOffer.getTerm() + " " + cn[bb].getName() +  " loop>>>>> ",  "termLoop=" + termLoop, "bb=" + bb1, "cur name=" ,cn[bb1].getName(), "ship=" + ship.getName(), "planet=" , planet.getName(),"<<<<<<<<<<<<<<<<<"));
+        cn[1].hist.add(new History(History.loopMinorConditionals5, "**loop aOffer=", wh(aOffer.getTerm()), "termLoop=" + termLoop, "bb=" + bb1, "name=" + cn[bb1].getName(), "ship=" + ship.getName(), "planet=" + planet.getName()));
+        eM.curEcon = cn[bb1];  // starts at planet
+        if(termLoop > eM.barterStart - 2){
+        E.sysmsg("in " + cn[bb1].name +  ".sStartTrade , " + cn[bb].name + ".barter term=" + aOffer.getTerm() + "\n");
+        } 
+        aOffer = cn[bb1].barter(aOffer,cn[bb],termLoop); //bb1 starts at 0
        // aOffer = cn[bb1].as.barter(aOffer); // first barter with planet
         //   ship.hist.add(new History(3,"Env finish ship Trade"));
         //   planet.hist.add(new History(3,"Env oofinish planet Trade"));
 
-      } // end for
-      if(clearHist()){hist.clear();}
+      } // end  termLoops
+      if(clearHist()){hist.clear();} // for the ship
+      if(planet.clearHist()){planet.hist.clear();}
+      Econ[] planetShipsVisited = { this }; // initialization required by jvm
+      int shipsCnt=0;
+      // loop through other ships, if this is a ship, don't barter with self the last one
+      // Only barter with a list of ships from a planet, not a ship from this loop
+      if(planet.pors == E.P && ((shipsCnt = planet.visitedShipNext)) > -1){
+        int startShips = Math.max(0,shipsCnt-5); // do only the last 4 ships
+        for(;startShips < shipsCnt;startShips++){
+          eM.addlErr = "shipsCnt=" + shipsCnt + ", startShips=" + startShips + ", planet.visitedShipNext=" + planet.visitedShipNext;
+          if(planet.visitedShipList[startShips] != this){
+            sStartTrade(this,planet.visitedShipList[startShips]);
+          }
+        }
+      }
+      if(planet.pors == E.P && eM.shipsPerPlanet(planet.getClan()) <= shipsCnt){
+       planet.doYearEnd();
+      }
+      
       eM.curEcon = myCur; // reset curEcon to its entry value
     }
   }
@@ -977,15 +1065,57 @@ public class Econ{
    * 
    * @param aOffer  The current offer
    * @param otherEcon  the econ with which we traded
+   * @param the term of the barter loop starts at 
    * @return 
    */
-  Offer barter(Offer aOffer,Econ otherEcon){
+  Offer barter(Offer aOffer,Econ otherEcon,int term){
+    // keep a list of all the visited ships, even if barter failed
+    if(visitedShipNext < 0 || visitedShipList[visitedShipNext] != otherEcon && term > eM.barterStart-2){
+      E.sysmsg(" +++++++econ.barter term=" + term + ", visitor=" + otherEcon.name + ", this=" + this.name + " visitedShipNext=" + visitedShipNext);
+      visitedShipList[++visitedShipNext] = otherEcon;
+    }
     Offer ret = as.barter(aOffer);
     if(ret.getTerm() == 0 || ret.getTerm() == -2){
     planetList = mergeLists(planetList,otherEcon.planetList,ret);
-    E.sysmsg(" @@@@@@@econ.barter " + ret.getPlanetName() + " after mergeLists length=" +  planetList.size());
+    E.sysmsg(" --------econ.barter " + ret.getPlanetName() + " after mergeLists length=" +  planetList.size());
     }
     return ret;
   }
-
+  
+  /** get the list of lisited ships and the count of them
+   * 
+   * @param visitedShips return a reference to the visitedShipList
+   * @return the count of entries in visitedShipList
+   */
+  int getShipsVisited(Econ[] visitedShips){
+  visitedShips = visitedShipList;
+  return visitedShipNext+1;
 }
+
+  /** check whether this econ can do another trade this year
+   * 
+   * @return whether this econ can do another trade this year
+   */
+
+  boolean canDoAnotherBarter(){ // still in primary thread
+    double maxShips = eM.shipsPerPlanet(clan);
+     return !(alreadyTrading || didYearEnd) && (getTradedSuccessTrades()+1.) <= maxShips;
+  }
+ 
+   public class EconThread extends Thread{
+     String runType = "none";     
+     EconThread(String threadFor){
+            runType = threadFor;
+          }
+          public void run(){
+            switch (runType) {
+              case "yearEnd":
+                yearEnd();
+                break;
+              default :
+            }
+          }
+    }
+  }
+  
+

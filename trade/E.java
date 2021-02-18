@@ -87,6 +87,8 @@ public class E {
   static final boolean debugCosts = debugMaster;  // check that cost processing ok
   static final boolean debugDouble = debugMaster; //doubleTrouble and infinity or NaN
   static final boolean debugTradeRecord = debugMaster; // or false
+  static final boolean debugTradeBarter = debugMaster; // in barter process
+  static final boolean debugTradeSetup = debugMaster; // distance, location etc
   static final boolean debugStats = debugMaster; // why stats aren't showing
   static final boolean debugStatsOut = debugMaster; // stats output
   static final boolean debugMisc = debugMaster; // other debug tests
