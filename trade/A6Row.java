@@ -108,7 +108,7 @@ public class A6Row extends A6Rowa {
    * @param atitl title for listing with sendHist
    */
   public A6Row(Econ ec,int t, int alev, String atitl) {
-    super(ec,6, tbal, alev, atitl);
+    super(ec,6, t, alev, atitl);
     A[0] = new ARow(ec).zero();
     A[1] = new ARow(ec).zero();
     A[2] = new ARow(ec).zero();
@@ -159,6 +159,86 @@ public class A6Row extends A6Rowa {
     A[4] = c;
     A[5] = d;
   }
+  
+      /**
+   * copy A6Row object, copy each by each of calling A6Row 
+   * a.copy(); no change to a, rtn is a new object lev,titl,balances,costs,blev
+   * are all copied as well as A[] values
+   *
+   * @param newEc calling object root Econ
+   * @return new object copy of this object
+   */
+  
+  public A6Row copy(Econ newEc) { 
+    int t = balances?tbal:costs?tcost:tbal;
+    A6Row rtn =  new A6Row(newEc);
+    rtn.titl = this.titl;
+    rtn.lev = this.lev;
+    rtn.balances = this.balances;
+    rtn.costs = this.costs;
+    rtn.blev = blev;
+    rtn.eM = EM.eM;
+    for (int m = 0; m < lA; m++) {
+      if (A[m] != null) {
+        rtn.A[m] = A[m].copy();
+      } else {
+        rtn.A[m] = new ARow(ec).zero();
+      }
+    }
+    // check about doing gradesA
+    if (gradesA != null) {
+      // construct number of subassets
+      rtn.gradesA = new double[LSUBASSETS][][];
+      for(int ii = 2; ii< LSUBASSETS;ii++){
+        rtn.gradesA[ii] = new double[E.LSECS][];
+        for(int mm=0; mm < E.LSECS;mm++){
+          rtn.gradesA[ii][mm] = new double[E.LGRADES];
+        }
+      }
+    
+      // copy the subassets 2,3 if they exist
+      for(int i = 2; i < LSUBASSETS; i++) {
+        if (gradesA[i] != null) {
+          // construct the sectors
+          for (int m : ASECS) {
+            // copy the sectors
+            if (gradesA[i][m] != null) {
+              // copy the grades
+              for (int n : IAGRADES) {
+                if(E.debugDouble){
+                rtn.gradesA[i][m][n] = doubleTrouble(gradesA[i][m][n]);
+                }else{
+                   rtn.gradesA[i][m][n] = gradesA[i][m][n];
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    rtn.mResum[0] = rtn.mResum1;
+    rtn.mResum[1] = rtn.mResum2;
+
+    // now move values
+    for (int i = 0; i < iix.length; i++) {
+      rtn.sum[i] = doubleTrouble(sum[i]);
+      rtn.plusSum[i] = doubleTrouble(plusSum[i]);
+      rtn.negSum[i] = doubleTrouble(negSum[i]);
+      rtn.minSum[i] = doubleTrouble(minSum[i]);
+      rtn.minSum2[i] = doubleTrouble(minSum2[i]);
+      rtn.aCnt[i] = aCnt[i];
+      rtn.aResum[i] = aResum[i];
+      rtn.aResum[i] = aResum[i];
+      //now copy ix
+      for (int j = 0; j < E.L2SECS; j++) {
+        if (iix[i] != null) {
+          rtn.iix[i][j] = iix[i][j];
+        }
+      }
+    }
+    return rtn;
+  }
+
 
   /**
    * set to all the references in A6Row B

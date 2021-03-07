@@ -64,7 +64,9 @@ public class ARow {
     values = new double[E.lsecs];
     ix = new int[E.lsecs];
     if(E.debugNoTerm){
+      if((as != null )){
       int tst = as.term;
+      }
     }
     for (int i = 0; i < E.lsecs; i++) {
       values[i] = E.PZERO;
@@ -154,22 +156,27 @@ public class ARow {
   double doubleTrouble(Double trouble){
     if(trouble.isNaN()){
       if(E.debugNoTerm){
+        if(as != null){
         Assets abs = as;
         int ii = as.i;
         int tt = abs.term;
         int jj = as.j;
         int mm = as.m;
         int nn = as.n;
-      }
+   
       if(E.debugDouble){
         throw new MyErr(String.format(" %s  Not a number found, term%d, i%d, j%d, m%d, n%d",trouble ,as.term,as.i,as.j,as.m,as.n)); 
       } else {
         return 0.0;
-      }
-    }
+      } 
+    }// as null
+      } // debugTerm
+    } //isNaN
     if(trouble.isInfinite()){
       if(E.debugDouble){
+        if(as != null){
       throw new MyErr(String.format("Infinite number found, term%d,i%d,j%d,m%d,n%d",as.term,as.i,as.j,as.m,as.n));
+        }
       } else {
         return 100.0;
       }
@@ -992,7 +999,7 @@ public class ARow {
       stf = -staff.get(n) * availFrac / bdiv;
       set(n, Math.min(maxM, Math.min(availSrc, Math.min(res, stf))));
       if (n == 0 || n == 2) {
-        hist.add(new History("^s", lev, " availSwap n=" + n, "as=" + df(availSrc), "*bf" + df(srcFrac), "=bl" + df(bal), "r" + df(resource.get(n)), "af" + df(availFrac), "ad" + df(adiv), "s" + df(stf), "bd" + df(bdiv), "sf" + df(maxM), "val" + df(get(n))));
+        hist.add(new History("^s", lev, " availSwap n=" + n, "availSrc=" + df(availSrc), "*bf" + df(srcFrac), "=bl" + df(bal), "r" + df(resource.get(n)), "af" + df(availFrac), "ad" + df(adiv), "s" + df(stf), "bd" + df(bdiv), "sf" + df(maxM), "val" + df(get(n))));
       }
     }
     return this;
@@ -1030,7 +1037,7 @@ public class ARow {
       stf = staff.get(n) * availFrac / bdiv;
       set(n, Math.min(maxM, Math.min(availSrc, Math.min(res, stf))));
       if (n == 0 || n == 2) {
-        hist.add(new History("^s", lev, " availSwap n=" + n, "as=" + df(availSrc), "*bf" + df(srcFrac), "=bl" + df(bal), "r" + df(resource.get(n)), "af" + df(availFrac), "ad" + df(adiv), "s" + df(stf), "bd" + df(bdiv), "sf" + df(maxM), "val" + df(get(n))));
+        hist.add(new History("^s", lev, " availSwap n=" + n, "availSrc=" + df(availSrc), "*bf" + df(srcFrac), "=bl" + df(bal), "r" + df(resource.get(n)), "af" + df(availFrac), "ad" + df(adiv), "s" + df(stf), "bd" + df(bdiv), "sf" + df(maxM), "val" + df(get(n))));
       }
     }
     return this;
@@ -1145,7 +1152,7 @@ public class ARow {
    * @param resDiv divides resource to find a max for swap
    * @param stfDiv divides staff to find a max for swap
    * @param emergMode if true, only mtgNeeds supply a max filter
-   * @param mtggNeed the goal need for partner as destomatopm
+   * @param mtggNeed the goal need 
    * @param mtgNeed the need without goals for the partner as destination
    * 
    * @return  max amount available for swap, costs and move used

@@ -40,12 +40,12 @@ public class E {
   // it also holds tables used to calculate growth etc.
   // StarTrader working set of statsButto?nTip
 
-  static final public String statsButton0Tip = "0: Current Game Worths";
-  static final public String statsButton1Tip = "1: Favors and trade effects";
+ static final public String statsButton0Tip = "0: Cum Game Worths,";
+  static final public String statsButton1Tip = "1: cum Favors and trade effects";
   static final public String statsButton2Tip = "2: Catastrophes, deaths, randoms, forwardfund";
-  static final public String statsButton3Tip = "3: Deaths. rejected or missed deaths";
-  static final public String statsButton4Tip = "4: Trades, AcceptedDeaths";
-  static final public String statsButton5Tip = "5: Death other factors";
+  static final public String statsButton3Tip = "3: Deaths. trades acc";
+  static final public String statsButton4Tip = "4:  dth, Rej misd Trades";
+  static final public String statsButton5Tip = "5: trades acc, rej, missed ";
   static final public String statsButton6Tip = "6: ForwardFund, ForFunds&deaths";
   static final public String statsButton7Tip = "7: Resource, staff, knowledge values";
   static final public String statsButton8Tip = "8: creates. growth and costs details";
@@ -91,14 +91,20 @@ public class E {
   static final boolean debugTradeSetup = debugMaster; // distance, location etc
   static final boolean debugStats = debugMaster; // why stats aren't showing
   static final boolean debugStatsOut = debugMaster; // stats output
+  static final boolean debugLogsOut = debugMaster; // EM rs output
   static final boolean debugMisc = debugMaster; // other debug tests
   static final boolean debugCanTrade = debugMaster; // planet can trade
+  static final boolean debugDisplayTrade = debugMaster; // Trade System.out msgs
   static final boolean debugSettingsTab = debugMaster; //errors from settings doValx
   static final boolean debugSettingsTabOut = debugMaster; //errors from settings doValx
-  static final boolean debugPutValue = debugMaster; //test putValue processing
-  static final boolean debugPutValue1 = debugMaster; //test putValue processing
-  static final boolean debugPutValue2 = debugMaster; //test putValue processing
   static final boolean debugThreads = debugMaster;
+  static final boolean SWAPTRADESYSTEMOUT = debugMaster;
+  
+ static final boolean debugfalse = false;
+   static final boolean debugPutValue = debugfalse; //test putValue processing
+  static final boolean debugPutValue1 = debugfalse; //test putValue processing
+  static final boolean debugPutValue2 = debugfalse; //test putValue processing
+  
   /* Start Global data, set in tab init
    * [pors]
    */
@@ -253,7 +259,8 @@ public class E {
   }
   static protected String[] groupNames = {"red", "orange", "yellow", "green", "blue"};
   public static final String[] clanNames = {"rodalians", "organtics", "yankels", "groknes", "brogles"};
-  public static final int lclans = 5;
+  public static final int lclans = clanNames.length;
+  public static final int LCLANS = lclans;
   Color ccc = new Color(255,204,204);
   public static int backGroundColors[] = {0xa98a80, 0xd9850e, 0xffdc23, 0xb0b332, 0x9eced7};
   public Enum clans[] = {clan.RED, clan.ORANGE, clan.YELLOW, clan.GREEN, clan.BLUE};
@@ -271,6 +278,7 @@ public class E {
    * the number of grade rows for staff type SubAssets
    */
   public static final int lgrades = 16;
+  public static final int LGRADES = lgrades;
   static protected double[] cStartNewEnv = {2000., 2000., 2000., 2000., 2000.};
   static int hcnt = 9; // count of history values for assetsYr layaway ...
   /**

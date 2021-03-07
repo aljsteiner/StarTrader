@@ -365,6 +365,8 @@ public class A6Rowa {
     String tit = titl + ""; // force a new reference
     return this.copy(lev, tit, EM.eM,newEc);
   }
+  
+
 
   /**
    * copy A6Rowa object, copy each by each of calling A6Rowa use as A6Rowa b =
@@ -397,15 +399,23 @@ public class A6Rowa {
     for (int m = 0; m < lA; m++) {
       if (A[m] != null) {
         rtn.A[m] = A[m].copy();
+      } else {
+        rtn.A[m] = new ARow(ec).zero();
       }
     }
     // check about doing gradesA
     if (gradesA != null) {
       // construct number of subassets
       rtn.gradesA = new double[LSUBASSETS][][];
-
+      for(int ii = 2; ii< LSUBASSETS;ii++){
+        rtn.gradesA[ii] = new double[E.LSECS][];
+        for(int mm=0; mm < E.LSECS;mm++){
+          rtn.gradesA[ii][mm] = new double[E.LGRADES];
+        }
+      }
+    
       // copy the subassets 2,3 if they exist
-      for (int i = 2; i < LSUBASSETS; i++) {
+      for(int i = 2; i < LSUBASSETS; i++) {
         if (gradesA[i] != null) {
           // construct the sectors
           for (int m : ASECS) {

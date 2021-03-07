@@ -63,13 +63,13 @@ public class History {
   static final int aux2Info = 13;
   static final int aux3Info = 14;
   static final int aux4Info = 15;
-  static final int highestListable = E.distributable ? 1:15;
+  static final int highestListable = E.debugLogsOut ? 1:30;
   static final int aux5Info = 16;
   static final int aux6Info = 17;
   // headers appear as the first row of a section
   static final int headers20 = 20;  // display header rows encounterd rows earlier
   static final int mostDl = 30;
-  static final int dl = highestListable;
+  static final int dl = E.debugLogsOut ? 1:30;;
  // static final int dl = mostDl;
 
   NumberFormat dFrac = NumberFormat.getNumberInstance();
@@ -162,7 +162,7 @@ public class History {
   }
   
    String mf(double v){
-    return ec.mf(v);
+    return EM.mf(v);
    }
    
    /**

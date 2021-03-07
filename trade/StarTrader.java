@@ -145,12 +145,12 @@ public class StarTrader extends javax.swing.JFrame {
    * StarTrader E  EM contain the used set of stats descriptors 
    *
    */
-  static final public String statsButton0Tip = "0: Current Game Worths";
-  static final public String statsButton1Tip = "1: Favors and trade effects";
+   static final public String statsButton0Tip = "0: Cum Game Worths,";
+  static final public String statsButton1Tip = "1: cum Favors and trade effects";
   static final public String statsButton2Tip = "2: Catastrophes, deaths, randoms, forwardfund";
-  static final public String statsButton3Tip = "3: Deaths. rejected or missed deaths";
-  static final public String statsButton4Tip = "4: Trades, AcceptedDeaths";
-  static final public String statsButton5Tip = "5: Death other factors";
+  static final public String statsButton3Tip = "3: Deaths. trades acc";
+  static final public String statsButton4Tip = "4:  dth, Rej misd Trades";
+  static final public String statsButton5Tip = "5: trades acc, rej, missed ";
   static final public String statsButton6Tip = "6: ForwardFund, ForFunds&deaths";
   static final public String statsButton7Tip = "7: Resource, staff, knowledge values";
   static final public String statsButton8Tip = "8: creates. growth and costs details";
@@ -5116,7 +5116,7 @@ public class StarTrader extends javax.swing.JFrame {
         System.out.flush();
         System.err.flush();
       }
-      System.err.println(new Date().toString() + "Exception " + ex.toString() + " found " + eM.addlErr);
+      System.err.println(new Date().toString() + "Exception " + ex.toString() + EM.andMore());
       ex.printStackTrace(System.err);
       if (!resetOut) {
         System.out.flush();
@@ -5712,6 +5712,7 @@ public class StarTrader extends javax.swing.JFrame {
    * Creates new Class/Form StarTrader
    */
   public StarTrader() {
+   
     this.eE = new E();
     this.eM = new EM(eE, this);
     EM.startTime = startTime;
@@ -5724,22 +5725,23 @@ public class StarTrader extends javax.swing.JFrame {
     /**
      *
      */
+ 
     initComponents();
     Object statsData[][];
     screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     screenHeight = screenSize.height;
     screenWidth = screenSize.width;
-    myHeight = Math.min((int)(screenHeight*.97),1250);
-    myH2=myHeight - 200;
-    myWidth = Math.min((int)(screenWidth*.97),2200);
-    myW3 = (myW2 = (int)(myWidth * .99)) - 300;
+    myHeight = Math.max(500,Math.min((int)(screenHeight*.97),1250));
+    myH2 = Math.max( 500,myHeight - 200);
+    myWidth = Math.max(500,Math.min((int)(screenWidth*.97),2200));
+    myW3 = Math.max(450,(myW2 = Math.max(400,(int)(myWidth * .99))) - 300);
     E.sysmsg("resize1 height=" + screenHeight + "->" + myHeight + ", " + myH2 + ", width=" + screenWidth + "=>" + myWidth + ", " + myW2 + ", " + myW3);
     if(screenHeight < 600 || screenWidth < 600){
    // if(screenHeight < 2700 || screenWidth < 1200){
-      myHeight = Math.min((int)(screenHeight*.97),1250); // could be diff from above
-      myWidth = Math.min((int)(screenWidth*.96),2200);
-      myH2=myHeight - 200;
-      myW3 = (myW2 = (int)(myWidth * .99)) - 400;
+    myHeight = Math.max(500,Math.min((int)(screenHeight*.97),1250));
+    myH2 = Math.max( 500,myHeight - 200);
+    myWidth = Math.max(500,Math.min((int)(screenWidth*.97),2200));
+    myW3 = Math.max(450,(myW2 = Math.max(400,(int)(myWidth * .99))) - 300);
       E.sysmsg("resize2 height=" + screenHeight + "->" + myHeight + ", " + myH2 + ", width=" + screenWidth + "=>" + myWidth + ", " + myW2 + ", " + myW3);
       this.setSize(myWidth, myHeight);
       controlPanels.setSize(myWidth, myHeight);
@@ -5819,7 +5821,7 @@ public class StarTrader extends javax.swing.JFrame {
      Rectangle scrnR = this.getBounds();
      int scrnH = scrnR.height;
      int scrnW = scrnR.width;
-      System.out.println("=================sized2 screen w=" + scrnW + ", h=" + scrnH +
+      System.out.println("=================sized6 screen w=" + scrnW + ", h=" + scrnH +
               ", stats w=" + statsR.width +", h=" + statsR.height + 
               ", statsP w=" + spR.width + ", h=" + spR.height +
               ", statsTable w=" + stR.width + ", h=" + stR.height);
@@ -5841,6 +5843,10 @@ public class StarTrader extends javax.swing.JFrame {
     //eM.curEcon.runYear(.0);
     //eM.curEcon.runYear(.0);
     //eM.curEcon.runYear(.0);
+    String gchgdone = "================gamePaneChange done ==============";
+           
+    System.out.println(gchgdone);
+    System.err.println(gchgdone);
     printMem3();
   }
 
@@ -5983,7 +5989,7 @@ public class StarTrader extends javax.swing.JFrame {
     int lPlanets = eM.planets.size(); // known planets
     int lShips = eM.ships.size();  // known ships
     //int[] tradablePlanets = new int[psize];
-    int lTradablePlanets = psize;  // number to be found
+    int lTradablePlanets = psize;  // number planets to be selected
     double lsel, maxsel;
     int rtns = -1; // counter for planets in tradablePlanets
     // you only get to scan as many planets as you have ships
@@ -6010,14 +6016,15 @@ public class StarTrader extends javax.swing.JFrame {
     double lse1 = 0., lse2 = 0.;
     boolean lla = true, llb = true;
     // find planets new to old
-    for (majorLoops = 0; majorLoops < 4 && rtns < lTradablePlanets; majorLoops++) {
+    for (majorLoops = 0; majorLoops < 4 && rtns < lTradablePlanets-1; majorLoops++) {
       boolean okClanSovrP[] = {};
       //newest planets to oldest planets
-      for (int planetsLoop = lPlanets - 1; planetsLoop >= 0 && rtns < lTradablePlanets; planetsLoop--) {
+      for (int planetsLoop = lPlanets - 1; planetsLoop >= 0 && rtns < lTradablePlanets-1; planetsLoop--) {
         planet = eM.planets.get(planetsLoop); // pick a planet
         if (!planet.getDie()) {
           // if shipsDone/EconsDone  <= eM.gameShipFrac[E.P] + eM.addGoal[majorLoops]
           // always allow trade to planets < age 3 with no ship visited
+          // check tests
           int jjj = planet.as.econVisited; // == null ? 0:planet.as.shipsVisited;
           jjj = shipsDone;  // test for null values in algorithim
           jjj = EM.porsVisited[E.P];
@@ -6031,17 +6038,18 @@ public class StarTrader extends javax.swing.JFrame {
           jjj = (int) (shipsDone
                   / (shipsDone
                   + EM.porsVisited[E.P] + .0001));
-          jjj = planet.getTradedShipsTried();
+          jjj = planet.visitedShipNext; // index of last saved ship
 
-          // check that planet is close enough
+          // check that planet is close enough, expand distance for hirgher loops
           if ((lsel = planet.calcLY(planet, curShip))
                   < (lse2 = eM.maxLY[0]
                   + eM.addLY[E.P] * eM.multLYM[majorLoops])) {
             // check new planet always can trade
             boolean q0 = planet.canDoAnotherBarter(); 
+            // new planets up to 3 year get preference -- ignore
             boolean q1 = majorLoops < 2 && planet.getAge() < 3; //age 0,1 first 2 majorLoops
             boolean q3 = majorLoops == 4;  // no restriction at last loop
-            boolean t0 = q0 || q1 || q3; // accept planet
+            boolean t0 = q0 ||  q3; // accept planet
 
             //test 1 the limit clan planets per clan ships 
             double r1 = (1. - eM.gameShipFrac[E.P]) / eM.gameShipFrac[E.P];//goal P/s
@@ -6070,9 +6078,10 @@ public class StarTrader extends javax.swing.JFrame {
               if (goPrev) {  // planet not yet in list
                 if (rtns < lTradablePlanets - 1) {
                   tradablePlanets[++rtns] = planet;
-                }
+                
                 //    System.out.println(eM.curEcon.getName() + " build select list=" + planet.getName());
                 System.out.printf("build planets list #%d for %s, dist=%5.2f < max=%5.2f planet %s\n", rtns, eM.curEcon.getName(), lsel, eM.maxLY[0] + eM.addLY[0] * majorLoops, planet.getName());
+                }
               }
             }
           }
@@ -6345,8 +6354,9 @@ public class StarTrader extends javax.swing.JFrame {
       else {
         
         printMem3();
+        
+        for(int n=0;n< E.LCLANS;n++){ clanShipsDone[n] = 0; }
         // go latest to earliest, smallest to largest trades
-        for(int n=0;n< E.lclans;n++){ clanShipsDone[n] = 0; }
         for (shipsLoop = eM.ships.size() - 1; shipsLoop >= 0; shipsLoop--) {
           eM.curEcon = eM.ships.get(shipsLoop);
           startEconState = (new Date()).getTime();
@@ -6433,8 +6443,8 @@ public class StarTrader extends javax.swing.JFrame {
           setLogEnvirn(0, eM.curEcon);  // set start1
           eM.hists[0] = eM.logEnvirn[0].hist;
           E.msgcnt = 0;
-          eM.curEcon.yearEnd();
-          EM.wasHere = "after eM.curEcon.yearEnd()";
+          eM.curEcon.doYearEnd();
+          EM.wasHere = "after eM.curEcon.doYearEnd()";
           //   paintEconEndYear(eM.curEcon);
 
           //   System.out.print(new Date().toString() + " after year end" + eM.curEcon.name + "=ship " + (eM.curEcon.getDie() ? " is dead" : " is alive ") + groupNames[eM.curEcon.clan] + " " + eM.curEcon.name + " h=" + eM.curEcon.df(eM.curEcon.getHealth()) + ", age=" + eM.curEcon.getAge() + ", w=" + eM.curEcon.df(eM.curEcon.getWorth()));
@@ -6446,6 +6456,11 @@ public class StarTrader extends javax.swing.JFrame {
           namesList.add(envsLoop2, disp1);
 
         } // finish curEcon.yearEnd
+        
+         
+      //wait for threadCnt to zero, finish all yearEnd
+        Econ.imWaiting(Econ.threadCnt,0,30,"doYear ended yearEnds");
+        
         long[][][] resii1 = eM.resI[0];
         long[][] resi2 = resii1[1];
         long[] resi23 = resi2[2];
@@ -6527,8 +6542,7 @@ public class StarTrader extends javax.swing.JFrame {
       if (!resetOut) {
         eM.flushes();
       }
-      System.err.println(since() + " Caught Err cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + EM.andMore());
-
+      System.err.println("Caught Err cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + EM.andMore());
       ex.printStackTrace(System.err);
       if (!resetOut) {
         eM.flushes();
@@ -6652,6 +6666,7 @@ public class StarTrader extends javax.swing.JFrame {
   }
 
   void paintCurDisplay(Econ curEc) {
+    try {
     int numEcons = eM.econs.size();
     int rN=999999;
     String newLine = "\n";
@@ -6660,7 +6675,7 @@ public class StarTrader extends javax.swing.JFrame {
     controlPanels.getComponent(5);
     controlPanels.setSelectedIndex(5);
     displayPanel0Text.setRows(15);
-    displayPanel0Text.setSize(1200,550);
+    displayPanel0Text.setSize(1200,650);
     // display.setVisible(false);
     // displayPanel1.setVisible(false);
     // displayPanel2.setVisible(false);
@@ -6694,7 +6709,7 @@ public class StarTrader extends javax.swing.JFrame {
               "GCatastrophies " + eM.getCurCumPorsClanUnitSum(rNCrisis,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNCrisis,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum(rNCrisis,EM.ICUM,E.S,E.S+1,0,5) + newLine +
               "LostSOS1 " + eM.getCurCumPorsClanUnitSum(rNLstS1,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNLstS1,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum(rNLstS1,EM.ICUM,E.S,E.S+1,0,5) + newLine +
               "DiedRSOS1 " + eM.getCurCumPorsClanUnitSum(rNDS1,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNDS1,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum(rNDS1,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-  "year" + eM.year +" " +  since() + " " + sinceRunYear() + "  " + newLine + prGigMem + newLine + newLine ;
+  "year" + eM.year +" threads=" + Econ.getThreadCnt() + " "+  since() + " " + sinceRunYear() + "  " + newLine + prGigMem + newLine + newLine ;
       switch (stateConst) {
         case WAITING:
         case STARTING:
@@ -6756,7 +6771,7 @@ public class StarTrader extends javax.swing.JFrame {
   }
     controlPanels.setVisible(true);
     if (stateCnt % 20 == 0) {
-      System.out.print("??????? " + since("Start", startTime) + " " + stateStringNames[stateConst] + sameEconState + " Cnt=" + econCnt + " size=" + numEcons);
+      System.out.print("??????? " + since("Start", startTime) + " " + stateStringNames[stateConst] + "state=" +  sameEconState + " econCnt=" + econCnt + " size=" + numEcons);
       if (curEc != null) {
         System.out.print(" Econ.name=" + curEc.name);
       }
@@ -6764,6 +6779,17 @@ public class StarTrader extends javax.swing.JFrame {
         System.out.print(", " + EM.wasHere);
       }
       System.out.println();
+    }
+    }catch (Exception ex) {
+      if (!resetOut) {
+        eM.flushes();
+      }
+      System.err.println(since() + " Caught Exception=" + ex.toString() + " message=" + ex.getMessage() + EM.andMore());
+      ex.printStackTrace(System.err);
+      if (!resetOut) {
+        eM.flushes();;
+      }
+      setFatalError();
     }
   }
 
