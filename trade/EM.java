@@ -2739,7 +2739,7 @@ class EM {
     doRes(DIEDSM1X3RN1, "DIEDSM1X3RN1", "died",2,2,3);
     doRes(DIEDSM1X2RN1, "DIEDSM1X2RN1", "died",2,2,3);
     doRes(DIEDSN1RM1X1, "DIEDSN1RM1X1", "died",2,2,3);
-    doRes("DeadNegN", "DeadNegSwapN", "Dead Swaps never entered",2,2, 3, ROWS1 | LIST0 | LIST3 |  CUMUNITS | BOTH | SKIPUNSET, ROWS2 | LIST3  | CUMAVE | BOTH | SKIPUNSET, 0L,0L);
+    doRes("DeadNegN", "DeadNegSwapN", "Dead Swaps never entered",2,2, 3, ROWS1 | LIST0 | LIST3 |  CUMUNITS | BOTH | SKIPUNSET, ROWS2 | LIST3  | CUMAVE | BOTH | SKIPUNSET,  ROWS3 | LIST3  | THISYEARUNITS | BOTH | SKIPUNSET,0L);
     doRes("DeadLt5", "DeadLt5", "no more than 15 swaps");
     doRes("DeadLt10", "DeadLt10", "no more than 10 swaps");
     doRes("DeadLt20", "DeadLt20", "no more than 20 swaps");
@@ -2893,19 +2893,19 @@ class EM {
     doRes("SizeFF", "SizeFF", "Size resource/staff sums tranfer resource to FutureFund",2,2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | THISYEARUNITS, 0);
     doRes("FutureFundSaved", "FutureFundsSaved", "Total resource/staff sums tranfered to FutureFund",2,2, 1, LIST2 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, LISTYRS | SKIPUNSET | BOTH | CUR | CURAVE, ROWS3 | LIST6 | THISYEARUNITS, 0);
     doRes("FutureFund", "Redo FutureFund", "At emergency1 level of resource/staff back out of a saved future fund",2,2, 1, LIST6 | LIST2 | CUMUNITS |  BOTH | SKIPUNSET, ROWS2 | LIST2 | LIST6 |CUMAVE | THISYEARUNITS | BOTH | SKIPUNSET, 0L, 0L);
-    doRes("EmergFF1", "Emerg FutureFund1", "At emergency1 level of resource/staff neg prospects tranfer resource to FutureFund",2,2, 1, LIST6 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, ROWS3 | LIST2 | LIST6 |CUMUNITS, 0L, 0L);
-    doRes("REmergFF1", "R Emerg FutureFund1", "At emergency1 level of resource/staff sums tranfer resource to FutureFund");;
-    doRes("SEmergFF1", "S Emerg FutureFund1", "At emergency1 level of staff/resource sums tranfer resource to FutureFund");
-    doRes("REmergFF2", "R Emerg FutureFund2", "At emergency2 level of resource/staff sums tranfer resource to FutureFund");
-    doRes("SEmergFF2", "S Emerg FutureFund2", "At emergency2 level of staff/resource sums tranfer Staff to FutureFund");
-    doRes("RcEmergFF1", "Rc Emerg FutureFund1", "At emergency1 level of resource/staff sums tranfer resource to FutureFund");
-    doRes("SgEmergFF1", "Sg Emerg FutureFund1", "At emergency1 level of staff/resource sums tranfer resource to FutureFund");
-    doRes("RcEmergFF2", "Rc Emerg FutureFund2", "At emergency2 level of resource/staff sums tranfer resource to FutureFund");
-    doRes("SgEmergFF2", "Sg Emerg FutureFund2", "At emergency2 level of staff/resource sums tranfer Staff to FutureFund");
-    doRes("SizeFFr", "SizeFutureFund", "At size level of resource/staff sums tranfer resource  to FutureFund");
-    doRes("SizeFFs", "SizeFutureFund", "At size level of resource/staff sums tranfer staff  to FutureFund");
-    doRes("RSwapFF", "R SwapEmergFF", "At emergency level of resource/staff sums during swaps tranfer resource to FutureFund");
-    doRes("SSwapFF", "S SwapEmergFF", "At emergency level of staff/resource sums during swaps tranfer Staff to FutureFund");
+    doRes("EmergFF1", "Emerg FutureFund1", "At emergency1 level of resource/staff neg prospects val/firstYearWorth to FutureFund",2,2, 1, LIST6 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, ROWS3 | LIST2 | LIST6 |CUMUNITS, 0L, 0L);
+    doRes("REmergFF1", "R Emerg FutureFund1", "At emergency1 level of resource/staff sums tranfer val/firstYearWorth to FutureFund");;
+    doRes("SEmergFF1", "S Emerg FutureFund1", "At emergency1 level of staff/resource sums tranfer val/firstYearWorth to FutureFund");
+    doRes("REmergFF2", "R Emerg FutureFund2", "At emergency2 level of resource/staff sums tranfer val/firstYearWorth to FutureFund");
+    doRes("SEmergFF2", "S Emerg FutureFund2", "At emergency2 level of staff/resource sums tranfer val/firstYearWorth to FutureFund");
+    doRes("RcEmergFF1", "Rc Emerg FutureFund1", "At emergency1 level of resource/staff sums tranfer val/firstYearWorth to FutureFund");
+    doRes("SgEmergFF1", "Sg Emerg FutureFund1", "At emergency1 level of staff/resource sums tranfer val/firstYearWorth to FutureFund");
+    doRes("RcEmergFF2", "Rc Emerg FutureFund2", "At emergency2 level of resource/staff sums tranfer val/firstYearWorth to FutureFund");
+    doRes("SgEmergFF2", "Sg Emerg FutureFund2", "At emergency2 level of staff/resource sums tranfer val/firstYearWorth to FutureFund");
+    doRes("SizeFFr", "R SizeFutureFund", "At size level of resource/staff sums tranfer val/firstYearWorth  to FutureFund");
+    doRes("SizeFFs", "S SizeFutureFund", "At size level of resource/staff sums tranfer val/firstYearWorth  to FutureFund");
+    doRes("RSwapFF", "R SwapEmergFF", "At emergency level of resource/staff sums during swaps tranfer val/firstYearWorth to FutureFund");
+    doRes("SSwapFF", "S SwapEmergFF", "At emergency level of staff/resource sums during swaps tranfer val/firstYearWorth to FutureFund");
  doRes(CRISISINCR, "IncWorthCrisis", "Percent Year increase Worrth/worth a year with a catastrophy", 3, 4, 1, LIST29YRS | curAve | both | skipUnset, 0, 0, 0);
     doRes(CRISIS2INCR, "IncWorthCrisis", "Percent Year increase Worrth/worth a second year after a  catastrophy", 2, 1, 1, LIST29YRS | curAve | both | skipUnset,LIST29 | ROWS2 | CURUNITS | BOTH | SKIPUNSET, 0, 0);
     doRes(CRISIS3INCR, "IncWorthCrisis", "Percent Year increase Worrth/worth a third year after a  catastrophy", 2, 1, 1, LIST29 | ROWS2 | CURUNITS | BOTH | SKIPUNSET, 0, 0, 0);
@@ -3676,10 +3676,12 @@ class EM {
     }
     } // end of lock on res..[rn]
     
-    long endSt = (new Date()).getTime();
-    long moreTT = endSt - doYearTime;
+    
     statsWaitList[prevIx] = "";
+    if(E.debugStatsOut){
     if (rn > 0) {
+      long endSt = (new Date()).getTime();
+      long moreTT = endSt - doYearTime;
         int rN = rn;
         int jj = 1;
         int jjj = 1;
@@ -3698,6 +3700,7 @@ class EM {
 "EM.setStat " + Econ.nowName + " " + Econ.threadCnt[0] + " since doYear" + year + "=" + moreT + "=>"  + moreTT + " " + resS[rN][0] + " rN" + rN + ", valid" + valid + ", "  + " resIcum=" + resICumClan + ", age" + age + ", name=" + curEcon.name + ", curEcon.age" + curEcon.age + ", pors=" + pors + ", clan=" + clan + ", resIcur0Isset=" + resIcur0Isset + ", resICumIsset=" + resICumIsset + ", resVCur0Clan=" + mf(resVcur0Clan) + ", resVCurmClan=" + mf(resVCurmClan));}
         System.out.flush();
       };
+    }
     long[][][] resii = resI[rn];  //for values if using debug
     double[][][] resvv = resV[rn];
     return v;

@@ -6596,12 +6596,13 @@ public class Assets {
       double mDif = .5;
       Integer[] nns = {0,0,2,20,25,30,35,36,37};
       TreeSet<Integer> nnss = new TreeSet();
-      nnss.add(0); nnss.add(2); nnss.add(2); nnss.add(20); nnss.add(25);
-      nnss.add(30);nnss.add(35);nnss.add(36);nnss.add(37);
+      nnss.add(0); nnss.add(2); nnss.add(11); nnss.add(20); nnss.add(25);
+      nnss.add(30);nnss.add(35);nnss.add(36);
+      //nnss.add(37);
       Double remainingFF = 0., excessForFF = 0., frac1 = 0., frac2 = 0.;
       Double val = 0., dif1 = 0., val1 = 0., tmp1 = 0., max1 = 0., tmp3 = 0.;//REmergFF
       // finish processes before leaving this loop
-      int mMax = 1; // max loops
+      int mMax = 4; // max loops
       for (m = 0; m < mMax && (doing || xcess); m++) {
         xcess = doing = false; // false unless section does doing
         // only continue sizeFF
@@ -6761,8 +6762,9 @@ public class Assets {
 
         // now test again whether the pevious code found something to process
         if (doing || xcess) {
-          // find cashValue to transfer for size 
+          // find cashValue/startYearWorth to transfer for size 
           rsval = val * eM.nominalRSWealth[ixWRSrc][pors];
+          double valInc = rsval/syW.getTotWorth();
           hist.add(new History("$b", History.loopIncrements3, "calcFF " + resTypeName,
                   "v=" + df(rsval),
                   rcNsq[ixWRSrc] + srcIx + "=" + df(bals.get(ixWRSrc, srcIx)),
@@ -6777,11 +6779,13 @@ public class Assets {
           if (bals.get(2 + 2 * ixWRSrc, srcIx) + bals.get(3 + 2 * ixWRSrc, srcIx) - val < E.NZERO) {
             E.myTest(bals.get(2 + 2 * ixWRSrc, srcIx) + bals.get(3 + 2 * ixWRSrc, srcIx) - val < E.NZERO, "calcFutureFund error name=%7s, %s%d = %7.2f, %s%d=%7.2f sum=%7.2f less than val=%7.2f *eM.futureFundTransferFrac[pors][clan]= %7.2f bals*eM=%7.2f", resTypeName, aChar[2 * ixWRSrc], srcIx, bals.get(2 + 2 * ixWRSrc, srcIx), aChar[1 + 2 * ixWRSrc], srcIx, bals.get(3 + 2 * ixWRSrc, srcIx), bals.get(ixWRSrc, srcIx), val, eM.futureFundTransferFrac[pors][clan], bals.get(ixWRSrc, srcIx) * eM.futureFundTransferFrac[pors][clan]);
           }
-          m++;
+          //m++;
           hist.add(new History("$c", History.loopMinorConditionals5, "n" + n + "calcFF" + " m" + m + rcNsq[ixWRSrc] + srcIx + " " + resTypeName, "v" + df(val), "b" + df(bals.get(ixWRSrc, srcIx)), "df" + df(dif1), "f" + df(frac1), "FF=" + df(eM.clanFutureFunds[clan]), "r" + df(bals.getRow(0).sum()), df(mtgNeeds6.getRow(0).sum()), "s" + df(bals.getRow(1).sum()), df(mtgNeeds6.getRow(1).sum()), "<<<<<<<<"));
-          setStat(resTypeName, pors, clan, rsval, 1);
-          setStat(resTypeName.contains("merg") ? "EmergFF" : "SizeFF", pors, clan, rsval, 1);
-          setStat("FutureFundSaved", pors, clan, rsval, 1);
+          // only count first FutureFund of this year
+          int thisYr = yearsFutureFund > 0.0?0:1;
+          setStat(resTypeName, pors, clan, valInc, thisYr);
+          setStat(resTypeName.contains("merg") ? "EmergFF" : "SizeFF", pors, clan, valInc, thisYr);
+          setStat("FutureFundSaved", pors, clan, valInc, thisYr);
           // transfer val to clanFutureFunds
           //.eM.clanFutureFunds[clan] += rsval;
           yearsFutureFund += rsval;
