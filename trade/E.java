@@ -101,10 +101,13 @@ public class E {
   static final boolean SWAPTRADESYSTEMOUT = debugMaster;
   
  static final boolean debugfalse = false;
+ static final boolean debugPutRowsOut = debugfalse; //test putValue processing
    static final boolean debugPutValue = debugfalse; //test putValue processing
   static final boolean debugPutValue1 = debugfalse; //test putValue processing
   static final boolean debugPutValue2 = debugfalse; //test putValue processing
-  
+  static final boolean debugStatsOut1 = true; // stats output1
+  static final boolean debugThreadsOut = true; // threads output
+  static final boolean debugThreadsOut1 = true; // threads output1
   /* Start Global data, set in tab init
    * [pors]
    */

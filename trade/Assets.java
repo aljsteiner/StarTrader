@@ -2953,7 +2953,7 @@ public class Assets {
         hist.add(new History(History.headers20, aschar + " efficiency", "0LifeSup", "1Struct", "2Energy", "3Propel", "4Defense", "5Gov", "6Col", "Min", "Sum", "Ave"));
         invMaintEfficiency = make(invMaintEfficiency);
         invMaintEfficiency.invertA(maintEfficiency.setLimVal(rsefficiencyMMin, eM.rsefficiencyMMax[pors][0]));
-        poorKnowledgeAveEffect = invMaintEfficiency.ave();
+        poorKnowledgeAveEffect = invMaintEfficiency.ave();//larger is worse
         ARow tt1 = invMEfficiency.getRow(sIx + 2);
         invMEfficiency.getRow(sIx + 2).set(invMaintEfficiency);
         invGroEfficiency = make(invGroEfficiency);
@@ -7357,7 +7357,7 @@ public class Assets {
           startYrSumWorth = initialSumWorth = iyW.getTotWorth();
           startYrSumKnowledge = initialSumKnowledge = iyW.sumKnowledgeBal;
           startYrSumKnowledgeWorth = initialSumKnowledgeWorth = iyW.sumKnowledgeWorth;
-          setStat("bothCreate", pors, clan, initialSumWorth, 1);
+        //  setStat("bothCreate", pors, clan, initialSumWorth, 1);
         }
         syW = new DoTotalWorths();
         // syWTotWorth = getTotWorth();
@@ -7578,7 +7578,7 @@ public class Assets {
         setStat(EM.RCTBAL, fyW.getSumRCBal() * 100. / fyW.getSumRCBal() + fyW.getSumSGBal(), 1);
         setStat(EM.RCBAL, fyW.getSumRCBal(), 1);
         if (E.debugStats) {
-          System.out.println("print rcPercentInc =" + E.mf(rcPercentInc)+ "<<<<<");
+          System.out.println(">>>>>>>>>>>>>print " + ec.name + " rcPercentInc =" + E.mf(rcPercentInc)+ "<<<<<");
         }
         if (E.debugMisc && (syW.getSumRCBal() == 0.0)) {
           throw new MyErr("zero syW.getSumRCBal()=" + ec.mf(syW.getSumRCBal()));
@@ -7999,7 +7999,7 @@ public class Assets {
     doRes("DeadNegProsp", "DeadNegProsp", "Died either R or S had a negative",  2,2,3,  ROWS1 | LIST3 | LIST20 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |LIST2 |  LIST3 | LIST20  | LIST0YRS |  CUMUNITS | BOTH | SKIPUNSET,0L, 0L);
     doRes("DeadRatioS", "DeadRatioS", "Resource  S values simply too small",  2,2,3,  ROWS1 | LIST3 | LIST20 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |LIST2 |  LIST3 | LIST20  | LIST0YRS |  CUMUNITS | BOTH | SKIPUNSET,0L, 0L);
     doRes("DeadRatioR", "DeadRatioR", "R values simply too small", 2,2,3,  ROWS1 | LIST3 | LIST20 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |LIST2 |  LIST3 | LIST20  | LIST0YRS |  CUMUNITS | BOTH | SKIPUNSET,0L, 0L);
-    doRes("died", "died", "died from any set of causes", 2, 2, 3,  ROWS1 | LIST0 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |LIST7 | LIST8 | LIST9 | CUMUNITS | LISTYRS | BOTH | SKIPUNSET,0L, 0L);
+    doRes(EM.DIED, "died", "died from any set of causes", 2, 2, 3,  ROWS1 | LIST0 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |LIST7 | LIST8 | LIST9 | CUMUNITS | LISTYRS | BOTH | SKIPUNSET,0L, 0L);
     doRes(MISSINGNAME, "missing name", "tried an unknown name", 6, 0, list0 | cumUnits | curUnits | curAve | cumAve | both, 0, 0, 0);
     doRes(DEADRATIO, "diedRatio", "died,average mult year last/initial worth death",2, 2, 3,  ROWS1 | LIST0 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |LIST7 | LIST8 | LIST9 | CUMUNITS | LISTYRS | BOTH | SKIPUNSET,0L, 0L);
     doRes(DEADHEALTH, "died health", "died,average negative minimum health at death",2, 2, 3,  ROWS1 | LIST0 | LIST9 | LIST2YRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |LIST7 | LIST8 | LIST9 | CUMUNITS | LISTYRS | BOTH | SKIPUNSET,0L, 0L);

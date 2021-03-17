@@ -82,7 +82,10 @@ class EM {
   static final public String statsButton19Tip = "19: Swaps years Forward Fund imbalance or save";
   static final public String statsButton20Tip = "20: TB assigned";
 
-  String description = "";
+  static final int lStatsWaitList = 10;
+  static String [] statsWaitList = new String[lStatsWaitList];
+  static int ixStatsWaitList=0;
+  static String description = "";
 //  Econ ec;
   ArrayList<Econ> ships = new ArrayList<Econ>();
   ArrayList<Econ> deadPlanets = new ArrayList<Econ>();
@@ -179,9 +182,9 @@ class EM {
   double[][] tradeRSWealth = {tradeWealthPerResource, tradeWealthPerStaff};
   double[] nominalWealthPerStaff = {3., 4.5};  // and guests
   double[][] mNominalWealthPerStaff = {{1.7, 6.}, {1.7, 8.}};
-  double[][] rawHealthsSOS1 = {{.05}};  // rawHealths below this cause sos
-  double[][] rawHealthsSOS2 = {{.5}};
-  double[][] rawHealthsSOS3 = {{1.5}};
+  double[][] rawHealthsSOS1 = {{.15}};  // rawHealths , rawProspects2 below this cause sos
+  double[][] rawHealthsSOS2 = {{.05}};
+  double[][] rawHealthsSOS3 = {{.02}};
   
   // [rors][pors]
 
@@ -295,19 +298,66 @@ class EM {
   }
 
   /**
-   * possibly add a line with addlErr and wasHere if they aren't empty
+   * possibly add some extra information lines to an error report
    *
-   * @return the possible line
+   * @return the possible lines
    */
   protected static String andMore() {
     String rtn = (addlErr.isEmpty() && wasHere.isEmpty() && wasHere2.isEmpty() ? "" : "\n")
         + (prevLine.isEmpty() ? "":" :" + prevLine + "\n")
-        + (addlErr.isEmpty() ? "" : " :" + addlErr)
-        + (wasHere.isEmpty() ? "" : " :" + wasHere)
-        + (wasHere2.isEmpty() ? "" : " :" + wasHere2);
+        + (addlErr.isEmpty() ? "" : " :" + addlErr + "\n")
+        + (wasHere.isEmpty() ? "" : " :" + wasHere + "\n")
+        + (wasHere2.isEmpty() ? "" : " :" + wasHere2 + "\n") ;
+       rtn += andStats();
+       rtn += andWaiting();
+       rtn += andET();
     return rtn;
   }
-
+  /**
+   * possibly add some extra information lines to an error report
+   *
+   * @return the possible lines
+   */
+  protected static String addMore(){ return andMore(); }
+  
+  /**
+   * possibly add some stats information lines to an error report
+   *
+   * @return the possible lines
+   */
+   static String andStats(){
+   String rtn = "";
+   for( int ii=0;ii < lStatsWaitList;ii++){
+        rtn += (statsWaitList[ii] == null || statsWaitList[ii].isEmpty()? "+" :statsWaitList[ii].length() < 5 ? ">>" + statsWaitList[ii] + "<< " : " :>>" + statsWaitList[ii]  + "<<<\n");
+      } 
+   return rtn;
+   } // andStats
+   
+    /**
+   * possibly add some waiting information lines to an error report
+   *
+   * @return the possible lines
+   */
+   static String andWaiting(){
+     String rtn="";
+     for( int ii=0;ii < Econ.lImWaitingList;ii++){
+        rtn += Econ.imWaitingList[ii] == null || Econ.imWaitingList[ii].isEmpty() ? "":" :" + Econ.imWaitingList[ii]  + "\n";
+      } 
+    return rtn;
+   }
+   
+   /**
+   * possibly add some waiting information lines to an error report
+   *
+   * @return the possible lines
+   */
+   static String andET(){
+     String rtn="";
+     for( int ii=0;ii < Econ.lETList;ii++){
+        rtn += Econ.sETList[ii] == null || Econ.sETList[ii].isEmpty() ? "":" :" + Econ.sETList[ii]  + "\n";
+      } 
+    return rtn;
+   }
   protected static void flushes() {
     System.out.flush();
     System.out.flush();
@@ -365,7 +415,7 @@ class EM {
    */
   protected static String sinceDoYear() {
     long now = (new Date()).getTime();
-    double nu = now - startTime;
+    double nu = now - doYearTime;
     return E.mf(nu * .001);
   }
 
@@ -735,8 +785,8 @@ class EM {
   double[] multGrowthC = multReqMaintC;
   
   double mult5Ctbl[][] = {multReqMaintC, multReqGrowthC, multMaintC, multTravC, multGrowthC}; 
-  double mab1[] = {.30,.40}; // resource costs planet,ship
-  double mac1[] = {.30,.40}; // staff costs planet ship 
+  double mab1[] = {.60,.60}; // resource costs planet,ship
+  double mac1[] = {.60,.60}; // staff costs planet ship 
   double mabc[][] = {mab1,mac1}; //r or s, p or s
   static double mmab1[][] = {{.09,3.1},{.09,3.1}}; // resource costs planet,ship
   static double[][]mmab2= {{.5,1.9},{.5,1.9}};
@@ -795,7 +845,7 @@ class EM {
             vrs =rs[aa][ab][ac][ad] = 
                     // add difficultyPercent as a cost factor 50% = 1. mult
                    //(vdif = difficultyPercent[ac]) * .1  *
-                    (vdif = difficultyPercent[ac] * 0.0033)  *
+                    (vdif = difficultyPercent[ac] * 0.025)  *
                     (vrs4=rs4[aa][ab][ac][(int)ad/2]) * 
                     (vm5t=mult5Ctbl[aa][ac]) * 
                     //mabc[ab][ac] * ps[ac][ad];
@@ -1961,7 +2011,7 @@ class EM {
    * also run settings adjustments at the end
    */
   void runVals() {
-    doVal("difficulty  ", difficultyPercent, mDifficultyPercent, "For ships as well as  Planets , set the difficulty of the game, more difficulty increases costs of  resources and colonists each year, increases the possibility of economy death.  More difficulty requires more clan boss expertise.");
+    doVal("difficulty  ", difficultyPercent, mDifficultyPercent, "For ships as well as  Planets , set the difficulty of the game, more difficulty increases costs of  resources and staff each year, increases the possibility of economy death.  More difficulty requires more clan boss expertise.");
     doVal("randomActions  ", randFrac, mRandFrac, "increased random, increases possibility of gain, and of loss, including possibility of death");
     doVal("Min Econs by Year",minEconsMult,mminEconsMult,"increase slider, increase min econs, create new free econs for clans starting at a random clan");
     doVal("wGiven", wGiven, mScoreMult, "increase slider, increase the value of  the worth given in trade by the clan.");
@@ -2354,6 +2404,9 @@ class EM {
  // static final int TESTWORTH3 = ++e4;
   static final int WORTHIFRAC = ++e4;
   static final int WORTHINCR = ++e4;
+  static final int YEARCREATE = ++e4;
+  static final int FUTURECREATE = ++e4;
+  static final int BOTHCREATE = ++e4;
   static final int SGMTGC = ++e4;
   static final int RCMTGC = ++e4;
   static final int SGREQMC = ++e4;
@@ -2579,12 +2632,14 @@ class EM {
   void defRes() {
 
     doRes(SCORE, "Score", "Winner has the highest score the result of combining the different priorities set by several value entries which increase the score", 3, 4, 3, LIST7 | LIST8 | LIST9 | LIST43210YRS | thisYr | SUM, 0, 0, 0);
-    doRes(LIVEWORTH, "Live Worth", "Live Worth Value including year end working, reserve: resource, staff, knowledge", 3,2, 0, LIST7 | LIST8 | LIST9 | LIST43210YRS | thisYr | SUM, ROWS1 | LIST7 | LIST8 | LIST9 | LIST0YRS | THISYEAR | THISYEARUNITS | thisYrAve | BOTH,0L ,ROWS3 | LIST43210YRS | LIST5 | CUMUNITS | BOTH | SKIPUNSET);
-    doRes(STARTWORTH, "Starting Worth", "Starting Worth Value including working, reserve: resource, staff, knowledge", 3,2, 0, LIST7 | LIST8 | LIST9 | LIST2YRS | thisYr | sum, ROWS1 | LIST7 | LIST8 | LIST9 | LIST2YRS | THISYEAR | thisYrAve | THISYEARUNITS | BOTH, ROWS2,LIST43210YRS  | CUMUNITS | BOTH) ;
+    doRes(LIVEWORTH, "Live Worth", "Live Worth Value including year end working, reserve: resource, staff, knowledge", 2,2, 0, LIST7 | LIST8 | LIST9 | LIST43210YRS | thisYr | SUM, ROWS1 | LIST7 | LIST8 | LIST9 | LIST0YRS | THISYEAR | THISYEARUNITS | thisYrAve | BOTH,ROWS3 | LIST43210YRS | LIST5 | CUMUNITS | BOTH | SKIPUNSET,0L );
+    doRes(STARTWORTH, "Starting Worth", "Starting Worth Value including working, reserve: resource, staff, knowledge") ;
     doRes(WORTHIFRAC, "PercInitWorth ", "Percent of Initial Worth Value including working, reserve: resource, staff, knowledge", 2,2, 0,LIST7 | LIST8  | THISYEARAVE | BOTH,ROWS2 | LIST8 | LIST9 |  CUMAVE |  BOTH, 0, 0);
-    doRes("yearCreate", "yearCreations", "new Econs ceated from year initial funds", 3,2, 0, ROWS1 | LIST8 | LIST0YRS | THISYEARUNITS | SKIPUNSET | BOTH, ROWS3 | LIST8 | LIST0YRS | CUMUNITS | SKIPUNSET | BOTH, 0L, 0L);
-    doRes("FutureCreate", "FutureFund Create", "Econs created from Future Funds", 3,2, 0, ROWS1 | LIST8 | LIST0YRS | THISYEARUNITS | SKIPUNSET | BOTH, ROWS3 | LIST8 | LIST0YRS | CUMUNITS | SKIPUNSET | BOTH, 0L, 0L);
-    doRes("bothCreate", "bothCreations", "new Econs ceated from  initial funds and future funds", 3,2, 0, ROWS1 | LIST8 | LIST0YRS | THISYEARUNITS | SKIPUNSET | BOTH, ROWS3 | LIST8 | LIST0YRS | CUMUNITS | SKIPUNSET | BOTH, 0L, 0L);
+    doRes(WORTHINCR, "PercIncWorth", "Percent worth increase per year");
+    doRes(YEARCREATE, "yearCreations", "new Econs ceated from year initial funds", 3,2, 0, ROWS1 | LIST8 | LIST0YRS | THISYEARUNITS | SKIPUNSET | BOTH, ROWS2 | LIST8 | LIST0YRS | CUMUNITS | SKIPUNSET | BOTH, 0L, 0L);
+    doRes(FUTURECREATE, "FutureFund Create", "Econs created from Future Funds");
+    doRes(BOTHCREATE, "bothCreations", "new Econs ceated from  initial funds and future funds");
+    doRes(DIED,"DIED", "planets or ships died for any cause",2,2, 3,LIST0 | LIST3 | CUM |SKIPUNSET ,ROWS1 | LIST0 | LIST3 | LISTYRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |  LIST0 | LIST2 | LIST3  | CUMUNITS | BOTH | SKIPUNSET,0L);
     doRes("swapRIncr", "swapRIncr", "Uses of R Incr Swap percent of RC", 3,2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
     doRes("swapSIncr", "swapSIncr", "Uses of S Incr Swap percent of SG", 3,2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
     doRes("swapSDecr", "swapSDecr", "Uses of S Decr Swap percent of SG", 3,2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
@@ -2594,15 +2649,15 @@ class EM {
     doRes("swapSSXchg", "swapSSXchg", "Uses of S Xchg Scost Swap percent of RC", 3,2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
     doRes("swapSRXchg", "swapSRXchg", "Uses of S Xchg Rcost Swap percent of RC", 3,2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
       doRes(MISSINGNAME, "missing name", "tried an unknown name", 6, 0, list0 | cumUnits | curUnits | curAve | cumAve | both, 0, 0, 0);
-    doRes(DIED, "died", "planets or ships died for any cause//",2,2, 3,0L,ROWS1 | LIST0 | LIST3 | LISTYRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |  LIST0 | LIST2 | LIST3  | CUMUNITS | BOTH | SKIPUNSET,0L);
-    doRes(DIEDPERCENT, "DIED %", "Percent planets or ships died",2,2, 3, ROWS1 | LIST0 | LIST3 | LISTYRS | THISYEARAVE | BOTH | SKIPUNSET, ROWS2 | LIST3  | CUMAVE | BOTH | SKIPUNSET, 0L,0L);
+   // doRes(DIED, "died", "planets or ships died for any cause",2,2,3,0L,ROWS1 | LIST0 | LIST3 | LISTYRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |  LIST0 | LIST2 | LIST3  | CUMUNITS | BOTH | SKIPUNSET,0L);
+    doRes(DIEDPERCENT, "DIED %", "Percent planets or ships died",2,2, 3, ROWS1 | LIST3 | LISTYRS | THISYEARAVE | BOTH | SKIPUNSET, ROWS2 | LIST3  | CUMAVE | BOTH | SKIPUNSET, 0L,0L);
     doRes(DIEDCATASTROPHY, "DiedAfterCrisis", "Died after catastrophy percent worth would have increased",2,2, 3, ROWS1 | LIST0 | LIST3 | LISTYRS | THISYEARAVE | BOTH | SKIPUNSET, ROWS2 | LIST3  | CUMAVE | BOTH | SKIPUNSET, 0L,0L);
     doRes(DIEDSN4, "DIEDSN4", "died s min(3) or 4 staff lt 0",2,2, 3,ROWS1 | LIST0 | LIST3 | LISTYRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |  LIST0 | LIST2 | LIST3  | CUMUNITS | BOTH | SKIPUNSET,0L,0L);
     doRes(DIEDRN4, "DIEDRN3", "died 4 resource lt 0",2,2, 3,ROWS1 | LIST0 | LIST3 | LISTYRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |  LIST0 | LIST2 | LIST3  | CUMUNITS | BOTH | SKIPUNSET,0L,0L);
     doRes(DIEDSN4RM3X5, " DIEDSN4RM3X5", "died 4 r lt 0, && 3 max r gt 5 times 3 max s",2,2, 3,ROWS1 | LIST0 | LIST3 | LISTYRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |  LIST0 | LIST2 | LIST3  | CUMUNITS | BOTH | SKIPUNSET,0L,0L);
     doRes(DIEDSN4RM3X4, "DIEDSN4RM3X4", "died 4 r lt 0, && 3 max r gt 4 Times 3 max s",2,2, 3,ROWS1 | LIST0 | LIST3 | LISTYRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |  LIST0 | LIST2 | LIST3  | CUMUNITS | BOTH | SKIPUNSET,0L,0L);
     doRes(DIEDSM3X5, "DIEDSM3X5", "died  3 max s gt 5 times 3 max r",2,2, 3,ROWS1 | LIST0 | LIST3 | LISTYRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |  LIST2 | LIST3  | CUMUNITS | BOTH | SKIPUNSET,0L,0L);
-    doRes(DIEDSN4RN4, "DIEDSN4RN4", "died 4s lt 0 and 4r lt 0",2,2, 3,ROWS1 | LIST2 | LIST3  | CUMUNITS  | BOTH | SKIPUNSET, ROWS2 | LIST2 | LIST3 | BOTH | THISYEARUNITS,0L,0L);
+    doRes(DIEDSN4RN4, "DIEDSN4RN4", "died 4s lt 0 and 4r lt 0",2,2, 3,ROWS1 | LIST2 | LIST3  | CUMUNITS  | BOTH | SKIPUNSET, ROWS2 | LIST2 | LIST3 | BOTH | THISYEARUNITS | SKIPUNSET,0L,0L);
     doRes(DIEDRM3X4, "DIEDRM3X4", "died thirs max of r gt 4 times thrid max of s",2,2, 3);
     doRes(DIEDSN3RN3, "diedSN3RN3", "died 3 s lt 0 and 3 r lt 0",2,2, 3);
     doRes(DIEDSN3RN2, "DIEDSN3RN2", "died 3 s lt 0 and 2 r lt 0",2,2, 3);
@@ -2698,36 +2753,35 @@ class EM {
     doRes(DEADSWAPSCOSTS, "diedSwapCosts", "died,average SwapCosts at death");
     doRes(DEADTRADED, "diedTraded", "died,even after trading");
 
-    doRes(SGMTGC, "SGmtgCosts", "SG Maintenance,Travel,Growth Costs / RCSGBal", 6, 1, 1, (LISTYRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
-    doRes(RCMTGC, "RCmtgCosts", "RC Maintenance,Travel,Growth Costs / RCSGBal", 6, 1, 1, (LISTYRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
-    doRes(SGREQGC, "SGREQGCosts", "SG REQ G Costs / RCSGBal", 6, 1, 1, (LISTYRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
-    doRes(RCREQGC, "RCREQGCosts", "RC REQ M Costs / RCSGBal", 6, 1, 1, (LISTYRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
-    doRes(SGREQMC, "SGREQMCosts", "SG REQ M Costs / RCSGBal", 6, 1, 1, (LISTYRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
-    doRes(RCREQMC, "RCREQMCosts", "RC REQ G Costs / RCSGBal", 6, 1, 1, (LISTYRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
+    doRes(SGMTGC, "SGmtgCosts", "SG Maintenance,Travel,Growth Costs / RCSGBal",1, 1, 1,  LIST8 | ROWS2 | curAve | both | SKIPUNSET, 0, 0, 0);
+    doRes(RCMTGC, "RCmtgCosts", "RC Maintenance,Travel,Growth Costs / RCSGBal");
+    doRes(SGREQGC, "SGREQGCosts", "SG REQ G Costs / RCSGBal");
+    doRes(RCREQGC, "RCREQGCosts", "RC REQ M Costs / RCSGBal");
+    doRes(SGREQMC, "SGREQMCosts", "SG REQ M Costs / RCSGBal");
+    doRes(RCREQMC, "RCREQMCosts", "RC REQ G Costs / RCSGBal");
 
-    doRes(RRAWMC, "RMaintCosts", "R Maintenance Costs/ RCSGBal", 6, 1, 1, (LISTYRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
-    doRes(CRAWMC, "CMaintCosts", "C Maintenance Costs/ RCSGbal", 6, 1, 1, (LISTYRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
-    doRes(RCRAWMC, "RCMaintCosts", "RC Maintenance Costs/ RCSGBal", 6, 1, 1, (LISTYRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
-    doRes(SRAWMC, "SMaintCosts", "S Maintenance Costs/ RCSGBal", 6, 1, 1, (LISTYRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
-    doRes(GRAWMC, "GMaintCosts", "G Maintenance Costs/ RCSGBal", 6, 1, 1, (LISTYRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
-    doRes(SGRAWMC, "SGMaintCosts", "SG Maintenance Costs/ RCSGBal",2, 1, 1, (LIST0YRS | LIST8 | ROWS2 | ROWS3 | curAve | both), 0, 0, 0);
- //   doRes(RCRAWMC, "RCRawMaintCosts", "RC Maintenance Costs/ RCSGBal", 6, 1, 1, (LISTYRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
-    doRes(RCfrac, "RC/yr Worth", "RC / yr Worth", 6, 1, 1, (LISTYRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
-    doRes(SGfrac, "SG/yr Worth", "SG / yr Worth", 6, 1, 1, (LISTYRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
+    doRes(RRAWMC, "RMaintCosts", "R Maintenance Costs/ RCSGBal");
+    doRes(CRAWMC, "CMaintCosts", "C Maintenance Costs/ RCSGbal");
+    doRes(RCRAWMC, "RCMaintCosts", "RC Maintenance Costs/ RCSGBal");
+    doRes(SRAWMC, "SMaintCosts", "S Maintenance Costs/ RCSGBal");
+    doRes(GRAWMC, "GMaintCosts", "G Maintenance Costs/ RCSGBal");
+    doRes(SGRAWMC, "SGMaintCosts", "SG Maintenance Costs/ RCSGBal");
+ //   doRes(RCRAWMC, "RCRawMaintCosts", "RC Maintenance Costs/ RCSGBal");
+    doRes(RCfrac, "RC/yr Worth", "RC / yr Worth");
+    doRes(SGfrac, "SG/yr Worth", "SG / yr Worth");
     //chgd KNOWLEDGEB MANUALSfrac NEWKNOWLEDGEfrac COMMONKNOWLEDGEfrac KNOWLEDGEINCR NEWKNOWLEDGEINCR MANUALSINCR COMMONKNOWLEDGEINCR
-    doRes(POORKNOWLEDGEEFFECT, "Dumb csts", "Increase in costs due to limited knowledge(ignorance)",2, 1, 1, (LIST0YRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
-    doRes(POORHEALTHEFFECT, "Poor Health Cost", "Increase in costs due to insufficient required resources and staff",2, 1, 1, (LIST0YRS | LIST8 | ROWS2 | curAve | both), 0, 0, 0);
-    doRes(NEWKNOWLEDGEFRAC, "New KnowledgeFrac", "New knowledge / Knowledge ",2, 3, 1, (LIST7 |LIST0YRS | curAve | both), 0, 0, 0);
-    doRes(KNOWLEDGEFRAC, "Knowledge Frac", "Knowledge worth / year worth",2, 3, 1, (LIST0YRS | curAve | both), 0, 0, 0);
-    doRes(COMMONKNOWLEDGEFRAC, "Common Knowledge", "Common knowledge/knowledge",2, 3, 1, (LIST7 | LIST0YRS | curAve | both), 0, 0, 0);
-
-    doRes(MANUALSFRAC, "Manualsfrac", "Manuals /knowledge, you get manuals in trades, faculty and researcher turn manuals into knowledge", 4, 3, 1, (LIST0YRS | LIST7 | curAve | both), 0, 0, 0);
-    doRes(WORTHINCR, "PercIncWorth", "Percent worth increase per year", 3, 4, 1, (LIST0YRS | curAve | both), 0, 0, 0);
-    doRes(KNOWLEDGEB, "BalanceKnowledge", "Knowledge balance", 4, 3, 1, (ROWS2 | LIST7 | LIST0YRS | curAve | both), 0, 0, 0);
-    doRes(KNOWLEDGEINCR, "PercIncrKnowledge", "Percent Knowledge Increase per year", 4, 3, 1, (LIST7 | LISTYRS | curAve | both), 0, 0, 0);
-    doRes(NEWKNOWLEDGEINCR, "incNewKnowledge", "Percent New Knowledge Incr/Year", 4, 3, 1, (LIST7 | LISTYRS | curAve | both), 0, 0, 0);
-    doRes(COMMONKNOWLEDGEINCR, "incCommonKnowledge", "Percent Common Knowledge increase by year", 4, 3, 1, (LIST7 | LISTYRS | curAve | both), 0, 0, 0);
-    doRes(MANUALSINCR, "PercIncrManuals", "Percent Manuals increase by years", 4, 3, 1, (LIST7 | LISTYRS | curAve | both), 0, 0, 0);
+    doRes(POORKNOWLEDGEEFFECT, "Dumb csts", "frac Increase in costs due to limited knowledge(ignorance)");
+    doRes(POORHEALTHEFFECT, "Poor Health Cost", "Increase in costs due to insufficient required resources and staff");
+    doRes(NEWKNOWLEDGEFRAC, "New KnowledgeFrac", "New knowledge / Knowledge ",2, 3, 1, (LIST7 |LIST0YRS | curAve | both | SKIPUNSET), 0, 0, 0);
+    doRes(KNOWLEDGEFRAC, "Knowledge Frac", "Knowledge worth / year worth");
+    doRes(COMMONKNOWLEDGEFRAC, "Common Knowledge", "Common knowledge/knowledge");
+    doRes(MANUALSFRAC, "Manualsfrac", "Manuals /knowledge, you get manuals in trades, faculty and researcher turn manuals into knowledge");
+   
+    doRes(KNOWLEDGEB, "BalanceKnowledge", "Knowledge balance");
+    doRes(KNOWLEDGEINCR, "PercIncrKnowledge", "Percent Knowledge Increase per year");
+    doRes(NEWKNOWLEDGEINCR, "incNewKnowledge", "Percent New Knowledge Incr/Year");
+    doRes(COMMONKNOWLEDGEINCR, "incCommonKnowledge", "Percent Common Knowledge increase by year");
+    doRes(MANUALSINCR, "PercIncrManuals", "Percent Manuals increase by years");
     doRes(INCRAVAILFRAC5, "IncrAvailFrac5", "Percent increase in avail frac after trade at favor 5",2, 3,2, THISYEARAVE | both | SKIPUNSET , ROWS1 | LIST41 | CURAVE| BOTH | SKIPUNSET , ROWS2  | THISYEARUNITS  | BOTH | SKIPUNSET , ROWS3 |  CUMUNITS | BOTH | SKIPUNSET );
     doRes(INCRAVAILFRAC4, "IncrAvailFrac4", "Percent increase in avail frac after trade at favor 4",2, 3,2, DUP, 0, 0, 0);
     doRes(INCRAVAILFRAC3, "IncrAvailFrac3", "Percent increase in avail frac after trade at favor 3",2, 3,2, DUP, 0, 0, 0);
@@ -3170,7 +3224,7 @@ class EM {
     int bvector2l = mLocks == 0 ? DVECTOR2A : DVECTOR2L; // short if no age years option
     int[] yrs3 = mLocks == 0 ? yrs1 : yrs2;
     if(E.debugStats){if(!(resV[rN] == null) && resV[rN].length > 1){
-      throw new MyErr("null doRes rN=" + rN + " prevDescription=" + description);
+      throw new MyErr("null doRes rN=" + rN + " curDescription=" + ( resS[rN] != null && resS[rN][0] != null?resS[rN][0]:" null cur descrip ") + " prevDescription=" + description);
     }}
     resV[rN] = new double[bvector2l][][]; // create the values structure
     resI[rN] = new long[bvector2l][][];
@@ -3534,6 +3588,7 @@ class EM {
     return setStat(rn, pors, clan, v, cnt, age);
   }
 
+  
   /**
    * set a statistic value and possibly a count
    *
@@ -3547,26 +3602,36 @@ class EM {
    */
   double setStat(int rn, int pors, int clan, double v, int cnt, int age
   ) {
+        int le = 10;
+    int prevIx = ixStatsWaitList;
+    ixStatsWaitList = (++ixStatsWaitList%lStatsWaitList);
+    int atCnt=0;
+    long nTime = (new Date()).getTime();
+    long moreT = nTime - doYearTime;
+    if (E.debugStatsOut) {
+     statsWaitList[prevIx]="setStat in thread " + Thread.currentThread().getName() + " sinceDoYear " + moreT + " at " ;
+    StackTraceElement[] prevCalls = new StackTraceElement[le];
+    int lstk = Thread.currentThread().getStackTrace().length-1;
+    for(int ste=1;ste< le && atCnt < 5  && ste < lstk; ste++){
+     prevCalls[ste] = Thread.currentThread().getStackTrace()[ste+1];
+     if(!prevCalls[ste].getMethodName().contentEquals("setStat")){
+       if(atCnt == 0){
+         statsWaitList[prevIx] += prevCalls[ste].getMethodName() + " ";
+     }
+       statsWaitList[prevIx] += " at " + prevCalls[ste].getFileName() + "." + prevCalls[ste].getLineNumber();
+    }
+     atCnt++;
+    }//for
+    }//if
+
     //  int sClan = curEcon.clan;
     // int pors = curEcon.pors;
     addlErr = "inSetStat a rn=" + rn  + " pors=" + pors + " clan=" + clan + " ";
     String desc = resS[rn][0];
     wasHere = "inSetStat b rn=" + rn + " desc=" + desc + " pors=" + pors + " clan=" + clan + " ";
     addlErr = "";
-    long resLock[][][] = resI[rn];
-    double resL[][][] = resV[rn];
-    int a = -5, b = -5;
-    //wasHere = "inSetStat rn=" + rn + " desc=" + desc + " pors=" + pors + " clan=" + clan + " ";
-    synchronized(resLock) {
-    int i = cnt > 0 ? 1 : 0;
-    resV[rn][ICUM][pors][clan] += v;
-    resI[rn][ICUM][pors][clan] += i;
-    resV[rn][ICUR0][pors][clan] += v;
-    resI[rn][ICUR0][pors][clan] += i;
-    resI[rn][ICUR0][CCONTROLD][ISSET] = 1;
-    resI[rn][ICUM][CCONTROLD][ISSET] = 1;
-    if (resI[rn].length > DVECTOR2A) {
-      a = -5; b = -5;
+    int a=-5,b=-5,curm=0;
+     if (resI[rn].length > DVECTOR2A) {
       for (a = 1; a < 6 && b < 0; a++) {
         //AGEBREAKS   0,   4,   8,    16,    32,   999999}; 
         //  CUM CUR0  CUR1 CUR2  CUR3  CUR4  CUR5
@@ -3576,18 +3641,62 @@ class EM {
           b = a;
         }
       }
+      curm = ICUR0 + CURMAXDEPTH*b;
+     } // end if
+    long resLock[][][] = resI[rn];
+    double resL[][][] = resV[rn];
+    int ycnt = cnt > 0 ? cnt : 0;
+    
+    double[]  resVCum = resV[rn][ICUM][pors]; //array object 
+    double resVCumC = resVCum[clan]; // value in 
+    resVCumC += v; // won't work
+    long [] resICum = resI[rn][ICUM][pors];
+    double [] resVCur = resV[rn][ICUR0][pors];
+    long[] resICur = resI[rn][ICUR0][pors];
+    long[] resICurCC = resI[rn][ICUR0][CCONTROLD];
+    long[] resICumCC = resI[rn][ICUM][CCONTROLD];
       /* now set the values in the appropriate age group */
-      resV[rn][ICUR0 + CURMAXDEPTH * b][pors][clan] = +v;
-      resI[rn][ICUR0 + CURMAXDEPTH * b][pors][clan] = +i;
-      resI[rn][ICUR0 + CURMAXDEPTH * b][CCONTROLD][ISSET] = 1;
+      double[] resVCurm = resV[rn][curm][pors];
+      long[] resICurm = resI[rn][curm][pors];
+      long[] resICurmCC = resI[rn][curm][CCONTROLD];
+    //wasHere = "inSetStat rn=" + rn + " desc=" + desc + " pors=" + pors + " clan=" + clan + " ";
+    synchronized(resLock) {
+    
+    resVCum[clan] += v;
+    resICum[clan] += ycnt;
+    resVCur[clan] += v;
+    resICur[clan] += ycnt;
+    resICurCC[ISSET] = 1;
+    resICumCC[ISSET] = 1;
+    if (curm>0) {
+      /* now set the values in the appropriate age group */
+      resVCurm[clan] += v;
+      resICurm[clan] += ycnt;
+      resICurmCC[ISSET] = 1;
     }
     } // end of lock on res..[rn]
-    if (rn < 0) {
+    
+    long endSt = (new Date()).getTime();
+    long moreTT = endSt - doYearTime;
+    statsWaitList[prevIx] = "";
+    if (rn > 0) {
         int rN = rn;
         int jj = 1;
         int jjj = 1;
+        long resICumClan = resI[rn][ICUM][pors][clan];
+        long resIcur0Clan = resI[rn][ICUR0][pors][clan];
+        double resVcur0Clan = resV[rn][ICUR0][pors][clan];
+        long resICurmClan = resI[rn][curm][pors][clan];
+        double resVCurmClan = resV[rn][curm][pors][clan];
+        long resIcur0Isset = resI[rn][ICUR0][CCONTROLD][ISSET];
+        long resICumIsset = resI[rn][ICUM][CCONTROLD][ISSET];
+        
         long isset1 = (jj - 1 + jjj < resI[rN].length ? resI[rN][jj - 1 + jjj] != null ? resI[rN][jj - 1 + jjj][CCONTROLD][ISSET] : -1 : -2);
-        if(E.debugStatsOut)System.out.println("EM.setStat " + resS[rN][0] + " rN" + rN + ", valid" + valid + ", " + (isset1 > 0?"isset":"isnotset") + ",issetb" + (jj + jjj < resI[rN].length ? resI[rN][jj + jjj] != null ? resI[rN][jj + jjj][CCONTROLD][ISSET] : -1 : -2) + ", issetc" + (jj + 6 + jjj < resI[rN].length ? resI[rN][jj + 6 + jjj] != null ? resI[rN][jj + 6 + jjj][CCONTROLD][ISSET] : -1 : -2) + ", b" + b + ", jjj" + jjj + ",jj" + jj + ", age" + age + ", name:" + curEcon.name + ", curEcon.age" + curEcon.age);
+        
+        if(E.debugStatsOut1){
+          System.out.println(
+"EM.setStat " + Econ.nowName + " " + Econ.threadCnt[0] + " since doYear" + year + "=" + moreT + "=>"  + moreTT + " " + resS[rN][0] + " rN" + rN + ", valid" + valid + ", "  + " resIcum=" + resICumClan + ", age" + age + ", name=" + curEcon.name + ", curEcon.age" + curEcon.age + ", pors=" + pors + ", clan=" + clan + ", resIcur0Isset=" + resIcur0Isset + ", resICumIsset=" + resICumIsset + ", resVCur0Clan=" + mf(resVcur0Clan) + ", resVCurmClan=" + mf(resVCurmClan));}
+        System.out.flush();
       };
     long[][][] resii = resI[rn];  //for values if using debug
     double[][][] resvv = resV[rn];
@@ -3635,7 +3744,7 @@ class EM {
    */
   public int putRows(JTable table, String[] resExt, int row, long aop) {
     if (putRowsPrint1Count++ < 10) {
-      if(E.debugStatsOut)System.out.println(">>>>>>putRows1 rende4=" + rende4 + "," + rendae4 + ", count=" + putRowsPrint1Count + "<<<<<<");
+      if(E.debugPutRowsOut)System.out.println(">>>>>>putRows1 rende4=" + rende4 + "," + rendae4 + ", count=" + putRowsPrint1Count + "<<<<<<");
 
     }
     int rn = 0;
@@ -3643,7 +3752,7 @@ class EM {
     long depth = -2, hLM = 0, hLM1 = 0, hLMp = 0, myValid = 0;
     for (rn = 0; rn < rende4; rn++) {
       if (putRowsPrint2Count++ < 10) {
-        System.out.println(">>>>>>putRows2 count=" + putRowsPrint2Count + " rn=" + rn + " row=" + row + " <<<<<<");
+        if(E.debugPutRowsOut)System.out.println(">>>>>>putRows2 count=" + putRowsPrint2Count + " rn=" + rn + " row=" + row + " <<<<<<");
       }
       if (resI[rn] == null) {
         System.out.println("null resI[" + rn + "] prev desc=" + prevDesc);
@@ -3689,10 +3798,11 @@ class EM {
                 : (rn == RCTGROWTHPERCENT) ? true
                     : ((aop & (LIST8 | LIST0 | LIST3)) > 0l)
                         ? (prpc2++ > 6) ? (prpc2 = 0) == 0 : false : false);
-
-        if ((lla || ((putRowsPrint6aCount % 75) == 0)) && (putRowsPrint6aCount++ < 200)) {
+        if(E.debugPutRowsOut){
+        if ((lla || ((putRowsPrint6aCount % 75) == 0)) && (putRowsPrint6aCount++ < 100)) {
           System.out.flush();
           System.out.printf("EM.putrow6a rn=%d %s, %s, list%d, depth%d, valid%d, cum%d, rende4=%d,%d putRowsPrint6aCount= " + putRowsPrint6aCount + " \n", rn, (unset ? "UNSET" : "ISSET"), resS[rn][0], ((aop & list0) > 0 ? 0 : (aop & list1) > 0 ? 1 : (aop & LIST8) > 10 ? 2 : (aop & LIST3) > 0 ? 17 : aop), depth, valid, resI[rn][ICUM][0][0], rende4,rendae4);
+        }
         }
         row = putRows(table, resExt, rn, row, aop, ageIx);
       } // end not null
@@ -3712,8 +3822,10 @@ class EM {
    * @return next row
    */
   public int putRows(JTable table, String[] resExt, int rn, int row, long aop, int ageIx) {
+    if(E.debugPutRowsOut){
     if (putRowsPrint3Count++ < 12) {
       System.out.println(">>>>>>putRows3 count=" + putRowsPrint3Count + " rn=" + rn + " row=" + row + ", rende4=" + rende4 + "," + rendae4 + " <<<<<<");
+    }
     }
     if (resV[rn] == null) { // skip undefined rows
       return row;
@@ -3729,8 +3841,10 @@ class EM {
       long allLocks = resiic[LOCKS0] | resiic[LOCKS1] | resiic[LOCKS2] | resiic[LOCKS3];
       long haveDM = (aop & allLocks) & dmask;
       long haveLM = (aop & allLocks) & lmask;
+      if(E.debugPutRowsOut){
       if (putRowsPrint4Count++ < 12) {
         System.out.println(">>>>>>putRows4 count=" + putRowsPrint4Count + " haveDM=" + haveDM + " haveLM=" + haveLM + " rn=" + rn + " row=" + row + " <<<<<<");
+      }
       }
       if (haveDM == 0L || haveLM == 0L) { // check if EM rn missing list or do (command)
         return row;
@@ -3741,9 +3855,10 @@ class EM {
       didSum = false; // initialize didSum, remember sum across locks
       // process each LOCKS0-3 thru each command and list not zero
       // use previous hlMp (LISTs) if this lock has no list
+      if(E.debugPutRowsOut){
       if (putRowsPrint5Count++ < 12) {
         System.out.println(">>>>>>putRows5 count=" + putRowsPrint5Count + " haveDM=" + haveDM + " haveLM=" + haveLM + " rn=" + rn + " <<<<<<");
-      }
+      }}
       // move through the 4 locks
       for (int d = 0; d < 4; d++) {
         // check for a LISTx put in hLM1
@@ -3782,9 +3897,11 @@ class EM {
               && ((aop & (LIST8 | LIST0 | LIST3)) > 0l) ? (prpc1++ > 6) ? (prpc1 = 0) == 0 : false : false);
 
           //   if ((resS[rn][rDesc].contains("WORTH") || resS[rn][rDesc].contains("KNOWLEDGE") || resS[rn][rDesc].contains("Create") || lla || ((putRowsPrint6Count % 75) == 0 )) && (putRowsPrint6Count < 200)) {
+          if(E.debugPutRowsOut){
           if ((lla || ((putRowsPrint6Count % 75) == 0)) && (putRowsPrint6Count++ < 200)) {
             System.out.flush();
             System.out.printf("EM.putrow6 rn=%d %s, %s,list%d, depth%d, valid%d, ageIx%d, cum%d, rende4=%d,%d putRowsPrint6Count= " + putRowsPrint6Count + " \n", rn, (unset ? "UNSET" : "ISSET"), resS[rn][0], ((aop & list0) > 0 ? 0 : (aop & list1) > 0 ? 1 : (aop & LIST8) > 10 ? 2 : (aop & LIST3) > 0 ? 17 : aop), depth, valid, ageIx, resI[rn][ICUM][0][0], rende4,rendae4);
+          }
           }
           if (unset) {
             suffix = " curYr:";
@@ -3884,9 +4001,11 @@ class EM {
           }
         }
       } // end of loop on doRes locks0-3
+      if(E.debugPutRowsOut){
       if (putRowsPrint9Count < 12) {
         System.out.println("xit rn=" + rn + " row=" + row + ", desc=" + resS[rn][0] + " suffix=" + suffix + " putRowsPrint9Count" + putRowsPrint9Count++);
       }
+    }
       return row;
     } catch (java.lang.Error ex) {
       System.out.flush();
@@ -4540,7 +4659,7 @@ class EM {
     winner = scoreVals(getStatrN("WTRADEDINCRMULT"), wYearTradeV, ICUR0, isV);
     winner = scoreVals(getStatrN("WTRADEDINCRMULT"), wYearTradeI, ICUR0, isI);
     winner = scoreVals(DIED, iNumberDied, ICUR0, isI);
-    winner = scoreVals(getStatrN("bothCreate"), iBothCreateScore, ICUR0, isI);
+    winner = scoreVals(BOTHCREATE, iBothCreateScore, ICUR0, isI);
     winner = scoreVals(LIVEWORTH, wLiveWorthScore, ICUR0, isV);
    // winner = scoreVals(getStatrN("WTRADEDINCRMULT"), wYearTradeI, ICUR0, isI);
     resI[SCORE][ICUR0][CCONTROLD][ISSET] = 1;
