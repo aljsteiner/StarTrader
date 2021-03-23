@@ -1160,6 +1160,10 @@ public class Econ {
     return !(alreadyTrading || didYearEnd) && visitedShipNext < maxShips;
   }
   
+  final static String[] threadFor = {"yearEnd"};
+  static int[] threadCnt = {0}; // synchronized count of started threads
+  static String nowName= "soon";
+  static Econ nowEc;
     static final int lImWaitingList=10;
   // try to have the previous and the current string
   static String imWaitingList[] = new String[lImWaitingList];
@@ -1184,9 +1188,8 @@ public class Econ {
     int atCnt=0;
     int prevCnt = what[0];
     long imMore = imStart - EM.doYearTime;
-     if (E.debugStatsOut1) {
-    ixImWaitingList = ++ixImWaitingList%lImWaitingList;
-    imWaitingList[prevImwIx]="imWaiting in thread " + Thread.currentThread().getName() + " name=" + nowName + " Since doYear" + eM.year + "=" + imMore ;
+    ixImWaitingList = ++ixImWaitingList%lImWaitingList; 
+    imWaitingList[prevImwIx] = "imWaiting in thread " + Thread.currentThread().getName() + " name=" + nowName + " Since doYear" + eM.year + "=" + imMore ;
     StackTraceElement[] prevCalls = new StackTraceElement[le];
     int lstk = Thread.currentThread().getStackTrace().length-1;
     for(int ste=1;ste< le && atCnt < 5  && ste < lstk; ste++){
@@ -1194,20 +1197,22 @@ public class Econ {
     
        if(atCnt == 0){
          imWaitingList[prevImwIx] += " from " +  prevCalls[ste].getMethodName() + " ";
-     }
+       }
        imWaitingList[prevImwIx] += " at " + prevCalls[ste].getFileName() + "." + prevCalls[ste].getLineNumber();
      atCnt++;
     }//for
     imWaitingList[prevImwIx] += " for " + why + " haveing " + what[0] + " with limit=" + limit;
-    }//if
+   // }//if
      
      //now start loop to do waiting if count is above limit
      // what is always threadCnt, so use threadCnt[0]
     boolean dowait= threadCnt[0] > limit;
     for (int timeLoop = 0; timeLoop < secs && dowait; timeLoop++) {
+      if(E.debugThreads){
       if (timeLoop % 5 == 0) {
-        System.out.println("`````````````imWaiting in thread " + Thread.currentThread().getName() + " name=" + nowName + " "  + why + " have cnt " + what[0] + " limit=" + limit + " seconds=" + timeLoop);
+        System.out.println("`````````````imWaiting in thread " + Thread.currentThread().getName() + " Econ.name=" + nowName + " "  + why + " have cnt " + what[0] + " limit=" + limit + " seconds=" + timeLoop);
       }
+      } // debug threads
       
       if(prevCnt > threadCnt[0]){
         prevCnt = what[0];
@@ -1250,10 +1255,7 @@ public class Econ {
     long imDoneT = (new Date()).getTime() - eM.doYearTime;
      imWaitingList[prevImwIx] = "  im done waiting " + imDoneT + " "+ nowName + " " + Thread.currentThread().getName() + " from " + imWaitingList[prevImwIx];
   } // imWaiting  stop waiting
-    final static String[] threadFor = {"yearEnd"};
-  static int[] threadCnt = {0}; // synchronized count of started threads
-  static String nowName= "soon";
-  static Econ nowEc;
+  
   /**
    * initiate a new thread with yearEnd if no more than EM.maxThreads[0][0]
    *
@@ -1261,10 +1263,13 @@ public class Econ {
   void doMoreThreads(String doFor, String ecnName) {
     //   didYearEnd = true;  // flag no longer available to barter of end
     nowName = ecnName;
+    if(eM.maxThreads[0][0] < 2.0){
+      yearEnd();
+    } else {
     imWaiting(threadCnt, (int) eM.maxThreads[0][0], 6, "doMoreThreads " + name + " {" + doFor + ")");
   //  EconThread  emm = new EconThread(doFor);
   //  emm.start();
-    
+    }
 
   } // doMoreThreads
   
@@ -1338,6 +1343,7 @@ static String sETList[] = new String[10];
     long etStart = (new Date()).getTime();
     long etMore = etStart - EM.doYearTime;
     int atCnt=0;
+    eM.curEcon = ec;
     if(E.debugThreadsOut) {
       ixETList = ++ixETList%lETList;
       String atList = "";

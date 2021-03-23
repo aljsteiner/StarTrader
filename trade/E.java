@@ -44,7 +44,7 @@ public class E {
   static final public String statsButton1Tip = "1: cum Favors and trade effects";
   static final public String statsButton2Tip = "2: Catastrophes, deaths, randoms, forwardfund";
   static final public String statsButton3Tip = "3: Deaths. trades acc";
-  static final public String statsButton4Tip = "4:  dth, Rej misd Trades";
+  static final public String statsButton4Tip = "4: Deaths, Rej misd Trades";
   static final public String statsButton5Tip = "5: trades acc, rej, missed ";
   static final public String statsButton6Tip = "6: ForwardFund, ForFunds&deaths";
   static final public String statsButton7Tip = "7: Resource, staff, knowledge values";

@@ -173,7 +173,7 @@ public class StarTrader extends javax.swing.JFrame {
 
   static final public String[] statsButtonsTips = {statsButton0Tip, statsButton1Tip, statsButton2Tip, statsButton3Tip, statsButton4Tip, statsButton5Tip, statsButton6Tip, statsButton7Tip, statsButton8Tip, statsButton9Tip, statsButton10Tip, statsButton11Tip, statsButton12Tip, statsButton13Tip, statsButton14Tip, statsButton15Tip, statsButton16Tip, statsButton17Tip, statsButton18Tip, statsButton19Tip, statsButton20Tip, gameTextFieldText};
   static final public String versionText = "     Version 19.2";
-  static final public String storyText = "   Version 19.24\n" +
+  static final public String storyText = "   Version 19.25\n" +
 "\n" +
 "â€œSave the Planetsâ€�: is an economics strategy game with ships carrying necessary resources between planets. The planets and ships are each different economies with a lot of similar rules and some significantly different values. Each economy has 2 very stressed financial sectors, two very successful financial sectors  The other 3 financial sectors are ok.   Generally each year planets increase resources by mining and new staff are added at the lowest grade while many staff move up one or more grades. Ships hold and carry resources and staff between planets, trading resources a planet needs  for surplus resources or staff from the planets but ships generally do not grow new staff and ships generally do not mine resources.  \n" +
 "\n" +
@@ -413,13 +413,8 @@ public class StarTrader extends javax.swing.JFrame {
     displayPanel0 = new javax.swing.JPanel();
     displayPanel0Text = new javax.swing.JTextArea();
     displayPanel1 = new javax.swing.JPanel();
-    displayPanel1SinceYearStart = new javax.swing.JTextField();
-    displayPanel1EconName = new javax.swing.JTextField();
-    displayPanel1Operation = new javax.swing.JTextField();
-    displayPanel2 = new javax.swing.JPanel();
-    displayPanel2EconName = new javax.swing.JTextField();
-    displayPanel2Operation = new javax.swing.JTextField();
-    displayPanel2SinceYearStart = new javax.swing.JTextField();
+    jScrollPane1 = new javax.swing.JScrollPane();
+    jTable1 = new javax.swing.JTable();
     stats = new javax.swing.JPanel();
     topPane = new javax.swing.JPanel();
     rbuttons12 = new javax.swing.JPanel();
@@ -2075,7 +2070,7 @@ public class StarTrader extends javax.swing.JFrame {
     display.setAlignmentY(300.0F);
     display.setMaximumSize(new java.awt.Dimension(1500, 1200));
     display.setMinimumSize(new java.awt.Dimension(300, 400));
-    display.setPreferredSize(new java.awt.Dimension(800, 600));
+    display.setPreferredSize(new java.awt.Dimension(1200, 700));
     display.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
     displayPanel0.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -2097,108 +2092,92 @@ public class StarTrader extends javax.swing.JFrame {
     displayPanel0Text.setMinimumSize(new java.awt.Dimension(800, 300));
     displayPanel0Text.setName(""); // NOI18N
     displayPanel0Text.setOpaque(false);
-    displayPanel0Text.setPreferredSize(new java.awt.Dimension(1260, 700));
+    displayPanel0Text.setPreferredSize(new java.awt.Dimension(1260, 600));
     displayPanel0.add(displayPanel0Text);
 
     display.add(displayPanel0);
 
     displayPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
-    displayPanel1.setMaximumSize(new java.awt.Dimension(800, 30));
+    displayPanel1.setMaximumSize(new java.awt.Dimension(1200, 600));
     displayPanel1.setMinimumSize(new java.awt.Dimension(800, 20));
-    displayPanel1.setName("CreatePannel"); // NOI18N
-    displayPanel1.setPreferredSize(new java.awt.Dimension(800, 20));
+    displayPanel1.setName("displayTPanel"); // NOI18N
+    displayPanel1.setPreferredSize(new java.awt.Dimension(1200, 600));
+    displayPanel1.setRequestFocusEnabled(false);
 
-    displayPanel1SinceYearStart.setText("000.000");
-    displayPanel1SinceYearStart.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        displayPanel1SinceYearStartActionPerformed(evt);
+    jScrollPane1.setPreferredSize(new java.awt.Dimension(1200, 600));
+
+    jTable1.setModel(new javax.swing.table.DefaultTableModel(
+      new Object [][] {
+        {null, null, null, null, null, null},
+        {null, null, null, null, null, null},
+        {null, null, null, null, null, null},
+        {null, null, null, null, null, null},
+        {null, null, null, null, null, null},
+        {null, null, null, null, null, null},
+        {null, null, null, null, null, null},
+        {null, null, null, null, null, null}
+      },
+      new String [] {
+        "Titles", "Red", "Orange", "Yellow", "Green", "Blue"
+      }
+    ) {
+      Class[] types = new Class [] {
+        java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+      };
+      boolean[] canEdit = new boolean [] {
+        false, false, false, false, false, false
+      };
+
+      public Class getColumnClass(int columnIndex) {
+        return types [columnIndex];
+      }
+
+      public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return canEdit [columnIndex];
       }
     });
-
-    displayPanel1EconName.setText("econName");
-
-    displayPanel1Operation.setText("operation");
-    displayPanel1Operation.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        displayPanel1OperationActionPerformed(evt);
-      }
-    });
+    jTable1.setColumnSelectionAllowed(true);
+    jTable1.setPreferredSize(new java.awt.Dimension(1175, 500));
+    jTable1.getTableHeader().setReorderingAllowed(false);
+    jScrollPane1.setViewportView(jTable1);
+    jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+    if (jTable1.getColumnModel().getColumnCount() > 0) {
+      jTable1.getColumnModel().getColumn(0).setResizable(false);
+      jTable1.getColumnModel().getColumn(0).setPreferredWidth(300);
+      jTable1.getColumnModel().getColumn(1).setResizable(false);
+      jTable1.getColumnModel().getColumn(1).setPreferredWidth(175);
+      jTable1.getColumnModel().getColumn(2).setResizable(false);
+      jTable1.getColumnModel().getColumn(2).setPreferredWidth(175);
+      jTable1.getColumnModel().getColumn(3).setResizable(false);
+      jTable1.getColumnModel().getColumn(3).setPreferredWidth(175);
+      jTable1.getColumnModel().getColumn(4).setResizable(false);
+      jTable1.getColumnModel().getColumn(4).setPreferredWidth(175);
+      jTable1.getColumnModel().getColumn(5).setResizable(false);
+      jTable1.getColumnModel().getColumn(5).setPreferredWidth(175);
+    }
 
     javax.swing.GroupLayout displayPanel1Layout = new javax.swing.GroupLayout(displayPanel1);
     displayPanel1.setLayout(displayPanel1Layout);
     displayPanel1Layout.setHorizontalGroup(
       displayPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(displayPanel1Layout.createSequentialGroup()
-        .addGap(436, 436, 436)
-        .addComponent(displayPanel1EconName, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addGap(16, 16, 16)
-        .addComponent(displayPanel1Operation, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addComponent(displayPanel1SinceYearStart, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addGap(0, 0, Short.MAX_VALUE))
+      .addGap(0, 1194, Short.MAX_VALUE)
+      .addGroup(displayPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(displayPanel1Layout.createSequentialGroup()
+          .addGap(0, 0, Short.MAX_VALUE)
+          .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+          .addGap(0, 0, Short.MAX_VALUE)))
     );
     displayPanel1Layout.setVerticalGroup(
       displayPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(displayPanel1Layout.createSequentialGroup()
-        .addGap(117, 117, 117)
-        .addGroup(displayPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-          .addComponent(displayPanel1EconName, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-          .addComponent(displayPanel1Operation, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-          .addComponent(displayPanel1SinceYearStart, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-        .addGap(26, 26, 26))
+      .addGap(0, 600, Short.MAX_VALUE)
+      .addGroup(displayPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(displayPanel1Layout.createSequentialGroup()
+          .addGap(0, 0, Short.MAX_VALUE)
+          .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+          .addGap(0, 0, Short.MAX_VALUE)))
     );
 
     display.add(displayPanel1);
-
-    displayPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
-    displayPanel2.setAlignmentX(0.0F);
-    displayPanel2.setAlignmentY(300.0F);
-    displayPanel2.setMaximumSize(new java.awt.Dimension(800, 30));
-    displayPanel2.setMinimumSize(new java.awt.Dimension(800, 20));
-    displayPanel2.setName("displayPanel2"); // NOI18N
-    displayPanel2.setPreferredSize(new java.awt.Dimension(800, 20));
-
-    displayPanel2EconName.setText("econName");
-    displayPanel2EconName.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        displayPanel2EconNameActionPerformed(evt);
-      }
-    });
-
-    displayPanel2Operation.setText("operation");
-    displayPanel2Operation.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        displayPanel2OperationActionPerformed(evt);
-      }
-    });
-
-    displayPanel2SinceYearStart.setText("000.000");
-
-    javax.swing.GroupLayout displayPanel2Layout = new javax.swing.GroupLayout(displayPanel2);
-    displayPanel2.setLayout(displayPanel2Layout);
-    displayPanel2Layout.setHorizontalGroup(
-      displayPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(displayPanel2Layout.createSequentialGroup()
-        .addComponent(displayPanel2EconName, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addComponent(displayPanel2Operation, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addGap(18, 18, 18)
-        .addComponent(displayPanel2SinceYearStart, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addGap(0, 198, Short.MAX_VALUE))
-    );
-    displayPanel2Layout.setVerticalGroup(
-      displayPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, displayPanel2Layout.createSequentialGroup()
-        .addContainerGap()
-        .addComponent(displayPanel2EconName, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-      .addGroup(displayPanel2Layout.createSequentialGroup()
-        .addGroup(displayPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addComponent(displayPanel2SinceYearStart, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-          .addComponent(displayPanel2Operation, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-        .addGap(0, 0, Short.MAX_VALUE))
-    );
-
-    display.add(displayPanel2);
 
     controlPanels.addTab("display", display);
 
@@ -4448,18 +4427,6 @@ public class StarTrader extends javax.swing.JFrame {
     }
   }//GEN-LAST:event_statsCtlButtonRun5YrMouseClicked
 
-  private void displayPanel1OperationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayPanel1OperationActionPerformed
-    // TODO add your handling code here:
-  }//GEN-LAST:event_displayPanel1OperationActionPerformed
-
-  private void displayPanel2OperationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayPanel2OperationActionPerformed
-    // TODO add your handling code here:
-  }//GEN-LAST:event_displayPanel2OperationActionPerformed
-
-  private void displayPanel1SinceYearStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayPanel1SinceYearStartActionPerformed
-    // TODO add your handling code here:
-  }//GEN-LAST:event_displayPanel1SinceYearStartActionPerformed
-
   private void gameCtlButtonRun1Year1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gameCtlButtonRun1Year1ActionPerformed
     // TODO add your handling code here:
   }//GEN-LAST:event_gameCtlButtonRun1Year1ActionPerformed
@@ -4483,10 +4450,6 @@ public class StarTrader extends javax.swing.JFrame {
       runYears(2);
     }
   }//GEN-LAST:event_gameCtlButtonRun1Yr2ActionPerformed
-
-  private void displayPanel2EconNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayPanel2EconNameActionPerformed
-    // TODO add your handling code here:
-  }//GEN-LAST:event_displayPanel2EconNameActionPerformed
 
   private void statsButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statsButton5ActionPerformed
     // TODO add your handling code here:
@@ -4765,13 +4728,6 @@ public class StarTrader extends javax.swing.JFrame {
   protected javax.swing.JPanel displayPanel0;
   protected javax.swing.JTextArea displayPanel0Text;
   protected javax.swing.JPanel displayPanel1;
-  protected javax.swing.JTextField displayPanel1EconName;
-  protected javax.swing.JTextField displayPanel1Operation;
-  protected javax.swing.JTextField displayPanel1SinceYearStart;
-  protected javax.swing.JPanel displayPanel2;
-  protected javax.swing.JTextField displayPanel2EconName;
-  protected javax.swing.JTextField displayPanel2Operation;
-  protected javax.swing.JTextField displayPanel2SinceYearStart;
   protected javax.swing.JPanel game;
   protected java.awt.Button gameButtonDown;
   protected javax.swing.ButtonGroup gameButtonGroup;
@@ -4836,6 +4792,7 @@ public class StarTrader extends javax.swing.JFrame {
   protected javax.swing.JTextField gameTopRightFill;
   protected javax.swing.JPanel gameXtraPanel1;
   protected javax.swing.ButtonGroup initButtonGroupPorS;
+  protected javax.swing.JScrollPane jScrollPane1;
   protected javax.swing.JScrollPane jScrollPane2;
   protected javax.swing.JSeparator jSeparator1;
   protected javax.swing.JSeparator jSeparator10;
@@ -4852,6 +4809,7 @@ public class StarTrader extends javax.swing.JFrame {
   protected javax.swing.JSeparator jSeparator7;
   protected javax.swing.JSeparator jSeparator8;
   protected javax.swing.JSeparator jSeparator9;
+  protected javax.swing.JTable jTable1;
   protected javax.swing.JRadioButton logActionAdd;
   protected javax.swing.JRadioButton logActionDel;
   protected javax.swing.JRadioButton logActionJump;
@@ -5026,12 +4984,12 @@ public class StarTrader extends javax.swing.JFrame {
     controlPanels.setBackground(rrr);
     display.setBackground(rrr);
     displayPanel1.setBackground(rrr);
-    displayPanel2.setBackground(rrr);
-    displayPanel1EconName.setBackground(rrr);
-    displayPanel1Operation.setBackground(rrr);
-    displayPanel2EconName.setBackground(rrr);
-    displayPanel2Operation.setBackground(rrr);
-    displayPanel1Operation.setText("fatalError");
+  //  displayPanel2.setBackground(rrr);
+   // displayPanel1EconName.setBackground(rrr);
+   // displayPanel1Operation.setBackground(rrr);
+   // displayPanel2EconName.setBackground(rrr);
+   // displayPanel2Operation.setBackground(rrr);
+   // displayPanel1Operation.setText("fatalError");
     controlPanels.revalidate();
     controlPanels.repaint();
 
@@ -5122,8 +5080,9 @@ public class StarTrader extends javax.swing.JFrame {
     curEconName = (EM.curEcon == null ? "notYet" : EM.curEcon.name);
     if (stateConst == prevState && curEconName.equals(prevEconName) && eM.wasHere == prevWasHere && stateConst != STATS && stateConst != WAITING && stateConst != STOPPED && stateConst != FATALERR) {
       sameEconState++;
-      if (curEc != null && curEc.name.equals(prevEconName) && sameEconState > 100) {
-        E.myTest(true, "STUCK at:" + stateStringNames[stateConst] + " " + curEconName + ", cnt=" + sameEconState + " millisecs=" + (new Date().getTime() - startEconState));
+      if (curEconName.equals(prevEconName) && sameEconState > 100) {
+        long myNow = new Date().getTime() - eM.doYearTime;
+        eM.doMyErr("doYear" + eM.year + myNow + " STUCK at:" + stateStringNames[stateConst] + " " + curEconName + ", cnt=" + sameEconState + " millisecs=" + (new Date().getTime() - startEconState));
       }
     }
     else {
@@ -5300,7 +5259,7 @@ public class StarTrader extends javax.swing.JFrame {
     // double shipsPerPlanet = smallestShipFrac/(1.  - smallestShipFrac);
     double shipsPerPlanet = eM.shipsPerPlanet(clan);
     // reduce the cash per ship by the number of ships, similar cash between ships and planets
-    cash[E.S] = cash[E.S]/shipsPerPlanet;      
+    //cash[E.S] = cash[E.S]/shipsPerPlanet;      
 
     double sFrac1 = 99.;
     double sFrac2 = 99.;
@@ -5361,7 +5320,8 @@ public class StarTrader extends javax.swing.JFrame {
     NumberFormat nameF = NumberFormat.getNumberInstance();
     nameF.setMinimumIntegerDigits(3);
     String name = (pors == 0 ? "P0" : "S0") + nameF.format(eM.nameCnt++);
-    cash = eM.initialWorth;
+    // reduce the size of ships cash by shipsPerPlanet
+    cash[pors] = eM.initialWorth[pors] * (pors == E.S?1.0/shipsPerPlanet : 1.0);
     eM.curEcon.init(this, eM, name, clan, eM.econCnt, pors, xpos, eM.difficultyPercent[0], cash[pors]);
     startEconState = (new Date()).getTime();
     // now update counts planets and ships
@@ -6706,7 +6666,7 @@ public class StarTrader extends javax.swing.JFrame {
       String disp1 = "year" + eM.year +" " + sinceEcon() + " " + EM.mf(eM.econCnt) + " Planets=" + EM.mf(eM.porsCnt[E.P]) + " ships=" + EM.mf(eM.porsCnt[E.S]) + newLine + 
        
                    "BothCreated " + eM.getCurCumPorsClanUnitSum(rNCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
-                  "Created    " + eM.getCurCumPorsClanUnitSum(rNyCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNyCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNyCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
+                  "GameCreated" + eM.getCurCumPorsClanUnitSum(rNyCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNyCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNyCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine +
          "FutCreated  " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNFutCreated,EM.ICUM,E.S,E.S+1,0,5) + newLine + 
           "TradedYear " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUR0,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNTraded,EM.ICUR0,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNTraded,EM.ICUR0,E.S,E.S+1,0,5) + newLine +
              "GameEconYrs    " + eM.getCurCumPorsClanUnitSum(rNLiveWorth ,EM.ICUM,E.P,E.S+1,0,5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNLiveWorth,EM.ICUM,E.P,E.P+1,0,5) + " Ships " + eM.getCurCumPorsClanUnitSum( rNLiveWorth ,EM.ICUM,E.S,E.S+1,0,5) + newLine + 
@@ -6806,18 +6766,18 @@ public class StarTrader extends javax.swing.JFrame {
     controlPanels.getComponent(4);
     display.setVisible(false);
     displayPanel1.setVisible(false);
-    displayPanel2.setVisible(false);
-    displayPanel1EconName.setVisible(false);
-    displayPanel1Operation.setVisible(false);
-    displayPanel1SinceYearStart.setVisible(false);
-    displayPanel1EconName.setBackground(E.clan.values()[curEc.clan].getColor(curEc.pors));
-    displayPanel1EconName.setText(curEc.name);
-    displayPanel1Operation.setText("Start Year");
-    displayPanel1SinceYearStart.setText(sinceRunYear());
+ //   displayPanel2.setVisible(false);
+   // displayPanel1EconName.setVisible(false);
+   // displayPanel1Operation.setVisible(false);
+   // displayPanel1SinceYearStart.setVisible(false);
+   // displayPanel1EconName.setBackground(E.clan.values()[curEc.clan].getColor(curEc.pors));
+   // displayPanel1EconName.setText(curEc.name);
+   // displayPanel1Operation.setText("Start Year");
+   // displayPanel1SinceYearStart.setText(sinceRunYear());
 
-    displayPanel1EconName.setVisible(true);
-    displayPanel1Operation.setVisible(true);
-    displayPanel1SinceYearStart.setVisible(true);
+  //  displayPanel1EconName.setVisible(true);
+   // displayPanel1Operation.setVisible(true);
+   // displayPanel1SinceYearStart.setVisible(true);
     display.setVisible(true);
     controlPanels.setVisible(true);
     display.revalidate();

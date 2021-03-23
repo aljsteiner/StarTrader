@@ -1552,7 +1552,6 @@ public class Assets {
 
     double sumNewKnowledgeWorth, sumCommonKnowledgeWorth, sumManualsWorth;
     ARow ypriorityYr = new ARow(ec);
-    double sf=0.,sv=0.;
     
     // start CashFlow Swap loop variables
     boolean debugSumGrades2 = false;
@@ -1703,7 +1702,9 @@ public class Assets {
             = eM.additionalKnowledgeGrowthForBonus[0] / 7;
     double multiplierForEfficiencyFromRequirements
             = eM.additionalKnowledgeGrowthForBonus[0] / 6;
+    // trade values kept in assets
     double strategicGoal = 0., rGoal0 = 0., strategicValue = 0., goodFrac = 0.;
+    double sf=0.,sv=0.;
     double firstStrategicGoal=0.,firstStrategicValue = 0.;
     // required for  Assets.CashFlow.getNeeds
     int bLev = History.dl;
@@ -1902,7 +1903,7 @@ public class Assets {
     } // end constructor of CashFlow
 
     String df(double v) {
-      return ec.mf(v);
+      return EM.mf(v);
     }
 
     /**
@@ -4548,13 +4549,13 @@ public class Assets {
           enforceStrategicGoal();
           myOffer.set2Values(bids, offers, requests, totalSend, totalReceipts, strategicGoal, strategicValue); // save for selectPlanet
           //   myOffer.set2InitialPlanetGoods(bids); // save for selectplanet
-          hist.add(new History(aPre, lRes, "T" + term + " " + name + " vals" + changes, "sv=" + ec.mf(sv1), "->" + ec.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
-          ec.addOHist(ohist, new History(aPre, lRes, "T" + term + " " + name + " vals" + changes, "sv=" + ec.mf(sv1), "->" + ec.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
+          hist.add(new History(aPre, lRes, "T" + term + " " + name + " vals" + changes, "sv=" + EM.mf(sv1), "->" + EM.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
+          ec.addOHist(ohist, new History(aPre, lRes, "T" + term + " " + name + " vals" + changes, "sv=" + EM.mf(sv1), "->" + EM.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
           term--;
           myOffer.setTerm(term );
           if(E.debugDisplayTrade){
             System.out.println("Trade.barter " + name + " t=" + prevTerm + "=>" + term + 
-             " changes" + changes + " trdVals=" + ec.mf(sv1)  + "->" + ec.mf(sv) +  " goals=" + df(sf1) + "->" + df(sf) + " offrs=" + df(offers) + df(bids.curPlusSum()) + " rqst=" + df(requests) + " negSum" + df(bids.curNegSum()) + "excessOfrs" + df(excessOffers) + " xcess/of=" + df(excessOffers / offers)       
+             " changes" + changes + " trdVals=" + EM.mf(sv1)  + "->" + EM.mf(sv) +  " goals=" + df(sf1) + "->" + df(sf) + " offrs=" + df(offers) + df(bids.curPlusSum()) + " rqst=" + df(requests) + " negSum" + df(bids.curNegSum()) + "excessOfrs" + df(excessOffers) + " xcess/of=" + df(excessOffers / offers)       
             );
           }
           xitBarter();
@@ -4592,8 +4593,8 @@ public class Assets {
           }
           enforceStrategicGoal(); // sf1, sv1, sf,sv,excessOffers
           myOffer.set2Values(bids, offers, requests, totalSend, totalReceipts, strategicGoal, strategicValue); // save for selectPlanet
-          hist.add(new History(aPre, lRes, "T" + term + " " + name + " CONTc" + changes, "sv=" + ec.mf(sv1), "->" + ec.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
-          ec.addOHist(ohist, new History(aPre, 3, "T" + term + " " + name + " CONTc" + changes, "sv=" + ec.mf(sv1), "->" + ec.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
+          hist.add(new History(aPre, lRes, "T" + term + " " + name + " CONTc" + changes, "sv=" + EM.mf(sv1), "->" + EM.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
+          ec.addOHist(ohist, new History(aPre, 3, "T" + term + " " + name + " CONTc" + changes, "sv=" + EM.mf(sv1), "->" + EM.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
 
           myxit3Goods = myxit2Goods = myxit1Goods = myxitGoods = bids.copy();
           //     listDifBid(History.valuesMajor6, "xit17", oprevGoods);
@@ -4601,7 +4602,7 @@ public class Assets {
           myOffer.setTerm(term );
           if(E.debugDisplayTrade){
             System.out.println("Trade.barter " + name + " t=" + prevTerm + "=>" + term + 
-             " changes" + changes + " trdVals=" + ec.mf(sv1)  + "->" + ec.mf(sv) +  " goals=" + df(sf1) + "->" + df(sf) + " offrs=" + df(offers) + df(bids.curPlusSum()) + " rqst=" + df(requests) + " negSum" + df(bids.curNegSum()) + "excessOfrs" + df(excessOffers) + " xcess/of=" + df(excessOffers / offers)       
+             " changes" + changes + " trdVals=" + EM.mf(sv1)  + "->" + EM.mf(sv) +  " goals=" + df(sf1) + "->" + df(sf) + " offrs=" + df(offers) + df(bids.curPlusSum()) + " rqst=" + df(requests) + " negSum" + df(bids.curNegSum()) + "excessOfrs" + df(excessOffers) + " xcess/of=" + df(excessOffers / offers)       
             );
           }
           //       E.sysmsg(" xit Trades.barter term=" + myOffer.getTerm());
@@ -4639,7 +4640,7 @@ public class Assets {
             myOffer.setTerm(term );
           if(E.debugDisplayTrade){
             System.out.println("Trade.barter reject " + name + " t=" + prevTerm + "=>" + term + 
-             " changes" + changes + " trdVals=" + ec.mf(sv1)  + "->" + ec.mf(sv) +  " goals=" + df(sf1) + "->" + df(sf) + " offrs=" + df(offers) + df(bids.curPlusSum()) + " rqst=" + df(requests) + " negSum" + df(bids.curNegSum()) + "excessOfrs" + df(excessOffers) + " xcess/of=" + df(excessOffers / offers)       
+             " changes" + changes + " trdVals=" + EM.mf(sv1)  + "->" + EM.mf(sv) +  " goals=" + df(sf1) + "->" + df(sf) + " offrs=" + df(offers) + df(bids.curPlusSum()) + " rqst=" + df(requests) + " negSum" + df(bids.curNegSum()) + "excessOfrs" + df(excessOffers) + " xcess/of=" + df(excessOffers / offers)       
             );
           }
             listGoods(5, "!R");
@@ -4647,8 +4648,8 @@ public class Assets {
             // strategicGoal = calcStrategicGoal();
             lRes = History.loopIncrements3; // leave a loop result
 
-            hist.add(new History(aPre, lRes, "T" + term + " " + name + " REJ1" + changes, "sv=" + ec.mf(sv1), "->" + ec.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
-            ec.addOHist(ohist, new History(aPre, lRes, "T" + term + " " + name + " REJO" + changes, "sv=" + ec.mf(sv1), "->" + ec.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
+            hist.add(new History(aPre, lRes, "T" + term + " " + name + " REJ1" + changes, "sv=" + EM.mf(sv1), "->" + EM.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
+            ec.addOHist(ohist, new History(aPre, lRes, "T" + term + " " + name + " REJO" + changes, "sv=" + EM.mf(sv1), "->" + EM.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
            
             xitBarter();
             //         listCG(balances, 4, "bsx", myOffer);
@@ -4665,11 +4666,11 @@ public class Assets {
           //         sendStats(tSend, tReceipts, tStratValue, tBid, (int) E.fav[clan][myOffer.getOClan()]);
           //     strategicValue = calcStrategicSums();
           //   strategicGoal = calcStrategicGoal();
-          hist.add(new History(aPre, lRes, "T" + term + " " + name + " ACC1" + changes, "sv=" + ec.mf(sv1), "->" + ec.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
-          ec.addOHist(ohist, new History(aPre, 3, "T" + term + " " + name + " ACC3" + changes, "sv=" + ec.mf(sv1), "->" + ec.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
+          hist.add(new History(aPre, lRes, "T" + term + " " + name + " ACC1" + changes, "sv=" + EM.mf(sv1), "->" + EM.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
+          ec.addOHist(ohist, new History(aPre, 3, "T" + term + " " + name + " ACC3" + changes, "sv=" + EM.mf(sv1), "->" + EM.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
            if(E.debugDisplayTrade){
             System.out.println("Trade.barter accepted " + name + " t=" + prevTerm + "=>" + term + 
-             " changes" + changes + " trdVals=" + ec.mf(sv1)  + "->" + ec.mf(sv) +  " goals=" + df(sf1) + "->" + df(sf) + " offrs=" + df(offers) + df(bids.curPlusSum()) + " rqst=" + df(requests) + " negSum" + df(bids.curNegSum()) + "excessOfrs" + df(excessOffers) + " xcess/of=" + df(excessOffers / offers)       
+             " changes" + changes + " trdVals=" + EM.mf(sv1)  + "->" + EM.mf(sv) +  " goals=" + df(sf1) + "->" + df(sf) + " offrs=" + df(offers) + df(bids.curPlusSum()) + " rqst=" + df(requests) + " negSum" + df(bids.curNegSum()) + "excessOfrs" + df(excessOffers) + " xcess/of=" + df(excessOffers / offers)       
             );
           }
           myOffer.accepted(ec); // the bid becomes a move
@@ -4686,7 +4687,7 @@ public class Assets {
           E.myTest(true, "Error: barter error term < 1");
 
         } //========================= S13 P12 -> P2 ===============================
-        else if (term < eM.barterStart - 3) {  // Now the rest S15 P14 ...
+        else if (term < eM.barterStart - 3) {  // Now the rest S15 P14 S13...
           bids = prevOffer.getGoods();
           listGoods(mRes, "@a");
           hist.add(new History(aPre, mRes, name + "ntr barter" + ">>>>>>>>>>", "myIx" + prevOffer.myIx, "c" + (prevOffer.cargos[prevOffer.myIx] == c.balance ? "c == cargos" : " c not cargos"), "<<<<<<<<<<<<<"));
@@ -4715,12 +4716,12 @@ public class Assets {
             // already fixed  strategicValue = calcStrategicSums(); 
             //   strategicGoal = calcStrategicGoal();
             if (term == 0) {
-              hist.add(new History(aPre, lRes, "T" + term + " " + name + " ACCc" + changes, "sv=" + ec.mf(sv1), "->" + ec.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
-              ec.addOHist(ohist, new History(aPre, lRes, "T" + term + " " + name + " ACCc" + changes, "sv=" + ec.mf(sv1), "->" + ec.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
+              hist.add(new History(aPre, lRes, "T" + term + " " + name + " ACCc" + changes, "sv=" + EM.mf(sv1), "->" + EM.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
+              ec.addOHist(ohist, new History(aPre, lRes, "T" + term + " " + name + " ACCc" + changes, "sv=" + EM.mf(sv1), "->" + EM.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
             }
              if(E.debugDisplayTrade){
             System.out.println("Trade.barter accepted2 " + name + " t=" + prevTerm + "=>" + term + 
-             " changes" + changes + " trdVals=" + ec.mf(sv1)  + "->" + ec.mf(sv) +  " goals=" + df(sf1) + "->" + df(sf) + " offrs=" + df(offers) + df(bids.curPlusSum()) + " rqst=" + df(requests) + " negSum" + df(bids.curNegSum()) + "excessOfrs" + df(excessOffers) + " xcess/of=" + df(excessOffers / offers)       
+             " changes" + changes + " trdVals=" + EM.mf(sv1)  + "->" + EM.mf(sv) +  " goals=" + df(sf1) + "->" + df(sf) + " offrs=" + df(offers) + df(bids.curPlusSum()) + " rqst=" + df(requests) + " negSum" + df(bids.curNegSum()) + "excessOfrs" + df(excessOffers) + " xcess/of=" + df(excessOffers / offers)       
             );
           }
             xitBarter();
@@ -4747,11 +4748,11 @@ public class Assets {
             listGoods(mRes, "B-");
             //     strategicValue = calcStrategicSums();
             //     strategicGoal = calcStrategicGoal();
-            hist.add(new History(aPre, lRes, "T" + term + " " + name + " REJ chgs" + changes, "sv=" + ec.mf(sv1), "->" + ec.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
-            ec.addOHist(ohist, new History(aPre, lRes, "T" + term + " " + name + " REJchgs" + changes, "sv=" + ec.mf(sv1), "->" + ec.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
+            hist.add(new History(aPre, lRes, "T" + term + " " + name + " REJ chgs" + changes, "sv=" + EM.mf(sv1), "->" + EM.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
+            ec.addOHist(ohist, new History(aPre, lRes, "T" + term + " " + name + " REJchgs" + changes, "sv=" + EM.mf(sv1), "->" + EM.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
              if(E.debugDisplayTrade){
             System.out.println("Trade.barter rejected2 " + name + " t=" + prevTerm + "=>" + term + 
-             " changes" + changes + " trdVals=" + ec.mf(sv1)  + "->" + ec.mf(sv) +  " goals=" + df(sf1) + "->" + df(sf) + " offrs=" + df(offers) + df(bids.curPlusSum()) + " rqst=" + df(requests) + " negSum" + df(bids.curNegSum()) + "excessOfrs" + df(excessOffers) + " xcess/of=" + df(excessOffers / offers)       
+             " changes" + changes + " trdVals=" + EM.mf(sv1)  + "->" + EM.mf(sv) +  " goals=" + df(sf1) + "->" + df(sf) + " offrs=" + df(offers) + df(bids.curPlusSum()) + " rqst=" + df(requests) + " negSum" + df(bids.curNegSum()) + "excessOfrs" + df(excessOffers) + " xcess/of=" + df(excessOffers / offers)       
             );
           }
             xitBarter();
@@ -4770,14 +4771,14 @@ public class Assets {
           double ts2 = totalSend;
           double tr2 = totalReceipts;
           listGoods(mRes, "brtrx");
-          hist.add(new History(aPre, lRes, "T" + term + " " + name + " CONTc" + changes, "sv=" + ec.mf(sv1), "->" + ec.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
-          ec.addOHist(ohist, new History(aPre, lRes, "T" + term + " " + name + " CONTc" + changes, "sv=" + ec.mf(sv1), "->" + ec.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
+          hist.add(new History(aPre, lRes, "T" + term + " " + name + " CONTc" + changes, "sv=" + EM.mf(sv1), "->" + EM.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
+          ec.addOHist(ohist, new History(aPre, lRes, "T" + term + " " + name + " CONTc" + changes, "sv=" + EM.mf(sv1), "->" + EM.mf(sv), "sf=" + df(sf1), "->" + df(sf), "ofr=" + df(offers), df(bids.curPlusSum()), "rqst=" + df(requests), df(bids.curNegSum()), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
           // remember bids is a pointer to bids in the offer
           myOffer.setTerm(term - 1);
           term--;
           if(E.debugDisplayTrade){
             System.out.println("Trade.barter continue " + name + " t=" + prevTerm + "=>" + term + 
-             " changes" + changes + " trdVals=" + ec.mf(sv1)  + "->" + ec.mf(sv) +  " goals=" + df(sf1) + "->" + df(sf) + " offrs=" + df(offers) + df(bids.curPlusSum()) + " rqst=" + df(requests) + " negSum" + df(bids.curNegSum()) + "excessOfrs" + df(excessOffers) + " xcess/of=" + df(excessOffers / offers)       
+             " changes" + changes + " trdVals=" + EM.mf(sv1)  + "->" + EM.mf(sv) +  " goals=" + df(sf1) + "->" + df(sf) + " offrs=" + df(offers) + df(bids.curPlusSum()) + " rqst=" + df(requests) + " negSum" + df(bids.curNegSum()) + "excessOfrs" + df(excessOffers) + " xcess/of=" + df(excessOffers / offers)       
             );
           }
           //         myxit3Goods = myxit2Goods;
@@ -4820,8 +4821,8 @@ public class Assets {
             double tr2 = totalReceipts;
             //   listGoods(3, "TT");
 
-            hist.add(new History(aPre, lRes, "T" + term + " " + name + " CONTINUE", "sv=" + ec.mf(sv1), "->" + ec.mf(sv), df(strategicValue / isv1), "sf=" + df(sf1), "->" + df(sf), df(sf / isf1), "ofr=" + df(offers), "rqst=" + df(requests), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
-            ec.addOHist(ohist, new History(aPre, lRes, "T" + term + " " + name + " CONTINUE", "sv=" + ec.mf(sv1), "->" + ec.mf(sv), df(strategicValue / isv1), "sf=" + df(sf1), "->" + df(sf), df(sf / isf1), "ofr=" + df(offers), "rqst=" + df(requests), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
+            hist.add(new History(aPre, lRes, "T" + term + " " + name + " CONTINUE", "sv=" + EM.mf(sv1), "->" + EM.mf(sv), df(strategicValue / isv1), "sf=" + df(sf1), "->" + df(sf), df(sf / isf1), "ofr=" + df(offers), "rqst=" + df(requests), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
+            ec.addOHist(ohist, new History(aPre, lRes, "T" + term + " " + name + " CONTINUE", "sv=" + EM.mf(sv1), "->" + EM.mf(sv), df(strategicValue / isv1), "sf=" + df(sf1), "->" + df(sf), df(sf / isf1), "ofr=" + df(offers), "rqst=" + df(requests), "exOf" + df(excessOffers), "x/of" + df(excessOffers / offers), "<<<<<<<"));
             //   sendStats(tSend, tReceipts, tStratValue, tBid, (int) E.fav[clan][myOffer.getOClan()]);
             // myOffer.accepted(ec);
             // didTrade = true;
@@ -5139,10 +5140,10 @@ public class Assets {
         // desiredOffer = requests/sf,
         excessOffers = offers - requests / sf; // 
 
-        hist.add(new History(aPre, History.valuesMinor7, name + " calcSum fracs", "S=" + ec.mf(eM.strategicFracs[ifSearch][pors][clan]), "C=" + ec.mf(eM.tradeCriticalFrac[pors][clan]), "N=" + ec.mf(eM.nominalFracs[ifSearch][pors][clan]), "rS=" + ec.mf(requests), "rC=" + ec.mf(criticalStrategicRequests), "rN=" + ec.mf(nominalRequests), "oS=" + ec.mf(offers), "oC=" + ec.mf(criticalStrategicOffers), "oN=" + ec.mf(nominalOffers), "<<<<<<<"));
-        hist.add(new History(aPre, History.valuesMinor7, name + " multSums", "rS=" + ec.mf(totalStrategicRequests * eM.strategicFracs[ifSearch][pors][clan]), "rC=" + ec.mf(criticalStrategicRequests * eM.tradeCriticalFrac[pors][clan]), "rN=" + ec.mf(nominalRequests * eM.nominalFracs[ifSearch][pors][clan]), "oS=" + ec.mf(totalStrategicOffers * eM.strategicFracs[ifSearch][pors][clan]), "oC=" + ec.mf(criticalStrategicOffers * eM.tradeCriticalFrac[pors][clan]), "oN=" + ec.mf(nominalOffers * eM.nominalFracs[ifSearch][pors][clan]), "sS=" + ec.mf((totalStrategicOffers - totalStrategicRequests) * eM.strategicFracs[ifSearch][pors][clan]), "sC=" + ec.mf((criticalStrategicOffers - criticalStrategicRequests) * eM.tradeCriticalFrac[pors][clan]), "sN=" + ec.mf((nominalOffers - nominalRequests) * eM.nominalFracs[ifSearch][pors][clan]), "<<<<<<<"));
-        hist.add(new History(aPre, History.valuesMinor7, name + " Sums ", "req=" + ec.mf(requests), "Ofrs=" + ec.mf(offers), "cash=" + ec.mf(cash), "bC" + ec.mf(bCash), "sval=" + ec.mf(strategicValue), "xcofr" + ec.mf(excessOffers), "<<<<<"));
-        hist.add(new History(aPre, History.valuesMinor7, name + "from Offers", "cK" + ec.mf(myOffer.commonKnowledge[myIx].sum()), ec.mf(myOffer.commonKnowledge[oIx].sum()), "manls" + ec.mf(offeredManuals), ec.mf(requestedManuals), "total", "o=" + ec.mf(totalStrategicOffers), "r=" + ec.mf(totalStrategicRequests), "<<<<<<<<<<"));
+        hist.add(new History(aPre, History.valuesMinor7, name + " calcSum fracs", "S=" + EM.mf(eM.strategicFracs[ifSearch][pors][clan]), "C=" + EM.mf(eM.tradeCriticalFrac[pors][clan]), "N=" + EM.mf(eM.nominalFracs[ifSearch][pors][clan]), "rS=" + EM.mf(requests), "rC=" + EM.mf(criticalStrategicRequests), "rN=" + EM.mf(nominalRequests), "oS=" + EM.mf(offers), "oC=" + EM.mf(criticalStrategicOffers), "oN=" + EM.mf(nominalOffers), "<<<<<<<"));
+        hist.add(new History(aPre, History.valuesMinor7, name + " multSums", "rS=" + EM.mf(totalStrategicRequests * eM.strategicFracs[ifSearch][pors][clan]), "rC=" + EM.mf(criticalStrategicRequests * eM.tradeCriticalFrac[pors][clan]), "rN=" + EM.mf(nominalRequests * eM.nominalFracs[ifSearch][pors][clan]), "oS=" + EM.mf(totalStrategicOffers * eM.strategicFracs[ifSearch][pors][clan]), "oC=" + EM.mf(criticalStrategicOffers * eM.tradeCriticalFrac[pors][clan]), "oN=" + EM.mf(nominalOffers * eM.nominalFracs[ifSearch][pors][clan]), "sS=" + EM.mf((totalStrategicOffers - totalStrategicRequests) * eM.strategicFracs[ifSearch][pors][clan]), "sC=" + EM.mf((criticalStrategicOffers - criticalStrategicRequests) * eM.tradeCriticalFrac[pors][clan]), "sN=" + EM.mf((nominalOffers - nominalRequests) * eM.nominalFracs[ifSearch][pors][clan]), "<<<<<<<"));
+        hist.add(new History(aPre, History.valuesMinor7, name + " Sums ", "req=" + EM.mf(requests), "Ofrs=" + EM.mf(offers), "cash=" + EM.mf(cash), "bC" + EM.mf(bCash), "sval=" + EM.mf(strategicValue), "xcofr" + EM.mf(excessOffers), "<<<<<"));
+        hist.add(new History(aPre, History.valuesMinor7, name + "from Offers", "cK" + EM.mf(myOffer.commonKnowledge[myIx].sum()), EM.mf(myOffer.commonKnowledge[oIx].sum()), "manls" + EM.mf(offeredManuals), EM.mf(requestedManuals), "total", "o=" + EM.mf(totalStrategicOffers), "r=" + EM.mf(totalStrategicRequests), "<<<<<<<<<<"));
 
         E.myTestDouble(offers, "offers");
         E.myTestDouble(requests, "requests");
@@ -5187,21 +5188,28 @@ public class Assets {
         return strategicValue;
       } // Assets.CashFlow.Trades.calStrategicSums
 
+      
+      /** test whether to accept a trade
+       * 
+       * @param myOffer  has the info for the terst
+       * @return true if we accept a trade
+       */
       boolean testTrade(Offer myOffer
       ) { // Assets.CashFlow.Trades
         if (changes > 0) {
-          hist.add(new History("@i", 5, term + " CHANGES", "changes=" + changes, "sv=" + ec.mf(strategicValue), "sf=" + ec.mf(strategicGoal), "ts=" + ec.mf(offers), "tr=" + ec.mf(requests)));
+          hist.add(new History("@i", 5, term + " CHANGES", "changes=" + changes, "sv=" + EM.mf(strategicValue), "sf=" + EM.mf(strategicGoal), "ts=" + EM.mf(offers), "tr=" + EM.mf(requests)));
           return false; // no trade if changes
         }
+        // trade, changes %eq 0, sv %gt; rgoal0 term %lt; barterStart*.75
         if (sv > sf || (sv > rGoal0 && term < eM.barterStart * .75)) {
-          hist.add(new History("@g", 3, "T" + term + " " + name + " doTrm 1", "sv" + ec.mf(strategicValue), "sf" + ec.mf(strategicGoal), "ofrs" + ec.mf(offers), "rqst" + ec.mf(requests)));
+          hist.add(new History("@g", 3, "T" + term + " " + name + " doTrm 1", "sv" + EM.mf(strategicValue), "sf" + EM.mf(strategicGoal), "ofrs" + EM.mf(offers), "rqst" + EM.mf(requests)));
           term = 1;
           myOffer.setTerm(1);
           //   myOffer.accepted(ec);
           return true;
         }
         if (sv > sf || (sv > rGoal0)) {
-          hist.add(new History("@g", 3, "T" + term + " " + name + " Acpt", "sv" + ec.mf(strategicValue), "sf" + ec.mf(strategicGoal), "ofrs" + ec.mf(offers), "rqst" + ec.mf(requests)));
+          hist.add(new History("@g", 3, "T" + term + " " + name + " Acpt", "sv" + EM.mf(strategicValue), "sf" + EM.mf(strategicGoal), "ofrs" + EM.mf(offers), "rqst" + EM.mf(requests)));
           term = 0;
           myOffer.setTerm(0);
           String aSss = " ";
@@ -5215,7 +5223,7 @@ public class Assets {
           hist.add(new History("B+", History.informationMinor9, "aftr accpt term=" + term, "abcde fgh ijk"));
           return true;
         } else {
-          hist.add(new History("@h", History.loopMinorConditionals5, "T" + term + " " + name + " no trade ", "sv" + ec.mf(strategicValue), "< sf" + ec.mf(strategicGoal), "ofrs" + ec.mf(offers), "rqst" + ec.mf(requests)));
+          hist.add(new History("@h", History.loopMinorConditionals5, "T" + term + " " + name + " no trade ", "sv" + EM.mf(strategicValue), "< sf" + EM.mf(strategicGoal), "ofrs" + EM.mf(offers), "rqst" + EM.mf(requests)));
           return false;
         }
       } // Assets.CashFlow.Trades
@@ -5254,28 +5262,28 @@ public class Assets {
       }
 
       /**
-       * test whether the barter can continue, or should be terminated
+       * test whether the barter should reject not continue
        *
        * @param myOffer
-       * @return true if barter is to terminate
+       * @return true if barter is to terminate rejected
        */
       boolean testNoTrade(Offer myOffer
       ) { // Assets.CashFlow.Trades
         aPre = "t";
         if (changes > 0 && myOffer.getTerm() < 2) {// no trade if changes were required
-          hist.add(new History(aPre, History.loopMinorConditionals5, "T" + term + " " + name + " rej&change", "changes=" + changes, "sv=" + ec.mf(strategicValue), "sf=" + ec.mf(strategicGoal), "ofrs=" + ec.mf(offers), "rqst=" + ec.mf(requests)));
+          hist.add(new History(aPre, History.loopMinorConditionals5, "T" + term + " " + name + " rej&change", "changes=" + changes, "sv=" + EM.mf(strategicValue), "sf=" + EM.mf(strategicGoal), "ofrs=" + EM.mf(offers), "rqst=" + EM.mf(requests)));
           return true;
         }
-        // early no trade if it would never work
+        // early no trade if it would never work, choose reject
         if (sv < sf && sv < rGoal0 && (term < eM.barterStart * .4)) {
-          hist.add(new History(aPre, History.loopMinorConditionals5, "T" + term + " " + name + " REJECT ", "sv" + ec.mf(strategicValue), "<sf" + ec.mf(strategicGoal), "ofrs=" + ec.mf(offers), "rqst=" + ec.mf(requests)));
+          hist.add(new History(aPre, History.loopMinorConditionals5, "T" + term + " " + name + " REJECT ", "sv" + EM.mf(strategicValue), "<sf" + EM.mf(strategicGoal), "ofrs=" + EM.mf(offers), "rqst=" + EM.mf(requests)));
           return true;
         }
         if (requests < PZERO) {
-          hist.add(new History(aPre, History.loopMinorConditionals5, "T" + term + " " + name + " REJECT 0.0", "sv" + ec.mf(strategicValue), "<sf" + ec.mf(strategicGoal), "ofrs=" + ec.mf(offers), "rqst=" + ec.mf(requests)));
+          hist.add(new History(aPre, History.loopMinorConditionals5, "T" + term + " " + name + " REJECT 0.0", "sv" + EM.mf(strategicValue), "<sf" + EM.mf(strategicGoal), "ofrs=" + EM.mf(offers), "rqst=" + EM.mf(requests)));
           return true;
         } else {
-          hist.add(new History(aPre, History.loopMinorConditionals5, "T" + term + " " + name + " yet more", "sv" + ec.mf(strategicValue), "sf" + ec.mf(strategicGoal), "ofrs=" + ec.mf(offers), "rqst=" + ec.mf(requests)));
+          hist.add(new History(aPre, History.loopMinorConditionals5, "T" + term + " " + name + " yet more", "sv" + EM.mf(strategicValue), "sf" + EM.mf(strategicGoal), "ofrs=" + EM.mf(offers), "rqst=" + EM.mf(requests)));
           return false;
         }
       }  // Assets.CashFlow.Trade.testNoTrade
@@ -5319,7 +5327,7 @@ public class Assets {
           double needsum = 0;
           //other request=> my request  dont do
           if (good > PZERO && need > PZERO && false) {
-            hist.add(new History(aPre, 5, term + " " + name + "oOfr=>myOfr", (ix < E.lsecs ? "cargo" : "guests") + ix % E.lsecs, "ix=" + ix, "ii=" + ii, ec.mf(good), "to", ec.mf(-need)));
+            hist.add(new History(aPre, 5, term + " " + name + "oOfr=>myOfr", (ix < E.lsecs ? "cargo" : "guests") + ix % E.lsecs, "ix=" + ix, "ii=" + ii, EM.mf(good), "to", EM.mf(-need)));
             bids.set(ix, -need);  //  o offer force to my request
             strat1Sum += -need * sv;
             nom1Sum += -need * nv;
@@ -5327,7 +5335,7 @@ public class Assets {
             changes++;
           } // O Req => my ofr(-need) new different O Req
           else if (good > PZERO && -need < NZERO) {
-            hist.add(new History(aPre, 5, term + " " + name + " oOfr => myReqest", (ix < E.lsecs ? "cargo" : "guests") + ix % E.lsecs, "ix=" + ix, "ii=" + ii, ec.mf(good), "to", ec.mf(-need), "<<<<"));
+            hist.add(new History(aPre, 5, term + " " + name + " oOfr => myReqest", (ix < E.lsecs ? "cargo" : "guests") + ix % E.lsecs, "ix=" + ix, "ii=" + ii, EM.mf(good), "to", EM.mf(-need), "<<<<"));
             bids.set(ix, -need);  // force a new offer (o request)
             did[ix] = 1;
             strat1Sum += -need * sv;
@@ -5336,7 +5344,7 @@ public class Assets {
             changes++;
           } // o Ofr(my Req) => larger o Ofr(my Req)
           else if (good < NZERO && need > PZERO && -need < good) {
-            hist.add(new History(aPre, 5, term + " " + name + " ovr decrment", "good", (ix < E.lsecs ? "cargo" : "guests") + ix % E.lsecs, "ix=" + ix, "ii=" + ii, ec.mf(good), "to", ec.mf(-need), "<<<<"));
+            hist.add(new History(aPre, 5, term + " " + name + " ovr decrment", "good", (ix < E.lsecs ? "cargo" : "guests") + ix % E.lsecs, "ix=" + ix, "ii=" + ii, EM.mf(good), "to", EM.mf(-need), "<<<<"));
             bids.set(ix, -need);  // force a larger offer
             did[ix] = 1;
             strat1Sum += -need * sv;
@@ -5348,9 +5356,9 @@ public class Assets {
             strat1Sum += -need * sv;
             nom1Sum += -need * nv;
             did[ix] = 1;
-            hist.add(new History(aPre, 13, term + " " + name + " ovr keep", (ix < E.lsecs ? "cargo" : "guests") + ix % E.lsecs, "ix=" + ix, "ii=" + ii, ec.mf(good), "<<<", "<<<"));
+            hist.add(new History(aPre, 13, term + " " + name + " ovr keep", (ix < E.lsecs ? "cargo" : "guests") + ix % E.lsecs, "ix=" + ix, "ii=" + ii, EM.mf(good), "<<<", "<<<"));
           } else {
-            hist.add(new History(aPre, 13, term + " " + name + " ovr keep", (ix < E.lsecs ? "cargo" : "guests") + ix % E.lsecs, "ix=" + ix, "ii=" + ii, ec.mf(good), "<<", "<<"));
+            hist.add(new History(aPre, 13, term + " " + name + " ovr keep", (ix < E.lsecs ? "cargo" : "guests") + ix % E.lsecs, "ix=" + ix, "ii=" + ii, EM.mf(good), "<<", "<<"));
           }
         }
         // now do the rest of the requests
@@ -5364,18 +5372,18 @@ public class Assets {
           avail = availOfrs.get(ix);
           emerg = emergOfrs.get(ix);
           if (good < NZERO && avail > PZERO) {
-            hist.add(new History(aPre, 5, term + " " + name + " override", (ix < E.lsecs ? "cargo" : "guests") + ix % E.lsecs, "ix=" + ix, "ii=" + ii, ec.mf(good), "to", ec.mf(avail)));
+            hist.add(new History(aPre, 5, term + " " + name + " override", (ix < E.lsecs ? "cargo" : "guests") + ix % E.lsecs, "ix=" + ix, "ii=" + ii, EM.mf(good), "to", EM.mf(avail)));
             bids.set(ix, ig);  // force an offer
             //       valueChangesTried[ix]++;
             changes++;
           } else if (good > NZERO && avail > good) {
-            hist.add(new History(aPre, 5, term + " " + name + " ovr incr", (ix < E.lsecs ? "cargo" : "guests") + ix % E.lsecs, "ix=" + ix, "ii=" + ii, ec.mf(good), "to", ec.mf(avail)));
+            hist.add(new History(aPre, 5, term + " " + name + " ovr incr", (ix < E.lsecs ? "cargo" : "guests") + ix % E.lsecs, "ix=" + ix, "ii=" + ii, EM.mf(good), "to", EM.mf(avail)));
             bids.set(ix, ig);  // force an offer
             //       valueChangesTried[ix]++;
             changes++;
 
           } else {
-            hist.add(new History(aPre, 13, term + " " + name + " ovr keep", (ix < E.lsecs ? "cargo" : "guests") + ix % E.lsecs, "ix=" + ix, "ii=" + ii, ec.mf(good), "not", ec.mf(ig), "", ""));
+            hist.add(new History(aPre, 13, term + " " + name + " ovr keep", (ix < E.lsecs ? "cargo" : "guests") + ix % E.lsecs, "ix=" + ix, "ii=" + ii, EM.mf(good), "not", EM.mf(ig), "", ""));
           }
 
         }
@@ -5409,23 +5417,23 @@ public class Assets {
           double needsum = 0;
           //my requests can override make ours requests
           if (good > PZERO && need > PZERO) {
-            hist.add(new History(aPre, 5, term + " " + name + " override", (ix < E.lsecs ? "cargo" : "guests") + ix % E.lsecs, "ix=" + ix, "ii=" + ii, ec.mf(good), "to", ec.mf(-need)));
+            hist.add(new History(aPre, 5, term + " " + name + " override", (ix < E.lsecs ? "cargo" : "guests") + ix % E.lsecs, "ix=" + ix, "ii=" + ii, EM.mf(good), "to", EM.mf(-need)));
             bids.set(ix, -need);  // force a request
             //   valueChangesTried[ix]++; // doesn't count
             changes++;
           } else if (good > PZERO && need < NZERO) {
-            hist.add(new History(aPre, 5, term + " " + name + " override", (ix < E.lsecs ? "cargo" : "guests") + ix % E.lsecs, "ix=" + ix, "ii=" + ii, ec.mf(good), "to", ec.mf(-need)));
+            hist.add(new History(aPre, 5, term + " " + name + " override", (ix < E.lsecs ? "cargo" : "guests") + ix % E.lsecs, "ix=" + ix, "ii=" + ii, EM.mf(good), "to", EM.mf(-need)));
             bids.set(ix, -need);  // force a request
             //   valueChangesTried[ix]++; // doesn't count
             changes++;
           } else if (good < NZERO && need > PZERO && -need < good) {
-            hist.add(new History(aPre, 5, term + " " + name + " ovr decrment", "good", (ix < E.lsecs ? "cargo" : "guests") + ix % E.lsecs, "ix=" + ix, "ii=" + ii, ec.mf(good), "to", ec.mf(-need)));
+            hist.add(new History(aPre, 5, term + " " + name + " ovr decrment", "good", (ix < E.lsecs ? "cargo" : "guests") + ix % E.lsecs, "ix=" + ix, "ii=" + ii, EM.mf(good), "to", EM.mf(-need)));
             bids.set(ix, -need);  // force a offer
             //   valueChangesTried[ix]++; // doesn't count
             changes++;
 
           } else {
-            hist.add(new History(aPre, 13, term + " " + name + " ovr keep", (ix < E.lsecs ? "cargo" : "guests") + ix % E.lsecs, "ix=" + ix, "ii=" + ii, ec.mf(good), "", ""));
+            hist.add(new History(aPre, 13, term + " " + name + " ovr keep", (ix < E.lsecs ? "cargo" : "guests") + ix % E.lsecs, "ix=" + ix, "ii=" + ii, EM.mf(good), "", ""));
           }
         }
         // override offers starting from least strategic
@@ -5437,18 +5445,18 @@ public class Assets {
           avail = availOfrs.get(ix);
           emerg = emergOfrs.get(ix);
           if (good < NZERO && avail > PZERO) {
-            hist.add(new History(aPre, 5, term + " " + name + " override", (ix < E.lsecs ? "cargo" : "guests") + ix % E.lsecs, "ix=" + ix, "ii=" + ii, ec.mf(good), "to", ec.mf(avail)));
+            hist.add(new History(aPre, 5, term + " " + name + " override", (ix < E.lsecs ? "cargo" : "guests") + ix % E.lsecs, "ix=" + ix, "ii=" + ii, EM.mf(good), "to", EM.mf(avail)));
             //          bids.set(ix, ig);  // force an offer
             //       valueChangesTried[ix]++;
             changes++;
           } else if (good > NZERO && avail > good) {
-            hist.add(new History(aPre, 5, term + " " + name + " ovr incr", (ix < E.lsecs ? "cargo" : "guests") + ix % E.lsecs, "ix=" + ix, "ii=" + ii, ec.mf(good), "to", ec.mf(avail)));
+            hist.add(new History(aPre, 5, term + " " + name + " ovr incr", (ix < E.lsecs ? "cargo" : "guests") + ix % E.lsecs, "ix=" + ix, "ii=" + ii, EM.mf(good), "to", EM.mf(avail)));
             //      bids.set(ix, ig);  // force an offer
             //       valueChangesTried[ix]++;
             changes++;
 
           } else {
-            //     hist.add(new History(aPre, 13, term + " " + name + " ovr keep", (ix < E.lsecs ? "cargo" : "guests") + ix % E.lsecs, "ix=" + ix, "ii=" + ii, ec.mf(good), "not", ec.mf(ig), "", ""));
+            //     hist.add(new History(aPre, 13, term + " " + name + " ovr keep", (ix < E.lsecs ? "cargo" : "guests") + ix % E.lsecs, "ix=" + ix, "ii=" + ii, EM.mf(good), "not", EM.mf(ig), "", ""));
           }
 
         }
@@ -5517,7 +5525,7 @@ public class Assets {
         myIx = myOffer.setMyIx(ec);
         double bCash = myOffer.getCash();
         ec.blev2 = History.dl;
-        hist.add(new History(aPre, 5, term + " " + name + " enfStVal", "req=" + ec.mf(requests), "ofr" + ec.mf(offers), "sf=" + ec.mf(sf), "xcsOfrs=", ec.mf(excessOffers), "bCash=" + wh(bCash), (hEmerg ? "hEmerg" : "!!!hEmerg"), "<<<<<<<<<<<"));
+        hist.add(new History(aPre, 5, term + " " + name + " enfStVal", "req=" + EM.mf(requests), "ofr" + EM.mf(offers), "sf=" + EM.mf(sf), "xcsOfrs=", EM.mf(excessOffers), "bCash=" + wh(bCash), (hEmerg ? "hEmerg" : "!!!hEmerg"), "<<<<<<<<<<<"));
         A2Row entrGoods = bids.copy();
         // calculate strategicGoal the desired value of strategicValue
         // allow a little extra
@@ -5561,7 +5569,7 @@ public class Assets {
         double incTerm3 = eM.maxTries[pors] - .6 + (eM.barterStart - 2 - term) * incTerm;
         double ofrac = 200. / (198. + term);
         double realChangesMax = 10.;
-        hist.add(new History(aPre, 5, term + " " + name + " enfStVal", "req" + ec.mf(requests), "ofr" + ec.mf(offers), "sf=" + ec.mf(sf), "xof=" + ec.mf(excessOffers), "bCash=" + wh(bCash), (hEmerg ? "hEmerg" : "!!!hEmerg"), "fuzz" + ec.mf(fuzz), "ofrac" + ec.mf(ofrac), "maxCnt=" + maxCnt, "<<<<<<<<<<<"));
+        hist.add(new History(aPre, 5, term + " " + name + " enfStVal", "req" + EM.mf(requests), "ofr" + EM.mf(offers), "sf=" + EM.mf(sf), "xof=" + EM.mf(excessOffers), "bCash=" + wh(bCash), (hEmerg ? "hEmerg" : "!!!hEmerg"), "fuzz" + EM.mf(fuzz), "ofrac" + EM.mf(ofrac), "maxCnt=" + maxCnt, "<<<<<<<<<<<"));
         ec.addOHist(ohist, new History(aPre, 5, term + " " + name + " enfStVal", "req" + df(requests), "ofr" + df(offers), "sf=" + df(sf), "xcsOfrs=", df(excessOffers), "bCash=" + wh(bCash), (hEmerg ? "hEmerg" : "!!!hEmerg"), "fuzz" + df(fuzz), "subFuzz" + df(subFuzz), "<<<<<<<<<<<"));
 
         ec.lev = History.valuesMinor7;
@@ -6019,6 +6027,7 @@ public class Assets {
         //reduce FavFrac as favor goes higher
         double myFavV = (eM.favMult * eM.fav[clan][oClan] - eM.favMult * 3.);
         double myFavFrac = 1. / (1. + myFavV); // mult decr or incr goal
+        // oFavV is better above value 3
         double oFavV = (eM.favMult * eM.fav[oClan][clan] - eM.favMult * 3.) * eM.oClanMult;
         double oFavFrac = 1. / (1. + oFavV);
         // no reduction in goal unless sos is registered as sosFrac = 1./(1+sosfrac[pors]
@@ -6028,9 +6037,11 @@ public class Assets {
         double termFrac02 = (eM.barterStart + gtBias) / ((gtBias + eM.barterStart - 0.) * (gtBias + eM.barterStart - 0.));
         double termFrac3 = (eM.barterStart + gtBias) / ((gtBias + eM.barterStart - term));
         double termFrac03 = (eM.barterStart + gtBias) / ((gtBias + eM.barterStart - 0.));
+        // amount of reduction of goal per term
         double termFrac = (eM.barterStart) / ((gtBias + eM.barterStart - term));
         double termFrac0 = (eM.barterStart) / ((gtBias + eM.barterStart - 0.));
         double tfrac = eM.tradeFrac[ttype][clan] * randFrac;
+        rGoalFrac = tfrac * myFavFrac * oFavFrac * sosFrac;
         rGoalFrac = eM.tradeFrac[pors][clan] * randFrac * myFavFrac * oFavFrac * sosFrac;
         sf = strategicGoal = frac = rGoalFrac * termFrac;
         rGoal0 = rGoalFrac * termFrac0;
@@ -7018,7 +7029,7 @@ public class Assets {
         btWTotWorth = btW.getTotWorth();
         btWrcsgSum = btW.getSumRCSGBal();
         double worthIncrPercent = (tWTotWorth - btWTotWorth) * 100 / btWTotWorth;
-
+        double percentValuePerGoal = strategicValue* 100/strategicGoal;
         retOffer.set2Values(ec, btWTotWorth,btW.getSumRCSGBal(), tWTotWorth); // needed in TradeRecord SearchRecord
         if (newTerm == 0) {  //trade accepted
           tradedShipOrdinal++; // set ordinal of the next ship if any
@@ -7034,6 +7045,7 @@ public class Assets {
           EM.clanTraded[clan]++;
           eM.porsVisited[pors]++;
           eM.porsClanVisited[pors][clan]++;
+          setStat(EM.TradeAcceptValuePerGoal, percentValuePerGoal, 1);
           setStat(EM.TRADEFIRSTRECEIVE, requestsFirst*100/btWrcsgSum, 1);
           setStat(EM.TRADELASTRECEIVE, pors, clan, requests*100/btWrcsgSum, 1);
           setStat(EM.TRADERECEIVELASTPERCENTFIRST, pors, clan, requests*100./requestsFirst, 1);
@@ -7065,6 +7077,7 @@ public class Assets {
           EM.porsTraded[pors]++;
           EM.porsClanTraded[pors][clan]++;
           EM.clanTraded[clan]++;
+          setStat(EM.TradeAcceptValuePerGoal, percentValuePerGoal, 1);
          setStat(EM.TRADEFIRSTRECEIVE, requestsFirst*100/btWrcsgSum, 1);
           setStat(EM.TRADELASTRECEIVE, pors, clan, requests*100/btWrcsgSum, 1);
           setStat(EM.TRADERECEIVELASTPERCENTFIRST, pors, clan, requests*100./requestsFirst, 1);
@@ -7083,26 +7096,13 @@ public class Assets {
           setStat(EM.TradeLastStrategicValue,pors,clan,strategicValue,1);
           setStat(EM.TradeStrategicValueLastPercentFirst,pors,clan,strategicValue*100/firstStrategicValue,1);
           retOffer.setTerm(-4);
-        } else if (entryTerm == -1) {  // Trade lost, others barter
-          tradedShipOrdinal++; // set ordinal of the next ship if any
-          tradedSuccessTrades++;
-          eM.porsVisited[pors]++;
-          eM.porsClanVisited[pors][clan]++;
-          tradeLost = true;
-          yearTradeLost = year;
-          tradeMissed = tradeRejected = tradeAccepted = false;
-          EM.tradedCnt++;
-          EM.porsTraded[pors]++;
-          EM.porsClanTraded[pors][clan]++;
-          EM.clanTraded[clan]++;
-          setStat(EM.TradeLostStrategicGoal,pors,clan,strategicGoal,1);
-          setStat(EM.TradeLostStrategicValue,pors,clan,strategicValue,1);
-          retOffer.setTerm(-4);
-      
+          
+        
         } else if (newTerm == -1) { // trade rejected by barter
           tradeRejected = true;
           tradeMissed = tradeLost = tradeAccepted = false;
           yearTradeRejected = year;
+          setStat(EM.TradeRejectValuePerGoal, percentValuePerGoal, 1);
           setStat(EM.TradeRejectedStrategicGoal,pors,clan,strategicGoal,1);
           setStat(EM.TradeRejectedStrategicValue,pors,clan,strategicValue,1);
           setStat("WREJTRADEDPINCR", pors, clan, worthIncrPercent, 1);
@@ -7113,6 +7113,24 @@ public class Assets {
           if (entryTerm == -1) {
             retOffer.setTerm(-3);
           }
+          
+        } else if (entryTerm == -1) {  // Trade lost, others barter
+          tradedShipOrdinal++; // set ordinal of the next ship if any
+        //  tradedSuccessTrades++;
+          eM.porsVisited[pors]++;
+          eM.porsClanVisited[pors][clan]++;
+          tradeLost = true;
+          yearTradeLost = year;
+          tradeMissed = tradeRejected = tradeAccepted = false;
+          EM.tradedCnt++;
+         // EM.porsTraded[pors]++;
+         // EM.porsClanTraded[pors][clan]++;
+         // EM.clanTraded[clan]++;
+          setStat(EM.TradeLostValuePerGoal, percentValuePerGoal, 1);
+          setStat(EM.TradeLostStrategicGoal,pors,clan,strategicGoal,1);
+          setStat(EM.TradeLostStrategicValue,pors,clan,strategicValue,1);
+          retOffer.setTerm(-4);
+      
           // else leave retOffer.ter -1 for the other cn
         } else if (entryTerm < -1) { // should stop in econ 
           tradeLost = true;
@@ -7585,7 +7603,7 @@ public class Assets {
           System.out.println(">>>>>>>>>>>>>print " + ec.name + " rcPercentInc =" + E.mf(rcPercentInc)+ "<<<<<");
         }
         if (E.debugMisc && (syW.getSumRCBal() == 0.0)) {
-          throw new MyErr("zero syW.getSumRCBal()=" + ec.mf(syW.getSumRCBal()));
+          throw new MyErr("zero syW.getSumRCBal()=" + EM.mf(syW.getSumRCBal()));
         }
         setStat(EM.RCTGROWTHPERCENT, rcPercentInc, 1);
         if (rcPercentInc < 5) {
@@ -9127,7 +9145,7 @@ public class Assets {
       A6Row rawG = rawGrowths;
 
       if (alev <= bLev) {
-        hist.add(new History(aPre, History.loopMinorConditionals5, " values", "minMFrac", ec.mf(minH), "mGoal", ec.mf(mMaintGoal), "mGrowthGoal", ec.mf(growthGoal), "growthYrs", "" + growYears, "growthMult", ec.mf(growMult)));
+        hist.add(new History(aPre, History.loopMinorConditionals5, " values", "minMFrac", EM.mf(minH), "mGoal", EM.mf(mMaintGoal), "mGrowthGoal", EM.mf(growthGoal), "growthYrs", "" + growYears, "growthMult", EM.mf(growMult)));
         bals.sendHist(alev, aPre);
         rawGC.sendHist(blev, alev, aPre, "rawGC");
         rawG.sendHist(blev, aPre, alev, "rawG");
@@ -9266,7 +9284,7 @@ public class Assets {
       lev = alev = History.valuesMajor6;
       //    lev = alev = 5;
 
-      hist.add(new History(aPre, History.valuesMajor6, " PHE=" + ec.mf(poorHealthEffect), "gy=" + ec.df(gYears), "gm=" + ec.df(growMult), "maintGoal=", ec.df(maintGoal), "mGrowthGoal=", ec.df(mGrowthGoal), "<<<<<<<<<<"));
+      hist.add(new History(aPre, History.valuesMajor6, " PHE=" + EM.mf(poorHealthEffect), "gy=" + ec.df(gYears), "gm=" + ec.df(growMult), "maintGoal=", ec.df(maintGoal), "mGrowthGoal=", ec.df(mGrowthGoal), "<<<<<<<<<<"));
 
       growths.sendHist(hist, aPre);
       growthNegs.sendHist(hist, bLev, aPre, alev, "growthNegs");
@@ -9378,7 +9396,7 @@ public class Assets {
       }
 
       String df(double v) {
-        return ec.mf(v);
+        return EM.mf(v);
       }
 
       /**

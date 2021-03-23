@@ -131,12 +131,12 @@ class EM {
   // multiplier of the ship goals.
   double[] addGoal = {0.0, 0.015, .025, .045, .06, .08, 2.0, 2.3};//9
   // .25 = 1ship/3 planets
-  double[] gameShipFrac = {.67};  // ships / econs .75 means 3ships/1 planet, .8 = 4ships/1planet
-  static double[][] mGameShipFrac = {{.25, .81}, {.25, .81}};
-  double[][] clanShipFrac = {{.501, .501, .501, .501, .6}}; // .3->5. clan choice of clan ships / clan econs
-  static double[][] mClanShipFrac = {{.25, .81}, {.20,.81}};
-  double[][] clanAllShipFrac = {{.501, .501, .501, .501, .501}}; // clan (ships/econs)
-  static double[][] mClanAllShipFrac = {{.25, .81}, {.2, .81}};
+  double[] gameShipFrac = {.70};  // ships / econs .75 means 3ships/1 planet, .8 = 4ships/1planet
+  static double[][] mGameShipFrac = {{.25, 1.20}, {.25,1.20}};
+  double[][] clanShipFrac = {{.70, .70, .70, .501, .6}}; // .3->5. clan choice of clan ships / clan econs
+  static double[][] mClanShipFrac = {{.25, .81}, {.20,1.20}};
+  double[][] clanAllShipFrac = {{.70, .70, .70, .501, .501}}; // clan (ships/econs)
+  static double[][] mClanAllShipFrac = {{.25, 1.20}, {.2, 1.20}};
 
   static double mEconLimits1[][] = {{200., 500.}, {200., 500.}};
   double econLimits2[] = {350.}; // more limiting of econs
@@ -154,8 +154,8 @@ class EM {
   double[][] mDifficultyPercent = {{5., 69.}, {5., 69.}};
   double[][] minEconsMult = {{1.5}};
   static double [][] mminEconsMult = {{.5,10.0},{.5,10.0}};
-  double[][] maxThreads = {{4.0}};
-  static double [][] mmaxThreads = {{1.0,11.0}};
+  double[][] maxThreads = {{1.8}};
+  static double [][] mmaxThreads = {{1.0,6.0}};
   double[] sendHistLim = {20};
   static double[][] mSendHistLim = {{5., 50}, {-1, -1}};
   double[] nominalWealthPerCommonKnowledge = {.2, .3}; // was .9
@@ -451,7 +451,7 @@ class EM {
   //static NumberFormat whole = NumberFormat.getNumberInstance();
   NumberFormat dFrac = NumberFormat.getNumberInstance();
   NumberFormat whole = NumberFormat.getNumberInstance();
-  NumberFormat exp = new DecimalFormat("0.######E0");
+ // NumberFormat exp = new DecimalFormat("0.####E0");
 
   static public int dfN = 2;
 
@@ -464,7 +464,7 @@ class EM {
   static public String mf(double v) {
     NumberFormat dFrac = NumberFormat.getNumberInstance();
     NumberFormat whole = NumberFormat.getNumberInstance();
-    NumberFormat exp = new DecimalFormat("0.######E0");
+    NumberFormat exp = new DecimalFormat("0.####E0");
     if (v % 1 > E.NZERO && v % 1 < E.PZERO) {  //very close to zero
       return whole.format(v);
     }
@@ -492,8 +492,9 @@ class EM {
    * @return value as a string
    */
   public String mf2(double v) {
+    NumberFormat dFrac = NumberFormat.getNumberInstance();
+    NumberFormat exp = new DecimalFormat("0.####E0");
     if (v == .0 || v == -0) {
-      NumberFormat dFrac = NumberFormat.getNumberInstance();
       dFrac.setMinimumFractionDigits(0);
       dFrac.setMaximumFractionDigits(1);
       return dFrac.format(v);
@@ -664,6 +665,7 @@ class EM {
   static final double[][] mScoreMult = {{0., 1.}, {0., 1.}};
   static final double[][] mNegScoreMult = {{0.,-1.},{0.,-1.}};
   double[][] wLiveWorthScore = {{.01}};
+  double[][] iLiveWorthScore = {{.01}};
   double[][] iBothCreateScore = {{.01}};
   double[][] wYearTradeV = {{.01}};
   double[][] wYearTradeI = {{.01}};
@@ -1080,13 +1082,18 @@ class EM {
   double randMin = .1;
   double randMult = .3;
   // double[][] randFrac = {{0.0}, {0.0}};  // range 0. - .7
+  // ssFrac is a special frac for ship to ship trade
   double[][] ssFrac = {{1.2, 1., .9, 1.1, 1.2}};
   static double mSsFrac[][] = {{.7, 1.4}};
   // [pors][clan]
+  // tradeFrac is initial goal of requests/offers
+  // ships get much more to survive and grow with planets
+  // the fracs get reduced as the trades continue
   static double mTradeFrac[][] = {{.12, .4}, {.7, 3.0}};
   double[][] tradeFrac = {{.15, .15, .15, .18, .2}, {1.7, 1.55, 1.5, 1.55, 1.45, 1.6}, ssFrac[0]};
   // termFrac = (goalTermBias )/(goalTermBias + barterStart - term)
   //    gtb=18 t=18  18/18 = 1;  t=9  18/(18 + 18-9=27) = .6666; t=`0 18/36 = .5
+  // related to decrement per term
   double goalTermBias[] = {18., 18.};
   double[] sosTrigger = {1.1, -.1}; // sos = rawFertilities2.min() < sosTrigger
   double sosfrac[] = {.3, .35};
@@ -2016,26 +2023,36 @@ class EM {
     doVal("Min Econs by Year",minEconsMult,mminEconsMult,"increase slider, increase min econs, create new free econs for clans starting at a random clan");
     doVal("wGiven", wGiven, mScoreMult, "increase slider, increase the value of  the worth given in trade by the clan.");
     doVal("iGiven",iGiven, mScoreMult, "increase slider, increase the score for number of economies traded.");
-    doVal("wLiveWorthScore", wLiveWorthScore, mScoreMult, "increase slider, increase the winning score for th clan worth.");
-    doVal("iBothCreateScore", iBothCreateScore, mScoreMult, "increase slider, increase the winning score for the number of this clan in BothCreate");
+    doVal("wLiveWorthScore", wLiveWorthScore, mScoreMult, "increase slider, increase the winning score for the clan final worth.");
+    doVal("iLiveWorthScore", iLiveWorthScore, mScoreMult, "increase slider, increase the winning score for the clan final count of planets and ships");
+    doVal("iBothCreateScore", iBothCreateScore, mScoreMult, "increase slider, increase the winning score for the number of this clan in ever created");
     doVal("wYearTradeV", wYearTradeV, mScoreMult, "increase slider, increase the winning score for the increase in the year trade increase");
     doVal("wYearTradeI", wYearTradeI, mScoreMult, "increase slider, increase the winning score for thee increase in the number of economies with at least one trade that year");
     doVal("iNumberDiedI", iNumberDied, mScoreMult, "increase slider, decrease the winning score for the number of dead economies for this clan this year");
     doVal("resourceCosts",mab1,mmab1,"raise the cost of resources planet and ship, makes game harder");
     doVal("staffCosts",mac1,mmac1,"raise the costs of staff for planets and ships, makes planets and ships die more often");
+     doVal("Threads",maxThreads,mmaxThreads,"Increase the number of possible threads. If your computer supports more than 1 cpu, more threads may decrease the total time per year.");
     doVal("tradeReservFrac", tradeReservFrac, mTradeReservFrac, "raise the amount of resource or staff to reserve during a trade, higher reduces risk and reduces gain");
     doVal("Max LY  ", maxLY, mMaxLY, "adjust the max Light Years distance of planets for trades");
     doVal("Add LY  ", addLY, mAddLY, "adjust addition per round to the max Light Years distance of planets for traded");
     doVal("SearchYearlyBias  ", searchYearBias, mSearchYearBias, "increase,decrease value of prospective trade for earlier years");
-    doVal("econLimits1  ", econLimits1, mEconLimits1, "Increase the max number of econs (planets+ships) in this game");
-    doVal("econLimits2  ", econLimits2, mEconLimits2, "Increase the max number of econs (planets+ships) in this game");
-    doVal("maxEcons", econLimits3, mEconLimits3, "Increase the max number of econs (planets+ships) in this game");
+   // doVal("econLimits1  ", econLimits1, mEconLimits1, "Increase the max number of econs (planets+ships) in this game");
+  //  doVal("econLimits2  ", econLimits2, mEconLimits2, "Increase the max number of econs (planets+ships) in this game");
+  //  doVal("maxEcons", econLimits3, mEconLimits3, "Increase the max number of econs (planets+ships) in this game");
+    doVal("Clan Ships Frac", clanShipFrac, mClanShipFrac, "increase faction of ships/economies for this clan only, limited by clanAllShipFrac and gameShipFrac");
+    doVal("Clan All Ships Frac", clanAllShipFrac, mClanAllShipFrac, "for this clan increase the fraction of ships/all economies, limited by clanShipFrac and gameShipFrac ");
+    doVal("Ships Frac", gameShipFrac, mGameShipFrac, "increase the fraction of ships in the game. bit for each clan, limited by clanShipFrac and clanAllShipFrac");
     doVal("resourceGrowth", resourceGrowth, mResourceGrowth, "increase amount of resource growth per year, dependent on units of staff");
     doVal("cargoGrowth", cargoGrowth, mCargoGrowth, "increase amount of cargo growth per year dependent of units of staff");
     doVal("staffGrowth", staffGrowth, mStaffGrowth, "increase amount of staff growth per year, dependent on units of staff");
     doVal("guestGrowth", guestsGrowth, mGuestsGrowth, "increase amount of guest growth per year, dependent on units of guests");
     doVal("maxGrowth", maxGrowth, mMaxGrowth, "increase the largest possible size, growths will slow to prevent reaching this size");
     doVal("InitYrsTraveled", initTravelYears, mInitTravelYears, "Increase initial travel cost");
+    doVal("favr", fav0, mfavs, "how the each clan favors clan red by giving a better barter");
+    doVal("favo", fav1, mfavs, "how the each clan favors clan orange by giving a better barter");
+    doVal("favy", fav2, mfavs, "how the each clan favors clan yellow by giving a better barter");
+    doVal("favg", fav3, mfavs, "how the each clan favors clan green by giving a better barter");
+    doVal("favb", fav4, mfavs, "how the each clan favors clan blue by giving a better barter");
     doVal("ClanFutureFundDues", clanStartFutureFundDues, mClanStartFutureFundDues, "increase the value at which staff,resources are converted to cash for future economies");
     doVal("futureFundTransferFrac", futureFundTransferFrac, mFutureFundTransferFrac, "injcrease the amount transfered to futureFund at emergencies and dues.");
     doVal("FutureFundFrac", futureFundFrac, mFutureFundFrac, "increase the sum of staff versus sum of resources before an emergencyFutureFund removal");
@@ -2062,11 +2079,7 @@ class EM {
   static double[][] mFutGrowthYrMult = {{1.5,11.5},{1.5,11.5}};*/
     doVal("futureGrowthFrac", futGrowthFrac, mFutGrowthFrac, "increase years of costs lookahead");
     doVal("futureGrowthYears", futGrowthYrMult, mFutGrowthYrMult, "increase the growth multiplier");
-    doVal("favr", fav0, mfavs, "how the 5 clans view favr favor of clan red");
-    doVal("favo", fav1, mfavs, "how the 5 clans view favr favor of clan orange");
-    doVal("favy", fav2, mfavs, "how the 5 clans view favr favor of clan yellow");
-    doVal("favg", fav3, mfavs, "how the 5 clans view favr favor of clan green");
-    doVal("favb", fav4, mfavs, "how the 5 clans view favr favor of clan blue");
+
     doVal("tradeEmergency", tradeEmergFrac, mTradeEmergFrac, "adjust the level  causing a planet or ship to shift to emergency trading");
     doVal("sectorDifficultyByPriority", difficultyByPriorityMult, mDifficultyByPriorityMult, "Adjust difficulty by the sector priority");
 
@@ -2096,9 +2109,6 @@ class EM {
     doVal("PriorityRandomAddition", priorityRandAdditions, mPriorityRandAdditions, "adjust possible size of random additons to sector priorities");
     doVal("CatastrophiesFrequency", userCatastrophyFreq, mUserCatastrophyFreq, "increase frequesncy of catastrophies");
     doVal("Catastrophy Size", gameUserCatastrophyMult, mGameUserCatastrophyMult, "increase size and frequency of catastrophies");
-    doVal("Clan Ships Frac", clanShipFrac, mClanShipFrac, "increase faction of ships/economies for this clan only, limited by clanAllShipFrac and gameShipFrac");
-    doVal("Clan All Ships Frac", clanAllShipFrac, mClanAllShipFrac, "for this clan increase the fraction of ships/all economies, limited by clanShipFrac and gameShipFrac ");
-    doVal("Ships Frac", gameShipFrac, mGameShipFrac, "increase the fraction of ships in the game. bit for each clan, limited by clanShipFrac and clanAllShipFrac");
    // doVal("CWorthBias", cargoWorthBias, mCargoWorthBias, "increase the worth of cargo in relation to the worth of resources"); cargo worth matches resoruce worth, costs are however less
   //  doVal("GWorthBias", guestWorthBias, mGuestWorthBias, "increase the worth of guests in relation to the worth of staff");  guest worth matches staff worth, costs are less
 
@@ -2579,6 +2589,9 @@ class EM {
   static final int BEFORETRADEWORTH = ++e4;
   static final int AFTERTRADEWORTH = ++e4;
   static final int TRADEWORTHINCRPERCENT = ++e4;
+  static final int TradeAcceptValuePerGoal = ++e4;
+  static final int TradeRejectValuePerGoal = ++e4;
+  static final int TradeLostValuePerGoal = ++e4;
   static final int TradeFirstStrategicGoal = ++e4;
   static final int TradeLastStrategicGoal = ++e4;
   static final int TradeFirstStrategicValue = ++e4;
@@ -2636,10 +2649,10 @@ class EM {
     doRes(STARTWORTH, "Starting Worth", "Starting Worth Value including working, reserve: resource, staff, knowledge") ;
     doRes(WORTHIFRAC, "PercInitWorth ", "Percent of Initial Worth Value including working, reserve: resource, staff, knowledge", 2,2, 0,LIST7 | LIST8  | THISYEARAVE | BOTH,ROWS2 | LIST8 | LIST9 |  CUMAVE |  BOTH, 0, 0);
     doRes(WORTHINCR, "PercIncWorth", "Percent worth increase per year");
-    doRes(YEARCREATE, "yearCreations", "new Econs ceated from year initial funds", 3,2, 0, ROWS1 | LIST8 | LIST0YRS | THISYEARUNITS | SKIPUNSET | BOTH, ROWS2 | LIST8 | LIST0YRS | CUMUNITS | SKIPUNSET | BOTH, 0L, 0L);
+    doRes(YEARCREATE, "yearCreations", "new Econs ceated from game funds", 3,2, 0, ROWS1 | LIST8 | LISTYRS | THISYEARUNITS | SKIPUNSET | BOTH, ROWS2 | LIST8 | LIST0YRS | CUMUNITS | SKIPUNSET | BOTH, 0L, 0L);
     doRes(FUTURECREATE, "FutureFund Create", "Econs created from Future Funds");
-    doRes(BOTHCREATE, "bothCreations", "new Econs ceated from  initial funds and future funds");
-    doRes(DIED,"DIED", "planets or ships died for any cause",2,2, 3,LIST0 | LIST3 | CUM |SKIPUNSET ,ROWS1 | LIST0 | LIST3 | LISTYRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |  LIST0 | LIST2 | LIST3  | CUMUNITS | BOTH | SKIPUNSET,0L);
+    doRes(BOTHCREATE, "bothCreations", "new Econs ceated from  game funds and future funds");
+    doRes(DIED,"DIED", "planets or ships died for any cause Worth increase",2,2, 3, LIST3 | CUM |SKIPUNSET ,ROWS1 | LIST0 | LIST3  | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |  LIST0 | LIST2 | LIST3  | CUMUNITS | BOTH | SKIPUNSET,LISTYRS  | CURUNITS | BOTH | SKIPUNSET);
     doRes("swapRIncr", "swapRIncr", "Uses of R Incr Swap percent of RC", 3,2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
     doRes("swapSIncr", "swapSIncr", "Uses of S Incr Swap percent of SG", 3,2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
     doRes("swapSDecr", "swapSDecr", "Uses of S Decr Swap percent of SG", 3,2, 0, list8 | cumUnits | curUnits | both, 0, 0, 0);
@@ -2658,11 +2671,11 @@ class EM {
     doRes(DIEDSN4RM3X4, "DIEDSN4RM3X4", "died 4 r lt 0, && 3 max r gt 4 Times 3 max s",2,2, 3,ROWS1 | LIST0 | LIST3 | LISTYRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |  LIST0 | LIST2 | LIST3  | CUMUNITS | BOTH | SKIPUNSET,0L,0L);
     doRes(DIEDSM3X5, "DIEDSM3X5", "died  3 max s gt 5 times 3 max r",2,2, 3,ROWS1 | LIST0 | LIST3 | LISTYRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |  LIST2 | LIST3  | CUMUNITS | BOTH | SKIPUNSET,0L,0L);
     doRes(DIEDSN4RN4, "DIEDSN4RN4", "died 4s lt 0 and 4r lt 0",2,2, 3,ROWS1 | LIST2 | LIST3  | CUMUNITS  | BOTH | SKIPUNSET, ROWS2 | LIST2 | LIST3 | BOTH | THISYEARUNITS | SKIPUNSET,0L,0L);
-    doRes(DIEDRM3X4, "DIEDRM3X4", "died thirs max of r gt 4 times thrid max of s",2,2, 3);
-    doRes(DIEDSN3RN3, "diedSN3RN3", "died 3 s lt 0 and 3 r lt 0",2,2, 3);
-    doRes(DIEDSN3RN2, "DIEDSN3RN2", "died 3 s lt 0 and 2 r lt 0",2,2, 3);
-    doRes(DIEDSN3RM3X4, "DIEDSN3RM3X4", "died 3 s lt 0 and 3 r max gt 4 times 3 s max",2,2, 3);
-    doRes(DIEDSN3RM3X3, "DIEDSN3RM3X3", "died",2,2,3);
+    doRes(DIEDRM3X4, "DIEDRM3X4", "died thirs max of r gt 4 times thrid max of s");
+    doRes(DIEDSN3RN3, "diedSN3RN3", "died 3 s lt 0 and 3 r lt 0");
+    doRes(DIEDSN3RN2, "DIEDSN3RN2", "died 3 s lt 0 and 2 r lt 0");
+    doRes(DIEDSN3RM3X4, "DIEDSN3RM3X4", "died 3 s lt 0 and 3 r max gt 4 times 3 s max");
+    doRes(DIEDSN3RM3X3, "DIEDSN3RM3X3", "died 3 S lt 0 & 3 r max gt 3 times 3 s max",2,2,3);
     doRes(DIEDSN3RN1, "DIEDSN3RN1", "died",2,2,3);
     doRes(DIEDSN3RM3X2, "DIEDSN3RM3X2", "died",2,2,3);
     doRes(DIEDSN3RM3X1, "DIEDSN3RM3X1", "died",2,2,3);
@@ -2803,30 +2816,33 @@ class EM {
     doRes(BEFORETRADEWORTH, "BeforeTradeWorth", "Worth before A trade",2, 3,2, DUP, 0, 0, 0);
     doRes(AFTERTRADEWORTH, "AfterTradeWorth", "Worth after a trade",2, 3,2, DUP, 0, 0, 0);
     doRes(TRADEWORTHINCRPERCENT, "TradeWorthIncrPercent", "Percent increase in Worth after trade",2, 3,2, SKIPDUP | LIST4 | THISYEARAVE , 0, 0, LIST41 | ROWS3 | CUMUNITS );
+    doRes(TradeAcceptValuePerGoal, "AcceptValuePerGoa%", "Accepted percent value per goal",2, 3,2, LIST41 | THISYEARAVE| BOTH | SKIPUNSET ,ROWS1 | LIST4YRS | CURAVE | BOTH | SKIPUNSET ,ROWS2 | LIST41 | CUMAVE | BOTH | SKIPUNSET ,0L );
+    doRes(TradeRejectValuePerGoal, "RejectValuePerGoal%", "Rejected percent value per goal");
+    doRes(TradeLostValuePerGoal, "LostValuePerGoal%", "Lost percent value per goal" );
     doRes(TradeFirstStrategicGoal, "FirstStrategicGoal", "First Strategic Goal",2, 3,2, LIST41 | THISYEARAVE| BOTH | SKIPUNSET ,ROWS1 | LIST4YRS | CURAVE | BOTH | SKIPUNSET ,ROWS2 | LIST4YRS | CUMAVE | BOTH | SKIPUNSET ,0L );
-    doRes(TradeLastStrategicGoal, "LastStrategicGoal", "Strategic Goal after trade",2, 3,2, DUP, 0, 0, 0);
-    doRes(TradeFirstStrategicValue, "FirstStrategicValue", "First Strategic Value",2, 3,2, DUP, 0, 0, 0);
-    doRes(TradeLastStrategicValue, "LastStrategicValue", "Last strategic Value just before trade",2, 3,2, DUP, 0, 0, 0);
-    doRes(TradeStrategicValueLastPercentFirst, "LastPercentFirstStrategicValue", "LastStrategic Value percent of First Strategic Value just before trade",2, 3,2, DUP, 0, 0, 0);
-     doRes(TradeRejectedStrategicGoal, "RejectedStrategicGoal", "Trade rejected Strategic Goal",2, 3,2, DUP, 0, 0, 0);
-    doRes(TradeLostStrategicGoal, "LostStrategicGoal", "Strategic Goal after trade lost",2, 3,2, DUP, 0, 0, 0);
+    doRes(TradeLastStrategicGoal, "LastStrategicGoal", "Strategic Goal after trade");
+    doRes(TradeFirstStrategicValue, "FirstStrategicValue", "First Strategic Value");
+    doRes(TradeLastStrategicValue, "LastStrategicValue", "Last strategic Value just before trade");
+    doRes(TradeStrategicValueLastPercentFirst, "LastPercentFirstStrategicValue", "LastStrategic Value percent of First Strategic Value just before trade");
+     doRes(TradeRejectedStrategicGoal, "RejectedStrategicGoal", "Trade rejected Strategic Goal");
+    doRes(TradeLostStrategicGoal, "LostStrategicGoal", "Strategic Goal after trade lost");
     doRes(TradeRejectedStrategicValue, "RejectedtStrategicValue", "Strategic Value after Trade rejected",2, 3,2, DUP, 0, 0, 0);
-    doRes(TradeLostStrategicValue, "LostStrategicValue", "Strategic Value after trade lost",2, 3,2, DUP, 0, 0, 0);
-     doRes(TradeMissedStrategicGoal, "MissedStrategicGoal", "Trade Missed no value",2, 3,2, DUP, 0, 0, 0);
-     doRes(TradeDeadMissedStrategicGoal, "DeadMissedStrategicGoal", "Dead No Strategic Goal no trade",2, 3,2, THISYEARAVE | both | SKIPUNSET , ROWS1 | LIST94321 | CURAVE| BOTH | SKIPUNSET , ROWS2 | LIST94321| THISYEARUNITS  | BOTH | SKIPUNSET , ROWS3 | LIST94321 | CUMUNITS | BOTH | SKIPUNSET );  
-    doRes(TradeDeadLostStrategicGoal, "DeadLostStrategicGoal", "Strategic Goal after trade lost and dead",2, 3,2,THISYEARAVE | both | SKIPUNSET , ROWS1 | LIST94321 | CURAVE| BOTH | SKIPUNSET , ROWS2 | LIST94321| THISYEARUNITS  | BOTH | SKIPUNSET , ROWS3 | LIST94321 | CUMUNITS | BOTH | SKIPUNSET );    
-    doRes(TradeDeadLostStrategicValue, "DeadLostStrategicValue", "Strategic Value after trade lost and dead",2, 3,2, DUP, 0, 0, 0);
-     doRes(TradeDeadRejectedStrategicGoal, "DeadRejectedStrategicGoal", "Strategic Goal after trade rejected and dead",2, 3,2, DUP, 0, 0, 0);
-    doRes(TradeDeadStrategicGoal, "DeadStrategicGoal", "Strategic Goal after trade then died",2, 3,2, DUP, 0, 0, 0);
-    doRes(TradeDeadRejectedStrategicValue, "DeadRejectedStrategicValue", "Strategic Value after trade rejected then died",2, 3,2, DUP, 0, 0, 0);
-    doRes(TradeDeadStrategicValue, "DeadStrategicValue", "Strategic Value after trade then died",2, 3,2, DUP, 0, 0, 0);
-    doRes(TRADESOS1, "SOS1trade", "Successful trade percent incr worth after starting with SOS1",2, 3,2, LIST41 | THISYEARAVE| BOTH | SKIPUNSET ,ROWS1 | LIST4YRS | CURAVE | BOTH | SKIPUNSET ,ROWS2 | LIST5YRS | CUMUNITS | BOTH | SKIPUNSET ,0L );
-    doRes(TRADESOS2, "SOS2trade", "Successful trade percent incr worth after starting with SOS2",2, 3,2, LIST41 | THISYEARAVE| BOTH | SKIPUNSET ,ROWS1 | LIST4YRS | CURAVE | BOTH | SKIPUNSET ,ROWS2 | LIST4YRS | CUMUNITS | BOTH | SKIPUNSET ,0L );
-    doRes(TRADESOS3, "SOS3trade", "Successful trade percent incr worth after starting with SOS3",2, 3,2, LIST41 | THISYEARAVE| BOTH | SKIPUNSET ,ROWS1 | LIST4YRS | CURAVE | BOTH | SKIPUNSET ,ROWS2 | LIST4YRS | CUMUNITS | BOTH | SKIPUNSET ,0L );
+    doRes(TradeLostStrategicValue, "LostStrategicValue", "Strategic Value after trade lost");
+     doRes(TradeMissedStrategicGoal, "MissedStrategicGoal", "Trade Missed no value");
+     doRes(TradeDeadMissedStrategicGoal, "DeadMissedStrategicGoal", "Dead No Strategic Goal no trade",2, 3,2, THISYEARAVE | LIST94321 | both | SKIPUNSET , ROWS1 | LIST4 | LIST9 | CURAVE| BOTH | SKIPUNSET , ROWS2 | LIST9 | LIST4 | THISYEARUNITS  | BOTH | SKIPUNSET , ROWS3 | LIST9 | LIST4 | CUMUNITS | BOTH | SKIPUNSET );  
+    doRes(TradeDeadLostStrategicGoal, "DeadLostStrategicGoal", "Strategic Goal after trade lost and dead");    
+    doRes(TradeDeadLostStrategicValue, "DeadLostStrategicValue", "Strategic Value after trade lost and dead");
+     doRes(TradeDeadRejectedStrategicGoal, "DeadRejectedStrategicGoal", "Strategic Goal after trade rejected and dead");
+    doRes(TradeDeadStrategicGoal, "DeadStrategicGoal", "Strategic Goal after trade then died");
+    doRes(TradeDeadRejectedStrategicValue, "DeadRejectedStrategicValue", "Strategic Value after trade rejected then died");
+    doRes(TradeDeadStrategicValue, "DeadStrategicValue", "Strategic Value after trade then died");
+    doRes(TRADESOS1, "SOS1trade", "Successful trade percent incr worth after starting with SOS1",2, 3,2, LIST41 | THISYEARAVE| BOTH | SKIPUNSET ,ROWS1 | LIST4YRS | CURAVE | BOTH | SKIPUNSET ,0L ,0L );
+    doRes(TRADESOS2, "SOS2trade", "Successful trade percent incr worth after starting with SOS2");
+    doRes(TRADESOS3, "SOS3trade", "Successful trade percent incr worth after starting with SOS3");
      doRes(TRADEOSOS1, "HlptdS1Acc", "Helped Successful trade percent incr worth after starting with SOS1",2, 3,2, LIST41 | THISYEARAVE| BOTH | SKIPUNSET ,ROWS1 | LIST4YRS | CURAVE | BOTH | SKIPUNSET ,ROWS2 | LIST4YRS | CUMUNITS | BOTH | SKIPUNSET ,0L );
-    doRes(TRADEOSOS2, "HlptdS2Acc", "Helped Successful trade percent incr worth after starting with SOS2",2, 3,2, LIST41 | THISYEARAVE| BOTH | SKIPUNSET ,ROWS1 | LIST4YRS | CURAVE | BOTH | SKIPUNSET ,ROWS2 | LIST4YRS | CUMUNITS | BOTH | SKIPUNSET ,0L );
-    doRes(TRADEOSOS3, "HlptdS3Acc", "Helped Successful trade percent incr worth after starting with SOS3",2, 3,2, LIST41 | THISYEARAVE| BOTH | SKIPUNSET ,ROWS1 | LIST4YRS | CURAVE | BOTH | SKIPUNSET ,ROWS2 | LIST4YRS | CUMUNITS | BOTH | SKIPUNSET ,0L );
-    doRes(TRADESOSR1, "TrdSOS1"," trade percent incr worth with SOS1",2, 3,2, LIST51 | CUMUNITS | BOTH | SKIPUNSET ,ROWS1 | LIST51 | THISYEARUNITS | BOTH | SKIPUNSET ,ROWS2 | LIST5 | THISYEARAVE | BOTH | SKIPUNSET ,0L );
+    doRes(TRADEOSOS2, "HlptdS2Acc", "Helped Successful trade percent incr worth after starting with SOS2");
+    doRes(TRADEOSOS3, "HlptdS3Acc", "Helped Successful trade percent incr worth after starting with SOS3");
+    doRes(TRADESOSR1, "TrdSOS1"," trade percent incr worth with SOS1");
    doRes(TRADESOSR2,"TrdSOS2"," trade percent incr worth with SOS2");
     doRes(TRADESOSR3, "TrdSOS3"," trade percent incr worth with SOS3");
     doRes(TRADEOSOSR1, "LstS1", "Other Percent worth increase when lost for a trade with SOS1");
@@ -4659,11 +4675,12 @@ class EM {
     winner = scoreVals(TRADELASTGAVE, iGiven, ICUM, isI);
     winner = scoreVals(TRADELASTGAVE, wGiven, ICUM, isV);
     winner = scoreVals(LIVEWORTH, wLiveWorthScore, ICUR0, isV);
+    winner = scoreVals(LIVEWORTH, iLiveWorthScore, ICUR0, isI);
     winner = scoreVals(getStatrN("WTRADEDINCRMULT"), wYearTradeV, ICUR0, isV);
     winner = scoreVals(getStatrN("WTRADEDINCRMULT"), wYearTradeI, ICUR0, isI);
-    winner = scoreVals(DIED, iNumberDied, ICUR0, isI);
+    winner = scoreVals(DIED, iNumberDied, ICUM, isI);
     winner = scoreVals(BOTHCREATE, iBothCreateScore, ICUR0, isI);
-    winner = scoreVals(LIVEWORTH, wLiveWorthScore, ICUR0, isV);
+    
    // winner = scoreVals(getStatrN("WTRADEDINCRMULT"), wYearTradeI, ICUR0, isI);
     resI[SCORE][ICUR0][CCONTROLD][ISSET] = 1;
     for (int n = 0; n < 5; n++) {
