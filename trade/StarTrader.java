@@ -173,9 +173,9 @@ public class StarTrader extends javax.swing.JFrame {
 
   static final public String[] statsButtonsTips = {statsButton0Tip, statsButton1Tip, statsButton2Tip, statsButton3Tip, statsButton4Tip, statsButton5Tip, statsButton6Tip, statsButton7Tip, statsButton8Tip, statsButton9Tip, statsButton10Tip, statsButton11Tip, statsButton12Tip, statsButton13Tip, statsButton14Tip, statsButton15Tip, statsButton16Tip, statsButton17Tip, statsButton18Tip, statsButton19Tip, statsButton20Tip, gameTextFieldText};
   static final public String versionText = "     Version 19.2";
-  static final public String storyText = "   Version 19.25\n" +
+  static final public String storyText = "                                   Version 19.25\n" +
 "\n" +
-"â€œSave the Planetsâ€�: is an economics strategy game with ships carrying necessary resources between planets. The planets and ships are each different economies with a lot of similar rules and some significantly different values. Each economy has 2 very stressed financial sectors, two very successful financial sectors  The other 3 financial sectors are ok.   Generally each year planets increase resources by mining and new staff are added at the lowest grade while many staff move up one or more grades. Ships hold and carry resources and staff between planets, trading resources a planet needs  for surplus resources or staff from the planets but ships generally do not grow new staff and ships generally do not mine resources.  \n" +
+"Save the Planets: is an economics strategy game with ships carrying necessary resources between planets. The planets and ships are each different economies with a lot of similar rules and some significantly different values. Each economy has 2 very stressed financial sectors, two very successful financial sectors  The other 3 financial sectors are ok.   Generally each year planets increase resources by mining and new staff are added at the lowest grade while many staff move up one or more grades. Ships hold and carry resources and staff between planets, trading resources a planet needs  for surplus resources or staff from the planets but ships generally do not grow new staff and ships generally do not mine resources. \n" +
 "\n" +
 "The game-master changes settings which set overall rules for all ships and planets, thus the game-master sets up many different games of economics strategies.   The game-master sets the difficulty of the game, and the amount of random increases or decreases to the priorities,  costs, growth, etc. There are five clans each with a clan-master.  One or more players can divide up the roles of game-master and clan-masters.  Clans without a clan-master run with the preset settings for that clan.  The clan-masters can alter any of the priority settings and leave unchanged the rest of the clan settings for the robots which calculate the moves for each clan planet and ship.  \n" +
 "\n" +
@@ -312,7 +312,7 @@ public class StarTrader extends javax.swing.JFrame {
     gameXtraPanel1 = new javax.swing.JPanel();
     gameCtlButtonRun1Year1 = new javax.swing.JButton();
     gameCtlButtonRun5Years1 = new javax.swing.JButton();
-    gameCtlButtonRun1Yr2 = new javax.swing.JButton();
+    settingsKeep = new javax.swing.JButton();
     gameToLabelPlanet = new javax.swing.JLabel();
     gameTopLabelShip = new javax.swing.JLabel();
     gameTopRightFill = new javax.swing.JTextField();
@@ -370,6 +370,8 @@ public class StarTrader extends javax.swing.JFrame {
     gamePanelBottomPanel = new javax.swing.JPanel();
     gameTextPane = new javax.swing.JScrollPane();
     gameTextField = new javax.swing.JTextArea();
+    jScrollPane3 = new javax.swing.JScrollPane();
+    jTextArea1 = new javax.swing.JTextArea();
     gameButtonDown = new java.awt.Button();
     clan = new javax.swing.JPanel();
     clanTextPane = new javax.swing.JScrollPane();
@@ -502,9 +504,7 @@ public class StarTrader extends javax.swing.JFrame {
     setBackground(new java.awt.Color(240, 180, 240));
     setBounds(new java.awt.Rectangle(0, 0, 1250, 1250));
     setMaximizedBounds(new java.awt.Rectangle(0, 0, 1, 0));
-    setMaximumSize(new java.awt.Dimension(2000, 1700));
     setMinimumSize(new java.awt.Dimension(800, 600));
-    setPreferredSize(new java.awt.Dimension(1400, 1600));
     setResizable(false);
     addInputMethodListener(new java.awt.event.InputMethodListener() {
       public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
@@ -596,10 +596,12 @@ public class StarTrader extends javax.swing.JFrame {
     gameMaster.setForeground(new java.awt.Color(102, 102, 102));
     gameMaster.setText("master");
     gameMaster.setToolTipText("");
-    gameMaster.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-    gameMaster.setMaximumSize(new java.awt.Dimension(150, 21));
-    gameMaster.setMinimumSize(new java.awt.Dimension(90, 20));
-    gameMaster.setPreferredSize(new java.awt.Dimension(125, 21));
+    gameMaster.setAlignmentY(0.0F);
+    gameMaster.setIconTextGap(1);
+    gameMaster.setMargin(new java.awt.Insets(1, 1, 12, 1));
+    gameMaster.setMaximumSize(new java.awt.Dimension(150, 25));
+    gameMaster.setMinimumSize(new java.awt.Dimension(30, 20));
+    gameMaster.setPreferredSize(new java.awt.Dimension(65, 21));
     gameMaster.addItemListener(new java.awt.event.ItemListener() {
       public void itemStateChanged(java.awt.event.ItemEvent evt) {
         gameMasterItemStateChanged(evt);
@@ -614,17 +616,21 @@ public class StarTrader extends javax.swing.JFrame {
       }
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.gridx = 0;
-    gridBagConstraints.gridy = 0;
-    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
     game.add(gameMaster, gridBagConstraints);
 
     clanRed.setBackground(new java.awt.Color(255, 153, 153));
     gameButtonGroup.add(clanRed);
     clanRed.setForeground(new java.awt.Color(153, 0, 0));
     clanRed.setText("red");
+    clanRed.setAlignmentY(0.0F);
+    clanRed.setIconTextGap(1);
+    clanRed.setMargin(new java.awt.Insets(1, 1, 1, 1));
     clanRed.setMaximumSize(new java.awt.Dimension(70, 50));
-    clanRed.setPreferredSize(new java.awt.Dimension(70, 21));
+    clanRed.setMinimumSize(new java.awt.Dimension(30, 21));
+    clanRed.setPreferredSize(new java.awt.Dimension(50, 23));
+    clanRed.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+    clanRed.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
     clanRed.addItemListener(new java.awt.event.ItemListener() {
       public void itemStateChanged(java.awt.event.ItemEvent evt) {
         clanRedItemStateChanged(evt);
@@ -640,15 +646,21 @@ public class StarTrader extends javax.swing.JFrame {
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridy = 0;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
     game.add(clanRed, gridBagConstraints);
 
     clanOrange.setBackground(new java.awt.Color(204, 153, 0));
     gameButtonGroup.add(clanOrange);
     clanOrange.setForeground(new java.awt.Color(102, 51, 0));
     clanOrange.setText("orange");
-    clanOrange.setMaximumSize(new java.awt.Dimension(120, 45));
-    clanOrange.setMinimumSize(new java.awt.Dimension(69, 21));
-    clanOrange.setPreferredSize(new java.awt.Dimension(120, 21));
+    clanOrange.setAlignmentY(0.0F);
+    clanOrange.setIconTextGap(1);
+    clanOrange.setMargin(new java.awt.Insets(1, 1, 1, 1));
+    clanOrange.setMaximumSize(new java.awt.Dimension(120, 25));
+    clanOrange.setMinimumSize(new java.awt.Dimension(30, 21));
+    clanOrange.setPreferredSize(new java.awt.Dimension(65, 21));
+    clanOrange.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+    clanOrange.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
     clanOrange.addItemListener(new java.awt.event.ItemListener() {
       public void itemStateChanged(java.awt.event.ItemEvent evt) {
         clanOrangeItemStateChanged(evt);
@@ -664,13 +676,19 @@ public class StarTrader extends javax.swing.JFrame {
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridy = 0;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
     game.add(clanOrange, gridBagConstraints);
 
     clanYellow.setBackground(new java.awt.Color(255, 255, 51));
     gameButtonGroup.add(clanYellow);
     clanYellow.setText("yellow");
+    clanYellow.setAlignmentY(0.0F);
+    clanYellow.setIconTextGap(1);
+    clanYellow.setMargin(new java.awt.Insets(1, 1, 1, 1));
     clanYellow.setMaximumSize(new java.awt.Dimension(100, 25));
-    clanYellow.setPreferredSize(new java.awt.Dimension(100, 23));
+    clanYellow.setPreferredSize(new java.awt.Dimension(65, 23));
+    clanYellow.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+    clanYellow.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
     clanYellow.addItemListener(new java.awt.event.ItemListener() {
       public void itemStateChanged(java.awt.event.ItemEvent evt) {
         clanYellowItemStateChanged(evt);
@@ -686,13 +704,19 @@ public class StarTrader extends javax.swing.JFrame {
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridy = 0;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHEAST;
     game.add(clanYellow, gridBagConstraints);
 
     clanGreen.setBackground(new java.awt.Color(0, 255, 0));
     gameButtonGroup.add(clanGreen);
     clanGreen.setText("green");
+    clanGreen.setIconTextGap(1);
+    clanGreen.setMargin(new java.awt.Insets(1, 1, 1, 1));
     clanGreen.setMaximumSize(new java.awt.Dimension(90, 23));
-    clanGreen.setPreferredSize(new java.awt.Dimension(90, 23));
+    clanGreen.setMinimumSize(new java.awt.Dimension(30, 23));
+    clanGreen.setPreferredSize(new java.awt.Dimension(65, 23));
+    clanGreen.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+    clanGreen.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
     clanGreen.addItemListener(new java.awt.event.ItemListener() {
       public void itemStateChanged(java.awt.event.ItemEvent evt) {
         clanGreenItemStateChanged(evt);
@@ -706,29 +730,37 @@ public class StarTrader extends javax.swing.JFrame {
         clanGreenMouseExited(evt);
       }
     });
-    game.add(clanGreen, new java.awt.GridBagConstraints());
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+    game.add(clanGreen, gridBagConstraints);
 
-    clanBlue.setBackground(new java.awt.Color(51, 51, 255));
+    clanBlue.setBackground(new java.awt.Color(153, 153, 255));
     gameButtonGroup.add(clanBlue);
     clanBlue.setText("blue");
+    clanBlue.setAlignmentY(0.0F);
+    clanBlue.setIconTextGap(1);
+    clanBlue.setMargin(new java.awt.Insets(1, 1, 1, 1));
     clanBlue.setMaximumSize(new java.awt.Dimension(80, 23));
-    clanBlue.setPreferredSize(new java.awt.Dimension(80, 23));
+    clanBlue.setMinimumSize(new java.awt.Dimension(43, 20));
+    clanBlue.setPreferredSize(new java.awt.Dimension(55, 23));
+    clanBlue.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+    clanBlue.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
     clanBlue.addItemListener(new java.awt.event.ItemListener() {
       public void itemStateChanged(java.awt.event.ItemEvent evt) {
         clanBlueItemStateChanged(evt);
       }
     });
     clanBlue.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseExited(java.awt.event.MouseEvent evt) {
-        clanBlueMouseExited(evt);
-      }
       public void mouseEntered(java.awt.event.MouseEvent evt) {
         clanBlueMouseEntered(evt);
+      }
+      public void mouseExited(java.awt.event.MouseEvent evt) {
+        clanBlueMouseExited(evt);
       }
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridy = 0;
-    gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
     game.add(clanBlue, gridBagConstraints);
 
     gameXtraPanel1.setBackground(new java.awt.Color(153, 255, 255));
@@ -756,14 +788,14 @@ public class StarTrader extends javax.swing.JFrame {
     gameCtlButtonRun1Year1.setAlignmentY(0.0F);
     gameCtlButtonRun1Year1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.black, java.awt.Color.black, null, null));
     gameCtlButtonRun1Year1.setContentAreaFilled(false);
-    gameCtlButtonRun1Year1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-    gameCtlButtonRun1Year1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+    gameCtlButtonRun1Year1.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
+    gameCtlButtonRun1Year1.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
     gameCtlButtonRun1Year1.setIconTextGap(0);
     gameCtlButtonRun1Year1.setMargin(new java.awt.Insets(1, 1, 1, 1));
     gameCtlButtonRun1Year1.setMaximumSize(new java.awt.Dimension(100, 25));
-    gameCtlButtonRun1Year1.setMinimumSize(new java.awt.Dimension(50, 21));
-    gameCtlButtonRun1Year1.setName("  3 Yr"); // NOI18N
-    gameCtlButtonRun1Year1.setPreferredSize(new java.awt.Dimension(50, 21));
+    gameCtlButtonRun1Year1.setMinimumSize(new java.awt.Dimension(30, 21));
+    gameCtlButtonRun1Year1.setName("  1 Yr"); // NOI18N
+    gameCtlButtonRun1Year1.setPreferredSize(new java.awt.Dimension(35, 23));
     gameCtlButtonRun1Year1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
     gameCtlButtonRun1Year1.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
     gameCtlButtonRun1Year1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -783,7 +815,8 @@ public class StarTrader extends javax.swing.JFrame {
       }
     });
     gridBagConstraints = new java.awt.GridBagConstraints();
-    gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+    gridBagConstraints.insets = new java.awt.Insets(1, 1, 1, 1);
     game.add(gameCtlButtonRun1Year1, gridBagConstraints);
 
     gameCtlButtonRun5Years1.setText(" 5 yr");
@@ -794,8 +827,8 @@ public class StarTrader extends javax.swing.JFrame {
     gameCtlButtonRun5Years1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
     gameCtlButtonRun5Years1.setMargin(new java.awt.Insets(0, 3, 0, 3));
     gameCtlButtonRun5Years1.setMaximumSize(new java.awt.Dimension(100, 25));
-    gameCtlButtonRun5Years1.setMinimumSize(new java.awt.Dimension(40, 22));
-    gameCtlButtonRun5Years1.setPreferredSize(new java.awt.Dimension(65, 22));
+    gameCtlButtonRun5Years1.setMinimumSize(new java.awt.Dimension(30, 22));
+    gameCtlButtonRun5Years1.setPreferredSize(new java.awt.Dimension(35, 22));
     gameCtlButtonRun5Years1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
     gameCtlButtonRun5Years1.addMouseListener(new java.awt.event.MouseAdapter() {
       public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -810,33 +843,21 @@ public class StarTrader extends javax.swing.JFrame {
     });
     game.add(gameCtlButtonRun5Years1, new java.awt.GridBagConstraints());
 
-    gameCtlButtonRun1Yr2.setText(" abc");
-    gameCtlButtonRun1Yr2.setBorder(new javax.swing.border.MatteBorder(null));
-    gameCtlButtonRun1Yr2.setContentAreaFilled(false);
-    gameCtlButtonRun1Yr2.setDisplayedMnemonicIndex(2);
-    gameCtlButtonRun1Yr2.setMargin(new java.awt.Insets(2, 0, 2, 0));
-    gameCtlButtonRun1Yr2.setMaximumSize(new java.awt.Dimension(100, 25));
-    gameCtlButtonRun1Yr2.setMinimumSize(new java.awt.Dimension(40, 22));
-    gameCtlButtonRun1Yr2.setName("1 M"); // NOI18N
-    gameCtlButtonRun1Yr2.setPreferredSize(new java.awt.Dimension(40, 22));
-    gameCtlButtonRun1Yr2.addMouseListener(new java.awt.event.MouseAdapter() {
-      public void mouseClicked(java.awt.event.MouseEvent evt) {
-        gameCtlButtonRun1Yr2MouseClicked(evt);
-      }
-    });
-    gameCtlButtonRun1Yr2.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        gameCtlButtonRun1Yr2ActionPerformed(evt);
-      }
-    });
-    game.add(gameCtlButtonRun1Yr2, new java.awt.GridBagConstraints());
+    settingsKeep.setText("keep");
+    settingsKeep.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 102, 51), 2));
+    settingsKeep.setMaximumSize(new java.awt.Dimension(100, 25));
+    settingsKeep.setPreferredSize(new java.awt.Dimension(40, 23));
+    gridBagConstraints = new java.awt.GridBagConstraints();
+    gridBagConstraints.gridy = 0;
+    gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+    game.add(settingsKeep, gridBagConstraints);
 
     gameToLabelPlanet.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
     gameToLabelPlanet.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     gameToLabelPlanet.setText("Planet");
     gameToLabelPlanet.setMaximumSize(new java.awt.Dimension(500, 40));
-    gameToLabelPlanet.setMinimumSize(new java.awt.Dimension(300, 20));
-    gameToLabelPlanet.setPreferredSize(new java.awt.Dimension(440, 21));
+    gameToLabelPlanet.setMinimumSize(new java.awt.Dimension(200, 20));
+    gameToLabelPlanet.setPreferredSize(new java.awt.Dimension(300, 21));
     game.add(gameToLabelPlanet, new java.awt.GridBagConstraints());
 
     gameTopLabelShip.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -1707,9 +1728,9 @@ public class StarTrader extends javax.swing.JFrame {
     gameTextPane.setAlignmentX(0.0F);
     gameTextPane.setAlignmentY(0.0F);
     gameTextPane.setAutoscrolls(true);
-    gameTextPane.setMaximumSize(new java.awt.Dimension(220, 300));
+    gameTextPane.setMaximumSize(new java.awt.Dimension(500, 200));
     gameTextPane.setMinimumSize(new java.awt.Dimension(90, 200));
-    gameTextPane.setPreferredSize(new java.awt.Dimension(220, 225));
+    gameTextPane.setPreferredSize(new java.awt.Dimension(400, 200));
 
     gameTextField.setBackground(new java.awt.Color(153, 255, 153));
     gameTextField.setColumns(20);
@@ -1720,8 +1741,15 @@ public class StarTrader extends javax.swing.JFrame {
     gameTextField.setWrapStyleWord(true);
     gameTextField.setMargin(new java.awt.Insets(0, 0, 0, 0));
     gameTextField.setMinimumSize(new java.awt.Dimension(75, 100));
-    gameTextField.setPreferredSize(new java.awt.Dimension(100, 400));
+    gameTextField.setPreferredSize(new java.awt.Dimension(300, 200));
     gameTextPane.setViewportView(gameTextField);
+
+    jTextArea1.setColumns(70);
+    jTextArea1.setRows(5);
+    jTextArea1.setText("put your comments for keep here");
+    jTextArea1.setAlignmentX(0.0F);
+    jTextArea1.setAlignmentY(0.0F);
+    jScrollPane3.setViewportView(jTextArea1);
 
     javax.swing.GroupLayout gamePanelBottomPanelLayout = new javax.swing.GroupLayout(gamePanelBottomPanel);
     gamePanelBottomPanel.setLayout(gamePanelBottomPanelLayout);
@@ -1730,13 +1758,17 @@ public class StarTrader extends javax.swing.JFrame {
       .addGroup(gamePanelBottomPanelLayout.createSequentialGroup()
         .addGap(19, 19, 19)
         .addComponent(gameTextPane, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addContainerGap(868, Short.MAX_VALUE))
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addContainerGap(996, Short.MAX_VALUE))
     );
     gamePanelBottomPanelLayout.setVerticalGroup(
       gamePanelBottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(gamePanelBottomPanelLayout.createSequentialGroup()
-        .addComponent(gameTextPane, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addGap(0, 670, Short.MAX_VALUE))
+        .addGroup(gamePanelBottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addComponent(gameTextPane, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+          .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+        .addContainerGap(886, Short.MAX_VALUE))
     );
 
     gridBagConstraints = new java.awt.GridBagConstraints();
@@ -4431,26 +4463,6 @@ public class StarTrader extends javax.swing.JFrame {
     // TODO add your handling code here:
   }//GEN-LAST:event_gameCtlButtonRun1Year1ActionPerformed
 
-  private void gameCtlButtonRun1Yr2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gameCtlButtonRun1Yr2MouseClicked
-     System.out.println("in settings Run 1Year Mouse Clicked");
-    if (eM.fatalError) {
-      setFatalError();
-    }
-    else {
-      runYears(1);
-    }
-  }//GEN-LAST:event_gameCtlButtonRun1Yr2MouseClicked
-
-  private void gameCtlButtonRun1Yr2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gameCtlButtonRun1Yr2ActionPerformed
-      System.out.println("in settings Run 2 Year Mouse Clicked");
-    if (eM.fatalError) {
-      setFatalError();
-    }
-    else {
-      runYears(2);
-    }
-  }//GEN-LAST:event_gameCtlButtonRun1Yr2ActionPerformed
-
   private void statsButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statsButton5ActionPerformed
     // TODO add your handling code here:
   }//GEN-LAST:event_statsButton5ActionPerformed
@@ -4621,7 +4633,12 @@ public class StarTrader extends javax.swing.JFrame {
      * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
      */
     try {
-
+     
+     double aa1 = new Double("5555.0");
+     double aa0 = new Double("5555.0E+2");
+     double aaa = new Double("5556.0");
+     double aa2 = new Double("5556E+3");
+     
       PrintStream jout, jerr, jout1, jerr1;
       if(E.debugOutput){    
           jout = new PrintStream(new File("StarTraderOutput.txt"));
@@ -4734,7 +4751,6 @@ public class StarTrader extends javax.swing.JFrame {
   protected java.awt.Button gameButtonUp;
   protected java.awt.Button gameButtonUp1;
   protected javax.swing.JButton gameCtlButtonRun1Year1;
-  protected javax.swing.JButton gameCtlButtonRun1Yr2;
   protected javax.swing.JButton gameCtlButtonRun5Years1;
   protected javax.swing.JLabel gameLabelP5;
   protected javax.swing.JLabel gameLabelP6;
@@ -4794,6 +4810,7 @@ public class StarTrader extends javax.swing.JFrame {
   protected javax.swing.ButtonGroup initButtonGroupPorS;
   protected javax.swing.JScrollPane jScrollPane1;
   protected javax.swing.JScrollPane jScrollPane2;
+  protected javax.swing.JScrollPane jScrollPane3;
   protected javax.swing.JSeparator jSeparator1;
   protected javax.swing.JSeparator jSeparator10;
   protected javax.swing.JSeparator jSeparator11;
@@ -4810,6 +4827,7 @@ public class StarTrader extends javax.swing.JFrame {
   protected javax.swing.JSeparator jSeparator8;
   protected javax.swing.JSeparator jSeparator9;
   protected javax.swing.JTable jTable1;
+  protected javax.swing.JTextArea jTextArea1;
   protected javax.swing.JRadioButton logActionAdd;
   protected javax.swing.JRadioButton logActionDel;
   protected javax.swing.JRadioButton logActionJump;
@@ -4833,6 +4851,7 @@ public class StarTrader extends javax.swing.JFrame {
   protected javax.swing.JPanel rbuttons1;
   protected javax.swing.JPanel rbuttons12;
   protected javax.swing.JPanel rbuttons2;
+  protected javax.swing.JButton settingsKeep;
   protected javax.swing.JPanel stats;
   protected javax.swing.JRadioButton statsButton0;
   protected javax.swing.JRadioButton statsButton1;
