@@ -18,8 +18,13 @@
 package trade;
 
 import java.awt.Color;
+import java.io.BufferedWriter;
+import java.nio.charset.Charset;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -61,11 +66,17 @@ public class E {
   static final public String statsButton18Tip = "18: Swaps years xfer skips, redos and dos";
   static final public String statsButton19Tip = "19: Swaps years Forward Fund imbalance or save";
   static final public String statsButton20Tip = "20: TB assigned";
+  static final public SimpleDateFormat MYDATEFORMAT = new SimpleDateFormat("EEEE MM//DD//YYYY HH:mm:ss:SSSz");
 
   /**
    * ***********************************************************************
    * START DATA
    */
+  static final Charset CHARSET = Charset.forName("US-ASCII");
+  static final Path REMEMBER = Paths.get("remember");
+  static final Path KEEP = Paths.get("keep");
+  static BufferedWriter bRemember=null,bKeep=null;
+  
   /**
    * start debug flags, it is possible if static final boolean is false the code
    * enclosed by an if on this flag will never be compiled. In any case

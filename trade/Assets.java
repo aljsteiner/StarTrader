@@ -3291,10 +3291,10 @@ public class Assets {
         researchers = makeZero(researchers);
         knowledge.set(commonKnowledge, newKnowledge);
         */
-        if(sIx == SIX && work.sum() < E.PZERO){ 
+        if(didCashFlowInit && sIx == SIX && work.sum() < E.PZERO){ 
           EM.doMyErr(" work has no value");
         }
-        if(sIx == SIX && worth.sum() < E.PZERO){ 
+        if(didCashFlowInit && sIx == SIX && worth.sum() < E.PZERO){ 
           EM.doMyErr(" worth has no value");
         }
         if (debugSumGrades2) {

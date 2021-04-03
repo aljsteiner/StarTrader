@@ -1159,12 +1159,13 @@ public class Econ {
     double maxShips = eM.shipsPerPlanet(clan);
     return !(alreadyTrading || didYearEnd) && visitedShipNext < maxShips;
   }
-  
+  /** add some Econ class variables */
   final static String[] threadFor = {"yearEnd"};
   static int[] threadCnt = {0}; // synchronized count of started threads
-  static String nowName= "soon";
+  static String nowName = "soonName";
   static Econ nowEc;
-    static final int lImWaitingList=10;
+  static String nowThread = "soonThread";
+  static final int lImWaitingList=10;
   // try to have the previous and the current string
   static String imWaitingList[] = new String[lImWaitingList];
   static int ixImWaitingList;
@@ -1344,12 +1345,14 @@ static String sETList[] = new String[10];
     long etMore = etStart - EM.doYearTime;
     int atCnt=0;
     eM.curEcon = ec;
+    nowThread = Thread.currentThread().getName();
     if(E.debugThreadsOut) {
       ixETList = ++ixETList%lETList;
       String atList = "";
       long b4 = (new Date()).getTime();
       long msecs = EM.doYearTime - b4;
-      etList[prevIx]="EconThread yearEnd in thread " + Thread.currentThread().getName() + " since " + msecs + " at " ;
+      
+      etList[prevIx]="EconThread yearEnd in thread " + nowThread + " since " + msecs + " at " ;
       StackTraceElement[] prevCalls = new StackTraceElement[le];
       int lstk = Thread.currentThread().getStackTrace().length-1;
       for(int ste=0;ste< le && atCnt < 5  && ste < lstk; ste++){

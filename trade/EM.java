@@ -3713,7 +3713,7 @@ class EM {
         
         if(E.debugStatsOut1){
           System.out.println(
-"EM.setStat " + Econ.nowName + " " + Econ.threadCnt[0] + " since doYear" + year + "=" + moreT + "=>"  + moreTT + " " + resS[rN][0] + " rN" + rN + ", valid" + valid + ", "  + " resIcum=" + resICumClan + ", age" + age + ", name=" + curEcon.name + ", curEcon.age" + curEcon.age + ", pors=" + pors + ", clan=" + clan + ", resIcur0Isset=" + resIcur0Isset + ", resICumIsset=" + resICumIsset + ", resVCur0Clan=" + mf(resVcur0Clan) + ", resVCurmClan=" + mf(resVCurmClan));}
+"EM.setStat " + Econ.nowName + " " + Econ.threadCnt[0] + " since doYear" + year + "=" + moreT + "=>"  + moreTT + " " + resS[rN][0] + " rN" + rN + ", valid" + valid + ", "  + " resIcum=" + resICumClan + ", age" + age + ", curEcon.age" + curEcon.age + ", pors=" + pors + ", clan=" + clan + ", resIcur0Isset=" + resIcur0Isset + ", resICumIsset=" + resICumIsset + ", resVCur0Clan=" + mf(resVcur0Clan) + ", resVCurmClan=" + mf(resVCurmClan));}
         System.out.flush();
       };
     }
@@ -4117,19 +4117,27 @@ class EM {
         if(resS[rn][rDesc].contains("Score")){
           int i = E.S;
           // String ww[] = {"color","Winner","999999","99.0%",">>>>>>>>>>" }; `
-            //  Set second half of sum
+            //  Set second half of the row in ships 5
             table.setBackground(new java.awt.Color(E.backGroundColors[winner]));
             aVal=sums =0;
             double myWin=0;
               for (int m = 0; m < E.lclans; m++) {
-                table.setValueAt(((aVal = getD1(rn, dd[(int) i] + aop, m, ageIx)) < -93456789.0 ? "------" : dFrac.format(aVal)), row, (int)(i * E.lclans + m + 1));
+                table.setValueAt(((aVal = getD1(rn, dd[(int) i] + aop, m, ageIx)) < -93456789.0 ? "------" : mf(aVal)), row, (int)(i * E.lclans + m + 1));
                 sums += aVal;
-                if(m == winner){table.setValueAt(aVal,row,3); myWin = aVal;}
+                if(m == winner && isWinner){table.setValueAt(aVal,row,3); myWin = aVal;}
               }
+              if(isWinner){
               table.setValueAt(E.groupNames[winner], row, 1);
               table.setValueAt("Winner",row,5);
               table.setValueAt((dFrac.format(aVal*100/sums *.2)) + "%",row,4);
               table.setValueAt(">>>>>>>>>>",row,5);
+              } else { // winner pending
+                table.setValueAt(mf(curDif) + "%",row,1);
+                table.setValueAt("yet till",row,2);
+                table.setValueAt("a Winner",row,3);
+                table.setValueAt("for the",row,3);
+                table.setValueAt("game",row,3);
+              }
           
           table.setValueAt(description + suffix + powers, row, 0);
           resExt[row] = detail + powers;
@@ -4662,13 +4670,22 @@ class EM {
     }
   }
 
-  double myScore[] = {0., 0., 0., 0., 0.};
+  double myScore[] = {400., 400.,400.,400., 400.};
+  double myScoreSum= 0.0;
   boolean isV = false;
   boolean isI = true;
+  boolean isWinner = false;
   int sValsCnt = -1;
+  double difPercent = 0.0;
+  double difMult = 0.0;
+  double winDif[][] = {{2.000}};
+  static double mwinDif[][] = {{0.2,4.0},{0.2,4.0}};
+  double curDif = 0.0;
 
   int getWinner() {
-    
+    // initialize curDif,difMult if year < 2
+    curDif = year < 2 ? winDif[0][0]:curDif;
+    difMult = year < 2? 1.0/winDif[0][0] : difMult;
     for (int n = 0; n < 5; n++) {
       myScore[n] = 400.;  // allow negatives to reduce it
     }
@@ -4682,12 +4699,24 @@ class EM {
     winner = scoreVals(BOTHCREATE, iBothCreateScore, ICUR0, isI);
     
    // winner = scoreVals(getStatrN("WTRADEDINCRMULT"), wYearTradeI, ICUR0, isI);
+   
     resI[SCORE][ICUR0][CCONTROLD][ISSET] = 1;
+    myScoreSum = 0.0;
     for (int n = 0; n < 5; n++) {
+      myScoreSum = myScore[n]*2;
       resV[SCORE][ICUR0][0][n] = myScore[n];
       resV[SCORE][ICUR0][1][n] = myScore[n];
-      resI[SCORE][ICUR0][1][n] = 0;
+      resI[SCORE][ICUR0][1][n] = 1;
       resI[SCORE][ICUR0][0][n] = 3;  //3 planet units for each clan
+    }
+    double dif=0.0, wDif=0.0;
+    // dif = max - myScore.ave
+    // wDif = dif - winDif
+    difPercent = (wDif = (dif = (myScore[winner] - myScoreSum *.1) / myScoreSum *.1 ) - curDif) *100.0;
+    if(wDif > 0.0){  // wDif is frac (max-ave)/ave - curDif
+      isWinner = true;
+    } else {  // wDif < 0.0 reduce curDif
+      curDif += wDif * difMult;
     }
     System.out.println("getWinner " + resS[SCORE][0] + " =" + E.mf(resV[SCORE][ICUR0][0][0]) + " , " + E.mf(resV[SCORE][ICUR0][0][1]) + " , " + E.mf(resV[SCORE][ICUR0][0][2]) + "," + E.mf(resV[SCORE][ICUR0][0][3]) + "," + E.mf(resV[SCORE][ICUR0][0][4]) + " : " + E.mf(resV[SCORE][ICUR0][1][0]) + " , " + E.mf(resV[SCORE][ICUR0][1][1]) + " , " + E.mf(resV[SCORE][ICUR0][1][2]) + "," + E.mf(resV[SCORE][ICUR0][1][3]) + "," + E.mf(resV[SCORE][ICUR0][1][4]) + ", myScore=" + E.mf(myScore[0]) + " , " + E.mf(myScore[1]) + " , " + E.mf(myScore[2]) + "," + E.mf(myScore[3]) + "," + E.mf(myScore[4]) + ", winner=" + winner);
     return winner;

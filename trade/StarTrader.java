@@ -46,7 +46,9 @@ package trade;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.Files;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -847,6 +849,11 @@ public class StarTrader extends javax.swing.JFrame {
     settingsKeep.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 102, 51), 2));
     settingsKeep.setMaximumSize(new java.awt.Dimension(100, 25));
     settingsKeep.setPreferredSize(new java.awt.Dimension(40, 23));
+    settingsKeep.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        settingsKeepMouseClicked(evt);
+      }
+    });
     gridBagConstraints = new java.awt.GridBagConstraints();
     gridBagConstraints.gridy = 0;
     gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
@@ -4620,25 +4627,34 @@ public class StarTrader extends javax.swing.JFrame {
   private void statsButton0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statsButton0ActionPerformed
     // TODO add your handling code here:
   }//GEN-LAST:event_statsButton0ActionPerformed
+
+  private void settingsKeepMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_settingsKeepMouseClicked
+    // TODO add your handling code here:
+  }//GEN-LAST:event_settingsKeepMouseClicked
   static Boolean resetOut = false;
 
   /**
    * @param args the command line arguments
    */
-  public static void main(String args[]) {
+  
+  public static void main(String args[]) throws IOException {
     /* Set the Nimbus look and feel --change to animation*/
 
     //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
     /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
      * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
      */
+    
+    //now set up the writer for remember
+
+    
     try {
-     
-     double aa1 = new Double("5555.0");
-     double aa0 = new Double("5555.0E+2");
-     double aaa = new Double("5556.0");
-     double aa2 = new Double("5556E+3");
-     
+      E.bRemember = Files.newBufferedWriter(E.REMEMBER, E.CHARSET);
+      E.bKeep = Files.newBufferedWriter(E.KEEP,E.CHARSET);
+   String dateString = E.MYDATEFORMAT.format(new Date());
+   String rOut = "New Game " + dateString + "\n";
+   E.bRemember.write(rOut,0,rOut.length());
+   E.bKeep.write(rOut,0,rOut.length());
       PrintStream jout, jerr, jout1, jerr1;
       if(E.debugOutput){    
           jout = new PrintStream(new File("StarTraderOutput.txt"));
@@ -4675,30 +4691,75 @@ public class StarTrader extends javax.swing.JFrame {
     }
     catch (ClassNotFoundException ex) {
       java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+       System.out.flush();
+      System.err.flush();
+      System.err.println(new Date().toString() + (new Date().getTime() - startTime )+ " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr);
+      ex.printStackTrace(System.err);
+      System.err.flush();
+      fatalError = true;;
     }
     catch (InstantiationException ex) {
       java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+         System.out.flush();
+      System.err.flush();
+      System.err.println(new Date().toString() + (new Date().getTime() - startTime )+ " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr);
+      ex.printStackTrace(System.err);
+      System.err.flush();
+      fatalError = true;;
     }
     catch (IllegalAccessException ex) {
       java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+         System.out.flush();
+      System.err.flush();
+      System.err.println(new Date().toString() + (new Date().getTime() - startTime )+ " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr);
+      ex.printStackTrace(System.err);
+      System.err.flush();
+      fatalError = true;;
     }
     catch (javax.swing.UnsupportedLookAndFeelException ex) {
       java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+         System.out.flush();
+      System.err.flush();
+      System.err.println(new Date().toString() + (new Date().getTime() - startTime )+ " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr);
+      ex.printStackTrace(System.err);
+      System.err.flush();
+      fatalError = true;;
     }
     catch (FileNotFoundException ex) {
       java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    }
+         System.out.flush();
+      System.err.flush();
+      System.err.println(new Date().toString() + (new Date().getTime() - startTime )+ " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr);
+      ex.printStackTrace(System.err);
+      System.err.flush();
+      fatalError = true;;
+    } catch (IOException ex){
+       java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+         System.out.flush();
+      System.err.flush();
+      System.err.println(new Date().toString() + (new Date().getTime() - startTime )+ " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr);
+      ex.printStackTrace(System.err);
+      System.err.flush();
+      fatalError = true;
+    } finally {
+      if(E.bKeep != null){E.bKeep.close();} 
+       if(E.bRemember != null){E.bRemember.close();}
+      
+       
+    } 
     //</editor-fold>
 
-    ;
-  }
+    }
+  
 
   public void second() {
+    if(!fatalError){ // whoo, stop now
     java.awt.EventQueue.invokeLater(new Runnable() {
       public void run() {
         new StarTrader().setVisible(true);
       }
     });
+    }
   }
 
 
@@ -5094,12 +5155,17 @@ public class StarTrader extends javax.swing.JFrame {
 
   String prevWasHere = "";
 
+  /** set the Econ state, and check for stuck
+   * 
+   * @param stateConst value to be set
+   */
   void setEconState(int stateConst) {
     Econ curEc = EM.curEcon;
     curEconName = (EM.curEcon == null ? "notYet" : EM.curEcon.name);
+    
     if (stateConst == prevState && curEconName.equals(prevEconName) && eM.wasHere == prevWasHere && stateConst != STATS && stateConst != WAITING && stateConst != STOPPED && stateConst != FATALERR) {
       sameEconState++;
-      if (curEconName.equals(prevEconName) && sameEconState > 100) {
+      if (curEconName.equals(prevEconName) && sameEconState > 200) {
         long myNow = new Date().getTime() - eM.doYearTime;
         eM.doMyErr("doYear" + eM.year + myNow + " STUCK at:" + stateStringNames[stateConst] + " " + curEconName + ", cnt=" + sameEconState + " millisecs=" + (new Date().getTime() - startEconState));
       }
@@ -5136,7 +5202,7 @@ public class StarTrader extends javax.swing.JFrame {
       for (stateCnt = 0; !eM.fatalError && !eM.stopExe && !done && !fatalError; stateCnt++) {
         curEc = eM.curEcon;
         if (curEc != null) {
-          curEconName = curEc.name;
+          curEconName = curEc.nowName;
         }
         // System.out.println("***************runYears;" + since() + " " + stateStringNames[stateConst]+ stateCnt + " year=" + eM.year + ", econ=" + prevEconName);
         setEconState(stateConst);
@@ -6433,7 +6499,9 @@ public class StarTrader extends javax.swing.JFrame {
         if(E.debugThreads){
           System.out.println("``````````````Waiting Ending year=" + eM.andET());
         }
+        stateConst = WAITING;
         eM.curEcon.imWaiting(Econ.threadCnt,0,6,"doYear ended yearEnds");
+        stateConst = ENDYR;
         if(E.debugThreads){
           System.out.println("``````````````Ending year=" + eM.andET());
         }
@@ -6458,7 +6526,7 @@ public class StarTrader extends javax.swing.JFrame {
       if (!resetOut) {
         eM.flushes();
       }
-      System.err.println(EM.curEcon.name + since() + " WasFatalError found" + EM.andMore());
+      System.err.println(Econ.nowName +  since() + " " + Econ.nowThread + " WasFatalError found" + EM.andMore());
       ex.printStackTrace(System.err);
       // go to finally
     }
@@ -6466,7 +6534,7 @@ public class StarTrader extends javax.swing.JFrame {
       if (!resetOut) {
         eM.flushes();
       }
-      System.err.println(EM.curEcon.name + since() + " WasStopped found" + EM.andMore());
+      System.err.println(Econ.nowName +  since() + " " + Econ.nowThread + " WasStopped found" + EM.andMore());
       ex.printStackTrace(System.err);
       // go to finally
     }
@@ -6474,7 +6542,7 @@ public class StarTrader extends javax.swing.JFrame {
       if (!resetOut) {
         eM.flushes();
       }
-      System.err.println(EM.curEcon.name + since() + "MyTestException found" + EM.andMore());
+      System.err.println(Econ.nowName +  since() + " " + Econ.nowThread + "MyTestException found" + EM.andMore());
       ex.printStackTrace(System.err);
       if (!resetOut) {
         System.err.flush();
@@ -6485,7 +6553,7 @@ public class StarTrader extends javax.swing.JFrame {
       if (!resetOut) {
         eM.flushes();
       }
-      System.err.println(EM.curEcon.name + since() + " MyErrException=" + ex.getMessage() + EM.andMore());
+      System.err.println(Econ.nowName +  since() + " " + Econ.nowThread + " MyErrException=" + ex.getMessage() + EM.andMore());
       ex.printStackTrace(System.err);
       if (!resetOut) {
         eM.flushes();
@@ -6496,7 +6564,7 @@ public class StarTrader extends javax.swing.JFrame {
       if (!resetOut) {
         eM.flushes();
       }
-      System.err.println(EM.curEcon.name +  since() + " MyErr=" + ex.getMessage() + EM.andMore());
+      System.err.println(Econ.nowName +  since() + " " + Econ.nowThread + " MyErr=" + ex.getMessage() + EM.andMore());
       ex.printStackTrace(System.err);
       if (!resetOut) {
         eM.flushes();
@@ -6507,7 +6575,7 @@ public class StarTrader extends javax.swing.JFrame {
       if (!resetOut) {
         eM.flushes();;
       }
-      System.err.println(since() + " MyMsgException found=" + ex.getMessage() + EM.andMore());
+      System.err.println(Econ.nowName +  since() + " " + Econ.nowThread +" MyMsgException found=" + ex.getMessage() + EM.andMore());
       ex.printStackTrace(System.err);
       if (!resetOut) {
         eM.flushes();
@@ -6518,7 +6586,7 @@ public class StarTrader extends javax.swing.JFrame {
       if (!resetOut) {
         eM.flushes();
       }
-      System.err.println("Caught Err cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + EM.andMore());
+      System.err.println(Econ.nowName +  since() + " " + Econ.nowThread + "Caught Err cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + EM.andMore());
       ex.printStackTrace(System.err);
       if (!resetOut) {
         eM.flushes();
