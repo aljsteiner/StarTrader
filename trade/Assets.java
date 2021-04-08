@@ -948,13 +948,16 @@ public class Assets {
    *
    * @param forceInit set true if a desired trade value is unset
    */
+  String didTradeInitCF = "noTradeInitCF";
   void getTradeInit(boolean forceInit) {
+    didTradeInitCF = "notTICF";
     if (forceInit) {
       if (cur == null) {
         eM.wasHere = "Assets.getTradeInit before new CashFlow";
         cur = new CashFlow(this);
         eM.wasHere = "Assets.getTradeInit before aStartCashFlow";
         cur.aStartCashFlow(this);
+        didTradeInitCF = "yesTICF";
         eM.wasHere = "Assets.getTradeInit after aStartCashFlow";
       }
       eM.wasHere = "Assets.getTradeInit after start cashflow";
@@ -3183,7 +3186,7 @@ public class Assets {
             sumg = 0.;
             for (int nn = 0; nn < lgrades2; nn++) {
               if (grades[sourceIx2][nn] < -0.0) {
-                throw (new MyErr(String.format("Illegal negative grade %7.3g at   ix%d, grade%d, term%d, i%d, j%d, m%d,n%d", grades[sourceIx2][nn], sourceIx2, nn, as.term, as.i, as.j, as.m, as.n)));
+                throw (new MyErr(String.format(didTradeInitCF + "Illegal negative grade %7.3g at   ix%d, grade%d, term%d, i%d, j%d, m%d,n%d", grades[sourceIx2][nn], sourceIx2, nn, as.term, as.i, as.j, as.m, as.n)));
               }
               preGSums[sourceIx2] += grades[sourceIx2][nn];
             } //for nn
@@ -3194,7 +3197,7 @@ public class Assets {
             double sumBal = balance.sum();
             //check for more than a very small dif between sum of sector grades and  sector balance
             if (((dif = sectU - preGSums[sourceIx2]) < -difMax || dif > difMax)) {
-              throw (new MyErr("sector grade sum difference too large=" + df(dif) + " difMax=" + df(difMax) + ", balance.get(" + sourceIx2 + ")=" + df(balance.get(sourceIx2)) + " for " + aschar + sourceIx2 + " grades sum=" + df(preGSums[sourceIx2]) + " pregrades2[sourceIx2]=" + df(sGSums[sourceIx2]) + "\n less units" + df(sectU) + " units sumBal=" + df(sumBal) + " grades sGSums[8]=" + df(sGSums[8]) + ", grades preGSums[8]=" + df(preGSums[8]) + ", sourceIx2=" + sourceIx2 + ", term" + as.term + ", i" + as.i + ", j" + as.j + ", m" + as.m + ", n" + as.n));
+              throw (new MyErr(didTradeInitCF + "sector grade sum difference too large=" + df(dif) + " difMax=" + df(difMax) + ", balance.get(" + sourceIx2 + ")=" + df(balance.get(sourceIx2)) + " for " + aschar + sourceIx2 + " grades sum=" + df(preGSums[sourceIx2]) + " pregrades2[sourceIx2]=" + df(sGSums[sourceIx2]) + "\n less units" + df(sectU) + " units sumBal=" + df(sumBal) + " grades sGSums[8]=" + df(sGSums[8]) + ", grades preGSums[8]=" + df(preGSums[8]) + ", sourceIx2=" + sourceIx2 + ", term" + as.term + ", i" + as.i + ", j" + as.j + ", m" + as.m + ", n" + as.n));
 
               //   throw(new MyErr(String.format("difference[%d] %7.3g is greater than difMax %7.3g for pre balance %7.3g  less pre grade units %7.3g   sourceIx%d, term%d, i%d, j%d, m%d,n%d",sourceIx2, dif,difMax,sectU,preGSums[sourceIx2],sourceIx,as.term,as.i,as.j,as.m,as.n)));
             }//dif
@@ -3292,10 +3295,10 @@ public class Assets {
         knowledge.set(commonKnowledge, newKnowledge);
         */
         if(didCashFlowInit && sIx == SIX && work.sum() < E.PZERO){ 
-          EM.doMyErr(" work has no value");
+          EM.doMyErr(didTradeInitCF + " work has no value");
         }
         if(didCashFlowInit && sIx == SIX && worth.sum() < E.PZERO){ 
-          EM.doMyErr(" worth has no value");
+          EM.doMyErr(didTradeInitCF + " worth has no value");
         }
         if (debugSumGrades2) {
           checkGrades();
@@ -6387,6 +6390,8 @@ public class Assets {
         hist.add(new History(aPre, 5, "initAsYr" + year, "wealth=", df(wealth), "colonists=", df(colonists), "Knowledge=", df(aknowledge), "difficulty=", df(percentDifficulty)));
         start();
       }
+      s.sumGrades();
+      g.sumGrades();
       //    started = traded = growed = endyr = copyy(cur);
       didCashFlowInit = true;
       EM.wasHere = "CashFlow.init... end eeej=" + ++eeej;

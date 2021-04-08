@@ -18,6 +18,7 @@
 package trade;
 
 import java.awt.Color;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
@@ -76,6 +77,7 @@ public class E {
   static final Path REMEMBER = Paths.get("remember");
   static final Path KEEP = Paths.get("keep");
   static BufferedWriter bRemember=null,bKeep=null;
+  static BufferedReader bKeepr = null;
   
   /**
    * start debug flags, it is possible if static final boolean is false the code
@@ -102,6 +104,7 @@ public class E {
   static final boolean debugTradeSetup = debugMaster; // distance, location etc
   static final boolean debugStats = debugMaster; // why stats aren't showing
   static final boolean debugStatsOut = debugMaster; // stats output
+  static final boolean debugScannerOut = debugMaster; // scanner output
   static final boolean debugMisc = debugMaster; // other debug tests
   static final boolean debugCanTrade = debugMaster; // planet can trade
   static final boolean debugDisplayTrade = debugMaster; // Trade System.out msgs
@@ -115,6 +118,7 @@ public class E {
    static final boolean debugPutValue = debugfalse; //test putValue processing
   static final boolean debugPutValue1 = debugfalse; //test putValue processing
   static final boolean debugPutValue2 = debugfalse; //test putValue processing
+  static final boolean DEBUGWAITTRACE = false;
  static final boolean debugLogsOut = false; // EM rs output
   static final boolean debugStatsOut1 = false; // stats output1
   static final boolean debugThreadsOut = true; // threads output

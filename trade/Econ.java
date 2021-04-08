@@ -343,7 +343,7 @@ public class Econ {
    * planets. a planet may appear for each round.
    */
   boolean planetCanTrade(int round) {
-    boolean go = true; // can go to trade
+    boolean go = canDoAnotherBarter(); // can go to trade
     go &= pors > 0; // any ship trades
     boolean go1 = EM.porsCnt[E.P] < 3;  //allow go beginnning of game
     if (E.debugCanTrade && (go || go1)) {
@@ -362,12 +362,12 @@ public class Econ {
     go = planetsVisitedPerEcon < (planetsGoalFrac * 1.1 + planetsGoalFrac * 0.25 * round);  // allow a little extra planets
     if (!go) {
       if (E.debugCanTrade) {
-        //   E.sysmsg(name + " Not planetCanTrade planetsVisitedPerEcon=" + planetsVisitedPerEcon  + " round=" + round + " planetsFrac *1.1=" + mf(planetsFrac *1.1  + planetsFrac * 0.25 * round));
+           System.out.println(name + " Not planetCanTrade planetsVisitedPerEcon=" + planetsVisitedPerEcon  + " round=" + round + " planetsFrac *1.1=" + mf(planetsGoalFrac *1.1  + planetsGoalFrac * 0.25 * round));
         return go;  // exit false
       }
     } else {
       if (E.debugCanTrade) {
-        //    System.out.println(name + " planetCanTrade planetsVisitedPerEcon=" + planetsVisitedPerEcon  + " planetsFrac *1.1=" + mf(planetsFrac *1.1  + planetsFrac * 0.25 * round));
+           System.out.println(name + " planetCanTrade planetsVisitedPerEcon=" + planetsVisitedPerEcon  + " planetsFrac *1.1=" + mf(planetsGoalFrac *1.1  + planetsGoalFrac * 0.25 * round));
       }
     }
 
@@ -1147,7 +1147,15 @@ public class Econ {
    */
   int getShipsVisited(Econ[] visitedShips) {
     visitedShips = visitedShipList;
-    return visitedShipNext + 1;
+    int vsmax = Math.min(visitedShipList.length,visitedShips.length);
+    int lvs = visitedShips.length;
+    int i;
+    //copy the common length
+    for(i = 0; i< vsmax && visitedShipList[i] != null;i++){visitedShips[i] = visitedShipList[i];}
+    vsmax = i-1; // i is first cannot copy
+    // null anything more, wipe out from a previous copy
+    for(i=i; i < lvs;i++){visitedShips[i] = null;}
+    return vsmax;
   }
 
   /**
@@ -1159,6 +1167,7 @@ public class Econ {
     double maxShips = eM.shipsPerPlanet(clan);
     return !(alreadyTrading || didYearEnd) && visitedShipNext < maxShips;
   }
+  
   /** add some Econ class variables */
   final static String[] threadFor = {"yearEnd"};
   static int[] threadCnt = {0}; // synchronized count of started threads
@@ -1274,6 +1283,16 @@ public class Econ {
 
   } // doMoreThreads
   
+int prevEtIx=0,prev2EtIx=0; // in Econ
+static int ixETList=0;
+static final int lETList = 10;
+static String sETList[] = new String[10];
+
+ 
+  /** prepare to do yearEnd possibly as a separate thread
+   * 
+   */
+  int letTimes = 10;
  void doYearEnd() {
     if (!didYearEnd) {
       didYearEnd = true;
@@ -1282,17 +1301,21 @@ public class Econ {
     int le = 10;
     long etStart = (new Date()).getTime();
     long etMore = etStart - EM.doYearTime;
+    long etTimes[] = new long[letTimes];
+    etTimes[0] = etStart;
     prev2EtIx = prevEtIx;
     prevEtIx = ixETList;
     int atCnt=0;
     nowName = name;
+    if(threadCnt[0] > eM.maxThreads[0][0]){  // wait only if over cnt
     imWaiting(threadCnt, (int) eM.maxThreads[0][0], 6, "doYearEnd " + name );
-   
-    ixETList = ++ixETList%lETList;
+    }
+    ixETList = (++ixETList)%lETList;
     String atList = "";
-    long b4 = (new Date()).getTime();
-    long msecs = EM.doYearTime - b4;
-    sETList[prevEtIx]="doEndYear in thread " + Thread.currentThread().getName() + " since doYear " + msecs + " at " ;
+    etTimes[1] = (new Date()).getTime(); // after imWaiting
+    long msecs = EM.doYearTime - etTimes[1];
+    sETList[prevEtIx]="doEndYear "  + " since  " + msecs + " at " ;
+    if(E.DEBUGWAITTRACE) {
     StackTraceElement[] prevCalls = new StackTraceElement[le];
     //set the length of the trace
     int lstk = Thread.currentThread().getStackTrace().length-1;
@@ -1306,23 +1329,18 @@ public class Econ {
     if (E.debugStatsOut1) {
     sETList[prevEtIx] += atList;
     }
+    }//DEBUGWAITTRACE
     // now in the main thread, up the assigned thread count
       synchronized (threadCnt) {threadCnt[0]++;}
     long afterT = (new Date()).getTime();
     
-    EconThread  emm = new EconThread(b4,atList,sETList,prevEtIx);
+    EconThread  emm = new EconThread(etTimes,atList,sETList,prevEtIx);
     emm.start();
     
   }
-  }//doYearEnd
-
+  }//doYearEnd  
   
-  
-  
-int prevEtIx=0,prev2EtIx=0; // in Econ
-static int ixETList=0;
-static final int lETList = 10;
-static String sETList[] = new String[10];
+ 
 
 // this is a inner class which only runs yearEnd
   public class EconThread extends Thread {
@@ -1331,28 +1349,42 @@ static String sETList[] = new String[10];
     long startEt;
     String etList[];
     int prevIx;
+    long[] etTimes;
+    long[] moreTimes = new long[letTimes];
 
-    EconThread(long b4,String aList, String[] sETList, int prevEtIx) {
-      startEt=b4;
+    EconThread(long[] setTimes,String aList, String[] sETList, int prevEtIx) {
+      etTimes = setTimes;
       atList = aList;
       etList = sETList;
       prevIx = prevEtIx;
+      etTimes[2] = (new Date()).getTime();
     }
     public void run() {
     int tCnts = 0;
     int le = 10;
     long etStart = (new Date()).getTime();
+    etTimes[3] = etStart; // start of the new thread
+    moreTimes[0] = etTimes[0] - EM.doYearTime; //start doYearEnd
+    moreTimes[1] = etTimes[1] - etTimes[0]; // after imWaiting
+    moreTimes[2] = etTimes[2] - etTimes[1]; // create thread
+    moreTimes[3] = etTimes[3] - etTimes[2]; // thread started
     long etMore = etStart - EM.doYearTime;
     int atCnt=0;
     eM.curEcon = ec;
+    nowName = ec.name;
     nowThread = Thread.currentThread().getName();
+    int threadCnts = threadCnt[0];
+    ixETList = ++ixETList%lETList;
+    String atList = "";
+    long b4 = (new Date()).getTime();
+    long msecs = EM.doYearTime - b4;
+    etList[prevIx]= "YearEnd " + nowName + " thread " + nowThread + " doYE=" + moreTimes[0] + " imWaited + " + moreTimes[1] + " createThread" + threadCnts + " + " + moreTimes[2] + "startThread + " + moreTimes[3];
+      etList[prevIx]= "YearEnd " + nowName + " thread " + nowThread + " doYE=" + moreTimes[0] + " imWaited + " + moreTimes[1] + " createThread" + threadCnts + " + " + moreTimes[2] + "startThread + " + moreTimes[3];
     if(E.debugThreadsOut) {
-      ixETList = ++ixETList%lETList;
-      String atList = "";
-      long b4 = (new Date()).getTime();
-      long msecs = EM.doYearTime - b4;
-      
-      etList[prevIx]="EconThread yearEnd in thread " + nowThread + " since " + msecs + " at " ;
+    
+     
+     
+      if(E.DEBUGWAITTRACE){
       StackTraceElement[] prevCalls = new StackTraceElement[le];
       int lstk = Thread.currentThread().getStackTrace().length-1;
       for(int ste=0;ste< le && atCnt < 5  && ste < lstk; ste++){
@@ -1362,14 +1394,18 @@ static String sETList[] = new String[10];
          atCnt++;
       }//for
       etList[prevIx] += atList;
-    } // if
+      }//DEBUGWAITTRACE
+    }
           yearEnd();
-          synchronized (threadCnt) {threadCnt[0]--;}
+          synchronized (threadCnt) {threadCnt[0]--;}  // done
           if(E.debugThreadsOut){
           long b4e = (new Date()).getTime();
+          etTimes[4] = b4e;
+          moreTimes[4] = etTimes[4] - etTimes[3];
           long b4ee = b4e - startEt;
-          long msecs = startEt - EM.doYearTime;
-           etList[prevIx]= "End EconThread for yearEnd of thread " + Thread.currentThread().getName() + " since" + msecs + " + " + b4ee + " =" + (msecs +  b4ee) + " " + atList;
+         // msecs = startEt - EM.doYearTime;
+            etList[prevIx]="YearEnd " + nowName + " thread " + nowThread + " doYE=" + moreTimes[0] + " imWaited + " + moreTimes[1] + " createThread" + threadCnts + " + " + moreTimes[2] + "startThread + " + moreTimes[3] + " yearEnded + " + moreTimes[4] + atList ;
+     
            if(E.debugThreadsOut1){
              System.out.println(etList[prevIx]);
            }
