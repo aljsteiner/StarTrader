@@ -6384,6 +6384,8 @@ public class Assets {
       EM.wasHere = "CashFlow.init... after calcGrowth loop eeei" + ++eeei;
       //  System.out.println("5631 near end CashFlow.initCashFlow");
       didStart = (ec.age < 1 ? false : didStart);// probably age = -1 before year
+      String pStarted = (didStart?" doCFStart ": " wasStarted ");
+      String pInited = (didCashFlowInit ? " initedCF " : " cfWasInited ");
       if (!didStart) {
         lTitle = "strtCashFlow";
         histTitles(lTitle);
@@ -6394,8 +6396,11 @@ public class Assets {
       g.sumGrades();
       //    started = traded = growed = endyr = copyy(cur);
       didCashFlowInit = true;
-      EM.wasHere = "CashFlow.init... end eeej=" + ++eeej;
-      //   System.out.println("5045 end CashFlow.initCashFlow");
+      
+     EM.wasHere = " CF at end " + pStarted + pInited + " eeej" + ++eeej;
+     if(E.DEBUGASSETSOUT){
+       System.out.println(EM.wasHere );
+     }
     }  //Assets.CashFlow.aStartCashFlow
 
     /**

@@ -89,6 +89,7 @@ public class E {
   static final boolean debugOutput = distributable;
   //static final boolean debugOutput = true;
   static final boolean resetOut = distributable;
+  static final boolean debugDoYearOut = debugMaster; //output messages in doyear and subs
   static final boolean debugCheckBalances = debugMaster; //check balances in loops
   static final boolean debugNegGrowth = debugMaster; // neg Growth made negCosts
   static final boolean debugNegCosts = debugMaster; // checking for neg Costs
@@ -112,6 +113,7 @@ public class E {
   static final boolean debugSettingsTabOut = debugMaster; //errors from settings doValx
   static final boolean debugThreads = debugMaster;
   static final boolean SWAPTRADESYSTEMOUT = debugMaster;
+  static final boolean DEBUGASSETSOUT = debugMaster;
   
  static final boolean debugfalse = false;
  static final boolean debugPutRowsOut = debugfalse; //test putValue processing
@@ -277,6 +279,7 @@ public class E {
   }
   static protected String[] groupNames = {"red", "orange", "yellow", "green", "blue"};
   public static final String[] clanNames = {"rodalians", "organtics", "yankels", "groknes", "brogles"};
+  static final String[] clanLetter = {"r","o","y","g","b"};
   public static final int lclans = clanNames.length;
   public static final int LCLANS = lclans;
   Color ccc = new Color(255,204,204);

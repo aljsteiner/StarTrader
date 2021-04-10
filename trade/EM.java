@@ -106,7 +106,7 @@ class EM {
   static int econCnt = 0;
   // int porsCntd[] = {0, 0};
   static int porsCnt[] = {0, 0};
-  double econLimits1[] = {300.}; // start limiting econs
+  
   static int porsClanTraded[][] = {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}};
   static int clanTraded[] = {0, 0, 0, 0, 0};
   static int porsTraded[] = {0, 0};
@@ -137,11 +137,11 @@ class EM {
   // .25 = 1ship/3 planets
   double[] gameShipFrac = {.70};  // ships / econs .75 means 3ships/1 planet, .8 = 4ships/1planet
   static double[][] mGameShipFrac = {{.25, 1.20}, {.25, 1.20}};
-  double[][] clanShipFrac = {{.70, .70, .70, .501, .6}}; // .3->5. clan choice of clan ships / clan econs
+  double[][] clanShipFrac = {{.70, .70, .70, .501, .6}, {.70, .70, .70, .501, .6}}; // .3->5. clan choice of clan ships / clan econs
   static double[][] mClanShipFrac = {{.25, .81}, {.20, 1.20}};
-  double[][] clanAllShipFrac = {{.70, .70, .70, .501, .501}}; // clan (ships/econs)
+  double[][] clanAllShipFrac = {{.70, .70, .70, .501, .501},{.70, .70, .70, .501, .501} }; // clan (ships/econs)
   static double[][] mClanAllShipFrac = {{.25, 1.20}, {.2, 1.20}};
-
+  double econLimits1[] = {300.}; // start limiting econs
   static double mEconLimits1[][] = {{200., 500.}, {200., 500.}};
   double econLimits2[] = {350.}; // more limiting of econs
   static double mEconLimits2[][] = {{275., 550.}};
@@ -2119,6 +2119,7 @@ class EM {
     doVal("iBothCreateScore", iBothCreateScore, mScoreMult, "increase slider, increase the winning score for the number of this clan in ever created");
     doVal("wYearTradeV", wYearTradeV, mScoreMult, "increase slider, increase the winning score for the increase in the year trade increase");
     doVal("wYearTradeI", wYearTradeI, mScoreMult, "increase slider, increase the winning score for thee increase in the number of economies with at least one trade that year");
+    doVal("years To Win", winDif, mwinDif, "increase slider, increase the years before a winner is declared");
     doVal("iNumberDiedI", iNumberDied, mScoreMult, "increase slider, decrease the winning score for the number of dead economies for this clan this year");
     doVal("resourceCosts", mab1, mmab1, "raise the cost of resources planet and ship, makes game harder");
     doVal("staffCosts", mac1, mmac1, "raise the costs of staff for planets and ships, makes planets and ships die more often");
@@ -2130,9 +2131,9 @@ class EM {
     // doVal("econLimits1  ", econLimits1, mEconLimits1, "Increase the max number of econs (planets+ships) in this game");
     //  doVal("econLimits2  ", econLimits2, mEconLimits2, "Increase the max number of econs (planets+ships) in this game");
     //  doVal("maxEcons", econLimits3, mEconLimits3, "Increase the max number of econs (planets+ships) in this game");
-    doVal("Clan Ships Frac", clanShipFrac, mClanShipFrac, "increase faction of ships/economies for this clan only, limited by clanAllShipFrac and gameShipFrac");
-    doVal("Clan All Ships Frac", clanAllShipFrac, mClanAllShipFrac, "for this clan increase the fraction of ships/all economies, limited by clanShipFrac and gameShipFrac ");
-    doVal("Ships Frac", gameShipFrac, mGameShipFrac, "increase the fraction of ships in the game. bit for each clan, limited by clanShipFrac and clanAllShipFrac");
+    doVal("Clan Ships per planets", clanShipFrac, mClanShipFrac, "increase faction of ships per planets for this clan only, limited by All ships per planets and game ships per planets");
+    doVal("All ships per planets", clanAllShipFrac, mClanAllShipFrac, "for this clan increase the fraction of ships per all planets, limited by Clan Ships per planets  and game Ships per planets ");
+    doVal("Ships per planets", gameShipFrac, mGameShipFrac, "increase the fraction of ships in the game. bit for each clan, limited by clanShipFrac and clanAllShipFrac");
     doVal("resourceGrowth", resourceGrowth, mResourceGrowth, "increase amount of resource growth per year, dependent on units of staff");
     doVal("cargoGrowth", cargoGrowth, mCargoGrowth, "increase amount of cargo growth per year dependent of units of staff");
     doVal("staffGrowth", staffGrowth, mStaffGrowth, "increase amount of staff growth per year, dependent on units of staff");
@@ -2485,7 +2486,7 @@ class EM {
   int inputClan = 5; // set in game inputs, 5=game
   int inputPorS = 0; // in inputs 0=P
 
-  long[][][][] resI;
+  volatile long[][][][] resI;
   long[][][] res2;
   long[][][] res3;
   int winner = -1;
@@ -3759,7 +3760,7 @@ class EM {
       }
       curm = ICUR0 + CURMAXDEPTH * b;
     } // end if
-    long resLock[][][] = resI[rn];
+    long  resLock[][][] = resI[rn];
     double resL[][][] = resV[rn];
     int ycnt = cnt > 0 ? cnt : 0;
 

@@ -52,6 +52,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Random;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -237,22 +238,25 @@ public class StarTrader extends javax.swing.JFrame {
   static final String sn4 = "Search to Trade";
   static final int TRADING = 5;
   static final String sn5 = "Trading";
-  static final int ENDYR = 6;
-  static final String sn6 = "EndYear";
-  static final int STATS = 7;
-  static final String sn7 = "Stats";
-  static final int SWAPS = 8;
-  static final String sn8 = "Swaping";
-  static final int WAITING = 9;
-  static final String sn9 = "Waiting for action";
-  static final int STOPPED = 10;
-  static final String sn10 = "Stopped";
-  static final int FATALERR = 11;
-  static final String sn11 = "Fatal Error";
-  static final String[] stateStringNames = {sn0, sn1, sn2, sn3, sn4, sn5, sn6, sn7, sn8, sn9, sn10, sn11};
+  static final int ENDYRS = 6;
+  static final String sn6 = "ecEndYear";
+  static final int ENDYR = 7;
+  static final String sn7 = "EndYear";
+  static final int STATS = 8;
+  static final String sn8 = "Stats";
+  static final int SWAPS = 9;
+  static final String sn9 = "Swaping";
+  static final int WAITING = 10;
+  static final String sn10 = "Waiting for action";
+  static final int STOPPED = 11;
+  static final String sn11 = "Stopped";
+  static final int FATALERR = 12;
+  static final String sn12 = "Fatal Error";
+  static final String[] stateStringNames = {sn0, sn1, sn2, sn3, sn4, sn5, sn6, sn7, sn8, sn9, sn10, sn11, sn12};
   static int stateConst = WAITING;  // constant set to stated
   static int prevState = WAITING;
   static Econ curEc = EM.curEcon;
+  static String curStateName = stateStringNames[0];
   static String prevEconName = "nnnnn";
   static String curEconName = "mmmmmm";
   static boolean doStop = false; // set by game or stats stop execution
@@ -314,6 +318,7 @@ public class StarTrader extends javax.swing.JFrame {
     gameCtlButtonRun1Year1 = new javax.swing.JButton();
     gameCtlButtonRun5Years1 = new javax.swing.JButton();
     settingsKeep = new javax.swing.JButton();
+    settingsStop = new javax.swing.JButton();
     gameToLabelPlanet = new javax.swing.JLabel();
     gameTopLabelShip = new javax.swing.JLabel();
     gameTopRightFill = new javax.swing.JTextField();
@@ -444,12 +449,14 @@ public class StarTrader extends javax.swing.JFrame {
     statsButton18 = new javax.swing.JRadioButton();
     statsButton19 = new javax.swing.JRadioButton();
     statsButton20 = new javax.swing.JRadioButton();
+    bigPanel = new javax.swing.JPanel();
     ybuttons = new javax.swing.JPanel();
     statsCtlButtonRun1Yr = new javax.swing.JButton();
     statsCtlButtonRun10Yr = new javax.swing.JButton();
+    statsStop = new javax.swing.JButton();
+    remember = new javax.swing.JButton();
     statsCtlButtonRun5Yr = new javax.swing.JButton();
     statsCtlButtonRun20Yr = new javax.swing.JButton();
-    bigPanel = new javax.swing.JPanel();
     statsField = new javax.swing.JTextField();
     jScrollPane2 = new javax.swing.JScrollPane();
     statsTable1 = new javax.swing.JTable();
@@ -844,10 +851,16 @@ public class StarTrader extends javax.swing.JFrame {
     });
     game.add(gameCtlButtonRun5Years1, new java.awt.GridBagConstraints());
 
+    settingsKeep.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
     settingsKeep.setText("keep");
     settingsKeep.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 102, 51), 2));
+    settingsKeep.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
+    settingsKeep.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+    settingsKeep.setIconTextGap(0);
+    settingsKeep.setInheritsPopupMenu(true);
+    settingsKeep.setMargin(new java.awt.Insets(0, 0, 0, 0));
     settingsKeep.setMaximumSize(new java.awt.Dimension(100, 25));
-    settingsKeep.setPreferredSize(new java.awt.Dimension(40, 23));
+    settingsKeep.setPreferredSize(new java.awt.Dimension(50, 23));
     settingsKeep.addMouseListener(new java.awt.event.MouseAdapter() {
       public void mouseClicked(java.awt.event.MouseEvent evt) {
         settingsKeepMouseClicked(evt);
@@ -858,12 +871,26 @@ public class StarTrader extends javax.swing.JFrame {
     gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
     game.add(settingsKeep, gridBagConstraints);
 
+    settingsStop.setBackground(new java.awt.Color(255, 51, 51));
+    settingsStop.setText("stop");
+    settingsStop.setAlignmentY(0.0F);
+    settingsStop.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
+    settingsStop.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+    settingsStop.setMargin(new java.awt.Insets(0, 0, 0, 0));
+    settingsStop.setMaximumSize(new java.awt.Dimension(100, 25));
+    settingsStop.setPreferredSize(new java.awt.Dimension(55, 23));
+    settingsStop.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        settingsStopMouseClicked(evt);
+      }
+    });
+    game.add(settingsStop, new java.awt.GridBagConstraints());
+
     gameToLabelPlanet.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-    gameToLabelPlanet.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     gameToLabelPlanet.setText("Planet");
     gameToLabelPlanet.setMaximumSize(new java.awt.Dimension(500, 40));
     gameToLabelPlanet.setMinimumSize(new java.awt.Dimension(200, 20));
-    gameToLabelPlanet.setPreferredSize(new java.awt.Dimension(300, 21));
+    gameToLabelPlanet.setPreferredSize(new java.awt.Dimension(250, 21));
     game.add(gameToLabelPlanet, new java.awt.GridBagConstraints());
 
     gameTopLabelShip.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -1766,7 +1793,7 @@ public class StarTrader extends javax.swing.JFrame {
         .addComponent(gameTextPane, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addContainerGap(996, Short.MAX_VALUE))
+        .addContainerGap(1, Short.MAX_VALUE))
     );
     gamePanelBottomPanelLayout.setVerticalGroup(
       gamePanelBottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1774,7 +1801,7 @@ public class StarTrader extends javax.swing.JFrame {
         .addGroup(gamePanelBottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
           .addComponent(gameTextPane, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
           .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-        .addContainerGap(886, Short.MAX_VALUE))
+        .addContainerGap(326, Short.MAX_VALUE))
     );
 
     gridBagConstraints = new java.awt.GridBagConstraints();
@@ -2580,11 +2607,17 @@ public class StarTrader extends javax.swing.JFrame {
 
     topPane.add(rbuttons12);
 
+    bigPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 255), 2));
+    bigPanel.setAlignmentY(0.0F);
+    bigPanel.setMaximumSize(new java.awt.Dimension(32767, 100));
+    bigPanel.setMinimumSize(new java.awt.Dimension(300, 70));
+    bigPanel.setPreferredSize(new java.awt.Dimension(600, 70));
+
     ybuttons.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 204, 204), 2));
     ybuttons.setAlignmentX(450.0F);
     ybuttons.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
     ybuttons.setMinimumSize(new java.awt.Dimension(80, 26));
-    ybuttons.setPreferredSize(new java.awt.Dimension(120, 70));
+    ybuttons.setPreferredSize(new java.awt.Dimension(120, 80));
     java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 1, 1);
     flowLayout1.setAlignOnBaseline(true);
     ybuttons.setLayout(flowLayout1);
@@ -2632,6 +2665,40 @@ public class StarTrader extends javax.swing.JFrame {
     });
     ybuttons.add(statsCtlButtonRun10Yr);
 
+    statsStop.setBackground(new java.awt.Color(255, 102, 102));
+    statsStop.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+    statsStop.setMnemonic('s');
+    statsStop.setText("stop");
+    statsStop.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
+    statsStop.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+    statsStop.setIconTextGap(0);
+    statsStop.setMargin(new java.awt.Insets(0, 0, 0, 0));
+    statsStop.setMaximumSize(new java.awt.Dimension(100, 25));
+    statsStop.setMinimumSize(new java.awt.Dimension(20, 21));
+    statsStop.setPreferredSize(new java.awt.Dimension(65, 23));
+    statsStop.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        statsStopMouseClicked(evt);
+      }
+    });
+    ybuttons.add(statsStop);
+
+    remember.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+    remember.setHorizontalAlignment(javax.swing.SwingConstants.LEADING);
+    remember.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+    remember.setIconTextGap(0);
+    remember.setLabel("remember");
+    remember.setMargin(new java.awt.Insets(0, 0, 0, 0));
+    remember.setMaximumSize(new java.awt.Dimension(150, 27));
+    remember.setMinimumSize(new java.awt.Dimension(50, 23));
+    remember.setPreferredSize(new java.awt.Dimension(105, 23));
+    remember.addMouseListener(new java.awt.event.MouseAdapter() {
+      public void mouseClicked(java.awt.event.MouseEvent evt) {
+        rememberMouseClicked(evt);
+      }
+    });
+    ybuttons.add(remember);
+
     statsCtlButtonRun5Yr.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
     statsCtlButtonRun5Yr.setText("5 yr");
     statsCtlButtonRun5Yr.setActionCommand("5");
@@ -2664,23 +2731,20 @@ public class StarTrader extends javax.swing.JFrame {
     });
     ybuttons.add(statsCtlButtonRun20Yr);
 
-    topPane.add(ybuttons);
-
-    bigPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 255), 2));
-    bigPanel.setAlignmentY(0.0F);
-    bigPanel.setMaximumSize(new java.awt.Dimension(32767, 100));
-    bigPanel.setMinimumSize(new java.awt.Dimension(300, 70));
-    bigPanel.setPreferredSize(new java.awt.Dimension(600, 70));
-
     javax.swing.GroupLayout bigPanelLayout = new javax.swing.GroupLayout(bigPanel);
     bigPanel.setLayout(bigPanelLayout);
     bigPanelLayout.setHorizontalGroup(
       bigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGap(0, 596, Short.MAX_VALUE)
+      .addGroup(bigPanelLayout.createSequentialGroup()
+        .addContainerGap()
+        .addComponent(ybuttons, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addContainerGap(434, Short.MAX_VALUE))
     );
     bigPanelLayout.setVerticalGroup(
       bigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGap(0, 66, Short.MAX_VALUE)
+      .addGroup(bigPanelLayout.createSequentialGroup()
+        .addComponent(ybuttons, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addGap(0, 0, Short.MAX_VALUE))
     );
 
     topPane.add(bigPanel);
@@ -2694,7 +2758,7 @@ public class StarTrader extends javax.swing.JFrame {
     statsField.setMargin(new java.awt.Insets(0, 0, 0, 0));
     statsField.setMaximumSize(new java.awt.Dimension(1900, 50));
     statsField.setMinimumSize(new java.awt.Dimension(500, 30));
-    statsField.setPreferredSize(new java.awt.Dimension(650, 30));
+    statsField.setPreferredSize(new java.awt.Dimension(900, 30));
     statsField.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
         statsFieldActionPerformed(evt);
@@ -4630,6 +4694,18 @@ public class StarTrader extends javax.swing.JFrame {
   private void settingsKeepMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_settingsKeepMouseClicked
     // TODO add your handling code here:
   }//GEN-LAST:event_settingsKeepMouseClicked
+
+  private void rememberMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rememberMouseClicked
+    // TODO add your handling code here:
+  }//GEN-LAST:event_rememberMouseClicked
+
+  private void statsStopMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statsStopMouseClicked
+    // TODO add your handling code here:
+  }//GEN-LAST:event_statsStopMouseClicked
+
+  private void settingsStopMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_settingsStopMouseClicked
+    // TODO add your handling code here:
+  }//GEN-LAST:event_settingsStopMouseClicked
   static Boolean resetOut = false;
 
   /**
@@ -4643,12 +4719,9 @@ public class StarTrader extends javax.swing.JFrame {
     /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
      * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
      */
-    
-  
-
     try {
    //   E.bRemember = Files.newBufferedWriter(E.REMEMBER, E.CHARSET);
-     
+     System.err.println("starting out in main");
    String dateString = E.MYDATEFORMAT.format(new Date());
  //  String rOut = "New Game " + dateString + "\n";
   // E.bRemember.write(rOut,0,rOut.length());
@@ -4682,10 +4755,8 @@ public class StarTrader extends javax.swing.JFrame {
       }
       /* Create and display the form */
       java.awt.EventQueue.invokeLater(new Runnable() {
-      
         @Override
         public void run() {
-          
           new StarTrader().setVisible(true);
         }
       });
@@ -4754,6 +4825,7 @@ public class StarTrader extends javax.swing.JFrame {
   
 
   public void second() throws IOException{
+    System.err.println("starting out in Second");
     if(!fatalError){ // whoo, stop now
     java.awt.EventQueue.invokeLater(new Runnable() {
       public void run() {
@@ -4914,7 +4986,9 @@ public class StarTrader extends javax.swing.JFrame {
   protected javax.swing.JPanel rbuttons1;
   protected javax.swing.JPanel rbuttons12;
   protected javax.swing.JPanel rbuttons2;
+  protected javax.swing.JButton remember;
   protected javax.swing.JButton settingsKeep;
+  protected javax.swing.JButton settingsStop;
   protected javax.swing.JPanel stats;
   protected javax.swing.JRadioButton statsButton0;
   protected javax.swing.JRadioButton statsButton1;
@@ -4945,6 +5019,7 @@ public class StarTrader extends javax.swing.JFrame {
   protected javax.swing.JButton statsCtlButtonRun5Yr;
   protected javax.swing.JTextField statsField;
   protected javax.swing.JTextField statsField2;
+  protected javax.swing.JButton statsStop;
   protected javax.swing.JTable statsTable1;
   protected javax.swing.JPanel story;
   protected javax.swing.JTextArea storyTextField1;
@@ -5356,8 +5431,8 @@ public class StarTrader extends javax.swing.JFrame {
             && sFrac1 < eM.clanAllShipFrac[P][clan]
             && sFrac2 < eM.gameShipFrac[P]
             && sFrac3 < eM.clanShipFrac[P][clan]) ? E.S : E.P;
-
-    System.out.println("%%%%lPlanets=" + eM.porsCnt[P]
+    if(E.debugDoYearOut){
+    System.out.println("%%%%newEcon lPlanets=" + eM.porsCnt[P]
             + " lShips=" + eM.porsCnt[S]
             + " lClanPlanets=" + eM.porsClanCnt[P][clan]
             + " lEconCnt=" + eM.econCnt
@@ -5373,7 +5448,7 @@ public class StarTrader extends javax.swing.JFrame {
                             + (sFrac1 < eM.clanAllShipFrac[P][clan] ? "S" : "P")
                             + (sFrac2 < eM.gameShipFrac[P] ? "S" : "P")
                             + (sFrac3 < eM.clanShipFrac[P][clan] ? "S" : "P"))));
-
+    }
     double xpos = -9999.;
     eM.curEcon = null;
     // now try to find a dead economy to use instead of recreating one
@@ -5384,8 +5459,8 @@ public class StarTrader extends javax.swing.JFrame {
           System.out.println("found dead Planet cnt=" + n + " name=" + n.name + " dage=" + n.getDAge());
           break;
         }
-      }
-    }
+      }// for
+    }// E.P
     else if ((eM.curEcon == null) && pors == E.S) {
       for (Econ n : eM.econs) {
         if (n.getDie() && n.pors == E.S && n.getDAge() > 2) {
@@ -5393,8 +5468,8 @@ public class StarTrader extends javax.swing.JFrame {
           System.out.println("found dead Ship cnt=" + n + " name=" + n.name + " dage=" + n.getDAge());
           break;
         }
-      }
-    }
+      }// for
+    }//E.S
     if (eM.curEcon == null) {  // no dead one found
       eM.curEcon = new Econ();
       eM.econs.add(eM.curEcon); // add to the main list
@@ -5404,8 +5479,8 @@ public class StarTrader extends javax.swing.JFrame {
     nameF.setMinimumIntegerDigits(3);
     String name = (pors == 0 ? "P0" : "S0") + nameF.format(eM.nameCnt++);
     // reduce the size of ships cash by shipsPerPlanet
-    cash[pors] = eM.initialWorth[pors] * (pors == E.S?1.0/shipsPerPlanet : 1.0);
-    eM.curEcon.init(this, eM, name, clan, eM.econCnt, pors, xpos, eM.difficultyPercent[0], cash[pors]);
+    double mCash = eM.initialWorth[pors] * (pors == E.S?1.0/shipsPerPlanet : 1.0);
+    eM.curEcon.init(this, eM, name, clan, eM.econCnt, pors, xpos, eM.difficultyPercent[0], mCash);
     startEconState = (new Date()).getTime();
     // now update counts planets and ships
     Econ t = eM.curEcon;
@@ -5794,8 +5869,8 @@ public class StarTrader extends javax.swing.JFrame {
       int ss1 =  statsR.width;
       Rectangle spR = jScrollPane2.getBounds();
       Rectangle stR = statsTable1.getBounds();
-      System.out.println("===============resize2 height=" + screenHeight + "->" + myHeight + ", " + myH2 + ", width=" + screenWidth + "=>" + myWidth + ", " + myW2 + ", " + myW3);
-      System.out.println("=================sized stats w=" + statsR.width +", h=" + statsR.height + 
+      System.out.println("===============StarTraderresize2 height=" + screenHeight + "->" + myHeight + ", " + myH2 + ", width=" + screenWidth + "=>" + myWidth + ", " + myW2 + ", " + myW3);
+      System.out.println("=================StarTrader  sized stats w=" + statsR.width +", h=" + statsR.height + 
               ", statsP w=" + spR.width + ", h=" + spR.height +
               ", statsTable w=" + stR.width + ", h=" + stR.height);
    int statsTW = statsTable1.getWidth();
@@ -5847,7 +5922,7 @@ public class StarTrader extends javax.swing.JFrame {
 
     //   TreeMap<Double, Econ> runOrder = new TreeMap<Double, Econ>();
     putInitValues();
-     System.out.println("===================resize4 height=" + screenHeight + "->" + myHeight + ", " + myH2 + ", width=" + screenWidth + "=>" + myWidth + ", " + myW2 + ", " + myW3);
+     System.out.println("===================StarTrader resize4 height=" + screenHeight + "->" + myHeight + ", " + myH2 + ", width=" + screenWidth + "=>" + myWidth + ", " + myW2 + ", " + myW3);
      statsR = stats.getBounds();
      ss1 =  statsR.width;
      spR = jScrollPane2.getBounds();
@@ -5855,7 +5930,7 @@ public class StarTrader extends javax.swing.JFrame {
      Rectangle scrnR = this.getBounds();
      int scrnH = scrnR.height;
      int scrnW = scrnR.width;
-      System.out.println("=================sized6 screen w=" + scrnW + ", h=" + scrnH +
+      System.out.println("=================StarTrader sized6 screen w=" + scrnW + ", h=" + scrnH +
               ", stats w=" + statsR.width +", h=" + statsR.height + 
               ", statsP w=" + spR.width + ", h=" + spR.height +
               ", statsTable w=" + stR.width + ", h=" + stR.height);
@@ -5871,6 +5946,7 @@ public class StarTrader extends javax.swing.JFrame {
     // set the following gamePanelChange if wanted before first year
     // gamePanelChange(5, -2, gamePanels, gameTextFields, gameSlidersP, gameSlidersS, fullVals, curVals);
     //  runYear();  // do if a year execution before game request
+    System.out.println("======================StarTrader before gamePanelChange ========================");
     gamePanelChange(5, -2, gamePanels, gameTextFields, gameSlidersP, gameSlidersS, fullVals, curVals);
     //eM.curEcon.runYear(.0);
     //eM.curEcon.runYear(.0);
@@ -5910,116 +5986,7 @@ public class StarTrader extends javax.swing.JFrame {
   }
 
   int[] clanShipsDone = {0,0,0,0,0};
-  /**
-   * get Wild Current Planets for possible selection by a ship
-   * There will be duplicates if needed to fill the array
-   *
-   * @param n number of planets in the return Econ array
-   * @param shipsLoop position in the ships loop 0 -> max ships
-   * 
-   * @return new Econ array
-   */
- ArrayList<Econ> getWildCursnot(int shipsDone,int psize) {
-    int lPlanets = eM.planets.size();
-    int lShips = eM.ships.size();
-    ArrayList<Econ> tradablePlanets = new ArrayList();
-    int lTradablePlanets = psize;
-    double lsel, maxsel;
-    int rtns = -1; // counter for planets in ret;
-    clanShipsDone[eM.curEcon.clan]++;
-    Econ planet = eM.planets.get(0);
 
-       
-    double shipsVisitedPerPlanetVisited = EM.porsVisited[E.P] == 0? 0.:EM.porsVisited[E.S]/EM.porsVisited[E.P];
-    double planetsGameGoalFrac = 1.0 - eM.gameShipFrac[E.P];
-    double goalGameShipsPerPlanet = planetsGameGoalFrac == 0.0? 0.0:eM.gameShipFrac[E.P] / planetsGameGoalFrac;
-    
-    // get planets/econs for each clan
-    double clanPlanetFrac[] = {1.0 - eM.clanShipFrac[E.P][0],1.0 - eM.clanShipFrac[E.P][1],1.0 - eM.clanShipFrac[E.P][2],1.0 - eM.clanShipFrac[E.P][3],1.0 - eM.clanShipFrac[E.P][4]};
-    // get the goal for each clan of ships per planet
-    double clanGoalShipsPerPlanet[] = {eM.clanShipFrac[E.P][0]/clanPlanetFrac[0],eM.clanShipFrac[E.P][1]/clanPlanetFrac[1],eM.clanShipFrac[E.P][2]/clanPlanetFrac[2],eM.clanShipFrac[E.P][3]/clanPlanetFrac[3],eM.clanShipFrac[E.P][4]/clanPlanetFrac[4]};
-//    double clanCurShipsPerPlanet[] = {eM.porsClanVisited[E.S][0]/eM.porsClanVisited[E.P][0],eM.porsClanVisited[E.S][1]/eM.porsClanVisited[E.P][1],eM.porsClanVisited[E.S][2]/eM.porsClanVisited[E.P][2],eM.porsClanVisited[E.S][3]/eM.porsClanVisited[E.P][3],eM.porsClanVisited[E.S][4]/eM.porsClanVisited[E.P][4]};
-    
-        ;
-    int loops=0;
-    double lse1 =0.,lse2=0.;
-    boolean lla=true,llb=true;
-    // find planets new to old
-      for(loops = 0;loops<4;loops++){
-        boolean okClanSovrP[] = {
-        }; // okay for each clan ship over planet
-        // start at the latest planet, stop when enough tradable planets
-      for (int i=lPlanets-1; i >= 0 && rtns < lTradablePlanets ; i--) {
-        planet = eM.planets.get(i);
-        if(!planet.getDie()){
-          // if shipsDone/EconsDone  <= eM.gameShipFrac[E.P] + eM.addGoal[loops]
-          // always allow trade to planets < age 3 with no ship visited
-          int jjj = planet.as.econVisited; // == null ? 0:planet.as.shipsVisited;
-          jjj = shipsDone;
-          jjj = EM.porsVisited[E.P];
-          jjj = planet.getAge();
-          jjj = planet.getAge() < 3? 5:7;
-          jjj = (int)(shipsDone + 
-              EM.porsVisited[E.P]+.0001);
-          // jjj = 0;
-          jjj = (int)(shipsDone
-              /(jjj +.0001) );
-           jjj =(int)(shipsDone
-              /(shipsDone + 
-              EM.porsVisited[E.P] + .0001));
-          jjj = planet.getTradedShipsTried();
-          
-          // check new planet always can trade
-          boolean q0 = planet.getTradedShipsTried() < 1; // no visit 
-          boolean q1 = loops < 2 && planet.getAge() < 3; //age 0,1,2 first loop
-          boolean t0 = q0 && q1; // force accept planet
-          
-          //test 1 the limit clan planets per clan ships 
-          double r1 = (1.-eM.gameShipFrac[E.P])/eM.gameShipFrac[E.P];//goal P/s
-          double r2 = (eM.porsClanVisited[E.P][planet.clan] + .0001)/(clanShipsDone[planet.clan] +.0001);
-          boolean t1 = r2 <= r1; //ok more planet
-          
-          // test2 
-          double p2 = (shipsDone/5.)/(1. - eM.clanShipFrac[E.P][planet.clan]); // planets
-          boolean t2 = (p2 + .0001 + eM.addGoal[loops]) >= EM.porsClanVisited[E.P][planet.clan];
-       
-          double p3 = (shipsDone);
-          double j1 = (shipsDone + EM.porsVisited[E.P]+.0001);
-          double j2 = shipsDone/j1; // cur gameShipFrac
-          double j3 = eM.gameShipFrac[E.P] + eM.addGoal[loops];
-          boolean t3 = j2 <= j3; // cur <= gameShipFrac+addGoal planet ok
-          
-          //test2 clan ships per planet 
-         
-          
-          if(t0 || (t1)){
-            if((lla = loops < 2 && planet.getAge() < 3 && planet.getTradedShipsTried() < 2) 
-              || ( llb = loops > 1 && planet.getTradedShipsTried()<  1  ) ) {
-        
-              if(planet.canDoAnotherBarter() && ((lsel = planet.calcLY(planet, eM.curEcon )) 
-              < (lse2 = eM.maxLY[0] 
-              + eM.addLY[0]*eM.multLYM[loops])))  {
-            boolean goPrev = true;   
-            for(int prev=0; prev < rtns && goPrev == true;prev++){
-              if(planet == tradablePlanets.get(prev) ) goPrev = false;
-            }
-            if(goPrev){
-          if (rtns < lTradablePlanets) {
-            tradablePlanets.add(planet);
-            rtns++;
-          }
-            //    System.out.println(eM.curEcon.getName() + " build select list=" + planet.getName());
-          System.out.printf("build planets list #%d for %s, dist=%5.2f < max=%5.2f planet %s\n", rtns, eM.curEcon.getName(), lsel, eM.maxLY[0] + eM.addLY[0]*loops, planet.getName());
-          
-              }}}
-              }  
-        }
-          }
-        }// loops
-     
-    
-    return tradablePlanets;
-  }// getWildCurs
  /** find tradable planets for this ship
   * 
   * @param shipsDone  the number of ships which have visited this year.
@@ -6131,8 +6098,10 @@ public class StarTrader extends javax.swing.JFrame {
         }
       }
     }// majorLoops
+    if(rtns > 0) {
     for(int i = rtns; i < lTradablePlanets; i++){
       tradablePlanets[i] = tradablePlanets[0]; // fill with first econ
+    }
     }
     return rtns;
   }// getWildCurs
@@ -6145,7 +6114,7 @@ public class StarTrader extends javax.swing.JFrame {
     return false;
   }
 
-  void runYearsInBackground(int years) {
+  void runYearsInBackgroundNot(int years) {
     for (int yy = 0; yy < years; yy++) {
       runYear();
     }
@@ -6155,6 +6124,7 @@ public class StarTrader extends javax.swing.JFrame {
   /**
    * run one year of planets than ships ships must first select a next plaet to
    * trade, then run a year than a startShipTrade is done to the ship
+   * from runBackgroundYears  years
    */
   void runYear() {
     if (eM.fatalError) {
@@ -6277,42 +6247,44 @@ public class StarTrader extends javax.swing.JFrame {
         }
       }
 
-      // set up the preexisting names on the namelist
-      int tyear;
-      // yEcons the number of Econs we can have this year.
-      int yEcons = (int)(eM.minEconsMult[0][0] * (envsPerYear[tyear = (eM.year < envsPerYear.length ? eM.year : envsPerYear.length - 1)]));
-      //dnow = new Date();
-      System.out.println(since() + " tyear=" + tyear + " lEcons=" + lEcons + " yEcons=" + yEcons + "\n" + " econCnt=" + eM.econCnt);
-      printMem();
-
       if (doStop || fatalError) {
         stateConst = STOPPED;
         paintStopped();
       }
       else {
-
+          // set up the preexisting names on the namelist
+      int tyear;
+      // yEcons the number of Econs we can have this year.
+      int yEcons = (int)(eM.minEconsMult[0][0] * (envsPerYear[tyear = (eM.year < envsPerYear.length ? eM.year : envsPerYear.length - 1)]));
+      //dnow = new Date();
+      System.out.println(since() + " tyr=" + tyear + " curE=" + lEcons + " maxE=" + yEcons +  " eCnt=" + eM.econCnt);
+      printMem();
         lNamesList = namesList.getSize();
         lEcons = eM.econCnt;
         // add this years new economies 
-        //stateConst = CREATING;
+        stateConst = CREATING;
+        curStateName = "GameCreate";
         paintEconCreate();
         // randomize the first choice of clan
         E.msgcnt = 0;
-        double rand1 = Math.random();
-        clanBias = (int) rand1 % 5; // 0-4
+       // double rand1 = Math.random();
+       // clanBias = (int) rand1 % 5; // 0-4
+        clanBias = new Random().nextInt(5);
         for (envsLoop = lEcons; envsLoop < yEcons; envsLoop++) {
           startEconState = (new Date()).getTime();
           // dnow = new Date();
           // econCnt = envsLoop;
           econClan = (envsLoop + clanBias) % 5;
-          System.out.println("------" + since() + "  envsLoop=" + envsLoop + " max econs this year=" + yEcons + " econCnt=" + eM.econCnt + " rand1=" + eM.df(rand1) + " clanBias=" + clanBias + " clan=" + econClan);
+          if(E.debugDoYearOut){
+          System.out.println("------" + since() + " gCreate envsLoop=" + envsLoop + " maxE=" + yEcons + " eCnt=" + eM.econCnt  + " clanBias=" + clanBias + " clan=" + econClan);
+          }
           EM.curEcon = newEcon(eM.initialWorth, econClan);  // include new of Econ
           curWorth = eM.curEcon.getWorth();
           Thread.yield();
-          EM.curEcon.as.setStat(EM.YEARCREATE,EM.curEcon.pors, EM.curEcon.clan, curWorth, 1);
+           EM.curEcon.as.setStat(EM.YEARCREATE,EM.curEcon.pors, EM.curEcon.clan, curWorth, 1);
            EM.curEcon.as.setStat(EM.BOTHCREATE, EM.curEcon.pors, EM.curEcon.clan, curWorth, 1);
-          System.out.println("++++++++" + since() + " after newEcon name=" + eM.curEcon.getName() + ", clan=" + eM.curEcon.clan + " econssize=" + eM.econs.size());
-          printMem();
+          System.out.println("++++++++year" + eM.year + " " + ( new Date().getTime() - EM.doYearTime) + " gameCreated " +  E.clanLetter[eM.curEcon.clan] + " " + Econ.nowName +  E.clanLetter[eM.curEcon.clan] + " worth " + EM.mf(EM.curEcon.getWorth()) + " econssize=" + eM.econs.size());;
+         // printMem();
          // E.msgcnt = 0;
         }// end for envsLoop
       } // end dostop else 
@@ -6321,7 +6293,8 @@ public class StarTrader extends javax.swing.JFrame {
         stateConst = STOPPED;
       }
       else {
-        //stateConst = CREATEFUTURE;
+        stateConst = FUTUREFUNDCREATE;
+        curStateName = "FFCreate";        ;
         paintFutureFundEconCreate();
         E.msgcnt = 0;
         int nClans = E.clan.values().length - 3;
@@ -6331,17 +6304,20 @@ public class StarTrader extends javax.swing.JFrame {
           startEconState = (new Date()).getTime();
           double limits3 = eM.econCnt - eM.econLimits3[0];
           double mDif = limits3 > E.PZERO ? limits3 / 5 : 1.;
+          //clanWorth over econLimits1 is at least initialWorth*4, otherwise just initial worth
           double clanWorth = eM.econCnt > eM.econLimits1[0] ? Math.max(eM.initialWorth[0] * 4., eM.clanFutureFunds[econClan] / ((eM.econLimits3[0] - eM.econCnt) / 5.)) : eM.initialWorth[0];
+          // now make a econ if FFunds > clanWorth
           if (eM.clanFutureFunds[econClan] > clanWorth) {
-            System.out.println(since() + "  clan=" + econClan + " initial clan worth=" + clanWorth + " econCnt=" + eM.econCnt);
+            System.out.println("year" + eM.year + " "  + "  clan=" + econClan + " initial clan worth=" + clanWorth + " econCnt=" + eM.econCnt);
             // since the pors in not yet know, use initialWorth of planets
             finishedClans = 0;
             eM.curEcon = newEcon(eM.initialWorth, econClan);  // include new of Econ
+            curWorth = eM.curEcon.getWorth();
             EM.curEcon.as.setStat(EM.FUTURECREATE, EM.curEcon.pors, eM.curEcon.clan, curWorth, 1);
              EM.curEcon.as.setStat(EM.BOTHCREATE, EM.curEcon.pors, eM.curEcon.clan, curWorth, 1);
             //eM.clanFutureFunds[econClan] -= eM.initialWorth[eM.curEcon.pors];
             eM.clanFutureFunds[econClan] -= curWorth = EM.curEcon.getWorth();
-            System.out.println("+++++++++++++++" + since() + " futureFunds newEcon name=" + eM.curEcon.getName() + ", clan=" + eM.curEcon.clan + " econssize=" + eM.econs.size());
+             System.out.println("++++++++year" + eM.year + " " + ( new Date().getTime() - EM.doYearTime) + " FFCreated " +  E.clanLetter[eM.curEcon.clan] + " " + Econ.nowName +  E.clanLetter[eM.curEcon.clan] + " worth " + EM.mf(EM.curEcon.getWorth()) + " econssize=" + eM.econs.size());
           } // opasd  [\P]      
         } // end clansLoop
 
@@ -6367,8 +6343,9 @@ public class StarTrader extends javax.swing.JFrame {
         stateConst = STOPPED;
       }
       else {
-        // stateConst = STARTYR;
+        stateConst = STARTYR;
         paintStartYear();
+        curStateName = "startYear";
         E.msgcnt = 0;
         // ignored planetsStart 0:planets.size(). start the years
         for (planetsLoop = 0; planetsLoop < eM.planets.size(); planetsLoop++) {
@@ -6394,6 +6371,7 @@ public class StarTrader extends javax.swing.JFrame {
       // the oldest ships get first choice, and make the first trades
       stateConst = TRADING;
       paintTrade(curEc, curEc);
+      curStateName = "trading";
       E.msgcnt = 0;
       if (doStop || fatalError) {
         paintStopped();
@@ -6402,7 +6380,6 @@ public class StarTrader extends javax.swing.JFrame {
       else {
         
         printMem3();
-        
         for(int n=0;n< E.LCLANS;n++){ clanShipsDone[n] = 0; }
         // go latest to earliest, smallest to largest trades
         for (shipsLoop = eM.ships.size() - 1; shipsLoop >= 0; shipsLoop--) {
@@ -6440,7 +6417,9 @@ public class StarTrader extends javax.swing.JFrame {
             eM.curEcon = cur1;
             E.msgcnt = 0;
             paintEconYearStart(eM.curEcon);
+            curStateName = "econYrStrt";
             eM.curEcon.yearStart(distance);
+
         //    E.msgcnt = 0;
             eM.curEcon = cur1;
             paintTrade(eM.curEcon, cur2);
@@ -6481,6 +6460,7 @@ public class StarTrader extends javax.swing.JFrame {
         stateConst = STOPPED;
       }
       else {
+        curStateName = "ecYrEnds";
         for (envsLoop2 = 0; envsLoop2 < maxEcons; ++envsLoop2) {
           eM.curEcon = eM.econs.get(envsLoop2);
           startEconState = (new Date()).getTime();
@@ -6783,10 +6763,10 @@ public class StarTrader extends javax.swing.JFrame {
           break;
         case CREATING:
            displayPanel0Text.setText(
-           "Creating   "+  disp1);
+           "gameCreate   "+  disp1);
         case FUTUREFUNDCREATE:
           displayPanel0Text.setText(
-                  "FutCreate  " +  disp1);
+                  "FutFCreate  " +  disp1);
           break;
         case STARTYR:
           displayPanel0Text.setText(
@@ -6836,14 +6816,11 @@ public class StarTrader extends javax.swing.JFrame {
   }
     controlPanels.setVisible(true);
     if (stateCnt % 20 == 0) {
-      System.out.print("??????? " + since("Start", startTime) + " " + stateStringNames[stateConst] + "state=" +  sameEconState + " econCnt=" + econCnt + " size=" + numEcons);
-      if (curEc != null) {
-        System.out.print(" Econ.name=" + curEc.name);
-      }
-      if (EM.wasHere != null || EM.wasHere2 != null) {
-        System.out.print(", " + EM.wasHere);
-      }
-      System.out.println();
+      long nTime = new Date().getTime();
+      String aLine = "??????? " + "gstart " + (nTime - startTime) + " " + stateStringNames[stateConst] + "state=" +  sameEconState + " eCnt=" + econCnt + ":" + numEcons + Econ.nowName + " " +
+      (EM.addlErr != null? EM.addlErr:"") + (EM.wasHere != null?EM.wasHere : "") + (EM.wasHere2 != null?EM.wasHere2:"");
+     
+      System.out.println(aLine);
     }
     }catch (Exception ex) {
       if (!resetOut) {

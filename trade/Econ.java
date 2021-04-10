@@ -187,9 +187,9 @@ public class Econ {
       }
       this.zpos = (E.newPlanetPosition[2] += 2.7) - 1.2 + Math.random() * 2.7;
     } else {
-      System.out.println(String.format("as != null, using a previous location. xpos%5.2f, ypos%5.2f, zpos=%5.2f", xpos, ypos, zpos));
+      System.out.println( " Econ.init mid year" + eM.year + " " + (new Date().getTime() - eM.doYearTime) + " as != null, using a previous location. xpos" + this.xpos + ", ypos" + this.ypos + ", zpos" + this.zpos);
     }
-    System.out.println(new Date().toString() + "200 Econ.init mid this.xpos=" + this.xpos + " ypos=" + this.ypos + " zpos=" + this.zpos);
+    System.out.println(" Econ.init mid year" + eM.year + " " + (new Date().getTime() - eM.doYearTime) + " xpos=" + this.xpos + " ypos=" + this.ypos + " zpos=" + this.zpos);
 
     hist.add(new History(20, "Start", "0Life", "1Struct", "2Energy", "3Propel", "4Defense", "5Gov", "6Col", "Min", "Sum", "Ave"));
     this.percentDifficulty = percentDifficulty;
@@ -239,7 +239,7 @@ public class Econ {
 
     //   System.out.println("Econ.init 200 did new Assets");
     as.assetsInit(econCnt, this, st, eM, name, clan, planetOrShip, hist, tworth, wealth, sectorPri, res, colonists, knowledge, percentDifficulty, trand);
-    System.out.println(new Date().toString() + "Econ.init 242 did assetsInit");
+    System.out.println(" Econ.init end year" + eM.year + " " + (new Date().getTime() - eM.doYearTime) + "did assetsInit, wealth=" + EM.mf(wealth) + ", tworth=" + EM.mf(tworth));
     //  as.calcEfficiency();
   }
 
@@ -1170,7 +1170,7 @@ public class Econ {
   
   /** add some Econ class variables */
   final static String[] threadFor = {"yearEnd"};
-  static int[] threadCnt = {0}; // synchronized count of started threads
+  static volatile int[] threadCnt = {0}; // synchronized count of started threads
   static String nowName = "soonName";
   static Econ nowEc;
   static String nowThread = "soonThread";
@@ -1287,34 +1287,47 @@ int prevEtIx=0,prev2EtIx=0; // in Econ
 static int ixETList=0;
 static final int lETList = 10;
 static String sETList[] = new String[10];
+boolean doImw = false;
+String ecThreadName = Thread.currentThread().getName();
+int ecThreadPriority = Thread.currentThread().getPriority();
+String dyThreadName = "tbd";
+int dyThreadPriority = ecThreadPriority;
+static int letTimes = 10;
+long etTimes[] = new long[letTimes];
+long moreTimes[] = new long[letTimes];
+String iWaited = " imWaited ";
 
- 
+ void incrThreadCnt(){
+   synchronized (threadCnt) {threadCnt[0]++;};
+ }
   /** prepare to do yearEnd possibly as a separate thread
    * 
-   */
-  int letTimes = 10;
+   */  
  void doYearEnd() {
     if (!didYearEnd) {
       didYearEnd = true;
       nowName = name;
+    dyThreadName = Thread.currentThread().getName();
+    dyThreadPriority = Thread.currentThread().getPriority();
     int tCnts = 0;
     int le = 10;
     long etStart = (new Date()).getTime();
     long etMore = etStart - EM.doYearTime;
-    long etTimes[] = new long[letTimes];
+   // long etTimes[] = new long[letTimes];
     etTimes[0] = etStart;
     prev2EtIx = prevEtIx;
     prevEtIx = ixETList;
     int atCnt=0;
     nowName = name;
-    if(threadCnt[0] > eM.maxThreads[0][0]){  // wait only if over cnt
-    imWaiting(threadCnt, (int) eM.maxThreads[0][0], 6, "doYearEnd " + name );
+    if((doImw = eM.maxThreads[0][0] >= 2.0 && threadCnt[0] > eM.maxThreads[0][0])){  // wait only if over cnt
+      imWaiting(threadCnt, (int) eM.maxThreads[0][0], 6, "doYearEnd " + name );
     }
+    iWaited = (doImw ? " notImWaited + ": " yesImWaited + ");
     ixETList = (++ixETList)%lETList;
     String atList = "";
     etTimes[1] = (new Date()).getTime(); // after imWaiting
-    long msecs = EM.doYearTime - etTimes[1];
-    sETList[prevEtIx]="doEndYear "  + " since  " + msecs + " at " ;
+   
+    
     if(E.DEBUGWAITTRACE) {
     StackTraceElement[] prevCalls = new StackTraceElement[le];
     //set the length of the trace
@@ -1330,12 +1343,32 @@ static String sETList[] = new String[10];
     sETList[prevEtIx] += atList;
     }
     }//DEBUGWAITTRACE
-    // now in the main thread, up the assigned thread count
-      synchronized (threadCnt) {threadCnt[0]++;}
-    long afterT = (new Date()).getTime();
+    if(eM.maxThreads[0][0] >= 2.0) {
+     // now in the main thread, up the assigned thread count
+     incrThreadCnt();
+    long afterT = etTimes[2] = (new Date()).getTime();
+    moreTimes[0] = etTimes[0] - EM.doYearTime; // DYEtime
+    moreTimes[1] = etTimes[1] - etTimes[0]; // imWaiting time
+    moreTimes[2] = etTimes[2]- etTimes[1]; //imCounted time
+    //long msecs = EM.doYearTime - etTimes[1];
+    sETList[prevEtIx]= atList = "ecT=" + ecThreadName + "_" + ecThreadPriority + " dyT=" + dyThreadName + "_" + dyThreadPriority + " YearEnd " + nowName +  " doYE=" + moreTimes[0] + iWaited + moreTimes[1] + " imCounted +" + moreTimes[2];
     
     EconThread  emm = new EconThread(etTimes,atList,sETList,prevEtIx);
+    emm.setPriority(Thread.MIN_PRIORITY);
+    etTimes[3] = (new Date()).getTime(); // after create
     emm.start();
+    etTimes[5] = (new Date()).getTime(); // after start
+    } else {  // skip threads, just yearEnd
+      etTimes[2] = etTimes[3] =etTimes[4] = etTimes[5] = (new Date()).getTime(); // after create
+      yearEnd();
+      etTimes[6] = (new Date()).getTime();
+      moreTimes[6] = etTimes[6] - etTimes[2];
+    moreTimes[0] = etTimes[0] - EM.doYearTime; // DYEtime
+    moreTimes[1] = etTimes[1] - etTimes[0]; // imWaiting time
+    moreTimes[2] = etTimes[2]- etTimes[1]; //imCounted time
+    //long msecs = EM.doYearTime - etTimes[1];
+    sETList[prevEtIx]= atList = "ecT=" + ecThreadName + "_" + ecThreadPriority + " dyT=" + dyThreadName + "_" + dyThreadPriority + " YearEnd " + nowName + " doYE=" + moreTimes[0] + iWaited + moreTimes[1] + " bfor yearEnd + " +  moreTimes[2] + " aftr yearEnd +" + moreTimes[6];
+    }
     
   }
   }//doYearEnd  
@@ -1362,12 +1395,15 @@ static String sETList[] = new String[10];
     public void run() {
     int tCnts = 0;
     int le = 10;
-    long etStart = (new Date()).getTime();
-    etTimes[3] = etStart; // start of the new thread
-    moreTimes[0] = etTimes[0] - EM.doYearTime; //start doYearEnd
-    moreTimes[1] = etTimes[1] - etTimes[0]; // after imWaiting
-    moreTimes[2] = etTimes[2] - etTimes[1]; // create thread
-    moreTimes[3] = etTimes[3] - etTimes[2]; // thread started
+    long etStart = etTimes[6] = (new Date()).getTime(); // thread run
+    etTimes[5] = etStart; // start of the new thread
+    moreTimes[0] = etTimes[0] - EM.doYearTime; // DYEtime
+    moreTimes[1] = etTimes[1] - etTimes[0]; // imWaiting time
+    moreTimes[2] = etTimes[2] - etTimes[1]; //imCounted time
+    moreTimes[3] = etTimes[3] - etTimes[2]; // doYearEnd after create
+    moreTimes[4] = etTimes[4] - etTimes[3]; // thread did create
+    moreTimes[5] = etTimes[5] - etTimes[4]; // doYearEnd after start
+    moreTimes[6] = etTimes[6] - etTimes[5]; // thread started
     long etMore = etStart - EM.doYearTime;
     int atCnt=0;
     eM.curEcon = ec;
@@ -1375,15 +1411,14 @@ static String sETList[] = new String[10];
     nowThread = Thread.currentThread().getName();
     int threadCnts = threadCnt[0];
     ixETList = ++ixETList%lETList;
-    String atList = "";
+    String aL = "";
     long b4 = (new Date()).getTime();
     long msecs = EM.doYearTime - b4;
-    etList[prevIx]= "YearEnd " + nowName + " thread " + nowThread + " doYE=" + moreTimes[0] + " imWaited + " + moreTimes[1] + " createThread" + threadCnts + " + " + moreTimes[2] + "startThread + " + moreTimes[3];
-      etList[prevIx]= "YearEnd " + nowName + " thread " + nowThread + " doYE=" + moreTimes[0] + " imWaited + " + moreTimes[1] + " createThread" + threadCnts + " + " + moreTimes[2] + "startThread + " + moreTimes[3];
+ 
+      etList[prevIx]= aL = atList + " DYafterCreate + " + moreTimes[3] + " threadCrtd + " + moreTimes[4] + " DYafterStart + " + moreTimes[5] + " thread run +" + moreTimes[6];
+              
     if(E.debugThreadsOut) {
-    
-     
-     
+
       if(E.DEBUGWAITTRACE){
       StackTraceElement[] prevCalls = new StackTraceElement[le];
       int lstk = Thread.currentThread().getStackTrace().length-1;
@@ -1400,12 +1435,12 @@ static String sETList[] = new String[10];
           synchronized (threadCnt) {threadCnt[0]--;}  // done
           if(E.debugThreadsOut){
           long b4e = (new Date()).getTime();
-          etTimes[4] = b4e;
-          moreTimes[4] = etTimes[4] - etTimes[3];
+          etTimes[7] = b4e;
+          moreTimes[7] = etTimes[7] - etTimes[6];
           long b4ee = b4e - startEt;
          // msecs = startEt - EM.doYearTime;
-            etList[prevIx]="YearEnd " + nowName + " thread " + nowThread + " doYE=" + moreTimes[0] + " imWaited + " + moreTimes[1] + " createThread" + threadCnts + " + " + moreTimes[2] + "startThread + " + moreTimes[3] + " yearEnded + " + moreTimes[4] + atList ;
-     
+            etList[prevIx]= aL + " ended Year + " + moreTimes[7] + atList ;
+
            if(E.debugThreadsOut1){
              System.out.println(etList[prevIx]);
            }
