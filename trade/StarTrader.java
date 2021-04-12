@@ -174,8 +174,8 @@ public class StarTrader extends javax.swing.JFrame {
  */
 
   static final public String[] statsButtonsTips = {statsButton0Tip, statsButton1Tip, statsButton2Tip, statsButton3Tip, statsButton4Tip, statsButton5Tip, statsButton6Tip, statsButton7Tip, statsButton8Tip, statsButton9Tip, statsButton10Tip, statsButton11Tip, statsButton12Tip, statsButton13Tip, statsButton14Tip, statsButton15Tip, statsButton16Tip, statsButton17Tip, statsButton18Tip, statsButton19Tip, statsButton20Tip, gameTextFieldText};
-  static final public String versionText = "     Version 19.2";
-  static final public String storyText = "                                   Version 19.25\n" +
+  static final public String versionText = "19.26";
+  static final public String storyText = "           Cersion " + versionText + "\n" +
 "\n" +
 "Save the Planets: is an economics strategy game with ships carrying necessary resources between planets. The planets and ships are each different economies with a lot of similar rules and some significantly different values. Each economy has 2 very stressed financial sectors, two very successful financial sectors  The other 3 financial sectors are ok.   Generally each year planets increase resources by mining and new staff are added at the lowest grade while many staff move up one or more grades. Ships hold and carry resources and staff between planets, trading resources a planet needs  for surplus resources or staff from the planets but ships generally do not grow new staff and ships generally do not mine resources. \n" +
 "\n" +
@@ -377,7 +377,7 @@ public class StarTrader extends javax.swing.JFrame {
     gameTextPane = new javax.swing.JScrollPane();
     gameTextField = new javax.swing.JTextArea();
     jScrollPane3 = new javax.swing.JScrollPane();
-    jTextArea1 = new javax.swing.JTextArea();
+    settingsComment = new javax.swing.JTextArea();
     gameButtonDown = new java.awt.Button();
     clan = new javax.swing.JPanel();
     clanTextPane = new javax.swing.JScrollPane();
@@ -1777,12 +1777,12 @@ public class StarTrader extends javax.swing.JFrame {
     gameTextField.setPreferredSize(new java.awt.Dimension(300, 200));
     gameTextPane.setViewportView(gameTextField);
 
-    jTextArea1.setColumns(70);
-    jTextArea1.setRows(5);
-    jTextArea1.setText("put your comments for keep here");
-    jTextArea1.setAlignmentX(0.0F);
-    jTextArea1.setAlignmentY(0.0F);
-    jScrollPane3.setViewportView(jTextArea1);
+    settingsComment.setColumns(70);
+    settingsComment.setRows(5);
+    settingsComment.setText("put your comments for keep here");
+    settingsComment.setAlignmentX(0.0F);
+    settingsComment.setAlignmentY(0.0F);
+    jScrollPane3.setViewportView(settingsComment);
 
     javax.swing.GroupLayout gamePanelBottomPanelLayout = new javax.swing.GroupLayout(gamePanelBottomPanel);
     gamePanelBottomPanel.setLayout(gamePanelBottomPanelLayout);
@@ -4692,19 +4692,19 @@ public class StarTrader extends javax.swing.JFrame {
   }//GEN-LAST:event_statsButton0ActionPerformed
 
   private void settingsKeepMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_settingsKeepMouseClicked
-    // TODO add your handling code here:
+    EM.keepFromPage  = true;
   }//GEN-LAST:event_settingsKeepMouseClicked
 
   private void rememberMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rememberMouseClicked
-    // TODO add your handling code here:
+    EM.rememberFromPage = true;
   }//GEN-LAST:event_rememberMouseClicked
 
   private void statsStopMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statsStopMouseClicked
-    // TODO add your handling code here:
+   doStop = true;
   }//GEN-LAST:event_statsStopMouseClicked
 
   private void settingsStopMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_settingsStopMouseClicked
-    // TODO add your handling code here:
+    doStop = true;
   }//GEN-LAST:event_settingsStopMouseClicked
   static Boolean resetOut = false;
 
@@ -4722,7 +4722,7 @@ public class StarTrader extends javax.swing.JFrame {
     try {
    //   E.bRemember = Files.newBufferedWriter(E.REMEMBER, E.CHARSET);
      System.err.println("starting out in main");
-   String dateString = E.MYDATEFORMAT.format(new Date());
+ //  String dateString = EM.MYDATEFORMAT.format(new Date());
  //  String rOut = "New Game " + dateString + "\n";
   // E.bRemember.write(rOut,0,rOut.length());
   // E.bKeep.write(rOut,0,rOut.length());
@@ -4814,8 +4814,8 @@ public class StarTrader extends javax.swing.JFrame {
       System.err.flush();
       fatalError = true;
     } finally {
-      if(E.bKeep != null){E.bKeep.close();} 
-       if(E.bRemember != null){E.bRemember.close();}
+      if(EM.bKeep != null){EM.bKeep.close();} 
+      if(EM.bRemember != null){EM.bRemember.close();}
       
        
     } 
@@ -4962,7 +4962,6 @@ public class StarTrader extends javax.swing.JFrame {
   protected javax.swing.JSeparator jSeparator8;
   protected javax.swing.JSeparator jSeparator9;
   protected javax.swing.JTable jTable1;
-  protected javax.swing.JTextArea jTextArea1;
   protected javax.swing.JRadioButton logActionAdd;
   protected javax.swing.JRadioButton logActionDel;
   protected javax.swing.JRadioButton logActionJump;
@@ -4987,6 +4986,7 @@ public class StarTrader extends javax.swing.JFrame {
   protected javax.swing.JPanel rbuttons12;
   protected javax.swing.JPanel rbuttons2;
   protected javax.swing.JButton remember;
+  protected javax.swing.JTextArea settingsComment;
   protected javax.swing.JButton settingsKeep;
   protected javax.swing.JButton settingsStop;
   protected javax.swing.JPanel stats;
@@ -7027,7 +7027,7 @@ public class StarTrader extends javax.swing.JFrame {
    */
   public void getGameValues(int[] currentVals1, JPanel[] panelAr, JTextField[] textFieldsAr, JSlider[] gamePSliders, JSlider[] gameSSliders) {
     int val = 0,v=-1,oldval=0,gc=-1;
-    for (int p : d10) { // go through elements in this panel
+    for (int p=0;p<10;p++) { // go through elements in this panel
       if(E.debugSettingsTab)System.out.print("getGameValues #" + p + " vv=" + (v = currentVals1[p]) + ", clan =" + eM.gameClanStatus);
       if (v > -1 && panelAr[p].isEnabled()) {
         gc = eM.valI[v][eM.modeC][0][0];

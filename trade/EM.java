@@ -25,9 +25,16 @@ package trade;
  *
  * @author albert Steiner
  */
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
@@ -126,7 +133,33 @@ class EM {
   public final static double INVL2SECS = E.INVL2SECS;
   public final static int[] ASECS = E.ASECS;
   public final static int[] A2SECS = E.A2SECS;
-
+  
+  static final Charset CHARSET = Charset.forName("US-ASCII");
+  //                                                                        TUE 04/ 02 /2021 14:03:02:233 cdt
+  static final public SimpleDateFormat MYDATEFORMAT = new SimpleDateFormat("EEE MM//DD//YYYY HH:mm:ss:SSSz");
+  static final Path REMEMBER = Paths.get("remember");
+  static final Path KEEP = Paths.get("keep");
+  static BufferedWriter bRemember=null,bKeep=null;
+  static BufferedReader bKeepr = null;
+  
+  /* each keep goes false after end of page process new page or settings ended */
+  static boolean keepFromPage = false;  // keep clicked titles on this page
+  static boolean keepHeaderPrinted = false; // header already printed
+  static boolean keepLinesBuffered = false; // true if flush needed
+  static final String keepInstruct = "keep any changes made in this page, describe why you kept this changes";
+  static final String initialKeepCmt = "put the why you changed the settings on this page";
+  static String prevKeepCmt = initialKeepCmt + "";
+  static String nextLineOfOutput = ""; //both keep and remember
+  
+  /* each remember goes false at next page request or end stats */
+  static boolean rememberFromPage=false; // remember clicked lines on this page
+  static boolean rememberHeader=false; //header for this page printed
+  static boolean rememberBuffered=false;// flush needed
+  static final String rememberInstruct = "click the name of a line in this table to remember it, also indicate why.";
+  static final String initialRememberCmt = "put the why you chose to remember ths lines in this page.";
+  static String prevRememberCmt = initialRememberCmt + "";
+  
+          
   double[] maxLY = {15.};// ship max light years for search
   static double[][] mMaxLY = {{.5, 25.}};//planet or ship max light years
   double[] addLY = {.9}; // add to ly in planet search per round of search
@@ -306,10 +339,10 @@ class EM {
    *
    */
   int rende3 = 500;
-  void init() {
+  void init(){
     try{
-    String dateString = E.MYDATEFORMAT.format(new Date());
-    String rOut = "New Game " + dateString + "\n";
+    String dateString = MYDATEFORMAT.format(new Date());
+    String rOut = "New Game " + dateString + "\r\n";
     // define each of the first dimension of res or stats values
     resS = new String[rende3][]; //space for desc, comment
     resV = new double[rende3][][][];
@@ -317,13 +350,13 @@ class EM {
     defRes();
     runVals();
     System.out.println("++++counts at init EM doVal vvend=" + vvend + ", doRes rend4=" + rende4 + ", assiged doRes arrays rende3=" + rende3 + " +++++++");
-    doKeepVals();
-    if(E.bKeepr != null) E.bKeepr.close(); //close reading keep
+    doReadKeepVals();
+    if(bKeepr != null) bKeepr.close(); //close reading keep
     
-   E.bRemember = Files.newBufferedWriter(E.REMEMBER, E.CHARSET);     
-   E.bRemember.write(rOut,0,rOut.length());
-   E.bKeep = Files.newBufferedWriter(E.REMEMBER, E.CHARSET); 
-   E.bKeep.write(rOut,0,rOut.length());
+   bRemember = Files.newBufferedWriter(REMEMBER, CHARSET);     
+   bRemember.write(rOut,0,rOut.length());
+   bKeep = Files.newBufferedWriter(REMEMBER, CHARSET); 
+   bKeep.write(rOut,0,rOut.length());
      } catch (Exception ex) {
       flushes();
       System.err.println("Ignore this error " + new Date().toString() + " " + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr + addMore());
@@ -1430,7 +1463,7 @@ class EM {
    * @param vdetail details about the input
    * @return vv the number of the input in valI,valD,valS
    */
-  int doVal(String vdesc, double[] vaddr, double[][] lims, String vdetail) {
+  int doVal(String vdesc, double[] vaddr, double[][] lims, String vdetail) throws IOException {
     int vl = -1;
     if (E.debugSettingsTab) {
       if (vaddr.length > 2 && vaddr.length != 5) {
@@ -1456,7 +1489,7 @@ class EM {
    * @param vdetail details about the input
    * @return vv the number of the input in valI,valD,valS
    */
-  int doVal(String vdesc, double[] vaddr, int vindex, double[][] lims, String vdetail) {
+  int doVal(String vdesc, double[] vaddr, int vindex, double[][] lims, String vdetail) throws IOException {
     if (E.debugSettingsTab) {
       if (vaddr.length > 2 && vaddr.length != 7) {
         throw new MyErr("doVal {1.1} vdesc=" + vdesc + ", vaddr.length=" + vaddr.length);
@@ -1485,7 +1518,7 @@ class EM {
    * @param vdetail details about the input
    * @return vv the number of the input in valI,valD,valS
    */
-  int doVal(String vdesc, double[][] vaddr, double[][] lims, String vdetail) {
+  int doVal(String vdesc, double[][] vaddr, double[][] lims, String vdetail) throws IOException {
     int v1 = -1, v2 = -1, v3 = -1;
     if (E.debugSettingsTab) {
       v1 = vaddr.length;
@@ -1553,7 +1586,7 @@ class EM {
    * @param vv
    * @return vv
    */
-  int doVal3(int vv) {
+  int doVal3(int vv) throws IOException {
     int[][] slider, prevSlider, prev2Slider, prev3Slider;
     int svalp = -1, ib = -1;
     int klan = 0, clan = 0;
@@ -1682,7 +1715,7 @@ class EM {
    * @param low
    * @param high
    */
-  void doVal5(int vv, int xCntr, int[] xStart, int gc, int iinput, int pors, int clan, double val, double low, double high) {
+  void doVal5(int vv, int xCntr, int[] xStart, int gc, int iinput, int pors, int clan, double val, double low, double high) throws IOException {
     double t1 = 0., t2 = 0., t3 = 0.;
     int j1 = -3, j2 = -4, j3 = -5, j4 = -6, j5 = -7;
     int klan = clan < 5 ? clan : clan == 5 ? 0 : clan % 5;
@@ -1768,25 +1801,29 @@ class EM {
 
   String ret = "234f";
 
-  String doKeepVals() {
+  String doReadKeepVals(){
     try {
-      String dateString = E.MYDATEFORMAT.format(new Date());
+      String dateString = MYDATEFORMAT.format(new Date());
       String rOut = "New Game " + dateString + "\n";
-      E.bKeepr = Files.newBufferedReader(E.KEEP, E.CHARSET);
-      Scanner s = new Scanner(E.bKeepr);
+      bKeepr = Files.newBufferedReader(KEEP, CHARSET);
+      Scanner s = new Scanner(bKeepr);
       while (s.hasNext()) {
         String fname = s.next();
         String lname = "line";
         switch (fname) {
           case "new":
           case "year":
+           
             lname = s.nextLine();
             System.out.println("line=" + fname + " " + lname);
             break;
           case "keep":
             fname = s.useDelimiter("#\\s*").next();
-            int vv = (int) valMap.get(fname);
-            int ps = s.useDelimiter("\\s*").nextInt();
+            s.useDelimiter("\\s");
+            Object vo = valMap.get(fname);
+            if(vo != null){
+              int vv = (int)vo;
+            int ps = s.nextInt();
             int klan = s.nextInt();
             double val = s.nextDouble();
             //  svalp = valToSlider(vR = valD[vv][gameAddrC][pors][0], lL = valD[vv][gameLim][pors][vLowLim], lH = valD[vv][gameLim][pors][vHighLim]);
@@ -1799,18 +1836,26 @@ class EM {
               }
             }
             valD[vv][gameAddrC][ps][klan] = val; // restore val
+             
             lname = s.nextLine();
             if (E.debugScannerOut) {
               System.out.println("keep " + fname + " " + vv + "  " + ps + " " + klan + " " + mf(val) + " " + lname);
             }
-
+            } else {
+             
+            lname = s.nextLine();
+            if (E.debugScannerOut) {
+              System.out.println("keep unknown " + fname + " " + lname);
+            }
+            }
+            break;
           default:
             lname = s.nextLine();
             System.out.println("Unknow line=" + fname + " " + lname);
         } // switch
       } // while
-      if(E.bKeepr != null) {
-        E.bKeepr.close();
+      if(bKeepr != null) {
+        bKeepr.close();
       }
 
     } catch (Exception ex) {
@@ -1823,6 +1868,45 @@ class EM {
       return ret;
     }
   }
+  /*
+   static boolean keepFromPage = false;  // keep clicked titles on this page
+  static boolean keepHeaderPrinted = false; // header already printed
+  static boolean keepLinesBuffered = false; // true if flush needed
+  static final String keepInstruct = "keep any changes made in this page, describe why you kept this changes";
+  static final String initialKeepCmt = "put the why you changed the settings on this page";
+  static String prevKeepCmt = initialKeepCmt + "";
+  static String nextLineOfOutput = ""; //both keep and remember
+   */
+     int keepYear = -1; // initial unused year
+     /** write the keep file if the keepFromPage flag set, a new page clears the flag
+      * 
+      * @param vv  the index of the val used to get the title
+      * @param ps  the pors value
+      * @param klan the clan value
+      * @param val  the value to be saved
+      * @param val  the previous value before the change
+      * @param slider  the new slider value
+      * @param prevSlider the previous slider value
+      * @param prev2Slider the previous previous slider value
+      * @throws IOException 
+      */
+ public void doWriteKeepVals(int vv,int ps,int klan,double val, double prevVal,int slider, int prevslider, int prev2slider) throws IOException {
+ 
+  String ll = " ";
+  if(keepFromPage) {
+    if(year != keepYear || !st.settingsComment.getText().matches(prevKeepCmt)){ // need another year comment page
+      keepYear = year;
+      prevKeepCmt = st.settingsComment.getText() + ""; // force a copy
+      String dateString = MYDATEFORMAT.format(new Date());
+  //    String rOut = "New Game " + dateString + "\r\n";
+      ll = "year" + year +" version " + st.versionText  +  " " + dateString + st.settingsComment.getText() + "\r\n";
+      bKeep.write(ll, 0, ll.length());
+    }
+    ll = "keep " + valS[vv][0] + "# " + ps + " " + klan + " " + mf(val) + " <= " + mf(prevVal) + " sliders" + slider + " <= " + prevslider + " <= " + prev2slider + "\r\n";
+    bKeep.write(ll,0,ll.length());
+    
+  }//keep from page
+}//doWriteKeepVals
 
   /**
    * get value from valD and turn it into a slider int between 0-100 This is
@@ -1873,12 +1957,12 @@ class EM {
    * @param clan 0-4 a clan-master 5=game-master
    * @return 1 == change gameValue, 0=noChange
    */
-  int putVal(int slider, int vv, int pors, int clan) {
+  int putVal(int slider, int vv, int pors, int clan) throws IOException  {
     int va  = -1;
     int gc = valI[vv][modeC][vFill][0];
     int klan = clan < 5 ? clan : clan == 5 ? 0 : clan % 5;
     if (E.debugPutValue2) {
-      System.out.print("EM putVal gc=" + gc + " " + ", vv=" + vv + " " + valS[vv][0] + ", pors=" + pors + ", clan=" + clan + ", klan=" + klan);
+     // System.out.print("EM putVal gc=" + gc + " " + ", vv=" + vv + " " + valS[vv][0] + ", " + E.cna[pors] + ", clan=" + clan + ":" + klan);
     }
 
     if (gc <= vfour || gc == vfive) {
@@ -1886,42 +1970,45 @@ class EM {
       if ((gc == vone && pors == E.P) || gc == vtwo) {
         if (slider == (va  = valI[vv][sliderC][vFill][pors])) {
           if (E.debugPutValue2) {
-            System.out.println(" no change");
+            System.out.println("EM putVal gc=" + gc + " " + ", vv=" + vv + " " + valS[vv][0] + ", " + E.cna[pors] + ", clan=" + clan + ":" + klan + " no change");
           }
           return 0; // no change
         }
         //value must change for vone and vtwo
         double val0 = valD[vv][gameAddrC][vFill][pors];
         double val1 = valD[vv][gameAddrC][vFill][pors] = sliderToVal(slider, valD[vv][gameLim][pors][vLowLim], valD[vv][gameLim][pors][vHighLim]);
-        if (E.debugPutValue) {
-          System.out.println(", was=" + E.mf(val0) + ", to=" + E.mf(val1));
-        }
-        valI[vv][prev2SliderC][vFill][pors] = valI[vv][prevSliderC][vFill][pors];
-        valI[vv][prevSliderC][vFill][pors] = valI[vv][sliderC][vFill][pors];
+        
+        int prev2Slider = valI[vv][prev2SliderC][vFill][pors] = valI[vv][prevSliderC][vFill][pors];
+        int prevSlider = valI[vv][prevSliderC][vFill][pors] = valI[vv][sliderC][vFill][pors];
         valI[vv][sliderC][vFill][pors] = slider; // a new value for slider
+        if (E.debugPutValue) {
+          System.out.println("EM putVal gc=" + gc + " " + ", vv=" + vv + " " + valS[vv][0] + ", " + E.cna[pors] + ", clan=" + clan + ":" + klan + ", was=" + E.mf(val0) + ", to=" + E.mf(val1) + " sliders " + prev2Slider + " => " + prevSlider + " => " + slider);
+        }
+        doWriteKeepVals(vv,pors,clan,val1,val0,slider,prevSlider,prev2Slider);
         return 1;
       } // note different way gameMaster values stored
       //double[][] rsefficiencyGMax = {{2.}, {2.}}
       else if ((gc == vthree && pors == E.P) || gc == vfour) {
         if (slider == (va  = valI[vv][sliderC][pors][vFill])) {
           if (E.debugPutValue2) {
-            System.out.println("no change");
+            System.out.println("EM putVal gc=" + gc + " " + ", vv=" + vv + " " + valS[vv][0] + ", " + E.cna[pors] + ", clan=" + clan + ":" + klan + "no change");
           }
           return 0; // no change
         }
         double val0 = valD[vv][gameAddrC][pors][0];
         double val1 = valD[vv][gameAddrC][pors][0] = sliderToVal(slider, valD[vv][gameLim][pors][vLowLim], valD[vv][gameLim][pors][vHighLim]);
-        if (E.debugPutValue) {
-          System.out.println(" was=" + E.mf(val0) + ", to=" + E.mf(val1));
-        }
-        valI[vv][prev2SliderC][pors][vFill] = valI[vv][prevSliderC][pors][vFill];
-        valI[vv][prevSliderC][pors][vFill] = valI[vv][sliderC][pors][vFill];
+        int prev2Slider = valI[vv][prev2SliderC][pors][vFill] = valI[vv][prevSliderC][pors][vFill];
+        int prevSlider = valI[vv][prevSliderC][pors][vFill] = valI[vv][sliderC][pors][vFill];
         valI[vv][sliderC][pors][vFill] = slider; // a new value for slider
+        if (E.debugPutValue) {
+          System.out.println("EM putVal gc=" + gc + " " + ", vv=" + vv + " " + valS[vv][0] + ", " + E.cna[pors] + ", clan=" + clan + ":" + klan + ", was=" + E.mf(val0) + ", to=" + E.mf(val1) + " sliders " + prev2Slider + " => " + prevSlider + " => " + slider);
+        }
+        doWriteKeepVals(vv,pors,clan,val1,val0,slider,prevSlider,prev2Slider);
         return 1;
       } else if (gc == vseven) {
         if (slider == (va  = valI[vv][sliderC][pors][vFill])) {
           if (E.debugPutValue2) {
-            System.out.println(" no change");
+            System.out.println("EM putVal gc=" + gc + " " + ", vv=" + vv + " " + valS[vv][0] + ", " + E.cna[pors] + ", clan=" + clan + ":" + klan + " no change");
           }
           return 0; // no change
         }
@@ -1929,12 +2016,13 @@ class EM {
 
         double val0 = valD[vv][gameAddrC][vFill][valI[vv][sevenC][vFill][vFill]];
         double val1 = valD[vv][gameAddrC][vFill][valI[vv][sevenC][vFill][vFill]] = sliderToVal(slider, valD[vv][gameLim][vFill][vLowLim], valD[vv][gameLim][vFill][vHighLim]);
-        if (E.debugPutValue1) {
-          System.out.println(", was=" + E.mf(val0) + ", to=" + E.mf(val1));
-        }
-        valI[vv][prev2SliderC][vFill][valI[vv][sevenC][vFill][vFill]] = valI[vv][prevSliderC][vFill][valI[vv][sevenC][vFill][vFill]];
-        valI[vv][prevSliderC][vFill][valI[vv][sevenC][vFill][vFill]] = valI[vv][sliderC][vFill][valI[vv][sevenC][vFill][vFill]];
+        int prev2Slider = valI[vv][prev2SliderC][vFill][valI[vv][sevenC][vFill][vFill]] = valI[vv][prevSliderC][vFill][valI[vv][sevenC][vFill][vFill]];
+        int prevSlider = valI[vv][prevSliderC][vFill][valI[vv][sevenC][vFill][vFill]] = valI[vv][sliderC][vFill][valI[vv][sevenC][vFill][vFill]];
         valI[vv][sliderC][vFill][valI[vv][sevenC][vFill][vFill]] = slider; // a new value for slider
+        if (E.debugPutValue) {
+          System.out.println("EM putVal gc=" + gc + " " + ", vv=" + vv + " " + valS[vv][0] + ", " + E.cna[pors] + ", clan=" + clan + ":" + klan + ", was=" + E.mf(val0) + ", to=" + E.mf(val1) + " sliders " + prev2Slider + " => " + prevSlider + " => " + slider);
+        }
+        doWriteKeepVals(vv,pors,clan,val1,val0,slider,prevSlider,prev2Slider);
         return 1;
       }
     } //  double[][] clanStartFutureFundDues = {{700., 700., 700., 700., 700.}, {600., 600., 600., 600., 600.}};
@@ -1952,12 +2040,13 @@ class EM {
 
       double val0 = valD[vv][gameAddrC][pors][klan];
       double val1 = valD[vv][gameAddrC][pors][klan] = sliderToVal(slider, valD[vv][gameLim][pors][vLowLim], valD[vv][gameLim][pors][vHighLim]);
-      if (E.debugPutValue) {
-        System.out.println(" was=" + E.mf(val0) + ", to=" + E.mf(val1));
-      }
-      valI[vv][prev2SliderC][pors][clan] = valI[vv][prevSliderC][pors][clan];
-      valI[vv][prevSliderC][pors][clan] = valI[vv][sliderC][pors][clan];
+      int prev2Slider = valI[vv][prev2SliderC][pors][clan] = valI[vv][prevSliderC][pors][clan];
+      int prevSlider = valI[vv][prevSliderC][pors][clan] = valI[vv][sliderC][pors][clan];
       valI[vv][sliderC][pors][clan] = slider; // a new value for slider
+      if (E.debugPutValue) {
+          System.out.println("EM putVal gc=" + gc + " " + ", vv=" + vv + " " + valS[vv][0] + ", " + E.cna[pors] + ", clan=" + clan + ":" + klan + ", was=" + E.mf(val0) + ", to=" + E.mf(val1) + " sliders " + prev2Slider + " => " + prevSlider + " => " + slider);
+        }
+        doWriteKeepVals(vv,pors,clan,val1,val0,slider,prevSlider,prev2Slider);
       return 1;
     } else if (E.debugSettingsTab) {  //problem with gc
       if (E.debugPutValue2) {
@@ -2108,7 +2197,7 @@ class EM {
    * run the initialization of the valD, valI, valS arrays that set the sliders
    * also run settings adjustments at the end
    */
-  void runVals() {
+  void runVals() throws IOException {
     doVal("difficulty  ", difficultyPercent, mDifficultyPercent, "For ships as well as  Planets , set the difficulty of the game, more difficulty increases costs of  resources and staff each year, increases the possibility of economy death.  More difficulty requires more clan boss expertise.");
     doVal("randomActions  ", randFrac, mRandFrac, "increased random, increases possibility of gain, and of loss, including possibility of death");
     doVal("Min Econs by Year", minEconsMult, mminEconsMult, "increase slider, increase min econs, create new free econs for clans starting at a random clan");
@@ -2659,7 +2748,6 @@ class EM {
   static final int TRADELASTRECEIVE = ++e4;
   static final int TRADERECEIVELASTPERCENTFIRST = ++e4;
   static final int TRADEFIRSTGAVE = ++e4;
-
   static final int TRADESTRATFIRSTRECEIVE = ++e4;
   static final int TRADESTRATLASTRECEIVE = ++e4;
   static final int TRADESTRATFIRSTGAVE = ++e4;
@@ -4236,14 +4324,14 @@ class EM {
           if (isWinner) {
             table.setValueAt(E.groupNames[winner], row, 1);
             table.setValueAt("Winner", row, 5);
-            table.setValueAt((dFrac.format(aVal * 100 / sums * .2)) + "%", row, 4);
+            table.setValueAt((mf(aVal * 100 / sums * .2)) + "%", row, 4);
             table.setValueAt(">>>>>>>>>>", row, 5);
           } else { // winner pending
             table.setValueAt(mf(curDif) + "%", row, 1);
             table.setValueAt("yet till", row, 2);
             table.setValueAt("a Winner", row, 3);
-            table.setValueAt("for the", row, 3);
-            table.setValueAt("game", row, 3);
+            table.setValueAt("for the", row, 4);
+            table.setValueAt("game", row, 5);
           }
 
           table.setValueAt(description + suffix + powers, row, 0);
@@ -4816,12 +4904,17 @@ class EM {
     }
     double dif = 0.0, wDif = 0.0;
     // dif = max - myScore.ave
-    // wDif = dif - winDif
+    // wDif = dif/myScore.av - curDif
+    // isWinner if wDif > 0.0 that is max  is enough greater than ave
     difPercent = (wDif = (dif = (myScore[winner] - myScoreSum * .1) / myScoreSum * .1) - curDif) * 100.0;
     if (wDif > 0.0) {  // wDif is frac (max-ave)/ave - curDif
       isWinner = true;
     } else {  // wDif < 0.0 reduce curDif
-      curDif += wDif * difMult;
+      // reduce curDif the amt needed max >= ave
+      curDif += (wDif * difMult);
+      // reduce curDif each year but don't go negative
+      // redices amt max/ave >  curDif
+      curDif -= (curDif - curDif * difMult) > 0.0 ? curDif * difMult: 0.0;
     }
     System.out.println("getWinner " + resS[SCORE][0] + " =" + E.mf(resV[SCORE][ICUR0][0][0]) + " , " + E.mf(resV[SCORE][ICUR0][0][1]) + " , " + E.mf(resV[SCORE][ICUR0][0][2]) + "," + E.mf(resV[SCORE][ICUR0][0][3]) + "," + E.mf(resV[SCORE][ICUR0][0][4]) + " : " + E.mf(resV[SCORE][ICUR0][1][0]) + " , " + E.mf(resV[SCORE][ICUR0][1][1]) + " , " + E.mf(resV[SCORE][ICUR0][1][2]) + "," + E.mf(resV[SCORE][ICUR0][1][3]) + "," + E.mf(resV[SCORE][ICUR0][1][4]) + ", myScore=" + E.mf(myScore[0]) + " , " + E.mf(myScore[1]) + " , " + E.mf(myScore[2]) + "," + E.mf(myScore[3]) + "," + E.mf(myScore[4]) + ", winner=" + winner);
     return winner;
