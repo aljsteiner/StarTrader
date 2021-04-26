@@ -1232,31 +1232,23 @@ public class Econ {
       if (threadCnt[0] <= limit) {
         dowait= false; // no more waiting
       } else {
-        if(timeLoop > secs-2){
-           System.out.flush();
-           System.out.flush();
-           System.out.flush();
-           System.out.flush();
-           System.err.flush();
-        System.err.flush();
+        if(timeLoop > secs+2){
+          EM.flushes();
         long imStuck = (new Date()).getTime();
         long moreStuck = imStuck - imStart;
-     System.err.println(" stuck since doYear" + eM.year + "=" + imMore + " plus " + moreStuck + " name=" + nowName + " for " + why + " over " + (secs-2) + " loops or seconds" + EM.andMore() );
-        System.out.flush();
-        System.err.flush();
+     System.err.println(" stuck since doYear" + eM.year + "=" + imMore + " plus " + moreStuck + " name=" + nowName + " for " + why + " over " + (secs+2) + " loops or seconds" + EM.andMore() );
+        EM.flushes();
         st.setFatalError();
         } else {
         try {
           Thread.sleep(1000L);
         } catch (Exception ex) {
     
-        System.out.flush();
-        System.err.flush();
+        EM.flushes();
      System.err.println(st.sinceEcon() + " exception=" + ex.toString() + " found " + ex.getMessage() + EM.andMore());
       ex.printStackTrace(System.err);
       
-        System.out.flush();
-        System.err.flush();
+        EM.flushes();
      st.setFatalError();
     }}
 

@@ -272,8 +272,8 @@ public class E {
   static final String[] clanLetter = {"r","o","y","g","b"};
   public static final int lclans = clanNames.length;
   public static final int LCLANS = lclans;
-  Color ccc = new Color(255,204,204);
-  public static int backGroundColors[] = {0xa98a80, 0xd9850e, 0xffdc23, 0xb0b332, 0x9eced7};
+  Color ccc = new Color(255, 204, 204);
+  public static int backGroundColors[] = {0xFF6666, 0xd9850e, 0xffdc23, 0xb0b332, 0x9eced7};
   public Enum clans[] = {clan.RED, clan.ORANGE, clan.YELLOW, clan.GREEN, clan.BLUE};
   /**
    * foreground colors for planet,ship clan 0-4, 5 = all clans

@@ -7021,25 +7021,25 @@ public class Assets {
           myTrade.xitTrade(); // term= 0 mytrade,-1 my reject,-2 other traded,-3o reject
           System.out.println(as.name + " xitTrade term=" + retOffer.getTerm());
         }
-        double criticalStrategicRequestsPercentTWorth = criticalStrategicRequests * 100 / startYrSumWorth;
-        double criticalStrategicRequestsPercentFirst = criticalStrategicRequestsFirst * 100. / startYrSumWorth;
-        double criticalStrategicRequestsPercentCSRFirst = criticalStrategicRequests * 100. / criticalStrategicRequestsFirst;
-        double nominalReceiptsPercentWorth = sumNominalRequests * 100. / startYrSumWorth;
-        double criticalNominalRequestsPercentFirst = criticalNominalRequests * 100. / criticalNominalRequestsFirst;
-        double criticalNominalRequestsPercentCriticalStrategicRequests = criticalNominalRequests * 100. / criticalStrategicRequests;
+        double criticalStrategicRequestsPercentTWorth = 100. * criticalStrategicRequests  / startYrSumWorth;
+        double criticalStrategicRequestsPercentFirst = 100. * criticalStrategicRequestsFirst / startYrSumWorth;
+        double criticalStrategicRequestsPercentCSRFirst = 100. * criticalStrategicRequests / criticalStrategicRequestsFirst;
+        double nominalReceiptsPercentWorth = 100. * sumNominalRequests / startYrSumWorth;
+        double criticalNominalRequestsPercentFirst = 100. * criticalNominalRequests / criticalNominalRequestsFirst;
+        double criticalNominalRequestsPercentCriticalStrategicRequests =100. *  criticalNominalRequests / criticalStrategicRequests;
         //pretrade are initTrade values for this trade
         // frac of availiable units -mtgNeeds6.sum/bals.
-        double fracPreTrade = preTradeAvail * 100 / preTradeSum4;
-        double fracPostTrade = postTradeAvail * 100 / postTradeSum4;
+        double fracPreTrade = 100. * preTradeAvail/ preTradeSum4;
+        double fracPostTrade = 100. * postTradeAvail/ postTradeSum4;
         // see if/how much frac avail increases
-        double tradeAvailIncrPercent = (postTradeAvail - preTradeAvail) * 100 / preTradeAvail;
+        double tradeAvailIncrPercent = 100. * (postTradeAvail - preTradeAvail) / preTradeAvail;
         tW = btW;
         tW = new DoTotalWorths();  // in Assets.CashFlow.Barter
         tWTotWorth = tW.getTotWorth();
         btWTotWorth = btW.getTotWorth();
         btWrcsgSum = btW.getSumRCSGBal();
-        double worthIncrPercent = (tWTotWorth - btWTotWorth) * 100 / btWTotWorth;
-        double percentValuePerGoal = strategicValue* 100/strategicGoal;
+        double worthIncrPercent = 100. * (tWTotWorth - btWTotWorth) / btWTotWorth;
+        double percentValuePerGoal = 100. * strategicValue /strategicGoal;
         retOffer.set2Values(ec, btWTotWorth,btW.getSumRCSGBal(), tWTotWorth); // needed in TradeRecord SearchRecord
         if (newTerm == 0) {  //trade accepted
           tradedShipOrdinal++; // set ordinal of the next ship if any
@@ -7061,6 +7061,7 @@ public class Assets {
           setStat(EM.TRADERECEIVELASTPERCENTFIRST, pors, clan, requests*100./requestsFirst, 1);
           setStat(EM.TRADEFIRSTGAVE, pors, clan, sendSumFirst*100/btWrcsgSum, 1);
           setStat(EM.TRADELASTGAVE, pors, clan, sendSum*100/btWrcsgSum, 1);
+          setStat(EM.TRADENOMINALGAVE, pors, clan, nominalOffers, 1);
           setStat(EM.TRADESTRATFIRSTGAVE, oPors, oClan, totalStrategicRequestsFirst*100/btWrcsgSum, 1);
           setStat(EM.TRADESTRATLASTGAVE, oPors, oClan, totalStrategicRequests*100/btWrcsgSum , 1);
           setStat(EM.TRADESTRATFIRSTRECEIVE, pors, clan, totalStrategicRequestsFirst*100/btWrcsgSum, 1);
@@ -7088,11 +7089,12 @@ public class Assets {
           EM.porsClanTraded[pors][clan]++;
           EM.clanTraded[clan]++;
           setStat(EM.TradeAcceptValuePerGoal, percentValuePerGoal, 1);
-         setStat(EM.TRADEFIRSTRECEIVE, requestsFirst*100/btWrcsgSum, 1);
+          setStat(EM.TRADEFIRSTRECEIVE, requestsFirst*100/btWrcsgSum, 1);
           setStat(EM.TRADELASTRECEIVE, pors, clan, requests*100/btWrcsgSum, 1);
           setStat(EM.TRADERECEIVELASTPERCENTFIRST, pors, clan, requests*100./requestsFirst, 1);
           setStat(EM.TRADEFIRSTGAVE, pors, clan, sendSumFirst*100/btWrcsgSum, 1);
           setStat(EM.TRADELASTGAVE, pors, clan, sendSum*100/btWrcsgSum, 1);
+          setStat(EM.TRADENOMINALGAVE, pors, clan, nominalOffers, 1);
           setStat(EM.TRADESTRATFIRSTGAVE, oPors, oClan, totalStrategicRequestsFirst*100/btWrcsgSum, 1);
           setStat(EM.TRADESTRATLASTGAVE, oPors, oClan, totalStrategicRequests*100/btWrcsgSum , 1);
           setStat(EM.TRADESTRATFIRSTRECEIVE, pors, clan, totalStrategicRequestsFirst*100/btWrcsgSum, 1);
@@ -7602,12 +7604,12 @@ public class Assets {
         EM.wasHere = "CashFlow.yearEnd before many setStat ccci=" + ++ccci;
         setStat(EM.LIVEWORTH, pors, clan, fyW.sumTotWorth, 1);
         setStat(EM.STARTWORTH, pors, clan, initialSumWorth, 1);
-        setStat(EM.WORTHIFRAC, (fyW.sumTotWorth - (tprev = iyW.sumTotWorth)) * 100 / tprev, 1);
+        setStat(EM.WORTHIFRAC, 100. * (fyW.sumTotWorth - (tprev = iyW.sumTotWorth))  / tprev, 1);
 
-        worthIncrPercent = (sumTotWorth - startYrSumWorth) * 100 / startYrSumWorth;
+        worthIncrPercent = 100. * (sumTotWorth - startYrSumWorth)  / startYrSumWorth;
         setStat(EM.WORTHINCR, worthIncrPercent, 1);
-        double rcPercentInc = (fyW.getSumRCBal() - (tprev = syW.getSumRCBal())) * 100. / tprev;
-        setStat(EM.RCTBAL, fyW.getSumRCBal() * 100. / fyW.getSumRCBal() + fyW.getSumSGBal(), 1);
+        double rcPercentInc = 100. * (fyW.getSumRCBal() - (tprev = syW.getSumRCBal()))  / tprev;
+        setStat(EM.RCTBAL, 100. * fyW.getSumRCBal() / fyW.getSumRCBal() + fyW.getSumSGBal(), 1);
         setStat(EM.RCBAL, fyW.getSumRCBal(), 1);
         if (E.debugStats) {
           System.out.println(">>>>>>>>>>>>>print " + ec.name + " rcPercentInc =" + E.mf(rcPercentInc)+ "<<<<<");
@@ -7630,12 +7632,12 @@ public class Assets {
           setStat("RCGGT100PERCENT", pors, clan, rcPercentInc, 1);
         }
 
-        double rcWorthPercentInc = (fyW.getSumRCWorth() - syW.getSumRCWorth()) * 100 / syW.getSumRCWorth();
+        double rcWorthPercentInc = 100. * (fyW.getSumRCWorth() - syW.getSumRCWorth())  / syW.getSumRCWorth();
         double rcwp = rcWorthPercentInc;
         if (E.debugMisc && (syW.getSumRCWorth() == 0.0)) {
           throw new MyErr("syW.getSumRCWorth() =" + E.mf(syW.getSumRCWorth()));
         }
-        setStat(EM.RCTWORTH, fyW.getSumRCWorth() * 100 / fyW.sumTotWorth, 1);
+        setStat(EM.RCTWORTH, 100. * fyW.getSumRCWorth()  / fyW.sumTotWorth, 1);
         setStat(EM.RCWORTH, fyW.getSumRCWorth(), 1);
         setStat(EM.RCWORTHGROWTHPERCENT, pors, clan, rcWorthPercentInc, 1);
         if (rcwp < 5) {
@@ -7674,40 +7676,40 @@ public class Assets {
         eM.setStat(EM.POORKNOWLEDGEEFFECT, poorKnowledgeAveEffect, 1);
         eM.setStat(EM.POORHEALTHEFFECT, poorHealthAveEffect, 1);
         // gameRes.MANUALSB.wet(pors, clan, manuals.sum(), 1);
-        eM.setStat(EM.MANUALSFRAC, pors, clan, manuals.sum() * 100. * eM.nominalWealthPerTradeManual[pors] / totWorth, 1);
+        eM.setStat(EM.MANUALSFRAC, pors, clan, 100. * manuals.sum()  * eM.nominalWealthPerTradeManual[pors] / totWorth, 1);
         // gameRes.NEWKNOWLEDGEB.wet(pors, clan, newKnowledge.sum() / knowledge.sum(), 1);
-        setStat(EM.NEWKNOWLEDGEFRAC, pors, clan, newKnowledge.sum() * 100. * eM.nominalWealthPerNewKnowledge[pors][0] / totWorth, 1);
+        setStat(EM.NEWKNOWLEDGEFRAC, pors, clan, 100. * newKnowledge.sum()  * eM.nominalWealthPerNewKnowledge[pors][0] / totWorth, 1);
         // gameRes.COMMONKNOWLEDGEB.wet(pors, clan, commonKnowledge.sum() / knowledge.sum(), 1);
-        setStat(EM.COMMONKNOWLEDGEFRAC, pors, clan, commonKnowledge.sum() * 100. * eM.nominalWealthPerCommonKnowledge[pors] / totWorth, 1);
+        setStat(EM.COMMONKNOWLEDGEFRAC, pors, clan, 100. * commonKnowledge.sum()  * eM.nominalWealthPerCommonKnowledge[pors] / totWorth, 1);
         // gameRes.KNOWLEDGEINCR.wet(pors, clan, (knowledge.sum() - (tprev = asyW.getKnowledgeBal())) / tprev, 1);
-        setStat(EM.KNOWLEDGEINCR, pors, clan, (knowledge.sum() - (tprev = syW.getSumKnowledgeBal())) * 100 / tprev, 1);
+        setStat(EM.KNOWLEDGEINCR, pors, clan, 100. * (knowledge.sum() - (tprev = syW.getSumKnowledgeBal())) / tprev, 1);
         // gameRes.NEWKNOWLEDGEINCR.wet(pors, clan, (newKnowledge.sum() - (tprev = asyW.getNewKnowledgeBal())) / tprev);
         if ((tprev = syW.sumNewKnowledgeWorth) > PZERO) {
-          setStat(EM.NEWKNOWLEDGEINCR, pors, clan, (fyW.sumNewKnowledgeWorth - tprev) * 100 / tprev, 1);
+          setStat(EM.NEWKNOWLEDGEINCR, pors, clan, 100. * (fyW.sumNewKnowledgeWorth - tprev) / tprev, 1);
         }
         // gameRes.COMMONKNOWLEDGEINCR.wet(pors, clan, (commonKnowledge.sum() - (tprev = asyW.getCommonKnowledgeBal())) / tprev, 1);
         if ((tprev = syW.sumCommonKnowledgeWorth) > PZERO) {
-          setStat(EM.COMMONKNOWLEDGEINCR, pors, clan, (fyW.sumCommonKnowledgeWorth - tprev) * 100 / tprev, 1);
+          setStat(EM.COMMONKNOWLEDGEINCR, pors, clan, 100. * (fyW.sumCommonKnowledgeWorth - tprev) / tprev, 1);
         }
         // gameRes.MANUALSINCR.wet(pors, clan, (manuals.sum() - (tprev = asyW.getManualsBal())) / tprev, 1);
         if ((tprev = syW.sumManualsWorth) > PZERO) {
-          setStat(EM.MANUALSINCR, pors, clan, (manuals.sum() - (tprev = syW.getManualsBal())) * 100 / tprev, 1);
+          setStat(EM.MANUALSINCR, pors, clan, 100. * (manuals.sum() - (tprev = syW.getManualsBal())) / tprev, 1);
         }
 
         //double worthIncrPercent = (sumTotWorth - startYrSumWorth)*100 / startYrSumWorth;
         setStat(EM.WORTHINCR, pors, clan, worthIncrPercent, 1);
         // gameRes.RCTBAL.wet(pors, clan, fyW.sumRCBal, 1);
-        setStat(EM.RCfrac, pors, clan, fyW.sumRCWorth * 100 / fyW.sumTotWorth, 1);
+        setStat(EM.RCfrac, pors, clan, 100. * fyW.sumRCWorth / fyW.sumTotWorth, 1);
         // gameRes.SGTBAL.wet(pors, clan, fyW.sumSG, 1);
-        setStat(EM.SGfrac, pors, clan, fyW.sumSGWorth * 100 / fyW.sumTotWorth, 1);
-        setStat(EM.KNOWLEDGEFRAC, pors, clan, fyW.sumKnowledgeBal * 100 / sumTotWorth, 1);
+        setStat(EM.SGfrac, pors, clan, 100. * fyW.sumSGWorth / fyW.sumTotWorth, 1);
+        setStat(EM.KNOWLEDGEFRAC, pors, clan, 100. * fyW.sumKnowledgeBal / sumTotWorth, 1);
 
         double criticalStrategicRequestsPercentTWorth = criticalStrategicRequests / startYrSumWorth;
         double criticalStrategicRequestsPercentFirst = (criticalStrategicRequestsFirst - criticalStrategicRequests) / criticalStrategicRequestsFirst;
         double criticalNominalReceiptsFracWorth = sumNominalRequests / startYrSumWorth;
         double criticalNominalRequestsFracFirst = criticalNominalRequests / criticalNominalRequestsFirst;
         tW = new DoTotalWorths();
-        // double worthincr1 = (fyW.sumTotWorth - syW.sumTotWorth) * 100 / syW.sumTotWorth;
+        // double worthincr1 = 100. * (fyW.sumTotWorth - syW.sumTotWorth) / syW.sumTotWorth;
         setStat("WTRADEDINCR", pors, clan, worthIncrPercent, 1);
         setStat(EM.DIEDPERCENT, pors, clan, 0.0, 1);
         if(year == yearTradeAccepted && oclan >= 0){
@@ -7784,10 +7786,10 @@ public class Assets {
           }
         } //--- did year missed stats, years traded stats
         if(tradeAccepted){
-          setStat("WTRADEDINCRMULT", pors, clan, worthIncrPercent, 1);
+          setStat(EM.WTRADEDINCRMULT, pors, clan, worthIncrPercent, 1);
         }
         if(sos && tradeAccepted){
-          setStat("WTRADEDINCRSOS", pors, clan, worthIncrPercent, 1);
+          setStat(EM.WTRADEDINCRSOS, pors, clan, worthIncrPercent, 1);
         }
         if (prevNoBarterYear != eM.year) { // had a barter
           if (eM.year - prevNoBarterYear == 1) {
@@ -7808,8 +7810,8 @@ public class Assets {
           fyW = new DoTotalWorths();
 
     //      setStat(EM.DIEDPERCENT, pors, clan, 100., 1);
-    //(final worth - start year worth)* 100/start year worth is percent increase
-          double worthincr1 = (fyW.sumTotWorth - syW.sumTotWorth) * 100 / syW.sumTotWorth;
+    //100. * (final worth - start year worth)/start year worth is percent increase
+          double worthincr1 = 100. * (fyW.sumTotWorth - syW.sumTotWorth)  / syW.sumTotWorth;
           setStat(EM.DIED, pors, clan, worthincr1, 1);
           //setStat("died", pors, clan, worthincr1, 1);
           if(yearCatastrophy == year){
@@ -10109,9 +10111,9 @@ public class Assets {
               E.myTest(true, "incr " + srcIx + " cost too high, balance=" + df(balances.getRow(ixWRSrc).get(srcIx)) + " -cost " + df(dstCst) + " => " + df((balances.getRow(ixWRSrc).get(srcIx) - dstCst)));
             }
             if (ixWRSrc == 0) {
-              setStat("swapRIncr", pors, clan, mov * 100 / bals.getRow(0).sum(), 1);
+              setStat("swapRIncr", pors, clan, 100. * mov  / bals.getRow(0).sum(), 1);
             } else {
-              setStat("swapSIncr", pors, clan, mov * 100 / bals.getRow(1).sum(), 1);
+              setStat("swapSIncr", pors, clan, 100. * mov  / bals.getRow(1).sum(), 1);
             }
             source.putValue(balances, mov, srcIx, destIx, dest, 0, 0.);
             rchrg.cost3(rcost, srcIx, .0001);
