@@ -4710,11 +4710,11 @@ public class StarTrader extends javax.swing.JFrame {
   }//GEN-LAST:event_rememberMouseClicked
 
   private void statsStopMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statsStopMouseClicked
-    doStop = true;
+    setStopExe();
   }//GEN-LAST:event_statsStopMouseClicked
 
   private void settingsStopMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_settingsStopMouseClicked
-    doStop = true;
+    setStopExe();
   }//GEN-LAST:event_settingsStopMouseClicked
 
   private void settingsKeepMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_settingsKeepMouseEntered
@@ -5105,6 +5105,8 @@ public class StarTrader extends javax.swing.JFrame {
   void setStopExe() {
     doStop = true;
     EM.stopExe = true;
+    getGameValues(curVals, gamePanels, gameTextFields, gameSlidersP, gameSlidersS);
+    EM.flushes();
   }
 
   /**
@@ -5114,7 +5116,8 @@ public class StarTrader extends javax.swing.JFrame {
    * @param rrr color to set in log table and other tab views
    */
   void setFatalError(Color rrr) {
-    // change the background color of log to red for fatal error
+    getGameValues(curVals, gamePanels, gameTextFields, gameSlidersP, gameSlidersS);
+    EM.flushes();
     if (eM.fatalError) {
       eM.stopExe = true;
       eM.fatalError = true;
@@ -5126,6 +5129,7 @@ public class StarTrader extends javax.swing.JFrame {
     eM.stopExe = true;
     eM.fatalError = true;
     doStop = fatalError = true;
+    // change the background color of log to red for fatal error
     Color redish = new Color(255, 204, 204);
     Color r4 = new Color(255, 204, 154);
     eM.logEnvirn[0] = eM.curEcon;
