@@ -4825,13 +4825,6 @@ public class StarTrader extends javax.swing.JFrame {
       ex.printStackTrace(System.err);
       EM.flushes();
       fatalError = true;;
-    } catch (IOException ex) {
-      java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-      EM.flushes();
-      System.err.println(Econ.nowName + " " + Econ.nowThread + new Date().toString() + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr);
-      ex.printStackTrace(System.err);
-      EM.flushes();
-      fatalError = true;
     } finally {
       if (EM.bKeep != null) {
         EM.bKeep.close();
@@ -5679,7 +5672,12 @@ public class StarTrader extends javax.swing.JFrame {
         for (m = ma; row < rowsEnd && m < mEnd; m++) {
           md = m;
           History dr = eM.hists[k].get(m);
-          E.myTest(dr == null, "null dr at k=" + k + " m=" + m);
+          if(dr == null) {
+            
+            System.out.println("in displayLog null line at k=" + k + " m=" + m);
+            m = mEnd;
+         // E.myTest(dr == null, "null dr at k=" + k + " m=" + m);
+          } else {
           drlev = dr.level;
           if (drlev == 20 && maxLev > 5) {
             showLine = true;
@@ -5708,6 +5706,7 @@ public class StarTrader extends javax.swing.JFrame {
             row++;
             logLastM[k] = m;
           }
+        }
         }
         if (k == 0 && row == rowsEnd) {  // need separator line?
           table.setValueAt("---------------------", row, 0);
@@ -5795,9 +5794,10 @@ public class StarTrader extends javax.swing.JFrame {
         }
       }
     });
+    
 
     return logSelectedRow;
-  }
+  }// end displayLog
 
   static int envsLoop = 0;
   static int planetsLoop = 0;
@@ -6629,7 +6629,7 @@ public class StarTrader extends javax.swing.JFrame {
 
       System.out.println(xxx);
       int row = 0;
-      row = displayLog();
+//      row = displayLog();  //unknown value
       /**
        * initialize event for namesList, change not during a year
        */
@@ -6657,7 +6657,7 @@ public class StarTrader extends javax.swing.JFrame {
             setLogEnvirn(E.dN, eM.curEcon);
             System.out.println(since() + "ListSelectionModel namesListRow=" + namesListRow + "name=" + eM.curEcon.name);
             eM.wasHere = "econ=" + eMCurEcon + " doYear finally Names: ListSelectionModel namesListRow=" + namesListRow + ".";
-            int row = displayLog();
+       //     int row = displayLog();  //unknown value
           }
         }
       });

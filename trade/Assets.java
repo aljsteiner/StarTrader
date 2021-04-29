@@ -6643,7 +6643,7 @@ public class Assets {
           ixWSrc = ixWRSrc * 2 + 2;  // /working source
           ixRSrc = ixWRSrc * 2 + 3;  // reserve source
           srcIx = sourceIx % E.LSECS;// 0-6
-          val = Math.min(remainingFF, Math.min(bals.get(ixWRSrc, srcIx) * eM.futureFundTransferFrac[pors][clan], eM.futureFundFrac[pors][clan] * bals.curSum()));
+          val = Math.min(remainingFF, Math.min((bals.get(2 + 2 * ixWRSrc, srcIx) + bals.get(3 + 2 * ixWRSrc, srcIx)) * eM.futureFundTransferFrac[pors][clan], eM.futureFundFrac[pors][clan] * bals.curSum()));
           E.myTest(val < NZERO, "Negative val=%7.4f, bals=%9.4f", val, bals.get(ixWRSrc, srcIx));
           remainingFF -= val;
           xcess = true;
@@ -6665,7 +6665,7 @@ public class Assets {
           srcIx = sourceIx % E.LSECS;
           xcess = true;
           // amount to tranfer due to size
-          val = Math.min(excessForFF, bals.get(ixWRSrc, srcIx) * eM.futureFundTransferFrac[pors][clan]);
+          val = Math.min(excessForFF, (bals.get(2 + 2 * ixWRSrc, srcIx) + bals.get(3 + 2 * ixWRSrc, srcIx)) * eM.futureFundTransferFrac[pors][clan]);
           remainingFF = excessForFF - val; // get any leftover
           if(E.debugFutureFund && val < -0.0){
             EM.doMyErr("Negative val=" +mf(val) + ", bals=" + mf(bals.get(ixWRSrc, srcIx)));
@@ -6791,15 +6791,20 @@ public class Assets {
                   rcNsq[ixWRSrc] + srcIx + "=" + df(bals.get(ixWRSrc, srcIx)),
                   "dif" + df(dif1), "f" + df(frac1), "FF=" + df(eM.clanFutureFunds[clan]), "rc" + df(bals.getRow(0).sum()), df(mtgNeeds6.getRow(0).sum()), "sg" + df(bals.getRow(1).sum()), df(mtgNeeds6.getRow(1).sum())));
           bals.sendHist(5, "$c");
+          if(E.debugFutureFund){
           if (rsval.isNaN() || rsval.isInfinite()) {
             E.myTestDouble(rsval, "val", "the value to move passed from previous tests, prevval bals %s%d =%7.2f", rcsg[2 * ixWRSrc], srcIx, bals.get(2 * ixWRSrc, srcIx));
           }
+        
           if (rsval < NZERO) {
             E.myTest(rsval < NZERO, "Error neg val=%9.4f, resTypeName=%s, ixWRSrc=%d, srcIx=%d", val, resTypeName, ixWRSrc, srcIx);
           }
+          // if val exceeds the sum of the working and reserve values of resource or staff
           if (bals.get(2 + 2 * ixWRSrc, srcIx) + bals.get(3 + 2 * ixWRSrc, srcIx) - val < E.NZERO) {
             E.myTest(bals.get(2 + 2 * ixWRSrc, srcIx) + bals.get(3 + 2 * ixWRSrc, srcIx) - val < E.NZERO, "calcFutureFund error name=%7s, %s%d = %7.2f, %s%d=%7.2f sum=%7.2f less than val=%7.2f *eM.futureFundTransferFrac[pors][clan]= %7.2f bals*eM=%7.2f", resTypeName, aChar[2 * ixWRSrc], srcIx, bals.get(2 + 2 * ixWRSrc, srcIx), aChar[1 + 2 * ixWRSrc], srcIx, bals.get(3 + 2 * ixWRSrc, srcIx), bals.get(ixWRSrc, srcIx), val, eM.futureFundTransferFrac[pors][clan], bals.get(ixWRSrc, srcIx) * eM.futureFundTransferFrac[pors][clan]);
           }
+          } // end of the 3 tests of value
+          
           //m++;
           hist.add(new History("$c", History.loopMinorConditionals5, "n" + n + "calcFF" + " m" + m + rcNsq[ixWRSrc] + srcIx + " " + resTypeName, "v" + df(val), "b" + df(bals.get(ixWRSrc, srcIx)), "df" + df(dif1), "f" + df(frac1), "FF=" + df(eM.clanFutureFunds[clan]), "r" + df(bals.getRow(0).sum()), df(mtgNeeds6.getRow(0).sum()), "s" + df(bals.getRow(1).sum()), df(mtgNeeds6.getRow(1).sum()), "<<<<<<<<"));
           // only count first FutureFund of this year

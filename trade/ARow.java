@@ -35,17 +35,17 @@ import java.util.ArrayList;
 public class ARow {
 
   // arrays have null pointers, create an error if a null pointer is used.
-  protected double values[];
+  volatile protected double values[];
   private int ix[];
-  double sum = 0.;
-  double plusSum = 0.;
-  double negSum = 0.;
-  double plusMax = 0.;
-  double negMin = 0.;
-  int plusCnt = 0;
-  int negCnt = 0;
-  int setCnt = 0;
-  int savCnt = -10;
+  volatile double sum = 0.;
+  volatile double plusSum = 0.;
+  volatile double negSum = 0.;
+  volatile double plusMax = 0.;
+  volatile double negMin = 0.;
+  volatile int plusCnt = 0;
+  volatile int negCnt = 0;
+  volatile int setCnt = 0;
+  volatile int savCnt = -10;
   EM eM = EM.eM;
   E eE = EM.eE;
   Econ ec = EM.curEcon;

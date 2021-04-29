@@ -31,10 +31,10 @@ public class A2Row {
   static final int A2SECS[] = E.a2lsecs;
   static int d01[] = {0, 1};
   String titl = "unset";
-  private int[] ix;    // array min to max
-  ARow A[] = new ARow[2];
-  double asum = 0., anegSum = 0., aplusSum = 0., minSum = 0., minSum2 = 0.;
-  int[] aCnt = {-11, -11, -11, -11, -11, -11};
+  volatile private int[] ix;    // array min to max
+  volatile ARow A[] = new ARow[2];
+  volatile double asum = 0., anegSum = 0., aplusSum = 0., minSum = 0., minSum2 = 0.;
+  volatile int[] aCnt = {-11, -11, -11, -11, -11, -11};
   
   String aPre = ec.aPre = ec.aPre == null ? "&V" : ec.aPre;
   int blev = ec.blev = ec.blev == 0 ? History.debuggingMinor11 : ec.blev;

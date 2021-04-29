@@ -266,7 +266,7 @@ class EM {
   double[] effBias = {.5, .5}; // 170309 .25->.5
   double[][] mEffBias = {{.25, .75}, {.25, .75}}; // 170309 .25->.5
   // this value is in units or staff and resource not cash;
-  double[] clanFutureFunds = {0., 0., 0., 0., 0.};
+  volatile double[] clanFutureFunds = {0., 0., 0., 0., 0.};
   double[][] clanStartFutureFundDues = {{7000., 7000., 7000., 7000., 7000.}, {17000., 17000., 17000., 17000., 17000.}};  //place to start future fund dues
   static double[][] mClanStartFutureFundDues = {{3000., 500000.}, {3000., 500000.}};
   double[][] clanStartFutureFundFrac = {{.05, .05, .05, .05, .05}, {.02, .02, .02, .02, .02}};  //frac of bals.curSum();
@@ -274,7 +274,7 @@ class EM {
 
   double[][] futureFundFrac = {{.05, .05, .05, .05, .05}, {.1, .1, .1, .05, .05}}; //frac of bals.curSum();
   static double[][] mFutureFundFrac = {{.001, .08}, {.001, .12}};
-  double[][] futureFundTransferFrac = {{.9, .9, .9, .9, .9}, {.9, .9, .9, .9, .9}};
+  double[][] futureFundTransferFrac = {{.5, .5, .5, .5, .5}, {.5, .5, .5, .5, .5}};
   static double[][] mFutureFundTransferFrac = {{.4, 1.4}, {.4, 1.4}};
   double[] gameStartSizeRestrictions = {800., 600.};
   static double[][] mGameStartSizeRestrictions = {{300., 5000.}, {300., 5000.}};
@@ -4545,6 +4545,9 @@ class EM {
   
   int rememberYear=-1;
   int rememberList = -1;
+  int rememberRow = -1;
+  int detailYear = -1;
+  String rememberDetail= "xx";
   
   /** write to the keep file if rememberFromPage is set
    * rememberFromPage is cleared at each new page
@@ -4557,7 +4560,7 @@ class EM {
     try {
   String ll = " ";
   if(rememberFromPage) {
-    if(year != rememberYear || !st.statsRememberWhy.getText().matches(prevKeepCmt)){ // need another year comment page
+    if(year != rememberYear || !st.statsRememberWhy.getText().matches(prevRememberCmt)){ // need another year comment page
       rememberYear = year;
       prevRememberCmt = st.statsRememberWhy.getText() + ""; // force a copy
       String dateString = MYDATEFORMAT.format(new Date());
@@ -4565,6 +4568,8 @@ class EM {
       ll = "renenberYear" + year +" version " + st.versionText  +  " " + dateString + " " + prevRememberCmt + "\r\n";
       bKeep.write(ll, 0, ll.length());
     }
+    if(!theDetail.matches(rememberDetail) || year != detailYear){
+      rememberDetail = theDetail + "";
     ll = "title " + theDetail + "\r\n"; // the detail description of the remember
     bKeep.write(ll,0,ll.length());
     ll = "remember ";
@@ -4573,6 +4578,7 @@ class EM {
     ll += "\r\n";
     bKeep.write(ll,0,ll.length());
     keepBuffered = true;
+    }//rememberDetail
     
   }//keep from page
     } catch (Exception ex) {

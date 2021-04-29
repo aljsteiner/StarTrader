@@ -65,27 +65,27 @@ public class A6Rowa {
   boolean balances = false;
   boolean costs = true;
   //int lA = ABalRows.balsLength;
-  int lA = 6;
-  int dA[] = {0, 1, 2, 3, 4, 5};
+  volatile int lA = 6;
+  volatile int dA[] = {0, 1, 2, 3, 4, 5};
   static int d29[] = {2, 3, 4, 5, 6, 7, 8, 9};
   static final int[] I29 = d29;
-  ARow[] A = new ARow[lA];
+  volatile ARow[] A = new ARow[lA];
   // reqCosts for r,c,s,g   or rHealth sHealth rFertility sFertility
-  double sum[] = {0., 0., 0., 0., 0.}, plusSum[] = {0., 0., 0., 0., 0.}, negSum[] = {0., 0., 0., 0., 0.};
-  double minSum[] = {0., 0., 0., 0., 0.}, minSum2[] = {0., 0., 0., 0., 0.};
-  int[] aCnt = {-11, -11, -11, -11, -11, -11};
-  int[] aResum = {-11, -11, -11, -11, -11, -11};
-  int[] dResums = {0, 1};
+  volatile double sum[] = {0., 0., 0., 0., 0.}, plusSum[] = {0., 0., 0., 0., 0.}, negSum[] = {0., 0., 0., 0., 0.};
+  volatile double minSum[] = {0., 0., 0., 0., 0.}, minSum2[] = {0., 0., 0., 0., 0.};
+  volatile int[] aCnt = {-11, -11, -11, -11, -11, -11};
+  volatile int[] aResum = {-11, -11, -11, -11, -11, -11};
+  volatile int[] dResums = {0, 1};
   int[] mResum1 = {2, 3};
   int[] mResum2 = {4, 5};
   int[][] mResum = {mResum1, mResum2};
-  int[] x1 = new int[E.l2secs];
-  int[] x2 = new int[E.l2secs];
-  int[] x3 = new int[E.l2secs];
-  int[] x4 = new int[E.l2secs];
-  int[] x5 = new int[E.l2secs];
-  int[][] iix = {x1, x2, x3, x4, x5};
-  double gradesA[][][]; // [s g][sector][grade]
+  volatile int[] x1 = new int[E.l2secs];
+  volatile int[] x2 = new int[E.l2secs];
+  volatile int[] x3 = new int[E.l2secs];
+  volatile int[] x4 = new int[E.l2secs];
+  volatile int[] x5 = new int[E.l2secs];
+  volatile int[][] iix = {x1, x2, x3, x4, x5};
+  volatile double gradesA[][][]; // [s g][sector][grade]
   static final int LGRADES = 16;
   static final int[] IAGRADES = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
   static final int[] IASUBASSETS = {0, 1, 2, 3};
