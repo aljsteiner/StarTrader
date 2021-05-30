@@ -170,12 +170,12 @@ class EM {
   // multiplier of the ship goals.
   double[] addGoal = {0.0, 0.015, .025, .045, .06, .08, 2.0, 2.3};//9
   // .25 = 1ship/3 planets
-  double[] gameShipFrac = {.70};  // ships / econs .75 means 3ships/1 planet, .8 = 4ships/1planet
+  double[] gameShipFrac = {.70};  // 2.3 ships / econs .75 means 3ships/1 planet, .8 = 4ships/1planet
   static double[][] mGameShipFrac = {{.25, 1.20}, {.25, 1.20}};
 // double[][] clanShipFrac = {{.70, .70, .70, .501, .6}, {.70, .70, .70, .501, .6}}; // .3->5. clan choice of clan ships / clan econs
-  double[][] clanShipFrac = {{.70, .70, .70, .501, .6}};
+  double[][] clanShipFrac = {{.501, .501, .501, .501, .6}};
   static double[][] mClanShipFrac = {{.25, .81}, {.20, 1.20}};
-  double[][] clanAllShipFrac = {{.70, .70, .70, .501, .501} }; // clan (ships/econs)
+  double[][] clanAllShipFrac = {{.501, .501, .501, .501, .501} }; // clan (ships/econs)
   static double[][] mClanAllShipFrac = {{.25, 1.20}, {.2, 1.20}};
   double econLimits1[] = {300.}; // start limiting econs
   static double mEconLimits1[][] = {{200., 500.}, {200., 500.}};
@@ -1041,7 +1041,7 @@ class EM {
   double[] fracPriorityInGrowth = {.5, .5};  //mult priority in growth calc and percent to frac
   static final double[][] mFracPriorityInGrowth = {{.1, .9}, {.1, .9}};
   double[] resourceGrowth = {1., .002}; // growth per work
-  static final double[][] mResourceGrowth = {{.01, 2.}, {0.002, .1}};
+  static final double[][] mResourceGrowth = {{.01, 2.}, {0.002, .9}};
   // decay mining cumulative related to each years growth
   double[] resourceGrowthDecay = {.0000006, .0000001}; //per unit
   // decay mining cumulative related to each years growth
@@ -1050,7 +1050,7 @@ class EM {
   static final double[][] mCargoGrowth = {{0.0000001, 0.00009}, {0.000000001, 0.000009}};
   // cargo decay use resourceGrowthDecay
   double[] staffGrowth = {1., .002}; // growth per work
-  static final double[][] mStaffGrowth = {{.01, 2.}, {0.0002, .1}};
+  static final double[][] mStaffGrowth = {{.01, 2.}, {0.0002, .9}};
   double[] staffGrowthDecay = {.0000002, .00000016};
   static final double[][] mStaffGrowthDecay = {{.00000005, .000005}, {.00000003, .000003}};
   double[] travelGrowth = {.0015, .0025}; // this multiplies against work

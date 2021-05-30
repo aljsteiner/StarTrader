@@ -48,6 +48,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -63,10 +64,40 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+/**
+ * see if these imports stay here // import
+ * java.desktop/javax.swing.plaf.synth.SynthGraphicsUtils.paintText; import
+import java.awt.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Random;
+import javax.swing.DefaultListModel;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.JSpinner;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+ */
 /**
  *
  * @author albert steiner
@@ -142,10 +173,11 @@ public class StarTrader extends javax.swing.JFrame {
   int nn = 0; // needed for event processors
   static protected ArrayList<String> planetsDisplay;
   static protected ArrayList<String> starsDisplay;
-  static final int  yearsL = 20;
-  static int yearSecs [] = new int[yearsL];
-  static int yearEcons [] = new int[yearsL];
-  int yearSecPerEcon [] = new int[yearsL];
+  static final int yearsL = 20;
+  static int theYear[] = new int[yearsL];
+  static int yearSecs[] = new int[yearsL];
+  static int yearEcons[] = new int[yearsL];
+  int yearSecPerEcon[] = new int[yearsL];
 
   static public int namesListRow = 0;
   /**
@@ -228,93 +260,101 @@ public class StarTrader extends javax.swing.JFrame {
           + "5.Right click the project name, select properties, select formatting, select project specific options, choose all languages, choose Tabs And Indents, Enable Indentation, Expand Tabs to Spaces, Number of Spaces per indent=2, tab Size = 2, Right Margin=80,Line Wrap After words\n"
           + "6.Download the latest Java 8 JDK after signing the license, install it into the Java folder under C:\\Program Files\n"
           + "7.Left Click the NetBeans Tools menu and select Java Platforms, click \"Add Platform...\" browse to C:\\Program Files\\Java and choose the latest installed jdk1.8.0_271 \n"
-          + "8.Right click the project name, select properties,“Save the Planets”; “Trade, trade, trade”;  “Cooperating together with trades”: is an economics strategy game emphasizing cooperation over competition.  The settings permit changing the game in many different ways.  Clan-masters manage clans of planets and ships which run as robots.  The players change clan settings to try to improve their clan score.  The planets and ships are two sets of economies with a lot of similar rules and some significantly different values. Each economy has 2 very stressed financial sectors,2 very successful financial sectors, 3 other ok financial sectors.   At the end of each year planets increase resources by mining, new staff are added at the lowest grade while many staff move up one or more grades, and knowledge increases making operations more efficient. Ships hold and carry resources and staff between planets, trading resources a planet needs for surplus resources or staff from the planets.  Ships are initially set to not grow new staff and ships generally do not mine or find new resources. \n" +
-"\n" +
-"There are instructions at the end of this document to describe how to get the files you need to run this game and even how you can use a program called “netbeans” to change the program.\n" +
-"\n" +
-"The game-master changes overall game settings, setting  rules for all ships and planets, thus the game-master can set up many different games of economics strategy.   The game-master sets the difficulty of the game, and the amount of random increases or decreases to the priorities,  costs, growth, etc. There are five clans each with a clan-master.  One or more players can divide up the roles of game-master and clan-masters.  Clans without a clan-master run with the preset settings for that clan.  The clan-masters can alter any of the settings and leave unchanged the rest of the clan settings for the robots which calculate the moves for each clan planet and ship.  \n" +
-"\n" +
-"Planets and ships which did not have enough of any financial resource to survive the year die, all resources and staff are lost, and the economy disappears.  Otherwise when enough resources and staff are available, growth is applied to resources, staff and knowledge.  After each run a large set of statistics is available to be viewed about the planets and ships,  Runs can be 1 year, 5 years, 10 or 20 years.  It is expected that between 7% to 20% of the economies fail each year.  Statistics after each run help show the problems the ship and planets faced and may give some ideas about changing clan priorities to increase planet and ship survival. If too many or not enough economies fail each year, the game master can change a game setting to alter results. After viewing their statistics each clan-master changes a few settings then the game-master starts another run.  \n" +
-"\n" +
-"The game-master changes settings to change how all planets and ships survive and grow.  Also the game-master can adjust how the winning score is calculated and when the score is good enough to win the game.  “Save the planets”  increases the score of a clan based on the number of planets and ships that the clan's barters have helped, and how much the barters helped.  The game-master can change settings so that  “Highest worth wins”, or “most planets wins” or many other games.  You can play the game for as many runs as you choose. \n" +
-"\n" +
-"There is a “keep” button with the settings, when that button is clicked, any changes made to that page of settings is kept for later games.  If the keep button is not pressed, the changed setting on that page will be forgotten for the next game.  You should also fill in the comment so that you can remember why you made the change.  You can also use the remember button on the statistics pages to remember a line whose title you klick.  These values are written to a file named “keep” in the same directory as the jar file for the game.\n" +
-"\n" +
-"At the start of the year each economy projects what its resources will be at the end of the year,  Each resource and staff sector is given a strategic value  related to how much more is needed for a good year.  In addition, if a planet or ship will not survive the year with the current resources and staff an SOS value is set.  Each year every ship tries to find a planet for a good trade in a way that both of them will be more able to survive and have good growth.  The game-master can adjust how much the ship knows about planets. Ships may know nothing and just make a random choice.  Ships may be able to use a history that is updated every time they trade with a planet,  Ships may be able to get direct knowledge about what planets have to make the best trade, combined with the cost of travel to that planet.\n" +
-"\n" +
-"Clan-masters choose a friendship level with each of the other clans.  The higher the friendship, the more a ship and planet will trade.  Ships can trade with each other, if more than one ship is trading at a given planet.  \n" +
-"\n" +
-"When a planet or ship has enough to survive the year,  the additional resources determine the health of the planet or ship.  Planets and ships with poor health are less efficient in doing the required work for that year.  This means that the work takes more resources and staff.  The work becomes more efficient for each sector each year as the knowledge for that sector increases.  \n" +
-"\n" +
-"When there are more resources and/or staff than needed for maintenance and travel, those resources and work can be applied to growth in that sector.  Each of the required  or interface Maintenance and required or interface Growth require a combination of resources and staff, just as growth requires a combination of resources and staff.  Every year each financial sector will only be able to do the amount of work enabled by the required combination of resources and staff, there will be some resources or staff for each sector which cannot be used.\n" +
-"\n" +
-"The resources and staff subAssets for each sector are working resources and staff.   Cargo and guest subAssets are the reserved resources and staff, they do no work and their yearly costs are reduced, they are available to convert to working assets or to be traded.\n" +
-"\n" +
-"Each year during the Cash Flow activity, the potential costs for each financial sector are calculated.  Any sectors with insufficient prospective resources or work to meet the required costs, must move any available reserves to working status.  If that is not enough assets from other sectors may be repurposed.  Of course the cost of such repurposing is quite high, taking well over 10 times the resulting increase in assets for the needy sector.\n" +
-"\n" +
-"The game-master sets a number of priorities and values over the game for all the clans.  The game-master adjusts the difficulty of the game and other options that significantly change the nature of challenges in the game.  A normal goal is to have no more than 10% of ships and 10% of planets die in a single year of the game.  Catastrophes can occur at the year start before it is time to trade.  A catastrophe can destroy a large fraction of the resources for one or two financial sectors, and the staff for a financial sector, but they also discover additional resources for one or more sectors.  These additional resources replace the decay of resources as they are mined\n" +
-"\n" +
-"The game-master chooses which results are most important for deciding the winner in the game.  The winner may be the clan that gave the most help to clans, or that helped the most planets or the most planets and ships, or had the highest worth, or had the most planets, etc.  The winner will often change after each run of one or more years.  \n" +
-"\n" +
-"After players have set clan priorities and other levels, the game-master can run the game for 1,5,10, or 20 years.  When the years are finished, results are available, there are 20 different pages showing different results and showing some of the same results in different ways.  Pages 0,1,2 list the most important results.  Any page with the score at the top will be set to the background color of the clan with the highest score, the winner when the score gets good enough to win.\n" +
-"\n" +
-"Each planet and ship have seven financial sectors.  Each sector has resources, cargo(resource not working but in reserve), staff, guests(staff not working but in reserve), and knowledge of 3 kinds (common knowledge, new knowledge, and manuals(researchers work to get new knowledge or common knowledge from manual, but trades can only trade manuals).\n" +
-"\n" +
-"The game is available in a folder at: https://drive.google.com/drive/folders/1P-hw8Wk9BcwEdHSS8CdAbDDjtjyEQTF_?usp=sharing\n" +
-"This is a folder because virus protect will not allow passing a java compiled file.\n" +
-"The folder contains a pdf of this README and the file startrader.jar.  \n" +
-"This file will only run if you have java installed.  It may already be on your windows machine.  If you don’t know whether you have installed Java, run the following link to load  the current version  at https://www.oracle.com/java/technologies/javase-jre8-downloads.html#license-lightbox\n" +
-"With the jre (java runtime environment) installed, you should be able to run the game by clicking on the file startrader.jar.  After reading the story tab, go to the Settings tab to make any changes.  There are six colored radio buttons, the first is labed “master” for game-master, the clans are labeled red, orange, yellow, green, and blue.  There are pages of 10 sliders for the game-master or a different set pages of 10 sliders for each of the clan-masters.  The sliders are preset to the existing value, changing a slider causes the named value to be changed.\n" +
-"\n" +
-"Hovering over a name, or clicking the name causes an explanation of that sliders action at the bottom of the page.  Many of the names have two sliders, one for planets and one for ships.  For example growths would have a moderate or large growth for planets and a small or zero value of growth for ships.  But the game-master could move the ships slider to have some growth from ships.\n" +
-"\n" +
-"The source the game is at http://github.com/aljsteiner/StarTrader \n" +
-"I use apache Netbeans, the latest version, and the latest open source version of java as well as the latest owned java.8 version of java.  The java being distributed to Windows 10 machines by Oracle is the latest version of java.1.8... jre.  You can download a corresponding JDK from Oracle after signing their license.  StarTrader often does not work with some of the later open source versions of Java.\n" +
-"\n" +
-"Here are many of the settings you will need  in Apache NetBeans currently version 12.3.  You must be logged in as an administrator to have the windows permissions to do the installations.\n" +
-"1.Open NetBeans IDE and create a new ant project with existing source at C:\\Users\\Public\\netbeans\\Trader19.2p\n" +
-"2.Create a source folder such as C:\\Users\\Public\\netbeans\\Trader19.2s\n" +
-"3.Right click the project name, at versioning create a git repository in Trader19.2p\n" +
-"4.Right click the project name, at git select pull and fill out the form as requested\n" +
-"5.Right click the project name, select properties, select formatting, select project specific options, choose all languages, choose Tabs And Indents, Enable Indentation, Expand Tabs to Spaces, Number of Spaces per indent=2, tab Size = 2, Right Margin=80,Line Wrap After words\n" +
-"6.Download the latest Java 8 JDK after signing the license, install it into the Java folder under C:\\Program Files\n" +
-"7.Left Click the NetBeans Tools menu and select Java Platforms, click \"Add Platform...\" browse to C:\\Program Files\\Java and choose the latest installed jdk1.8.0_271 \n" +
-"8.Right click the project name, select properties, and under “Source Packages” select the package “trade” to get a list of the created Java Classes.  The StarTrader.java is the main class with the user interface logic.  Classes E.java and EM.java contain lots of data tables need for the user interface, E.java contains most of the fixed data, EM.java contains data that can change from the user changes or the statistics of the current run of the game.\n" +
-"";
+          + "8.Right click the project name, select properties,“Save the Planets”; “Trade, trade, trade”;  “Cooperating together with trades”: is an economics strategy game emphasizing cooperation over competition.  The settings permit changing the game in many different ways.  Clan-masters manage clans of planets and ships which run as robots.  The players change clan settings to try to improve their clan score.  The planets and ships are two sets of economies with a lot of similar rules and some significantly different values. Each economy has 2 very stressed financial sectors,2 very successful financial sectors, 3 other ok financial sectors.   At the end of each year planets increase resources by mining, new staff are added at the lowest grade while many staff move up one or more grades, and knowledge increases making operations more efficient. Ships hold and carry resources and staff between planets, trading resources a planet needs for surplus resources or staff from the planets.  Ships are initially set to not grow new staff and ships generally do not mine or find new resources. \n"
+          + "\n"
+          + "There are instructions at the end of this document to describe how to get the files you need to run this game and even how you can use a program called “netbeans” to change the program.\n"
+          + "\n"
+          + "The game-master changes overall game settings, setting  rules for all ships and planets, thus the game-master can set up many different games of economics strategy.   The game-master sets the difficulty of the game, and the amount of random increases or decreases to the priorities,  costs, growth, etc. There are five clans each with a clan-master.  One or more players can divide up the roles of game-master and clan-masters.  Clans without a clan-master run with the preset settings for that clan.  The clan-masters can alter any of the settings and leave unchanged the rest of the clan settings for the robots which calculate the moves for each clan planet and ship.  \n"
+          + "\n"
+          + "Planets and ships which did not have enough of any financial resource to survive the year die, all resources and staff are lost, and the economy disappears.  Otherwise when enough resources and staff are available, growth is applied to resources, staff and knowledge.  After each run a large set of statistics is available to be viewed about the planets and ships,  Runs can be 1 year, 5 years, 10 or 20 years.  It is expected that between 7% to 20% of the economies fail each year.  Statistics after each run help show the problems the ship and planets faced and may give some ideas about changing clan priorities to increase planet and ship survival. If too many or not enough economies fail each year, the game master can change a game setting to alter results. After viewing their statistics each clan-master changes a few settings then the game-master starts another run.  \n"
+          + "\n"
+          + "The game-master changes settings to change how all planets and ships survive and grow.  Also the game-master can adjust how the winning score is calculated and when the score is good enough to win the game.  “Save the planets”  increases the score of a clan based on the number of planets and ships that the clan's barters have helped, and how much the barters helped.  The game-master can change settings so that  “Highest worth wins”, or “most planets wins” or many other games.  You can play the game for as many runs as you choose. \n"
+          + "\n"
+          + "There is a “keep” button with the settings, when that button is clicked, any changes made to that page of settings is kept for later games.  If the keep button is not pressed, the changed setting on that page will be forgotten for the next game.  You should also fill in the comment so that you can remember why you made the change.  You can also use the remember button on the statistics pages to remember a line whose title you klick.  These values are written to a file named “keep” in the same directory as the jar file for the game.\n"
+          + "\n"
+          + "At the start of the year each economy projects what its resources will be at the end of the year,  Each resource and staff sector is given a strategic value  related to how much more is needed for a good year.  In addition, if a planet or ship will not survive the year with the current resources and staff an SOS value is set.  Each year every ship tries to find a planet for a good trade in a way that both of them will be more able to survive and have good growth.  The game-master can adjust how much the ship knows about planets. Ships may know nothing and just make a random choice.  Ships may be able to use a history that is updated every time they trade with a planet,  Ships may be able to get direct knowledge about what planets have to make the best trade, combined with the cost of travel to that planet.\n"
+          + "\n"
+          + "Clan-masters choose a friendship level with each of the other clans.  The higher the friendship, the more a ship and planet will trade.  Ships can trade with each other, if more than one ship is trading at a given planet.  \n"
+          + "\n"
+          + "When a planet or ship has enough to survive the year,  the additional resources determine the health of the planet or ship.  Planets and ships with poor health are less efficient in doing the required work for that year.  This means that the work takes more resources and staff.  The work becomes more efficient for each sector each year as the knowledge for that sector increases.  \n"
+          + "\n"
+          + "When there are more resources and/or staff than needed for maintenance and travel, those resources and work can be applied to growth in that sector.  Each of the required  or interface Maintenance and required or interface Growth require a combination of resources and staff, just as growth requires a combination of resources and staff.  Every year each financial sector will only be able to do the amount of work enabled by the required combination of resources and staff, there will be some resources or staff for each sector which cannot be used.\n"
+          + "\n"
+          + "The resources and staff subAssets for each sector are working resources and staff.   Cargo and guest subAssets are the reserved resources and staff, they do no work and their yearly costs are reduced, they are available to convert to working assets or to be traded.\n"
+          + "\n"
+          + "Each year during the Cash Flow activity, the potential costs for each financial sector are calculated.  Any sectors with insufficient prospective resources or work to meet the required costs, must move any available reserves to working status.  If that is not enough assets from other sectors may be repurposed.  Of course the cost of such repurposing is quite high, taking well over 10 times the resulting increase in assets for the needy sector.\n"
+          + "\n"
+          + "The game-master sets a number of priorities and values over the game for all the clans.  The game-master adjusts the difficulty of the game and other options that significantly change the nature of challenges in the game.  A normal goal is to have no more than 10% of ships and 10% of planets die in a single year of the game.  Catastrophes can occur at the year start before it is time to trade.  A catastrophe can destroy a large fraction of the resources for one or two financial sectors, and the staff for a financial sector, but they also discover additional resources for one or more sectors.  These additional resources replace the decay of resources as they are mined\n"
+          + "\n"
+          + "The game-master chooses which results are most important for deciding the winner in the game.  The winner may be the clan that gave the most help to clans, or that helped the most planets or the most planets and ships, or had the highest worth, or had the most planets, etc.  The winner will often change after each run of one or more years.  \n"
+          + "\n"
+          + "After players have set clan priorities and other levels, the game-master can run the game for 1,5,10, or 20 years.  When the years are finished, results are available, there are 20 different pages showing different results and showing some of the same results in different ways.  Pages 0,1,2 list the most important results.  Any page with the score at the top will be set to the background color of the clan with the highest score, the winner when the score gets good enough to win.\n"
+          + "\n"
+          + "Each planet and ship have seven financial sectors.  Each sector has resources, cargo(resource not working but in reserve), staff, guests(staff not working but in reserve), and knowledge of 3 kinds (common knowledge, new knowledge, and manuals(researchers work to get new knowledge or common knowledge from manual, but trades can only trade manuals).\n"
+          + "\n"
+          + "The game is available in a folder at: https://drive.google.com/drive/folders/1P-hw8Wk9BcwEdHSS8CdAbDDjtjyEQTF_?usp=sharing\n"
+          + "This is a folder because virus protect will not allow passing a java compiled file.\n"
+          + "The folder contains a pdf of this README and the file startrader.jar.  \n"
+          + "This file will only run if you have java installed.  It may already be on your windows machine.  If you don’t know whether you have installed Java, run the following link to load  the current version  at https://www.oracle.com/java/technologies/javase-jre8-downloads.html#license-lightbox\n"
+          + "With the jre (java runtime environment) installed, you should be able to run the game by clicking on the file startrader.jar.  After reading the story tab, go to the Settings tab to make any changes.  There are six colored radio buttons, the first is labed “master” for game-master, the clans are labeled red, orange, yellow, green, and blue.  There are pages of 10 sliders for the game-master or a different set pages of 10 sliders for each of the clan-masters.  The sliders are preset to the existing value, changing a slider causes the named value to be changed.\n"
+          + "\n"
+          + "Hovering over a name, or clicking the name causes an explanation of that sliders action at the bottom of the page.  Many of the names have two sliders, one for planets and one for ships.  For example growths would have a moderate or large growth for planets and a small or zero value of growth for ships.  But the game-master could move the ships slider to have some growth from ships.\n"
+          + "\n"
+          + "The source the game is at http://github.com/aljsteiner/StarTrader \n"
+          + "I use apache Netbeans, the latest version, and the latest open source version of java as well as the latest owned java.8 version of java.  The java being distributed to Windows 10 machines by Oracle is the latest version of java.1.8... jre.  You can download a corresponding JDK from Oracle after signing their license.  StarTrader often does not work with some of the later open source versions of Java.\n"
+          + "\n"
+          + "Here are many of the settings you will need  in Apache NetBeans currently version 12.3.  You must be logged in as an administrator to have the windows permissions to do the installations.\n"
+          + "1.Open NetBeans IDE and create a new ant project with existing source at C:\\Users\\Public\\netbeans\\Trader19.2p\n"
+          + "2.Create a source folder such as C:\\Users\\Public\\netbeans\\Trader19.2s\n"
+          + "3.Right click the project name, at versioning create a git repository in Trader19.2p\n"
+          + "4.Right click the project name, at git select pull and fill out the form as requested\n"
+          + "5.Right click the project name, select properties, select formatting, select project specific options, choose all languages, choose Tabs And Indents, Enable Indentation, Expand Tabs to Spaces, Number of Spaces per indent=2, tab Size = 2, Right Margin=80,Line Wrap After words\n"
+          + "6.Download the latest Java 8 JDK after signing the license, install it into the Java folder under C:\\Program Files\n"
+          + "7.Left Click the NetBeans Tools menu and select Java Platforms, click \"Add Platform...\" browse to C:\\Program Files\\Java and choose the latest installed jdk1.8.0_271 \n"
+          + "8.Right click the project name, select properties, and under “Source Packages” select the package “trade” to get a list of the created Java Classes.  The StarTrader.java is the main class with the user interface logic.  Classes E.java and EM.java contain lots of data tables need for the user interface, E.java contains most of the fixed data, EM.java contains data that can change from the user changes or the statistics of the current run of the game.\n"
+          + "";
 
   static int iii = 0;
   // The following is a list of states
-  static final int STARTING = 0; // start list of constants
-  static final String sn0 = "Starting";
-  static final int CREATING = 1;
-  static final String sn1 = "Creating";
-  static final int FUTUREFUNDCREATE = 2;
-  static final String sn2 = "CreatingFutureF";
-  static final int STARTYR = 3;
-  static final String sn3 = "StartYear";
-  static final int SEARCH = 4;
-  static final String sn4 = "Search to Trade";
-  static final int TRADING = 5;
-  static final String sn5 = "Trading";
-  static final int ENDYRS = 6;
-  static final String sn6 = "ecEndYear";
-  static final int ENDYR = 7;
-  static final String sn7 = "EndYear";
-  static final int STATS = 8;
-  static final String sn8 = "Stats";
-  static final int SWAPS = 9;
-  static final String sn9 = "Swaping";
-  static final int WAITING = 10;
-  static final String sn10 = "Waiting for action";
-  static final int STOPPED = 11;
-  static final String sn11 = "Stopped";
-  static final int RUNSDONE = 12;
-  static final String sn12 = "Runs Done";
-  static final int FATALERR = 13;
-  static final String sn13 = "Fatal Error";
-  static final String[] stateStringNames = {sn0, sn1, sn2, sn3, sn4, sn5, sn6, sn7, sn8, sn9, sn10, sn11, sn12, sn13};
-  static int stateConst = WAITING;  // constant set to stated
-  static int prevState = WAITING;
+  static final int CONSTRUCTING = 0;
+  static final String sn0 = "Constructing";
+  static final int CONSTRUCTED = 1;
+  static final String sn1 = "Constructed";
+  static final int RUNNING = 2; // start list of constants
+  static final String sn2 = "Running";
+  static final int STARTING = 3; // start list of constants
+  static final String sn3 = "Starting";
+  static final int CREATING = 4;
+  static final String sn4 = "Creating";
+  static final int FUTUREFUNDCREATE = 5;
+  static final String sn5 = "CreatingFutureF";
+  static final int STARTYR = 6;
+  static final String sn6 = "StartYear";
+  static final int SEARCH = 7;
+  static final String sn7 = "Search to Trade";
+  static final int TRADING = 8;
+  static final String sn8 = "Trading";
+  static final int ENDYRS = 9;
+  static final String sn9 = "ecEndYear";
+  static final int ENDYR = 10;
+  static final String sn10 = "EndYear";
+  static final int STATS = 11;
+  static final String sn11 = "Stats";
+  static final int SWAPS = 12;
+  static final String sn12 = "Swaping";
+  static final int WAITING = 13;
+  static final String sn13 = "Waiting for action";
+  static final int STOPPED = 14;
+  static final String sn14 = "Stopped";
+  static final int RUNSDONE = 15;
+  static final String sn15 = "Runs Done";
+  static final int FATALERR = 16;
+  static final String sn16 = "Fatal Error";
+  
+
+  static final String[] stateStringNames = {sn0, sn1, sn2, sn3, sn4, sn5, sn6, sn7, sn8, sn9, sn10, sn11, sn12, sn13, sn14, sn15,sn16};
+  static int stateConst = CONSTRUCTING;  // constant set to stated
+  static int prevState = CONSTRUCTING;
   static Econ curEc = EM.curEcon;
   static String curStateName = stateStringNames[0];
   static String prevEconName = "nnnnn";
@@ -4773,7 +4813,7 @@ public class StarTrader extends javax.swing.JFrame {
   }//GEN-LAST:event_settingsStopMouseClicked
 
   private void settingsKeepMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_settingsKeepMouseEntered
-        setgameTextField(EM.keepInstruct);   // keepInstruct
+    setgameTextField(EM.keepInstruct);   // keepInstruct
   }//GEN-LAST:event_settingsKeepMouseEntered
 
   private void settingsKeepMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_settingsKeepMouseExited
@@ -4792,137 +4832,6 @@ public class StarTrader extends javax.swing.JFrame {
   private void rememberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rememberActionPerformed
     // TODO add your handling code here:
   }//GEN-LAST:event_rememberActionPerformed
-  static Boolean resetOut = true;
-
-  /**
-   * @param args the command line arguments
-   */
-  public static StarTrader st = new StarTrader();
-  public static void main(String args[]) throws IOException {
-    /* Set the Nimbus look and feel --change to animation*/
-
-    // Look and feel setting code (optional)
-    /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-     * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-     */
-    try {
-      //   E.bRemember = Files.newBufferedWriter(E.REMEMBER, E.CHARSET);
-      System.err.println("starting out in oldmain thread=" + Thread.currentThread().getName());
-    mainStart();
-      /* Create and display the form */
-      java.awt.EventQueue.invokeLater(new Runnable() {
-     
-    // java.awt.EventQueue.invokeAndWait(new Runnable() {
-        @Override
-        public void run() {
-          st.setVisible(true);
-        }
-      });
-   
-      /*
-    } catch (InvocationTargetException ex) {
-      java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-      EM.flushes();
-      System.err.println(Econ.nowName + " " + Econ.nowThread + new Date().toString() + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr);
-      ex.printStackTrace(System.err);
-      EM.flushes();
-      fatalError = true;;
-    } catch (InterruptedException ex) {
-      java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-      EM.flushes();
-      System.err.println(Econ.nowName + " " + Econ.nowThread + new Date().toString() + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr);
-      ex.printStackTrace(System.err);
-      EM.flushes();
-      fatalError = true;;
-      */
-    } catch (FileNotFoundException ex) {
-      java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-      EM.flushes();
-      System.err.println(Econ.nowName + " " + Econ.nowThread + new Date().toString() + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr);
-      ex.printStackTrace(System.err);
-      EM.flushes();
-      fatalError = true;;
-    } finally {
-      if (EM.bKeep != null) {
-        EM.bKeep.close();
-      }
-
-    }
-    //</editor-fold>
-
-  }
-  public static void mainStart() throws IOException {
-        try {
-      //   E.bRemember = Files.newBufferedWriter(E.REMEMBER, E.CHARSET);
-      System.err.println("starting out in mainStart thread=" + Thread.currentThread().getName());
-      //  String dateString = EM.MYDATEFORMAT.format(new Date());
-      //  String rOut = "New Game " + dateString + "\n";
-      // E.bRemember.write(rOut,0,rOut.length());
-      // E.bKeep.write(rOut,0,rOut.length());
-      PrintStream jout, jerr, jout1, jerr1;
-      if (E.debugOutput) {
-        jout = new PrintStream(new File("StarTraderOutput.txt"));
-        jout1 = new PrintStream(new File("StarTraderOut1.txt"));
-        jout1.println("jout1 line");
-        jout.println("jout line0");
-        System.out.println("System.out line 0");
-        jerr = new PrintStream(new File("StarTraderErrors.txt"));
-        jerr1 = new PrintStream(new File("StarTraderErr1.txt"));
-        if (E.resetOut) {
-          System.setOut(jout);
-          System.out.println("output to System.out after setOut");
-          System.setErr(jerr);
-          System.err.println("output to System.err after setErr");
-
-        }
-        System.out.println("output after if statment");
-        System.err.println("output to err after if statment");
-      }
-
-      for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-
-        if ("Nimbus".equals(info.getName())) {
-          javax.swing.UIManager.setLookAndFeel(info.getClassName());
-          break;
-        }
-      }
-       } catch (ClassNotFoundException ex) {
-      java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-     EM.flushes();
-      System.err.println(Econ.nowName + " " + Econ.nowThread + new Date().toString() + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr);
-      ex.printStackTrace(System.err);
-      EM.flushes();
-      fatalError = true;;
-    } catch (InstantiationException ex) {
-      java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-     EM.flushes();
-      System.err.println(Econ.nowName + " " + Econ.nowThread + new Date().toString() + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr);
-      ex.printStackTrace(System.err);
-      EM.flushes();
-      fatalError = true;;
-    } catch (IllegalAccessException ex) {
-      java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-      EM.flushes();
-      System.err.println(new Date().toString() + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr);
-      ex.printStackTrace(System.err);
-     EM.flushes();
-      fatalError = true;;
-    } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-      java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-      EM.flushes();
-      System.err.println(Econ.nowName + " " + Econ.nowThread + new Date().toString() + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr);
-      ex.printStackTrace(System.err);
-      EM.flushes();
-      fatalError = true;;
-    } catch (FileNotFoundException ex) {
-      java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-      EM.flushes();
-      System.err.println(Econ.nowName + " " + Econ.nowThread + new Date().toString() + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr);
-      ex.printStackTrace(System.err);
-      EM.flushes();
-      fatalError = true;;
-  }
-  }
 
   public void second() throws IOException {
     System.err.println("starting out in Second");
@@ -5284,8 +5193,8 @@ public class StarTrader extends javax.swing.JFrame {
   }
 
   /**
-   * class of the background thread invokes runBackgroundYears4 which invokes the
-   * proper number of runYear -> doYear which sets stateConst before each
+   * class of the background thread invokes runBackgroundYears4 which invokes
+   * the proper number of runYear -> doYear which sets stateConst before each
    * different loop or routine in the year.
    */
   public class RunYrs3 extends Thread {
@@ -5299,29 +5208,28 @@ public class StarTrader extends javax.swing.JFrame {
   Worker jake;
 
   /**
-   * called from field tab stats or game by the method for
-   * the 1, 5,10, or 20 yr, also called by a continuation of the StarTrader constructor
-   * I think it always runs in the EventDispatchThead, 
-   * Start a animation thread and end 
-   * The animation thread continues and starts the background thread
-   * The background thread ends after nYears setting state RUNSDONE
-   * don't return until nYears have been run
+   * called from field tab stats or game by the method for the 1, 5,10, or 20
+   * yr, also called by a continuation of the StarTrader constructor I think it
+   * always runs in the EventDispatchThead, Start a animation thread and end The
+   * animation thread continues and starts the background thread The background
+   * thread ends after nYears setting state RUNSDONE don't return until nYears
+   * have been run
    *
    * @param nYears number of do years to run
    */
   void runYears(int nYears) {
     try {
-      stateConst = WAITING;
+      stateConst = RUNNING;
       yearsToRun = nYears;
       EM.runYearsTime = (new Date()).getTime();
-      System.out.println("$$$$$$$$$$$$$ runYears;" + since() + " at start stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year + (javax.swing.SwingUtilities.isEventDispatchThread()?" is eventDispatchThread": " is not EventDispatchThread"  ));
-      
-   //   E.myTest(!javax.swing.SwingUtilities.isEventDispatchThread(), "not eventDispatchThread");
+      System.out.println("$$$$$$$$$$$$$ runYears;" + since() + " at start stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year + (javax.swing.SwingUtilities.isEventDispatchThread() ? " is eventDispatchThread" : " is not EventDispatchThread"));
+
+      //   E.myTest(!javax.swing.SwingUtilities.isEventDispatchThread(), "not eventDispatchThread");
       RunYrs1 rYrs1 = new RunYrs1();
       rYrs1.setPriority(3);
       rYrs1.start();  // start runYears2 the annimation thread
       //    stateConst = STATS;
-      runBackgroundYears4(nYears);
+     // runBackgroundYears4(nYears);
     } catch (Exception ex) {
       eM.flushes();
       System.err.println(Econ.nowName + since() + " " + Econ.nowThread + "Exception " + ex.toString() + " message=" + ex.getMessage() + " " + EM.andMore());
@@ -5338,21 +5246,21 @@ public class StarTrader extends javax.swing.JFrame {
    *
    * @param stateConst value to be set
    */
-  void setEconState(int stateConst) {
+  void setEconState(int stateConstA) {
     ec = curEc = EM.curEcon;
     curEconName = (EM.curEcon == null ? "notYet" : EM.curEcon.name);
 
-    if (stateConst == prevState && curEconName.equals(prevEconName) && eM.wasHere == prevWasHere && stateConst != STATS && stateConst != WAITING && stateConst != STOPPED && stateConst != FATALERR) {
+    if (stateConstA == prevState && curEconName.equals(prevEconName) && eM.wasHere == prevWasHere && stateConst != STATS && stateConst != WAITING && stateConst != STOPPED && stateConst != FATALERR) {
       sameEconState++;
       if (curEconName.equals(prevEconName) && sameEconState > 400) {
         long myNow = new Date().getTime() - eM.doYearTime;
-        eM.doMyErr("doYear" + eM.year + myNow + " STUCK at:" + stateStringNames[stateConst] + " " + curEconName + ", cnt=" + sameEconState + " millisecs=" + (new Date().getTime() - startEconState));
+        eM.doMyErr("doYear" + eM.year + myNow + " STUCK at:" + stateStringNames[stateConstA] + " " + curEconName + ", cnt=" + sameEconState + " millisecs=" + (new Date().getTime() - startEconState));
       }
     } else {
       prevEconName = curEconName;
       prevWasHere = eM.wasHere; // move the reference
       stateCnt = 0;
-      prevState = stateConst;
+      prevState = stateConst = stateConstA;
       sameEconState = 0;
       startEconState = (new Date()).getTime();
     }
@@ -5372,19 +5280,20 @@ public class StarTrader extends javax.swing.JFrame {
       E.myTest(javax.swing.SwingUtilities.isEventDispatchThread(), "runYears2 is eventDispatchThread");
       paintCurDisplay(eM.curEcon);
       System.out.println("###################runYears2;" + since() + " stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year);
-      //RunYrs3 rYrs3 = new RunYrs3();
-     // rYrs3.setPriority(3);
-     // rYrs3.start();  // start the background job
+      RunYrs3 rYrs3 = new RunYrs3();
+      rYrs3.setPriority(3);
+      rYrs3.start();  // start the background job
       stateConst = STARTING;
       paintCurDisplay(eM.curEcon);
       // now continue EDS thread with updating display
       Boolean done = false, did = false;
+      // start the annimation loop, waiting to call paintCurDisplay again
       for (stateCnt = 0; !eM.fatalError && !eM.stopExe && !done && !fatalError; stateCnt++) {
         ec = curEc = eM.curEcon;
         if (curEc != null) {
           curEconName = curEc.nowName;
         }
-        // System.out.println("***************runYears;" + since() + " " + stateStringNames[stateConst]+ stateCnt + " year=" + eM.year + ", econ=" + prevEconName);
+        // System.out.println("***************runYears2;" + since() + " " + stateStringNames[stateConst]+ stateCnt + " year=" + eM.year + ", econ=" + prevEconName);
         setEconState(stateConst);
 
         if (E.debugThreads) {
@@ -5392,6 +5301,8 @@ public class StarTrader extends javax.swing.JFrame {
         }
         paintCurDisplay(eM.curEcon);
         switch (stateConst) {
+          case CONSTRUCTING:
+          case CONSTRUCTED:
           case WAITING:
           case STARTING: // paintCurDisplay(eM.curEcon);
           {
@@ -5433,19 +5344,19 @@ public class StarTrader extends javax.swing.JFrame {
           case STATS:
             done = true;
             if (E.debugThreads) {
-              System.out.println("$$$$$$$$$$$$$$$>>runYears2;" + since() + " STATS stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year+ (did?" DID":" !!DID") + (done?" DONE": " !!DONE"));
+              System.out.println("$$$$$$$$$$$$$$$>>runYears2;" + since() + " STATS stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year + (did ? " DID" : " !!DID") + (done ? " DONE" : " !!DONE"));
             }
-           // listRes(fullRes); done in runBackgroundYears4
+            // listRes(fullRes); done in runBackgroundYears4
             break;
           case RUNSDONE:
             done = true;
             if (E.debugThreads) {
-              System.out.println("$$$$$$$$$$$$$$$>>runYears2;" + since() + " STATS stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year+ (did?" DID":" !!DID") + (done?" DONE": " !!DONE"));
+              System.out.println("$$$$$$$$$$$$$$$>>runYears2;" + since() + " STATS stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year + (did ? " DID" : " !!DID") + (done ? " DONE" : " !!DONE"));
             }
             break;
           default:
             if (E.debugThreads) {
-              System.out.println("$$$$$$$$$$$$$$$>>runYears2;" + since() + " STATS stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year + (did?" DID":" !!DID") + (done?" DONE": " !!DONE"));
+              System.out.println("$$$$$$$$$$$$$$$>>runYears2;" + since() + " STATS stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year + (did ? " DID" : " !!DID") + (done ? " DONE" : " !!DONE"));
             }
             if (did) {
               done = true;
@@ -5471,8 +5382,9 @@ public class StarTrader extends javax.swing.JFrame {
     getGameValues(curVals, gamePanels, gameTextFields, gameSlidersP, gameSlidersS);
     eM.setMoreValues();
     stateConst = STARTING;
-    System.out.println("~~~~~~~~~~~~~~ in runBackGroundYears4 nYears=" + nYears + " ~~~~~~~~~~~~~~~~~~~~~~~");
-   // E.myTest(javax.swing.SwingUtilities.isEventDispatchThread(), "is eventDispatchThread");
+    System.err.println("starting in tests1 thread=" + Thread.currentThread().getName()+ "msecs" + (new Date().getTime() - startTime));
+    System.out.println("~~~~~~~~~~~~~~ in runBackGroundYears4 nYears=" + nYears + " thread=" + Thread.currentThread().getName()+ "msecs" + (new Date().getTime() - startTime) + " ~~~~~~~~~~~~~~~~~~~~~~~");
+    // E.myTest(javax.swing.SwingUtilities.isEventDispatchThread(), "is eventDispatchThread");
     for (int nn = 0; nn < nYears && !eM.fatalError && !eM.stopExe && !doStop && !fatalError; nn++) {
       System.out.println("&&&&&&&&&&&& runBackroundYearsr" + since() + "run year="
               + (eM.year + 1)
@@ -5619,12 +5531,15 @@ public class StarTrader extends javax.swing.JFrame {
   public E getE() {
     return eE;
   }
-  
- /** return the location of EM set by StarTrader()
-  * 
-  * @return reference to instance EM
-  */
-  public EM getEM() { return eM; }
+
+  /**
+   * return the location of EM set by StarTrader()
+   *
+   * @return reference to instance EM
+   */
+  public EM getEM() {
+    return eM;
+  }
 
   /**
    * return the seconds since start of StarTrader
@@ -5781,41 +5696,41 @@ public class StarTrader extends javax.swing.JFrame {
         for (m = ma; row < rowsEnd && m < mEnd; m++) {
           md = m;
           History dr = eM.hists[k].get(m);
-          if(dr == null) {
-            
+          if (dr == null) {
+
             System.out.println("in displayLog null line at k=" + k + " m=" + m);
             m = mEnd;
-         // E.myTest(dr == null, "null dr at k=" + k + " m=" + m);
+            // E.myTest(dr == null, "null dr at k=" + k + " m=" + m);
           } else {
-          drlev = dr.level;
-          if (drlev == 20 && maxLev > 5) {
-            showLine = true;
-            if (m < mb) {
+            drlev = dr.level;
+            if (drlev == 20 && maxLev > 5) {
+              showLine = true;
+              if (m < mb) {
+                row = rowsStart;
+              }
+            } else if (drlev == 1 && rp != 1 && m < mb) {
+              showLine = true;
               row = rowsStart;
+            } else if ((drlev == 1 || drlev == 2) && rp == 1 && row == rowsStart + 1 && m < mb) {
+              showLine = true;
+            } else if (drlev <= maxLev && m >= mb) {
+              showLine = true;
+            } else {
+              showLine = false;
             }
-          } else if (drlev == 1 && rp != 1 && m < mb) {
-            showLine = true;
-            row = rowsStart;
-          } else if ((drlev == 1 || drlev == 2) && rp == 1 && row == rowsStart + 1 && m < mb) {
-            showLine = true;
-          } else if (drlev <= maxLev && m >= mb) {
-            showLine = true;
-          } else {
-            showLine = false;
-          }
-          rp = drlev;
-          if (showLine) {
-            String tit = row + dr.pre + m + ":" + dr.level + "=" + dr.title;
-            table.setValueAt(tit, row, 0);
-            int i2 = 1;
-            for (int ii = 0; ii < 10; ii++, i2++) {
-              table.setValueAt(dr.Ss[ii], row, i2);
+            rp = drlev;
+            if (showLine) {
+              String tit = row + dr.pre + m + ":" + dr.level + "=" + dr.title;
+              table.setValueAt(tit, row, 0);
+              int i2 = 1;
+              for (int ii = 0; ii < 10; ii++, i2++) {
+                table.setValueAt(dr.Ss[ii], row, i2);
+              }
+              logRowToM[row] = m;
+              row++;
+              logLastM[k] = m;
             }
-            logRowToM[row] = m;
-            row++;
-            logLastM[k] = m;
           }
-        }
         }
         if (k == 0 && row == rowsEnd) {  // need separator line?
           table.setValueAt("---------------------", row, 0);
@@ -5901,7 +5816,6 @@ public class StarTrader extends javax.swing.JFrame {
         displayLog(logDisplayTable);
       }
     });
-    
 
     return logSelectedRow;
   }// end displayLog
@@ -5937,11 +5851,11 @@ public class StarTrader extends javax.swing.JFrame {
   int myW3 = -2;
 //  String[][] statsData;
 
-  public StarTrader(){
+  public StarTrader() {
     try {
-    starTrader2();
-    Thread.sleep(2000);
-    runYears(1);
+      starTrader2();
+      Thread.sleep(2000);
+   //   runYears(1);
     } catch (Exception ex) {
       eM.flushes();
       System.err.println(Econ.nowName + since() + " " + Econ.nowThread + "Exception " + ex.toString() + " message=" + ex.getMessage() + " " + EM.andMore());
@@ -5950,17 +5864,21 @@ public class StarTrader extends javax.swing.JFrame {
       setFatalError();
     }
   }
+
   /**
    * Creates new Class/Form StarTrader
    */
   public void starTrader2() {
-
     try {
+      stateConst = CONSTRUCTING;
       this.eE = new E();
       this.eM = new EM(eE, this);
       EM.startTime = startTime;
-      for(int y=0;y<20;y++){ 
-        yearSecs[y] = 0; yearEcons[y] = 0; yearSecPerEcon[y] = 0; 
+      for (int y = 0; y < 20; y++) {
+        theYear[y] = 0;
+        yearSecs[y] = 0;
+        yearEcons[y] = 0;
+        yearSecPerEcon[y] = 0;
       }
 
       //  fullRes = EM.gameRes.values();
@@ -6093,6 +6011,7 @@ public class StarTrader extends javax.swing.JFrame {
       System.out.println(gchgdone);
       System.err.println(gchgdone);
       printMem3();
+      stateConst = CONSTRUCTED;
     } catch (Exception ex) {
       eM.flushes();
       System.err.println(Econ.nowName + since() + " " + Econ.nowThread + "Exception " + ex.toString() + " message=" + ex.getMessage() + " " + EM.andMore());
@@ -6106,7 +6025,7 @@ public class StarTrader extends javax.swing.JFrame {
   String prGigMem = "";
 
   public void printMem3() {
-   // runtime.gc(); // garbage collect
+    // runtime.gc(); // garbage collect
     totMem = runtime.totalMemory();
     freeMem = runtime.freeMemory();
     usedMem = totMem - freeMem;
@@ -6282,18 +6201,20 @@ public class StarTrader extends javax.swing.JFrame {
     if (!doStop && !eM.stopExe && !fatalError) {
       doYear();
       //stateConst = STATS;
-    
-    for(int y = yearsL-1; y > 0; y--){
-      yearSecs[y] = yearSecs[y-1];
-      yearEcons[y] = yearEcons[y-1];
-      yearSecPerEcon[y] = yearSecPerEcon[y-1];
-    }
-    yearSecs[0] =  (int)(new Date().getTime() - startYear);
-    yearEcons[0] = eM.econCnt;
-    yearSecPerEcon[0] = (int)( yearSecs[0]/yearEcons[0]);
-    System.err.println("yearSecs " + EM.mf(yearSecs[0]) + " yearEcons " + EM.mf(yearEcons[0]) + " year S per E " + EM.mf(yearSecPerEcon[0]));
-    System.err.println("yearSecs " + EM.mf(yearSecs[1]) + " yearEcons " + EM.mf(yearEcons[1]) + " year S per E " + EM.mf(yearSecPerEcon[1]));
-    System.err.println("yearSecs " + EM.mf(yearSecs[2]) + " yearEcons " + EM.mf(yearEcons[2]) + " year S per E " + EM.mf(yearSecPerEcon[2]));
+
+      for (int y = yearsL - 1; y > 0; y--) {
+        theYear[y] = theYear[y - 1];
+        yearSecs[y] = yearSecs[y - 1];
+        yearEcons[y] = yearEcons[y - 1];
+        yearSecPerEcon[y] = yearSecPerEcon[y - 1];
+      }
+      theYear[0] = eM.year;
+      yearSecs[0] = (int) (new Date().getTime() - startYear);
+      yearEcons[0] = eM.econCnt;
+      yearSecPerEcon[0] = (int) (yearSecs[0] / yearEcons[0]);
+      System.err.println("theYr=" + theYear[0] + "yearSecs " + EM.mf(yearSecs[0]) + " yearEcons " + EM.mf(yearEcons[0]) + " year S per E " + EM.mf(yearSecPerEcon[0]));
+      System.err.println("theYr=" + theYear[1] + "yearSecs " + EM.mf(yearSecs[1]) + " yearEcons " + EM.mf(yearEcons[1]) + " year S per E " + EM.mf(yearSecPerEcon[1]));
+      System.err.println("theYr=" + theYear[2] + "yearSecs " + EM.mf(yearSecs[2]) + " yearEcons " + EM.mf(yearEcons[2]) + " year S per E " + EM.mf(yearSecPerEcon[2]));
     }
   }
 
@@ -6332,7 +6253,7 @@ public class StarTrader extends javax.swing.JFrame {
       Thread.yield();
       int jj1 = eM.econs.size();
       int jj2 = eM.envsPerYear.length;
-      System.out.println("in doYear year=" + eM.year + " econs=" + eM.econs.size()  + " envs.length=" + eM.envsPerYear.length);
+      System.out.println("in doYear year=" + eM.year + " econs=" + eM.econs.size() + " envs.length=" + eM.envsPerYear.length);
       System.out.println(" new:" + eM.envsPerYear[(int) ((eM.year + 1) > (eM.envsPerYear.length - 1) ? (eM.envsPerYear.length - 1) : (eM.year + 1))]);
       //     resetRes(fullRes);  // move years up cur, leave 0 ready for new statRes
       paintWaiting();
@@ -6780,7 +6701,7 @@ public class StarTrader extends javax.swing.JFrame {
             setLogEnvirn(E.dN, eM.curEcon);
             System.out.println(since() + "ListSelectionModel namesListRow=" + namesListRow + "name=" + eM.curEcon.name);
             eM.wasHere = "econ=" + eMCurEcon + " doYear finally Names: ListSelectionModel namesListRow=" + namesListRow + ".";
-       //     int row = displayLog();  //unknown value
+            //     int row = displayLog();  //unknown value
           }
         }
       });
@@ -6798,33 +6719,36 @@ public class StarTrader extends javax.swing.JFrame {
   }
 
   void paintSearch() {
-
+    setEconState(SEARCH);
   }
 
   void paintStopped() {
-
+    setEconState(STOPPED);
   }
 
   void paintTrade(Econ curEc, Econ ec2) {
-
+    setEconState(TRADING);
   }
 
   void paintEconYearStart(Econ ec1) {
+    setEconState(STARTING);
   }
 
   void paintTradeRejected(Econ curEc, Econ ec2) {
-
+    setEconState(TRADING);
   }
 
   void paintTradeLost(Econ curEc, Econ ec2) {
-
+    setEconState(TRADING);
   }
 
   void paintSwaping() {
+    setEconState(SWAPS);
 
   }
 
   void paintWaiting() {
+    setEconState(WAITING);
   }
 
   /**
@@ -6832,6 +6756,7 @@ public class StarTrader extends javax.swing.JFrame {
    * @param curEc
    */
   int curDisplayPrints = 0;
+
   void paintCurDisplay(Econ curEc) {
     try {
       int numEcons = eM.econs.size();
@@ -6863,7 +6788,7 @@ public class StarTrader extends javax.swing.JFrame {
         //String linez =  "both=" + curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine  + since () + sinceRunYear() + newLine;
         // line0 = line1 = line2 = line3 = line4 = line5 = "";
         // line0 = stateStringNames[stateConst];
-        if(eM.haveColors[0][0] > 1.2){
+        if (eM.haveColors[0][0] > 1.2) {
           displayPanel0Text.setBackground(E.clan.values()[curEc.clan].getColor(curEc.pors));
         }
         String disp1 = "year" + eM.year + " " + sinceEcon() + " " + EM.mf(eM.econCnt) + " Planets=" + EM.mf(eM.porsCnt[E.P]) + " ships=" + EM.mf(eM.porsCnt[E.S]) + newLine
@@ -6879,16 +6804,17 @@ public class StarTrader extends javax.swing.JFrame {
                 + "HelpdSOS1 " + eM.getCurCumPorsClanUnitSum(rNHlpdSos, EM.ICUM, E.P, E.S + 1, 0, 5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNHlpdSos, EM.ICUM, E.P, E.P + 1, 0, 5) + " Ships " + eM.getCurCumPorsClanUnitSum(rNHlpdSos, EM.ICUM, E.S, E.S + 1, 0, 5) + newLine
                 + "DiedRSOS1 " + eM.getCurCumPorsClanUnitSum(rNDS1, EM.ICUM, E.P, E.S + 1, 0, 5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNDS1, EM.ICUM, E.P, E.P + 1, 0, 5) + " Ships " + eM.getCurCumPorsClanUnitSum(rNDS1, EM.ICUM, E.S, E.S + 1, 0, 5) + newLine
                 + "year" + eM.year + " threads=" + Econ.getThreadCnt() + ":" + Thread.activeCount() + " " + since() + " " + sinceRunYear() + "  " + newLine + prGigMem + newLine + "==millisecs econ per year= millisecs per year/econs  ===========" + newLine;
-        for(int yy=0;yy < yearsL && yearEcons[yy] > -1; yy += 5){
- for(int y=yy;y<5+yy && yearEcons[y] > -1;y++){
-   disp1 += (int)(yearSecPerEcon[y]) + " " +  yearSecs[y] + "/" + yearEcons[y] + ", " ;
- } disp1 +=  newLine;
-        }    disp1 += "------------------" + newLine;       
-        
-     //   System.err.println(" PyearSecs " + EM.mf(yearSecs[0]) + " yearEcons " + EM.mf(yearEcons[0]) + " year S per E " + EM.mf(yearSecPerEcon[0]));
- //  System.err.println(" PyearSecs " + EM.mf(yearSecs[1]) + " yearEcons " + EM.mf(yearEcons[1]) + " year S per E " + EM.mf(yearSecPerEcon[1]));
-   // System.err.println(" PyearSecs " + EM.mf(yearSecs[2]) + " yearEcons " + EM.mf(yearEcons[2]) + " year S per E " + EM.mf(yearSecPerEcon[2]));
-   
+        for (int yy = 0; yy < yearsL && yearEcons[yy] > -1; yy += 5) {
+          for (int y = yy; y < 5 + yy && yearEcons[y] > -1; y++) {
+            disp1 += "(" + theYear[y] + ")" + (int)(yearSecPerEcon[y]) + " " + yearSecs[y] + "/" + yearEcons[y] + ", ";
+          }
+          disp1 += newLine;
+        }
+        disp1 += "------------------" + newLine;
+
+        //   System.err.println(" PyearSecs " + EM.mf(yearSecs[0]) + " yearEcons " + EM.mf(yearEcons[0]) + " year S per E " + EM.mf(yearSecPerEcon[0]));
+        //  System.err.println(" PyearSecs " + EM.mf(yearSecs[1]) + " yearEcons " + EM.mf(yearEcons[1]) + " year S per E " + EM.mf(yearSecPerEcon[1]));
+        // System.err.println(" PyearSecs " + EM.mf(yearSecs[2]) + " yearEcons " + EM.mf(yearEcons[2]) + " year S per E " + EM.mf(yearSecPerEcon[2]));
         switch (stateConst) {
           case WAITING:
           case STARTING:
@@ -6950,12 +6876,13 @@ public class StarTrader extends javax.swing.JFrame {
       }
       controlPanels.setVisible(true);
       if (stateCnt % 20 == 0) {
-        if(curDisplayPrints < E.ssMax*5){ curDisplayPrints++;
-        long nTime = new Date().getTime();
-        String aLine = "????????????? " + "displayCur " + (nTime - startTime) + " " + stateStringNames[stateConst] + "state=" + sameEconState + " eCnt=" + econCnt + ":" + numEcons + Econ.nowName + " "
-                + (EM.addlErr != null ? EM.addlErr : "") + (EM.wasHere != null ? EM.wasHere : "") + (EM.wasHere2 != null ? EM.wasHere2 : "");
+        if (curDisplayPrints < E.ssMax * 5) {
+          curDisplayPrints++;
+          long nTime = new Date().getTime();
+          String aLine = "????????????? " + "displayCur " + (nTime - startTime) + " " + stateStringNames[stateConst] + "state=" + sameEconState + " eCnt=" + econCnt + ":" + numEcons + Econ.nowName + " "
+                  + (EM.addlErr != null ? EM.addlErr : "") + (EM.wasHere != null ? EM.wasHere : "") + (EM.wasHere2 != null ? EM.wasHere2 : "");
 
-        System.out.println(aLine);
+          System.out.println(aLine);
         }
       }
     } catch (Exception ex) {
@@ -7390,19 +7317,19 @@ public class StarTrader extends javax.swing.JFrame {
           // is there an s entry, check valI
           int vv = 0, vl = 0, wl = 0;
           double ww = 0.;
-          v= -1;
+          v = -1;
           int sliderC = eM.sliderC;
-          if(gc == eM.vfour || gc == eM.vten){
-           v =  eM.valI[currentVals1[nn]][sliderC][E.S][klan];
-          } else if( gc == eM.vtwo){
+          if (gc == eM.vfour || gc == eM.vten) {
+            v = eM.valI[currentVals1[nn]][sliderC][E.S][klan];
+          } else if (gc == eM.vtwo) {
             v = eM.valI[currentVals1[nn]][sliderC][0][E.S];
           }
-      //    v = (vl = eM.valI[currentVals1[nn]][sliderC].length) > 1 ? (vv = eM.valI[currentVals1[nn]][sliderC][E.S][klan]) : eM.valI[currentVals1[nn]][sliderC][0].length > 1? (vv = eM.valI[currentVals1[nn]][eM.sliderC][0][E.S]: -1);
+          //    v = (vl = eM.valI[currentVals1[nn]][sliderC].length) > 1 ? (vv = eM.valI[currentVals1[nn]][sliderC][E.S][klan]) : eM.valI[currentVals1[nn]][sliderC][0].length > 1? (vv = eM.valI[currentVals1[nn]][eM.sliderC][0][E.S]: -1);
           //  int w = (int)Math.floor((wl=eM.valD[currentVals1[nn]][0].length) > 1 ?(ww= eM.valD[currentVals1[nn]][0][1][0] ): (ww = eM.valD[currentVals1[nn]][0][0][1]));
           // enable staff slider if value > -1 the staff values exist as positive slider vals
           if (v > -1) {
             if (E.debugSettingsTab) {
-              System.out.println(" <<<<<DISPLAY ship sliderV=" + v  + ", clan=" + eM.gameClanStatus + ", klan=" + klan  + ", line=" + nn +  ", desc=" + eM.valS[currentVals1[nn]][0]);
+              System.out.println(" <<<<<DISPLAY ship sliderV=" + v + ", clan=" + eM.gameClanStatus + ", klan=" + klan + ", line=" + nn + ", desc=" + eM.valS[currentVals1[nn]][0]);
             }
             // gamePSliders[nn].setForeground(Color.blue);
             gameSSliders[nn].setSnapToTicks(false);
@@ -7423,13 +7350,13 @@ public class StarTrader extends javax.swing.JFrame {
             gameSSliders[nn].setEnabled(false);
             gameSSliders[nn].setVisible(false);
             if (E.debugSettingsTab) {
-              System.out.println(" <<<<< NO DISPLAY ship sliderv=" + v  + ", clan=" + eM.gameClanStatus + ", gc=" + gc + ", klan=" + klan  + ", desc=" + eM.valS[currentVals1[nn]][0]);
+              System.out.println(" <<<<< NO DISPLAY ship sliderv=" + v + ", clan=" + eM.gameClanStatus + ", gc=" + gc + ", klan=" + klan + ", desc=" + eM.valS[currentVals1[nn]][0]);
             }
           }
           nn++;
         } else {
           if (E.debugSettingsTab) {
-            System.out.println(" >>>>SKIP line=" + nn + ", gc=" + gc + ", klan=" + klan  + ", clan=" + eM.gameClanStatus + ", desc=" + eM.valS[currentVals1[nn]][0] );
+            System.out.println(" >>>>SKIP line=" + nn + ", gc=" + gc + ", klan=" + klan + ", clan=" + eM.gameClanStatus + ", desc=" + eM.valS[currentVals1[nn]][0]);
           }
         }
 
@@ -7533,9 +7460,9 @@ public class StarTrader extends javax.swing.JFrame {
    */
   long[] rowsm = {0L,
     EM.THISYEAR | EM.THISYEARAVE | EM.THISYEARUNITS | EM.SUM | EM.BOTH | EM.CUMAVE | EM.CUM | EM.CUMUNITS,
-     EM.ROWS1 | EM.BOTH | EM.THISYEAR | EM.THISYEARAVE | EM.THISYEARUNITS | EM.CUM | EM.CUMAVE | EM.CURUNITS | EM.CUMUNITS,
-     EM.ROWS2 | EM.BOTH | EM.CUR | EM.CURAVE | EM.CURUNITS | EM.THISYEAR | EM.THISYEARAVE | EM.THISYEARUNITS | EM.CUM | EM.CUMAVE | EM.CUMUNITS,
-     EM.ROWS3 | EM.BOTH | EM.THISYEARUNITS | EM.CUR | EM.CURAVE | EM.CUM | EM.CUMAVE | EM.CUMUNITS
+    EM.ROWS1 | EM.BOTH | EM.THISYEAR | EM.THISYEARAVE | EM.THISYEARUNITS | EM.CUM | EM.CUMAVE | EM.CURUNITS | EM.CUMUNITS,
+    EM.ROWS2 | EM.BOTH | EM.CUR | EM.CURAVE | EM.CURUNITS | EM.THISYEAR | EM.THISYEARAVE | EM.THISYEARUNITS | EM.CUM | EM.CUMAVE | EM.CUMUNITS,
+    EM.ROWS3 | EM.BOTH | EM.THISYEARUNITS | EM.CUR | EM.CURAVE | EM.CUM | EM.CUMAVE | EM.CUMUNITS
   };
   long resLoops[][] = {
     {EM.list0 | EM.skipUnset, 0L, 0L, 0L, 0L},
@@ -7622,8 +7549,8 @@ public class StarTrader extends javax.swing.JFrame {
         } else {
           int selectedRow = lsm.getMinSelectionIndex();
           statsField.setText(stringTemp = resExt[selectedRow]);
-          if(eM.rememberFromPage){
-            eM.doRememberValues(list,statsTable1,selectedRow,resExt[selectedRow]);
+          if (eM.rememberFromPage) {
+            eM.doRememberValues(list, statsTable1, selectedRow, resExt[selectedRow]);
           }
           //    statsTable1.setToolTipText(stringTemp);
         } // 
@@ -7631,5 +7558,356 @@ public class StarTrader extends javax.swing.JFrame {
     } // end ListSelectionListener
     ); // end addListSelectionListener
   }// for reslooops
+
+  static Boolean resetOut = true;
+  /* static RunYrs1 rYrs1 = new RunYrs1();
+  
+  Runnable tests1 = new Runnable(){
+    public void run(){
+      try {
+      while(!(stateConst == CONSTRUCTED || stateConst == RUNSDONE)){ 
+        Thread.sleep(1000);
+      }
+      rYrs1 = new RunYrs1();
+      rYrs1.setPriority(3);
+      rYrs1.start();  // start runYears2 the annimation thread
+      //    stateConst = STATS;
+      runBackgroundYears4(1);
+       } catch (InterruptedException ex) {
+      java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+      EM.flushes();
+      System.err.println(Econ.nowName + " " + Econ.nowThread + new Date().toString() + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr);
+      ex.printStackTrace(System.err);
+      EM.flushes();
+      fatalError = true;
+    }
+  }
+  }; // tests1
+  
+  static Runnable tests2 = new Runnable(){
+    public void run(){
+      try {
+        // wait for runYears1 to finish
+      while(!(stateConst == CONSTRUCTED || stateConst == RUNSDONE)){ 
+        Thread.sleep(1000);
+      }
+       } catch (InterruptedException ex) {
+      java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+      EM.flushes();
+      System.err.println(Econ.nowName + " " + Econ.nowThread + new Date().toString() + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr);
+      ex.printStackTrace(System.err);
+      EM.flushes();
+      fatalError = true;
+    }
+  }
+  }; // tests2
+   */
+
+  static boolean testing = false; // change to false in production
+ // public static StarTrader st = new StarTrader();
+  public static StarTrader st  = (new StarTrader());
+  /**
+   * @param args the command line arguments
+   */
+
+
+  public static void main(String args[]) throws IOException {
+    /* Set the Nimbus look and feel --change to animation*/
+
+    // Look and feel setting code (optional)
+    /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+     * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+     */
+    try {
+      //   E.bRemember = Files.newBufferedWriter(E.REMEMBER, E.CHARSET);
+      System.err.println("starting out in oldmain thread=" + Thread.currentThread().getName() + "msecs" + (new Date().getTime() - startTime));
+      mainStart();
+      st.setVisible(true);
+      stateConst = CONSTRUCTED;
+   
+      if (testing || (args.length > 0 && args[0].contains("test"))) { 
+        main3(); 
+              } else {
+         System.err.println("continuing main thread=" + Thread.currentThread().getName()+ "msecs" + (new Date().getTime() - startTime));
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+          // java.awt.EventQueue.invokeAndWait(new Runnable() {
+          @Override
+          public void run() {
+            st.setVisible(true);
+          }
+        });// invokeLater
+      } // end if test
+   /* } catch (InterruptedException ex) {
+      java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+      EM.flushes();
+      System.err.println(Econ.nowName + " " + Econ.nowThread + new Date().toString() + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr);
+      ex.printStackTrace(System.err);
+      EM.flushes();
+      fatalError = true;;
+      /*
+    } catch (InvocationTargetException ex) {
+      java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+      EM.flushes();
+      System.err.println(Econ.nowName + " " + Econ.nowThread + new Date().toString() + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr);
+      ex.printStackTrace(System.err);
+      EM.flushes();
+      fatalError = true;;
+       */
+    } catch (FileNotFoundException ex) {
+      java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+      EM.flushes();
+      System.err.println(Econ.nowName + " " + Econ.nowThread + new Date().toString() + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr);
+      ex.printStackTrace(System.err);
+      EM.flushes();
+      fatalError = true;;
+    } finally {
+      if (EM.bKeep != null) {
+        EM.bKeep.close();
+      }
+    }
+  }
+
+  /** the starting part of main
+   * 
+   * @throws IOException 
+   */
+  public static void mainStart() throws IOException {
+    try {
+      //   E.bRemember = Files.newBufferedWriter(E.REMEMBER, E.CHARSET);
+      System.err.println("starting out in mainStart thread=" + Thread.currentThread().getName());
+      //  String dateString = EM.MYDATEFORMAT.format(new Date());
+      //  String rOut = "New Game " + dateString + "\n";
+      // E.bRemember.write(rOut,0,rOut.length());
+      // E.bKeep.write(rOut,0,rOut.length());
+      PrintStream jout, jerr, jout1, jerr1;
+      if (E.debugOutput) {
+        jout = new PrintStream(new File("StarTraderOutput.txt"));
+        jout1 = new PrintStream(new File("StarTraderOut1.txt"));
+        jout1.println("jout1 line");
+        jout.println("jout line0");
+        System.out.println("System.out line 0");
+        jerr = new PrintStream(new File("StarTraderErrors.txt"));
+        jerr1 = new PrintStream(new File("StarTraderErr1.txt"));
+        if (E.resetOut) {
+          System.setOut(jout);
+          System.out.println("output to System.out after setOut");
+          System.setErr(jerr);
+          System.err.println("output to System.err after setErr");
+
+        }
+        System.out.println("output after if statment");
+        System.err.println("output to err after if statment");
+      }
+
+      for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+
+        if ("Nimbus".equals(info.getName())) {
+          javax.swing.UIManager.setLookAndFeel(info.getClassName());
+          break;
+        }
+      }
+    } catch (ClassNotFoundException ex) {
+      java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+      EM.flushes();
+      System.err.println(Econ.nowName + " " + Econ.nowThread + new Date().toString() + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr);
+      ex.printStackTrace(System.err);
+      EM.flushes();
+      fatalError = true;;
+    } catch (InstantiationException ex) {
+      java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+      EM.flushes();
+      System.err.println(Econ.nowName + " " + Econ.nowThread + new Date().toString() + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr);
+      ex.printStackTrace(System.err);
+      EM.flushes();
+      fatalError = true;;
+    } catch (IllegalAccessException ex) {
+      java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+      EM.flushes();
+      System.err.println(new Date().toString() + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr);
+      ex.printStackTrace(System.err);
+      EM.flushes();
+      fatalError = true;;
+    } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+      java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+      EM.flushes();
+      System.err.println(Econ.nowName + " " + Econ.nowThread + new Date().toString() + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr);
+      ex.printStackTrace(System.err);
+      EM.flushes();
+      fatalError = true;;
+    } catch (FileNotFoundException ex) {
+      java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+      EM.flushes();
+      System.err.println(Econ.nowName + " " + Econ.nowThread + new Date().toString() + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr);
+      ex.printStackTrace(System.err);
+      EM.flushes();
+      fatalError = true;;
+    }
+  }// mainStart
+  
+  
+  
+static int cntr1 = 0;
+static int cntr2 = 0;
+static int cntr3 = 0;
+static int cntr3a = 0;
+static int cntr4 = 0;
+static int cntr5 = 0;
+static int cntr6 = 0;
+static int cntr7 = 0;
+static int cntr8 = 0;
+static int cntr9 = 0;
+static int cntr10 = 0;
+
+
+
+  
+ /** the testing part of the main routine
+  * 
+  */
+  public static void main3(){
+    
+    try {
+        System.err.println("enter main3 thread=" + Thread.currentThread().getName()+ ", msecs=" + (new Date().getTime() - startTime));
+        testing = true; // flag in testing mode
+        st.setVisible(true);
+        int myYrs = 2;
+    Runnable tests1 = new Runnable(){
+    public void run(){  //tests1.run
+      try {
+        st.setVisible(true);
+        int cntr = 0;
+         System.err.println("tests1 entering testing thread=" + Thread.currentThread().getName()+ ", stateConst=" + stateStringNames[stateConst] + ", msecs" + (new Date().getTime() - startTime) + ", cnt=" + cntr++);
+        while (!(stateConst == CONSTRUCTED || stateConst == RUNSDONE || stateConst == RUNNING || stateConst == STARTING )) {
+           System.err.println("tests1 waiting out testing thread=" + Thread.currentThread().getName()+ ", stateConst=" + stateStringNames[stateConst] + ", msecs" + (new Date().getTime() - startTime) + ", cnt=" + cntr++);
+           if(cntr > 10)eM.doMyErr("stuck at cntr > 10");
+          Thread.sleep(1000);
+        }
+        //stateConst = STARTING;
+         System.err.println("starting in tests1 thread=" + Thread.currentThread().getName() + ", stateConst=" + stateStringNames[stateConst] + "msecs" + (new Date().getTime() - startTime));
+         stateConst = RUNNING;
+         st.runBackgroundYears4(10);
+        // wait for runYears to finish
+        int cntr1 = 0;
+        while (!(stateConst == CONSTRUCTED || stateConst == RUNSDONE || stateConst == RUNNING || stateConst == STARTING)) {
+           System.err.println("tests1 waiting out testing thread=" + Thread.currentThread().getName() + ", stateConst=" + stateStringNames[stateConst] + ", msecs" + (new Date().getTime() - startTime) + ", cnt1=" + cntr1++);
+          Thread.sleep(1000);
+        }
+         
+          /*
+           st.runBackgroundYears4(1);
+        // wait for runYears to finish
+      //  int cntr2 = 0;
+        while (!(stateConst == CONSTRUCTED || stateConst == RUNSDONE)) {
+          System.err.println("tests1 running out testing thread=" + Thread.currentThread().getName() + ", stateConst=" + stateStringNames[stateConst] + ", msecs" + (new Date().getTime() - startTime) + ", cnt2=" + cntr2++);
+          Thread.sleep(1000);
+        }
+        stateConst = RUNNING;
+*/
+        } catch (InterruptedException ex) {
+      java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+      EM.flushes();
+      System.err.println(Econ.nowName + " " + Econ.nowThread + new Date().toString() + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr);
+      ex.printStackTrace(System.err);
+      EM.flushes();
+      fatalError = true;
+    }
+    } //tests1.run
+        }; // end tests1
+    //int cntr3 = 0;
+    System.err.println("main3 starting tests1 testing thread=" + Thread.currentThread().getName() + ", stateConst=" + stateStringNames[stateConst] + ", msecs=" + (new Date().getTime() - startTime) + ", cnt3=" + cntr3++);
+       stateConst = RUNNING;
+       SwingUtilities.invokeAndWait(tests1);
+        System.err.println("tests1 waiting out testing thread=" + Thread.currentThread().getName() + ", stateConst=" + stateStringNames[stateConst] + ", msecs" + (new Date().getTime() - startTime) + ", cnt3a=" + cntr3a++);
+      //  int cntr4 = 0;
+       // wait for runYears to finish
+        while (!(stateConst == CONSTRUCTED || stateConst == RUNSDONE)) {
+           System.err.println("tests1 waiting out testing thread=" + Thread.currentThread().getName() + ", stateConst=" + stateStringNames[stateConst] + ", msecs" + (new Date().getTime() - startTime) + ", cnt4=" + cntr4++);
+          Thread.sleep(1000);
+        }
+        eM.difficultyPercent[0] = 60.;
+        myYrs = 2;
+        SwingUtilities.invokeLater(tests1);
+       //int cntr5 = 0;
+       // wait for runYears to finish
+        while (!(stateConst == CONSTRUCTED || stateConst == RUNSDONE)) {
+           System.err.println("tests1 waiting out testing thread=" + Thread.currentThread().getName()+ ", stateConst=" + stateStringNames[stateConst] + ", msecs" + (new Date().getTime() - startTime) + ", cnt5=" + cntr5++);
+          Thread.sleep(1000);
+        }
+        eM.maxThreads[0][0] = 10;
+        SwingUtilities.invokeLater(tests1);
+       // int cntr6 = 0;
+       // wait for runYears to finish
+        while (!(stateConst == CONSTRUCTED || stateConst == RUNSDONE)) {
+           System.err.println("tests1 waiting out testing thread=" + Thread.currentThread().getName() + ", stateConst=" + stateStringNames[stateConst] + ", msecs" + (new Date().getTime() - startTime) + ", cnt6=" + cntr6++);
+          Thread.sleep(1000);
+        }
+        eM.clanShipFrac[0][0] = .66; // 2/1 from .501
+        eM.clanAllShipFrac[0][0] = .66;
+        eM.clanShipFrac[0][3] = .66; // 2/1 from .501
+        eM.clanAllShipFrac[0][3] = .66;
+         SwingUtilities.invokeLater(tests1);
+        int cntr7 = 0;
+       // wait for runYears to finish
+        while (!(stateConst == CONSTRUCTED || stateConst == RUNSDONE)) {
+           System.err.println("tests1 waiting out testing thread=" + Thread.currentThread().getName() + ", stateConst=" + stateStringNames[stateConst] + ", msecs" + (new Date().getTime() - startTime) + ", cnt7=" + cntr7++);
+          Thread.sleep(1000);
+        }
+       //  double mab1[] = {.60, .60}; // resource costs planet,ship
+       // double mac1[] = {.60, .60}; // staff costs planet ship 
+         eM.mab1[0] = 2.; 
+        eM.mab1[1] = 2.;
+        eM.mac1[0] = 2.;
+        eM.mac1[1] = 2.;
+         SwingUtilities.invokeLater(tests1);
+        int cntr8 = 0;
+       // wait for runYears to finish
+        while (!(stateConst == CONSTRUCTED || stateConst == RUNSDONE)) {
+           System.err.println("tests1 waiting out testing thread=" + Thread.currentThread().getName() + ", stateConst=" + stateStringNames[stateConst] + ", msecs" + (new Date().getTime() - startTime) + ", cnt8=" + cntr8++);
+          Thread.sleep(1000);
+        }
+       
+         eM.resourceGrowth[0] = 2.; 
+        eM.resourceGrowth[1] = .5;
+        eM.staffGrowth[0] = 2.;
+        eM.staffGrowth[1] = .5;
+         SwingUtilities.invokeLater(tests1);
+        int cntr9 = 0;
+       // wait for runYears to finish
+        while (!(stateConst == CONSTRUCTED || stateConst == RUNSDONE)) {
+           System.err.println("tests1 waiting out testing thread=" + Thread.currentThread().getName() + ", stateConst=" + stateStringNames[stateConst] + ", msecs" + (new Date().getTime() - startTime) + ", cnt9=" + cntr9++);
+          Thread.sleep(1000);
+        }
+        
+          eM.randFrac[0][0] =.9; 
+        eM.randFrac[1][0] = .5;
+        eM.staffGrowth[0] = 2.;
+        eM.staffGrowth[1] = .5;
+         SwingUtilities.invokeLater(tests1);
+        int cntr10 = 0;
+       // wait for runYears to finish
+        while (!(stateConst == CONSTRUCTED || stateConst == RUNSDONE)) {
+           System.err.println("tests1 waiting out testing thread=" + Thread.currentThread().getName() + ", stateConst=" + stateStringNames[stateConst] + ", msecs" + (new Date().getTime() - startTime) + ", cnt10=" + cntr10++);
+          Thread.sleep(1000);
+        }
+        
+   //    System.exit(0);
+       } catch (InvocationTargetException ex) {
+      java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+      EM.flushes();
+      System.err.println(Econ.nowName + " " + Econ.nowThread + new Date().toString() + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr);
+      ex.printStackTrace(System.err);
+      EM.flushes();
+      fatalError = true;
+       } catch (InterruptedException ex) {
+      java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+      EM.flushes();
+      System.err.println(Econ.nowName + " " + Econ.nowThread + new Date().toString() + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr);
+      ex.printStackTrace(System.err);
+      EM.flushes();
+      fatalError = true;
+    }
+       
+      }// main3
 
 }

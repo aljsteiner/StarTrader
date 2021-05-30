@@ -138,7 +138,7 @@ public class A10Row extends A6Rowa {
    * rows rc,sg are resumed so they may not match the original
    *
    * @param alev the display level to set for this A10Row
-   * @param tit new titl for the copy
+   * @param aTitl new titl for the copy
    * @return new object copy new references for the values
    */
   public A10Row copy(int alev, String atitl) {
@@ -228,8 +228,8 @@ public class A10Row extends A6Rowa {
   /**
    * get the value of rows 0,1 by set m = m%2
    *
-   * @param m
-   * @param n
+   * @param m The row %2 to be gotten
+   * @param n The value in the requested row
    * @return m % 2,n
    */
   public double gett(int m, int n) {
@@ -285,7 +285,7 @@ public class A10Row extends A6Rowa {
    * set object copy from 8 costs, and convert staff work to staff balance
    * values set balances false and costs true
    *
-   * @param alev used by sendHist as send if History.dl &gt alev, lev = alev
+   * @param alev used by sendHist as send if History.dl &gt; alev, lev = alev
    * @param aTitl title for all sendHist rows
    * @param RR the cost to r for the r SubAsset
    * @param RS the cost to s for the r SubAsset
@@ -329,7 +329,7 @@ public class A10Row extends A6Rowa {
    * set object copy from 8 costs, and convert staff work to staff balance
    * values
    *
-   * @param alev used by sendHist as send if History.dl &gt alev, lev = alev
+   * @param alev used by sendHist as send if History.dl &gt; alev, lev = alev
    * @param aTitl title for all sendHist rows
    * @param RR the cost to r for the r SubAsset
    * @param RS the cost to s for the r SubAsset
@@ -357,8 +357,8 @@ public class A10Row extends A6Rowa {
    * set object copy from 8 costs, and convert staff work to staff balance
    * values
    *
-   * @param alev used by sendHist as send if History.dl &gt alev, lev = alev
-   * @param aTitl title for all sendHist rows
+   * @param alev used by sendHist as send if History.dl &gt; alev, lev = alev
+   * @param atitl title for all sendHist rows
    * @param RR the cost to r for the r SubAsset
    * @param RS the cost to s for the r SubAsset
    * @param CR the cost to r for the c SubAsset
@@ -387,10 +387,10 @@ public class A10Row extends A6Rowa {
   }
 
   /**
-   * subtrace each B time V from the calling object
+   * subtract each B times V from the this calling object
    *
-   * @param B
-   * @param V
+   * @param B  the source to be subtracted
+   * @param V  multiplier
    * @return each this - each B * V
    */
   public A10Row setSubBmultV(A10Row B, double V) {

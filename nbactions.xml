@@ -89,4 +89,19 @@
                 <exec.classpathScope>${classPathScope}</exec.classpathScope>
             </properties>
         </action>
+        <action>
+            <actionName>integration-test.single</actionName>
+            <preAction>build-with-dependencies</preAction>
+            <packagings>
+                <packaging>*</packaging>
+            </packagings>
+            <goals>
+                <goal>integration-test</goal>
+            </goals>
+            <properties>
+                <test>DummyToSkipUnitTests</test>
+                <failIfNoTests>false</failIfNoTests>
+                <it.test>${packageClassName}#trade.TestStarTraderTest</it.test>
+            </properties>
+        </action>
     </actions>

@@ -47,16 +47,11 @@ public class TestStarTraderTest {
      */
     try {
       System.err.println("starting out in test main " + Thread.currentThread().getName());
+      
     mainStart();
-     /* Create and display the form */
-     TestStarTraderTest tstt = new TestStarTraderTest();
-      java.awt.EventQueue.invokeLater(new Runnable() {
-        @Override
-        public void run() {
-          tstt.setVisible(true);
-        }
-      });
-    StarTrader st = new StarTrader();
+    StarTrader.main3();
+    
+
      if(st.fatalError) throw new MyErr("fatal error at new StarTrader");
      System.err.println(" passed first test, StarTrader started");
       /* Create and display the form */
