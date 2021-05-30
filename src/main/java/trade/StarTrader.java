@@ -283,6 +283,7 @@ public class StarTrader extends javax.swing.JFrame {
 "";
 
   static int iii = 0;
+  // The following is a list of states
   static final int STARTING = 0; // start list of constants
   static final String sn0 = "Starting";
   static final int CREATING = 1;
@@ -307,9 +308,11 @@ public class StarTrader extends javax.swing.JFrame {
   static final String sn10 = "Waiting for action";
   static final int STOPPED = 11;
   static final String sn11 = "Stopped";
-  static final int FATALERR = 12;
-  static final String sn12 = "Fatal Error";
-  static final String[] stateStringNames = {sn0, sn1, sn2, sn3, sn4, sn5, sn6, sn7, sn8, sn9, sn10, sn11, sn12};
+  static final int RUNSDONE = 12;
+  static final String sn12 = "Runs Done";
+  static final int FATALERR = 13;
+  static final String sn13 = "Fatal Error";
+  static final String[] stateStringNames = {sn0, sn1, sn2, sn3, sn4, sn5, sn6, sn7, sn8, sn9, sn10, sn11, sn12, sn13};
   static int stateConst = WAITING;  // constant set to stated
   static int prevState = WAITING;
   static Econ curEc = EM.curEcon;
@@ -4794,6 +4797,7 @@ public class StarTrader extends javax.swing.JFrame {
   /**
    * @param args the command line arguments
    */
+  public static StarTrader st = new StarTrader();
   public static void main(String args[]) throws IOException {
     /* Set the Nimbus look and feel --change to animation*/
 
@@ -4807,12 +4811,30 @@ public class StarTrader extends javax.swing.JFrame {
     mainStart();
       /* Create and display the form */
       java.awt.EventQueue.invokeLater(new Runnable() {
+     
+    // java.awt.EventQueue.invokeAndWait(new Runnable() {
         @Override
         public void run() {
-          new StarTrader().setVisible(true);
+          st.setVisible(true);
         }
       });
    
+      /*
+    } catch (InvocationTargetException ex) {
+      java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+      EM.flushes();
+      System.err.println(Econ.nowName + " " + Econ.nowThread + new Date().toString() + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr);
+      ex.printStackTrace(System.err);
+      EM.flushes();
+      fatalError = true;;
+    } catch (InterruptedException ex) {
+      java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+      EM.flushes();
+      System.err.println(Econ.nowName + " " + Econ.nowThread + new Date().toString() + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr);
+      ex.printStackTrace(System.err);
+      EM.flushes();
+      fatalError = true;;
+      */
     } catch (FileNotFoundException ex) {
       java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
       EM.flushes();
@@ -5229,6 +5251,7 @@ public class StarTrader extends javax.swing.JFrame {
     // displayPanel1Operation.setText("fatalError");
     controlPanels.revalidate();
     controlPanels.repaint();
+    stateConst = FATALERR;
 
     EM.flushes();
     System.err.println("request rejected, due to a  fatal error");
@@ -5242,7 +5265,7 @@ public class StarTrader extends javax.swing.JFrame {
 
     @Override
     public Boolean doInBackground() throws Exception {
-      runBackgroundYears(yearsToRun);
+      runBackgroundYears4(yearsToRun);
       return true;
     }
   };  // end new SwingWorker
@@ -5253,7 +5276,7 @@ public class StarTrader extends javax.swing.JFrame {
    * stateConst
    *
    */
-  public class RunYrs extends Thread {
+  public class RunYrs1 extends Thread {
 
     public void run() {
       runYears2();
@@ -5261,14 +5284,14 @@ public class StarTrader extends javax.swing.JFrame {
   }
 
   /**
-   * class of the background thread invokes runBackgroundYears which invokes the
+   * class of the background thread invokes runBackgroundYears4 which invokes the
    * proper number of runYear -> doYear which sets stateConst before each
    * different loop or routine in the year.
    */
-  public class RunYrs2 extends Thread {
+  public class RunYrs3 extends Thread {
 
     public void run() {
-      runBackgroundYears(yearsToRun);
+      runBackgroundYears4(yearsToRun);
 
     }
   }
@@ -5276,9 +5299,13 @@ public class StarTrader extends javax.swing.JFrame {
   Worker jake;
 
   /**
-   * called from field tab stats or game click on 1 yr or 5 yrs In
-   * EventDispatchThead, so start a animation thread and end The animation
-   * thread continues and starts the background thread
+   * called from field tab stats or game by the method for
+   * the 1, 5,10, or 20 yr, also called by a continuation of the StarTrader constructor
+   * I think it always runs in the EventDispatchThead, 
+   * Start a animation thread and end 
+   * The animation thread continues and starts the background thread
+   * The background thread ends after nYears setting state RUNSDONE
+   * don't return until nYears have been run
    *
    * @param nYears number of do years to run
    */
@@ -5289,11 +5316,12 @@ public class StarTrader extends javax.swing.JFrame {
       EM.runYearsTime = (new Date()).getTime();
       System.out.println("$$$$$$$$$$$$$ runYears;" + since() + " at start stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year + (javax.swing.SwingUtilities.isEventDispatchThread()?" is eventDispatchThread": " is not EventDispatchThread"  ));
       
-     // E.myTest(!javax.swing.SwingUtilities.isEventDispatchThread(), "not eventDispatchThread");
-      RunYrs rYrs = new RunYrs();
-      rYrs.setPriority(3);
-      rYrs.start();  // start runYears2
+   //   E.myTest(!javax.swing.SwingUtilities.isEventDispatchThread(), "not eventDispatchThread");
+      RunYrs1 rYrs1 = new RunYrs1();
+      rYrs1.setPriority(3);
+      rYrs1.start();  // start runYears2 the annimation thread
       //    stateConst = STATS;
+      runBackgroundYears4(nYears);
     } catch (Exception ex) {
       eM.flushes();
       System.err.println(Econ.nowName + since() + " " + Econ.nowThread + "Exception " + ex.toString() + " message=" + ex.getMessage() + " " + EM.andMore());
@@ -5331,7 +5359,7 @@ public class StarTrader extends javax.swing.JFrame {
   }
 
   /**
-   * start of the animation thread the animation thread starts the background
+   * start of the animation thread waiting between calls of paintCurDisplay
    * thread RunYrs2 Then it watches stateConst and updates the display tab
    *
    */
@@ -5341,12 +5369,12 @@ public class StarTrader extends javax.swing.JFrame {
       if (E.debugThreads) {
         System.out.println("$$$$$$$$$$$$$ runYears2;" + since() + " at start stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year);
       }
-      E.myTest(javax.swing.SwingUtilities.isEventDispatchThread(), "is eventDispatchThread");
+      E.myTest(javax.swing.SwingUtilities.isEventDispatchThread(), "runYears2 is eventDispatchThread");
       paintCurDisplay(eM.curEcon);
       System.out.println("###################runYears2;" + since() + " stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year);
-      RunYrs2 rYrs = new RunYrs2();
-      rYrs.setPriority(3);
-      rYrs.start();  // start the background job
+      //RunYrs3 rYrs3 = new RunYrs3();
+     // rYrs3.setPriority(3);
+     // rYrs3.start();  // start the background job
       stateConst = STARTING;
       paintCurDisplay(eM.curEcon);
       // now continue EDS thread with updating display
@@ -5399,19 +5427,26 @@ public class StarTrader extends javax.swing.JFrame {
             did = false;
             break;
           case ENDYR: //  paintCurDisplay(eM.curEcon);
-          {
             Thread.sleep(blip);
-          }
-          did = true;
-          break;
+            did = true;
+            break;
           case STATS:
             done = true;
             if (E.debugThreads) {
-              System.out.println("$$$$$$$$$$$$$$$>>runYears2;" + since() + " STATS stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year);
+              System.out.println("$$$$$$$$$$$$$$$>>runYears2;" + since() + " STATS stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year+ (did?" DID":" !!DID") + (done?" DONE": " !!DONE"));
             }
-            listRes(fullRes);
+           // listRes(fullRes); done in runBackgroundYears4
+            break;
+          case RUNSDONE:
+            done = true;
+            if (E.debugThreads) {
+              System.out.println("$$$$$$$$$$$$$$$>>runYears2;" + since() + " STATS stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year+ (did?" DID":" !!DID") + (done?" DONE": " !!DONE"));
+            }
             break;
           default:
+            if (E.debugThreads) {
+              System.out.println("$$$$$$$$$$$$$$$>>runYears2;" + since() + " STATS stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year + (did?" DID":" !!DID") + (done?" DONE": " !!DONE"));
+            }
             if (did) {
               done = true;
             } else {
@@ -5432,13 +5467,14 @@ public class StarTrader extends javax.swing.JFrame {
     }
   }
 
-  protected void runBackgroundYears(int nYears) {
+  protected void runBackgroundYears4(int nYears) {
     getGameValues(curVals, gamePanels, gameTextFields, gameSlidersP, gameSlidersS);
     eM.setMoreValues();
     stateConst = STARTING;
-    E.myTest(javax.swing.SwingUtilities.isEventDispatchThread(), "is eventDispatchThread");
+    System.out.println("~~~~~~~~~~~~~~ in runBackGroundYears4 nYears=" + nYears + " ~~~~~~~~~~~~~~~~~~~~~~~");
+   // E.myTest(javax.swing.SwingUtilities.isEventDispatchThread(), "is eventDispatchThread");
     for (int nn = 0; nn < nYears && !eM.fatalError && !eM.stopExe && !doStop && !fatalError; nn++) {
-      System.out.println("&&&&&&&&&&&& runBackroundYears" + since() + "run year="
+      System.out.println("&&&&&&&&&&&& runBackroundYearsr" + since() + "run year="
               + (eM.year + 1)
               + "##########################");
       runYear();
@@ -5446,6 +5482,8 @@ public class StarTrader extends javax.swing.JFrame {
     stateConst = STATS;
     listRes(fullRes);
     printMem3(); // goes to doYears
+    stateConst = RUNSDONE;
+    // background thread can now end
   }
 
   int initialPlanetShip = 0;
@@ -5873,7 +5911,7 @@ public class StarTrader extends javax.swing.JFrame {
   static int shipsLoop = 0;
   static int envsLoop2 = 0;
   // static int[] envsPerYear = {10, 20, 30, 40, 40, 40, 40, 40, 40, 40, 40, 40};
-  static int[] envsPerYear = {10, 20, 30, 40, 50, 60, 10};
+  //static int[] envsPerYear = {10, 20, 30, 40, 50, 60, 10};
   JSlider[] gameSlidersP = {gameSliderP0, gameSliderP1, gameSliderP2, gameSliderP3, gameSliderP4, gameSliderP5, gameSliderP6, gameSliderP7, gameSliderP8, gameSliderP9};
   JSlider[] gameSlidersS = {gameSliderS0, gameSliderS1, gameSliderS2, gameSliderS3, gameSliderS4, gameSliderS5, gameSliderS6, gameSliderS7, gameSliderS8, gameSliderS9};
   JSlider[] clanSlidersP = {clanSliderP0, clanSliderP1, clanSliderP2, clanSliderP3, clanSliderP4};
@@ -5899,10 +5937,23 @@ public class StarTrader extends javax.swing.JFrame {
   int myW3 = -2;
 //  String[][] statsData;
 
+  public StarTrader(){
+    try {
+    starTrader2();
+    Thread.sleep(2000);
+    runYears(1);
+    } catch (Exception ex) {
+      eM.flushes();
+      System.err.println(Econ.nowName + since() + " " + Econ.nowThread + "Exception " + ex.toString() + " message=" + ex.getMessage() + " " + EM.andMore());
+      ex.printStackTrace(System.err);
+      eM.flushes();
+      setFatalError();
+    }
+  }
   /**
    * Creates new Class/Form StarTrader
    */
-  public StarTrader() {
+  public void starTrader2() {
 
     try {
       this.eE = new E();
@@ -6049,7 +6100,7 @@ public class StarTrader extends javax.swing.JFrame {
       eM.flushes();
       setFatalError();
     }
-  } //StarTrader
+  } //StarTrader2
 
   long gigMem = 1000000000L;
   String prGigMem = "";
@@ -6062,7 +6113,7 @@ public class StarTrader extends javax.swing.JFrame {
     double tmem = (double) totMem / gigMem, fmem = (double) freeMem / gigMem, umem = (double) usedMem / gigMem;
     //System.out.println("");
     prGigMem = " Game Memory Gigs total=" + EM.mf(tmem) + " used=" + EM.mf(umem) + " free=" + EM.mf(fmem);
-    System.out.printf(">>>>>" + since() + prGigMem + "<<<<<<");
+    System.out.printf(">>>>>" + since() + prGigMem + "<<<<<<" + "\n");
   }
 
   void printMem() {
@@ -6209,7 +6260,7 @@ public class StarTrader extends javax.swing.JFrame {
   /**
    * run one year of planets than ships ships must first select a next plaet to
    * trade, then run a year than a startShipTrade is done to the ship from
-   * runBackgroundYears years
+   * runBackgroundYears4 years
    */
   void runYear() {
     if (eM.fatalError) {
@@ -6279,7 +6330,10 @@ public class StarTrader extends javax.swing.JFrame {
       eM.year++;
       E.resetMsgs();
       Thread.yield();
-      System.out.println("in doYear year=" + eM.year + " econs=" + eM.econs.size() + " new:" + envsPerYear[(int) ((eM.year + 1) > (envsPerYear.length - 1) ? (envsPerYear.length - 1) : (eM.year + 1))] + " envs.length=" + envsPerYear.length);
+      int jj1 = eM.econs.size();
+      int jj2 = eM.envsPerYear.length;
+      System.out.println("in doYear year=" + eM.year + " econs=" + eM.econs.size()  + " envs.length=" + eM.envsPerYear.length);
+      System.out.println(" new:" + eM.envsPerYear[(int) ((eM.year + 1) > (eM.envsPerYear.length - 1) ? (eM.envsPerYear.length - 1) : (eM.year + 1))]);
       //     resetRes(fullRes);  // move years up cur, leave 0 ready for new statRes
       paintWaiting();
       if (!doStop && !fatalError) {
@@ -6344,7 +6398,7 @@ public class StarTrader extends javax.swing.JFrame {
         // set up the preexisting names on the namelist
         int tyear;
         // yEcons the number of Econs we can have this year.
-        int yEcons = (int) (eM.minEconsMult[0][0] * (envsPerYear[tyear = (eM.year < envsPerYear.length ? eM.year : envsPerYear.length - 1)]));
+        int yEcons = (int) (eM.minEconsMult[0][0] * (eM.envsPerYear[tyear = (eM.year < eM.envsPerYear.length ? eM.year : eM.envsPerYear.length - 1)]));
         //dnow = new Date();
         System.out.println(since() + " tyr=" + tyear + " curE=" + lEcons + " maxE=" + yEcons + " eCnt=" + eM.econCnt);
         printMem();
@@ -6777,6 +6831,7 @@ public class StarTrader extends javax.swing.JFrame {
    *
    * @param curEc
    */
+  int curDisplayPrints = 0;
   void paintCurDisplay(Econ curEc) {
     try {
       int numEcons = eM.econs.size();
@@ -6789,10 +6844,6 @@ public class StarTrader extends javax.swing.JFrame {
       displayPanel0Text.setRows(18);
       // displayPanel0Text.setSize(1200,750);
       // display.setVisible(false);
-      // displayPanel1.setVisible(false);
-      // displayPanel2.setVisible(false);
-      //displayPanel1EconNamdisplayPanel1Operatione.setVisible(false);
-      // displayPanel1OperatiodisplayPanel1Operationn.setVisible(false);
       //displayPanel1SinceYearStart.setVisible(false)
 
       int rNyCreated = eM.YEARCREATE;
@@ -6807,7 +6858,7 @@ public class StarTrader extends javax.swing.JFrame {
       int rNDS1 = EM.DTRADEOSOSR1;
       if (curEc != null) {
         econCnt = curEc.econCnt;
-        // controlPanels.setSelectedIndex(5);
+        controlPanels.setSelectedIndex(5);
         int blip = 5;
         //String linez =  "both=" + curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine  + since () + sinceRunYear() + newLine;
         // line0 = line1 = line2 = line3 = line4 = line5 = "";
@@ -6827,7 +6878,7 @@ public class StarTrader extends javax.swing.JFrame {
                 + "LostSOS1 " + eM.getCurCumPorsClanUnitSum(rNLstS1, EM.ICUM, E.P, E.S + 1, 0, 5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNLstS1, EM.ICUM, E.P, E.P + 1, 0, 5) + " Ships " + eM.getCurCumPorsClanUnitSum(rNLstS1, EM.ICUM, E.S, E.S + 1, 0, 5) + newLine
                 + "HelpdSOS1 " + eM.getCurCumPorsClanUnitSum(rNHlpdSos, EM.ICUM, E.P, E.S + 1, 0, 5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNHlpdSos, EM.ICUM, E.P, E.P + 1, 0, 5) + " Ships " + eM.getCurCumPorsClanUnitSum(rNHlpdSos, EM.ICUM, E.S, E.S + 1, 0, 5) + newLine
                 + "DiedRSOS1 " + eM.getCurCumPorsClanUnitSum(rNDS1, EM.ICUM, E.P, E.S + 1, 0, 5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNDS1, EM.ICUM, E.P, E.P + 1, 0, 5) + " Ships " + eM.getCurCumPorsClanUnitSum(rNDS1, EM.ICUM, E.S, E.S + 1, 0, 5) + newLine
-                + "year" + eM.year + " threads=" + Econ.getThreadCnt() + ":" + Thread.activeCount() + " " + since() + " " + sinceRunYear() + "  " + newLine + prGigMem + newLine + "===============" + newLine;
+                + "year" + eM.year + " threads=" + Econ.getThreadCnt() + ":" + Thread.activeCount() + " " + since() + " " + sinceRunYear() + "  " + newLine + prGigMem + newLine + "==millisecs econ per year= millisecs per year/econs  ===========" + newLine;
         for(int yy=0;yy < yearsL && yearEcons[yy] > -1; yy += 5){
  for(int y=yy;y<5+yy && yearEcons[y] > -1;y++){
    disp1 += (int)(yearSecPerEcon[y]) + " " +  yearSecs[y] + "/" + yearEcons[y] + ", " ;
@@ -6899,11 +6950,13 @@ public class StarTrader extends javax.swing.JFrame {
       }
       controlPanels.setVisible(true);
       if (stateCnt % 20 == 0) {
+        if(curDisplayPrints < E.ssMax*5){ curDisplayPrints++;
         long nTime = new Date().getTime();
-        String aLine = "??????? " + "gstart " + (nTime - startTime) + " " + stateStringNames[stateConst] + "state=" + sameEconState + " eCnt=" + econCnt + ":" + numEcons + Econ.nowName + " "
+        String aLine = "????????????? " + "displayCur " + (nTime - startTime) + " " + stateStringNames[stateConst] + "state=" + sameEconState + " eCnt=" + econCnt + ":" + numEcons + Econ.nowName + " "
                 + (EM.addlErr != null ? EM.addlErr : "") + (EM.wasHere != null ? EM.wasHere : "") + (EM.wasHere2 != null ? EM.wasHere2 : "");
 
         System.out.println(aLine);
+        }
       }
     } catch (Exception ex) {
       eM.flushes();
@@ -7171,7 +7224,7 @@ public class StarTrader extends javax.swing.JFrame {
      */
     try {
       getGameValues(currentVals1, panelAr, textFieldsAr, gamePSliders, gameSSliders);
-      System.out.print("Enter gamePanelChange clan=" + clan + " gameClanStatus=" + eM.gameClanStatus + " action=" + action + " ");
+      System.out.println("Enter gamePanelChange clan=" + clan + " gameClanStatus=" + eM.gameClanStatus + " action=" + action + " vvend=" + eM.vvend + " ");
       // now set the new clan
       int v = -1; // sliderc value 0 to 99
       int klan = -1;
@@ -7280,6 +7333,10 @@ public class StarTrader extends javax.swing.JFrame {
       nn = 0;
       int aclan = eM.gameClanStatus;
       while (eM.vv < eM.vvend && nn < 10) {
+        int gc = eM.valI[eM.vv][eM.modeC][0][0];
+        boolean isGameMaster = gc >= eM.vone && gc <= eM.vfour;
+        int vfive = eM.vfive;
+        int vten = eM.vten;
         if (E.debugSettingsTab) {
           System.out.println("line nn=" + nn + " gc=" + eM.valI[eM.vv][eM.modeC][0][0] + " clan=" + eM.gameClanStatus + " ??displaying?? ww=" + eM.vv + " = " + eM.valS[eM.vv][0]);
           // System.out.print(nn);
@@ -7333,12 +7390,19 @@ public class StarTrader extends javax.swing.JFrame {
           // is there an s entry, check valI
           int vv = 0, vl = 0, wl = 0;
           double ww = 0.;
-          v = (vl = eM.valI[currentVals1[nn]][eM.sliderC].length) > 1 ? (vv = eM.valI[currentVals1[nn]][eM.sliderC][eM.gamePorS][klan]) : (vv = eM.valI[currentVals1[nn]][eM.sliderC][0][eM.gamePorS]);
+          v= -1;
+          int sliderC = eM.sliderC;
+          if(gc == eM.vfour || gc == eM.vten){
+           v =  eM.valI[currentVals1[nn]][sliderC][E.S][klan];
+          } else if( gc == eM.vtwo){
+            v = eM.valI[currentVals1[nn]][sliderC][0][E.S];
+          }
+      //    v = (vl = eM.valI[currentVals1[nn]][sliderC].length) > 1 ? (vv = eM.valI[currentVals1[nn]][sliderC][E.S][klan]) : eM.valI[currentVals1[nn]][sliderC][0].length > 1? (vv = eM.valI[currentVals1[nn]][eM.sliderC][0][E.S]: -1);
           //  int w = (int)Math.floor((wl=eM.valD[currentVals1[nn]][0].length) > 1 ?(ww= eM.valD[currentVals1[nn]][0][1][0] ): (ww = eM.valD[currentVals1[nn]][0][0][1]));
           // enable staff slider if value > -1 the staff values exist as positive slider vals
           if (v > -1) {
             if (E.debugSettingsTab) {
-              System.out.println(" <<<<<DISPLAY ship sliderV=" + v + ", klan=" + klan + ", length=" + vl + ", line=" + nn + ", sval=" + vv + ", ww=" + currentVals1[nn] + ", desc=" + eM.valS[currentVals1[nn]][0] + ", clan=" + eM.gameClanStatus);
+              System.out.println(" <<<<<DISPLAY ship sliderV=" + v  + ", clan=" + eM.gameClanStatus + ", klan=" + klan  + ", line=" + nn +  ", desc=" + eM.valS[currentVals1[nn]][0]);
             }
             // gamePSliders[nn].setForeground(Color.blue);
             gameSSliders[nn].setSnapToTicks(false);
@@ -7359,13 +7423,13 @@ public class StarTrader extends javax.swing.JFrame {
             gameSSliders[nn].setEnabled(false);
             gameSSliders[nn].setVisible(false);
             if (E.debugSettingsTab) {
-              System.out.println(" <<<<< NO DISPLAY ship sliderv=" + v + ", klan=" + klan + ", length=" + vl + "line=" + nn + "sval=" + vv + ", ww=" + currentVals1[nn] + ", desc=" + eM.valS[currentVals1[nn]][0] + ", clan=" + eM.gameClanStatus);
+              System.out.println(" <<<<< NO DISPLAY ship sliderv=" + v  + ", clan=" + eM.gameClanStatus + ", gc=" + gc + ", klan=" + klan  + ", desc=" + eM.valS[currentVals1[nn]][0]);
             }
           }
           nn++;
         } else {
           if (E.debugSettingsTab) {
-            System.out.println(" >>>>SKIP line=" + nn);
+            System.out.println(" >>>>SKIP line=" + nn + ", gc=" + gc + ", klan=" + klan  + ", clan=" + eM.gameClanStatus + ", desc=" + eM.valS[currentVals1[nn]][0] );
           }
         }
 

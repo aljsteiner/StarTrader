@@ -107,6 +107,7 @@ class EM {
   ArrayList<EM> ems = new ArrayList<EM>();
   TreeMap<String, Econ> names2ec = new TreeMap<String, Econ>();
   ArrayList<String> emNames = new ArrayList<String>();
+  int[] envsPerYear = {10, 20, 30, 40, 50, 60, 10};
   // int porsClanCntd[][] = {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}}; // defaults
   static int porsClanCnt[][] = {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}};
   //int clanCntd[] = {0, 0, 0, 0, 0};
@@ -171,9 +172,10 @@ class EM {
   // .25 = 1ship/3 planets
   double[] gameShipFrac = {.70};  // ships / econs .75 means 3ships/1 planet, .8 = 4ships/1planet
   static double[][] mGameShipFrac = {{.25, 1.20}, {.25, 1.20}};
-  double[][] clanShipFrac = {{.70, .70, .70, .501, .6}, {.70, .70, .70, .501, .6}}; // .3->5. clan choice of clan ships / clan econs
+// double[][] clanShipFrac = {{.70, .70, .70, .501, .6}, {.70, .70, .70, .501, .6}}; // .3->5. clan choice of clan ships / clan econs
+  double[][] clanShipFrac = {{.70, .70, .70, .501, .6}};
   static double[][] mClanShipFrac = {{.25, .81}, {.20, 1.20}};
-  double[][] clanAllShipFrac = {{.70, .70, .70, .501, .501},{.70, .70, .70, .501, .501} }; // clan (ships/econs)
+  double[][] clanAllShipFrac = {{.70, .70, .70, .501, .501} }; // clan (ships/econs)
   static double[][] mClanAllShipFrac = {{.25, 1.20}, {.2, 1.20}};
   double econLimits1[] = {300.}; // start limiting econs
   static double mEconLimits1[][] = {{200., 500.}, {200., 500.}};
@@ -188,8 +190,8 @@ class EM {
   static Econ otherEcon;  // other Econ when trading
   double[][] wildCursCnt = {{7}};
   static double[][] mWildCursCnt = {{3., 10.}};
-  double[] difficultyPercent = {40., 40.};
-  double[][] mDifficultyPercent = {{5., 69.}, {5., 69.}};
+  double[] difficultyPercent = {40.};
+  double[][] mDifficultyPercent = {{5., 90.}, {5., 90.}};
   double[][] minEconsMult = {{1.5}};
   static double[][] mminEconsMult = {{.5, 10.0}, {.5, 10.0}};
   double[][] maxThreads = {{5.2}};
@@ -365,6 +367,7 @@ class EM {
      } catch (Exception ex) {
       flushes();
       System.err.println("Error " + new Date().toString() + " " + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr + addMore());
+      fatalError = true;
       flushes();
       ex.printStackTrace(System.err);
       System.err.flush();
@@ -920,7 +923,7 @@ class EM {
             vrs = rs[aa][ab][ac][ad]
                     = // add difficultyPercent as a cost factor 50% = 1. mult
                     //(vdif = difficultyPercent[ac]) * .1  *
-                    (vdif = difficultyPercent[ac] * 0.025)
+                    (vdif = difficultyPercent[0] * 0.025)
                     * (vrs4 = rs4[aa][ab][ac][(int) ad / 2])
                     * (vm5t = mult5Ctbl[aa][ac])
                     * //mabc[ab][ac] * ps[ac][ad];
@@ -1167,7 +1170,7 @@ class EM {
   // ships get much more to survive and grow with planets
   // the fracs get reduced as the trades continue
   static double mTradeFrac[][] = {{.12, .4}, {.7, 3.0}};
-  double[][] tradeFrac = {{.15, .15, .15, .18, .2}, {1.7, 1.55, 1.5, 1.55, 1.45, 1.6}, ssFrac[0]};
+  double[][] tradeFrac = {{.15, .15, .15, .18, .2}, {1.7, 1.55, 1.5, 1.55, 1.45}, ssFrac[0]};
   // termFrac = (goalTermBias )/(goalTermBias + barterStart - term)
   //    gtb=18 t=18  18/18 = 1;  t=9  18/(18 + 18-9=27) = .6666; t=`0 18/36 = .5
   // related to decrement per term
@@ -1365,8 +1368,8 @@ class EM {
   static double[][] mFutGrowthYrMult = {{1.5, 11.5}, {1.5, 11.5}};
   double futtMTGCostsMult[][] = {{2., 2., 4., 4., 3.}, {6., 4., 5., 3., 4.}};
   double[][] mFuttMTGCostsMult = {{.7, 7.}, {.7, 7.}};
-  double growthGoals[][][] = {emergGrowth, goalGrowth, tradeGrowth};
-  double maintGoals[][][] = {emergHealth, goalHealth, tradeHealth};
+ // double growthGoals[][][] = {emergGrowth, goalGrowth, tradeGrowth};
+  //double maintGoals[][][] = {emergHealth, goalHealth, tradeHealth};
   // A2Row and A6Row sum the min cnt values
   int minSumCnt = 7;  // for large sum of min's
   int minSum2Cnt = 3;  // for smaller sum of min's
@@ -1541,8 +1544,8 @@ class EM {
     if (E.debugSettingsTab) {
       v1 = vaddr.length;
       v2 = vaddr[0].length;
-      v3 = v1 == 2 ? vaddr[1].length : -1;
-      if ((v1 <= 2 && v2 != 1 && v2 != 2 && v2 != 5) || (v1 == 2 && v3 != 1 && v3 != 2 && v3 != 5)) {
+      v3 = v1 == 2 ? vaddr[1].length : v1 == 3 ? vaddr[1].length : -1;
+      if ((v1 <= 2 && v2 != 1 && v2 != 2 && v2 != 5) || (v1 == 2 && v3 != 1 && v3 != 2 && v3 != 5) || (v1 == 3 && v2 != 5 && v3 != 5)) {
         throw new MyErr("doVal{2} illegal length vdesc=" + vdesc + ", vaddr.length=" + vaddr.length + ", vaddr[0].length=" + v2 + (v1 == 2 ? "vaddr[1].length =" + v3 : ""));
       }
     }
@@ -1551,10 +1554,11 @@ class EM {
             : v2 == 2 ? vtwo
                     : v2 == 5 ? vfive : 11
             : v1 == 2 && v2 == 1 && v3 == 1 ? vfour
-                    : v1 == 2 && v2 == 5 && v3 == 5 ? vten : 11; // 
+                    : v1 == 2 && v2 == 5 && v3 == 5 ? vten 
+            : v1 == 3 && v2 == 5 && v3 == 5 ? vten : 11; // specail case
     if (E.debugSettingsTab) {
       if (gc == 11) {
-        throw new MyErr("doval{3} illegal length vdesc=" + vdesc + ", vaddr.length=" + vaddr.length + ", vaddr[0].length=" + v2 + (v1 == 2 ? "vaddr[1].length =" + v3 : ""));
+        throw new MyErr("doval{3} illegal length vdesc=" + vdesc + ", vaddr.length=" + vaddr.length + ", vaddr[0].length=" + v2 + (v1 == 2 ? "vaddr[1].length =" + v3 : "v1!=2"));
       }
     }
     vv = doVal1(gc, vdesc, lims, vdetail);
@@ -2138,9 +2142,9 @@ class EM {
   boolean matchGameClanStatus(int vv) {
     int gc = valI[vv][modeC][0][0];
     boolean rtn = ((gc >= vone && gc <= vfour) && gameClanStatus == 5)
-            || (vten == gc) && (0 <= gameClanStatus && 4 >= gameClanStatus);
+            || (vten == gc || gc == vfive ) && (0 <= gameClanStatus && 4 >= gameClanStatus);
     if (E.debugSettingsTabOut) {
-      System.out.println("at 1397 match game clan vv=" + vv + " valS=" + valS[vv][vDesc] + " match game clan status=" + gameClanStatus + ", gc=" + gc + ", " + (rtn ? "" : "!!") + "rtn");
+      System.out.println("at 2146 match game clan vv=" + vv + " valS=" + valS[vv][vDesc] + " match game clan status=" + gameClanStatus + ", gc=" + gc + ", " + (rtn ? "" : "!!") + "rtn");
     }
     return rtn;
   }
@@ -2324,9 +2328,11 @@ class EM {
     //  doVal("GWorthBias", guestWorthBias, mGuestWorthBias, "increase the worth of guests in relation to the worth of staff");  guest worth matches staff worth, costs are less
 
     doVal("growthGoal", goalGrowth, mRegGoals, "set normal, non-emergency growth goal, may increase growth");
-    doVal("emergGrowthGoal", emergGrowth, mAllGoals, "set emergency growth goals for when economies are weak more might help or might may make them worse");
+    doVal("ShipsTradeFraction", ssFrac, mSsFrac, "Increase the desired trade profit with other ships (received/given) in a trade, this may reduce the number of successful trades");
+     doVal("tradeFraction", tradeFrac, mTradeFrac, "Increase the desired trade profit (received/given) in a trade, this may reduce the number of successful trades");
+   //   doVal("tradeGrowthGoal", tradeGrowth, mAllGoals, "adjust growth goals while trading, increases the level of requests to meet goals");
     doVal("tradeGrowthGoal", tradeGrowth, mAllGoals, "adjust growth goals while trading, increases the level of requests to meet goals");
-    doVal("healthGoal", goalGrowth, mRegGoals, "set normal, non-emergency health goal, may increase health and reduce costs");
+    doVal("healthGoal", goalHealth, mRegGoals, "set normal, non-emergency health goal, may increase health and reduce costs");
     doVal("emergHealthGoal", emergHealth, mAllGoals, "set emergency health goals for when economies are weak more might help or might may make them worse");
     doVal("tradeHealthGoal", tradeHealth, mAllGoals, "adjust health goals while trading, increases the level of requests to meet goals");
     /* mMtgWEmergency */
@@ -3840,6 +3846,7 @@ class EM {
    * @param age years since creation of the Econ for this stat
    * @return v
    */
+  int cntStatsPrints = 0;
   double setStat(int rn, int pors, int clan, double v, int cnt, int age
   ) {
     int le = 10;
@@ -3935,10 +3942,14 @@ class EM {
         long isset1 = (jj - 1 + jjj < resI[rN].length ? resI[rN][jj - 1 + jjj] != null ? resI[rN][jj - 1 + jjj][CCONTROLD][ISSET] : -1 : -2);
 
         if (E.debugStatsOut1) {
+          if(cntStatsPrints < E.ssMax) { 
+          cntStatsPrints += 1;
           System.out.println(
                   "EM.setStat " + Econ.nowName + " " + Econ.threadCnt[0] + " since doYear" + year + "=" + moreT + "=>" + moreTT + " " + resS[rN][0] + " rN" + rN + ", valid" + valid + ", " + " resIcum=" + resICumClan + ", age" + age + ", curEcon.age" + curEcon.age + ", pors=" + pors + ", clan=" + clan + ", resIcur0Isset=" + resIcur0Isset + ", resICumIsset=" + resICumIsset + ", resVCur0Clan=" + mf(resVcur0Clan) + ", resVCurmClan=" + mf(resVCurmClan));
+          System.out.flush();
+          } //ssMax
         }
-        System.out.flush();
+
       };
     }
     long[][][] resii = resI[rn];  //for values if using debug

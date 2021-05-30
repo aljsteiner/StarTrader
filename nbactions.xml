@@ -10,9 +10,36 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:3.0.0:exec</goal>
             </goals>
             <properties>
-                <exec.args>-classpath %classpath trade.TestStarTrader</exec.args>
+                <exec.args>-classpath %classpath trade.StarTrader</exec.args>
                 <exec.executable>java</exec.executable>
                 <exec.workingdir>C:\Users\Public\netbeans\starTraderMaven\src\main\java\trade</exec.workingdir>
+            </properties>
+        </action>
+        <action>
+            <actionName>test</actionName>
+            <packagings>
+                <packaging>jar</packaging>
+            </packagings>
+            <goals>
+                <goal>process-classes</goal>
+                <goal>org.codehaus.mojo:exec-maven-plugin:3.0.0:exec</goal>
+            </goals>
+            <properties>
+                <exec.args>-classpath %classpath trade.TestStarTraderTest</exec.args>
+                <exec.executable>java</exec.executable>
+                <exec.workingdir>C:\Users\Public\netbeans\starTraderMaven\src\test\java\trade</exec.workingdir>
+            </properties>
+        </action>
+         <action>
+            <actionName>CUSTOM "testStarTrader"</actionName>
+            <displayName>"testStarTrader"</displayName>
+            <goals>
+                <goal>test-compile</goal>
+                <goal>surefire:test</goal>
+            </goals>
+            <properties>
+              <test>${packageClassName}#trade.TestStarTraderTest</test>
+              <vertx.timeout>9999</vertx.timeout> 
             </properties>
         </action>
         <action>

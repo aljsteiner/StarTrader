@@ -6031,7 +6031,7 @@ public class Assets {
         double myFavV = (eM.favMult * eM.fav[clan][oClan] - eM.favMult * 3.);
         double myFavFrac = 1. / (1. + myFavV); // mult decr or incr goal
         // oFavV is better above value 3
-        double oFavV = (eM.favMult * eM.fav[oClan][clan] - eM.favMult * 3.) * eM.oClanMult;
+        double oFavV = (eM.favMult * (eM.fav[oClan][clan] -  3.)) * eM.oClanMult;
         double oFavFrac = 1. / (1. + oFavV);
         // no reduction in goal unless sos is registered as sosFrac = 1./(1+sosfrac[pors]
         double sosFrac = 1. / (1. + (sos ? (eM.fav[clan][oClan] > 3. && eM.fav[oClan][clan] > 3.) ? eM.sosfrac[pors] : 0. : 0.));

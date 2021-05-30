@@ -30,7 +30,7 @@ import static trade.StarTrader.startTime;
  * This is a class to test the program StarTrader in a number of ways
  * Only when the tests are ok may the github be updated
  */
-public class TestStarTrader {
+public class TestStarTraderTest {
   static protected E eE;
   static EM eM;
   static StarTrader st;
@@ -48,16 +48,37 @@ public class TestStarTrader {
     try {
       System.err.println("starting out in test main " + Thread.currentThread().getName());
     mainStart();
+     /* Create and display the form */
+     TestStarTraderTest tstt = new TestStarTraderTest();
+      java.awt.EventQueue.invokeLater(new Runnable() {
+        @Override
+        public void run() {
+          tstt.setVisible(true);
+        }
+      });
     StarTrader st = new StarTrader();
-     
+     if(st.fatalError) throw new MyErr("fatal error at new StarTrader");
+     System.err.println(" passed first test, StarTrader started");
       /* Create and display the form */
-      java.awt.EventQueue.invokeAndWait(() -> {
+       /* Create and display the form */
+     java.awt.EventQueue.invokeAndWait(() -> {
         st.setVisible(true);
       } //java.awt.EventQueue.invokeLater(new Runnable() {
       );
       eE = st.getE();
       eM = st.getEM();
+      if(st.fatalError) throw new MyErr("fatal error before first run");
+      System.err.println(" passed start eventQueue");
       st.runYears(1);
+      if(st.fatalError) throw new MyErr("fatal error at first run");
+      System.err.println("passed first year run");
+      eM.difficultyPercent[0] = 60.;
+    //  eM.difficultyPercent[1] = 60.;
+      st.runYears(1);
+      if(st.fatalError) throw new MyErr("fatal error at second run");
+      System.err.println("passed second year run");
+      System.exit(0);
+      System.err.println("oops passed exit");
      } catch (InvocationTargetException ex) {
       java.util.logging.Logger.getLogger(StarTrader.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
       EM.flushes();
@@ -87,6 +108,10 @@ public class TestStarTrader {
     }
     //</editor-fold>
 
+  } // main
+  
+  public TestStarTraderTest(){
+    
   }
   
 }
