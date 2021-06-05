@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author albert
+ * @author Albert Steiner
  */
 public class A10Row extends A6Rowa {
 
@@ -57,6 +57,7 @@ public class A10Row extends A6Rowa {
   /**
    * constructor for new costs object 0RC=2+4,1SG=3+5,2r-r,3r - s,4s -r,5s-s
    *
+   * @param ec reference to the current Econ
    * @param alev level for listing this row array
    * @param atitl title of the row array
    */
@@ -75,7 +76,7 @@ public class A10Row extends A6Rowa {
   /**
    * set to all the values in A10Row B
    *
-   * @param B
+   * @param B  T A10Row being copied value by value into this
    * @return the new this
    */
   A10Row set(A10Row B) {
@@ -94,9 +95,9 @@ public class A10Row extends A6Rowa {
     }
     return this;
   }
-  /** copy an A2Row into the r & s locations with appropriate rc and sg
+  /** copy an A2Row into the r & s locations with appropriate rc and sg values
    * 
-   * @param b  an input A2
+   * @param b  an input A2Row
    * @return   the entire instance of A10Row
    */
   A10Row set(A2Row b){
@@ -137,8 +138,8 @@ public class A10Row extends A6Rowa {
    * all copied as well as all A[] values
    * rows rc,sg are resumed so they may not match the original
    *
-   * @param alev the display level to set for this A10Row
-   * @param tit new titl for the copy
+   * @param alev the display level to set for the new A10Row
+   * @param atitl new title for the copy
    * @return new object copy new references for the values
    */
   public A10Row copy(int alev, String atitl) {
@@ -228,8 +229,8 @@ public class A10Row extends A6Rowa {
   /**
    * get the value of rows 0,1 by set m = m%2
    *
-   * @param m
-   * @param n
+   * @param m The row %2 to be gotten
+   * @param n The value in the requested row
    * @return m % 2,n
    */
   public double gett(int m, int n) {
@@ -285,7 +286,7 @@ public class A10Row extends A6Rowa {
    * set object copy from 8 costs, and convert staff work to staff balance
    * values set balances false and costs true
    *
-   * @param alev used by sendHist as send if History.dl &gt alev, lev = alev
+   * @param alev used by sendHist as send if History.dl &gt; alev, lev = alev
    * @param aTitl title for all sendHist rows
    * @param RR the cost to r for the r SubAsset
    * @param RS the cost to s for the r SubAsset
@@ -329,7 +330,7 @@ public class A10Row extends A6Rowa {
    * set object copy from 8 costs, and convert staff work to staff balance
    * values
    *
-   * @param alev used by sendHist as send if History.dl &gt alev, lev = alev
+   * @param alev used by sendHist as send if History.dl &gt; alev, lev = alev
    * @param aTitl title for all sendHist rows
    * @param RR the cost to r for the r SubAsset
    * @param RS the cost to s for the r SubAsset
@@ -357,8 +358,8 @@ public class A10Row extends A6Rowa {
    * set object copy from 8 costs, and convert staff work to staff balance
    * values
    *
-   * @param alev used by sendHist as send if History.dl &gt alev, lev = alev
-   * @param aTitl title for all sendHist rows
+   * @param alev used by sendHist as send if History.dl &gt; alev, lev = alev
+   * @param atitl title for all sendHist rows
    * @param RR the cost to r for the r SubAsset
    * @param RS the cost to s for the r SubAsset
    * @param CR the cost to r for the c SubAsset
@@ -387,10 +388,10 @@ public class A10Row extends A6Rowa {
   }
 
   /**
-   * subtrace each B time V from the calling object
+   * subtract each B times V from the this calling object
    *
-   * @param B
-   * @param V
+   * @param B  the source to be subtracted
+   * @param V  multiplier
    * @return each this - each B * V
    */
   public A10Row setSubBmultV(A10Row B, double V) {
@@ -408,8 +409,8 @@ public class A10Row extends A6Rowa {
   /**
    * set to Min of each by each B,C
    *
-   * @param B
-   * @param C
+   * @param B the first A10Row
+   * @param C the second A10Row
    * @return min each by each B,C, 0 = min(2,4),1=min(3,5)
    */
   public A10Row setMin(A10Row B, A10Row C) {
@@ -437,8 +438,8 @@ public class A10Row extends A6Rowa {
   /**
    * set to Max of each by each A, B
    *
-   * @param A
-   * @param B
+   * @param A the first A10row for max
+   * @param B the second A1-row for max
    * @return
    */
   public A10Row setMax(A10Row A, A10Row B) {
@@ -458,9 +459,9 @@ public class A10Row extends A6Rowa {
   /**
    * set to Min of each by each B,C,D
    *
-   * @param B
-   * @param C
-   * @param D
+   * @param B The first A10row for min
+   * @param C The second A10Row for min
+   * @param D The third A10Row for min
    * @return Min of each by each B,C,D
    */
   public A10Row setMin(A10Row B, A10Row C, A10Row D) {
@@ -478,10 +479,10 @@ public class A10Row extends A6Rowa {
   }
 
   /**
-   * set instance to each ARow A mult by B
+   * set instance to each corresponding ARow A to be mult by B
    *
-   * @param A
-   * @param B
+   * @param A  The first 
+   * @param B The multiplier
    * @return each by each A * B
    */
   public A10Row setAmultB(A10Row A, A10Row B) {
@@ -497,11 +498,12 @@ public class A10Row extends A6Rowa {
     return this;
   }
 
-  /** set multiplying this instance by a fertility
+  /** set multiplying A10Row by a fertility
    * 
    * @param a a raw cost
    * @param f a fertility
-   * @return this
+   * @return result the 4 resource subAssets mult by f[0]
+   *    the 4 staff subAssets mult by f[1]
    */
   public A10Row setAmultF(A10Row a,A2Row f){
     for(int n:ASECS){
@@ -517,8 +519,9 @@ public class A10Row extends A6Rowa {
   /**
    * subtract each value in C from the corresponding value in B
    *
-   * @param B
-   * @return
+   * @param B first values to be reduced by C
+   * @param C the subtracting values
+   * @return the result of the subtractions
    */
   public A10Row setBsubC(A10Row B,A10Row C) {
     // mult each member set of 2 rows each A by corresponding B
@@ -534,7 +537,7 @@ public class A10Row extends A6Rowa {
   /**
    * set object to each a sector mult by V
    *
-   * @param a  A10Row to multiply
+   * @param a  A10Row values to be multiplied
    * @param v multiplier for each sector
    * @return  each a sector mult by v
    */
@@ -555,10 +558,10 @@ public class A10Row extends A6Rowa {
   }
 
   /**
-   * divide each value of each row in aA by corresponding elements in B
+   * divide each value of each row in A by corresponding elements in B
    *
-   * @param A
-   * @param B
+   * @param A The divided
+   * @param B the divisor
    * @return each A each element divided by corresponding B
    */
   public A10Row setAdivByB(A10Row A, A10Row B) {
@@ -579,60 +582,60 @@ public class A10Row extends A6Rowa {
   /**
    * set instance to the each by each sum of A +B
    *
-   * @param A
-   * @param B
-   * @return this = each by each A + B + C
+   * @param A first to be added
+   * @param B second to be added
+   * @return this = each by each A + B
    */
-  public A10Row setAdd(A10Row a, A10Row b) {
+  public A10Row setAdd(A10Row A, A10Row B) {
     for (int m : IA) {
       for (int n : ASECS ) {
-        this.set(m, n, a.get(m, n) + b.get(m, n));
+        this.set(m, n, A.get(m, n) + B.get(m, n));
       }
     }
     return this;
   }
 
   /**
-   * get internal ARow n
+   * get internal ARowm
    *
-   * @param m
-   * @return
+   * @param m index of the row to be returned
+   * @return the row designated by the index
    */
-  public ARow getRow(int n) {
-    return A[n];
+  public ARow getRow(int m) {
+    return A[m];
   }
 
   /**
    * sum the designated row
    *
-   * @param row
-   * @return
+   * @param m the index of the row to sum
+   * @return the sum of row m
    */
   @Override
-  double rowSum(int row) {
-    return this.A[row].sum();
+  double rowSum(int m) {
+    return this.A[m].sum();
   }
 
   /**
    * list percents for designated rows against balances, note that r,c,s,g have
    * both r and s cost components
    *
-   * @param hist
-   * @param blev
-   * @param lev
-   * @param aPre
-   * @param title
-   * @param balances
-   * @param grows
-   * @param reqM
-   * @param reqG
-   * @param maint
-   * @param travel
-   * @param growthC
+   * @param hist The array of the logs 
+   * @param blev if lev > blev
+   * @param lev level of any hist lines
+   * @param aPre prefix of the hist lines
+   * @param title title of the hist lines only the tail part
+   * @param balances balances by SubAssets
+   * @param grows amount of growth
+   * @param reqM  cost of required Maintenance
+   * @param reqG costs of required Growth
+   * @param maint costs of maintenance
+   * @param travel costs of travel
+   * @param growthC costs of growth
    * @param
    */
   void sendPercent8(ArrayList<History> hist, int blev, int lev, String aPre, String title, A6Row balances, A6Row grows, A10Row reqM, A10Row reqG, A10Row maint, A10Row travel, A10Row rawGC, A10Row growthC, A10Row MTGC) {
-    if (ec.clearHist()) {
+    if (ec.clearHist()) { // leave no log
       return;
     }
     int rb = 0, rr = 0, rg = 0;
@@ -735,23 +738,23 @@ public class A10Row extends A6Rowa {
    * percents in relation to rc and sg
    *
    * @obsolete functions moved to just sendPercents, no output here
-   * @param hist
-   * @param blev
-   * @param lev
-   * @param aPre
-   * @param title
-   * @param balances
-   * @param grows
-   * @param reqM
-   * @param reqG
-   * @param maint
-   * @param travel
-   * @param rawGC
-   * @param growthC
-   * @param MTGC
+   * @param hist The array of the logs 
+   * @param blev if lev > blev
+   * @param lev level of any hist line
+   * @param aPre prefix of the hist line
+   * @param title title of the hist line
+   * @param balances x
+   * @param grows x
+   * @param reqM x
+   * @param reqG x
+   * @param maint x
+   * @param travel x
+   * @param rawGC x
+   * @param growthC x
+   * @param MTGC x
    */
   void sendPercent2(ArrayList<History> hist, int blev, int lev, String aPre, String title, A6Row balances, A6Row grows, A10Row reqM, A10Row reqG, A10Row maint, A10Row travel, A10Row rawGC, A10Row growthC, A10Row MTGC) {
-    if (blev < History.dl && lev <= blev && ec.econCnt < 10) {
+    if (blev < History.dl && lev <= blev && ec.econCnt < 10 && eM.year < 2) {
       int rb = 2, rr = 2, rg = 2;
       String rs = " a ";
 
@@ -764,7 +767,7 @@ public class A10Row extends A6Rowa {
    * &ge lev
    *
    * @param lev the level of this log
-   * @param blev the max level listed * @param aPre the prefix
+   * @param aPre the prefix
    * @param titl the title
    */
   void sendHist(int lev, String aPre, String titl) {
@@ -777,7 +780,7 @@ public class A10Row extends A6Rowa {
    * &ge lev
    *
    * @param lev the level of this log
-   * @param blev the max level listed * @param aPre the prefix
+   * @param aPre the prefix
    */
   @Override
   void sendHist(int lev, String aPre) {
@@ -789,15 +792,15 @@ public class A10Row extends A6Rowa {
    * not list if econCnt &gt; 10 do not list if History.dl &gt; blev and blev
    * &ge lev
    *
-   * @param lev the level of this log
    * @param blev the max level listed
+   * @param lev the level of this log
    * @param aPre the prefix
    * @param titl the title
    */
   void sendHist(int blev, int lev, String aPre, String titl) {
     sendHist(hist, blev, aPre, lev, titl);
   }
-  /** another version of sendHist
+  /** another version of sendHist make logs
    * 
    * @param blev limit level
    * @param apre  prefix
@@ -810,14 +813,11 @@ public class A10Row extends A6Rowa {
 
   /**
    * send 10 rows to the hist log 
-   * do not list if econCnt &gt; E.maxEconHist 
-   * do not list if econCnt &gt; 10 
-   * do not list if History.dl &lt; blev and blev &le lev
-   *
+  
    * @param hist the log array
-   * @param lev the level of this log
+   * @param blev the max level of this log entry
    * @param aPre the prefix
-   * @param blev the max level listed
+   * @param lev the level of the entry
    * @param titl the title
    */
   void sendHist(ArrayList<History> hist, int blev, String aPre, int lev, String titl) {
@@ -840,6 +840,12 @@ public class A10Row extends A6Rowa {
     }
   }
 
+   /**
+   * send 10 rows to the hist log 
+  
+   * @param hist the log array
+   * @param aPre the prefix
+   */
   void sendHist(ArrayList<History> hist, String aPre) {
     sendHist(hist, blev, aPre, lev, titl);
   }
@@ -850,8 +856,8 @@ public class A10Row extends A6Rowa {
    * @param bLev list only if bLev is greater or equal to lev
    * @param aPre pre characters
    * @param lev listing level
-   * @param tit0
-   * @param tit1
+   * @param tit0 title of row 0
+   * @param tit1 title of row 1
    */
   void sendHist01(int bLev, String aPre, int lev, String tit0, String tit1) {
 
@@ -879,6 +885,9 @@ public class A10Row extends A6Rowa {
     }
   }
 
+   /** send history of the A10Row
+    * 
+    */
   void sendHist() {
     sendHist(hist, blev, "#H", lev, titl);
   }
@@ -920,7 +929,7 @@ public class A10Row extends A6Rowa {
    * @param group  Swap type 0=incr, 1=decr,2=xchg
    * @param ixSrc 0=resource, 1=staff
    * @param srcIx  index of source row
-   * @param nYears  number of years avoid, 100=forever
+   * @param nYears  number of years to stop action, 100=forever
    * @return this
    */
   public A10Row setDoNot(int group, int ixSrc, int srcIx, double nYears) {
@@ -935,7 +944,7 @@ public class A10Row extends A6Rowa {
    *
    * @param group  Swap type 0=incr, 1=decr,2=xchg
    * @param needIx  index a sector in the 2 rows 0-13
-   * @param nYears  number of years avoid, 100=forever
+   * @param nYears number of years to stop action, 100=forever
    * @return this
    */
   public A10Row setDoNot(int group,  int needIx, double nYears) {
@@ -946,7 +955,7 @@ public class A10Row extends A6Rowa {
   }
 
   /**
-   * test whether some doNots are still active
+   * test whether any doNots are still active
    *
    * @return number of doNot's set
    */

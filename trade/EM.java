@@ -107,6 +107,7 @@ class EM {
   ArrayList<EM> ems = new ArrayList<EM>();
   TreeMap<String, Econ> names2ec = new TreeMap<String, Econ>();
   ArrayList<String> emNames = new ArrayList<String>();
+  int[] envsPerYear = {10, 20, 30, 40, 50, 60, 10};
   // int porsClanCntd[][] = {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}}; // defaults
   static int porsClanCnt[][] = {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}};
   //int clanCntd[] = {0, 0, 0, 0, 0};
@@ -169,11 +170,12 @@ class EM {
   // multiplier of the ship goals.
   double[] addGoal = {0.0, 0.015, .025, .045, .06, .08, 2.0, 2.3};//9
   // .25 = 1ship/3 planets
-  double[] gameShipFrac = {.70};  // ships / econs .75 means 3ships/1 planet, .8 = 4ships/1planet
+  double[] gameShipFrac = {.70};  // 2.3 ships / econs .75 means 3ships/1 planet, .8 = 4ships/1planet
   static double[][] mGameShipFrac = {{.25, 1.20}, {.25, 1.20}};
-  double[][] clanShipFrac = {{.70, .70, .70, .501, .6}, {.70, .70, .70, .501, .6}}; // .3->5. clan choice of clan ships / clan econs
+// double[][] clanShipFrac = {{.70, .70, .70, .501, .6}, {.70, .70, .70, .501, .6}}; // .3->5. clan choice of clan ships / clan econs
+  double[][] clanShipFrac = {{.501, .501, .501, .501, .6}};
   static double[][] mClanShipFrac = {{.25, .81}, {.20, 1.20}};
-  double[][] clanAllShipFrac = {{.70, .70, .70, .501, .501},{.70, .70, .70, .501, .501} }; // clan (ships/econs)
+  double[][] clanAllShipFrac = {{.501, .501, .501, .501, .501} }; // clan (ships/econs)
   static double[][] mClanAllShipFrac = {{.25, 1.20}, {.2, 1.20}};
   double econLimits1[] = {300.}; // start limiting econs
   static double mEconLimits1[][] = {{200., 500.}, {200., 500.}};
@@ -188,12 +190,12 @@ class EM {
   static Econ otherEcon;  // other Econ when trading
   double[][] wildCursCnt = {{7}};
   static double[][] mWildCursCnt = {{3., 10.}};
-  double[] difficultyPercent = {40., 40.};
-  double[][] mDifficultyPercent = {{5., 69.}, {5., 69.}};
+  double[] difficultyPercent = {20.};
+  double[][] mDifficultyPercent = {{1., 90.}, {1., 90.}};
   double[][] minEconsMult = {{1.5}};
   static double[][] mminEconsMult = {{.5, 10.0}, {.5, 10.0}};
   double[][] maxThreads = {{5.2}};
-  static double[][] mmaxThreads = {{1.0, 6.0}};
+  static double[][] mmaxThreads = {{1.0, 12.0}};
   double[][] haveColors = {{ 2.0}};
   static double [][] mHaveColors = {{ 0.2,2.2}};
   double[] sendHistLim = {20};
@@ -365,6 +367,7 @@ class EM {
      } catch (Exception ex) {
       flushes();
       System.err.println("Error " + new Date().toString() + " " + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr + addMore());
+      fatalError = true;
       flushes();
       ex.printStackTrace(System.err);
       System.err.flush();
@@ -860,12 +863,12 @@ class EM {
   double[] multGrowthC = multReqMaintC;
 
   double mult5Ctbl[][] = {multReqMaintC, multReqGrowthC, multMaintC, multTravC, multGrowthC};
-  double mab1[] = {.60, .60}; // resource costs planet,ship
-  double mac1[] = {.60, .60}; // staff costs planet ship 
+  double mab1[] = {.30, .30}; // resource costs planet,ship
+  double mac1[] = {.30, .30}; // staff costs planet ship 
   double mabc[][] = {mab1, mac1}; //r or s, p or s
-  static double mmab1[][] = {{.09, 3.1}, {.09, 3.1}}; // resource costs planet,ship
+  static double mmab1[][] = {{.01, 1.}, {.01, 1.1}}; // resource costs planet,ship
   static double[][] mmab2 = {{.5, 1.9}, {.5, 1.9}};
-  static double mmac1[][] = {{.09, 3.1}, {.09, 3.1}};
+  static double mmac1[][] = {{.01, 1.}, {.01, 1.}};
   double mab2[] = {.9, .9}; // resource, staff cost
   static double[][] mmac2 = {{.1, 2.6}, {.1, 2.6}};
   double mac2[] = {.5, 1.8}; //planet or ship costs
@@ -920,7 +923,7 @@ class EM {
             vrs = rs[aa][ab][ac][ad]
                     = // add difficultyPercent as a cost factor 50% = 1. mult
                     //(vdif = difficultyPercent[ac]) * .1  *
-                    (vdif = difficultyPercent[ac] * 0.025)
+                    (vdif = difficultyPercent[0] * 0.025)
                     * (vrs4 = rs4[aa][ab][ac][(int) ad / 2])
                     * (vm5t = mult5Ctbl[aa][ac])
                     * //mabc[ab][ac] * ps[ac][ad];
@@ -1038,7 +1041,7 @@ class EM {
   double[] fracPriorityInGrowth = {.5, .5};  //mult priority in growth calc and percent to frac
   static final double[][] mFracPriorityInGrowth = {{.1, .9}, {.1, .9}};
   double[] resourceGrowth = {1., .002}; // growth per work
-  static final double[][] mResourceGrowth = {{.01, 2.}, {0.002, .1}};
+  static final double[][] mResourceGrowth = {{.01, 2.}, {0.002, .9}};
   // decay mining cumulative related to each years growth
   double[] resourceGrowthDecay = {.0000006, .0000001}; //per unit
   // decay mining cumulative related to each years growth
@@ -1047,7 +1050,7 @@ class EM {
   static final double[][] mCargoGrowth = {{0.0000001, 0.00009}, {0.000000001, 0.000009}};
   // cargo decay use resourceGrowthDecay
   double[] staffGrowth = {1., .002}; // growth per work
-  static final double[][] mStaffGrowth = {{.01, 2.}, {0.0002, .1}};
+  static final double[][] mStaffGrowth = {{.01, 2.}, {0.0002, .9}};
   double[] staffGrowthDecay = {.0000002, .00000016};
   static final double[][] mStaffGrowthDecay = {{.00000005, .000005}, {.00000003, .000003}};
   double[] travelGrowth = {.0015, .0025}; // this multiplies against work
@@ -1167,7 +1170,7 @@ class EM {
   // ships get much more to survive and grow with planets
   // the fracs get reduced as the trades continue
   static double mTradeFrac[][] = {{.12, .4}, {.7, 3.0}};
-  double[][] tradeFrac = {{.15, .15, .15, .18, .2}, {1.7, 1.55, 1.5, 1.55, 1.45, 1.6}, ssFrac[0]};
+  double[][] tradeFrac = {{.15, .15, .15, .18, .2}, {1.7, 1.55, 1.5, 1.55, 1.45}, ssFrac[0]};
   // termFrac = (goalTermBias )/(goalTermBias + barterStart - term)
   //    gtb=18 t=18  18/18 = 1;  t=9  18/(18 + 18-9=27) = .6666; t=`0 18/36 = .5
   // related to decrement per term
@@ -1365,8 +1368,8 @@ class EM {
   static double[][] mFutGrowthYrMult = {{1.5, 11.5}, {1.5, 11.5}};
   double futtMTGCostsMult[][] = {{2., 2., 4., 4., 3.}, {6., 4., 5., 3., 4.}};
   double[][] mFuttMTGCostsMult = {{.7, 7.}, {.7, 7.}};
-  double growthGoals[][][] = {emergGrowth, goalGrowth, tradeGrowth};
-  double maintGoals[][][] = {emergHealth, goalHealth, tradeHealth};
+ // double growthGoals[][][] = {emergGrowth, goalGrowth, tradeGrowth};
+  //double maintGoals[][][] = {emergHealth, goalHealth, tradeHealth};
   // A2Row and A6Row sum the min cnt values
   int minSumCnt = 7;  // for large sum of min's
   int minSum2Cnt = 3;  // for smaller sum of min's
@@ -1541,8 +1544,8 @@ class EM {
     if (E.debugSettingsTab) {
       v1 = vaddr.length;
       v2 = vaddr[0].length;
-      v3 = v1 == 2 ? vaddr[1].length : -1;
-      if ((v1 <= 2 && v2 != 1 && v2 != 2 && v2 != 5) || (v1 == 2 && v3 != 1 && v3 != 2 && v3 != 5)) {
+      v3 = v1 == 2 ? vaddr[1].length : v1 == 3 ? vaddr[1].length : -1;
+      if ((v1 <= 2 && v2 != 1 && v2 != 2 && v2 != 5) || (v1 == 2 && v3 != 1 && v3 != 2 && v3 != 5) || (v1 == 3 && v2 != 5 && v3 != 5)) {
         throw new MyErr("doVal{2} illegal length vdesc=" + vdesc + ", vaddr.length=" + vaddr.length + ", vaddr[0].length=" + v2 + (v1 == 2 ? "vaddr[1].length =" + v3 : ""));
       }
     }
@@ -1551,10 +1554,11 @@ class EM {
             : v2 == 2 ? vtwo
                     : v2 == 5 ? vfive : 11
             : v1 == 2 && v2 == 1 && v3 == 1 ? vfour
-                    : v1 == 2 && v2 == 5 && v3 == 5 ? vten : 11; // 
+                    : v1 == 2 && v2 == 5 && v3 == 5 ? vten 
+            : v1 == 3 && v2 == 5 && v3 == 5 ? vten : 11; // specail case
     if (E.debugSettingsTab) {
       if (gc == 11) {
-        throw new MyErr("doval{3} illegal length vdesc=" + vdesc + ", vaddr.length=" + vaddr.length + ", vaddr[0].length=" + v2 + (v1 == 2 ? "vaddr[1].length =" + v3 : ""));
+        throw new MyErr("doval{3} illegal length vdesc=" + vdesc + ", vaddr.length=" + vaddr.length + ", vaddr[0].length=" + v2 + (v1 == 2 ? "vaddr[1].length =" + v3 : "v1!=2"));
       }
     }
     vv = doVal1(gc, vdesc, lims, vdetail);
@@ -2138,9 +2142,9 @@ class EM {
   boolean matchGameClanStatus(int vv) {
     int gc = valI[vv][modeC][0][0];
     boolean rtn = ((gc >= vone && gc <= vfour) && gameClanStatus == 5)
-            || (vten == gc) && (0 <= gameClanStatus && 4 >= gameClanStatus);
+            || (vten == gc || gc == vfive ) && (0 <= gameClanStatus && 4 >= gameClanStatus);
     if (E.debugSettingsTabOut) {
-      System.out.println("at 1397 match game clan vv=" + vv + " valS=" + valS[vv][vDesc] + " match game clan status=" + gameClanStatus + ", gc=" + gc + ", " + (rtn ? "" : "!!") + "rtn");
+      System.out.println("at 2146 match game clan vv=" + vv + " valS=" + valS[vv][vDesc] + " match game clan status=" + gameClanStatus + ", gc=" + gc + ", " + (rtn ? "" : "!!") + "rtn");
     }
     return rtn;
   }
@@ -2324,9 +2328,11 @@ class EM {
     //  doVal("GWorthBias", guestWorthBias, mGuestWorthBias, "increase the worth of guests in relation to the worth of staff");  guest worth matches staff worth, costs are less
 
     doVal("growthGoal", goalGrowth, mRegGoals, "set normal, non-emergency growth goal, may increase growth");
-    doVal("emergGrowthGoal", emergGrowth, mAllGoals, "set emergency growth goals for when economies are weak more might help or might may make them worse");
+    doVal("ShipsTradeFraction", ssFrac, mSsFrac, "Increase the desired trade profit with other ships (received/given) in a trade, this may reduce the number of successful trades");
+     doVal("tradeFraction", tradeFrac, mTradeFrac, "Increase the desired trade profit (received/given) in a trade, this may reduce the number of successful trades");
+   //   doVal("tradeGrowthGoal", tradeGrowth, mAllGoals, "adjust growth goals while trading, increases the level of requests to meet goals");
     doVal("tradeGrowthGoal", tradeGrowth, mAllGoals, "adjust growth goals while trading, increases the level of requests to meet goals");
-    doVal("healthGoal", goalGrowth, mRegGoals, "set normal, non-emergency health goal, may increase health and reduce costs");
+    doVal("healthGoal", goalHealth, mRegGoals, "set normal, non-emergency health goal, may increase health and reduce costs");
     doVal("emergHealthGoal", emergHealth, mAllGoals, "set emergency health goals for when economies are weak more might help or might may make them worse");
     doVal("tradeHealthGoal", tradeHealth, mAllGoals, "adjust health goals while trading, increases the level of requests to meet goals");
     /* mMtgWEmergency */
@@ -2878,15 +2884,15 @@ class EM {
     doRes(DIEDCATASTROPHY, "DiedAfterCrisis", "Died after catastrophy percent worth would have increased", 2, 2, 3, ROWS1 | LIST3 | CUMUNITS | BOTH | SKIPUNSET, ROWS2 |  LIST3 | BOTH | THISYEARUNITS | SKIPUNSET, 0L, 0L);
     doRes(DIEDSN4, "DIEDSN4", "died s min(3) or 4 staff lt 0");
     doRes(DIEDRN4, "DIEDRN3", "died 4 resource lt 0");
-    doRes(DIEDSN4RM3X5, " DIEDSN4RM3X5", "died 4 r lt 0, && 3 max r gt 5 times 3 max s");
-    doRes(DIEDSN4RM3X4, "DIEDSN4RM3X4", "died 4 r lt 0, && 3 max r gt 4 Times 3 max s");
-    doRes(DIEDSM3X5, "DIEDSM3X5", "died  3 max s gt 5 times 3 max r");
+    doRes(DIEDSN4RM3X5, " DIEDSN4RM3X5", "died 4 r lt 0, && max3 r gt 5 times max3 s");
+    doRes(DIEDSN4RM3X4, "DIEDSN4RM3X4", "died 4 r lt 0, && max3 r gt 4 Times max3 s");
+    doRes(DIEDSM3X5, "DIEDSM3X5", "died max3 s gt 5 times max3 r");
     doRes(DIEDSN4RN4, "DIEDSN4RN4", "died 4s lt 0 and 4r lt 0");
-    doRes(DIEDRM3X4, "DIEDRM3X4", "died thirs max of r gt 4 times thrid max of s");
+    doRes(DIEDRM3X4, "DIEDRM3X4", "died max3 of r gt 4 times max3 of s");
     doRes(DIEDSN3RN3, "diedSN3RN3", "died 3 s lt 0 and 3 r lt 0");
     doRes(DIEDSN3RN2, "DIEDSN3RN2", "died 3 s lt 0 and 2 r lt 0");
-    doRes(DIEDSN3RM3X4, "DIEDSN3RM3X4", "died 3 s lt 0 and 3 r max gt 4 times 3 s max");
-    doRes(DIEDSN3RM3X3, "DIEDSN3RM3X3", "died 3 S lt 0 & 3 r max gt 3 times 3 s max");
+    doRes(DIEDSN3RM3X4, "DIEDSN3RM3X4", "died 3 s lt 0 and r max3 gt 4 times s max3");
+    doRes(DIEDSN3RM3X3, "DIEDSN3RM3X3", "died 3 S lt 0 & r max3 gt 3 times s max3");
     doRes(DIEDSN3RN1, "DIEDSN3RN1", "died");
     doRes(DIEDSN3RM3X2, "DIEDSN3RM3X2", "died");
     doRes(DIEDSN3RM3X1, "DIEDSN3RM3X1", "died");
@@ -2947,22 +2953,22 @@ class EM {
     doRes(DIEDSM2X3RN2, "DIEDSM2X3RN2", "died");
     doRes(DIEDSM2X2RN2, "DIEDSM2X2RN2", "died");
     doRes(DIEDSM2X1RN2, "DIEDSM2X1RN2", "died");
-    doRes(DIEDSM1X4RN2, "DIEDSM1X4RN2", "died s max > 4 * r max, r min2 is neg");
-    doRes(DIEDSM1X3RN2, "DIEDSM1X3RN2", "died");
-    doRes(DIEDSM1X2RN2, "DIEDSM1X2RN2", "died");
-    doRes(DIEDSM1X1RN1, "DIEDSM1X1RN1", "died");
-    doRes(DIEDSM3X4RN1, "DIEDSM3X4RN1", "died");
-    doRes(DIEDSM3X3RN1, "DIEDSM3X3RN1", "died");
-    doRes(DIEDSM3X2RN1, "DIEDSM3X2RN1", "died");
-    doRes(DIEDSM3X1RN1, "DIEDSM3X1RN1", "died");
-    doRes(DIEDSM2X4RN1, "DIEDSM2X4RN1", "died");
-    doRes(DIEDSM2X3RN1, "DIEDSM2X3RN1", "died");
-    doRes(DIEDSM2X2RN1, "DIEDSM2X2RN1", "died");
-    doRes(DIEDSM2X1RN1, "DIEDSM2X1RN1", "died");
-    doRes(DIEDSM1X4RN1, "DIEDSM1X4RN1", "died");
-    doRes(DIEDSM1X3RN1, "DIEDSM1X3RN1", "died");
-    doRes(DIEDSM1X2RN1, "DIEDSM1X2RN1", "died");
-    doRes(DIEDSN1RM1X1, "DIEDSN1RM1X1", "died");
+    doRes(DIEDSM1X4RN2, "DIEDSM1X4RN2", "died s max > 4 * r max, r min2 is neg try reduce difficulty or staff or resource costs.");
+    doRes(DIEDSM1X3RN2, "DIEDSM1X3RN2", "died s max > 3 * r max, r min2 is neg try reduce difficulty or staff or resource costs.");
+    doRes(DIEDSM1X2RN2, "DIEDSM1X2RN2", "died s max > 2 * r max, r min2 is neg try reduce difficulty or staff or resource costs.");
+    doRes(DIEDSM1X1RN1, "DIEDSM1X1RN1", "died s max > 1 * r max, r min1 is neg try reduce difficulty or staff or resource costs.");
+    doRes(DIEDSM3X4RN1, "DIEDSM3X4RN1", "died s max3 > 4 * r max, r min1 is neg try reduce difficulty or staff or resource costs.");
+    doRes(DIEDSM3X3RN1, "DIEDSM3X3RN1", "died s max3 > 3 * r max, r min1 is neg try reduce difficulty or staff or resource costs.");
+    doRes(DIEDSM3X2RN1, "DIEDSM3X2RN1", "died s max3 > 2 * r max, r min1 is neg try reduce difficulty or staff or resource costs.");
+    doRes(DIEDSM3X1RN1, "DIEDSM3X1RN1", "died s max3 > 1 * r max, r min1 is neg try reduce difficulty or staff or resource costs.");
+    doRes(DIEDSM2X4RN1, "DIEDSM2X4RN1", "died s max3 > 4 * r max, r min1 is neg try reduce difficulty or staff or resource costs.");
+    doRes(DIEDSM2X3RN1, "DIEDSM2X3RN1", "died s max3 > 4 * r max, r min1 is neg try reduce difficulty or staff or resource costs.");
+    doRes(DIEDSM2X2RN1, "DIEDSM2X2RN1","died s max3 > 4 * r max, r min1 is neg try reduce difficulty or staff or resource costs.");
+    doRes(DIEDSM2X1RN1, "DIEDSM2X1RN1", "died s max3 > 4 * r max, r min1 is neg try reduce difficulty or staff or resource costs.");
+    doRes(DIEDSM1X4RN1, "DIEDSM1X4RN1",  "died s max1 > 4 * r max, r min1 is neg try reduce difficulty or staff or resource costs.");
+    doRes(DIEDSM1X3RN1, "DIEDSM1X3RN1", "died s max1 > 3 * r max, r min1 is neg try reduce difficulty or staff or resource costs.");
+    doRes(DIEDSM1X2RN1, "DIEDSM1X2RN1",  "died s max1 > 2 * r max, r min1 is neg try reduce difficulty or staff or resource costs.");
+    doRes(DIEDSN1RM1X1, "DIEDSN1RM1X1",  "died s max1 > 1 * r max, r min1 is neg try reduce difficulty or staff or resource costs.");
     doRes("DeadNegN", "DeadNegSwapN", "Dead Swaps never entered", 2, 2, 3, ROWS1 |  LIST3 | CUMUNITS | CUMAVE | BOTH | SKIPUNSET, ROWS3 | LIST3 | THISYEARUNITS | BOTH | SKIPUNSET, 0L, 0L);
     doRes("DeadLt5", "DeadLt5", "no more than 15 swaps");
     doRes("DeadLt10", "DeadLt10", "no more than 10 swaps");
@@ -3840,6 +3846,7 @@ class EM {
    * @param age years since creation of the Econ for this stat
    * @return v
    */
+  int cntStatsPrints = 0;
   double setStat(int rn, int pors, int clan, double v, int cnt, int age
   ) {
     int le = 10;
@@ -3935,10 +3942,14 @@ class EM {
         long isset1 = (jj - 1 + jjj < resI[rN].length ? resI[rN][jj - 1 + jjj] != null ? resI[rN][jj - 1 + jjj][CCONTROLD][ISSET] : -1 : -2);
 
         if (E.debugStatsOut1) {
+          if(cntStatsPrints < E.ssMax) { 
+          cntStatsPrints += 1;
           System.out.println(
                   "EM.setStat " + Econ.nowName + " " + Econ.threadCnt[0] + " since doYear" + year + "=" + moreT + "=>" + moreTT + " " + resS[rN][0] + " rN" + rN + ", valid" + valid + ", " + " resIcum=" + resICumClan + ", age" + age + ", curEcon.age" + curEcon.age + ", pors=" + pors + ", clan=" + clan + ", resIcur0Isset=" + resIcur0Isset + ", resICumIsset=" + resICumIsset + ", resVCur0Clan=" + mf(resVcur0Clan) + ", resVCurmClan=" + mf(resVCurmClan));
+          System.out.flush();
+          } //ssMax
         }
-        System.out.flush();
+
       };
     }
     long[][][] resii = resI[rn];  //for values if using debug

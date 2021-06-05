@@ -75,12 +75,15 @@ public class E {
    * execution speeds up if the debugging code is not reached
    */
   static final boolean distributable = false;
-  static final boolean debugMaster = true && !distributable;
-  static final boolean debugOutput = distributable;
+  static final boolean debugMaster = true ; // !distributable;
+  static final boolean debugfalse = false;
+  static final boolean debugOutput = distributable; //distributable;
+  static final boolean outputLess = true;  // reduce the output
   //static final boolean debugOutput = true;
   static final boolean resetOut = distributable;
   static final boolean debugDoYearOut = debugMaster; //output messages in doyear and subs
   static final boolean debugCheckBalances = debugMaster; //check balances in loops
+  static final boolean debugLogs = debugMaster; //checking keeping and making logs
   static final boolean debugNegGrowth = debugMaster; // neg Growth made negCosts
   static final boolean debugNegCosts = debugMaster; // checking for neg Costs
   static final boolean debugFutureFund = debugMaster; // checking for errors with future funds
@@ -104,17 +107,16 @@ public class E {
   static final boolean debugThreads = debugMaster;
   static final boolean SWAPTRADESYSTEMOUT = debugMaster;
   static final boolean DEBUGASSETSOUT = debugMaster;
-  
- static final boolean debugfalse = false;
- static final boolean debugPutRowsOut = debugfalse; //test putValue processing
-   static final boolean debugPutValue = debugfalse; //test putValue processing
-  static final boolean debugPutValue1 = debugfalse; //test putValue processing
-  static final boolean debugPutValue2 = debugfalse; //test putValue processing
-  static final boolean DEBUGWAITTRACE = false;
- static final boolean debugLogsOut = false; // EM rs output
-  static final boolean debugStatsOut1 = false; // stats output1
-  static final boolean debugThreadsOut = true; // threads output
-  static final boolean debugThreadsOut1 = true; // threads output1
+ static final boolean debugPutRowsOut = debugMaster; //test putValue processing
+   static final boolean debugPutValue = debugMaster; //test putValue processing
+  static final boolean debugPutValue1 = outputLess; //test putValue processing
+  static final boolean debugPutValue2 = outputLess; //test putValue processing
+  static final boolean DEBUGWAITTRACE = debugMaster;
+ static final boolean debugLogsOut = debugMaster; // EM rs output
+  static final boolean debugStatsOut1 = outputLess; // stats output1
+  static final int ssMax = 10; // max setStats printed;
+  static final boolean debugThreadsOut = debugMaster; // threads output
+  static final boolean debugThreadsOut1 = debugMaster; // threads output1
   /* Start Global data, set in tab init
    * [pors]
    */

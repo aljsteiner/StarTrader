@@ -656,24 +656,30 @@ public class Econ {
     ArrayList<History> yz = hists[0];
   }
   /**
-   * clear hist if this economy is %ge; keepHist and hist %ge; 20
+   * clear hist if this economy is %ge; keepHist and hist.size %ge; 20
    *
    * @return true if hist is not to be kept;
    */
- // boolean saveHist = false;
-  boolean saveHist = true;
-  boolean myClearHist = true;
+boolean saveHist = false;
+ // boolean saveHist = true;
+  boolean myClearHist = false;
 
   boolean clearHist() {
-    if (saveHist) {
+    if (saveHist) {  //true saveHist forces keep
       return false;
     }
-    if (myClearHist) {
+    if (myClearHist) {  // remember any decision to clear history
+      if(hist.size() > 4)hist.clear();
       return true;
     }
     int iKeepMax = eM.keepHistsByYear.length - 1;
     int iXKeep = (eM.year > iKeepMax ? iKeepMax : eM.year);
-    E.myTest(iXKeep > 2, "iXKeep=%d > 2, eM.year=%d, iKeepMax=%d, keepHistsByYear.lenth=%d", iXKeep, eM.year, iKeepMax, eM.keepHistsByYear.length);
+    if(E.debugLogs){
+      if(iXKeep > 2) {
+        eM.doMyErr("iXKeep=" + iXKeep + " > 2, year=" + eM.year + ", iKeepMax=" + iKeepMax + ", keepHistsByYear.length=" + eM.keepHistsByYear.length);
+   // E.myTest(iXKeep > 2, "iXKeep=%d > 2, eM.year=%d, iKeepMax=%d, keepHistsByYear.lenth=%d", iXKeep, eM.year, iKeepMax, eM.keepHistsByYear.length);
+    }
+    }
     if (econCnt >= eM.keepHistsByYear[(eM.year > iKeepMax ? iKeepMax : eM.year)]) {
       if (hist.size() > 20) {
         hist.clear();

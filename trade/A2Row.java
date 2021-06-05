@@ -44,8 +44,8 @@ public class A2Row {
   /**
    * new an A2Row from ARows a and b
    *
-   * @param a
-   * @param b
+   * @param a first ARow
+   * @param b second A$ow
    */
   A2Row(ARow a, ARow b) {
     ec = a.ec == null? ec: a.ec;
@@ -57,8 +57,10 @@ public class A2Row {
   /**
    * constructor
    *
+   * @param myEc current Econ ec
    * @param leva level when sendHist used
    * @param titla title when sendHist used
+   * @return a new A2Row with zero values
    */
   public A2Row(Econ myEc,int leva, String titla) {
     lev = leva;
@@ -71,7 +73,8 @@ public class A2Row {
 
   /**
    * new an A2Row with zero'd new ARows
-   *
+   * @param myEc current Econ ec
+   * @return a new A2Row with zero values
    */
   A2Row(Econ myEc) {
     ec = myEc;
@@ -84,6 +87,15 @@ public class A2Row {
   static int AmultB = 4;
   static int AdivbyB = 5;
 
+  /** perform one of 4 different operations creating a new A2Row
+   * 
+   * @param op 4 operations <ol><li>AaddB</li><li>AsubB</li>
+   *      <li>AmultB</li><li>AdivbyB</li></ol>
+   * @param leva level when listed in the log
+   * @param title title when listed in the log
+   * @param A first ARow
+   * @param B second ARow
+   */
   public A2Row(int op, int leva, String title, A6Row A, A6Row B) {
     ec = A.ec;
     ec.lev = lev = leva;
@@ -107,29 +119,25 @@ public class A2Row {
   }
 
   /**
-   * double format to string for putting into hist using eM.df
+   * double format to string for putting into hist using eM.mf
    *
    * @param v input
    * @return String value of v using
    */
   String df(double v) {
-    return eM.df(v);
+    return eM.mf(v);
   }
 
+  /** set the title of this A2Row for listing
+   * 
+   * @param title the title
+   * @return this A2Row with the revised title
+   */
   String setTitle(String title) {
     return titl = title;
   }
 
-  double adjust2Fertility(A2Row adjReqFertilities, A2Row rawReqFertilities, int pors, int clan) {
-//
-    for (int m : E.alsecs) {
-      adjReqFertilities.A[0].set(m, (rawReqFertilities.A[0].get(m) * (1. - eM.reqGrowthFertilityMinMult[pors][clan])) + rawReqFertilities.A[0].min() * eM.reqGrowthFertilityMinMult[pors][clan]);
-      adjReqFertilities.A[1].set(m, (rawReqFertilities.A[1].get(m) * (1. - eM.reqGrowthFertilityMinMult[pors][clan])) + rawReqFertilities.A[1].min() * eM.reqGrowthFertilityMinMult[pors][clan]);
-    }
-    adjReqFertilities.A[0].revalueAtoMinMax(adjReqFertilities.A[0], eM.minFertility[pors], eM.maxFertility[pors]);
-    adjReqFertilities.A[1].revalueAtoMinMax(adjReqFertilities.A[1], eM.minFertility[pors], eM.maxFertility[pors]);
-    return (adjReqFertilities.A[0].ave() + adjReqFertilities.A[1].ave()) / 2.;
-  }
+
 
   /**
    * order the ix from min to max of values then set valid
@@ -238,8 +246,8 @@ public class A2Row {
   /**
    * find the n from the min value of rows 0,1
    *
-   * @param x index generated from some other object
-   * @return the min n'th index
+   * @param x index of A2Row generated from something else
+   * @return the min index pointing to the same value in this
    */
   int findMinIx(int x) {
     checkIx();
@@ -253,10 +261,10 @@ public class A2Row {
   }
 
   /**
-   * find the n from the min value of rows 0,1
+   * find the largest n less than x in this A2Row
    *
-   * @param x some value in rows 0,1
-   * @return the min n'th index
+   * @param x some value 
+   * @return the index of the largest value in this less than x
    */
   int findMinIx(double x) {
     checkIx();
@@ -270,11 +278,11 @@ public class A2Row {
   }
 
   /**
-   * return the index of entry m,n
+   * return the A2Row index for the row index and index in the roew
    *
-   * @param m 0,1 row number
-   * @param n 0-E.lsecs-1 column number in row
-   * @return getIx(m*E.lsecs + n%E.lsecs);
+   * @param m  row index
+   * @param n index in row m
+   * @return A2Row index for thew offered indexes
    */
   int get01Ix(int m, int n) {
     return get01Ix(m * E.lsecs + n % E.lsecs);
