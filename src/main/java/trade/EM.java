@@ -4840,6 +4840,7 @@ if( (resS[rn][rDesc].contains("Score")  ) ){
             }
           }
                             }// end of match
+        
       } // end of loop on doRes locks0-3
       if (E.debugPutRowsOut) {
         if (putRowsPrint9Count < 12) {
