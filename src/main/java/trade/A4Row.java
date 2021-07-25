@@ -444,7 +444,7 @@ public class A4Row {
    * @param apre preString value
    */
   void sendHist(ArrayList<History> hist, String apre) {
-    if (History.dl > lev && ec.econCnt < 5) {
+    if (History.dl > lev && ec.myEconCnt< 5) {
       String titl = EM.curEcon.getName() + " " + this.titl;
       lev = Math.min(lev, History.auxInfo);
       hist.add(new History(apre, lev, titl, A[0]));
@@ -466,10 +466,10 @@ public class A4Row {
    * @param titl3 title of row3
    */
   void sendHist(ArrayList<History> hist, int bLev, String apre, String titl0, String titl1, String titl2, String titl3) {
-    if (ec.econCnt > E.maxEconHist) {
+    if (ec.myEconCnt> E.maxEconHist) {
       hist.clear();
     }
-    if (History.dl > bLev && ec.econCnt < 5) {
+    if (History.dl > bLev && ec.myEconCnt< 5) {
       String titl = EM.curEcon.getName() + " " + this.titl;
       lev = Math.min(lev, History.auxInfo);
       hist.add(new History(apre, lev, titl, A[0]));

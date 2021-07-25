@@ -46,7 +46,7 @@
           <url>https://repo.maven.apache.org/maven2/</url> 
       </pluginRepository> 
     </pluginRepositories>
-    <name>startrader20</name>
+    <name>StarTraderMaven</name>
     <description>try startrader in maven</description>
     <dependencies>
         <dependency>

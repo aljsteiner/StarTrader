@@ -26,7 +26,7 @@ public class A2Row {
 
   EM eM = EM.eM;
   E eE = EM.eE;
-  Econ ec = eM.curEcon;
+  Econ ec;
   static final int ASECS[] = E.alsecs;
   static final int A2SECS[] = E.a2lsecs;
   static int d01[] = {0, 1};
@@ -36,10 +36,10 @@ public class A2Row {
   volatile double asum = 0., anegSum = 0., aplusSum = 0., minSum = 0., minSum2 = 0.;
   volatile int[] aCnt = {-11, -11, -11, -11, -11, -11};
   
-  String aPre = ec.aPre = ec.aPre == null ? "&V" : ec.aPre;
-  int blev = ec.blev = ec.blev == 0 ? History.debuggingMinor11 : ec.blev;
-  int lev = ec.lev = ec.lev == 0 ? History.informationMinor9 : ec.lev;
-  ArrayList<History> hist = ec.getHist(); // the owner will not change
+  String aPre;
+  int blev;
+  int lev;
+  ArrayList<History> hist; // the owner will not change
 
   /**
    * new an A2Row from ARows a and b
@@ -48,7 +48,11 @@ public class A2Row {
    * @param b
    */
   A2Row(ARow a, ARow b) {
-    ec = a.ec == null? ec: a.ec;
+    ec = a.ec;
+    aPre = ec.aPre = ec.aPre == null ? "&V" : ec.aPre;
+    blev = ec.blev = ec.blev == 0 ? History.debuggingMinor11 : ec.blev;
+   lev = ec.lev = ec.lev == 0 ? History.informationMinor9 : ec.lev;
+   hist = ec.getHist(); // the owner will not change
     this.A[0] = a;
     this.A[1] = b;
     ix = new int[2 * E.lsecs];
@@ -63,7 +67,9 @@ public class A2Row {
   public A2Row(Econ myEc,int leva, String titla) {
     lev = leva;
     ec = myEc;
-    titl = titla;
+    aPre = ec.aPre = ec.aPre == null ? "&V" : ec.aPre;
+    blev = ec.blev = ec.blev == 0 ? History.debuggingMinor11 : ec.blev;
+   hist = ec.getHist(); // the owner will not change
     this.A[0] = new ARow(ec).zero();
     this.A[1] = new ARow(ec).zero();
     ix = new int[2 * E.lsecs];
@@ -75,6 +81,10 @@ public class A2Row {
    */
   A2Row(Econ myEc) {
     ec = myEc;
+    aPre =  ec.aPre;
+    blev = ec.blev;
+   lev = ec.lev ;
+   hist = ec.getHist(); // the owner will not change
     this.A[0] = new ARow(ec).zero();
     this.A[1] = new ARow(ec).zero();
     ix = new int[2 * E.lsecs];
@@ -86,7 +96,9 @@ public class A2Row {
 
   public A2Row(int op, int leva, String title, A6Row A, A6Row B) {
     ec = A.ec;
-    ec.lev = lev = leva;
+    aPre = ec.aPre = ec.aPre == null ? "&V" : ec.aPre;
+    blev = ec.blev = ec.blev == 0 ? History.debuggingMinor11 : ec.blev;
+   hist = ec.getHist(); // the owner will not change
     titl = title;
     for (int m : E.d2) {
       for (int n : E.alsecs) {
@@ -644,6 +656,25 @@ public class A2Row {
    // ARow nCargo = new ARow(ec).set(getARow(0));
    // ARow nGuests = new ARow(ec).set(getARow(1));
    // A2Row tmp = new A2Row(nCargo, nGuests);
+    return rtn;
+  }
+  
+  /** normalize each row of this by moving the average to be 1.0
+   * 
+   * @param lev level of the new A2Row
+   * @param tit title of the new A2Row
+   * @return each row average moved to be 1.0
+   */
+  A2Row normalize(int lev, String tit){
+    A2Row rtn = new A2Row(ec,lev,tit);
+  
+    for(int m=0; m<2;m++){
+      double mAve = A[0].ave();
+      double norm = mAve - 1.0;
+      for(int n=0;n<E.LSECS;n++){
+        rtn.set(m,n,get(m,n) - norm);
+      }
+    } 
     return rtn;
   }
 
@@ -1215,8 +1246,8 @@ public class A2Row {
   /**
    * set to multiple each by each of rows A and B
    *
-   * @param A
-   * @param B
+   * @param A  multiplicand
+   * @param B multiplier
    * @return each by each A * B
    */
   A2Row mult(A2Row A, A2Row B) {
@@ -1227,6 +1258,29 @@ public class A2Row {
     }
     return this;
   }
+  
+  /** multiply strategic values to get the equivalent strategic worth from r and s SubAssets
+   * 
+   * @param stratVar  the raw strategic values
+   * @param rWorth   r.worth
+   * @param sWorth   s.worth
+   * @return strategic worths according to r and s SubAssets
+   */
+  A2Row setMultStratByWorth(A2Row stratVar,ARow rWorth,ARow sWorth){
+    
+      ARow rStrat = stratVar.getRow(0);
+      ARow sStrat = stratVar.getRow(1);
+      double rMult = rWorth.sum()/rStrat.sum();
+      double sMult = sWorth.sum()/sStrat.sum();
+     E.myTestDouble(rMult, "r sum =" + eM.mf(rWorth.sum()) + ", rStrat sum=" + eM.mf(rStrat.sum()));
+     E.myTestDouble(sMult, "s sum=" + eM.mf(sWorth.sum()) + ", sStrat sum=" + eM.mf(sStrat.sum()));
+      for(int n = 0; n < E.LSECS; n++){
+          set(0,n,rStrat.get(n) * rMult);
+          set(1,n,sStrat.get(n) * sMult);
+      }
+     return this;
+  }
+  
 
   /**
    * apply low and high limits to a copy of values from b
@@ -1498,7 +1552,7 @@ public class A2Row {
     // set fudge to prevent creating values beyound limits
     double fudge = (1. + limLow) * (.3 + mult);
     double ahlf = alhlf * fudge; // lower half
-    ec.hist.add(new History(History.debuggingMinor11, "A2R recip " + titla, "Hv" + ec.df(amax), "Lv" + ec.df(amin), "H-L" + ec.df(adif), "mlt=" + ec.df(mult), "fud=" + ec.df(fudge), "hlf" + ec.df(alhlf), "*" + ec.df(ahlf), "ave=" + ec.df(ave), "lims=" + ec.df(limLow), ec.df(limHigh), "abcdefghijklmn"));
+    ec.hist.add(new History(History.debuggingMinor11, "A2R recip " + titla, "Hv" + EM.mf(amax), "Lv" + EM.mf(amin), "H-L" + EM.mf(adif), "mlt=" + EM.mf(mult), "fud=" + EM.mf(fudge), "hlf" + EM.mf(alhlf), "*" + EM.mf(ahlf), "ave=" + EM.mf(ave), "lims=" + EM.mf(limLow), EM.mf(limHigh), "abcdefghijklmn"));
 
     // derived in google sheet game tests
     for (int m : E.a2lsecs) {
@@ -1511,7 +1565,7 @@ public class A2Row {
         set(m, tVal);
         if (History.dl > 4) {
           // list action for each calculation
-          ec.hist.add(new History(History.debuggingMinor11, " " + titla + m, "v=" + ec.df(aVal), "=>" + ec.df(dVal), "=>" + ec.df(tVal1), "=>" + ec.df(tVal2), "=>" + ec.df(tVal3), "=>_" + ec.df(tVal), "ave=" + ec.df(ave), "dV=" + ec.df(dVal), "abcef,ghijk.lmnop.qrst"));
+          ec.hist.add(new History(History.debuggingMinor11, " " + titla + m, "v=" + EM.mf(aVal), "=>" + EM.mf(dVal), "=>" + EM.mf(tVal1), "=>" + EM.mf(tVal2), "=>" + EM.mf(tVal3), "=>_" + EM.mf(tVal), "ave=" + EM.mf(ave), "dV=" + EM.mf(dVal), "abcef,ghijk.lmnop.qrst"));
         }
       }
       else if (aVal <= ave) {  // aVal <= ave ,includes ave dval <= 0
@@ -1525,7 +1579,7 @@ public class A2Row {
         tVal = Math.min(limHigh, tVal3);  // some value above 1
         if (History.dl > 4) {
           // list action for each calculation
-          ec.hist.add(new History(History.debuggingMinor11, " " + titla + m, "v=" + ec.df(aVal), "=>" + ec.df(dVal), "=>" + ec.df(tVal1), "=>" + ec.df(tVal2), "=>" + ec.df(tVal3), "=>_" + ec.df(tVal), "ave=" + ec.df(ave), "dV=" + ec.df(dVal), "abcef,ghijk.lmnop.qrst"));
+          ec.hist.add(new History(History.debuggingMinor11, " " + titla + m, "v=" + EM.mf(aVal), "=>" + EM.mf(dVal), "=>" + EM.mf(tVal1), "=>" + EM.mf(tVal2), "=>" + EM.mf(tVal3), "=>_" + EM.mf(tVal), "ave=" + EM.mf(ave), "dV=" + EM.mf(dVal), "abcef,ghijk.lmnop.qrst"));
           set(m, tVal);
         }
       }
@@ -1543,7 +1597,7 @@ public class A2Row {
         set(m, tVal);
         if (History.dl > 4) {
           // list action for each calculation
-          ec.hist.add(new History(History.debuggingMinor11, "n=" + ec.as.n + " " + titla + m, "v=" + ec.df(aVal), "=>" + ec.df(dVal), "=>" + ec.df(tVal1), "=>" + ec.df(tVal2), "=>" + ec.df(tVal3), "=>^" + ec.df(tVal), "ave=" + ec.df(ave), "dV=" + ec.df(dVal), "mnopq,rst,uvwxyz"));
+          ec.hist.add(new History(History.debuggingMinor11, "n=" + ec.as.n + " " + titla + m, "v=" + EM.mf(aVal), "=>" + EM.mf(dVal), "=>" + EM.mf(tVal1), "=>" + EM.mf(tVal2), "=>" + EM.mf(tVal3), "=>^" + EM.mf(tVal), "ave=" + EM.mf(ave), "dV=" + EM.mf(dVal), "mnopq,rst,uvwxyz"));
         }
       }
     }
@@ -1571,15 +1625,18 @@ public class A2Row {
   }
 
   /**
-   * derive a reciprocal strategic trade value using alimLow and its reciprocal.
-   * The results center around 1 so that they can be multiplied together and
-   * leave a result around 1 in this. Use the 14 values of B as one unit, do not
-   * split so that cargo and guests are treated separately. The 2 maximum values
-   * are beyound the max, and are processed as no more than 50% higher then the
-   * max from the median
-   *
-   * @param titla The title for the list output lines
-   * @param B the A2Row used
+   * derive a strategic trade value for each of the 14 values in B
+   * turn aLinLow %lt; .5 into 1.0 + aLimLow
+   * turn alimLow %lt; 1.0 into the low limit, aHighLim = 1/aLowLim
+   * The median either min(7)  separates hHlf above med and lHlf at or below
+   * The largest value in B becomes the smallest result
+   * The smailest value in B becomes the largest result
+   * if the initial alimLow was negative, then the results are reversed:
+   * the largest value in B becomes the largest result %lt; aHighLim
+   * the smallest value in B becomes the smallest result %gt; aLowLim
+   * 
+   * @param titla The title for the A2Row results
+   * @param B the A2Row used as input
    * @param aLimLow either the highest result or its reciprical, negative
    * alimLow,means straight results
    * @return a new ARow with strategic values around 1 Recip (positive aLimLow,
@@ -1588,80 +1645,84 @@ public class A2Row {
    */
   A2Row strategicRecipValBbyLim(String titla, A2Row B, double aLimLow) {
     Econ ec = EM.curEcon;
-    double amax = B.curMax(2);
+    double amax = B.curMax(0);
     double amin = B.curMin(0);
     // neg means means straight results not reciprical
-    double aSign = aLimLow < 0. ? -1. : 1.;
+    boolean straight = aLimLow < 0.0;
     // force limit positive
     aLimLow = aLimLow < 0. ? -aLimLow : aLimLow;
     // force the limit > 1.
-    aLimLow = aLimLow < 1. ? 1. / aLimLow : aLimLow; // aLimLow > 1.
+    aLimLow = aLimLow < .5 ? 1. + aLimLow : aLimLow; // aLimLow > .5
+    double aLimHigh =  (aLimLow < 1.0  ? 1/aLimLow: aLimLow);
+    aLimLow = aLimLow < 1.0 ? aLimLow : 1.0 / aLimLow; // now aLimLow > 1.
     // results will be in terms of difference from 1.
-    double aLimDif = aLimLow - 1.;
-    // select lower median for recip, higher median for straight
-    double median = B.curMin(aSign > 0. ? 6 : 7);
-    double lHlf = median - amin;
-    double lMult = lHlf < E.PZERO && lHlf > E.NZERO ? 0.0 : aLimDif / lHlf; // frac of differences
-    double hHlf = amax - median;
-    double hMax = B.curMax(0) - median;
-    double hMult = hHlf < E.PZERO && hHlf > E.NZERO ? 0.0 : aLimDif / hHlf;
-    double maxMult = hMax < E.PZERO && hMax > E.NZERO ? 0.0 : aLimDif * 1.3 / hMax;
-    double ave = (amax + amin) / 2.;  // ave = m
-    double ahlf = (amax - amin) / 2; //size of a_most - a_least/2
+    double hLimDif = aLimHigh - 1.0;  // upper limit  1.0 + hLimDif
+    double lLimDif = 1.0 - aLimLow;  // as hLimDif grows => lLimDif decreases lower limit 1.0 - lLimDif
+    // select lower median for recip, higher median for straight from B 
+    double median = B.curMin(straight  ? 7 : 6); //median value of B
+    double lHlf = median - amin; // size of lower half usually > 0, could be 0
+  // straight if aSign < 0.0
+    double lMult = lHlf < E.PZERO && lHlf > E.NZERO ? 0.0000001 :
+        straight ? lLimDif / lHlf : -hLimDif/ lHlf; // frac of differences
+    // lower limit 1.0 - lLimDif
+    double hHlf = amax - median;  //  size  of high half should be >= 0
+    double hMult = hHlf < E.PZERO && hHlf > E.NZERO ? 0.000001: 
+        straight ? hLimDif / hHlf : -lLimDif / hHlf;
+    // high limit is 1.0 + hLimDif
+    double tVal = 1., tVal1 = 1., tVal2 = 1., tVal3 = 1.,mult;
 
-    double dVal = 0;
-    double aVal = 1;
-
-    double mult = aLimDif / ahlf; // < 1 keep values within Lim and 1/Lim
-    double tVal = 1., tVal1 = 1., tVal2 = 1., tVal3 = 1.;
-
-    ec.hist.add(new History(History.debuggingMinor11, (amax == amin ? " all 1" : aSign > 0. ? "recipricals" : "straight") + titla, "Hv" + ec.df(amax), "Lv" + ec.df(amin), "med=" + ec.df(median), "hHlf=" + ec.df(hHlf), "lHlf=" + ec.df(lHlf), "lMlt=" + ec.df(lMult), "hMlt=" + ec.df(hMult), "lims=" + ec.df(1 / aLimLow), ec.df(aLimLow), "sign=" + ec.df(aSign), "<<<<<<<<"));
+    ec.hist.add(new History(History.debuggingMinor11, titla + (amax == amin ? " all 1": (!straight  ? "recipricals" : "straight") ),  "Hv" + EM.mf(amax) ,"med=" + EM.mf(median), "Lv" + EM.mf(amin),"hHlf=" + EM.mf(hHlf), "lHlf=" + EM.mf(lHlf), "lMlt=" + EM.mf(lMult), "hMlt=" + EM.mf(hMult), "lims=" + EM.mf(aLimHigh)  ,EM.mf(aLimLow), "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"));
 
     // process both Resource & Staff  or cargo & guests
-    for (int m : E.a2lsecs) {
-      aVal = B.get(m);
+    for (int n : E.A2SECS) {
+      tVal3 = B.get(n);
       // get dVal distance from average, sign is for reciprical or straight
-      dVal = (aVal - median);
-      // now limit the higher most values
-      hMult = dVal > hHlf ? maxMult : hMult;
-      // if negative aLimLow do straight 
-      dVal = aSign * dVal;
+      tVal2 = (tVal3 - median);
+     // tVal2 = aaSign * tVal3;
       //     mVal = aMult * dVal;  // modified distance from center
-      if (amax == amin) {// max == min  no divid, no dif from 1.
-        tVal3 = tVal2 = tVal1 = tVal = 1.;  // prevent divid by 0
-        set(m, tVal);
-        if (History.dl > 4) {
+     
+        mult = tVal2 <= E.PZERO ? lMult  : hMult;  
+        tVal1 = (tVal2 *mult);  // tVal2 < 0.0 lHlf straight => tVal1 < 0.0, lMult > 0.0
+                                          // tVal2 < 0.0  lHlf !straight => tVal1 > 0.0 ,  lMult < 0.0
+                                          // tval2 > 0.0 hHlf straight => tVal1 > 0.0 , hMult > 0.0
+                                          // tval2 > 0.0 hHlf !straight => tVal1 < 0.0, hMult < 0.0
+       tVal = 1.0 + tVal1; // for lHlf tVal1 < 0.0
+       set(n, tVal);
+        if (History.dl > 4|| hist.size() < 2000) {  // do the one at the bottom
           // list action for each calculation
-          ec.hist.add(new History(History.debuggingMinor11, "n=" + ec.as.n + " " + titla + m, "v=" + ec.df(aVal), "=>" + ec.df(dVal), "=>" + ec.df(tVal1), "=>_" + ec.df(tVal), "ave=" + ec.df(ave), "dV=" + ec.df(dVal), "<<<<<<"));
+          ec.hist.add(new History(History.debuggingMinor11, "n=" + ec.as.n + " " + titla + n, 
+              "v=" + EM.mf(tVal3), "-med=" + EM.mf(median),"->" + eM.mf(tVal2), "mlt=" + df(mult), 
+              "=" + df(tVal1), "+1=" + df(tVal),   "<<<<<<<<"));
         }
-      }
-      else if (dVal <= E.PZERO) {  // values less than 1, results > 1
-// get tVal > 1.
-        mult = lMult;
-        tVal1 = (-dVal * mult);  //frac > 1.
-        tVal = tVal2 = tVal1 + 1.;
-        if (History.dl > 4) {  // do the one at the bottom
-          // list action for each calculation
-          ec.hist.add(new History(History.debuggingMinor11, "n=" + ec.as.n + " " + titla + m, "v=" + ec.df(aVal), "->" + df(tVal), "dV=" + df(dVal), "lMlt=" + df(mult), "*lMlt=" + df(tVal1), "+1=" + df(tVal2), "->" + df(tVal2) + "/1.", "=" + df(tVal), "med=" + ec.df(median), "<<<<<<<<"));
-          set(m, tVal);
-        }
-      }
-      else {   // values > 1 results < 1
-        //      amultr = amulthr;
-        mult = hMult;
-        tVal1 = (dVal * mult);
-
-        tVal2 = tVal1 + 1.;  // get the divisor to get the fraction < 1.
-        tVal = 1. / tVal2;  //get fraction
-        set(m, tVal);
-        if (History.dl > 4) {
-          // list action for each calculation
-          ec.hist.add(new History(History.debuggingMinor11, "n=" + ec.as.n + " " + titla + m, "v=" + ec.df(aVal), "=" + ec.df(tVal), "dV=" + ec.df(dVal), "hMlt=" + ec.df(mult), "*mlt=" + ec.df(tVal1), "+1=" + ec.df(tVal2), "->1/" + ec.df(tVal2), "=" + ec.df(tVal), "med=" + ec.df(median), "<<<<<<<<"));
-        }
-      }
-
-    }
+    }// for
     return this;
+  }
+  
+    /**
+   * derive a strategic trade value for each of the 7 values in B
+   * I think this is the wrong strategy, 
+   * turn aLinLow %lt; .5 into 1.0 + aLimLow
+   * turn alimLow %lt; 1.0 into the low limit, aHighLim = 1/aLowLim
+   * The median  min(3)  separates hHlf above med and lHlf at or below
+   * The largest value in B becomes the smallest result
+   * The smailest value in B becomes the largest result
+   * if the initial alimLow was negative, then the results are reversed:
+   * the largest value in B becomes the largest result %lt; aHighLim
+   * the smallest value in B becomes the smallest result %gt; aLowLim
+   * 
+   * @param titla The title for the ARow results
+   * @param B the A2Row used as input
+   * @param aLimLow either the highest result or its reciprical, negative
+   * alimLow,means straight results
+   * @return a new ARow with strategic values around 1 Recip (positive aLimLow,
+   * high values small results and opposite (negative aLimLow, high values have
+   * high results and opposite
+   */
+  A2Row strategicRecipValBbyLim3(String titla, A2Row B, double aLimLow) {
+    A2Row rtn = new A2Row(ec,7,titla);
+      rtn.A[0].strategicRecipValBbyLim("r " +titla,  B.getRow(0),  aLimLow);
+      rtn.A[1].strategicRecipValBbyLim("s" +titla,  B.getRow(1),  aLimLow);
+    return rtn;
   }
 
   /**
@@ -1746,21 +1807,28 @@ public class A2Row {
   /**
    * set the health or fertility fraction
    *
-   * @param A
-   * @param B
+   * @param A  usually current  balances
+   * @param B  some factor reducing the balance, use only ac and sg rows
+   * @return (A-B)/A
    */
-  public void setBalanceAsubBdivByB(A6Row A, A10Row B) {
+  public A2Row setFracAsubBdivByA(A6Row A, A10Row B) {
     A.addJointBalances();
+    A2Row rtn = new A2Row(ec,5,"frac");
     //resum does B
     for (int m : d01) {
       for (int n : ASECS) {
-        // separate each operation to localize null object errors
-        set(m, n,
-                (A.get(m * 2 + 2, n)
+          // separate each operation to localize null object errors
+          double ag = A.get(m *  2 + 2,n);
+        //for very small or zero ag => a very small positive value
+        double xx = ag > E.NZERO && ag < E.PZERO? E.PZERO1:
+                (A.get(m * 2 + 2, n)  // resource then staff 2,4
                 - B.get(m, n))
-                / B.get(m, n));
+                / (A.get(m * 2 + 2, n));
+        if(E.debugYcalcCosts)EM.wasHere2 = " in loops m=" + m + ", n = " + n + ", A[" + (m*2 + 2) + "][" + n +  "]  get=" + EM.mf(A.get(m * 2 + 2, n) ) + "+ B[" + m + "][" + n + "]=" + EM.mf(B.get(m,n)) + ", res=" + EM.mf(xx);           
+        rtn.set(m, n,xx);
       }
     }
+    return rtn;
   }
 
   /**
@@ -1816,7 +1884,7 @@ public class A2Row {
    * @param rem remnant of a-b, use new A6Row(lev,title);
    * @return this (A -B)/C
    */
-  public A2Row setFracAsubBdivByCnRem(ABalRows A, A10Row B, A10Row C, A6Row rem) {
+  public A2Row setFracAsubBdivByCnRem(A6Row A, A10Row B, A10Row C, A6Row rem) {
     double t, s;
     for (int m : d01) {
       for (int n : ASECS) {

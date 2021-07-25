@@ -63,12 +63,12 @@ public class Econ {
   // neighbors from
   //Neighbor[] neighbors = new Neighbor[20];
   protected int pors;
-  protected int year;  // year of StarTrader
+  protected int year;  // EM.year of StarTrader
   protected int age = -1;   // age of this economy, increased by year start
   int dage = -1;          // years dead
   protected Assets as;
-  protected int econCnt = 0;
-  static int keepHist = 4;  // keep hist for econCnt up to 5;
+  protected int myEconCnt = 0;
+  static int keepHist = 4;  // keep hist for myEconCnt up to 5;
   protected double trand[] = new double[E.lrand];
 //  protected E D
   // sum of guest, trainees, workers, faculty, researchers with biases
@@ -89,7 +89,7 @@ public class Econ {
   protected int logM[] = {0, 0};  // initial hist row to be display per display level
   protected int logLev[] = {E.logDefaultLev[0], E.logDefaultLev[1]};
   protected int logLen[] = {E.logDefaultLen[0], E.logDefaultLen[1]};
-  protected ArrayList<History>[] hists = new ArrayList[1];
+  protected ArrayList<History>[] hists;
   protected ArrayList<History> hist;
 //  protected ArrayList<Offer> offers = new ArrayList<Offer>();  // planet veriable
   // ArrayList<ArrayList<Offer>> planetOffers
@@ -97,6 +97,7 @@ public class Econ {
   ArrayList<TradeRecord> planetList = new ArrayList<TradeRecord>();
 
   ARow sectorPri;
+  long myStartTime, myFirstBarterTime, myBarterTime,myYearEndTime,mySwapStart,mySwapDone,myEnder;
 //  ArrayList<Offer> myPlanetOffers; // list of offers for this planet
   static int yearsKeep[] = {7, 7, 7, 7, 7};  // keep others offers by clan
   static int myYearsKeep[] = {12, 12, 12, 12, 12}; // keep my offers
@@ -114,8 +115,8 @@ public class Econ {
    *
    */
   public Econ() {
-    hist
-            = hists[0] = new ArrayList<History>();
+    hists = new ArrayList[1];
+    hist = hists[0] = new ArrayList<History>();
   }
 
   /**
@@ -139,12 +140,14 @@ public class Econ {
     this.clan = clan;
     this.name = nowName = name;
     nowEc = this;
-    this.st = ast;
+    Econ.st = ast;
     this.year = eM.year;
-    this.econCnt = econCnt;
-    double res1 = 1.0, tworth2 = 0.;
+    this.myEconCnt = econCnt;
+    
+    planetList = new ArrayList<TradeRecord>();
+    //double res1 = 1.0, tworth2 = 0.;
     tworth = initWorth;
-    double wworth = Math.max(eM.initialWealthFrac[pors] * tworth, eM.initialWealth[pors]);
+    double wworth = Math.max(eM.initialWealthFrac[pors] * tworth * (eM.haveCash[0][0] > .99 ? 1.0:0.0), eM.initialWealth[pors]);
 
     dFrac.setMaximumFractionDigits(2);
 
@@ -154,21 +157,22 @@ public class Econ {
 
     knowledge = Math.max(eM.initialKnowledge[pors], tworth * eM.initialCommonKnowledgeFrac[pors]);
     wealth = Math.max(tworth - sworth - rworth - knowledge * eM.nominalWealthPerCommonKnowledge[pors], wworth); // wealth now remainder
-
+    System.out.println(new Date().toString() + "Pre Init year" + year + name + " clan" + clan + " econCnt=" +myEconCnt  + " worth=" +EM.mf(tworth) + " wealth=" +EM.mf(wealth) + " resources=" +EM.mf(res) + " $$ "  +EM.mf(rworth)+ " colonists=" +EM.mf(colonists)  + " $$ " +EM.mf(sworth) + " knowledge=" +EM.mf(knowledge));
     if (xpos > E.nzero) {
       this.xpos = xpos;
     }
 
     // now recalculate values by fractions regardless of value of initWorth
     tworth = initWorth * eM.upWorth[pors];
-    double partsSum = eM.initialCommonKnowledgeFrac[pors] * eM.nominalWealthPerCommonKnowledge[pors] + eM.initialResourceFrac[pors] * (1.0 + eM.initialReserve[pors]) * eM.nominalWealthPerResource[pors] + eM.initialColonistFrac[pors] * (1.0 + eM.initialReserve[pors]) * eM.nominalWealthPerStaff[pors] + eM.initialWealthFrac[pors];
-    double partsSumFrac = 1 / partsSum; // change to mult
+    double partsSum = eM.initialCommonKnowledgeFrac[pors] * eM.nominalWealthPerCommonKnowledge[pors] + eM.initialResourceFrac[pors] * (1.0 + eM.initialReserve[pors]) * eM.nominalWealthPerResource[pors] + eM.initialColonistFrac[pors] * (1.0 + eM.initialReserve[pors]) * eM.nominalWealthPerStaff[pors] +(eM.initialWealthFrac[pors] * (eM.haveCash[0][0] > .9 ? 1.0:0.0) );
+    double partsSumFrac = 1 / partsSum; // change to mult once instead of at each frac
+    // change back to units
     knowledge = tworth * eM.initialCommonKnowledgeFrac[pors] * partsSumFrac / eM.nominalWealthPerCommonKnowledge[pors];
-    wealth = tworth * eM.initialWealthFrac[pors] * partsSumFrac;
-    colonists = tworth * eM.initialColonistFrac[pors] * (1.0 + eM.initialReserve[pors]) * partsSumFrac / eM.nominalWealthPerStaff[pors];
-    res = tworth * partsSum * eM.initialResourceFrac[pors] * (1.0 + eM.initialReserve[pors]) / eM.nominalWealthPerResource[pors];
+    wealth = tworth * eM.initialWealthFrac[pors] * partsSumFrac * (eM.haveCash[0][0] > .9 ? 1.0:0.0);
+    colonists = (sworth = tworth * partsSumFrac * eM.initialColonistFrac[pors] * (1.0 + eM.initialReserve[pors]))/ eM.nominalWealthPerStaff[pors];
+    res = (rworth = tworth * partsSumFrac * eM.initialResourceFrac[pors] * (1.0 + eM.initialReserve[pors])) / eM.nominalWealthPerResource[pors];
 
-    System.out.println(new Date().toString() + "Init year" + year + (pors == E.P ? " planet " : " ship ") + name + " clan" + clan + " econCnt=" + econCnt + " worth=" + dFrac.format(tworth) + " wealth=" + dFrac.format(wealth) + " resources=" + dFrac.format(res) + " colonists=" + dFrac.format(colonists) + " knowledge=" + dFrac.format(knowledge));
+    System.out.println(new Date().toString() + "Init again year" + year + (pors == E.P ? " planet " : " ship ") + name + " clan" + clan + " econCnt=" + myEconCnt + " worth=" +EM.mf(tworth) + " wealth=" +EM.mf(wealth) + " resources=" +EM.mf(res) + " $$ " +EM.mf(rworth) +  " colonists=" +EM.mf(colonists) + " $$ " +EM.mf(sworth)+ " knowledge=" +EM.mf(knowledge));
     // do not set a new position/change position if Assets was already instanted
     if (as == null) {
       //    System.out.println("137 start as == null");
@@ -187,9 +191,9 @@ public class Econ {
       }
       this.zpos = (E.newPlanetPosition[2] += 2.7) - 1.2 + Math.random() * 2.7;
     } else {
-      System.out.println( " Econ.init mid year" + eM.year + " " + (new Date().getTime() - eM.doYearTime) + " as != null, using a previous location. xpos" + this.xpos + ", ypos" + this.ypos + ", zpos" + this.zpos);
+      System.out.println( " Econ.init mid year" + eM.year + " " + (new Date().getTime() - EM.doYearTime) + " as != null, using a previous location. xpos" + this.xpos + ", ypos" + this.ypos + ", zpos" + this.zpos);
     }
-    System.out.println(" Econ.init mid year" + eM.year + " " + (new Date().getTime() - eM.doYearTime) + " xpos=" + this.xpos + " ypos=" + this.ypos + " zpos=" + this.zpos);
+    System.out.println(" Econ.init mid year" + eM.year + " " + (new Date().getTime() - EM.doYearTime) + " xpos=" + this.xpos + " ypos=" + this.ypos + " zpos=" + this.zpos);
 
     hist.add(new History(20, "Start", "0Life", "1Struct", "2Energy", "3Propel", "4Defense", "5Gov", "6Col", "Min", "Sum", "Ave"));
     this.percentDifficulty = percentDifficulty;
@@ -238,7 +242,7 @@ public class Econ {
     //  as = new Assets(this, st, name, clan, planetOrShip, hist, wealth, resourcePri, res, colonists, knowledge, percentDifficulty, trand);
 
     //   System.out.println("Econ.init 200 did new Assets");
-    as.assetsInit(econCnt, this, st, eM, name, clan, planetOrShip, hist, tworth, wealth, sectorPri, res, colonists, knowledge, percentDifficulty, trand);
+    as.assetsInit(myEconCnt, this, st, eM, name, clan, planetOrShip, hist, tworth, wealth, sectorPri, res, colonists, knowledge, percentDifficulty, trand);
     System.out.println(" Econ.init end year" + eM.year + " " + (new Date().getTime() - eM.doYearTime) + "did assetsInit, wealth=" + EM.mf(wealth) + ", tworth=" + EM.mf(tworth));
     //  as.calcEfficiency();
   }
@@ -299,11 +303,11 @@ public class Econ {
    * calculation of a valid goods and worth
    *
    * @return nominal worth of critical sectors in offered trade
-   */
+  
   double getTradingWorth() {
     return as.getTradingWorth();
   }
-
+ */
   /**
    * get the number of successful trades this year
    *
@@ -604,9 +608,11 @@ public class Econ {
     // age the hists file, move 4->5, 3->4, 2->3, 1->2, new 1
     // except for the first year, or if the env is dead
     year = eM.year;
+    myClearHist = false;
     didYearEnd = false;
     nowName = name;
     nowEc = this;
+    myStartTime = new Date().getTime();
     if (!as.getDie()) {
       if (clearHist()) {
         hist.clear();
@@ -660,21 +666,22 @@ public class Econ {
    *
    * @return true if hist is not to be kept;
    */
- // boolean saveHist = false;
-  boolean saveHist = true;
-  boolean myClearHist = true;
-
+  boolean saveHist = false;
+  boolean myClearHist = false;  // set to false at yearStart
   boolean clearHist() {
     if (saveHist) {
       return false;
     }
     if (myClearHist) {
+       if (hist.size() > 200) {
+        hist.clear();
+      }
       return true;
     }
     int iKeepMax = eM.keepHistsByYear.length - 1;
     int iXKeep = (eM.year > iKeepMax ? iKeepMax : eM.year);
-    E.myTest(iXKeep > 2, "iXKeep=%d > 2, eM.year=%d, iKeepMax=%d, keepHistsByYear.lenth=%d", iXKeep, eM.year, iKeepMax, eM.keepHistsByYear.length);
-    if (econCnt >= eM.keepHistsByYear[(eM.year > iKeepMax ? iKeepMax : eM.year)]) {
+  //  E.myTest(iXKeep > 2, "iXKeep=%d > 2, eM.year=%d, iKeepMax=%d, keepHistsByYear.lenth=%d", iXKeep, eM.year, iKeepMax, eM.keepHistsByYear.length);
+    if (myEconCnt >= eM.keepHistsByYear[(eM.year > iKeepMax ? iKeepMax : eM.year)]) {
       if (hist.size() > 20) {
         hist.clear();
       }
@@ -705,17 +712,54 @@ public class Econ {
     visitedShipNext = -1; // ignore everything in the list
     nowName = name;
     nowEc = this;
+    myYearEndTime = new Date().getTime();
+    try {
+      if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
     as.yearEnd();
-    EM.wasHere = "after as.yearEnd yyyee1=" + yyyee1++;
+   if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
+    EM.wasHere3 = "after as.yearEnd yyyee1=" + yyyee1++;
     if (as.getDie()) {
       dage++;
+      if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
     }
-    EM.wasHere = "after as.getDie() yyyee2=" + yyyee2++;
+    EM.wasHere3 = "after as.getDie() yyyee2=" + yyyee2++;
     if (clearHist()) {
       hist.clear(); // wipe out previous hist
     }
-
-    EM.wasHere = "at econ.yearEnd end yyyee3=" + yyyee3++;
+   if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
+    EM.wasHere3 = "at econ.yearEnd end yyyee3=" + yyyee3++;
+    myClearHist = false;
+    didYearEnd = false;
+    nowName = name;
+    nowEc = this;
+    if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
+    } catch (Exception ex) {
+      EM.flushes();
+      System.err.println(Econ.nowName + st.since() + " " + Econ.nowThread + "Exception " + ex.toString() + " message=" + ex.getMessage() + " " + EM.andMore());
+      ex.printStackTrace(System.err);
+      EM.flushes();
+      st.setFatalError();
+    }
   } //yearEnd
 
   /**
@@ -1129,6 +1173,10 @@ public class Econ {
     nowName = name;
     if (visitedShipNext < 0 || visitedShipList[visitedShipNext] != otherEcon && term > eM.barterStart - 2) {
       E.sysmsg(" +++++++econ.barter term=" + term + ", visitor=" + otherEcon.name + ", this=" + this.name + " visitedShipNext=" + visitedShipNext);
+      if(visitedShipNext < 0){
+        myFirstBarterTime = new Date().getTime();
+      }
+      myBarterTime = new Date().getTime();
       visitedShipList[++visitedShipNext] = otherEcon;
     }
     Offer ret = as.barter(aOffer);
@@ -1198,8 +1246,13 @@ public class Econ {
     int atCnt=0;
     int prevCnt = what[0];
     long imMore = imStart - EM.doYearTime;
+    if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
     ixImWaitingList = ++ixImWaitingList%lImWaitingList; 
-    imWaitingList[prevImwIx] = "imWaiting in thread " + Thread.currentThread().getName() + " name=" + nowName + " Since doYear" + eM.year + "=" + imMore ;
+    imWaitingList[prevImwIx] = EM.wasHere2 = "imWaiting in thread " + Thread.currentThread().getName() + " name=" + nowName + " Since doYear" + eM.year + "=" + imMore ;
     StackTraceElement[] prevCalls = new StackTraceElement[le];
     int lstk = Thread.currentThread().getStackTrace().length-1;
     for(int ste=1;ste< le && atCnt < 5  && ste < lstk; ste++){
@@ -1211,13 +1264,18 @@ public class Econ {
        imWaitingList[prevImwIx] += " at " + prevCalls[ste].getFileName() + "." + prevCalls[ste].getLineNumber();
      atCnt++;
     }//for
-    imWaitingList[prevImwIx] += " for " + why + " haveing " + what[0] + " with limit=" + limit;
+    EM.wasHere2 = imWaitingList[prevImwIx] += " for " + why + " haveing " + what[0] + " with limit=" + limit;
    // }//if
      
      //now start loop to do waiting if count is above limit
      // what is always threadCnt, so use threadCnt[0]
     boolean dowait= threadCnt[0] > limit;
     for (int timeLoop = 0; timeLoop < secs && dowait; timeLoop++) {
+      if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
       if(E.debugThreads){
       if (timeLoop % 5 == 0) {
         System.out.println("`````````````imWaiting in thread " + Thread.currentThread().getName() + " Econ.name=" + nowName + " "  + why + " have cnt " + what[0] + " limit=" + limit + " seconds=" + timeLoop);
@@ -1231,17 +1289,37 @@ public class Econ {
     //  synchronized (what) {tCnts = what[0];}
       if (threadCnt[0] <= limit) {
         dowait= false; // no more waiting
+        if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
       } else {
+        if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
         if(timeLoop > secs+2){
           EM.flushes();
         long imStuck = (new Date()).getTime();
         long moreStuck = imStuck - imStart;
-     System.err.println(" stuck since doYear" + eM.year + "=" + imMore + " plus " + moreStuck + " name=" + nowName + " for " + why + " over " + (secs+2) + " loops or seconds" + EM.andMore() );
+     System.err.println(" stuck in doYear" + eM.year + "=" + imMore + " plus " + moreStuck + " name=" + nowName + " for " + why + " over " + (secs+2) + " loops or seconds" + EM.andMore() );
         EM.flushes();
         st.setFatalError();
         } else {
         try {
+          if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
           Thread.sleep(1000L);
+          if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
         } catch (Exception ex) {
     
         EM.flushes();
@@ -1255,7 +1333,7 @@ public class Econ {
       } //else
     } // timeLoop
     long imDoneT = (new Date()).getTime() - eM.doYearTime;
-     imWaitingList[prevImwIx] = "  im done waiting " + imDoneT + " "+ nowName + " " + Thread.currentThread().getName() + " from " + imWaitingList[prevImwIx];
+     EM.wasHere2 = imWaitingList[prevImwIx] = "  im done waiting " + imDoneT + " "+ nowName + " " + Thread.currentThread().getName() + " from " + imWaitingList[prevImwIx];
   } // imWaiting  stop waiting
   
   /**
@@ -1289,15 +1367,28 @@ long etTimes[] = new long[letTimes];
 long moreTimes[] = new long[letTimes];
 String iWaited = " imWaited ";
 
+/** a siynchronized increment of the threadCnt
+ * 
+ */
  void incrThreadCnt(){
    synchronized (threadCnt) {threadCnt[0]++;};
+ }
+ /** a siynchronized decrement of the threadCnt
+ * 
+ */
+ void decrThreadCnt(){
+   synchronized (threadCnt) {threadCnt[0]--;};
  }
   /** prepare to do yearEnd possibly as a separate thread
    * 
    */  
  void doYearEnd() {
     if (!didYearEnd) {
-      didYearEnd = true;
+      if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}      didYearEnd = true;
       nowName = name;
     dyThreadName = Thread.currentThread().getName();
     dyThreadPriority = Thread.currentThread().getPriority();
@@ -1311,10 +1402,15 @@ String iWaited = " imWaited ";
     prevEtIx = ixETList;
     int atCnt=0;
     nowName = name;
+    if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
     if((doImw = eM.maxThreads[0][0] >= 2.0 && threadCnt[0] > eM.maxThreads[0][0])){  // wait only if over cnt
       imWaiting(threadCnt, (int) eM.maxThreads[0][0], 6, "doYearEnd " + name );
     }
-    iWaited = (doImw ? " notImWaited + ": " yesImWaited + ");
+    iWaited = (doImw ? " notImWaited + ": "  + ");
     ixETList = (++ixETList)%lETList;
     String atList = "";
     etTimes[1] = (new Date()).getTime(); // after imWaiting
@@ -1335,6 +1431,11 @@ String iWaited = " imWaited ";
     sETList[prevEtIx] += atList;
     }
     }//DEBUGWAITTRACE
+   if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
     if(eM.maxThreads[0][0] >= 2.0) {
      // now in the main thread, up the assigned thread count
      incrThreadCnt();
@@ -1343,9 +1444,18 @@ String iWaited = " imWaited ";
     moreTimes[1] = etTimes[1] - etTimes[0]; // imWaiting time
     moreTimes[2] = etTimes[2]- etTimes[1]; //imCounted time
     //long msecs = EM.doYearTime - etTimes[1];
-    sETList[prevEtIx]= atList = "ecT=" + ecThreadName + "_" + ecThreadPriority + " dyT=" + dyThreadName + "_" + dyThreadPriority + " YearEnd " + nowName +  " doYE=" + moreTimes[0] + iWaited + moreTimes[1] + " imCounted +" + moreTimes[2];
-    
+    sETList[prevEtIx]= atList = "ecTh=" + ecThreadName + " pri" + ecThreadPriority + " dyT=" + dyThreadName + " pri" + dyThreadPriority + " YearEnd " + nowName +  " doYE=" + moreTimes[0] + ":" + iWaited + ":" + moreTimes[1] + " imCounted +" + moreTimes[2];
+    if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
     EconThread  emm = new EconThread(etTimes,atList,sETList,prevEtIx);
+    if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
     emm.setPriority(Thread.MIN_PRIORITY);
     etTimes[3] = (new Date()).getTime(); // after create
     emm.start();
@@ -1359,7 +1469,7 @@ String iWaited = " imWaited ";
     moreTimes[1] = etTimes[1] - etTimes[0]; // imWaiting time
     moreTimes[2] = etTimes[2]- etTimes[1]; //imCounted time
     //long msecs = EM.doYearTime - etTimes[1];
-    sETList[prevEtIx]= atList = "ecT=" + ecThreadName + "_" + ecThreadPriority + " dyT=" + dyThreadName + "_" + dyThreadPriority + " YearEnd " + nowName + " doYE=" + moreTimes[0] + iWaited + moreTimes[1] + " bfor yearEnd + " +  moreTimes[2] + " aftr yearEnd +" + moreTimes[6];
+    EM.wasHere2 = sETList[prevEtIx]= atList = "ecT=" + ecThreadName + " pri" + ecThreadPriority + " dyT=" + dyThreadName + " pri" + dyThreadPriority + " YearEnd " + nowName + " doYE=" + moreTimes[0] + ":" + iWaited + ":" + moreTimes[1] + " bfor yearEnd + " +  moreTimes[2] + " aftr yearEnd +" + moreTimes[6];
     }
     
   }
@@ -1423,8 +1533,24 @@ String iWaited = " imWaited ";
       etList[prevIx] += atList;
       }//DEBUGWAITTRACE
     }
+    if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
           yearEnd();
-          synchronized (threadCnt) {threadCnt[0]--;}  // done
+          if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
+          //synchronized (threadCnt) {threadCnt[0]--;}  // done
+          decrThreadCnt();
+          if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
           if(E.debugThreadsOut){
           long b4e = (new Date()).getTime();
           etTimes[7] = b4e;
@@ -1432,13 +1558,12 @@ String iWaited = " imWaited ";
           long b4ee = b4e - startEt;
          // msecs = startEt - EM.doYearTime;
             etList[prevIx]= aL + " ended Year + " + moreTimes[7] + atList ;
+            EM.isHere2(ec,etList[prevIx]);
 
            if(E.debugThreadsOut1){
              System.out.println(etList[prevIx]);
            }
-          }
-         
-  
+          }         
   }
 } // Econ Thread
 }// Econ

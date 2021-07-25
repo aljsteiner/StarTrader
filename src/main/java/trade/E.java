@@ -77,12 +77,13 @@ public class E {
   static final boolean distributable = false;
   static final boolean debugMaster = true ; // !distributable;
   static final boolean debugfalse = false;
-  static final boolean debugOutput = distributable; //distributable;
+  static final boolean debugOutput = !distributable; //distributable;
   static final boolean outputLess = true;  // reduce the output
   //static final boolean debugOutput = true;
   static final boolean resetOut = distributable;
   static final boolean debugDoYearOut = debugMaster; //output messages in doyear and subs
   static final boolean debugCheckBalances = debugMaster; //check balances in loops
+  static final boolean debugEconCnt = false; // econCnt = porsCnt0 + porsCnt1
   static final boolean debugNegGrowth = debugMaster; // neg Growth made negCosts
   static final boolean debugNegCosts = debugMaster; // checking for neg Costs
   static final boolean debugFutureFund = debugMaster; // checking for errors with future funds
@@ -95,6 +96,7 @@ public class E {
   static final boolean debugTradeRecord = debugMaster; // or false
   static final boolean debugTradeBarter = debugMaster; // in barter process
   static final boolean debugTradeSetup = debugMaster; // distance, location etc
+  static final boolean debugSwaps = debugMaster; // doloops other swap tests
   static final boolean debugStats = debugMaster; // why stats aren't showing
   static final boolean debugStatsOut = debugMaster; // stats output
   static final boolean debugScannerOut = debugMaster; // scanner output
@@ -104,15 +106,20 @@ public class E {
   static final boolean debugSettingsTab = debugMaster; //errors from settings doValx
   static final boolean debugSettingsTabOut = debugMaster; //errors from settings doValx
   static final boolean debugThreads = debugMaster;
-  static final boolean SWAPTRADESYSTEMOUT = debugMaster;
+  static final boolean SWAPTRADESYSTEMOUT = debugMaster;  //Swap outputs
+  static final boolean PAINTDISPLAYOUT = debugMaster; //outputs from StarTrader displays
   static final boolean DEBUGASSETSOUT = debugMaster;
- static final boolean debugPutRowsOut = debugMaster; //test putValue processing
    static final boolean debugPutValue = debugMaster; //test putValue processing
   static final boolean debugPutValue1 = outputLess; //test putValue processing
   static final boolean debugPutValue2 = outputLess; //test putValue processing
+  static final boolean debugPutValue3 = false; //choose alternative for too big
+  static final boolean debugPutRowsOut6 = false; //test putValue processing
   static final boolean DEBUGWAITTRACE = debugMaster;
  static final boolean debugLogsOut = debugMaster; // EM rs output
   static final boolean debugStatsOut1 = outputLess; // stats output1
+  static final boolean debugYcalcCosts = debugMaster;
+  static final boolean debugPutRowsOut = false; //test putValue processing
+  static final boolean debugPutRowsOutUnset = false; //put out warnings of unset stats
   static final int ssMax = 10; // max setStats printed;
   static final boolean debugThreadsOut = debugMaster; // threads output
   static final boolean debugThreadsOut1 = debugMaster; // threads output1
@@ -156,12 +163,13 @@ public class E {
   public static final int ship = 1;
   public static final int S = 1;
   public static final int les = 2;
-  public static final double PZERO = .000000001; //for a > pzero
-  public static final double NZERO = -.000000001; // for a < nzero
-  public static final double PPZERO = .0000000000000001; //for a > pzero
-  public static final double NNZERO = -.0000000000000001; // for a < nzero
+  public static final double PZERO = .00001; //for a > pzero
+  public static final double PZERO1 = .0000000001; 
+  public static final double NZERO = -.00001; // for a < nzero
+  public static final double PPZERO = .0000000001; //for a > pzero
+  public static final double NNZERO = -.0000000001;  // for a < nzero
   static double pzero = PZERO, nzero = NZERO;
-  public static final double UNZERO = PZERO * PZERO * PZERO;
+  public static final double UNZERO = .00000000000000001;
   public static final double INVZERO = 1. / UNZERO;
   public static final int[] d2 = {0, 1}, A01 = d2;
   public static final int[] d4 = {0, 1, 2, 3}, A03 = d4;
@@ -601,16 +609,7 @@ public class E {
 //  static protected int[][] limitJumpsPerFaculty = {{15, 12, 10, 8}, {15, 12, 10, 8}, {15, 12, 10, 8}, {15, 12, 10, 8}, {15, 12, 10, 8}};
 //  static protected double[] knowledgeRequiredPerFacultyForJumping = {75., 75., 75., 75., 100., 100., 100., 100., 125., 125., 125., 125., 150., 150., 150., 150.};
 
-//  static public double difficultySMBias[] = {.6, .6};  //times raw difficulty
-  // static public double difficultySGBias[] = {.6, .6};  //times raw difficulty
-//  static public double efficiencySMMin[] = {-.9, -.9};  //min M difficulty
-  // static public double efficiencySGMin[] = {-.9, -.9};  //min G difficulty
-//  static public double efficiencySMMax[] = {.6, .6};  //max M difficulty
-//  static public double efficiencySGMax[] = {.6, .6};  //max G difficulty
-//  static public double difficultyRMBias[] = {.4, .4};  //times raw difficulty
-//  static public double difficultyRGBias[] = {.4, .4};  //times raw difficulty
-//  static public double efficiencyAMMin[] = {-.9, -.9};  //min M difficulty
-  // static public double efficiencyAGMin[] = {-.9, -.9};  //min G difficulty
+
   // [sIx][p,s]
   //static final protected double growthEfficiencyDivMaint[] = {1.2,1,2};
   // this table used to multiply against the staff array to get sWorker staff worker value calc swork;
@@ -618,49 +617,8 @@ public class E {
   public boolean equals(Object obj) {
     return super.equals(obj); //To change body of generated methods, choose Tools | Templates.
   }
-
-  // the initial count growth to colonist represented new pre colonists by Context
-  // when swapping full staff/engineer to a new resource drop sXSwapPenalty to require training
-  //swapPenalty the amount of downgrade of colonists if moved to a new resource
-  // some global parameters for resource initialization
-  // yearly aging requirements and consumption
-  // on setting max for a resource staff gets staffBias of possible max;
-  // decrease the costs to sources associated with guests.
-  // type:planet,star  groups:red,orange,yellow,greeen,blue
-  // I think dup of limitsBias, allow an extra margin when predicting maintenance
-  // this goes into calculating the shortfall fraction that means death
-  // if one source can only support .50 (calcShortBias) of consumer needs, Environ dies;
-  // health is the least fraction of consumer needs supported by any source
-  // static final protected double staffBias[] = {.4, .4};
-  // while calc growth cost multiply by limitsBias
-  //static final protected double limitsBias[] = {1.3, 1.3};
-  // maintBias basically the number of years maint required before growth
-  // some kind of user change will be permitted
-  // static final protected double[] aGrowthGrossAdj = {2., 2.};
-  // static final protected double[] sGrowthGrossAdj = {2., 2.};
-//  static final protected double[] aGRcstAdj = {.02, .02};
-  // static final protected double[] sGRcstAdj = {.1, .1};
-  // general bias to broadly adjust maintenance costs
-  /**
-   * during maintenance calc do a broad adjustment of all available costs
-   */
-  // static protected double[] rcut = {.8, .8};
-  /**
-   * during maintenance calc do a broad adjustment of all staff costs
-   */
-//  static protected double[] scut = {.8, .8};
-// minimum number of res units reserved in any test, so the tested attribute must have Min + Frac*the amount of (CargoBias*Cargo+Available)
-  //static public double[][] resReserveReqMin={{5,5,5,5,5,},{5,5,5,5,5}};
-  //static public double[][] resReserveReqFrac={{.05,.05,.05,.05,.05},{.05,.05,.05,.05,.05}};
-  // minimum number of staff units reserved in any test, so the tested attribute must have Min + Frac*the amount of (guestBias*guests+StaffConsumers)
-//  static public double[][] staffReserveReqMin={{5,5,5,5,5,},{5,5,5,5,5}};
-//  static public double[][] staffReserveReqFrac={{.05,.05,.05,.05,.05},{.05,.05,.05,.05,.05}};
-  /**
-   * CalcReq growth fraction of AC ave to keep as A after growth before swap to
-   * cargo [pors][group]
-   */
-  // static public double[][] resGrowRAveMin = {{.003, .003, .003, .003, .003},
-//  {.003, .003, .003, .003, .003}};
+;
+ 
   /**
    * CalcReq growth fraction of SG ave to keep as S to reserve after growth
    * before swap to guests
@@ -676,31 +634,7 @@ public class E {
    * true swap to increase health g=growth swap to increase growth f=future swap
    * to increase probable future when fMaxn,hMaxn,gMaxn [pors][group]
    */
-//  static public double[][] resfghMaxADecrAveMin = {{.3, .3, .3, .3, .3}, {.3, .3, .3, .3, .3}};
-//  static public double[][] resghMaxADecrAveMin = {{.25, .25, .25, .25, .25}, {.25, .25, .25, .25, .25}};
-  // static public double[][] resfhMaxADecrAveMin = {{.25, .25, .25, .25, .25}, {.25, .25, .25, .25, .25}};
-//  static public double[][] reshMaxADecrAveMin = {{.2, .2, .2, .2, .2}, {.2, .2, .2, .2, .2}};
-  // static public double[][] resfghMaxSDecrAveMin = {{.3, .3, .3, .3, .3}, {.3, .3, .3, .3, .3}};
-  // static public double[][] resghMaxSDecrAveMin = {{.25, .25, .25, .25, .25}, {.25, .25, .25, .25, .25}};
-  // static public double[][] resfhMaxSDecrAveMin = {{.25, .25, .25, .25, .25}, {.25, .25, .25, .25, .25}};
-  // static public double[][] reshMaxSDecrAveMin = {{.2, .2, .2, .2, .2}, {.2, .2, .2, .2, .2}};
-  // static public double[][] resfghMaxRIncrAveMin = {{.3, .3, .3, .3, .3}, {.3, .3, .3, .3, .3}};
-  // static public double[][] resghMaxRIncrAveMin = {{.75, .75, .75, .75, .75}, {.75, .75, .75, .75, .75}};
-  // static public double[][] resfhMaxRIncrAveMin = {{.75, .75, .75, .75, .75}, {.75, .75, .75, .75, .75}};
-//  static public double[][] reshMaxRIncrAveMin = {{.2, .2, .2, .2, .2}, {.2, .2, .2, .2, .2}};
-// static public double[][] resfghMaxSIncrAveMin = {{.3, .3, .3, .3, .3}, {.3, .3, .3, .3, .3}};
-//  static public double[][] resghMaxSIncrAveMin = {{.25, .25, .25, .25, .25}, {.25, .25, .25, .25, .25}};
-//  static public double[][] resfhMaxSIncrAveMin = {{.25, .25, .25, .25, .25}, {.25, .25, .25, .25, .25}};
-  // static public double[][] reshMaxSIncrAveMin = {{.2, .2, .2, .2, .2}, {.2, .2, .2, .2, .2}};
-  // static public double[][] resfghMaxRXIncrAveMin = {{.2, .2, .2, .2, .2}, {.2, .2, .2, .2, .2}};
-  // static public double[][] resghMaxRXIncrAveMin = {{.25, .25, .25, .25, .25}, {.25, .25, .25, .25, .25}};
-  // static public double[][] resfhMaxRXIncrAveMin = {{.25, .25, .25, .25, .25}, {.25, .25, .25, .25, .25}};
-  // static public double[][] reshMaxRXIncrAveMin = {{.2, .2, .2, .2, .2}, {.2, .2, .2, .2, .2}};
-//  static public double[][] resfghMaxSXIncrAveMin = {{.3, .3, .3, .3, .3}, {.3, .3, .3, .3, .3}};
-  // static public double[][] resfhMaxSXIncrAveMin = {{.25, .25, .25, .25, .25}, {.25, .25, .25, .25, .25}};
-  // static public double[][] resghMaxSXIncrAveMin = {{.25, .25, .25, .25, .25}, {.25, .25, .25, .25, .25}};
-  // static public double[][] reshMaxSXIncrAveMin = {{.2, .2, .2, .2, .2}, {.2, .2, .2, .2, .2}};
-  // static public double emin = .7;  // emergency reduction factor of resource reserve
+
   /**
    * the following reserve numbers represent the remnant working value, + an
    * additional fraction. That fraction is kept aside for additional trade, or
@@ -1716,7 +1650,6 @@ public class E {
     if (myD.isInfinite()) {
       myTest(true, "Found %s infinite ", nD);
     } else if (myD.isNaN()) {
-
       myTest(true, "Found %s not a number", nD);
     }
   }
@@ -2060,17 +1993,17 @@ public class E {
   // 4 trainee, 4 engineer, 4 faculty, 4 researcher
   static final double[] sumWorkerMults = {.2, .3, .5, .9, 1.6, 3.8, 5.6, 10., 7.0, 7.0, 6.0, 5., 4., 4., 3., 3.};
   // for facultyEqv,  used to promote staff to next position
-  static final double[] sumFacultyMults = {0., 0., 0., 0., 0., 0., 0.1, 0.2, .3, .4, .7, 1., .7, .5, .5, .5, .3};
-  static final double[] staffPromotePerFaculty = {20., 15., 13., 12., 10., 9., 8., 7., 1., .6, .5, .3, .3, .3, .2, .2};
+  static final double[] sumFacultyMults = {0., 0., 0., 0.,  0., 0., 0.1, 0.2,  .3, .4, .7, 1., .7, .5, .5, .5, .3};
+  static final double[] staffPromotePerFaculty = {20., 15., 13., 12.,  10., 9., 8., 7.,  1., .6, .5, .3,  .3, .3, .2, .2};
   // 4 trainee, 4 engineer, 4 faculty, 4 researcher
-  static final double[] staffPromotePerResearcher = {0., 0., 0., 0., 0., 0., 0., 0., 1.8, 1.7, 1.6, 1.5, 1.4, 1., .8, .6};
+  static final double[] staffPromotePerResearcher = {0., 0., 0., 0.,  0., 0., 0., 0., 1.8, 1.7, 1.6, 1.5,  1.4, 1., .8, .6};
   // use multiplier for the sum of Knowledge can be created,and researcher equiv for staff permotion above
   static final double[] sumResearchMults = {0., 0., 0., 0., 0., 0., 0., 0., 0., 0, 0., .3, .4, .5, .5, 1.};
   static final double[] sumManualToKnowledgeByStaff = {0., 0., 0., 0., .0, 0., 0.2, 0.4, 0.5, 0.7, 0.9, 1.1, 1.3, 1.5, 1.9, 2.5};
-  static protected double[] deathPerYear = {.9, .97, 1.05, 1.20, .9, .97, 1.05, 1.20, .9, .97, 1.05, 1.20, .9, .97, 1.05, 1.20, .9, .97, 1.05, 1.20};
+  static protected double[] deathPerYear = {.9, .97, 1.05, 1.20,  .9, .97, 1.05, 1.20,  .9, .97, 1.05, 1.20,  .9, .97, 1.05, 1.20,  .9, .97, 1.05, 1.20};
   // 4 trainee, 4 engineer, 4 faculty, 4 researcher
   // used to calculate worth of staff
-  static protected double[] staffWorthBias = {.4, .5, .7, 1., .8, .9, 1.1, 1.4, 1.2, 1.4, 1.8, 2., 1.3, 1.5, 2., 2.5};
+  static protected double[] staffWorthBias = {.4, .5, .7, .8,  .9, 1., 1.1, 1.2,1.4,  1.6, 1.8, 2.,  2.1, 2.2, 2.3, 2.5};
 
   static public double additionalWorkerBonusForKnowledge = .02;
   static public double aGrowthBias[] = {1.0, 1.0};

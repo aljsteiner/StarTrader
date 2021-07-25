@@ -69,7 +69,7 @@ public class History {
   // headers appear as the first row of a section
   static final int headers20 = 20;  // display header rows encounterd rows earlier
   static final int mostDl = 30;
-  static final int dl = E.debugLogsOut ? 1:30;;
+  static final int dl = E.debugLogsOut ? 1:30;
  // static final int dl = mostDl;
 
   NumberFormat dFrac = NumberFormat.getNumberInstance();

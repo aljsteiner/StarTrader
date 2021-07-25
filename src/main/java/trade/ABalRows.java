@@ -216,6 +216,17 @@ public class ABalRows extends A6Rowa {
     }
     return rtn;
   }
+  
+   /** set ABalRows bal for the saved travel costs
+   * 
+   * @param tcosts10 Copy of current travelcosts
+   * @return new copy of bal
+   */
+  ABalRows setTRows(A10Row tcosts10){
+      A[TCOSTSIX] = tcosts10.A[0];
+      A[TCOSTSIX + 1] = tcosts10.A[1];
+      return this;
+  }
 
   /**
    * get an A10Row for the R & S costs for maintenance
@@ -227,6 +238,17 @@ public class ABalRows extends A6Rowa {
     rtn.A[2] = A[MCOSTSIX];
     rtn.A[6] = A[MCOSTSIX + 1];
     return rtn;
+  }
+  
+  /** set ABalRows bal for the saved maintenance costs
+   * 
+   * @param mcosts10 Copy of current maintenance costs
+   * @return new copy of bal
+   */
+  ABalRows setMRows(A10Row mcosts10){
+      A[MCOSTSIX] = mcosts10.A[2];
+      A[MCOSTSIX + 1] = mcosts10.A[6];
+      return this;
   }
 
   /**

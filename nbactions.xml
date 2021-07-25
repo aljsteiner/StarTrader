@@ -101,7 +101,7 @@
             <properties>
                 <test>DummyToSkipUnitTests</test>
                 <failIfNoTests>false</failIfNoTests>
-                <it.test>${packageClassName}#trade.TestStarTraderTest</it.test>
+                <it.test>${packageClassName}#trade.TestStarTraderTest4</it.test>
             </properties>
         </action>
     </actions>

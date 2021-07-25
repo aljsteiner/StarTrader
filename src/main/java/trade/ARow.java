@@ -48,10 +48,11 @@ public class ARow {
   volatile int savCnt = -10;
   EM eM = EM.eM;
   E eE = EM.eE;
-  Econ ec = EM.curEcon;
-  Assets as = ec.as;
-  String aPre = ec.aPre;
-  ArrayList<History> hist = ec.getHist(); // the owner will not change
+  // the following initizlized by the constructor
+  Econ ec;
+  Assets as;
+  String aPre;
+  ArrayList<History> hist; // the owner will not change
 
   /**
    * construct a new zero'd ARow instance
@@ -61,6 +62,7 @@ public class ARow {
     this.ec = ec;
     as = ec.as;
     aPre = ec.aPre;
+    hist = ec.getHist();
     values = new double[E.lsecs];
     ix = new int[E.lsecs];
     if(E.debugNoTerm){
@@ -876,7 +878,8 @@ public class ARow {
   }
 
   /**
-   * tmp = this/B
+   * make copy of this/B
+   * illegal numbers return a 0. value
    *
    * @param B
    * @return tmp this unchanged
@@ -886,26 +889,41 @@ public class ARow {
     for (int m = 0; m < E.lsecs; m++) {
       Double bt = get(m) / B.get(m);
       double bb = bt.isInfinite() || bt.isNaN() ? 0 : bt < E.UNZERO? E.INVZERO:bt;
+      tmp.set(bb);
+    }
+    return tmp;
+  }
+/** make copy of A divided by double v
+ *  illegal numbers return a 0. value
+ * 
+ * @param A  input ARow
+ * @param v  double to divide A
+ * @return each value of A divided by v
+ */
+  ARow setAdivbyV(ARow A, double v) {
+    ARow tmp = new ARow(ec); // uses ec of this
+    for (int m = 0; m < E.lsecs; m++) {
+      Double at = A.get(m) / v;
+      double av = at.isInfinite() || at.isNaN() ? 0 :  at < E.UNZERO? E.INVZERO:at;
+      tmp.set(m, av);
     }
     return tmp;
   }
 
-  ARow setAdivbyV(ARow A, double V) {
+  /** divide each value of this by double v
+   *  illegal numbers return a 0. value
+   * 
+   * @param v divisor of this
+   * @return copy of this / v
+   */
+  ARow divby(double v) {
+    ARow tmp = new ARow(ec);
     for (int m = 0; m < E.lsecs; m++) {
-      Double at = A.get(m) / V;
-      double av = at.isInfinite() || at.isNaN() ? 0 :  at < E.UNZERO? E.INVZERO:at;
-      set(m, av);
-    }
-    return this;
-  }
-
-  ARow divby(double V) {
-    for (int m = 0; m < E.lsecs; m++) {
-      Double at = get(m) / V;
+      Double at = get(m) / v;
       double av = at.isInfinite() || at.isNaN() ? 0 :   at < E.UNZERO? E.INVZERO:at;
-      set(m, av);
+      tmp.set(m, av);
     }
-    return this;
+    return tmp;
   }
 
   /**
@@ -1761,10 +1779,10 @@ public class ARow {
   
 
   /**
-   * set each sector between min and max inclusive
+   * set each sector of this between min and max inclusive
    *
-   * @param min
-   * @param max
+   * @param min  mins for each financial sector
+   * @param max max for all financial sectors
    * @return each min <= a <= max
    */
   public ARow setLimVal(ARow min, double max) {
@@ -2573,6 +2591,80 @@ public class ARow {
     return this;
   }
 
+  /**
+   * derive a strategic trade value for each of the 7 values in B
+   * turn aLinLow %lt; .5 into 1.0 + aLimLow
+   * turn alimLow %lt; 1.0 into the low limit, aHighLim = 1/aLowLim
+   * The median  min(3)  separates hHlf above med and lHlf at or below
+   * The largest value in B becomes the smallest result
+   * The smailest value in B becomes the largest result
+   * if the initial alimLow was negative, then the results are reversed:
+   * the largest value in B becomes the largest result %lt; aHighLim
+   * the smallest value in B becomes the smallest result %gt; aLowLim
+   * 
+   * @param titla The title for the ARow results
+   * @param B the A2Row used as input
+   * @param aLimLow either the highest result or its reciprical, negative
+   * alimLow,means straight results
+   * @return a new ARow with strategic values around 1 Recip (positive aLimLow,
+   * high values small results and opposite (negative aLimLow, high values have
+   * high results and opposite
+   */
+  ARow strategicRecipValBbyLim(String titla, ARow B, double aLimLow) {
+    Econ ec = EM.curEcon;
+    double amax = B.max(0);
+    double amin = B.min(0);
+    // neg means means straight results not reciprical
+    boolean straight = aLimLow < 0.0;
+    // force limit positive
+    aLimLow = aLimLow < 0. ? -aLimLow : aLimLow;
+    // force the limit > 1.
+    aLimLow = aLimLow < .5 ? 1. + aLimLow : aLimLow; // aLimLow > .5
+    double aLimHigh =  (aLimLow < 1.0  ? 1/aLimLow: aLimLow);
+    aLimLow = aLimLow < 1.0 ? aLimLow : 1.0 / aLimLow; // now aLimLow < 1.
+    // results will be in terms of difference from 1.
+    double hLimDif = aLimHigh - 1.0;  // upper limit  1.0 + hLimDif
+    double lLimDif = 1.0 - aLimLow;  // as hLimDif grows => lLimDif decreases lower limit 1.0 - lLimDif
+    // select lower median for recip, higher median for straight from B 
+    double median = B.min(3); //median value of B
+    double lHlf = median - amin; // size of lower half usually > 0, could be 0
+  // straight if aSign < 0.0
+    double lMult = lHlf < E.PZERO && lHlf > E.NZERO ? 0.0000001 :
+        straight ? lLimDif / lHlf : -hLimDif/ lHlf; // frac of differences
+    // lower limit 1.0 - lLimDif
+    double hHlf = amax - median;  //  size  of high half should be >= 0
+    double hMult = hHlf < E.PZERO && hHlf > E.NZERO ? 0.000001: 
+        straight ? hLimDif / hHlf : -lLimDif / hHlf;
+    // high limit is 1.0 + hLimDif
+    double tVal = 1., tVal1 = 1., tVal2 = 1., tVal3 = 1.,mult;
+
+    ec.hist.add(new History(History.debuggingMinor11, titla + (amax == amin ? " all 1": (!straight  ? "recipricals" : "straight") ),  "Hv" + EM.mf(amax) ,"med=" + EM.mf(median), "Lv" + EM.mf(amin),"hHlf=" + EM.mf(hHlf), "lHlf=" + EM.mf(lHlf), "lMlt=" + EM.mf(lMult), "hMlt=" + EM.mf(hMult), "lims=" + EM.mf(aLimHigh)  ,EM.mf(aLimLow), "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"));
+
+    // process both Resource & Staff  or cargo & guests
+    for (int n : E.ASECS) {
+      tVal3 = B.get(n);
+      // get dVal distance from average, sign is for reciprical or straight
+      tVal2 = (tVal3 - median);
+     // tVal2 = aaSign * tVal3;
+      //     mVal = aMult * dVal;  // modified distance from center
+     
+        mult = tVal2 <= E.PZERO ? lMult  : hMult;  
+        tVal1 = (tVal2 *mult);  // tVal2 < 0.0 lHlf straight => tVal1 < 0.0, lMult > 0.0
+                                          // tVal2 < 0.0  lHlf !straight => tVal1 > 0.0 ,  lMult < 0.0
+                                          // tval2 > 0.0 hHlf straight => tVal1 > 0.0 , hMult > 0.0
+                                          // tval2 > 0.0 hHlf !straight => tVal1 < 0.0, hMult < 0.0
+       tVal = 1.0 + tVal1; // for lHlf tVal1 < 0.0
+       set(n, tVal);
+        if (History.dl > 4 || hist.size() < 2000) {  // do the one at the bottom
+          // list action for each calculation
+          ec.hist.add(new History(History.debuggingMinor11, "n=" + ec.as.n + " " + titla + n, 
+              "v=" + EM.mf(tVal3), "-med=" + EM.mf(median),"->" + eM.mf(tVal2), "mlt=" + df(mult), 
+              "=" + df(tVal1), "+1=" + df(tVal), (tVal > 1.0? "< " +eM.mf(aLimHigh) : ">" + eM.mf(aLimLow)),  "<<<<<<<<<<<<<<<<<<<<"));
+        }
+    }// for
+    return this;
+  }
+  
   /**
    * softens the call to revalueAtoMinMax by possibly making the distance
    * between max and min smaller. When maxNew &gt minNew than min and max

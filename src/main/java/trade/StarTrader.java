@@ -211,107 +211,71 @@ public class StarTrader extends javax.swing.JFrame {
    */
 
   static final public String[] statsButtonsTips = {statsButton0Tip, statsButton1Tip, statsButton2Tip, statsButton3Tip, statsButton4Tip, statsButton5Tip, statsButton6Tip, statsButton7Tip, statsButton8Tip, statsButton9Tip, statsButton10Tip, statsButton11Tip, statsButton12Tip, statsButton13Tip, statsButton14Tip, statsButton15Tip, statsButton16Tip, statsButton17Tip, statsButton18Tip, statsButton19Tip, statsButton20Tip, gameTextFieldText};
-  static final public String versionText = "19.27";
-  static final public String storyText = "           Version " + versionText + "\n"
+  static final public String versionText = "19.30";
+  static final public String storyText = "   Save the planets        Version " + versionText + "\n"
           + "\n"
-          + "Save the Planets: is an economics strategy game with ships carrying necessary resources between planets. The planets and ships are each different economies with a lot of similar rules and some significantly different values. Each economy has 2 very stressed financial sectors, two very successful financial sectors  The other 3 financial sectors are ok.   Generally each year planets increase resources by mining and new staff are added at the lowest grade while many staff move up one or more grades. Ships hold and carry resources and staff between planets, trading resources a planet needs  for surplus resources or staff from the planets but ships generally do not grow new staff and ships generally do not mine resources. \n"
-          + "\n"
-          + "The game-master changes settings which set overall rules for all ships and planets, thus the game-master sets up many different games of economics strategies.   The game-master sets the difficulty of the game, and the amount of random increases or decreases to the priorities,  costs, growth, etc. There are five clans each with a clan-master.  One or more players can divide up the roles of game-master and clan-masters.  Clans without a clan-master run with the preset settings for that clan.  The clan-masters can alter any of the priority settings and leave unchanged the rest of the clan settings for the robots which calculate the moves for each clan planet and ship.  \n"
-          + "\n"
-          + "Planets and ships which did not have enough infrastructure to survive the year die, all resources and staff are lost, and the economy disappears.  Otherwise when resources and staff are available, growth is applied to resources, staff and knowledge.  After each run a large set of statistics is available to be viewed about the planets and ships,  Runs can be 1 year, 5 years, 10 or 20 years.  Statistics after each run help show the problems the ship and planets faced and may give some ideas about changing clan priorities to increase planet and ship survival.  After viewing their statistics each clan-master changes a few settings then the game-master starts another run.\n"
-          + "\n"
-          + "The game-master changes settings to change the nature of the rules for the planets and ships.  Also the settings determine how the winning score is calculated at the end of each run.  â€œSave the planetsâ€�  game increases the value of the count of the planets and ships that each clan's barters have helped.  The game-master can change settings so that  â€œHighest worth winsâ€�, or â€œmost planets winsâ€� or many other games.  You can play the game for as many runs as you choose. \n"
-          + "\n"
-          + "At the start of the year each economy projects what its resources will be at the end of the year,  Each resource and staff sector is given a strategic value  related to how much more is needed for a good year.  In addition, if a planet or ship will not survive the year with the current resources and staff an SOS value is set.  Each year every ship tries to find a planet for a good trade in a way that both of them will be more able to survive and have good growth.  The game-master can adjust how much the ship knows about planets. Ships may know nothing and just make a random choice.  Ships may be able to use a history that is updated every time they trade with a planet,  Ships may be able to get direct knowledge about what planets have to make the best trade, combined with the cost of travel to that planet.\n"
-          + "\n"
-          + "Clan-masters choose a friendship level with each of the other clans.  The higher the friendship, the more a ship and planet will trade.  Ships can trade with each other, if more than one ship is trading at a given planet.  \n"
-          + "\n"
-          + "When a planet or ship has enough to survive the year,  the additional resources determine the health of the planet or ship.  Planets and ships with poor health are less efficient in doing the required work for that year.  This means that the work takes more resources and staff.  In addition, the work becomes more efficient for a sector each year as the knowledge for that sector increases.  \n"
-          + "\n"
-          + "When there are more resources and/or staff than needed for maintenance and travel, those resources and work can be applied to growth in that sector.  Each of the required Maintenance and required Growth require a combination of resources and staff, just as growth requires a combination of resources and staff.  Every year each financial sector will only be able to do the amount of work enabled by the required combination of resources and staff, there will be some resources or staff for each sector which cannot be used.\n"
-          + "\n"
-          + "The resources and staff for each sector are working resources and staff.   Cargo and guests are reserved resources and staff, they do no work and their yearly costs are reduced.\n"
-          + "\n"
-          + "Each year has a Cash Flow activity, the potential costs for each financial sector are calculated.  Any sectors with insufficient prospective resources or work to meet the required level, must move any available reserves to working status.  If that is not enough, costs may be reduced by reducing costs in high resources or staff from working to reserved status.  If that does not work sometimes staff or resources can be repurposed from one sector to another sector, of course the cost of such repurposing is quite high.\n"
-          + "\n"
-          + "The game-master sets a number of priorities and values over the game for all the clans.  The game-master adjusts the difficulty of the game and other options that significantly change the nature of challenges in the game.  A normal goal is to have no more than 10% of ships and 10% of planets die in a single year of the game.  Catastrophes can occur at the year start before it is time to trade.  A catastrophe can destroy a large fraction of the resources for one or two financial sectors, and the staff for a financial sector, but they also benefit some sectors.\n"
-          + "\n"
-          + "The game-master chooses which results are most important for deciding the winner in the game.  The winner may be the clan that gave the most help to clans, or that helped the most planets or the most planets and ships, or had the highest worth, or had the most planets, etc.  The winner will often change after each run of one or more years.  \n"
-          + "\n"
-          + "After players have set clan priorities and other levels, the game-master can run the game for 1,5,10, or 20 years.  When the years are finished, results are available, there are 20 different pages showing different results and showing some of the same results in different ways.  Pages 0,1,2 list the most important results.  Any page with the score at the top will be set to the background color of the clan with the highest score, the winner.\n"
-          + "\n"
-          + "Each planet and ship have seven financial sectors.  Each sector has resources, cargo(resource not working but in reserve), staff, guests(staff not working but in reserve), and knowledge of 3 kinds (common knowledge, new knowledge, and manuals(researchers work to get new knowledge or common knowledge from manual, but trades can only trade manuals).\n"
-          + "\n"
-          + "The jar of the game is available at: https://drive.google.com/drive/folders/1P-hw8Wk9BcwEdHSS8CdAbDDjtjyEQTF_?usp=sharing\n"
-          + "This is a folder because virus protect will not allow passing a jar file.\n"
-          + "The folder contains a pdf of this README and the file startrader.jar.  You must have downloaded and installed the latest public Java jre (java runtime environment).  The jre is a version of java.1.8.0_281.\n"
-          + "With the jre installed, you should be able to run the game by clicking on the jar.  After reading the story tabe, go to the Settings tab to make any changes.  There are six colored radio buttons, the first is labed â€œmasterâ€� for game-master, the clans are labeled red, orange, yellow, green, and blue.  There are 10 sliders for the game-master or a different set for any one of the clan-masters.  The sliders are preset to the existing value, changing a slider causes the named value to be changed.\n"
-          + "\n"
-          + "Hovering over a name, or clicking the name causes an explanation of that sliders action at the bottom of the page.  Many of the names have two sliders, one for planets and one for ships.  For example growths would have a moderate or large growth for planets and a small or zero value of growth for ships.  But the game-master could move the ships slider to have some growth from ships.\n"
-          + "\n"
-          + "The source is at http://github.com/aljsteiner/StarTrader \n"
-          + "I use apache Netbeans, the latest version, and the latest open source of java as well as the latest owned java.8 version of java.  The java being distributed to Windows 10 machines by Oracle is the latest version of java.1.8... jre.  You can download a corresponding JDK from Oracle after signing their license.  StarTrader often does not work with later open source versions of Java because of a class conflict,  Sometimes it is fixed but not every release, .\n"
-          + "\n"
-          + "Here are many of the settings you will need  in Apache NetBeans currently version 12.1\n"
-          + "1.Open NetBeans IDE and create a new ant project with existing source at C:\\Users\\Public\\netbeans\\Trader19.2p\n"
-          + "2.Create a source folder such as C:\\Users\\Public\\netbeans\\Trader19.2s\n"
-          + "3.Right click the project name, at versioning create at git repository in Trader19.2p\n"
-          + "4.Right click the project name, at git select pull and fill out the form as requested\n"
-          + "5.Right click the project name, select properties, select formatting, select project specific options, choose all languages, choose Tabs And Indents, Enable Indentation, Expand Tabs to Spaces, Number of Spaces per indent=2, tab Size = 2, Right Margin=80,Line Wrap After words\n"
-          + "6.Download the latest Java 8 JDK after signing the license, install it into the Java folder under C:\\Program Files\n"
-          + "7.Left Click the NetBeans Tools menu and select Java Platforms, click \"Add Platform...\" browse to C:\\Program Files\\Java and choose the latest installed jdk1.8.0_271 \n"
-          + "8.Right click the project name, select properties,“Save the Planets”; “Trade, trade, trade”;  “Cooperating together with trades”: is an economics strategy game emphasizing cooperation over competition.  The settings permit changing the game in many different ways.  Clan-masters manage clans of planets and ships which run as robots.  The players change clan settings to try to improve their clan score.  The planets and ships are two sets of economies with a lot of similar rules and some significantly different values. Each economy has 2 very stressed financial sectors,2 very successful financial sectors, 3 other ok financial sectors.   At the end of each year planets increase resources by mining, new staff are added at the lowest grade while many staff move up one or more grades, and knowledge increases making operations more efficient. Ships hold and carry resources and staff between planets, trading resources a planet needs for surplus resources or staff from the planets.  Ships are initially set to not grow new staff and ships generally do not mine or find new resources. \n"
-          + "\n"
-          + "There are instructions at the end of this document to describe how to get the files you need to run this game and even how you can use a program called “netbeans” to change the program.\n"
-          + "\n"
-          + "The game-master changes overall game settings, setting  rules for all ships and planets, thus the game-master can set up many different games of economics strategy.   The game-master sets the difficulty of the game, and the amount of random increases or decreases to the priorities,  costs, growth, etc. There are five clans each with a clan-master.  One or more players can divide up the roles of game-master and clan-masters.  Clans without a clan-master run with the preset settings for that clan.  The clan-masters can alter any of the settings and leave unchanged the rest of the clan settings for the robots which calculate the moves for each clan planet and ship.  \n"
-          + "\n"
-          + "Planets and ships which did not have enough of any financial resource to survive the year die, all resources and staff are lost, and the economy disappears.  Otherwise when enough resources and staff are available, growth is applied to resources, staff and knowledge.  After each run a large set of statistics is available to be viewed about the planets and ships,  Runs can be 1 year, 5 years, 10 or 20 years.  It is expected that between 7% to 20% of the economies fail each year.  Statistics after each run help show the problems the ship and planets faced and may give some ideas about changing clan priorities to increase planet and ship survival. If too many or not enough economies fail each year, the game master can change a game setting to alter results. After viewing their statistics each clan-master changes a few settings then the game-master starts another run.  \n"
-          + "\n"
-          + "The game-master changes settings to change how all planets and ships survive and grow.  Also the game-master can adjust how the winning score is calculated and when the score is good enough to win the game.  “Save the planets”  increases the score of a clan based on the number of planets and ships that the clan's barters have helped, and how much the barters helped.  The game-master can change settings so that  “Highest worth wins”, or “most planets wins” or many other games.  You can play the game for as many runs as you choose. \n"
-          + "\n"
-          + "There is a “keep” button with the settings, when that button is clicked, any changes made to that page of settings is kept for later games.  If the keep button is not pressed, the changed setting on that page will be forgotten for the next game.  You should also fill in the comment so that you can remember why you made the change.  You can also use the remember button on the statistics pages to remember a line whose title you klick.  These values are written to a file named “keep” in the same directory as the jar file for the game.\n"
-          + "\n"
-          + "At the start of the year each economy projects what its resources will be at the end of the year,  Each resource and staff sector is given a strategic value  related to how much more is needed for a good year.  In addition, if a planet or ship will not survive the year with the current resources and staff an SOS value is set.  Each year every ship tries to find a planet for a good trade in a way that both of them will be more able to survive and have good growth.  The game-master can adjust how much the ship knows about planets. Ships may know nothing and just make a random choice.  Ships may be able to use a history that is updated every time they trade with a planet,  Ships may be able to get direct knowledge about what planets have to make the best trade, combined with the cost of travel to that planet.\n"
-          + "\n"
-          + "Clan-masters choose a friendship level with each of the other clans.  The higher the friendship, the more a ship and planet will trade.  Ships can trade with each other, if more than one ship is trading at a given planet.  \n"
-          + "\n"
-          + "When a planet or ship has enough to survive the year,  the additional resources determine the health of the planet or ship.  Planets and ships with poor health are less efficient in doing the required work for that year.  This means that the work takes more resources and staff.  The work becomes more efficient for each sector each year as the knowledge for that sector increases.  \n"
-          + "\n"
-          + "When there are more resources and/or staff than needed for maintenance and travel, those resources and work can be applied to growth in that sector.  Each of the required  or interface Maintenance and required or interface Growth require a combination of resources and staff, just as growth requires a combination of resources and staff.  Every year each financial sector will only be able to do the amount of work enabled by the required combination of resources and staff, there will be some resources or staff for each sector which cannot be used.\n"
-          + "\n"
-          + "The resources and staff subAssets for each sector are working resources and staff.   Cargo and guest subAssets are the reserved resources and staff, they do no work and their yearly costs are reduced, they are available to convert to working assets or to be traded.\n"
-          + "\n"
-          + "Each year during the Cash Flow activity, the potential costs for each financial sector are calculated.  Any sectors with insufficient prospective resources or work to meet the required costs, must move any available reserves to working status.  If that is not enough assets from other sectors may be repurposed.  Of course the cost of such repurposing is quite high, taking well over 10 times the resulting increase in assets for the needy sector.\n"
-          + "\n"
-          + "The game-master sets a number of priorities and values over the game for all the clans.  The game-master adjusts the difficulty of the game and other options that significantly change the nature of challenges in the game.  A normal goal is to have no more than 10% of ships and 10% of planets die in a single year of the game.  Catastrophes can occur at the year start before it is time to trade.  A catastrophe can destroy a large fraction of the resources for one or two financial sectors, and the staff for a financial sector, but they also discover additional resources for one or more sectors.  These additional resources replace the decay of resources as they are mined\n"
-          + "\n"
-          + "The game-master chooses which results are most important for deciding the winner in the game.  The winner may be the clan that gave the most help to clans, or that helped the most planets or the most planets and ships, or had the highest worth, or had the most planets, etc.  The winner will often change after each run of one or more years.  \n"
-          + "\n"
-          + "After players have set clan priorities and other levels, the game-master can run the game for 1,5,10, or 20 years.  When the years are finished, results are available, there are 20 different pages showing different results and showing some of the same results in different ways.  Pages 0,1,2 list the most important results.  Any page with the score at the top will be set to the background color of the clan with the highest score, the winner when the score gets good enough to win.\n"
-          + "\n"
-          + "Each planet and ship have seven financial sectors.  Each sector has resources, cargo(resource not working but in reserve), staff, guests(staff not working but in reserve), and knowledge of 3 kinds (common knowledge, new knowledge, and manuals(researchers work to get new knowledge or common knowledge from manual, but trades can only trade manuals).\n"
-          + "\n"
-          + "The game is available in a folder at: https://drive.google.com/drive/folders/1P-hw8Wk9BcwEdHSS8CdAbDDjtjyEQTF_?usp=sharing\n"
-          + "This is a folder because virus protect will not allow passing a java compiled file.\n"
-          + "The folder contains a pdf of this README and the file startrader.jar.  \n"
-          + "This file will only run if you have java installed.  It may already be on your windows machine.  If you don’t know whether you have installed Java, run the following link to load  the current version  at https://www.oracle.com/java/technologies/javase-jre8-downloads.html#license-lightbox\n"
-          + "With the jre (java runtime environment) installed, you should be able to run the game by clicking on the file startrader.jar.  After reading the story tab, go to the Settings tab to make any changes.  There are six colored radio buttons, the first is labed “master” for game-master, the clans are labeled red, orange, yellow, green, and blue.  There are pages of 10 sliders for the game-master or a different set pages of 10 sliders for each of the clan-masters.  The sliders are preset to the existing value, changing a slider causes the named value to be changed.\n"
-          + "\n"
-          + "Hovering over a name, or clicking the name causes an explanation of that sliders action at the bottom of the page.  Many of the names have two sliders, one for planets and one for ships.  For example growths would have a moderate or large growth for planets and a small or zero value of growth for ships.  But the game-master could move the ships slider to have some growth from ships.\n"
-          + "\n"
-          + "The source the game is at http://github.com/aljsteiner/StarTrader \n"
-          + "I use apache Netbeans, the latest version, and the latest open source version of java as well as the latest owned java.8 version of java.  The java being distributed to Windows 10 machines by Oracle is the latest version of java.1.8... jre.  You can download a corresponding JDK from Oracle after signing their license.  StarTrader often does not work with some of the later open source versions of Java.\n"
-          + "\n"
-          + "Here are many of the settings you will need  in Apache NetBeans currently version 12.3.  You must be logged in as an administrator to have the windows permissions to do the installations.\n"
-          + "1.Open NetBeans IDE and create a new ant project with existing source at C:\\Users\\Public\\netbeans\\Trader19.2p\n"
-          + "2.Create a source folder such as C:\\Users\\Public\\netbeans\\Trader19.2s\n"
-          + "3.Right click the project name, at versioning create a git repository in Trader19.2p\n"
-          + "4.Right click the project name, at git select pull and fill out the form as requested\n"
-          + "5.Right click the project name, select properties, select formatting, select project specific options, choose all languages, choose Tabs And Indents, Enable Indentation, Expand Tabs to Spaces, Number of Spaces per indent=2, tab Size = 2, Right Margin=80,Line Wrap After words\n"
-          + "6.Download the latest Java 8 JDK after signing the license, install it into the Java folder under C:\\Program Files\n"
-          + "7.Left Click the NetBeans Tools menu and select Java Platforms, click \"Add Platform...\" browse to C:\\Program Files\\Java and choose the latest installed jdk1.8.0_271 \n"
-          + "8.Right click the project name, select properties, and under “Source Packages” select the package “trade” to get a list of the created Java Classes.  The StarTrader.java is the main class with the user interface logic.  Classes E.java and EM.java contain lots of data tables need for the user interface, E.java contains most of the fixed data, EM.java contains data that can change from the user changes or the statistics of the current run of the game.\n"
+          +
+"“Save the Planets”; “Trade, trade, trade”;  “Cooperating together with trades”: is an economics strategy game emphasizing cooperation over competition.  The settings permit changing the game in many different ways, thus the many names.  \n" +
+"The game-master changes the game's overall settings, including how the score is calculated, and how to win.  Clan-masters manage the robots that run the 5  clans of planets and ships, or villages and traveling traders.  \n" +
+"\n" +
+"The planets and ships are two sets of economies with a lot of similar rules and some significantly different priority settings. Each economy has 2 very stressed financial sectors, 2 very successful financial sectors, 3 other ok financial sectors.   \n" +
+"\n" +
+"At the end of each year planets increase resources by mining, growing or making, new staff are added at the lowest grade while many of the staff move up one or more grades, and knowledge increases making operations more efficient.\n" +
+"\n" +
+"Ships hold and carry resources and staff between planets, trading resources that  a planet needs for surplus resources or staff from the planets.  Ships are initially set to not grow new staff and ships generally do not find new resources. \n" +
+"\n" +
+"There are instructions at the end of this document to describe how to get the files you need to run this game and even how you can use a program called “Netbeans” to edit source files and change the program.\n" +
+"\n" +
+"The game-master changes overall game settings, setting  rules for all ships and planets, thus the game-master can set up many different games of economic strategy.   The game-master sets the difficulty of the game, and the amount of random increases or decreases to the priorities,  costs, growth, etc. There are five clans each with a clan-master.  One or more players can divide up the roles of game-master and clan-masters.  Clans without a clan-master run with the preset settings for that clan.  The clan-masters can alter any of the settings and leave unchanged the rest of the clan settings for the robots which calculate the moves for each clan planet and ship.\n" +
+"\n" +
+"After you have become familiar with the game by running it several times you may want to keep some of the settings you change, so that they will be automatically set to the kept value at the following games.  You can also save comments to indicate why you want the changes.  You keep settings by clicking the “keep” button.  There is also a place to add your comments, then any changes you have made on the settings page will be kept. These kept values are in a file called “keep”.  You can find the “keep” file in the same folder into which you copied the java “jar” file.  You can also use the remember button on the statistics pages to remember a line whose title you click.  I suggest you download the jar file into the “desktop”, then the “keep” file will also be on the desktop.  The desktop is the initial set of icons you see on your computer monitor.\n" +
+"\n" +
+"Planets and ships which did not have enough of any financial resource to survive the year: die.   When it dies, all resources and staff are lost, and the economy disappears.  Otherwise at the end of the year, when enough resources and staff are available, growth is applied to resources, staff and knowledge.  After each run a large set of statistics is available to be viewed about the planets and ships,  Runs can be 1 year, 5 years, 10 or 20 years.  Initial settings make it so that between 7% to 20% of the economies die each year.  Statistics after each run help show the problems the ship and planets faced and may give some ideas about changing clan priorities to increase planet and ship survival. If too many or not enough economies fail each year, the game master can change a game difficulty setting to alter results. After viewing their statistics each clan-master can change a few settings, then the game-master starts another run.  \n" +
+"\n" +
+"The game-master changes settings about how all planets and ships survive and grow.  Also the game-master can adjust how the winning score is calculated and when the score is good enough to win the game.  “Save the planets”  increases the score of a clan based on the number of planets and ships that the clan's barters have helped, and how much the barters helped.  The game-master can change settings so that  “Highest worth wins”, or “most planets wins” or many other games.  You can play the game for as many runs as you choose. \n" +
+"\n" +
+"At the start of the year each economy projects what its resources will be at the end of the year. Each resource and staff sector is given a strategic value  related to how much more is needed for a good year.  In addition, if a planet or ship will not survive the year with the current resources and staff an SOS flag is set.  Each year each ship tries to find a planet for a good trade in a way that both of them will be more able to survive and have good growth.  The game-master can adjust how much the ship knows about planets. Ships may know nothing and just make a random choice.  Ships may be able to use a history that is updated every time they trade with a planet,  Ships may be able to get direct knowledge about what planets have to make the best trade, combined with the cost of travel to that planet.\n" +
+"\n" +
+"Clan-masters choose a friendship level with each of the other clans.  The higher the friendship, the more a ship and planet will trade.  Ships can trade with each other, if more than one ship is trading at a given planet.  \n" +
+"\n" +
+"When a planet or ship has enough to survive the year,  the additional resources determine the health of the planet or ship.  Planets and ships with poor health are less efficient in doing the required work for that year.  This means that the work takes more resources and staff.  The work becomes more efficient for each sector each year as the knowledge for that sector increases.  \n" +
+"\n" +
+"When there are more resources and/or staff than needed for maintenance and travel, those resources and work can be applied to growth in that sector.  Each of the required  or interface Maintenance and required or interface Growth require a combination of resources and staff, just as growth requires a combination of resources and staff.  Every year each financial sector will only be able to do the amount of work enabled by the required combination of resources and staff, there will be some resources or staff for each sector which cannot be used.\n" +
+"\n" +
+"The resources and staff subAssets for each sector are working resources and staff.   Cargo and guest subAssets are the reserved resources and staff, they do no work and their yearly costs are reduced, they are available to convert to working assets or to be traded.\n" +
+"\n" +
+"Each year during the Cash Flow activity, the potential costs for each financial sector are calculated.  Any sectors with insufficient prospective resources or work to meet the required costs, must move any available reserves to working status.  If that is not enough assets from other sectors may be repurposed.  Of course the cost of such repurposing is quite high, taking well over 10 times the resulting increase in assets for the needy sector.\n" +
+"\n" +
+"The game-master sets a number of priorities and values over the game for all the clans.  The game-master adjusts the difficulty of the game and other options that significantly change the nature of challenges in the game.  A normal goal is to have no more than 10% of ships and 10% of planets die in a single year of the game.  Catastrophes can occur at the year start before it is time to trade.  A catastrophe can destroy a large fraction of the resources for one or two financial sectors, and the staff for a financial sector, but they also discover additional resources for one or more sectors.  These additional resources replace the decay of resources as they are mined\n" +
+"\n" +
+"The game-master chooses which results are most important for deciding the winner in the game.  The winner may be the clan that gave the most help to clans, or that helped the most planets or the most planets and ships, or had the highest worth, or had the most planets, etc.  The winner may change after each run of one or more years.  \n" +
+"\n" +
+"After players have set clan priorities and other levels, the game-master can run the game for 1,5,10, or 20 years.  When the years are finished, results are available, there are 20 different pages showing different results and showing some of the same results in different ways.  Pages 0,1,2 list the most important results.  Any page with the score at the top will be set to the background color of the clan with the highest score, the winner when the score gets good enough to win.\n" +
+"\n" +
+"Each planet and ship have seven financial sectors.  Each sector has resources, cargo(resource not working but in reserve), staff, guests(staff not working but in reserve), and knowledge of 3 kinds (common knowledge, new knowledge, and manuals(researchers work to get new knowledge or common knowledge from manual, but trades can only trade manuals).\n" +
+"\n" +
+"The game is available in a folder at: https://drive.google.com/drive/folders/1P-hw8Wk9BcwEdHSS8CdAbDDjtjyEQTF_?usp=sharing.  The folder contains a pdf of this README and the file StarTrader.jar.  Double click on the StarTrader.jar file and change the location to download it to your desktop, not to your download folder.  Double click on the StarTrader.jar file to run the game.  If you have a previous version of the game downloaded, the newly downloaded file will have a number added to the name.  You can delete unwanted files by right clicking the file and choosing the delete option.\n" +
+" \n" +
+"This file will only run if you have java installed.  It is set up to run on a Windows 10 machine with at least an 11 or 12 inch screen.  This will probably run on other desktop or laptops, if they will also run Java.  Java may already be on your windows machine.  If you don’t know whether you have installed Java, run the following link to load  the current version  at https://www.oracle.com/java/technologies/javase-jre8-downloads.html#license-lightbox\n" +
+"With the jre (java runtime environment) installed, you should be able to run the game by double clicking on the file StarTrader.jar.  After reading the story tab, go to the Settings tab to make any changes.  There are six colored radio buttons, the first is labed “master” for game-master, the clans are labeled red, orange, yellow, green, and blue.  There are pages of 10 sliders for the game-master or a different set of pages of 10 sliders for each of the clan-masters.  The sliders are preset to the existing value, changing a slider causes the named value to be changed.\n" +
+"\n" +
+"Hovering over a name, or clicking the name causes an explanation of that slider's action at the bottom of the page.  Many of the names have two sliders, one for planets and one for ships.  For example growths would have a moderate or large growth for planets and a small or zero value of growth for ships.  But the game-master could move the ships slider to have more growth from ships.\n" +
+"\n" +
+"The source the game is at http://github.com/aljsteiner/StarTrader \n" +
+"I use apache Netbeans, the latest version, and the latest open source version of java as well as the latest java 1.8 version of java.  The java being automatically distributed to Windows 10 machines by Oracle is the latest version of java.1.8... jre.  You can download a corresponding JDK from Oracle after signing their license.  StarTrader often does not work with some of the later open source versions of Java.\n" +
+"\n" +
+"Here are many of the settings you will need  in Apache NetBeans currently version 12.4.  You must be logged in as an administrator to have the windows permissions to do the installations.\n" +
+"1.Left Click the NetBeans Tools menu and select Java Platforms, click \"Add Platform...\" browse to C:\\Program Files\\Java and choose the latest installed jdk1.8.0_291 \n" +
+"\n" +
+"2.Open NetBeans IDE and create a new ant project with existing source at C:\\Users\\Public\\netbeans\\Trader19.2p\n" +
+"3.Create a source folder such as C:\\Users\\Public\\netbeans\\Trader19.2s\n" +
+"4.Right click the project name, at versioning create a git repository in Trader19.2p\n" +
+"5.Right click the project name, at git select pull and fill out the form as requested\n" +
+"6.Right click the project name, select properties, select formatting, select project specific options, choose all languages, choose Tabs And Indents, Enable Indentation, Expand Tabs to Spaces, Number of Spaces per indent=2, tab Size = 2, Right Margin=80,Line Wrap After words\n" +
+"7.Download the latest Java 8 JDK after signing the license, install it into the Java folder under C:\\Program Files\n" +
+"8.Right click the project name, select properties, and under “Source Packages” select the package “trade” to get a list of the created Java Classes.  The StarTrader.java contains the main method with the user interface logic.  Classes E.java and EM.java contain lots of data tables needed for the user interface, E.java contains most of the fixed data, EM.java contains data that can change from the user settings changes and the statistics of the current run of the game, EM also contains methods for processing settings and statistics.\n" +
+"\n" +
+""
           + "";
 
   static int iii = 0;
@@ -363,7 +327,7 @@ public class StarTrader extends javax.swing.JFrame {
   static boolean fatalError = false;
   static int stateCnt = 0;
   static int yearsToRun = 0;
-  static int econCnt = -5;
+ // static int econCnt = -5;
   static int sameEconState = 0;
   static int blip = 1000 / 60;  // shortest animation interval 60/ second
   static int blip2 = blip * 2;  //  30/second
@@ -612,7 +576,7 @@ public class StarTrader extends javax.swing.JFrame {
 
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
     setBackground(new java.awt.Color(240, 180, 240));
-    setBounds(new java.awt.Rectangle(0, 0, 1250, 1250));
+    setBounds(new java.awt.Rectangle(0, 0, 1980, 1250));
     setMaximizedBounds(new java.awt.Rectangle(0, 0, 1, 0));
     setMinimumSize(new java.awt.Dimension(800, 600));
     setResizable(false);
@@ -635,7 +599,8 @@ public class StarTrader extends javax.swing.JFrame {
     controlPanels.setAutoscrolls(true);
     controlPanels.setDebugGraphicsOptions(javax.swing.DebugGraphics.BUFFERED_OPTION);
     controlPanels.setDoubleBuffered(true);
-    controlPanels.setMaximumSize(new java.awt.Dimension(1700, 1800));
+    controlPanels.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+    controlPanels.setMaximumSize(new java.awt.Dimension(2000, 1800));
     controlPanels.setMinimumSize(new java.awt.Dimension(1200, 900));
     controlPanels.setOpaque(true);
     controlPanels.setPreferredSize(new java.awt.Dimension(1900, 1600));
@@ -654,34 +619,42 @@ public class StarTrader extends javax.swing.JFrame {
     story.setAlignmentX(0.0F);
     story.setAlignmentY(0.0F);
     story.setAutoscrolls(true);
-    story.setMaximumSize(new java.awt.Dimension(1000, 800));
+    story.setMaximumSize(new java.awt.Dimension(1200, 1500));
     story.setMinimumSize(new java.awt.Dimension(600, 400));
     story.setName(""); // NOI18N
-    story.setPreferredSize(new java.awt.Dimension(800, 700));
-    story.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
+    story.setPreferredSize(new java.awt.Dimension(1000, 700));
 
     storyTextPane.setAutoscrolls(true);
     storyTextPane.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-    storyTextPane.setMaximumSize(new java.awt.Dimension(1200, 1000));
+    storyTextPane.setMaximumSize(new java.awt.Dimension(1200, 1800));
     storyTextPane.setMinimumSize(new java.awt.Dimension(400, 500));
-    storyTextPane.setPreferredSize(new java.awt.Dimension(800, 700));
+    storyTextPane.setPreferredSize(new java.awt.Dimension(1200, 800));
 
     storyTextField1.setEditable(false);
-    storyTextField1.setColumns(200);
+    storyTextField1.setColumns(600);
     storyTextField1.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
     storyTextField1.setLineWrap(true);
     storyTextField1.setRows(30);
     storyTextField1.setWrapStyleWord(true);
     storyTextField1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
     storyTextField1.setMargin(new java.awt.Insets(4, 5, 4, 4));
-    storyTextField1.setMaximumSize(new java.awt.Dimension(1200, 1000));
+    storyTextField1.setMaximumSize(new java.awt.Dimension(1200, 1600));
     storyTextField1.setMinimumSize(new java.awt.Dimension(600, 400));
-    storyTextField1.setPreferredSize(new java.awt.Dimension(800, 700));
+    storyTextField1.setPreferredSize(new java.awt.Dimension(1200, 1500));
     storyTextField1.setRequestFocusEnabled(false);
     storyTextPane.setViewportView(storyTextField1);
     storyTextField1.getAccessibleContext().setAccessibleParent(storyTextPane);
 
-    story.add(storyTextPane);
+    javax.swing.GroupLayout storyLayout = new javax.swing.GroupLayout(story);
+    story.setLayout(storyLayout);
+    storyLayout.setHorizontalGroup(
+      storyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addComponent(storyTextPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+    );
+    storyLayout.setVerticalGroup(
+      storyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addComponent(storyTextPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+    );
 
     controlPanels.addTab("story", story);
 
@@ -1907,7 +1880,7 @@ public class StarTrader extends javax.swing.JFrame {
         .addComponent(gameTextPane, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addContainerGap(1, Short.MAX_VALUE))
+        .addContainerGap(996, Short.MAX_VALUE))
     );
     gamePanelBottomPanelLayout.setVerticalGroup(
       gamePanelBottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1915,7 +1888,7 @@ public class StarTrader extends javax.swing.JFrame {
         .addGroup(gamePanelBottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
           .addComponent(gameTextPane, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
           .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-        .addContainerGap(326, Short.MAX_VALUE))
+        .addContainerGap(885, Short.MAX_VALUE))
     );
 
     gridBagConstraints = new java.awt.GridBagConstraints();
@@ -2373,7 +2346,6 @@ public class StarTrader extends javax.swing.JFrame {
     topPane.setMinimumSize(new java.awt.Dimension(800, 50));
     topPane.setNextFocusableComponent(statsTable1);
     topPane.setPreferredSize(new java.awt.Dimension(1250, 60));
-    topPane.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
     rbuttons12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 51), 2));
     rbuttons12.setAlignmentX(0.0F);
@@ -2381,14 +2353,13 @@ public class StarTrader extends javax.swing.JFrame {
     rbuttons12.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
     rbuttons12.setMinimumSize(new java.awt.Dimension(375, 27));
     rbuttons12.setName(""); // NOI18N
-    rbuttons12.setPreferredSize(new java.awt.Dimension(401, 60));
-    rbuttons12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+    rbuttons12.setPreferredSize(new java.awt.Dimension(450, 60));
 
     rbuttons1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 255, 255), 2));
     rbuttons1.setAlignmentX(0.0F);
     rbuttons1.setAlignmentY(0.0F);
     rbuttons1.setMinimumSize(new java.awt.Dimension(415, 23));
-    rbuttons1.setPreferredSize(new java.awt.Dimension(405, 23));
+    rbuttons1.setPreferredSize(new java.awt.Dimension(420, 23));
     rbuttons1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
     statsButtonGroupReportNumber.add(statsButton0);
@@ -2554,6 +2525,8 @@ public class StarTrader extends javax.swing.JFrame {
 
     statsButtonGroupReportNumber.add(statsButton10);
     statsButton10.setText("10");
+    statsButton10.setMaximumSize(new java.awt.Dimension(47, 23));
+    statsButton10.setPreferredSize(new java.awt.Dimension(45, 23));
     statsButton10.addItemListener(new java.awt.event.ItemListener() {
       public void itemStateChanged(java.awt.event.ItemEvent evt) {
         statsButton10ItemStateChanged(evt);
@@ -2571,13 +2544,11 @@ public class StarTrader extends javax.swing.JFrame {
     });
     rbuttons1.add(statsButton10);
 
-    rbuttons12.add(rbuttons1, new org.netbeans.lib.awtextra.AbsoluteConstraints(2, 2, -1, -1));
-
     rbuttons2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 153), 2));
     rbuttons2.setAlignmentX(0.0F);
     rbuttons2.setAlignmentY(0.0F);
     rbuttons2.setMinimumSize(new java.awt.Dimension(429, 23));
-    rbuttons2.setPreferredSize(new java.awt.Dimension(401, 24));
+    rbuttons2.setPreferredSize(new java.awt.Dimension(438, 24));
     rbuttons2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
     statsButtonGroupReportNumber.add(statsButton11);
@@ -2720,9 +2691,20 @@ public class StarTrader extends javax.swing.JFrame {
     });
     rbuttons2.add(statsButton20);
 
-    rbuttons12.add(rbuttons2, new org.netbeans.lib.awtextra.AbsoluteConstraints(2, 25, -1, -1));
-
-    topPane.add(rbuttons12, new org.netbeans.lib.awtextra.AbsoluteConstraints(102, 0, -1, -1));
+    javax.swing.GroupLayout rbuttons12Layout = new javax.swing.GroupLayout(rbuttons12);
+    rbuttons12.setLayout(rbuttons12Layout);
+    rbuttons12Layout.setHorizontalGroup(
+      rbuttons12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addComponent(rbuttons1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+      .addComponent(rbuttons2, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
+    );
+    rbuttons12Layout.setVerticalGroup(
+      rbuttons12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(rbuttons12Layout.createSequentialGroup()
+        .addComponent(rbuttons1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addGap(0, 0, 0)
+        .addComponent(rbuttons2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+    );
 
     ybuttons.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 204, 204), 2));
     ybuttons.setAlignmentX(450.0F);
@@ -2810,8 +2792,6 @@ public class StarTrader extends javax.swing.JFrame {
     });
     ybuttons.add(statsCtlButtonRun20Yr);
 
-    topPane.add(ybuttons, new org.netbeans.lib.awtextra.AbsoluteConstraints(2, 2, -1, -1));
-
     bigPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 255), 2));
     bigPanel.setToolTipText("this is the big panel");
     bigPanel.setAlignmentX(600.5F);
@@ -2874,7 +2854,27 @@ public class StarTrader extends javax.swing.JFrame {
 
     bigPanel.add(statsCommentPane);
 
-    topPane.add(bigPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(512, 2, -1, -1));
+    javax.swing.GroupLayout topPaneLayout = new javax.swing.GroupLayout(topPane);
+    topPane.setLayout(topPaneLayout);
+    topPaneLayout.setHorizontalGroup(
+      topPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(topPaneLayout.createSequentialGroup()
+        .addComponent(ybuttons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addComponent(rbuttons12, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addComponent(bigPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 777, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addContainerGap())
+    );
+    topPaneLayout.setVerticalGroup(
+      topPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addComponent(rbuttons12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+      .addGroup(topPaneLayout.createSequentialGroup()
+        .addGap(2, 2, 2)
+        .addGroup(topPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addComponent(ybuttons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+          .addComponent(bigPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+    );
 
     stats.add(topPane);
 
@@ -2901,10 +2901,10 @@ public class StarTrader extends javax.swing.JFrame {
     statsScrollPane2.setAlignmentX(0.0F);
     statsScrollPane2.setAlignmentY(5.0F);
     statsScrollPane2.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-    statsScrollPane2.setMaximumSize(new java.awt.Dimension(1300, 1000));
+    statsScrollPane2.setMaximumSize(new java.awt.Dimension(2000, 1000));
     statsScrollPane2.setMinimumSize(new java.awt.Dimension(700, 400));
     statsScrollPane2.setName("StatsScroll"); // NOI18N
-    statsScrollPane2.setPreferredSize(new java.awt.Dimension(1250, 900));
+    statsScrollPane2.setPreferredSize(new java.awt.Dimension(1850, 900));
     statsScrollPane2.setRequestFocusEnabled(false);
     statsScrollPane2.setVerifyInputWhenFocusTarget(false);
 
@@ -3036,9 +3036,9 @@ public class StarTrader extends javax.swing.JFrame {
     statsTable1.setAlignmentY(0.0F);
     statsTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
     statsTable1.setColumnSelectionAllowed(true);
-    statsTable1.setMaximumSize(new java.awt.Dimension(1300, 1000));
+    statsTable1.setMaximumSize(new java.awt.Dimension(2000, 1000));
     statsTable1.setMinimumSize(new java.awt.Dimension(700, 400));
-    statsTable1.setPreferredSize(new java.awt.Dimension(1200, 1000));
+    statsTable1.setPreferredSize(new java.awt.Dimension(1800, 1000));
     statsTable1.getTableHeader().setReorderingAllowed(false);
     statsScrollPane2.setViewportView(statsTable1);
     statsTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -3064,15 +3064,15 @@ public class StarTrader extends javax.swing.JFrame {
     log.setBackground(new java.awt.Color(255, 255, 255));
     log.setAutoscrolls(true);
     log.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-    log.setMaximumSize(new java.awt.Dimension(1200, 1200));
+    log.setMaximumSize(new java.awt.Dimension(2000, 1200));
     log.setMinimumSize(new java.awt.Dimension(500, 500));
-    log.setPreferredSize(new java.awt.Dimension(1200, 1200));
+    log.setPreferredSize(new java.awt.Dimension(1800, 1200));
 
     logTableScrollPanel.setAutoscrolls(true);
     logTableScrollPanel.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
-    logTableScrollPanel.setMaximumSize(new java.awt.Dimension(1200, 1200));
+    logTableScrollPanel.setMaximumSize(new java.awt.Dimension(2000, 1800));
     logTableScrollPanel.setMinimumSize(new java.awt.Dimension(800, 600));
-    logTableScrollPanel.setPreferredSize(new java.awt.Dimension(1200, 1200));
+    logTableScrollPanel.setPreferredSize(new java.awt.Dimension(1900, 1200));
     logTableScrollPanel.addInputMethodListener(new java.awt.event.InputMethodListener() {
       public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
         logTableScrollPanelCaretPositionChanged(evt);
@@ -3083,7 +3083,7 @@ public class StarTrader extends javax.swing.JFrame {
     });
 
     logDisplayTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-    logDisplayTable.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+    logDisplayTable.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
     logDisplayTable.setModel(new javax.swing.table.DefaultTableModel(
       new Object [][] {
         {null, null, null, null, null, null, null, null, null, null, null},
@@ -3174,10 +3174,9 @@ public class StarTrader extends javax.swing.JFrame {
     logDisplayTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
     logDisplayTable.setColumnSelectionAllowed(true);
     logDisplayTable.setGridColor(new java.awt.Color(153, 153, 255));
-    logDisplayTable.setMaximumSize(new java.awt.Dimension(1200, 1200));
-    logDisplayTable.setMinimumSize(new java.awt.Dimension(11200, 900));
-    logDisplayTable.setPreferredSize(new java.awt.Dimension(1200, 1200));
-    logDisplayTable.setRowHeight(13);
+    logDisplayTable.setMaximumSize(new java.awt.Dimension(1900, 1300));
+    logDisplayTable.setMinimumSize(new java.awt.Dimension(900, 900));
+    logDisplayTable.setPreferredSize(new java.awt.Dimension(1800, 1200));
     logDisplayTable.getTableHeader().setResizingAllowed(false);
     logDisplayTable.getTableHeader().setReorderingAllowed(false);
     logTableScrollPanel.setViewportView(logDisplayTable);
@@ -3206,10 +3205,10 @@ public class StarTrader extends javax.swing.JFrame {
     LogDlen1Slider.setPaintLabels(true);
     LogDlen1Slider.setPaintTicks(true);
     LogDlen1Slider.setValue(20);
-    LogDlen1Slider.setMaximumSize(new java.awt.Dimension(60, 35));
+    LogDlen1Slider.setMaximumSize(new java.awt.Dimension(200, 35));
     LogDlen1Slider.setMinimumSize(new java.awt.Dimension(24, 12));
     LogDlen1Slider.setName("Length"); // NOI18N
-    LogDlen1Slider.setPreferredSize(new java.awt.Dimension(60, 35));
+    LogDlen1Slider.setPreferredSize(new java.awt.Dimension(120, 35));
     LogDlen1Slider.addChangeListener(new javax.swing.event.ChangeListener() {
       public void stateChanged(javax.swing.event.ChangeEvent evt) {
         LogDlen1SliderStateChanged(evt);
@@ -3248,7 +3247,7 @@ public class StarTrader extends javax.swing.JFrame {
     LogDLen2Slider.setPaintLabels(true);
     LogDLen2Slider.setPaintTicks(true);
     LogDLen2Slider.setValue(20);
-    LogDLen2Slider.setMaximumSize(new java.awt.Dimension(100, 24));
+    LogDLen2Slider.setMaximumSize(new java.awt.Dimension(200, 45));
     LogDLen2Slider.setName("Length"); // NOI18N
     LogDLen2Slider.addChangeListener(new javax.swing.event.ChangeListener() {
       public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -3396,7 +3395,7 @@ public class StarTrader extends javax.swing.JFrame {
           .addGroup(logLayout.createSequentialGroup()
             .addGap(10, 10, 10)
             .addComponent(logDLevel2Slider, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
-      .addComponent(logTableScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1195, javax.swing.GroupLayout.PREFERRED_SIZE)
+      .addComponent(logTableScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
       .addGroup(logLayout.createSequentialGroup()
         .addGap(276, 276, 276)
         .addComponent(LogDlen1Slider, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -3447,7 +3446,7 @@ public class StarTrader extends javax.swing.JFrame {
             .addGap(15, 15, 15)
             .addComponent(logDLevel2Slider, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
         .addGap(19, 19, 19)
-        .addComponent(logTableScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 915, javax.swing.GroupLayout.PREFERRED_SIZE))
+        .addComponent(logTableScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
       .addGroup(logLayout.createSequentialGroup()
         .addGap(1, 1, 1)
         .addComponent(LogDlen1Slider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -5120,13 +5119,17 @@ public class StarTrader extends javax.swing.JFrame {
     // change the background color of log to red for fatal error
     Color redish = new Color(255, 204, 204);
     Color r4 = new Color(255, 204, 154);
-    eM.logEnvirn[0] = eM.curEcon;
-    eM.logEnvirn[1] = eM.curEcon;
+    setLogEnvirn(0,eM.curEcon);
+    setLogEnvirn(1,eM.curEcon);
+    //eM.logEnvirn[0] = eM.curEcon;
+   // eM.logEnvirn[1] = eM.curEcon;
     eM.hists[0] = eM.logEnvirn[0].hists[0];
     eM.hists[1] = eM.logEnvirn[1].hists[0];
     eM.logEnvirn[0].logLen[0] = 90;
     LogDlen1Slider.setValue(90);
     eM.logEnvirn[0].logLen[1] = 5;
+    eM.logEnvirn[0].logLev[0] = 15;
+    eM.logEnvirn[0].logLev[1] = 15;
     eM.hists[0].add(new History(3, "final string", "ERROR ==============================="));
     int siz = eM.hists[0].size();
     int siz1 = siz - 87;
@@ -5249,6 +5252,10 @@ public class StarTrader extends javax.swing.JFrame {
   void setEconState(int stateConstA) {
     ec = curEc = EM.curEcon;
     curEconName = (EM.curEcon == null ? "notYet" : EM.curEcon.name);
+    String wh = eM.wasHere;
+    String pen = prevEconName;
+    int ps = prevState;
+    int sc = stateConst;
 
     if (stateConstA == prevState && curEconName.equals(prevEconName) && eM.wasHere == prevWasHere && stateConst != STATS && stateConst != WAITING && stateConst != STOPPED && stateConst != FATALERR) {
       sameEconState++;
@@ -5278,13 +5285,13 @@ public class StarTrader extends javax.swing.JFrame {
         System.out.println("$$$$$$$$$$$$$ runYears2;" + since() + " at start stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year);
       }
       E.myTest(javax.swing.SwingUtilities.isEventDispatchThread(), "runYears2 is eventDispatchThread");
-      paintCurDisplay(eM.curEcon);
+      paintCurDisplay(ec);
       System.out.println("###################runYears2;" + since() + " stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year);
       RunYrs3 rYrs3 = new RunYrs3();
       rYrs3.setPriority(3);
       rYrs3.start();  // start the background job
       stateConst = STARTING;
-      paintCurDisplay(eM.curEcon);
+      paintCurDisplay(ec = curEc = eM.curEcon);
       // now continue EDS thread with updating display
       Boolean done = false, did = false;
       // start the annimation loop, waiting to call paintCurDisplay again
@@ -5297,9 +5304,9 @@ public class StarTrader extends javax.swing.JFrame {
         setEconState(stateConst);
 
         if (E.debugThreads) {
-          System.out.println("$$$$$$$$$$$$$^^runYears2 " + since() + " " + stateStringNames[stateConst] + " " + sameEconState + "::" + EM.wasHere);
+          System.out.println("$$$$$$$$$$$$$^^runYears2 " + sinceEcon() + " " + stateStringNames[stateConst] + " " + sameEconState + "::" + EM.wasHere + ":: "  + EM.wasHere2 + " :: " + EM.wasHere3);
         }
-        paintCurDisplay(eM.curEcon);
+        paintCurDisplay(ec = curEc = eM.curEcon);
         switch (stateConst) {
           case CONSTRUCTING:
           case CONSTRUCTED:
@@ -5409,24 +5416,24 @@ public class StarTrader extends javax.swing.JFrame {
    * @return a new Econ reference
    */
   Econ newEcon(double[] cash, int clan) {
-    // eM.porsCnt[0] = eM.planets.size();
-    // eM.porsCnt[1] = eM.ships.size();
-    int lEcons = eM.econCnt;// = eM.econs.size();
+    // EM.porsCnt[0] = EM.planets.size();
+    // EM.porsCnt[1] = EM.ships.size();
+    int lEcons = EM.econCnt;// = EM.econs.size();
     int pors = S;
     int eClan = -5;
 
     // select planet if any of the ship fracs are exceeded
     // select ship only if all shipFracs are not met
     // game shipFracs, clanClanShipFrac, clanAllShipFrac
-    pors = eM.clanCnt[clan] < 1
+    pors = EM.clanCnt[clan] < 1
             ? E.P
             : // P clanCnt < 1
-            eM.porsClanCnt[S][clan] < 1
+            EM.porsClanCnt[S][clan] < 1
                     ? E.S
                     : // S clanCnt[S} < 1
-                    eM.porsCnt[E.S] / eM.econCnt > eM.clanAllShipFrac[E.P][clan]
+                    EM.porsCnt[E.S] / EM.econCnt > EM.clanAllShipFrac[E.P][clan]
                             ? E.P // P ships/tot > clanAllShipFrac 
-                            : eM.porsCnt[E.S] / eM.econCnt > eM.gameShipFrac[E.P]
+                            : EM.porsCnt[E.S] / EM.econCnt > EM.gameShipFrac[E.P]
                                     ? E.P
                                     : // P ships/tot > gameShipFrac
                                     eM.porsClanCnt[E.P][clan] / eM.clanCnt[clan] > eM.clanShipFrac[E.P][clan]
@@ -5481,6 +5488,7 @@ public class StarTrader extends javax.swing.JFrame {
       for (Econ n : eM.econs) {
         if (n.getDie() && n.getPors() == E.P && n.getDAge() > 2) {
           ec = curEc = eM.curEcon = n;   // take a dead one
+          EM.econCnt++;
           System.out.println("found dead Planet cnt=" + n + " name=" + n.name + " dage=" + n.getDAge());
           break;
         }
@@ -5490,6 +5498,7 @@ public class StarTrader extends javax.swing.JFrame {
       for (Econ n : eM.econs) {
         if (n.getDie() && n.pors == E.S && n.getDAge() > 2) {
           ec = curEc = eM.curEcon = n;
+          EM.econCnt++;
           System.out.println("found dead Ship cnt=" + n + " name=" + n.name + " dage=" + n.getDAge());
           break;
         }
@@ -5498,14 +5507,14 @@ public class StarTrader extends javax.swing.JFrame {
     if (eM.curEcon == null) {  // no dead one found
       ec = curEc = eM.curEcon = new Econ();
       eM.econs.add(eM.curEcon); // add to the main list
-      eM.econCnt++;
+      EM.econCnt++;
     }
     NumberFormat nameF = NumberFormat.getNumberInstance();
     nameF.setMinimumIntegerDigits(3);
     String name = (pors == 0 ? "P0" : "S0") + nameF.format(eM.nameCnt++);
     // reduce the size of ships cash by shipsPerPlanet
     double mCash = eM.initialWorth[pors] * (pors == E.S ? 1.0 / shipsPerPlanet : 1.0);
-    eM.curEcon.init(this, eM, name, clan, eM.econCnt, pors, xpos, eM.difficultyPercent[0], mCash);
+    eM.curEcon.init(this, eM, name, clan, EM.econCnt, pors, xpos, eM.difficultyPercent[0], mCash);
     startEconState = (new Date()).getTime();
     // now update counts planets and ships
     Econ t = eM.curEcon;
@@ -5858,7 +5867,7 @@ public class StarTrader extends javax.swing.JFrame {
    //   runYears(1);
     } catch (Exception ex) {
       eM.flushes();
-      System.err.println(Econ.nowName + since() + " " + Econ.nowThread + "Exception " + ex.toString() + " message=" + ex.getMessage() + " " + EM.andMore());
+      System.err.println(Econ.nowName + since() + " " + Econ.nowName + " " + Econ.nowThread + " Exception " + ex.toString() + " message=" + ex.getMessage() + " " + EM.andMore());
       ex.printStackTrace(System.err);
       eM.flushes();
       setFatalError();
@@ -5891,12 +5900,12 @@ public class StarTrader extends javax.swing.JFrame {
       initComponents();
       Object statsData[][];
       screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-      screenHeight = screenSize.height;
-      screenWidth = screenSize.width;
-      myHeight = Math.max(500, Math.min((int) (screenHeight * .97), 1250));
+      screenHeight = screenSize.height; //1080
+      screenWidth = screenSize.width;  // 1920
+      myHeight = Math.max(500, Math.min((int) (screenHeight * .93), 1250));
       myH2 = Math.max(500, myHeight - 200);
-      myWidth = Math.max(500, Math.min((int) (screenWidth * .97), 2200));
-      myW3 = Math.max(450, (myW2 = Math.max(400, (int) (myWidth * .99))) - 300);
+      myWidth = Math.max(700, Math.min((int) (screenWidth * .95), 1850));
+      myW3 = Math.max(650, (myW2 = Math.max(600, (int) (myWidth * .99))) - 300);
       E.sysmsg("resize1 height=" + screenHeight + "->" + myHeight + ", " + myH2 + ", width=" + screenWidth + "=>" + myWidth + ", " + myW2 + ", " + myW3);
       if (screenHeight < 600 || screenWidth < 600) {
         // if(screenHeight < 2700 || screenWidth < 1200){
@@ -5907,7 +5916,7 @@ public class StarTrader extends javax.swing.JFrame {
         E.sysmsg("resize2 height=" + screenHeight + "->" + myHeight + ", " + myH2 + ", width=" + screenWidth + "=>" + myWidth + ", " + myW2 + ", " + myW3);
         this.setSize(myWidth, myHeight);
         controlPanels.setSize(myWidth, myHeight);
-        stats.setMaximumSize(new Dimension((int) (myWidth * 1.50), (int) (myHeight * 1.50)));
+        stats.setMaximumSize(new Dimension(myW2, (int) (myHeight * 1.50)));
         stats.setMinimumSize(new Dimension((int) (myWidth * .9), (int) (myHeight * .9)));
         stats.setPreferredSize(new Dimension(myWidth, myHeight));
         statsScrollPane2.setPreferredSize(new Dimension(myW2, myH2));
@@ -5927,6 +5936,10 @@ public class StarTrader extends javax.swing.JFrame {
               + ", statsP w=" + spR.width + ", h=" + spR.height
               + ", statsTable w=" + stR.width + ", h=" + stR.height);
       int statsTW = statsTable1.getWidth();
+      int storyTextField1W = storyTextField1.getWidth();
+      int storyTextPaneW = storyTextPane.getWidth();
+      int storyW = story.getWidth();
+      System.out.println("----------- stf1w=" + storyTextField1W+ ", stp=" + storyTextPaneW + ", story=" + storyW );
       E.sysmsg("after pack statsTable1.width=" + statsTW);
       //   statsTable = new javax.swing.JTable();
       JSlider[] gameSlidersP1 = {gameSliderP0, gameSliderP1, gameSliderP2, gameSliderP3, gameSliderP4, gameSliderP5, gameSliderP6, gameSliderP7, gameSliderP8, gameSliderP9};
@@ -6014,7 +6027,7 @@ public class StarTrader extends javax.swing.JFrame {
       stateConst = CONSTRUCTED;
     } catch (Exception ex) {
       eM.flushes();
-      System.err.println(Econ.nowName + since() + " " + Econ.nowThread + "Exception " + ex.toString() + " message=" + ex.getMessage() + " " + EM.andMore());
+      System.err.println(Econ.nowName + since() + " " +  Econ.nowThread + " Exception " + ex.toString() + " message=" + ex.getMessage() + " " + EM.andMore());
       ex.printStackTrace(System.err);
       eM.flushes();
       setFatalError();
@@ -6162,7 +6175,7 @@ public class StarTrader extends javax.swing.JFrame {
   }// getWildCurs
 
   boolean clearHist(Econ myCur) {
-    if (myCur.econCnt >= eM.keepHistsByYear[eM.year > eM.keepHistsByYear.length - 1 ? eM.keepHistsByYear.length - 1 : eM.year] && myCur.hist.size() > 20) {
+    if (myCur.myEconCnt >= eM.keepHistsByYear[eM.year > eM.keepHistsByYear.length - 1 ? eM.keepHistsByYear.length - 1 : eM.year] && myCur.hist.size() > 20) {
       myCur.hist.clear();
       return true;
     }
@@ -6210,8 +6223,8 @@ public class StarTrader extends javax.swing.JFrame {
       }
       theYear[0] = eM.year;
       yearSecs[0] = (int) (new Date().getTime() - startYear);
-      yearEcons[0] = eM.econCnt;
-      yearSecPerEcon[0] = (int) (yearSecs[0] / yearEcons[0]);
+      yearEcons[0] = EM.econCnt;
+      yearSecPerEcon[0] = (int) (yearEcons[0] < 1? 0 :yearSecs[0] / yearEcons[0]);
       System.err.println("theYr=" + theYear[0] + "yearSecs " + EM.mf(yearSecs[0]) + " yearEcons " + EM.mf(yearEcons[0]) + " year S per E " + EM.mf(yearSecPerEcon[0]));
       System.err.println("theYr=" + theYear[1] + "yearSecs " + EM.mf(yearSecs[1]) + " yearEcons " + EM.mf(yearEcons[1]) + " year S per E " + EM.mf(yearSecPerEcon[1]));
       System.err.println("theYr=" + theYear[2] + "yearSecs " + EM.mf(yearSecs[2]) + " yearEcons " + EM.mf(yearEcons[2]) + " year S per E " + EM.mf(yearSecPerEcon[2]));
@@ -6311,7 +6324,11 @@ public class StarTrader extends javax.swing.JFrame {
           }
         }
       }
-
+ if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
       if (doStop || fatalError) {
         stateConst = STOPPED;
         paintStopped();
@@ -6331,11 +6348,20 @@ public class StarTrader extends javax.swing.JFrame {
         paintEconCreate();
         // randomize the first choice of clan
         E.msgcnt = 0;
-        // double rand1 = Math.random();
-        // clanBias = (int) rand1 % 5; // 0-4
+        //start game create
         clanBias = new Random().nextInt(5);
+         if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
         for (envsLoop = lEcons; envsLoop < yEcons; envsLoop++) {
           startEconState = (new Date()).getTime();
+           if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
           // dnow = new Date();
           // econCnt = envsLoop;
           econClan = (envsLoop + clanBias) % 5;
@@ -6343,6 +6369,11 @@ public class StarTrader extends javax.swing.JFrame {
             System.out.println("------" + since() + " gCreate envsLoop=" + envsLoop + " maxE=" + yEcons + " eCnt=" + eM.econCnt + " clanBias=" + clanBias + " clan=" + econClan);
           }
           ec = curEc = EM.curEcon = newEcon(eM.initialWorth, econClan);  // include new of Econ
+           if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
           curWorth = eM.curEcon.getWorth();
           Thread.yield();
           EM.curEcon.as.setStat(EM.YEARCREATE, EM.curEcon.pors, EM.curEcon.clan, curWorth, 1);
@@ -6362,6 +6393,11 @@ public class StarTrader extends javax.swing.JFrame {
         E.msgcnt = 0;
         int nClans = E.clan.values().length - 3;
         int finishedClans = 0; // end when all 5 clans can create no more econs
+         if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
         for (int clansLoop = 0; clansLoop < nClans && finishedClans < 5; clansLoop++, finishedClans++) {
           econClan = (int) (clansLoop + clanBias) % 5;
           startEconState = (new Date()).getTime();
@@ -6375,6 +6411,11 @@ public class StarTrader extends javax.swing.JFrame {
             // since the pors in not yet know, use initialWorth of planets
             finishedClans = 0;
             ec = curEc = eM.curEcon = newEcon(eM.initialWorth, econClan);  // include new of Econ
+             if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
             curWorth = eM.curEcon.getWorth();
             EM.curEcon.as.setStat(EM.FUTURECREATE, EM.curEcon.pors, eM.curEcon.clan, curWorth, 1);
             EM.curEcon.as.setStat(EM.BOTHCREATE, EM.curEcon.pors, eM.curEcon.clan, curWorth, 1);
@@ -6429,6 +6470,11 @@ public class StarTrader extends javax.swing.JFrame {
       //shipsSizeN1 = ships.size()-1
       // do costs and trades here, ships initiate trades
       Econ[] wildCurs = new Econ[(int) eM.wildCursCnt[0][0]];
+       if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
       // the oldest ships get first choice, and make the first trades
       stateConst = TRADING;
       paintTrade(curEc, curEc);
@@ -6464,6 +6510,11 @@ public class StarTrader extends javax.swing.JFrame {
             foundTradablePlanets = getWildCurs(shipCnt, cur1, nTradablePlanets, tradablePlanets);
             if (foundTradablePlanets > 0) {
               Econ cur2 = eM.curEcon.selectPlanet(tradablePlanets, foundTradablePlanets);
+               if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
               if (cur2 != null) {
                 //  System.out.println(" @@@@@@Ship=" + eM.curEcon.getName() + ", loop select planet=" + cur2.getName() + " distance=" + eM.curEcon.mf(calcLY(eM.curEcon,cur2)));
                 distance = calcLY(eM.curEcon, cur2);
@@ -6481,7 +6532,11 @@ public class StarTrader extends javax.swing.JFrame {
               paintEconYearStart(eM.curEcon);
               curStateName = "econYrStrt";
               eM.curEcon.yearStart(distance);
-
+ if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
               //    E.msgcnt = 0;
               ec = curEc = eM.curEcon = cur1;
               paintTrade(eM.curEcon, cur2);
@@ -6521,30 +6576,80 @@ public class StarTrader extends javax.swing.JFrame {
         stateConst = STOPPED;
       } else {
         curStateName = "ecYrEnds";
+         if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
         for (envsLoop2 = 0; envsLoop2 < maxEcons; ++envsLoop2) {
+                   if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1] + " envsLoop2=" + envsLoop2);
+            }
+          }}
           ec = curEc = eM.curEcon = eM.econs.get(envsLoop2);
+                   if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
           startEconState = (new Date()).getTime();
+                   if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
           //    System.out.printf(new Date().toString() + " in doYear at envsLoop2 econ.yearEnd() name=" + eM.curEcon.name);
           // now reset the log environ to this current econ
           if (0 == envsLoop2 % 25) {
             printMem3();
           }
+                   if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
           clearHist(eM.logEnvirn[0]);
+                   if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
           setLogEnvirn(0, eM.curEcon);  // set start1
           eM.hists[0] = eM.logEnvirn[0].hist;
           E.msgcnt = 0;
+         
+          if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
           eM.curEcon.doYearEnd();
           EM.wasHere = "after eM.curEcon.doYearEnd()";
+          if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
           //   paintEconEndYear(eM.curEcon);
 
           //   System.out.print(new Date().toString() + " after year end" + eM.curEcon.name + "=ship " + (eM.curEcon.getDie() ? " is dead" : " is alive ") + groupNames[eM.curEcon.clan] + " " + eM.curEcon.name + " h=" + eM.curEcon.df(eM.curEcon.getHealth()) + ", age=" + eM.curEcon.getAge() + ", w=" + eM.curEcon.df(eM.curEcon.getWorth()));
           printMem();
+                   if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
           String disp1 = (eM.curEcon.getDie() ? " is dead " : " is alive ") + groupNames[eM.curEcon.clan] + " " + eM.curEcon.name + " h="
                   + eM.curEcon.df(eM.curEcon.getHealth()) + ", age=" + eM.curEcon.age
                   + ", w=" + eM.curEcon.df(eM.curEcon.getWorth());
-          //   System.out.println(new Date().toString() + disp1);
+            System.out.println(new Date().toString() + disp1);
           namesList.add(envsLoop2, disp1);
-
+         if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
         } // finish curEcon.yearEnd
 
         //wait for threadCnt to zero, finish all yearEnd
@@ -6552,11 +6657,64 @@ public class StarTrader extends javax.swing.JFrame {
           System.out.println("``````````````Waiting Ending year=" + eM.andET());
         }
         stateConst = WAITING;
-        eM.curEcon.imWaiting(Econ.threadCnt, 0, 6, "doYear ended yearEnds");
+        if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
+        eM.curEcon.imWaiting(Econ.threadCnt, 0, 4, "doYear ended yearEnds");
+        if(E.debugEconCnt){
+           synchronized(EM.econCnt){ if(EM.econCnt != (EM.porsCnt[0] + EM.porsCnt[1])){
+              EM.doMyErr("Counts error, econCnt=" + EM.econCnt + " -porsCnt0=" + EM.porsCnt[0] + " -porsCnt1=" + EM.porsCnt[1]);
+            }
+          }}
         stateConst = ENDYR;
         if (E.debugThreads) {
           System.out.println("``````````````Ending year=" + eM.andET());
         }
+        // preset counts to zero, they will be counted next
+ 
+      eM.econCnt = 0;
+      eM.planets.clear();
+      eM.ships.clear();
+      for (int m = 0; m < 2; m++) {
+        EM.porsCnt[m] = 0;
+        for (int n = 0; n < 5; n++) {
+          EM.clanCnt[n] = 0; // doing twice
+          EM.porsClanCnt[m][n] = 0;
+        }// n
+      }// m
+      
+      // now set the counts and planets and ships
+      for (Econ t : eM.econs) {
+        if (!t.getDie()) {
+          EM.porsClanCnt[t.pors][t.clan]++;
+          EM.clanCnt[t.clan]++;
+          EM.porsCnt[t.pors]++;
+          EM.econCnt++;
+  //        eM.names2ec.put(t.name, t);
+          if (t.pors == P) {
+            eM.planets.add(t);
+          } else {
+            eM.ships.add(t);
+          }
+        }
+      }
+      namesList.clear();
+      stateConst = ENDYR;
+      maxEcons = eM.econs.size();
+      for (envsLoop2 = 0; envsLoop2 < maxEcons; ++envsLoop2) {
+          ec = curEc = EM.curEcon = EM.econs.get(envsLoop2);
+          //    System.out.printf(new Date().toString() + " in doYear at envsLoop2 econ.yearEnd() name=" + eM.curEcon.name);
+   
+          String disp1 = (EM.curEcon.getDie() ? " is dead " : " is alive ") + groupNames[eM.curEcon.clan] 
+              + " " + EM.curEcon.name + " h=" + EM.curEcon.df(EM.curEcon.getHealth()) 
+              + ", age=" + EM.curEcon.age
+              + ", w=" + EM.curEcon.df(EM.curEcon.getWorth());
+            System.out.println(new Date().toString() + disp1);
+            namesList.add(envsLoop2, disp1);
+        } // finish curEcon.name list
+      
         long[][][] resii1 = eM.resI[0];
         long[][] resi2 = resii1[1];
         long[] resi23 = resi2[2];
@@ -6761,16 +6919,32 @@ public class StarTrader extends javax.swing.JFrame {
     try {
       int numEcons = eM.econs.size();
       int rN = 999999;
+      int loopCntr = 0;
+      int loopChange = 100;
       String newLine = "\n";
       String line1 = "", line0 = "", line2 = "", line3 = "", line4 = "", line5 = "";
       //   controlPanels.setVisible(true);
-      controlPanels.getComponent(5);
-      controlPanels.setSelectedIndex(5);
+      int rNWorth = EM.STARTWORTH;
+      double maxWealth=5., minWealth = 5., totalWealth = 5.;
+      if(loopCntr++ % loopChange == 0) {
+          double aWorth = 0., wMax= 0., wMin = 100000000000000000., wTot = 0.;
+          for(int lcnt=0;lcnt < E.LCLANS; lcnt++){
+              aWorth =  eM.getCurCumPorsClanValSum(rNWorth ,EM.ICUR0, E.P, E.S + 1, lcnt,lcnt+1);
+              wTot += aWorth;
+              wMin = aWorth < wMin?aWorth :wMin;
+              wMax = aWorth > wMax?aWorth:wMax;
+          }
+          totalWealth = wTot;
+          maxWealth = wMax;
+          minWealth = wMin;
+      }
+      controlPanels.getComponent(3);
+      controlPanels.setSelectedIndex(3);
       displayPanel0Text.setRows(18);
       // displayPanel0Text.setSize(1200,750);
       // display.setVisible(false);
       //displayPanel1SinceYearStart.setVisible(false)
-
+     
       int rNyCreated = eM.YEARCREATE;
       int rNCreated = rN = eM.BOTHCREATE;
       int rNLiveWorth = eM.LIVEWORTH;
@@ -6781,24 +6955,32 @@ public class StarTrader extends javax.swing.JFrame {
       int rNCrisis = eM.getStatrN("sCatCosts");
       int rNLstS1 = EM.TRADEOSOSR1;
       int rNDS1 = EM.DTRADEOSOSR1;
+      controlPanels.setSelectedIndex(3);
+      int blip = 5;
+      
       if (curEc != null) {
-        econCnt = curEc.econCnt;
-        controlPanels.setSelectedIndex(5);
-        int blip = 5;
+  //      econCnt = curEc.econCnt;
+        
         //String linez =  "both=" + curEc.mf(eM.econCnt) + " Planets=" + curEc.mf(eM.porsCnt[E.P]) + " ships=" + curEc.mf(eM.porsCnt[E.S]) + newLine  + since () + sinceRunYear() + newLine;
         // line0 = line1 = line2 = line3 = line4 = line5 = "";
         // line0 = stateStringNames[stateConst];
         if (eM.haveColors[0][0] > 1.2) {
           displayPanel0Text.setBackground(E.clan.values()[curEc.clan].getColor(curEc.pors));
         }
-        String disp1 = "year" + eM.year + " " + sinceEcon() + " " + EM.mf(eM.econCnt) + " Planets=" + EM.mf(eM.porsCnt[E.P]) + " ships=" + EM.mf(eM.porsCnt[E.S]) + newLine
+        controlPanels.setSelectedIndex(3);
+       // displayPanel0Text.setBackground(E.clan.values()[curEc.getClan()].getColor(curEc.pors));
+         displayPanel0Text.setBackground(new Color(0x00849A));
+        Color myTest = E.clan.values()[curEc.getClan()].getColor(curEc.pors);
+        controlPanels.setSelectedIndex(3);
+        String disp1 = "year" + eM.year + " " + sinceEcon() + " " + EM.mf(EM.econCnt) + " Planets=" + EM.mf(EM.porsCnt[E.P]) + " ships=" + EM.mf(EM.porsCnt[E.S]) + newLine
+                + " Total Wealth=" + EM.mf(totalWealth) + " minWealth=" + EM.mf(minWealth) + " maxWealth="  + EM.mf(maxWealth) + newLine
                 + "BothCreated " + eM.getCurCumPorsClanUnitSum(rNCreated, EM.ICUM, E.P, E.S + 1, 0, 5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNCreated, EM.ICUM, E.P, E.P + 1, 0, 5) + " Ships " + eM.getCurCumPorsClanUnitSum(rNCreated, EM.ICUM, E.S, E.S + 1, 0, 5) + newLine
                 + "GameCreated" + eM.getCurCumPorsClanUnitSum(rNyCreated, EM.ICUM, E.P, E.S + 1, 0, 5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNyCreated, EM.ICUM, E.P, E.P + 1, 0, 5) + " Ships " + eM.getCurCumPorsClanUnitSum(rNyCreated, EM.ICUM, E.S, E.S + 1, 0, 5) + newLine
                 + "FutCreated  " + eM.getCurCumPorsClanUnitSum(rNFutCreated, EM.ICUM, E.P, E.S + 1, 0, 5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNFutCreated, EM.ICUM, E.P, E.P + 1, 0, 5) + " Ships " + eM.getCurCumPorsClanUnitSum(rNFutCreated, EM.ICUM, E.S, E.S + 1, 0, 5) + newLine
                 + "TradedYear " + eM.getCurCumPorsClanUnitSum(rNTraded, EM.ICUR0, E.P, E.S + 1, 0, 5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNTraded, EM.ICUR0, E.P, E.P + 1, 0, 5) + " Ships " + eM.getCurCumPorsClanUnitSum(rNTraded, EM.ICUR0, E.S, E.S + 1, 0, 5) + newLine
                 + "GameEconYrs    " + eM.getCurCumPorsClanUnitSum(rNLiveWorth, EM.ICUM, E.P, E.S + 1, 0, 5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNLiveWorth, EM.ICUM, E.P, E.P + 1, 0, 5) + " Ships " + eM.getCurCumPorsClanUnitSum(rNLiveWorth, EM.ICUM, E.S, E.S + 1, 0, 5) + newLine
                 + "TradedGame " + eM.getCurCumPorsClanUnitSum(rNTraded, EM.ICUM, E.P, E.S + 1, 0, 5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNTraded, EM.ICUM, E.P, E.P + 1, 0, 5) + " Ships " + eM.getCurCumPorsClanUnitSum(rNTraded, EM.ICUM, E.S, E.S + 1, 0, 5) + newLine
-                + "DiedGame " + eM.getCurCumPorsClanUnitSum(rNDied, EM.ICUM, E.P, E.S + 1, 0, 5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNDied, EM.ICUM, E.P, E.P + 1, 0, 5) + " Ships " + eM.getCurCumPorsClanUnitSum(rNDied, EM.ICUM, E.S, E.S + 1, 0, 5) + newLine
+                + "Difficulty" + EM.difficultyPercent[0] + " DiedGame " + eM.getCurCumPorsClanUnitSum(rNDied, EM.ICUM, E.P, E.S + 1, 0, 5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNDied, EM.ICUM, E.P, E.P + 1, 0, 5) + " Ships " + eM.getCurCumPorsClanUnitSum(rNDied, EM.ICUM, E.S, E.S + 1, 0, 5) + newLine
                 + "GCatastrophies " + eM.getCurCumPorsClanUnitSum(rNCrisis, EM.ICUM, E.P, E.S + 1, 0, 5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNCrisis, EM.ICUM, E.P, E.P + 1, 0, 5) + " Ships " + eM.getCurCumPorsClanUnitSum(rNCrisis, EM.ICUM, E.S, E.S + 1, 0, 5) + newLine
                 + "LostSOS1 " + eM.getCurCumPorsClanUnitSum(rNLstS1, EM.ICUM, E.P, E.S + 1, 0, 5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNLstS1, EM.ICUM, E.P, E.P + 1, 0, 5) + " Ships " + eM.getCurCumPorsClanUnitSum(rNLstS1, EM.ICUM, E.S, E.S + 1, 0, 5) + newLine
                 + "HelpdSOS1 " + eM.getCurCumPorsClanUnitSum(rNHlpdSos, EM.ICUM, E.P, E.S + 1, 0, 5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNHlpdSos, EM.ICUM, E.P, E.P + 1, 0, 5) + " Ships " + eM.getCurCumPorsClanUnitSum(rNHlpdSos, EM.ICUM, E.S, E.S + 1, 0, 5) + newLine
@@ -6855,7 +7037,7 @@ public class StarTrader extends javax.swing.JFrame {
           default:
 
         }
-      }
+      } // curEc != null
       //  displayPanel0Text.setText(line0 + line1 + line2 + line3 + line4 + line5);
 
       //displayPanel1Operation.setText(stateStringNames[stateConst]);
@@ -6871,6 +7053,9 @@ public class StarTrader extends javax.swing.JFrame {
         stats.repaint();
       } else {
         display.setVisible(true);
+         if (eM.haveColors[0][0] > 1.2 && curEc != null) {
+          displayPanel0Text.setBackground(E.clan.values()[curEc.clan].getColor(curEc.pors));
+        }
         display.revalidate();
         display.repaint();
       }
@@ -6879,7 +7064,7 @@ public class StarTrader extends javax.swing.JFrame {
         if (curDisplayPrints < E.ssMax * 5) {
           curDisplayPrints++;
           long nTime = new Date().getTime();
-          String aLine = "????????????? " + "displayCur " + (nTime - startTime) + " " + stateStringNames[stateConst] + "state=" + sameEconState + " eCnt=" + econCnt + ":" + numEcons + Econ.nowName + " "
+          String aLine = "????????????? " + "displayCur " + (nTime - startTime) + " " + stateStringNames[stateConst] + "state=" + sameEconState + " eCnt=" + EM.econCnt + ":" + numEcons + Econ.nowName + " "
                   + (EM.addlErr != null ? EM.addlErr : "") + (EM.wasHere != null ? EM.wasHere : "") + (EM.wasHere2 != null ? EM.wasHere2 : "");
 
           System.out.println(aLine);
@@ -6897,7 +7082,7 @@ public class StarTrader extends javax.swing.JFrame {
   void paintStartYear() {
     //   controlPanels.setVisible(true);
     ec = curEc = EM.curEcon;
-    controlPanels.getComponent(4);
+    controlPanels.getComponent(3);
     display.setVisible(false);
     displayPanel1.setVisible(false);
     //   displayPanel2.setVisible(false);
@@ -6929,15 +7114,15 @@ public class StarTrader extends javax.swing.JFrame {
     if (dN == 0) {
       eM.logEnvirn[0] = En;
       Object aa = E.clan.values()[En.clan];
-      Start1Name.setText(eM.logEnvirn[dN].name);
+      Start1Name.setText(En.name);
       //  Start1Name.setForeground(E.clan.values()[eM.logEnvirn[dN].pors][eM.logEnvirn[dN].group]));
       //Start1Name.setForeground(E.clan.values()[eM.logEnvirn[dN].clan].getColor(eM.logEnvirn[dN].pors));
       //Start1Name.setBackground(E.clan.values()[eM.logEnvirn[dN].clan].getInvColor(eM.logEnvirn[dN].pors));
       //Start1Name.setBackground(new Color(-E.clanColors[eM.logEnvirn[dN].pors][eM.logEnvirn[dN].group]));
     } else {
       E.dN = 1;
-      eM.logEnvirn[E.dN] = En;
-      Start2Name.setText(eM.logEnvirn[dN].name);
+      eM.logEnvirn[1] = En;
+      Start2Name.setText(En.name);
       // Start2Name.setForeground(E.clan.values()[eM.logEnvirn[dN].clan].getColor(eM.logEnvirn[dN].pors));
       // Start2Name.setBackground(E.clan.values()[eM.logEnvirn[dN].clan].getInvColor(eM.logEnvirn[dN].pors));
       // Start2Name.setForeground(new Color(E.clanColors[eM.logEnvirn[dN].pors][eM.logEnvirn[dN].clan]));
@@ -7459,8 +7644,8 @@ public class StarTrader extends javax.swing.JFrame {
    * of 4 rounds (no ROWS,ROWS1,ROWS2,ROWS3)
    */
   long[] rowsm = {0L,
-    EM.THISYEAR | EM.THISYEARAVE | EM.THISYEARUNITS | EM.SUM | EM.BOTH | EM.CUMAVE | EM.CUM | EM.CUMUNITS,
-    EM.ROWS1 | EM.BOTH | EM.THISYEAR | EM.THISYEARAVE | EM.THISYEARUNITS | EM.CUM | EM.CUMAVE | EM.CURUNITS | EM.CUMUNITS,
+    EM.THISYEAR | EM.THISYEARAVE | EM.THISYEARUNITS | EM.SUM | EM.BOTH | EM.CUMAVE | EM.CUM | EM.CUR |EM.CUMUNITS,
+    EM.ROWS1 | EM.BOTH | EM.THISYEAR | EM.THISYEARAVE | EM.THISYEARUNITS | EM.CUM | EM.CUMAVE | EM.CURUNITS | EM.CUR | EM.CURAVE | EM.CUMUNITS,
     EM.ROWS2 | EM.BOTH | EM.CUR | EM.CURAVE | EM.CURUNITS | EM.THISYEAR | EM.THISYEARAVE | EM.THISYEARUNITS | EM.CUM | EM.CUMAVE | EM.CUMUNITS,
     EM.ROWS3 | EM.BOTH | EM.THISYEARUNITS | EM.CUR | EM.CURAVE | EM.CUM | EM.CUMAVE | EM.CUMUNITS
   };
@@ -7514,8 +7699,10 @@ public class StarTrader extends javax.swing.JFrame {
     for (int rowsIx = 1; rowsIx < 5 && rowsIx < resLoops[list].length; rowsIx++) {
       i = myLIST | rowsm[rowsIx] | resLoops[list][rowsIx];
 
+      if(E.debugPutRowsOut6){
       if ((listResNoteCount++ < 10)) {
-        System.out.printf("StarTrader.listRes resLoops[%d][%d] key%o row%d\n", list, rowsIx, i, arow);
+        System.out.printf("in StarTrader.listRes resLoops[%d][%d], key=%o, row%d\n", list, rowsIx, i, arow);
+      }
       }
       arow = eM.putRows(statsTable1, resExt, arow, i);
     }

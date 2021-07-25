@@ -287,6 +287,26 @@ public class A6Row extends A6Rowa {
     }
     return this;
   }
+  
+  /**
+   * copy values to rows 2-5 for type costs A6Row object
+   *
+   * @param lev level for listing with sendHist
+   * @param t  type tcost, tbal, tnone for cost type, or balances or neither
+   * @param titl title for listing with sendHist
+   * @param a row reference for Row 2 resources
+   * @param b row reference for Row 3 cargo
+   * @param c row reference for Row 4 staff
+   * @param d row reference for Row 5 guests
+   */
+  public A6Row copy(int lev, int t, String titl, ARow a, ARow b, ARow c, ARow d) {
+    A6Row tmp = new A6Row(a.ec,tcost,lev,titl);
+    tmp.A[2] = a.copy();
+    tmp.A[3] = b.copy();
+    tmp.A[4] = c.copy();
+    tmp.A[5] = d.copy();
+    return tmp;
+  }
 
   /**
    * copy the values of prev into this, particularly do not change the reference

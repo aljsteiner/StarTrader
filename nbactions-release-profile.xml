@@ -45,7 +45,6 @@
         </action>
         <action>
             <actionName>integration-test.single</actionName>
-            <preAction>build-with-dependencies</preAction>
             <packagings>
                 <packaging>*</packaging>
             </packagings>
@@ -55,7 +54,7 @@
             <properties>
                 <test>DummyToSkipUnitTests</test>
                 <failIfNoTests>false</failIfNoTests>
-                <it.test>TestStartTraderTest</it.test>
+                <it.test>TestStartTraderTest4</it.test>
             </properties>
         </action>
     </actions>

@@ -69,7 +69,6 @@ public class A10Row extends A6Rowa {
     costs = true;
     dResums = dResumsa;
     mResum = mResuma;
-
   }
 
   /**
@@ -115,8 +114,8 @@ public class A10Row extends A6Rowa {
    *
    * @return new object copy new references for the values
    */
-  public A10Row copy() {
-    return copy(lev);
+  public A10Row copy10() {
+    return copy10(lev,titl);
   }
 
   /**
@@ -129,7 +128,7 @@ public class A10Row extends A6Rowa {
    */
   
   public A10Row copy(int lev){
-    return copy(lev,titl);
+    return copy10(lev,titl);
   }
   /**
    * copy A10Row object, copy each by each of calling A10Row there is no change
@@ -141,7 +140,7 @@ public class A10Row extends A6Rowa {
    * @param aTitl new titl for the copy
    * @return new object copy new references for the values
    */
-  public A10Row copy(int alev, String atitl) {
+  public A10Row copy10(int alev, String atitl) {
     A10Row rtn = new A10Row(ec);
     rtn.lev = alev;
     rtn.titl = atitl;
@@ -637,17 +636,17 @@ public class A10Row extends A6Rowa {
     }
     int rb = 0, rr = 0, rg = 0;
     String rs = " rc.rc/rc ";
-    if (blev < History.dl && lev <= blev && ec.econCnt < 10) {
+    if (blev < History.dl && lev <= blev && ec.myEconCnt< 10) {
       hist.add(new History(aPre, lev, rs + title, "qM" + ec.df(reqM.rowSum(rr) * 100. / balances.rowSum(rb)), "qG" + ec.df(reqG.rowSum(rr) * 100. / balances.rowSum(rb)), "m" + ec.df(maint.rowSum(rr) * 100. / balances.rowSum(rb)), "t" + ec.df(travel.rowSum(rr) * 100. / balances.rowSum(rb)), "gC" + ec.df(rawGC.rowSum(rr) * 100. / balances.rowSum(rb)), "mtg" + ec.df(MTGC.rowSum(rr) * 100. / balances.rowSum(rb)), "Gs" + ec.df(grows.rowSum(rg) * 100. / balances.rowSum(rb)), "remQm" + ec.df((balances.rowSum(rb) - reqM.rowSum(rr)) * 100. / balances.rowSum(rb)), "remQg" + ec.df((balances.rowSum(rb) - reqG.rowSum(rr)) * 100. / balances.rowSum(rb)),"mtgRem" + ec.df((balances.rowSum(rb)- MTGC.rowSum(rr))*100./balances.rowSum(rb))));
     }
-    if (blev < History.dl && lev <= blev && ec.econCnt < 10) {
+    if (blev < History.dl && lev <= blev && ec.myEconCnt< 10) {
       rb = 1;
       rr = 1;
       rg = 1;
       rs = " sg.sg/sg ";
          hist.add(new History(aPre, lev, rs + title, "qM" + ec.df(reqM.rowSum(rr) * 100. / balances.rowSum(rb)), "qG" + ec.df(reqG.rowSum(rr) * 100. / balances.rowSum(rb)), "m" + ec.df(maint.rowSum(rr) * 100. / balances.rowSum(rb)), "t" + ec.df(travel.rowSum(rr) * 100. / balances.rowSum(rb)), "gC" + ec.df(rawGC.rowSum(rr) * 100. / balances.rowSum(rb)), "mtg" + ec.df(MTGC.rowSum(rr) * 100. / balances.rowSum(rb)), "Gs" + ec.df(grows.rowSum(rg) * 100. / balances.rowSum(rb)), "remQm" + ec.df((balances.rowSum(rb) - reqM.rowSum(rr)) * 100. / balances.rowSum(rb)), "remQg" + ec.df((balances.rowSum(rb) - reqG.rowSum(rr)) * 100. / balances.rowSum(rb)),"mtgRem" + ec.df((balances.rowSum(rb)- MTGC.rowSum(rr))*100./balances.rowSum(rb))));
     }
-    if (blev < History.dl && lev <= blev && ec.econCnt < 10) {
+    if (blev < History.dl && lev <= blev && ec.myEconCnt< 10) {
       rb = 2;
       rr = 2;
       rg = 2;
@@ -751,7 +750,7 @@ public class A10Row extends A6Rowa {
    * @param MTGC
    */
   void sendPercent2(ArrayList<History> hist, int blev, int lev, String aPre, String title, A6Row balances, A6Row grows, A10Row reqM, A10Row reqG, A10Row maint, A10Row travel, A10Row rawGC, A10Row growthC, A10Row MTGC) {
-    if (blev < History.dl && lev <= blev && ec.econCnt < 10) {
+    if (blev < History.dl && lev <= blev && ec.myEconCnt< 10) {
       int rb = 2, rr = 2, rg = 2;
       String rs = " a ";
 
@@ -939,7 +938,7 @@ public class A10Row extends A6Rowa {
    * @return this
    */
   public A10Row setDoNot(int group,  int needIx, double nYears) {
-    A[group * 2 + (int)needIx/LSECS].values[needIx%LSECS] = nYears;
+    A[group * 2 + needIx/LSECS].values[needIx%LSECS] = nYears;
     dResums[0] = 99;
     dResums[1] = 99; // disable resums
     return this;
@@ -1049,6 +1048,6 @@ public class A10Row extends A6Rowa {
  * @return true if element still has a count
  */
 boolean getDoNot(int group,int ix){
-  return A[group*2+(int)ix/LSECS].values[ix%LSECS] > 0;
+  return A[group*2 + ix/LSECS].values[ix%LSECS] > 0;
 }
 }
