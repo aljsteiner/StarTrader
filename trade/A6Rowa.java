@@ -36,14 +36,14 @@ import java.util.ArrayList;
 public class A6Rowa {
 
   EM eM = EM.eM;
-  Econ ec = EM.curEcon;
-  Assets as = ec.as;
+  Econ ec;
+  Assets as;
   String titl = "unSet";
   static final int LSECS = E.lsecs;
   static final int L2SECS = E.l2secs;
-  static int tnone = 0;
-  static int tbal = 1;
-  static int tcost = 2;
+  static final int tnone = 0;
+  static final int tbal = 1;
+  static final int tcost = 2;
   static int d01[] = {0, 1};
   static final int[] I01 = d01;
   static final int[] A01 = d01;
@@ -62,8 +62,8 @@ public class A6Rowa {
   static final int[] A05 = d05;
   static final double NZERO = -.0000001;
   static final double PZERO = .0000001;
-  boolean balances = false;
-  boolean costs = true;
+  boolean balances = false;  // true if tbal
+  boolean costs = true; // true if tcost
   //int lA = ABalRows.balsLength;
   volatile int lA = 6;
   volatile int dA[] = {0, 1, 2, 3, 4, 5};
@@ -94,10 +94,10 @@ public class A6Rowa {
   static final int RCIX = ABalRows.RCIX;
   static final int SGIX = ABalRows.SGIX;
   static final int BALANCESIX = ABalRows.BALANCESIX;
-  String aPre = ec.aPre = ec.aPre == null ? "&V" : ec.aPre;
-  int blev = ec.blev = ec.blev == 0 ? History.debuggingMinor11 : ec.blev;
-  int lev = ec.lev = ec.lev == 0 ? History.informationMinor9 : ec.lev;
-  ArrayList<History> hist = ec.getHist(); // the owner will not change
+  String aPre;
+  int blev;
+  int lev;
+  ArrayList<History> hist; // the owner will not change
 
   /**
    * primary constructor for a new balances zeroed object to be set later
@@ -138,6 +138,7 @@ public class A6Rowa {
    * constructor helper for a new balances zeroed object to be set later
    *
    * @param newEM current or newEM depending on call
+   * @param newEC ec supplied in call to constructor
    * @param nRows  number of rows in object
    * @param bal t == tbal (balances), bal == tcost (costs) otherwise neither
    * @param alev level for listing with sendHist
@@ -146,6 +147,10 @@ public class A6Rowa {
   public void A6Rowa1(EM newEM,Econ newEc,int nRows, int t, int alev, String atitl) {
     eM = newEM;
     ec = newEc;
+    as = ec.as;
+    aPre = ec.aPre = ec.aPre == null ? "&V" : ec.aPre;
+    blev = ec.blev = ec.blev == 0 ? History.debuggingMinor11 : ec.blev;
+    hist = ec.getHist();
     lA = nRows;
     dA = new int[lA];
     A = new ARow[lA];
@@ -624,9 +629,9 @@ public class A6Rowa {
     for (int m=0;m<4;m++) {
       for (int n=0;n<E.LSECS;n++) {
         if(E.debugDouble){
-        rtn.A[(int) m / 2].add(n, rtn.A[2 + m].set(n, doubleTrouble(A[startIx + m].get(n))));
+        rtn.A[m / 2].add(n, rtn.A[2 + m].set(n, doubleTrouble(A[startIx + m].get(n))));
         }else {
-          rtn.A[(int) m / 2].add(n, rtn.A[2 + m].set(n, A[startIx + m].get(n)));
+          rtn.A[m / 2].add(n, rtn.A[2 + m].set(n, A[startIx + m].get(n)));
         }
       }
     }
