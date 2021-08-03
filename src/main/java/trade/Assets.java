@@ -3373,7 +3373,7 @@ if(E.debugEconCnt){
         double sumG = 0;
         for (int i = 0; i < E.lsecs; i++) {
           for (int j = 0; j < lgrades2; j++) {
-            if (debugSumGrades2 && grades[i][j] < -0.0) {
+            if (debugSumGrades2 && grades[i][j] < E.NZERO) {
               throw new MyErr(String.format("Neg grade=grades[" + i + "][" + j + "]=" + EM.mf(grades[i][j])));
             }
             balance.add(i, doubleTrouble(grades[i][j]));
@@ -3428,10 +3428,10 @@ if(E.debugEconCnt){
         researchers = makeZero(researchers);
         knowledge.set(commonKnowledge, newKnowledge);
          */
-        if (didCashFlowInit && sIx == SIX && work.sum() < E.PZERO) {
+        if (didCashFlowInit && sIx == SIX && work.sum() < E.NZERO) {
           EM.doMyErr(didTradeInitCF + " work has no value");
         }
-        if (didCashFlowInit && sIx == SIX && worth.sum() < E.PZERO) {
+        if (didCashFlowInit && sIx == SIX && worth.sum() < E.NZERO) {
           EM.doMyErr(didTradeInitCF + " worth has no value");
         }
         if (debugSumGrades2) {
@@ -3524,7 +3524,7 @@ if(E.debugEconCnt){
           } // end loop on ix
           checkSumGrades(); // now  check sum all grades and related values
 // now sum all grades and related values
-          if (grades[0][2] < NZERO) {
+          if (grades[0][2] < E.NZERO) {
             E.myTest(true, "doGrow grades neg1 staff.grades[0][2]=" + EM.mf(staff.grades[0][2]));
           }
         }
@@ -7257,8 +7257,8 @@ if(E.debugEconCnt){
         double criticalStrategicRequestsPercentTWorth = 100. * sumCriticalStrategicRequests / startYrSumWorth;
         double criticalStrategicRequestsPercentFirst = 100. * criticalStrategicRequestsFirst / startYrSumWorth;
         double criticalStrategicRequestsPercentCSRFirst = 100. * sumCriticalStrategicRequests / criticalStrategicRequestsFirst;
-        double nominalReceiptsPercentWorth = 100. * nominalRequests / startYrSumWorth;
-        double nominalRequestsPercentOffers = 100. * nominalRequests / nominalOffers;
+        double nominalReceiptsPercentWorth = 100. * nominalRequestsSum / startYrSumWorth;
+        double nominalRequestsPercentOffers = 100. * nominalRequestsSum / nominalOffers;
         double criticalNominalRequestsPercentFirst = 100. * criticalNominalRequests / criticalNominalRequestsFirst;
         double criticalNominalRequestsPercentCriticalStrategicRequests = 100. * criticalNominalRequests / sumCriticalStrategicRequests;
         //pretrade are initTrade values for this trade
@@ -7294,8 +7294,8 @@ if(E.debugEconCnt){
           setStat(EM.TRADEFIRSTRECEIVE, requestsFirst * 100 / btWrcsgSum, 1);
           setStat(EM.TRADELASTRECEIVE, pors, clan, requests * 100 / btWrcsgSum, 1);
           setStat(EM.TRADERECEIVELASTPERCENTFIRST, pors, clan, requests * 100. / requestsFirst, 1);
-          setStat(EM.TRADEFIRSTGAVE, pors, clan, sendSumFirst * 100 / btWrcsgSum, 1);
-          setStat(EM.TRADELASTGAVE, pors, clan, sendSum * 100 / btWrcsgSum, 1);
+          setStat(EM.TRADEFIRSTGAVE, oPors, oClan, nominalRequestsSumFirst * 100 / btWrcsgSum, 1);
+          setStat(EM.TRADELASTGAVE, oPors, oClan, nominalRequestsSum  * 100 / btWrcsgSum, 1);
           setStat(EM.TRADENOMINALGAVE, pors, clan, nominalOffers, 1);
           setStat(EM.TRADESTRATFIRSTGAVE, oPors, oClan, totalStrategicRequestsFirst * 100 / btWrcsgSum, 1);
           setStat(EM.TRADESTRATLASTGAVE, oPors, oClan, totalStrategicRequests * 100 / btWrcsgSum, 1);

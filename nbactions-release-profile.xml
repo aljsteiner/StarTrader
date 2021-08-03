@@ -54,7 +54,7 @@
             <properties>
                 <test>DummyToSkipUnitTests</test>
                 <failIfNoTests>false</failIfNoTests>
-                <it.test>TestStartTraderTest4</it.test>
+                <it.test>TestStarTraderTest</it.test>
             </properties>
         </action>
     </actions>

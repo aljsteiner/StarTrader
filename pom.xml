@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>trade</groupId>
     <artifactId>starTraderMaven</artifactId>
-    <version>V20</version>
+    <version>19.33</version>
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -38,6 +38,22 @@
             <artifactId>maven-site-plugin</artifactId>
             <version>3.7.1</version>
         </plugin>
+         <plugin> 
+
+                <!-- Building an executable jar -->
+
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                  <archive>
+                    <manifest>
+                    <!-- give full qualified name of your main class-->
+                      <mainClass>trade.StarTrader</mainClass>
+                    </manifest>
+                  </archive>
+                </configuration>
+    </plugin>
     </plugins>
 </build>
     <pluginRepositories>
@@ -48,12 +64,5 @@
     </pluginRepositories>
     <name>StarTraderMaven</name>
     <description>try startrader in maven</description>
-    <dependencies>
-        <dependency>
-            <groupId>org.netbeans.external</groupId>
-            <artifactId>AbsoluteLayout</artifactId>
-            <version>RELEASE123</version>
-            <scope>compile</scope>
-        </dependency>
-    </dependencies>
+   
 </project>

@@ -455,23 +455,23 @@ public class Econ {
     // make range (0->.7 + 0->1*0->.5) = (0->1.2)
     rMult = (eM.randFrac[pors][0] + eM.clanRisk[pors][clan] * eM.gameClanRiskMult[pors][0]);
     rMult = Math.max(eM.randMin, Math.min(eM.randMax, rMult));  // set max multiplier,  .001 < random < 1.9 
-    rCent = rMult + eM.randMin;
+  //  rCent = rMult + eM.randMin;
 
     for (int ii = 0; ii < E.lrand; ii++) {
       if (eM.randFrac[pors][0] == 0.0) {// if 0, set all trand values 1
         trand[ii] = 1.;
         double aaaa = trand[1];
       } else {
-        double aaaa = (rMult - eM.randMin) * (Math.random() - .5); //- .5 *rmult < aaaa < +.5*rmult
-        double aaab = Math.max(eM.randMin, Math.min(eM.randMax, aaaa + rMult + eM.randMin)); // randMin < rand < randMax
-        trand[ii] = aaab; // centered around rMult+eM.randMin
+        double variance = rMult  * (Math.random() - .5); //- .5 *rmult < variance < +.5*rmult
+        double arand = Math.max(eM.randMin, Math.min(eM.randMax,variance+ rCent)); // randMin < rand < randMax
+        trand[ii] = arand; // centered around 1
       }
       double aaac = trand[0];
     }
     return trand;
   }
   double rMult = 0.;
-  double rCent = 0.;
+  double rCent = 1.;
 
   /**
    * get a preassigned random value at randx, reduce randomicity by mRand %lt;

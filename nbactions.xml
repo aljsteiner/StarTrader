@@ -12,7 +12,7 @@
             <properties>
                 <exec.args>-classpath %classpath trade.StarTrader</exec.args>
                 <exec.executable>java</exec.executable>
-                <exec.workingdir>C:\Users\Public\netbeans\starTraderMaven\src\main\java\trade</exec.workingdir>
+                <exec.workingdir>C:\Users\aljst\Google Drive\netbeans\starTraderMaven\src\main\java\trade</exec.workingdir>
             </properties>
         </action>
         <action>
@@ -27,7 +27,7 @@
             <properties>
                 <exec.args>-classpath %classpath trade.TestStarTraderTest</exec.args>
                 <exec.executable>java</exec.executable>
-                <exec.workingdir>C:\Users\Public\netbeans\starTraderMaven\src\test\java\trade</exec.workingdir>
+                <exec.workingdir>C:\Users\aljst\Google Drive\netbeans\starTraderMaven\src\test\java\trade</exec.workingdir>
             </properties>
         </action>
          <action>
@@ -55,7 +55,7 @@
                 <exec.args>-agentlib:jdwp=transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath trade.TestStarTrader</exec.args>
                 <exec.executable>java</exec.executable>
                 <jpda.listen>true</jpda.listen>
-                <exec.workingdir>C:\Users\Public\netbeans\starTraderMaven\src\main\java\trade</exec.workingdir>
+                <exec.workingdir>C:\Users\aljst\Google Drive\netbeans\starTraderMaven\src\main\java\trade</exec.workingdir>
             </properties>
         </action>
         <action>
@@ -70,7 +70,7 @@
             <properties>
                 <exec.args>-classpath %classpath trade.TestStarTrader</exec.args>
                 <exec.executable>java</exec.executable>
-                <exec.workingdir>C:\Users\Public\netbeans\starTraderMaven\src\main\java\trade</exec.workingdir>
+                <exec.workingdir>C:\Users\aljst\Google Drive\netbeans\starTraderMaven\src\main\java\trade</exec.workingdir>
             </properties>
         </action>
         <action>
@@ -101,7 +101,7 @@
             <properties>
                 <test>DummyToSkipUnitTests</test>
                 <failIfNoTests>false</failIfNoTests>
-                <it.test>${packageClassName}#trade.TestStarTraderTest4</it.test>
+                <it.test>${packageClassName}#trade.TestStarTraderTest</it.test>
             </properties>
         </action>
     </actions>

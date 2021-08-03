@@ -1079,7 +1079,7 @@ class EM {
   double[] fracPriorityInGrowth = {.6, .5};  //mult priority in growth calc and percent to frac
   static final double[][] mFracPriorityInGrowth = {{.1, .9}, {.1, .9}};
   double[] resourceGrowth = {2.7, .002}; // growth per work
-  static final double[][] mResourceGrowth = {{.01, 4.}, {0.002, .9}};
+  static final double[][] mResourceGrowth = {{.01, 6.}, {0.002, .9}};
   // decay mining cumulative related to each years growth
   double[] resourceGrowthDecay = {.0000006, .0000001}; //per unit
   // decay mining cumulative related to each years growth
@@ -1088,7 +1088,7 @@ class EM {
   static final double[][] mCargoGrowth = {{0.0000001, 0.00009}, {0.000000001, 0.000009}};
   // cargo decay use resourceGrowthDecay
   double[] staffGrowth = {2.7, .002}; // growth per work
-  static final double[][] mStaffGrowth = {{.01, 4.}, {0.0002, .9}};
+  static final double[][] mStaffGrowth = {{.01, 6.}, {0.0002, .9}};
   double[] staffGrowthDecay = {.0000002, .00000016};
   static final double[][] mStaffGrowthDecay = {{.00000005, .000005}, {.00000003, .000003}};
   double[] travelGrowth = {.0015, .0025}; // this multiplies against work
@@ -2331,15 +2331,15 @@ class EM {
     doVal("guestGrowth", guestsGrowth, mGuestsGrowth, "increase amount of guest growth per year, dependent on units of guests");
     doVal("maxGrowth", maxGrowth, mMaxGrowth, "increase the largest possible size, growths will slow to prevent reaching this size");
     doVal("InitYrsTraveled", initTravelYears, mInitTravelYears, "Increase initial travel cost");
-    doVal("favr", fav0, mfavs, "how the each clan favors clan red by giving a better barter");
-    doVal("favo", fav1, mfavs, "how the each clan favors clan orange by giving a better barter");
-    doVal("favy", fav2, mfavs, "how the each clan favors clan yellow by giving a better barter");
-    doVal("favg", fav3, mfavs, "how the each clan favors clan green by giving a better barter");
-    doVal("favb", fav4, mfavs, "how the each clan favors clan blue by giving a better barter");
-    doVal("ClanFutureFundDues", clanStartFutureFundDues, mClanStartFutureFundDues, "increase the value at which staff,resources are converted to cash for future economies");
-    doVal("futureFundTransferFrac", futureFundTransferFrac, mFutureFundTransferFrac, "injcrease the amount transfered to futureFund at emergencies and dues.");
-    doVal("FutureFundFrac", futureFundFrac, mFutureFundFrac, "increase the sum of staff versus sum of resources before an emergencyFutureFund removal");
-    doVal("FutureFEmerg1", clanFutureFundEmerg1, mClanFutureFundEmerg, "adjust first level trigger when staff and resources are out of bound,divert staff/resource sectors to futureFund, samaller than 2 to have 2 trigers");
+    doVal("favr", fav0, mfavs, "how much your clan favors clan red by giving a better barter");
+    doVal("favo", fav1, mfavs, "how much your clan favors clan orange by giving a better barter");
+    doVal("favy", fav2, mfavs, "how much your clan favors clan yellow by giving a better barter");
+    doVal("favg", fav3, mfavs, "how much your clan favors clan green by giving a better barter");
+    doVal("favb", fav4, mfavs, "how much your clan favors clan blue by giving a better barter");
+    doVal("ClanFutureFundDues", clanStartFutureFundDues, mClanStartFutureFundDues, "increase the value at which staff,resources are converted to cash for future economies decreases building new ships or planets, increases growths");
+    doVal("futureFundTransferFrac", futureFundTransferFrac, mFutureFundTransferFrac, "increase the amount transfered to futureFund at emergencies and dues. increases building new economies, decreases growth may increase deaths, inrease growth, decrease new economies");
+    doVal("FutureFundFrac", futureFundFrac, mFutureFundFrac, "increase the sum of staff versus sum of resources before an emergencyFutureFund removal, decreases growth may increase deaths, inrease growth, decrease new economies");
+    doVal("FutureFEmerg1", clanFutureFundEmerg1, mClanFutureFundEmerg, "adjust first level trigger when staff  or resources are out of bound,divert max staff/resource sectors to futureFund, larger than 2 to have 2 triggers");
     doVal("clanFutureFEmerg2", clanFutureFundEmerg2, mClanFutureFundEmerg, "adjust second level trigger when staff and resources are out of bound,divert staff/resource sectors to futureFund");
     doVal("TradeCriticalBias",tradeCriticalFrac,mTradeCriticalFrac,"clan increase the trade value of resources or staff critically needed and decrease the trade value of resources or staff least needed");
     doVal("swapDif", swapDif, mSwapDif, "decrease the difference when a resource sum, staff sum difference will permit only swap transmuts/repurposing to keep this ship or planet alive");
@@ -3108,7 +3108,7 @@ class EM {
     doRes(NEWKNOWLEDGEINCR, "incNewKnowledge", "Percent New Knowledge Incr/Year");
     doRes(COMMONKNOWLEDGEINCR, "incCommonKnowledge", "Percent Common Knowledge increase by year");
     doRes(MANUALSINCR, "PercIncrManuals", "Percent Manuals increase by years");
-    doRes(INCRAVAILFRAC5, "IncrAvailFrac5", "Percent increase in avail frac after trade at favor 5", 2, 3, 2, THISYEARAVE | both | SKIPUNSET, ROWS1 | LIST41 | CURAVE | BOTH | SKIPUNSET, ROWS2 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS3 | CUMUNITS | BOTH | SKIPUNSET);
+    doRes(INCRAVAILFRAC5, "IncrAvailFrac5", "Percent increase in avail frac after trade at favor 5", 2, 3, 2, THISYEARAVE | both | SKIPUNSET, ROWS1 | LIST41 | THISYEAR | BOTH | SKIPUNSET, ROWS2 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS3 | CUMUNITS | BOTH | SKIPUNSET);
     doRes(INCRAVAILFRAC4, "IncrAvailFrac4", "Percent increase in avail frac after trade at favor 4", 2, 3, 2, DUP, 0, 0, 0);
     doRes(INCRAVAILFRAC3, "IncrAvailFrac3", "Percent increase in avail frac after trade at favor 3", 2, 3, 2, DUP, 0, 0, 0);
     doRes(INCRAVAILFRAC2, "IncrAvailFrac2", "Percent increase in avail frac after trade at favor 2", 2, 3, 2, DUP, 0, 0, 0);
@@ -3117,13 +3117,13 @@ class EM {
     doRes(INCRAVAILFRAC, "IncrAvailFrac", "Percent increase in avail frac after trade  at any trade", 2, 3, 2, DUP, 0, 0, 0);
     doRes(INCRAVAILFRACa, "IncrAvailFracRej", "Percent increase in avail frac trade rejected", 2, 3, 2, DUP, 0, 0, 0);
     doRes(INCRAVAILFRACb, "IncrAvailFracb", "Percent increase in avail frac after trade rejected at trade failure", 2, 3, 2, DUP, 0, 0, 0);
-    doRes(TRADEFIRSTRECEIVE, "First Received", "First amount received in a trade", 2, 3, 2, LIST41 | THISYEARAVE | BOTH | SKIPUNSET, ROWS2 | LIST4YRS | CUMUNITS, 0L, 0L);
-    doRes(TRADELASTRECEIVE, "Last Received", "Final amount received in a trade", 2, 3, 2, LIST41 | THISYEARAVE | BOTH | SKIPUNSET, ROWS1 | LIST4YRS | CURAVE | BOTH | SKIPUNSET, ROWS2 | LIST4YRS | CUMAVE | CUMUNITS | BOTH | SKIPUNSET, 0L);
-    doRes(TRADERECEIVELASTPERCENTFIRST, "percent final/first requested amount", "Final percent of First  amount requested in a trade", 2, 3, 2, LIST41 | THISYEARAVE | BOTH | SKIPUNSET, ROWS1 | LIST4YRS | CURAVE | BOTH | SKIPUNSET, ROWS2 | LIST4YRS | CUMAVE | BOTH | SKIPUNSET, 0L);
+    doRes(TRADEFIRSTRECEIVE, "First Received", "First amount received in a trade", 2, 3, 2, LIST41 | THISYEARAVE | BOTH | SKIPUNSET, ROWS2 | LIST20| CUMUNITS, 0L, 0L);
+    doRes(TRADELASTRECEIVE, "Last Received", "Final amount received in a trade", 2, 3, 2, LIST41 | THISYEARAVE | BOTH | SKIPUNSET, ROWS1 | LIST20 | CURAVE | BOTH | SKIPUNSET, ROWS2 | LIST4YRS | CUMAVE | CUM | BOTH | SKIPUNSET, 0L);
+    doRes(TRADERECEIVELASTPERCENTFIRST, "percent final/first requested amount", "Final percent of First  amount requested in a trade");
     doRes(TRADEFIRSTGAVE, "TradeFirstGiven", "First amount given in trade percent per sumrcsg", 2, 2, 2, 0, ROWS1 | LIST4 | THISYEARAVE | BOTH | SKIPUNSET, 0L, 0L);
-    doRes(TRADELASTGAVE, "TradeLastGiven", "Percent amount given in trade per sumrcsg may be used for scoreing", 2, 2, 2, LIST40 | LISTYRS | CUMAVE | BOTH | SKIPUNSET, ROWS1 | LIST4 | THISYEARAVE | CUMUNITS |  BOTH | SKIPUNSET, 0L, 0L);
-    doRes(TRADENOMINALGAVE, "TradeNominalGiven", "Nominal not strategic amount given in trade ", 2, 2, 2, LIST0 | CUM  | BOTH | SKIPUNSET, ROWS1 | LIST4 | THISYEARAVE | BOTH | SKIPUNSET, 0L, 0L);
-    doRes(TRADESTRATFIRSTRECEIVE, "StrategicFirstReceived", "First strategic amount received in trade", 2, 3, 2, LIST41 | THISYEAR | THISYEARAVE | BOTH | SKIPUNSET, ROWS1 | LIST4YRS | CURAVE | BOTH | SKIPUNSET, ROWS2 | LIST4YRS | CUMAVE | BOTH | SKIPUNSET, 0L);
+    doRes(TRADELASTGAVE, "TradeLastGiven", "Percent amount given in trade per sumrcsg may be used for scoreing", 2, 2, 2, LIST40  | THISYEAR | BOTH | SKIPUNSET, ROWS1 | LIST4  | CUM| CUMAVE |  BOTH | SKIPUNSET, 0L, 0L);
+    doRes(TRADENOMINALGAVE, "TradeNominalGiven", "Nominal not strategic amount given in trade ", 2, 2, 2, LIST0 | CUM  | BOTH | SKIPUNSET, ROWS1 | LIST4 | CUMAVE | BOTH | SKIPUNSET, 0L, 0L);
+    doRes(TRADESTRATFIRSTRECEIVE, "StrategicFirstReceived", "First strategic amount received in trade", 2, 3, 2, LIST41  | THISYEARAVE | BOTH | SKIPUNSET, ROWS1 | LIST20| CURAVE | BOTH | SKIPUNSET, ROWS2 | LIST4 | CUMAVE | BOTH | SKIPUNSET, 0L);
     doRes(TRADESTRATLASTRECEIVE, "StrategicLastReceived", "Final strategic amount eeceived in trade");
     doRes(TRADESTRATFIRSTGAVE, "TradeStrategicFirstGave", "First amount given in trade");
     doRes(TRADESTRATLASTGAVE, "TradeStrategicLastGave", "Final Amount given in trade");

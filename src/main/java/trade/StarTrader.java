@@ -68,6 +68,11 @@ import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import static trade.EM.addlErr;
+import static trade.EM.prevLine;
+import static trade.EM.wasHere;
+import static trade.EM.wasHere2;
+import static trade.EM.wasHere3;
 
 /**
  * see if these imports stay here // import
@@ -211,36 +216,78 @@ public class StarTrader extends javax.swing.JFrame {
    */
 
   static final public String[] statsButtonsTips = {statsButton0Tip, statsButton1Tip, statsButton2Tip, statsButton3Tip, statsButton4Tip, statsButton5Tip, statsButton6Tip, statsButton7Tip, statsButton8Tip, statsButton9Tip, statsButton10Tip, statsButton11Tip, statsButton12Tip, statsButton13Tip, statsButton14Tip, statsButton15Tip, statsButton16Tip, statsButton17Tip, statsButton18Tip, statsButton19Tip, statsButton20Tip, gameTextFieldText};
-  static final public String versionText = "19.30";
-  static final public String storyText = "   Save the planets        Version " + versionText + "\n"
-          + "\n"
-          +
-"“Save the Planets”; “Trade, trade, trade”;  “Cooperating together with trades”: is an economics strategy game emphasizing cooperation over competition.  The settings permit changing the game in many different ways, thus the many names.  \n" +
-"The game-master changes the game's overall settings, including how the score is calculated, and how to win.  Clan-masters manage the robots that run the 5  clans of planets and ships, or villages and traveling traders.  \n" +
+  static final public String versionText = "19.32";
+  static final public String storyText = 
+          "         Save the Planets       Version 19.33\n" +
 "\n" +
-"The planets and ships are two sets of economies with a lot of similar rules and some significantly different priority settings. Each economy has 2 very stressed financial sectors, 2 very successful financial sectors, 3 other ok financial sectors.   \n" +
+"“Save the Planets”; “Trade, trade, trade”;  “Cooperating together with trades”: is an economics game kit emphasizing cooperation over competition.  This is strategy game one to four or five players. The game-master selects the nature of the game as well as how the winner is picked.  The game’s spaceships could just as well be traders with wagons going from settlement to settlement.  The nature of the traders and the settlements/planets is very flexible.\n" +
 "\n" +
-"At the end of each year planets increase resources by mining, growing or making, new staff are added at the lowest grade while many of the staff move up one or more grades, and knowledge increases making operations more efficient.\n" +
+" Clan-masters manage the robots that run the 5 clans of planets and ships.  The clans are named the colors: red, orange, yellow, green, blue.  The clan colors are used in various way.  Eventually one clan is declared the winner and the stats(statistics) background is set to the color of the winning clan.  \n" +
 "\n" +
-"Ships hold and carry resources and staff between planets, trading resources that  a planet needs for surplus resources or staff from the planets.  Ships are initially set to not grow new staff and ships generally do not find new resources. \n" +
+"This game is being developed on a Windows 10 laptop with a screen about 1920 pixels wide and 1080 pixels deep.  It will run on smaller screens, but may move parts of the scenes in funny ways.  Since it is written in Java, it can be run on other systems with large enough screens and the java JRE (Java Run Environment) which connects the java .jar with the host operating system.  There is also a StarTrader19.33.exe for a windows 10 system which does not require having java installed.\n" +
 "\n" +
-"There are instructions at the end of this document to describe how to get the files you need to run this game and even how you can use a program called “Netbeans” to edit source files and change the program.\n" +
+"The more complex instructions are placed later in the settings.  The explanations of their capability are much later in this README.  Because this is a strategy game, it is important to understand the guts of the game so that clan-masters can make intelligent changes to the strategy of their clan to try to win under the priorities set by the game-master.  The “keep” function, described in more detail later, enables you to keep changes, comments and sample results for later games, so that clan-masters can develop plans and strategies for exploring finances and have them preset into their next games.  One person can run several clans trying different strategies for the different clans.\n" +
+"\n" +
+"Each year some planets or ships die because they have insufficient infrastructure (short on food, or short on buildings to survive the “winter”, etc.).  If they have good health the planets will also grow with added resources and added staff.   Traders move “goods” from planets with a surplus of certain goods to planets with insufficient amounts of those goods, enabling those planets to survive.  Ships do not mine or grow resources and staff, they must get  them from  planets.  And each year they need to add size to keep up with the growing size of the planets.  In addition ships need to get resources and staff to have enough infrastructure to survive another year.  Ships and planets may survive one or two years without a successful trade, and there are some statistics about how planets and ship without trades grow and survive.\n" +
+"\n" +
+"The planets and ships are both sets of economies with mostly similar rules and some very different priority settings. Each economy has 2 stressed financial sectors, 2 very successful financial sectors, 3 other ok financial sectors.  The stressed sectors encourage trading.\n" +
+"\n" +
+"At the end of each year, planets calculate the increase of resources by mining, growing, and/or making, new staff are added at the lowest grade while many of the staff move up one or more grades, and knowledge increases making operations more efficient.  Staff perform the work that is needed to increase resources.  Staff also become the engineers, faculty and researchers needed for staff to advance grades, and faculty and researchers to increase the knowledge that makes operations more efficient (less costly).\n" +
+"\n" +
+"There are instructions at the end of this document to describe how to get the files you need to run this game and even how you can use a program called “apache-netbeans” to edit source files and change the guts of the game yourself.\n" +
 "\n" +
 "The game-master changes overall game settings, setting  rules for all ships and planets, thus the game-master can set up many different games of economic strategy.   The game-master sets the difficulty of the game, and the amount of random increases or decreases to the priorities,  costs, growth, etc. There are five clans each with a clan-master.  One or more players can divide up the roles of game-master and clan-masters.  Clans without a clan-master run with the preset settings for that clan.  The clan-masters can alter any of the settings and leave unchanged the rest of the clan settings for the robots which calculate the moves for each clan planet and ship.\n" +
 "\n" +
-"After you have become familiar with the game by running it several times you may want to keep some of the settings you change, so that they will be automatically set to the kept value at the following games.  You can also save comments to indicate why you want the changes.  You keep settings by clicking the “keep” button.  There is also a place to add your comments, then any changes you have made on the settings page will be kept. These kept values are in a file called “keep”.  You can find the “keep” file in the same folder into which you copied the java “jar” file.  You can also use the remember button on the statistics pages to remember a line whose title you click.  I suggest you download the jar file into the “desktop”, then the “keep” file will also be on the desktop.  The desktop is the initial set of icons you see on your computer monitor.\n" +
+"You need to download the StarTrader19.33.jar or StarTrader19.33.exe file to a folder such as myGame where you can run it following the instructions near the end of this README.  The first tab labeled “story” is a copy of this README, click the next tab “Settings” to manage the settings.\n" +
 "\n" +
-"Planets and ships which did not have enough of any financial resource to survive the year: die.   When it dies, all resources and staff are lost, and the economy disappears.  Otherwise at the end of the year, when enough resources and staff are available, growth is applied to resources, staff and knowledge.  After each run a large set of statistics is available to be viewed about the planets and ships,  Runs can be 1 year, 5 years, 10 or 20 years.  Initial settings make it so that between 7% to 20% of the economies die each year.  Statistics after each run help show the problems the ship and planets faced and may give some ideas about changing clan priorities to increase planet and ship survival. If too many or not enough economies fail each year, the game master can change a game difficulty setting to alter results. After viewing their statistics each clan-master can change a few settings, then the game-master starts another run.  \n" +
+"The instructions about the functioning of the game are long and complicated because all of the action is done by robots.  To instruct the robots, you need to understand their activity and the kind of decisions they are making.  Clan-masters change the priorities about how robots make choices, but neither the game-master or the clan-masters change rules, they only change the priorities about how decisions are made by the robots.\n" +
+"\n" +
+"Directly under the “story” tab is a button “master”, this is the tab for the game-master, and the settings shown under it are the settings for the game as a whole.  After each name there are one or two sliders for “planets” then “ships”, if there is only one slider, it applies for both planets and ships.  As you run your mouse pointer over each name, the description in the green window below the sliders describes that setting.  The down button takes you to the next group of settings.\n" +
+"\n" +
+"Beside the gray master button are 5 colored tabs named “red”, “orange”, “yellow”, “green”, “blue” for the five clans.  Click one of those tabs, such as “orange”.  The area around the settings turns orange, the settings change to the for the “orange” clan, any changes apply only to the orange clan.\n" +
+"\n" +
+"If settings for one or more of the clans are unchanged, the game will run with the default settings.  After finishing changes for the game and all clans, the game master can click either the “1 yr” or “5 yr” button to run the game for 1 or 5 years.  Sometime you need to click again in the middle of the button to get it to work.\n" +
+"\n" +
+"The game will change to the “display” tab and show some lines that change as the game runs year by year.  The color of the screen becomes the color of that clan of the current ship or planet.  Elapsed time is shown in milliseconds since the start of the game, start of the year, or the start of using this econ.  Each econ name starts with a “P” if a planet or with “S” if a ship,  the letters are followed by 4 digits.  The digits are the number of the created econ.  The word or words at the top left are the name of the year’s state.  A series of lines display the counts of interesting facts about the game for a given year.  Facts such as the number or creations, the number of trades, the number of deaths, the number of current ships and current planets.  The screen is updated around 60 times a second, a single planet or ship may be current for up to several seconds, or it may be much shorter.\n" +
+"\n" +
+"The first state is the “future fund create”, planets or ships (economies) are created from funds set aside each year by each clan economy.  Only planets are created until there are enough planets by a game rule and two clan rules, then a clan ship can be created.  By default, clan planets can only trade with as many ships as they allow clan ships.  Putting resources into ships limits the growth in worth of the clan, but it provides the infrastructure to protect planets. \n" +
+"\n" +
+"The next state is “game create”: each year the game creates enough economies to bring the number of planets and ships up to the minimum for the year.  The default number of economies grows for six years, then it drops to a low number, expecting planets and ships created by future funds to replace deaths.\n" +
+"\n" +
+"The next very quick state is year first, ships and planets are readied  for another year.  The state will not usually appear in the display.  However, this is where catastrophes occur.  They destroy staff and resources, but this is where they find new resources to replace resources that have been mined.  Every year’s mined resources decrease the amount of resources that can be mined the next year until no more resources can be mined.  Catastrophes find additional resources, and help ships to develop new knowledge.\n" +
+"\n" +
+"Since ships carry relatively large units of resources compared to planets, assume the ships are of a size like the moon, and perhaps they travel faster than light by jumping between high stress points below the surface of stars.  This requires large staff to operate, expand and repair the ships because of the stress of their travel.\n" +
+"\n" +
+"The next state is “search”,  up to 7 planets that are close enough to the ship are chosen.  Planets that have already traded are eliminated unless there is a surplus of ships for this clan.  Each planet and ship keeps a trade history, these histories are updated at each trade so that the 7 planets can be tested by the search history.  The assumption is that ships cannot have real time access to the current trade possibilities of any of the trading candidates.\n" +
+"\n" +
+"The next state is an attempted trade, the ship and planet do not have a common bank.  They need to evaluate each of their financial sectors of resources and staff to determine what they need the most, or what has the highest strategic value, and what has the lowest strategic value.  Each partner tries to trade low strategic value goods for high strategic value goods.   Of course the trading partner may need some of your high value goods, not some of your low value goods, so at each turn the offers are changed to satisfy your own needs with goods you hope the partner will accept.  Each partner gets up to nine turns, a partner may reject a trade if the offered goods are not satisfactory by changing the turn number to -1.  A trade is accepted if both partners can accept an offer without trying to change the offer, the turn number is set to zero, the goods in the offer are actually moved between economies, then the trade is recorded as successful.  Trades can also be “rejected” by either partner, and is “lost” if the other partner rejected the trade.  If there are more ships than planets, multiple ships can attempt to trade with a given planet.  Multiple ships on a planet can also attempt to trade with each other.\n" +
+"\n" +
+"After all the ships had an opportunity to trade, the next state is “endYear”.  Since endYear’s do not involve any other economy, multiple endYears can run at once.  By default multiple cpu’s can run multiple threads to do endYears.  By default, multiple threads are allowed but can be changed in the settings. \n" +
+"\n" +
+"During the endYear resources and staff may be swapped between working and reserved, reserved cost less, but do not provide any value.  In addition resources and staff may be repurposed, that is they are moved to a different financial sector.  This is a very costly operation that is only used if trading does not supply some of the critically needed resources or staff.  After each swap, a test is done to see if it generated an overall benefit, if not the swap may be redone several times.  During the swaps, emergency actions may donate to the “future funds” some resources or staff from high cost sectors which have too many units in relation to the other sectors.\n" +
+"\n" +
+"Each financial sector incurs costs from each of the other sectors.  If at the end of the swaps, one or more of the sectors cannot pay the yearly costs or has infrastructure to survive the whole year then the economy of a ship or planet dies.  All of its staff and resources are lost.  Otherwise at the end of the year, when enough resources and staff are available, growth is applied to resources, staff and knowledge.  \n" +
+"\n" +
+"As knowledge increases, years become more efficient and costs decrease.  Each year the research equivalent set of staff find new knowledge, they also convert manuals received in trades into more common knowledge.  After a year, new knowledge becomes common knowledge.\n" +
+"\n" +
+"After each run a large set of statistics is available to be viewed about the planets and ships,  At some later time another ship or planet will be established at the same location. By default, between 10% to 20% of planet and ships die each year.\n" +
+"\n" +
+"At the end of the years the window should change to the “stats” tab.  There are 21 buttons for 21 different views of the statistics about what happened with the clan finances.  There are also buttons to run the game for 1 or 5 or 10 or 20 years.  When they are clicked the screen goes back to the display tab.\n" +
+"\n" +
+"After you have become familiar with the game by running it several times you can “keep” some of the settings you change, so that they will be automatically set to the kept value in the following games.  You can also write comments to indicate why you made the changes.  You keep settings by clicking the “keep” button, then any changes you have made on the current settings page will be kept when you leave that page.  These kept values are in a file called “keep”.  You can find the “keep” file in the same folder into which you copied the java .jar or .exe file.  You can also use the “remember” button on the statistics pages to remember a line whose title you click.  \n" +
+"Runs can be 1 year, 5 years, 10 or 20 years.  Initial difficulty settings make it so that between 7% to 20% of the economies die each year.  Statistics after each run help show the problems the ship and planets failed and may give some ideas about changing clan priorities to increase planet and ship survival. \n" +
+"\n" +
+"If too many or not enough economies fail each year, the game master can change a game difficulty setting to alter results. After viewing their statistics each clan-master can change a few settings, then the game-master starts another run.  It is a good strategy to only change a few settings at each new game, keep the settings and a comment about why you changed the setting, you may also want to “remember” some results that suggested the change in settings.\n" +
 "\n" +
 "The game-master changes settings about how all planets and ships survive and grow.  Also the game-master can adjust how the winning score is calculated and when the score is good enough to win the game.  “Save the planets”  increases the score of a clan based on the number of planets and ships that the clan's barters have helped, and how much the barters helped.  The game-master can change settings so that  “Highest worth wins”, or “most planets wins” or many other games.  You can play the game for as many runs as you choose. \n" +
 "\n" +
-"At the start of the year each economy projects what its resources will be at the end of the year. Each resource and staff sector is given a strategic value  related to how much more is needed for a good year.  In addition, if a planet or ship will not survive the year with the current resources and staff an SOS flag is set.  Each year each ship tries to find a planet for a good trade in a way that both of them will be more able to survive and have good growth.  The game-master can adjust how much the ship knows about planets. Ships may know nothing and just make a random choice.  Ships may be able to use a history that is updated every time they trade with a planet,  Ships may be able to get direct knowledge about what planets have to make the best trade, combined with the cost of travel to that planet.\n" +
+"At the start of the year each economy projects what its resources will be at the end of the year. Each resource and staff sector is given a strategic value  related to how much more is needed for a good year.  In addition, if a planet or ship might not survive the year with the current resources and staff, an SOS flag is set.  Each year each ship tries to find a planet for a good trade in a way that both of them will be more able to survive and have good growth.  The game-master can adjust how much the ship knows about planets. Ships may know nothing and just make a random choice.  Ships may be able to use a history that is updated every time they trade with a planet,  Ships may be able to get direct knowledge about what planets have to make the best trade, combined with the cost of travel to that planet.\n" +
 "\n" +
-"Clan-masters choose a friendship level with each of the other clans.  The higher the friendship, the more a ship and planet will trade.  Ships can trade with each other, if more than one ship is trading at a given planet.  \n" +
+"Clan-masters choose a friendship level with each of the other clans.  The higher the friendship, the better trade will be given the ship and planet.  Ships can trade with each other, if more than one ship is trading at a given planet.  \n" +
 "\n" +
-"When a planet or ship has enough to survive the year,  the additional resources determine the health of the planet or ship.  Planets and ships with poor health are less efficient in doing the required work for that year.  This means that the work takes more resources and staff.  The work becomes more efficient for each sector each year as the knowledge for that sector increases.  \n" +
+"Each year there are costs for simply living: “maintenance”, communicating and moving between parts of the economy or between planets: “travel”, and hopefully increasing resources, staff and knowledge: “growth”. When a planet or ship has enough to survive the year,  the additional resources determine the health of the planet or ship.  Planets and ships with poor health are less efficient in doing the required work for that year.  This means that life and growth take more resources and staff and accomplishes less.  The work becomes more efficient for each sector each year as the knowledge for that sector increases.  \n" +
 "\n" +
-"When there are more resources and/or staff than needed for maintenance and travel, those resources and work can be applied to growth in that sector.  Each of the required  or interface Maintenance and required or interface Growth require a combination of resources and staff, just as growth requires a combination of resources and staff.  Every year each financial sector will only be able to do the amount of work enabled by the required combination of resources and staff, there will be some resources or staff for each sector which cannot be used.\n" +
+"When there are more resources and/or staff than needed for maintenance and travel, those resources and work can be applied to growth in that sector.  Each of the required  or infrastructure Maintenance and required or infrastructure Growth require a combination of resources and staff, just as growth requires a combination of resources and staff.  Every year each financial sector will only be able to do the amount of work enabled by the required combination of resources and staff, there will be some resources or staff for each sector which cannot be used.\n" +
 "\n" +
 "The resources and staff subAssets for each sector are working resources and staff.   Cargo and guest subAssets are the reserved resources and staff, they do no work and their yearly costs are reduced, they are available to convert to working assets or to be traded.\n" +
 "\n" +
@@ -252,31 +299,29 @@ public class StarTrader extends javax.swing.JFrame {
 "\n" +
 "After players have set clan priorities and other levels, the game-master can run the game for 1,5,10, or 20 years.  When the years are finished, results are available, there are 20 different pages showing different results and showing some of the same results in different ways.  Pages 0,1,2 list the most important results.  Any page with the score at the top will be set to the background color of the clan with the highest score, the winner when the score gets good enough to win.\n" +
 "\n" +
-"Each planet and ship have seven financial sectors.  Each sector has resources, cargo(resource not working but in reserve), staff, guests(staff not working but in reserve), and knowledge of 3 kinds (common knowledge, new knowledge, and manuals(researchers work to get new knowledge or common knowledge from manual, but trades can only trade manuals).\n" +
+"Each planet and ship have seven financial sectors.  Each sector has resources, cargo(resource but in reserve not working), staff, guests(staff but in reserve not working), and knowledge of 3 kinds (common knowledge, new knowledge, and manuals(researchers work to get new knowledge or common knowledge from manuals), but trades can only trade manuals from ships).\n" +
 "\n" +
-"The game is available in a folder at: https://drive.google.com/drive/folders/1P-hw8Wk9BcwEdHSS8CdAbDDjtjyEQTF_?usp=sharing.  The folder contains a pdf of this README and the file StarTrader.jar.  Double click on the StarTrader.jar file and change the location to download it to your desktop, not to your download folder.  Double click on the StarTrader.jar file to run the game.  If you have a previous version of the game downloaded, the newly downloaded file will have a number added to the name.  You can delete unwanted files by right clicking the file and choosing the delete option.\n" +
+"The game is available in a folder at: https://drive.google.com/drive/folders/1P-hw8Wk9BcwEdHSS8CdAbDDjtjyEQTF_?usp=sharing.  The folder contains a pdf of this README and the file StarTrader.jar.  \n" +
+"\n" +
+"You need to download the StarTrader19.33.jar or StarTrader19.33.exe file to a place where you can run it following the instructions near the end of this README. First make a new folder in the downloads folder, change the name to myGame.  Download the file you chose to folder downloads\\myGame.  Double click on the StarTrader19.33.exe file in myGame to run the game.  Each copy of  the newly downloaded file will have a version.subversion added to the name.  You delete unwanted files by right clicking the file and choosing the delete option. The .jar file will only run if you have java openjdk-16.0.2_windows-x64_bin installed, the .exe file runs regardless of the version of java you have installed.\n" +
 " \n" +
-"This file will only run if you have java installed.  It is set up to run on a Windows 10 machine with at least an 11 or 12 inch screen.  This will probably run on other desktop or laptops, if they will also run Java.  Java may already be on your windows machine.  If you don’t know whether you have installed Java, run the following link to load  the current version  at https://www.oracle.com/java/technologies/javase-jre8-downloads.html#license-lightbox\n" +
-"With the jre (java runtime environment) installed, you should be able to run the game by double clicking on the file StarTrader.jar.  After reading the story tab, go to the Settings tab to make any changes.  There are six colored radio buttons, the first is labed “master” for game-master, the clans are labeled red, orange, yellow, green, and blue.  There are pages of 10 sliders for the game-master or a different set of pages of 10 sliders for each of the clan-masters.  The sliders are preset to the existing value, changing a slider causes the named value to be changed.\n" +
+"StarTrader is set up to run on a Windows 10 machine with at least an 11 or 12 inch screen.  This will probably run on other desktop or laptops, if they will also run Java.  Instructions for running the gave are given much earlier in the README.\n" +
 "\n" +
-"Hovering over a name, or clicking the name causes an explanation of that slider's action at the bottom of the page.  Many of the names have two sliders, one for planets and one for ships.  For example growths would have a moderate or large growth for planets and a small or zero value of growth for ships.  But the game-master could move the ships slider to have more growth from ships.\n" +
-"\n" +
+"Ignore the following instructions unless you want to try to change the guts of the game.\n" +
 "The source the game is at http://github.com/aljsteiner/StarTrader \n" +
-"I use apache Netbeans, the latest version, and the latest open source version of java as well as the latest java 1.8 version of java.  The java being automatically distributed to Windows 10 machines by Oracle is the latest version of java.1.8... jre.  You can download a corresponding JDK from Oracle after signing their license.  StarTrader often does not work with some of the later open source versions of Java.\n" +
+"I use apache Netbeans, the latest version, and the latest open source version of java openjdk-16.0.2_windows-x64_bin as well as the latest java 1.8 version of java.  The java being automatically distributed to Windows 10 machines by Oracle is the latest version of java.1.8.301 jre.  You can download a corresponding JDK from Oracle after signing their license. \n" +
+"Here are many of the settings you will need  in Apache NetBeans currently version 12.4.  You must be logged in as an administrator to have the windows permissions to install NetBeans.  \n" +
 "\n" +
-"Here are many of the settings you will need  in Apache NetBeans currently version 12.4.  You must be logged in as an administrator to have the windows permissions to do the installations.\n" +
-"1.Left Click the NetBeans Tools menu and select Java Platforms, click \"Add Platform...\" browse to C:\\Program Files\\Java and choose the latest installed jdk1.8.0_291 \n" +
-"\n" +
+"Once you have installed NetBeans and downloaded the source files:\n" +
+"1.Left Click the NetBeans Tools menu and select Java Platforms, click \"Add Platform...\" browse to C:\\Program Files\\Java and choose the latest installed jdk1.8.0_301 \n" +
 "2.Open NetBeans IDE and create a new ant project with existing source at C:\\Users\\Public\\netbeans\\Trader19.2p\n" +
 "3.Create a source folder such as C:\\Users\\Public\\netbeans\\Trader19.2s\n" +
 "4.Right click the project name, at versioning create a git repository in Trader19.2p\n" +
 "5.Right click the project name, at git select pull and fill out the form as requested\n" +
 "6.Right click the project name, select properties, select formatting, select project specific options, choose all languages, choose Tabs And Indents, Enable Indentation, Expand Tabs to Spaces, Number of Spaces per indent=2, tab Size = 2, Right Margin=80,Line Wrap After words\n" +
 "7.Download the latest Java 8 JDK after signing the license, install it into the Java folder under C:\\Program Files\n" +
-"8.Right click the project name, select properties, and under “Source Packages” select the package “trade” to get a list of the created Java Classes.  The StarTrader.java contains the main method with the user interface logic.  Classes E.java and EM.java contain lots of data tables needed for the user interface, E.java contains most of the fixed data, EM.java contains data that can change from the user settings changes and the statistics of the current run of the game, EM also contains methods for processing settings and statistics.\n" +
-"\n" +
-""
-          + "";
+"8.Right click the project name, select properties, and under “Source Packages” select the package “trade” to get a list of the created Java Classes.  The StarTrader.java contains the main method with the user interface logic.  Classes E.java and EM.java contain lots of data tables needed for the user interface, E.java contains most of the fixed data, EM.java contains data that can change from the user settings changes and the statistics of the current run of the game, EM also contains methods for processing settings and statistics."  +      
+           "";
 
   static int iii = 0;
   // The following is a list of states
@@ -631,7 +676,7 @@ public class StarTrader extends javax.swing.JFrame {
     storyTextPane.setPreferredSize(new java.awt.Dimension(1200, 800));
 
     storyTextField1.setEditable(false);
-    storyTextField1.setColumns(600);
+    storyTextField1.setColumns(2000);
     storyTextField1.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
     storyTextField1.setLineWrap(true);
     storyTextField1.setRows(30);
@@ -640,7 +685,6 @@ public class StarTrader extends javax.swing.JFrame {
     storyTextField1.setMargin(new java.awt.Insets(4, 5, 4, 4));
     storyTextField1.setMaximumSize(new java.awt.Dimension(1200, 1600));
     storyTextField1.setMinimumSize(new java.awt.Dimension(600, 400));
-    storyTextField1.setPreferredSize(new java.awt.Dimension(1200, 1500));
     storyTextField1.setRequestFocusEnabled(false);
     storyTextPane.setViewportView(storyTextField1);
     storyTextField1.getAccessibleContext().setAccessibleParent(storyTextPane);
@@ -5225,7 +5269,7 @@ public class StarTrader extends javax.swing.JFrame {
       stateConst = RUNNING;
       yearsToRun = nYears;
       EM.runYearsTime = (new Date()).getTime();
-      System.out.println("$$$$$$$$$$$$$ runYears;" + since() + " at start stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year + (javax.swing.SwingUtilities.isEventDispatchThread() ? " is eventDispatchThread" : " is not EventDispatchThread"));
+      System.err.println("$$$$$$$$$$$$$ runYears;" + since() + " at start stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year + (javax.swing.SwingUtilities.isEventDispatchThread() ? " is eventDispatchThread" : " is not EventDispatchThread"));
 
       //   E.myTest(!javax.swing.SwingUtilities.isEventDispatchThread(), "not eventDispatchThread");
       RunYrs1 rYrs1 = new RunYrs1();
@@ -5275,7 +5319,7 @@ public class StarTrader extends javax.swing.JFrame {
 
   /**
    * start of the animation thread waiting between calls of paintCurDisplay
-   * thread RunYrs2 Then it watches stateConst and updates the display tab
+   * thread RunYrs1 Then it watches stateConst and updates the display tab
    *
    */
   void runYears2() {
@@ -5284,29 +5328,30 @@ public class StarTrader extends javax.swing.JFrame {
       if (E.debugThreads) {
         System.out.println("$$$$$$$$$$$$$ runYears2;" + since() + " at start stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year);
       }
-      E.myTest(javax.swing.SwingUtilities.isEventDispatchThread(), "runYears2 is eventDispatchThread");
+      E.myTest(javax.swing.SwingUtilities.isEventDispatchThread(), "runYears2 is eventDispatchThread not a separate animation thread");
       paintCurDisplay(ec);
       System.out.println("###################runYears2;" + since() + " stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year);
-      RunYrs3 rYrs3 = new RunYrs3();
+      RunYrs3 rYrs3 = new RunYrs3(); // the thread for background running runYear()->doYear
       rYrs3.setPriority(3);
       rYrs3.start();  // start the background job
       stateConst = STARTING;
       paintCurDisplay(ec = curEc = eM.curEcon);
       // now continue EDS thread with updating display
       Boolean done = false, did = false;
-      // start the annimation loop, waiting to call paintCurDisplay again
+      // start the annimation loop until done, waiting to call paintCurDisplay again
       for (stateCnt = 0; !eM.fatalError && !eM.stopExe && !done && !fatalError; stateCnt++) {
         ec = curEc = eM.curEcon;
         if (curEc != null) {
           curEconName = curEc.nowName;
         }
         // System.out.println("***************runYears2;" + since() + " " + stateStringNames[stateConst]+ stateCnt + " year=" + eM.year + ", econ=" + prevEconName);
-        setEconState(stateConst);
+        setEconState(stateConst); // check for stuck
 
         if (E.debugThreads) {
           System.out.println("$$$$$$$$$$$$$^^runYears2 " + sinceEcon() + " " + stateStringNames[stateConst] + " " + sameEconState + "::" + EM.wasHere + ":: "  + EM.wasHere2 + " :: " + EM.wasHere3);
         }
         paintCurDisplay(ec = curEc = eM.curEcon);
+        // now do waits until the next check of stateConst and paintCurDisplay
         switch (stateConst) {
           case CONSTRUCTING:
           case CONSTRUCTED:
@@ -5349,17 +5394,21 @@ public class StarTrader extends javax.swing.JFrame {
             did = true;
             break;
           case STATS:
-            done = true;
+            done = true;  //stop looping
+            paintCurDisplay(ec = curEc = eM.curEcon); // force final display as stats not display
             if (E.debugThreads) {
-              System.out.println("$$$$$$$$$$$$$$$>>runYears2;" + since() + " STATS stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year + (did ? " DID" : " !!DID") + (done ? " DONE" : " !!DONE"));
+              System.out.println("$$$$$$$$$$$$$$$>>runYears2;" + since() + " STATS " + stateConst + " stateCnt =" + stateCnt + " year=" + eM.year + (did ? " DID" : " !!DID") + (done ? " DONE" : " !!DONE"));
             }
             // listRes(fullRes); done in runBackgroundYears4
             break;
-          case RUNSDONE:
-            done = true;
+          case RUNSDONE:  
+            // no wait
             if (E.debugThreads) {
-              System.out.println("$$$$$$$$$$$$$$$>>runYears2;" + since() + " STATS stateConst=" + stateConst + " stateCnt =" + stateCnt + " stateName=" + stateStringNames[stateConst] + " year=" + eM.year + (did ? " DID" : " !!DID") + (done ? " DONE" : " !!DONE"));
+              System.out.println("$$$$$$$$$$$$$$$>>runYears2;" + since() + "  RUNSDONE to STATS " + " stateCnt =" + stateCnt + " year=" + eM.year + (did ? " DID" : " !!DID") + (done ? " DONE" : " !!DONE"));
             }
+            done = true;
+             stateConst = STATS;
+             paintCurDisplay(ec = curEc = eM.curEcon); // force final display as stats not display
             break;
           default:
             if (E.debugThreads) {
@@ -5389,19 +5438,22 @@ public class StarTrader extends javax.swing.JFrame {
     getGameValues(curVals, gamePanels, gameTextFields, gameSlidersP, gameSlidersS);
     eM.setMoreValues();
     stateConst = STARTING;
+    long myStart = new Date().getTime();
     System.err.println("starting in tests1 thread=" + Thread.currentThread().getName()+ "msecs" + (new Date().getTime() - startTime));
-    System.out.println("~~~~~~~~~~~~~~ in runBackGroundYears4 nYears=" + nYears + " thread=" + Thread.currentThread().getName()+ "msecs" + (new Date().getTime() - startTime) + " ~~~~~~~~~~~~~~~~~~~~~~~");
+    System.err.println("~~~~~~~~~~~~~~ in runBackGroundYears4 nYears=" + nYears + " thread=" + Thread.currentThread().getName()+ "msecs" + (new Date().getTime() - startTime) + " ~~~~~~~~~~~~~~~~~~~~~~~");
     // E.myTest(javax.swing.SwingUtilities.isEventDispatchThread(), "is eventDispatchThread");
     for (int nn = 0; nn < nYears && !eM.fatalError && !eM.stopExe && !doStop && !fatalError; nn++) {
-      System.out.println("&&&&&&&&&&&& runBackroundYearsr" + since() + "run year="
-              + (eM.year + 1)
-              + "##########################");
+      System.err.println("\n\n>>>>>>>>>>>>>>>>> runBackroundYearsr" + since() + "run year="
+              + (eM.year + 1) + " background years="  + nn +  " btime=" 
+              + (new Date().getTime() - myStart)      
+              + "<<<<<<<<<<<<<<<<<<<\n\n");
       runYear();
     }
-    stateConst = STATS;
-    listRes(fullRes);
-    printMem3(); // goes to doYears
     stateConst = RUNSDONE;
+    
+ //   listRes(fullRes);
+    printMem3(); // goes to doYears
+    
     // background thread can now end
   }
 
@@ -6920,6 +6972,7 @@ public class StarTrader extends javax.swing.JFrame {
       int numEcons = eM.econs.size();
       int rN = 999999;
       int loopCntr = 0;
+      int cpIx1=8,cpIx2=7,cpIx3=9,cpIx4=6;
       int loopChange = 100;
       String newLine = "\n";
       String line1 = "", line0 = "", line2 = "", line3 = "", line4 = "", line5 = "";
@@ -6955,7 +7008,7 @@ public class StarTrader extends javax.swing.JFrame {
       int rNCrisis = eM.getStatrN("sCatCosts");
       int rNLstS1 = EM.TRADEOSOSR1;
       int rNDS1 = EM.DTRADEOSOSR1;
-      controlPanels.setSelectedIndex(3);
+   //   controlPanels.setSelectedIndex(3);
       int blip = 5;
       
       if (curEc != null) {
@@ -6967,11 +7020,12 @@ public class StarTrader extends javax.swing.JFrame {
         if (eM.haveColors[0][0] > 1.2) {
           displayPanel0Text.setBackground(E.clan.values()[curEc.clan].getColor(curEc.pors));
         }
+           cpIx1 = controlPanels.getSelectedIndex();
         controlPanels.setSelectedIndex(3);
+           cpIx2 = controlPanels.getSelectedIndex();
        // displayPanel0Text.setBackground(E.clan.values()[curEc.getClan()].getColor(curEc.pors));
          displayPanel0Text.setBackground(new Color(0x00849A));
         Color myTest = E.clan.values()[curEc.getClan()].getColor(curEc.pors);
-        controlPanels.setSelectedIndex(3);
         String disp1 = "year" + eM.year + " " + sinceEcon() + " " + EM.mf(EM.econCnt) + " Planets=" + EM.mf(EM.porsCnt[E.P]) + " ships=" + EM.mf(EM.porsCnt[E.S]) + newLine
                 + " Total Wealth=" + EM.mf(totalWealth) + " minWealth=" + EM.mf(minWealth) + " maxWealth="  + EM.mf(maxWealth) + newLine
                 + "BothCreated " + eM.getCurCumPorsClanUnitSum(rNCreated, EM.ICUM, E.P, E.S + 1, 0, 5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNCreated, EM.ICUM, E.P, E.P + 1, 0, 5) + " Ships " + eM.getCurCumPorsClanUnitSum(rNCreated, EM.ICUM, E.S, E.S + 1, 0, 5) + newLine
@@ -7032,7 +7086,6 @@ public class StarTrader extends javax.swing.JFrame {
             break;
           case STATS:
             controlPanels.setSelectedIndex(4);
-            //  line5 = linez;
             break;
           default:
 
@@ -7047,25 +7100,41 @@ public class StarTrader extends javax.swing.JFrame {
       //  displayPanel1SinceYearStart.setVisible(true);
       //  displayPanel1.setVisible(true);
       if (stateConst == STATS) {
-        display.setVisible(false);
+       display.setVisible(false);
+    
+       controlPanels.setSelectedIndex(4);
+       cpIx2 = controlPanels.getSelectedIndex();
+       
+       listRes(0, resLoops, fullRes);
+        controlPanels.setSelectedIndex(4);
+         cpIx3 = controlPanels.getSelectedIndex();
         stats.setVisible(true);
         stats.revalidate();
         stats.repaint();
+        cpIx4 = controlPanels.getSelectedIndex(); 
       } else {
         display.setVisible(true);
          if (eM.haveColors[0][0] > 1.2 && curEc != null) {
+           display.setBackground(E.clan.values()[curEc.clan].getColor(curEc.pors));
+           displayPanel0.setBackground(E.clan.values()[curEc.clan].getColor(curEc.pors));
           displayPanel0Text.setBackground(E.clan.values()[curEc.clan].getColor(curEc.pors));
         }
         display.revalidate();
         display.repaint();
       }
       controlPanels.setVisible(true);
-      if (stateCnt % 20 == 0) {
+      if (stateCnt % 50 == 0  || stateConst == STATS) {
         if (curDisplayPrints < E.ssMax * 5) {
           curDisplayPrints++;
           long nTime = new Date().getTime();
-          String aLine = "????????????? " + "displayCur " + (nTime - startTime) + " " + stateStringNames[stateConst] + "state=" + sameEconState + " eCnt=" + EM.econCnt + ":" + numEcons + Econ.nowName + " "
-                  + (EM.addlErr != null ? EM.addlErr : "") + (EM.wasHere != null ? EM.wasHere : "") + (EM.wasHere2 != null ? EM.wasHere2 : "");
+          String aLine = "????????????? " + "displayCur " + (nTime - startTime) + " " + stateStringNames[stateConst] + "state=" + stateConst+ " eCnt=" + EM.econCnt + ":" + numEcons + ":" 
+                  +  Econ.nowName + " controlPanelIx=" +  cpIx1 + cpIx2 + cpIx3 + cpIx4 + " "
+                  + (addlErr.isEmpty() && wasHere.isEmpty() && wasHere2.isEmpty() && wasHere3.isEmpty() && prevLine.isEmpty() ? "" : "\n")
+            + (prevLine.isEmpty() ? "" : " :" + prevLine + "\n")
+            + (addlErr.isEmpty() ? "" : " :" + addlErr + "\n")
+            + (wasHere.isEmpty() ? "" : " :" + wasHere + "\n")
+            + (wasHere2.isEmpty() ? "" : " :" + wasHere2 + "\n")
+            + (wasHere3.isEmpty() ? "" : " :" + wasHere3 + "\n");
 
           System.out.println(aLine);
         }
@@ -7970,17 +8039,60 @@ static int cntr10 = 0;
            if(cntr > 10)eM.doMyErr("stuck at cntr > 10");
           Thread.sleep(1000);
         }
+        eM.randFrac[0][0] = .7;
+         eM.randFrac[1][0] = .7;
         //stateConst = STARTING;
          System.err.println("starting in tests1 thread=" + Thread.currentThread().getName() + ", stateConst=" + stateStringNames[stateConst] + "msecs" + (new Date().getTime() - startTime));
          stateConst = RUNNING;
-         st.runBackgroundYears4(10);
+         
+         st.runBackgroundYears4(5); // higher random
         // wait for runYears to finish
         int cntr1 = 0;
         while (!(stateConst == CONSTRUCTED || stateConst == RUNSDONE || stateConst == RUNNING || stateConst == STARTING)) {
-           System.err.println("tests1 waiting out testing thread=" + Thread.currentThread().getName() + ", stateConst=" + stateStringNames[stateConst] + ", msecs" + (new Date().getTime() - startTime) + ", cnt1=" + cntr1++);
+           System.err.println("main3 waiting out testing thread=" + Thread.currentThread().getName() + ", stateConst=" + stateStringNames[stateConst] + ", msecs" + (new Date().getTime() - startTime) + ", cnt1=" + cntr1++);
           Thread.sleep(1000);
         }
+        double[] rr = {.7,.7};
+         eM.mab1 = eM.mac1 = rr;
+       
+        //stateConst = STARTING;
+         System.err.println("starting in tests1 thread=" + Thread.currentThread().getName() + ", stateConst=" + stateStringNames[stateConst] + "msecs" + (new Date().getTime() - startTime));
+         stateConst = RUNNING;
          
+         st.runBackgroundYears4(5); // higher random
+        // wait for runYears to finish
+        cntr1 = 0;
+        while (!(stateConst == CONSTRUCTED || stateConst == RUNSDONE || stateConst == RUNNING || stateConst == STARTING)) {
+           System.err.println("main3 waiting out testing thread=" + Thread.currentThread().getName() + ", stateConst=" + stateStringNames[stateConst] + ", msecs" + (new Date().getTime() - startTime) + ", cnt1=" + cntr1++);
+          Thread.sleep(1000);
+        }
+         double[] rrr = {5.,.7};
+         eM.resourceGrowth = eM.staffGrowth = rrr;
+        //stateConst = STARTING;
+         System.err.println("starting in tests1 thread=" + Thread.currentThread().getName() + ", stateConst=" + stateStringNames[stateConst] + "msecs" + (new Date().getTime() - startTime));
+         stateConst = RUNNING;
+         
+         st.runBackgroundYears4(5); // higher random
+        // wait for runYears to finish
+    cntr1 = 0;
+        while (!(stateConst == CONSTRUCTED || stateConst == RUNSDONE || stateConst == RUNNING || stateConst == STARTING)) {
+           System.err.println("main3 waiting out testing thread=" + Thread.currentThread().getName() + ", stateConst=" + stateStringNames[stateConst] + ", msecs" + (new Date().getTime() - startTime) + ", cnt1=" + cntr1++);
+          Thread.sleep(1000);
+        }
+         eM.randFrac[0][0] = .6;
+         eM.randFrac[1][0] = .6;
+        //stateConst = STARTING;
+         System.err.println("starting in tests1 thread=" + Thread.currentThread().getName() + ", stateConst=" + stateStringNames[stateConst] + "msecs" + (new Date().getTime() - startTime));
+         stateConst = RUNNING;
+         
+         st.runBackgroundYears4(5); // higher random
+        // wait for runYears to finish
+         cntr1 = 0;
+        while (!(stateConst == CONSTRUCTED || stateConst == RUNSDONE || stateConst == RUNNING || stateConst == STARTING)) {
+           System.err.println("main3 waiting out testing thread=" + Thread.currentThread().getName() + ", stateConst=" + stateStringNames[stateConst] + ", msecs" + (new Date().getTime() - startTime) + ", cnt1=" + cntr1++);
+          Thread.sleep(1000);
+        }
+        
           /*
            st.runBackgroundYears4(1);
         // wait for runYears to finish
