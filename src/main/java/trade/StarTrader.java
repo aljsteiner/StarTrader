@@ -390,7 +390,7 @@ public class StarTrader extends javax.swing.JFrame {
   static public String cfNi2 = "cfNi2"; // within CashFlow method
 
   // public Star(int group,int contextV,String xname, int xpos, int ypos, int wealth, int colonists, double difficulty,
-  //         int xknowledge,PriorityInput[] pri)
+
   // static protected Econ env  = new Econ("able",0,0,5,5,5,1000,1000,100,50.,
   //   "struct",30.,"energy",25.,"life",5.,"defense",10.,"colonist",25.);
   /**
