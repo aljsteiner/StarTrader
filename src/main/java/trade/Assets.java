@@ -3849,31 +3849,41 @@ if(E.debugEconCnt){
         // ensure there is enough balance to cover the cost
 
         //   hist.add(new History(aPre, History.valuesMinor7, n + "cost3 A " + aschar + sourceIx, "costExcd Avail", "kF=" + EM.mf(availFrac), "aW=" + EM.mf(availW), "aR=" + EM.mf(availR), "-Cst=" + EM.mf(cost), "=>" + EM.mf(availWR - cost)));
-        if (E.debugCosts && cost < +0.0) {
-          E.myTest(true, "Error cost negative = %10.5g", cost);
+        if (E.debugCosts ){
+                if(cost < +0.0) {
+          eM.doMyErr( "Error cost negative = " + EM.mf(cost));
         }
-        if (E.debugCosts && avail - cost < -0.0) {
-          E.myTest(true, "cost=" + EM.mf(cost) + " exceeds available=" + EM.mf(avail) + ", " + sp.aschar + sourceIx + "=" + EM.mf(avail) + ", O" + op.aschar + sourceIx + "=" + EM.mf(availOp) + ", n=" + n + ", reDo" + reDo + ", i=" + i + ", j=" + j);
         }
+        if (E.debugCosts ){ if(avail - cost < -0.0) {
+          EM.doMyErr("cost=" + EM.mf(cost) + " exceeds available=" + EM.mf(avail) + ", " + sp.aschar + sourceIx + "=" + EM.mf(avail) + ", O" + op.aschar + sourceIx + "=" + EM.mf(availOp) + ", n=" + n + ", reDo" + reDo + ", i=" + i + ", j=" + j);
+        }}
 
-        if (E.debugCosts && avail - cost > +0.0) {
+        if (avail - cost > +0.0) {
           costSp = Math.min(cost, availSp);
           sp.cost1(costSp, sourceIx);
-          if (E.debugCosts && sp.balance.get(sourceIx) < NZERO) {
-            E.myTest(true, "source%s%d negative %7.4g, n=%d,swapType=%d", sp.aschar, sourceIx, sp.balance.get(sourceIx), n, swapType);
-          }
+          if (E.debugCosts){if(sp.balance.get(sourceIx) < NZERO) {
+            EM.doMyErr("source" + sp.aschar + sourceIx + " is negative " + EM.mf(sp.balance.get(sourceIx)) + ", n=" + n + ", swapType=" + swapType);
+          }}
 
         }
         costRem = cost - costSp;
         if (costRem > 0.0) {
-          if (E.debugCosts && availOp - costRem < -0.0) {
-            E.myTest(true, "costRem=%10.5 exceeds availOp%s%d=%10.5g" + ", n=" + n + ", reDo" + reDo + ", i=" + i + ", j=" + j, costRem, op.aschar, sourceIx, availOp);
+          if(availOp - costRem < -0.0) {if (E.debugCosts){
+            EM.doMyErr(String.format("costRem=%10.5 exceeds availOp%s%d=%10.5g" + ", n=" + n + ", reDo" + reDo + ", i=" + i + ", j=" + j, costRem, op.aschar, sourceIx, availOp));
+          } else { costRem = availOp; }
+          
           }
           myRem = op.cost1(costRem, sourceIx);
         }
+        
+       
         if (op.balance.get(sourceIx) < NZERO) {
-          E.myTest(true, "Error " + op.aschar + sourceIx + " is less than 0.0 = " + EM.mf(op.balance.get(sourceIx)));
-        }
+           if(E.debugCosts){
+          EM.doMyErr("Error " + op.aschar + sourceIx + " is less than 0.0 = " + EM.mf(op.balance.get(sourceIx)));
+        } else {
+             op.balance.set(sourceIx,0.0);
+           }
+           }
         // raise W cost as needed, the test above shows there is enough balance
         // double costsW = costsW1;
         //double costsR = costsR1;
@@ -6881,8 +6891,9 @@ if(E.debugEconCnt){
           ixWSrc = ixWRSrc * 2 + 2;  // /working source
           ixRSrc = ixWRSrc * 2 + 3;  // reserve source
           srcIx = sourceIx % E.LSECS;// 0-6
-        boolean emergTrans  = rawProspects2.min() < -.001;
+        boolean emergTrans  = rawProspects2.min() < -.00001;
         double emergMult = emergTrans ? EM.emergFundFrac[pors][clan]:1.0;
+        // calculate max transfer to futureFund for this year
         double maxFutureTrans = Math.min(bals.get(ixWRSrc,srcIx)*.8,Math.min(mtgAvails6.get(ixWRSrc,srcIx) *.9 ,totWorth* EM.futureFundFrac[pors][clan] * emergMult/ 
             (eM.worthBias[ixWRSrc*2][0] * cur.sys[ixWRSrc*2].unitWorth.get(srcIx))));  // units value
         // finish a previously started dues operation
@@ -7266,14 +7277,14 @@ if(E.debugEconCnt){
         double fracPreTrade = 100. * preTradeAvail / preTradeSum4;
         double fracPostTrade = 100. * postTradeAvail / postTradeSum4;
         // see if/how much frac avail increases
-        double tradeAvailIncrPercent = 100. * (postTradeAvail - preTradeAvail) / preTradeAvail;
+        double tradeAvailIncrPercent = preTradeAvail < E.PZERO ? 1.:100. * (postTradeAvail - preTradeAvail) / preTradeAvail;
         tW = btW;
         tW = new DoTotalWorths();  // in Assets.CashFlow.Barter
         tWTotWorth = tW.getTotWorth();
         btWTotWorth = btW.getTotWorth();
         btWrcsgSum = btW.getSumRCSGBal();
-        double worthIncrPercent = 100. * (tWTotWorth - btWTotWorth) / btWTotWorth;
-        double percentValuePerGoal = 100. * strategicValue / strategicGoal;
+        double worthIncrPercent = btWTotWorth < E.PZERO ? 1. : 100. * (tWTotWorth - btWTotWorth) / btWTotWorth;
+        double percentValuePerGoal = strategicGoal > E.PZERO ? 100. * strategicValue / strategicGoal : 1.;
         retOffer.set2Values(ec, btWTotWorth, btW.getSumRCSGBal(), tWTotWorth); // needed in TradeRecord SearchRecord
 
         if (newTerm == 0) {  //trade accepted
@@ -7296,6 +7307,7 @@ if(E.debugEconCnt){
           setStat(EM.TRADERECEIVELASTPERCENTFIRST, pors, clan, requests * 100. / requestsFirst, 1);
           setStat(EM.TRADEFIRSTGAVE, oPors, oClan, nominalRequestsSumFirst * 100 / btWrcsgSum, 1);
           setStat(EM.TRADELASTGAVE, oPors, oClan, nominalRequestsSum  * 100 / btWrcsgSum, 1);
+         
           setStat(EM.TRADENOMINALGAVE, pors, clan, nominalOffers, 1);
           setStat(EM.TRADESTRATFIRSTGAVE, oPors, oClan, totalStrategicRequestsFirst * 100 / btWrcsgSum, 1);
           setStat(EM.TRADESTRATLASTGAVE, oPors, oClan, totalStrategicRequests * 100 / btWrcsgSum, 1);
@@ -7332,7 +7344,7 @@ if(E.debugEconCnt){
           setStat(EM.TradeAcceptValuePerGoal, percentValuePerGoal, 1);
           setStat(EM.TRADEFIRSTRECEIVE, requestsFirst * 100 / btWrcsgSum, 1);
           setStat(EM.TRADELASTRECEIVE, pors, clan, requests * 100 / btWrcsgSum, 1);
-          setStat(EM.TRADERECEIVELASTPERCENTFIRST, pors, clan, requests * 100. / requestsFirst, 1);
+          setStat(EM.TRADERECEIVELASTPERCENTFIRST, pors, clan, requestsFirst > E.PZERO ? requests * 100. / requestsFirst : 0, 1);
           setStat(EM.TRADEFIRSTGAVE, pors, clan, sendSumFirst * 100 / btWrcsgSum, 1);
           setStat(EM.TRADELASTGAVE, pors, clan, sendSum * 100 / btWrcsgSum, 1);
           setStat(EM.TRADENOMINALGAVE, pors, clan, nominalOffers, 1);
@@ -10326,7 +10338,7 @@ if(E.debugEconCnt){
 
         hist.add(new History("i@", History.loopMinorConditionals5, "loop data", nameXnIx("minF", rNs, minFx, minFd), nameXnIx("N", rNs, minFx, mtgNeeds6.curGet(minFx)), nameXnIx("b", rNs, minFx, balances.curGet(minFx)), nameXnIx("strat", rNs, minFSx, balances.curGet(minFSx)), nameXnIx("min1F", rNs, min1Fx, min1Fd), nameXnIx("N", rNs, min1Fx, mtgNeeds6.curGet(min1Fx)), nameXnIx("b", rNs, min1Fx, balances.curGet(min1Fx)), nameXnIx("strat", rNs, min1FSx, balances.curGet(min1FSx))));
 
-        // now check for futureFund processing
+        // now check for futureFund processing, loop if futureFund was given
         if (calcFutureFund()) {
           swapType = 3;
           destIx = srcIx;

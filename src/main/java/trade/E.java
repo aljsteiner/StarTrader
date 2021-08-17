@@ -75,14 +75,14 @@ public class E {
    * execution speeds up if the debugging code is not reached
    */
   static final boolean distributable = false;
-  static final boolean debugMaster = true ; // !distributable;
+  static final boolean debugMaster = !distributable;// !distributable;
   static final boolean debugfalse = false;
-  static final boolean debugOutput = !distributable; //distributable;
-  static final boolean outputLess = true;  // reduce the output
+  static final boolean debugOutput = distributable; //distributable;
+  static final boolean outputLess = !distributable;  // reduce the output
   //static final boolean debugOutput = true;
-  static final boolean resetOut = distributable;
+  static final boolean resetOut = debugMaster;
   static final boolean debugDoYearOut = debugMaster; //output messages in doyear and subs
-  static final boolean debugCheckBalances = debugMaster; //check balances in loops
+  static final boolean debugCheckBalances = false; //check balances in loops
   static final boolean debugEconCnt = false; // econCnt = porsCnt0 + porsCnt1
   static final boolean debugNegGrowth = debugMaster; // neg Growth made negCosts
   static final boolean debugNegCosts = debugMaster; // checking for neg Costs
@@ -118,7 +118,7 @@ public class E {
  static final boolean debugLogsOut = debugMaster; // EM rs output
   static final boolean debugStatsOut1 = outputLess; // stats output1
   static final boolean debugYcalcCosts = debugMaster;
-  static final boolean debugPutRowsOut = false; //test putValue processing
+  static final boolean debugPutRowsOut = debugMaster;//test putValue processing
   static final boolean debugPutRowsOutUnset = false; //put out warnings of unset stats
   static final int ssMax = 10; // max setStats printed;
   static final boolean debugThreadsOut = debugMaster; // threads output

@@ -25,6 +25,7 @@ package trade;
  *
  * @author albert Steiner
  */
+import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -188,15 +189,15 @@ class EM {
 
   static Econ curEcon;  //eM only changes at the end a a year run, EM.curEcon
   static Econ otherEcon;  // other Econ when trading
-  double[][] wildCursCnt = {{7}};
-  static double[][] mWildCursCnt = {{3., 10.}};
+  double[][] wildCursCnt = {{7.}};
+  static double[][] mWildCursCnt = {{3., 20.}};
   static double[] difficultyPercent = {30.};
   static final double[][] mDifficultyPercent = {{1., 90.}, {1., 90.}};
   static double[][] minEconsMult = {{1.5}};
   static final double[][] mminEconsMult = {{.5, 10.0}, {.5, 10.0}};
   static double[][] maxThreads = {{5.2}};
   static final double[][] mmaxThreads = {{1.0, 12.0}};
-  double[][] haveColors = {{ 2.0}};
+  double[][] haveColors = {{ .3}};
   static final  double [][] mHaveColors = {{ 0.2,2.2}};
   double[][] haveCash = {{ 2.0}};
   static final  double [][] mHaveCash = {{ 0.2,2.2}};
@@ -287,7 +288,7 @@ class EM {
   static double[][] futureFundFrac = {{.5, .5, .5, .5, .5}, {.53, .53, .53, .53, .53}}; //frac of bals.curSum();
   static final double[][] mFutureFundFrac = {{.001, .6}, {.001, .6}};
   static double[][] futureFundTransferFrac = {{.5, .5, .5, .5, .5}, {.5, .5, .5, .5, .5}};
-  static final double[][] mFutureFundTransferFrac = {{.4, 1.4}, {.4, 1.4}};
+  static final double[][] mFutureFundTransferFrac = {{.3, 1.4}, {.3, 1.4}};
   static double[] gameStartSizeRestrictions = {800., 600.};
   static final double[][] mGameStartSizeRestrictions = {{300., 5000.}, {300., 5000.}};
   // double[] effMax = {2., 2.}; // 170309
@@ -322,6 +323,24 @@ class EM {
   static double[][] mCatastrophyBonusDecayMultSumSectors = {{.00002, .0002}, {.00005, .0002}};
   double[][] catastrophyManualsMultSumKnowledge = {{0.}, {2.}};//  .5 -10.
   static double[][] mCatastrophyManualsMultSumKnowledge = {{0., .0}, {.5, 10.}};//  .5 -10
+  
+  Dimension screenSize;
+  int screenHeight = -2, screenWidth = -2, myHeight = -2, myWidth = -2, myH2 = -2, myW2 = -2;
+  int  table2W=-2,table2H=-2;
+  int myW3 = -2;
+  //16,9:1920,1080  1600,900  1280,720  800,450  .5625
+  //16,12: 1680,1050  1024,768  800,600 .75
+  //            1280,1024  .8
+  static double[][] screenW = {{1200.}};
+  static final double[][] mScreenW = {{800.},{1920.}};
+  static double[][] panelW = {{1920.}};
+  static final double[][] mPanelW = {{800.},{1920.}};
+  static double[][] panelH = {{1080.}};
+  static final double[][] mPanelH = {{600.},{1080,}};
+  static double[][] tableW = {{1280.}};
+  static final double[][] mTableW = {{800.},{1920.}};
+  static double[][] tableH = {{1080.}};
+  
 
   int allGameErrMax = 40;  //EM.allGameErrMax
   static int allGameErrCnt = 0;
@@ -538,9 +557,9 @@ class EM {
   // [pors][clan] multiply strategic sums
   //static NumberFormat dFrac = NumberFormat.getNumberInstance();
   //static NumberFormat whole = NumberFormat.getNumberInstance();
-  NumberFormat dFrac = NumberFormat.getNumberInstance();
-  NumberFormat whole = NumberFormat.getNumberInstance();
-  // NumberFormat exp = new DecimalFormat("0.####E0");
+  static private NumberFormat dFrac = NumberFormat.getNumberInstance();
+  static private NumberFormat whole = NumberFormat.getNumberInstance();
+  static private NumberFormat exp = new DecimalFormat("0.####E0");
 
   static public int dfN = 2;
 
@@ -626,13 +645,25 @@ class EM {
     return mf(v);
   }
 
+  /**
+   * format the value
+   *
+   * @param v input value
+   * @param n ignored
+   * @return value as a string
+   */
   protected String df(double v, int n) {
     return mf(v);
   }
 
-  String wh(double n) {
+  /** return just a whole number, rounded up
+   * 
+   * @param n number to print
+   * @return n rounded up
+   */
+  static public String wh(double n) {
     whole.setMaximumFractionDigits(0);
-    return whole.format(n);
+    return whole.format(n +.4999999);
   }
 
   // static int clans = 5; E.lclans
@@ -1607,11 +1638,12 @@ class EM {
    * @return vv the number of the input in valI,valD,valS
    */
   int doVal(String vdesc, double[][] vaddr, double[][] lims, String vdetail) throws IOException {
-    int v1 = -1, v2 = -1, v3 = -1;
+   // int v1 = -1, v2 = -1, v3 = -1;
+      int v1 = vaddr.length;
+      int v2 = vaddr[0].length;
+      int v3 = v1 == 2 ? vaddr[1].length : v1 == 3 ? vaddr[1].length : -1;
     if (E.debugSettingsTab) {
-      v1 = vaddr.length;
-      v2 = vaddr[0].length;
-      v3 = v1 == 2 ? vaddr[1].length : v1 == 3 ? vaddr[1].length : -1;
+    
       if ((v1 <= 2 && v2 != 1 && v2 != 2 && v2 != 5) || (v1 == 2 && v3 != 1 && v3 != 2 && v3 != 5) || (v1 == 3 && v2 != 5 && v3 != 5)) {
         throw new MyErr("doVal{2} illegal length vdesc=" + vdesc + ", vaddr.length=" + vaddr.length + ", vaddr[0].length=" + v2 + (v1 == 2 ? "vaddr[1].length =" + v3 : ""));
       }
@@ -2300,8 +2332,8 @@ class EM {
     doVal("randomActions  ", randFrac, mRandFrac, "increased random, increases possibility of gain, and of loss, including possibility of death");
     doVal("Min Econs by Year", minEconsMult, mminEconsMult, "increase slider, increase min econs, create new free econs for clans starting at a random clan");
     doVal("wGiven", wGiven,mNegPluScoreMult, "increase slider, increase the value of  the percent given in trade by the clan.");
-    doVal("wGiven2", wGiven2,mNegPluScoreMult, "increase slider, increase the value of  the amount given in trade by the clan.");
-    doVal("wGenerous", wGenerous, mPlusNegScoreMult, "increase slider, increase the value of gaererosity, settling for a lower StrategicValue or profit.");
+    doVal("wGiven2", wGiven2,mNegPluScoreMult, "increase slider, increase the value of  the percent given in trade by the clan.");
+    doVal("wGenerous", wGenerous, mNegPluScoreMult, "iincrease slider, increase the value of  the percent given in trade by the clan.");
     doVal("iGiven", iGiven,mNegPluScoreMult, "increase slider, increase the score for number of economies traded.");
     doVal("wLiveWorthScore", wLiveWorthScore,mNegPluScoreMult, "increase slider, increase the winning score for the clan final worth.");
     doVal("iLiveWorthScore", iLiveWorthScore,mNegPluScoreMult, "increase slider, increase the winning score for the clan final count of planets and ships");
@@ -2318,6 +2350,7 @@ class EM {
     doVal("tradeReservFrac", tradeReservFrac, mTradeReservFrac, "raise the amount of resource or staff to reserve during a trade, higher reduces risk and reduces gain");
     doVal("Max LY  ", maxLY, mMaxLY, "adjust the max Light Years distance of planets for trades");
     doVal("Add LY  ", addLY, mAddLY, "adjust addition per round to the max Light Years distance of planets for traded");
+    doVal("SearchPlanetsCnt", wildCursCnt, mWildCursCnt, "adjust the number of planets listed to be judged for the next trade");
     doVal("SearchYearlyBias  ", searchYearBias, mSearchYearBias, "increase,decrease value of prospective trade for earlier years");
     // doVal("econLimits1  ", econLimits1, mEconLimits1, "Increase the max number of econs (planets+ships) in this game");
     //  doVal("econLimits2  ", econLimits2, mEconLimits2, "Increase the max number of econs (planets+ships) in this game");
@@ -2337,8 +2370,8 @@ class EM {
     doVal("favg", fav3, mfavs, "how much your clan favors clan green by giving a better barter");
     doVal("favb", fav4, mfavs, "how much your clan favors clan blue by giving a better barter");
     doVal("ClanFutureFundDues", clanStartFutureFundDues, mClanStartFutureFundDues, "increase the value at which staff,resources are converted to cash for future economies decreases building new ships or planets, increases growths");
-    doVal("futureFundTransferFrac", futureFundTransferFrac, mFutureFundTransferFrac, "increase the amount transfered to futureFund at emergencies and dues. increases building new economies, decreases growth may increase deaths, inrease growth, decrease new economies");
-    doVal("FutureFundFrac", futureFundFrac, mFutureFundFrac, "increase the sum of staff versus sum of resources before an emergencyFutureFund removal, decreases growth may increase deaths, inrease growth, decrease new economies");
+    doVal("futureFundTransferFrac", futureFundTransferFrac, mFutureFundTransferFrac, "increase the amount transfered to futureFund per n at emergencies and dues. increases building new economies, decreases growth may increase deaths, inrease growth, decrease new economies");
+    doVal("FutureFundFrac", futureFundFrac, mFutureFundFrac, "iincrease the amount transfered to futureFund  at emergencies and dues. increases building new economies, decreases growth may increase deaths, inrease growth, decrease new economies");
     doVal("FutureFEmerg1", clanFutureFundEmerg1, mClanFutureFundEmerg, "adjust first level trigger when staff  or resources are out of bound,divert max staff/resource sectors to futureFund, larger than 2 to have 2 triggers");
     doVal("clanFutureFEmerg2", clanFutureFundEmerg2, mClanFutureFundEmerg, "adjust second level trigger when staff and resources are out of bound,divert staff/resource sectors to futureFund");
     doVal("TradeCriticalBias",tradeCriticalFrac,mTradeCriticalFrac,"clan increase the trade value of resources or staff critically needed and decrease the trade value of resources or staff least needed");
@@ -2702,7 +2735,7 @@ class EM {
   static final int LIVEWORTH = ++e4;
   static final int TRADELASTGAVE = ++e4;
   static final int TRADENOMINALGAVE = ++e4;
-  //static final int TRADELASTGAVE1 = ++e4;
+  //static final int TRADESTRATEGICGAVE = ++e4;
   static final int STARTWORTH = ++e4;
   // static final int TESTWORTH3 = ++e4;
   static final int WORTHIFRAC = ++e4;
@@ -3121,14 +3154,13 @@ class EM {
     doRes(TRADELASTRECEIVE, "Last Received", "Final amount received in a trade", 2, 3, 2, LIST41 | THISYEARAVE | BOTH | SKIPUNSET, ROWS1 | LIST20 | CURAVE | BOTH | SKIPUNSET, ROWS2 | LIST4YRS | CUMAVE | CUM | BOTH | SKIPUNSET, 0L);
     doRes(TRADERECEIVELASTPERCENTFIRST, "percent final/first requested amount", "Final percent of First  amount requested in a trade");
     doRes(TRADEFIRSTGAVE, "TradeFirstGiven", "First amount given in trade percent per sumrcsg", 2, 2, 2, 0, ROWS1 | LIST4 | THISYEARAVE | BOTH | SKIPUNSET, 0L, 0L);
-    doRes(TRADELASTGAVE, "TradeLastGiven", "Percent amount given in trade per sumrcsg may be used for scoreing", 2, 2, 2, LIST40  | THISYEAR | BOTH | SKIPUNSET, ROWS1 | LIST4  | CUM| CUMAVE |  BOTH | SKIPUNSET, 0L, 0L);
+    doRes(TRADELASTGAVE, "TradeNominalGiven", "Percent nominal amount given in trade per sumrcsg may be used for scoreing", 2, 2, 2, LIST40  | THISYEAR | BOTH | SKIPUNSET, ROWS1 | LIST4  | CUM| CUMAVE |  BOTH | SKIPUNSET, 0L, 0L);
+     doRes(TRADESTRATLASTGAVE, "TradeStrategicLastGave", "Percent nominal amount given in trade per sumrcsg may be used for scoreing");
     doRes(TRADENOMINALGAVE, "TradeNominalGiven", "Nominal not strategic amount given in trade ", 2, 2, 2, LIST0 | CUM  | BOTH | SKIPUNSET, ROWS1 | LIST4 | CUMAVE | BOTH | SKIPUNSET, 0L, 0L);
-    doRes(TRADESTRATFIRSTRECEIVE, "StrategicFirstReceived", "First strategic amount received in trade", 2, 3, 2, LIST41  | THISYEARAVE | BOTH | SKIPUNSET, ROWS1 | LIST20| CURAVE | BOTH | SKIPUNSET, ROWS2 | LIST4 | CUMAVE | BOTH | SKIPUNSET, 0L);
+    doRes(TRADESTRATFIRSTRECEIVE, "StrategicFirstReceived", "First strategic amount received in trade", 2, 3, 2, LIST41  | THISYEARAVE | BOTH | SKIPUNSET, ROWS1 | LIST20| BOTH | SKIPUNSET, ROWS2 | LIST4 | CUMAVE | BOTH | SKIPUNSET, 0L);
     doRes(TRADESTRATLASTRECEIVE, "StrategicLastReceived", "Final strategic amount eeceived in trade");
     doRes(TRADESTRATFIRSTGAVE, "TradeStrategicFirstGave", "First amount given in trade");
-    doRes(TRADESTRATLASTGAVE, "TradeStrategicLastGave", "Final Amount given in trade");
-    
-    doRes(TradeNominalReceivePercentNominalOffer, "NomReceive%NomOffer", "% of Nominal Received Per Nominal  Given", 1, 3, 2, LIST4YRS |  CURAVE | BOTH | SKIPUNSET,  ROWS2 | LIST4 | CUMAVE | BOTH | SKIPUNSET, 0L, 0L);
+    doRes(TradeNominalReceivePercentNominalOffer, "NomReceive%NomOffer", "% of Nominal Received Per Nominal  Given", 1, 3, 2, LIST4YRS |  BOTH | SKIPUNSET,  ROWS2 | LIST4 | CUMAVE | BOTH | SKIPUNSET, 0L, 0L);
     doRes(MaxNominalReceivePercentNominalOffer, "MaxNomReceive%NomOffer", "Max % of Nominal Received Per Nominal  Given");
     doRes(MinNominalReceivePercentNominalOffer, "MinNomReceive%NomOffer", "Min % of Nominal Received Per Nominal  Given");
     doRes(TradeStrategicReceivePercentStrategicOffer, "StratReceive%StratGiven", "% of Strategic Received Per Strategic  Given");
@@ -3151,9 +3183,9 @@ class EM {
     doRes(BEFORETRADEWORTH, "BeforeTradeWorth", "Worth before A trade", 2, 3, 2, DUP, 0, 0, 0);
     doRes(AFTERTRADEWORTH, "AfterTradeWorth", "Worth after a trade", 2, 3, 2, DUP, 0, 0, 0);
     doRes(TRADEWORTHINCRPERCENT, "TradeWorthIncrPercent", "Percent increase in Worth after trade", 2, 3, 2, SKIPDUP | LIST4 | THISYEARAVE, 0, 0, LIST41 | ROWS3 | CUMUNITS);
-    doRes(TradeAcceptValuePerGoal, "AcceptValuePerGoal%", "Accepted percent value per goal", 2, 3, 2, LIST41 | THISYEARAVE | BOTH | SKIPUNSET, ROWS1 | LIST4YRS | CURAVE | BOTH | SKIPUNSET, ROWS2 | LIST41 | CUMAVE | BOTH | SKIPUNSET, 0L);
-    doRes(TradeRejectValuePerGoal, "RejectValuePerGoal%", "Rejected percent value per goal");
-    doRes(TradeLostValuePerGoal, "LostValuePerGoal%", "Lost percent value per goal");
+    doRes(TradeAcceptValuePerGoal, "AcceptValuePercentGoal", "Accepted value percent of goal", 2, 3, 2, LIST41 | THISYEARAVE | BOTH | SKIPUNSET, ROWS1 | LIST4YRS | CURAVE | BOTH | SKIPUNSET, ROWS2 | LIST41 | CUMAVE | BOTH | SKIPUNSET, 0L);
+    doRes(TradeRejectValuePerGoal, "RejectValuePercentGoal", "Rejected percent value per goal");
+    doRes(TradeLostValuePerGoal, "LostValuePercentGoal", "Lost percent value per goal");
     doRes(TradeFirstStrategicGoal, "FirstStrategicGoal", "First Strategic Goal", 2, 3, 2, LIST41 | THISYEARAVE | BOTH | SKIPUNSET, ROWS1 | LIST4YRS | CURAVE | BOTH | SKIPUNSET, ROWS2 | LIST4YRS | CUMAVE | BOTH | SKIPUNSET, 0L);
     doRes(TradeLastStrategicGoal, "LastStrategicGoal", "Strategic Goal after trade");
     doRes(TradeFirstStrategicValue, "FirstStrategicValue", "First Strategic Value");
@@ -3171,39 +3203,39 @@ class EM {
     doRes(TradeDeadStrategicGoal, "DeadStrategicGoal", "Strategic Goal after trade then died");
     doRes(TradeDeadRejectedStrategicValue, "DeadRejectedStrategicValue", "Strategic Value after trade rejected then died");
     doRes(TradeDeadStrategicValue, "DeadStrategicValue", "Strategic Value after trade then died");
-    doRes(TRADESOS1, "SOS1trade", "Successful trade percent incr worth after starting with SOS1", 2, 3, 2, LIST41 | THISYEARAVE | BOTH | SKIPUNSET, ROWS1 | LIST4YRS | CURAVE | BOTH | SKIPUNSET, 0L, 0L);
-    doRes(TRADESOS2, "SOS2trade", "Successful trade percent incr worth after starting with SOS2");
-    doRes(TRADESOS3, "SOS3trade", "Successful trade percent incr worth after starting with SOS3");
-    doRes(TRADEOSOS1, "HlptdS1Acc", "Helped Successful trade percent incr worth after starting with SOS1", 2, 3, 2, LIST41 | THISYEARAVE | BOTH | SKIPUNSET, ROWS1 | LISTYRS | CUR | BOTH | SKIPUNSET, ROWS2 | LIST4 | CUR | CUM | BOTH | SKIPUNSET, 0L);
-    doRes(TRADEOSOS2, "HlptdS2Acc", "Helped Successful trade percent incr worth after starting with SOS2");
-    doRes(TRADEOSOS3, "HlptdS3Acc", "Helped Successful trade percent incr worth after starting with SOS3");
-    doRes(TRADESOSR1, "TrdSOS1", " trade percent incr worth with SOS1");
-    doRes(TRADESOSR2, "TrdSOS2", " trade percent incr worth with SOS2");
-    doRes(TRADESOSR3, "TrdSOS3", " trade percent incr worth with SOS3");
-    doRes(TRADEOSOSR1, "LstS1", "Other Percent worth increase when lost for a trade with SOS1");
-    doRes(TRADEOSOSR2, "LstS2", "Other Percent worth increase when lost for a trade with SOS2");
-    doRes(TRADEOSOSR3, "LstS3", "Other Percent worth increase when lost for a trade with SOS3");
+    doRes(TRADESOS1, "SOS1tradePercentIncWorth", "Successful trade percent incr worth after starting with SOS1", 2, 3, 2, LIST41 | THISYEARAVE | BOTH | SKIPUNSET, ROWS1 | LIST4YRS | CURAVE | BOTH | SKIPUNSET, 0L, 0L);
+    doRes(TRADESOS2, "SOS2tradePercentIncWorth", "Successful trade percent incr worth after starting with SOS2");
+    doRes(TRADESOS3, "SOS3tradePercentIncWorth", "Successful trade percent incr worth after starting with SOS3");
+    doRes(TRADEOSOS1, "HlptdS1AccPercentIncWorth", "Helped Successful trade percent incr worth after starting with SOS1", 2, 3, 2, LIST41 | THISYEARAVE | BOTH | SKIPUNSET, ROWS1 | LISTYRS | CUR | BOTH | SKIPUNSET, ROWS2 | LIST4 | CUR | CUM | BOTH | SKIPUNSET, 0L);
+    doRes(TRADEOSOS2, "HlptdS2AccPercentIncWorth", "Helped Successful trade percent incr worth after starting with SOS2");
+    doRes(TRADEOSOS3, "HlptdS3AccPercentIncWorth", "Helped Successful trade percent incr worth after starting with SOS3");
+    doRes(TRADESOSR1, "TrdSOS1PercentIncWorth", " trade percent incr worth with SOS1");
+    doRes(TRADESOSR2, "TrdSOS2PercentIncWorth", " trade percent incr worth with SOS2");
+    doRes(TRADESOSR3, "TrdSOS3PercentIncWorth", " trade percent incr worth with SOS3");
+    doRes(TRADEOSOSR1, "LstS1PercentIncWorth", "Other Percent worth increase when lost for a trade with SOS1");
+    doRes(TRADEOSOSR2, "LstS2PercentIncWorth", "Other Percent worth increase when lost for a trade with SOS2");
+    doRes(TRADEOSOSR3, "LstS3PercentIncWorth", "Other Percent worth increase when lost for a trade with SOS3");
 
-    doRes(DTRADEACC, "D Trade Acc", "Percent worth inc/decrease when Dead after trade accepted", 2, 2, 2, LIST3 | CUMUNITS | BOTH | SKIPUNSET, ROWS1 | LIST3 | CUMAVE | BOTH | SKIPUNSET, ROWS2 | LIST3 | THISYEARUNITS | BOTH | SKIPUNSET, 0L);
-    doRes(DTRADEOSOSR1, "DHLPS1", "Percent worth inc/decrease when Dead after help with SOS1");
+    doRes(DTRADEACC, "DTrade AccPercentIncWorth", "Percent worth inc/decrease when Dead after trade accepted", 2, 2, 2, LIST3 | CUMUNITS | BOTH | SKIPUNSET, ROWS1 | LIST3 | CUMAVE | BOTH | SKIPUNSET, ROWS2 | LIST3 | THISYEARUNITS | BOTH | SKIPUNSET, 0L);
+    doRes(DTRADEOSOSR1, "DHLPS1PercentIncWorth", "Percent worth inc/decrease when Dead after help with SOS1");
 
-    doRes(DLOSTSOSR1, "DLOSTSOS1", "Dead after lost trade value with SOS5, Percent Value Incr");
-    doRes(DTRADEOSOSR2, "DHLPS2", "Percent worth inc/decrease when Dead after help with SOS2");
-    doRes(DTRADEOSOSR3, "DHLPS3", "Percent worth inc/decrease when Dead after help with SOS3");
-    doRes(DLOSTOSOSR1, "DLostoS1", "Other Dead after no trade with SOS1, Percent Value Incr", 2, 2, 2, LIST5 | LIST4 | LIST2 | LIST1 | CUMUNITS | BOTH | SKIPUNSET, ROWS1 | LIST3 | CUMAVE | BOTH | SKIPUNSET, ROWS2 | LIST3 | THISYEARUNITS | BOTH | SKIPUNSET, 0L);
-    doRes(DLOSTOSOSR2, "DLostoS2", "Other Dead after no trade with SOS2, Percent Value Incr");
-    doRes(DLOSTOSOSR3, "DLostoS3", "Other Dead after no trade with SOS3, Percent Value Incr");
+    doRes(DLOSTSOSR1, "DLOSTSOS1PercentIncWorth", "Dead after lost trade value with SOS5, Percent Value Incr");
+    doRes(DTRADEOSOSR2, "DHLPS2PercentIncWorth", "Percent worth inc/decrease when Dead after help with SOS2");
+    doRes(DTRADEOSOSR3, "DHLPS3PercentIncWorth", "Percent worth inc/decrease when Dead after help with SOS3");
+    doRes(DLOSTOSOSR1, "DLostoS1PercentIncWorth", "Other Dead after no trade with SOS1, Percent Value Incr", 2, 2, 2, LIST5 | LIST4 | LIST2 | LIST1 | CUMUNITS | BOTH | SKIPUNSET, ROWS1 | LIST3 | CUMAVE | BOTH | SKIPUNSET, ROWS2 | LIST3 | THISYEARUNITS | BOTH | SKIPUNSET, 0L);
+    doRes(DLOSTOSOSR2, "DLostoS2PercentIncWorth", "Other Dead after no trade with SOS2, Percent Value Incr");
+    doRes(DLOSTOSOSR3, "DLostoS3PercentIncWorth", "Other Dead after no trade with SOS3, Percent Value Incr");
 
-    doRes(DTRADESOSR1, "DTradeSOS1R", "Percent worth inc/decrease when Dead after Reject with SOS1");
+    doRes(DTRADESOSR1, "DTradeSOS1RPercentIncWorth", "Percent worth inc/decrease when Dead after Reject with SOS1");
 
     // repeatlists at "W..." at a later point rn 
-    doRes("WTRADEDINCRF5", "incrWFav5Trade", "Percent Years worth increase at Favor5/start year worth", 2, 3, 2, both | SKIPUNSET, ROWS1 | LIST41 | CURAVE | BOTH | SKIPUNSET, ROWS2 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS3 | THISYEARAVE | BOTH | SKIPUNSET);
-    doRes("WTRADEDINCRF4", "incrWFav4Trade", "Percent Years worth increase at Favor4/start year worth", 2, 3, 2, DUP, 0, 0, 0);
-    doRes("WTRADEDINCRF3", "incrWFav3Trade", "Percent Years worth increase at Favor3/start year worth", 2, 3, 2, DUP, 0, 0, 0);
-    doRes("WTRADEDINCRF2", "incrWFav2Trade", "Percent Years worth increase at Favor2/start year worth", 2, 3, 2, DUP, 0, 0, 0);
-    doRes("WTRADEDINCRF1", "incrWFav1Trade", "Years worth increase at Favor1/start year worth", 2, 3, 2, DUP, 0, 0, 0);
-    doRes("WTRADEDINCRF0", "incrWFav0Trade", "Percent Years worth increase at Favor0/start year worth", 2, 3, 2, DUP, 0, 0, 0);
-    doRes(WTRADEDINCRMULT, "incrWTrade", "Percent Years worth increase at total trades this year/start year worth part of scoring ", 2, 3, 2, LIST41 | CURAVE | BOTH | SKIPUNSET, 0, 0, 0);
+    doRes("WTRADEDINCRF5", "Fav5TrdPercentIncWorth", "Percent Years worth increase at Favor5/start year worth", 2, 3, 2, both | SKIPUNSET, ROWS1 | LIST41 | CURAVE | BOTH | SKIPUNSET, ROWS2 | THISYEARUNITS | BOTH | SKIPUNSET, ROWS3 | THISYEARAVE | BOTH | SKIPUNSET);
+    doRes("WTRADEDINCRF4", "Fav4TrdPercentIncWorth", "Percent Years worth increase at Favor4/start year worth", 2, 3, 2, DUP, 0, 0, 0);
+    doRes("WTRADEDINCRF3", "Fav3TrdPercentIncWorth", "Percent Years worth increase at Favor3/start year worth", 2, 3, 2, DUP, 0, 0, 0);
+    doRes("WTRADEDINCRF2", "Fav2TrdPercentIncWorth", "Percent Years worth increase at Favor2/start year worth", 2, 3, 2, DUP, 0, 0, 0);
+    doRes("WTRADEDINCRF1", "Fav1TrdPercentIncWorth", "Years worth increase at Favor1/start year worth", 2, 3, 2, DUP, 0, 0, 0);
+    doRes("WTRADEDINCRF0", "Fav0TrdPercentIncWorth", "Percent Years worth increase at Favor0/start year worth", 2, 3, 2, DUP, 0, 0, 0);
+    doRes(WTRADEDINCRMULT, "TrdPercentIncWorth", "Percent Years worth increase at total trades this year/start year worth part of scoring ", 2, 3, 2, LIST41 | CURAVE | BOTH | SKIPUNSET, 0, 0, 0);
     doRes(WTRADEDINCRSOS, "incrWSOSTrade", "Percent Years worth increase at an planet SOS flag trade this year/start year worth", 2, 3, 2, LIST41 | CURAVE | BOTH | SKIPUNSET, 0, 0, 0);
     doRes("WREJTRADEDPINCR", "incrWRejectedTrade", "Percent Worth incr if the other had notrejected the trade/start yr worth", 2, 3, 2, DUP, 0, 0, 0);
     doRes("WLOSTTRADEDINCR", "incrWLostTrade", "Percent Worth incr if other rejected the trade/start yr worth", 2, 3, 2, DUP, 0, 0, 0);
@@ -3239,9 +3271,9 @@ class EM {
     doRes(SWAPSDECRCOST, "Swap SDecr Cost", "Fraction of S Decr swap cost/sum of S units", 2, 2, 1);
     doRes(SWAPRXFERCOST, "Swap RXfer Cost", "Fraction of R XFER swap cost/sum of R units", 2, 2, 1);
     doRes(SWAPSXFERCOST, "Swap SXfer Cost", "Fraction of S XFER swap cost/sum of R units", 2, 2, 1);
-    doRes("EmergFF", "EmergFF", "emergency resource/staff sums tranfer resource to FutureFund", 2, 2, 1,  LIST6 | LIST2 | THISYEAR | BOTH | SKIPUNSET, 0,ROWS1 | LIST6 | LISTYRS | SKIPUNSET  | BOTH | CUR  , ROWS2|  LIST6 | CUM | BOTH | SKIPUNSET);
+    doRes("EmergFF", "EmergFF", "emergency resource/staff sums tranfer resource to FutureFund", 2, 2, 1,  LIST2 | LIST6 | THISYEAR | BOTH | SKIPUNSET, ROWS1 | LISTYRS | SKIPUNSET  | BOTH | CUR  , ROWS2|  LIST6 | CUM |  CUMUNITS | BOTH | SKIPUNSET,0);
     doRes("SizeFF", "SizeFF", "Size resource/staff sums tranfer resource to FutureFund");
-    doRes("FutureFundSaved", "FutureFundsSaved", "Total resource/staff sums tranfered to FutureFund");
+    doRes("FutureFundSaved", "FutureFundsSaved", "Total resource/staff sums tranfered to FutureFund", 2, 2, 1,  LIST2 | THISYEAR | BOTH | SKIPUNSET,ROWS1  | SKIPUNSET  | BOTH   , ROWS2|  LIST6 | CUM | BOTH | SKIPUNSET, 0);
     doRes("FutureFund", "Redo FutureFund", "At emergency1 level of resource/staff back out of a saved future fund");
     doRes("EmergFF1", "Emerg FutureFund1", "At emergency1 level of resource/staff neg prospects val to FutureFund");
     doRes("REmergFF1", "R Emerg FutureFund1", "At emergency1 level of resource/staff sums tranfser val to FutureFund");;
@@ -4503,10 +4535,36 @@ class EM {
      rtn += ((ops & THISYEAR) > 0 ? " thisYear":"");
      rtn += ((ops & THISYEARUNITS) > 0 ? " thisYearUnits":"");
      rtn += ((ops & THISYEARAVE) > 0 ? " thisYearAve":"");
-     
-     
      return rtn;
    }
+     int c = 0,myRow=0,myLock=0,myAgeIx=0;
+      long depth = -2, listMatch = 0, prevListMatch = 0, hLMp = 0, myValid = 0;
+      //long haveRows = 0L;
+      /** test whether to output this special line of output
+       * 
+       * @param myCmd the cmd being proessed
+       * @return true if a print done
+       */
+      private boolean ifPutRow6(String myCmd){
+        if( (resS[c][rDesc].contentEquals("EmergFF")  ) && ( (haveListsMatch & LIST6) > 0 ) ){
+            if (putRowsPrint6Count  < 20 || 
+                (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
+              System.out.flush();
+               System.out.printf("EM.putrow6" + myCmd + "  rn=" + myRn + ", " + resS[myRn][0] + ", row=" + myRow + 
+                      ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet") + 
+                      ", lock#" + myLock + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6: "??") + 
+                      ", ops=" +  getOpsNames(haveCmdMatch) + 
+                      ", depth=" + depth  +  ", valid" + valid + ", ageIx" + myAgeIx + 
+                              ", cum00=" + resI[myRn][ICUM][0][0] + 
+                              ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count  + " \n");
+               return true;
+            }
+             
+            }
+        
+        return false;
+      }
+              
   /**
    * possibly put a row into table if the key aop matches a lock in rn
    *
@@ -4521,7 +4579,9 @@ class EM {
    */
   private int putRows2(JTable table, String[] resExt, int rn, int row, long aop, long allLocks,int ageIx) {
     myRn = rn;
+    myRow = row;
     myAop = aop;
+    myAgeIx = ageIx;
     if (E.debugPutRowsOut) {
       if (putRowsPrint3Count++ < 12) {
         System.out.println(">>>>>>putRows3 count=" + putRowsPrint3Count + " rn=" + rn + " row=" + row + ", rende4=" + rende4 + "," + rendae4 + " <<<<<<");
@@ -4548,9 +4608,7 @@ class EM {
       if (haveAllOpsMatch == 0L || haveListsMatch == 0L) { // check if EM rn missing list or do (command)
         return row;
       }
-      int c = 0;
-      long depth = -2, listMatch = 0, prevListMatch = 0, hLMp = 0, myValid = 0;
-      long haveRows = 0L;
+
       didSum = false; // initialize didSum, remember sum across locks
       // process each LOCKS0-3 thru each command and list not zero
       // use previous hlMp (LISTs) if this lock has no list
@@ -4562,6 +4620,7 @@ class EM {
       int rowAtStart = row;
       // printing done now move through the 4 locks
       for (int d = 0; d < 4; d++) {
+        myLock = d;
         // check for a LISTx match put in prevListMatch
         prevListMatch = (long) (aop & res2[ICUM][CCONTROLD][LOCKS0 + d]) & lmask;
         //look for ROWS1 ROWS2 ROWS3
@@ -4611,19 +4670,7 @@ class EM {
 
           //   if ((resS[rn][rDesc].contains("WORTH") || resS[rn][rDesc].contains("KNOWLEDGE") || resS[rn][rDesc].contains("Create") || lla || ((putRowsPrint6Count % 75) == 0 )) && (putRowsPrint6Count < 200)) {
           if (E.debugPutRowsOut6) {
-if( (resS[rn][rDesc].contains("Score")  ) ){
-            if (putRowsPrint6Count++ < 20 || 
-                (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-
-              System.out.flush();
-              System.out.printf("EM.putrow6Start rn=%d %s, row=%d, isset=%s ,lock#%d ,list%d, ops=%s, depth=%d, valid%d, ageIx%d, cum00=%d, rende4=%d,%d, putRowsPrint6Count= %d" + " \n", rn, resS[rn][0],row,(myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet"),  d, ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST3) > 0 ? 3 : "??"),getOpsNames(haveCmdMatch), depth, valid, ageIx, resI[rn][ICUM][0][0], rende4, rendae4,putRowsPrint6Count );
-            }
-             if (false && (resS[rn][rDesc].contains("Score") || resS[rn][rDesc].contains("WORTH") || resS[rn][rDesc].contains("KNOWLEDGE") || resS[rn][rDesc].contains("Create") || true) && (putRowsPrint7Count < 30)) {
-              System.out.flush();
-              System.out.printf("EM.putrow7=%d rn=%d, %s,  %s,list%d, depth%d, valid%d, ageIx%d  isSet=%s \n", putRowsPrint7Count++, rn, resS[rn][0] , (haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & list2) > 0 ? 2 : -1, depth, valid, ageIx, (myUnset ? myCumUnset ? "CumUnSet" : "UNSET" :  "isSet"));
-              //  System.out.println("rWORTH putrow =" + row + " haveListsMatch=" + Integer.toOctalString(haveListsMatch) + ((haveListsMatch & list0) > 0 ? " list0" : "") + ((haveListsMatch & list1) > 0 ? " list1" : "") + ((haveListsMatch & list2) > 0 ? " list2" : ""));
-            }
-            }
+            if(ifPutRow6("start")) { putRowsPrint6Count++; }
           }
           if (unset) {
             suffix = " curYr:";
@@ -4639,14 +4686,7 @@ if( (resS[rn][rDesc].contains("Score")  ) ){
               row = putRowInTable(table, resExt, rn, cur, row, suffix, ageIx);
             }
             if (E.debugPutRowsOut6) {
-              if( (resS[rn][rDesc].contains("Score")  ) ){
-            if (putRowsPrint6Count < 20 || 
-                (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-              System.out.flush();
-              System.out.printf("EM.putrow6cur rn=%d %s, row=%d, isset=%s ,lock#%d ,list%d, ops=%s, depth=%d, valid%d, ageIx%d, cum00=%d, rende4=%d,%d, putRowsPrint6Count= %d" + " \n", rn, resS[rn][0],row,(myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet"),  d, ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST3) > 0 ? 3 : "??"),getOpsNames(haveCmdMatch), depth, valid, ageIx, resI[rn][ICUM][0][0], rende4, rendae4,putRowsPrint6Count );
-            }
-             
-            }
+              ifPutRow6("cur");
           }
           } 
           // do not process thisYear if cur was already processed
@@ -4656,14 +4696,7 @@ if( (resS[rn][rDesc].contains("Score")  ) ){
             lEnd = 1;
             row = putRowInTable(table, resExt, rn, thisYr, row, suffix, ageIx);
                         if (E.debugPutRowsOut6) {
-                          if( (resS[rn][rDesc].contains("Score")  ) ){
-            if (putRowsPrint6Count  < 20 || 
-                (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-              System.out.flush();
-              System.out.printf("EM.putrow6ThisYr rn=%d %s, row=%d, isset=%s ,lock#%d ,list%d, ops=%s, depth=%d, valid%d, ageIx%d, cum00=%d, rende4=%d,%d, putRowsPrint6Count= %d" + " \n", rn, resS[rn][0],row,(myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet"),  d, ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST3) > 0 ? 3 : "??"),getOpsNames(haveCmdMatch), depth, valid, ageIx, resI[rn][ICUM][0][0], rende4, rendae4,putRowsPrint6Count );
-            }
-             
-            }
+                         ifPutRow6("thisYr");
           }
           }
 
@@ -4680,11 +4713,17 @@ if( (resS[rn][rDesc].contains("Score")  ) ){
               row = putRowInTable(table, resExt, rn, curUnitAve, row, suffix, ageIx);
             }
                           if (E.debugPutRowsOut6) {
-                            if( (resS[rn][rDesc].contains("Score")  ) ){
+                            if( (resS[rn][rDesc].contentEquals("EmergFF")  ) && ( (haveListsMatch & LIST6) > 0 ) ){
             if (putRowsPrint6Count  < 20 || 
                 (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
               System.out.flush();
-              System.out.printf("EM.putrow6curUnitAve rn=%d %s, row=%d, isset=%s ,lock#%d ,list%d, ops=%s, depth=%d, valid%d, ageIx%d, cum00=%d, rende4=%d,%d, putRowsPrint6Count= %d" + " \n", rn, resS[rn][0],row,(myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet"),  d, ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST3) > 0 ? 3 : "??"),getOpsNames(haveCmdMatch), depth, valid, ageIx, resI[rn][ICUM][0][0], rende4, rendae4,putRowsPrint6Count );
+               System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row + 
+                      ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet") + 
+                      ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6: "??") + 
+                      ", ops=" +  getOpsNames(haveCmdMatch) + 
+                      ", depth=" + depth  +  ", valid" + valid + ", ageIx" + ageIx + 
+                              ", cum00=" + resI[rn][ICUM][0][0] + 
+                              ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count  + " \n");
             }
              
             }
@@ -4700,11 +4739,17 @@ if( (resS[rn][rDesc].contains("Score")  ) ){
             lEnd = 1;
             row = putRowInTable(table, resExt, rn, thisYearUnitAve, row, suffix, ageIx);
                        if (E.debugPutRowsOut6) {
-                         if( (resS[rn][rDesc].contains("Score")  ) ){
+                         if( (resS[rn][rDesc].contentEquals("EmergFF")  ) && ( (haveListsMatch & LIST6) > 0 ) ){
             if (putRowsPrint6Count < 20 || 
                 (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
               System.out.flush();
-              System.out.printf("EM.putrow6ThisYrUAve rn=%d %s, row=%d, isset=%s ,lock#%d ,list%d, ops=%s, depth=%d, valid%d, ageIx%d, cum00=%d, rende4=%d,%d, putRowsPrint6Count= %d" + " \n", rn, resS[rn][0],row,(myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet"),  d, ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST3) > 0 ? 3 : "??"),getOpsNames(haveCmdMatch), depth, valid, ageIx, resI[rn][ICUM][0][0], rende4, rendae4,putRowsPrint6Count );
+              System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row + 
+                      ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet") + 
+                      ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6: "??") + 
+                      ", ops=" +  getOpsNames(haveCmdMatch) + 
+                      ", depth=" + depth  +  ", valid" + valid + ", ageIx" + ageIx + 
+                              ", cum00=" + resI[rn][ICUM][0][0] + 
+                              ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count  + " \n");
             }
              
             }
@@ -4712,11 +4757,17 @@ if( (resS[rn][rDesc].contains("Score")  ) ){
           }
 
             if (E.debugPutRowsOut6) {
-                          if( (resS[rn][rDesc].contains("Score")  ) ){
+                          if( (resS[rn][rDesc].contentEquals("EmergFF")  ) && ( (haveListsMatch & LIST6) > 0 ) ){
             if (putRowsPrint6Count < 20 || 
                 (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
               System.out.flush();
-              System.out.printf("EM.putrow6preCum rn=%d %s, row=%d, isset=%s , %s match %s, lock#%d ,list%d, ops=%s, depth=%d, valid%d, ageIx%d, cum00=%d, rende4=%d,%d, putRowsPrint6Count= %d" + " \n",rn, resS[rn][0],row,(myUnset ? myCumUnset ? "CumUnset" : "unset" : myCumUnset ? "unCumSet" :  "isSet"),(((haveCmdMatch & cum) > 0L)  ? "do":"no"),  ((!myCumUnset && (haveCmdMatch & cum) > 0L) ? "yes" : "no"), d, ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST3) > 0 ? 3 : "??"),getOpsNames(haveCmdMatch), depth, valid, ageIx, resI[rn][ICUM][0][0], rende4, rendae4,putRowsPrint6Count );
+               System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row + 
+                      ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet") + 
+                      ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6: "??") + 
+                      ", ops=" +  getOpsNames(haveCmdMatch) + 
+                      ", depth=" + depth  +  ", valid" + valid + ", ageIx" + ageIx + 
+                              ", cum00=" + resI[rn][ICUM][0][0] + 
+                              ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count  + " \n");
             }
              
             }
@@ -4727,11 +4778,17 @@ if( (resS[rn][rDesc].contains("Score")  ) ){
             lEnd = 1;
             row = putRowInTable(table, resExt, rn, cum, row, suffix, ageIx);
                         if (E.debugPutRowsOut6) {
-                          if( (resS[rn][rDesc].contains("Score")  ) ){
+                          if( (resS[rn][rDesc].contentEquals("EmergFF")  ) && ( (haveListsMatch & LIST6) > 0 ) ){
             if (putRowsPrint6Count < 20 || 
                 (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
               System.out.flush();
-              System.out.printf("EM.putrow6cum rn=%d %s, row=%d, isset=%s ,lock#%d ,list%d, ops=%s, depth=%d, valid%d, ageIx%d, cum00=%d, rende4=%d,%d, putRowsPrint6Count= %d" + " \n", rn, resS[rn][0],row,(myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet"),  d, ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST3) > 0 ? 3 : "??"),getOpsNames(haveCmdMatch), depth, valid, ageIx, resI[rn][ICUM][0][0], rende4, rendae4,putRowsPrint6Count );
+               System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row + 
+                      ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet") + 
+                      ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6: "??") + 
+                      ", ops=" +  getOpsNames(haveCmdMatch) + 
+                      ", depth=" + depth  +  ", valid" + valid + ", ageIx" + ageIx + 
+                              ", cum00=" + resI[rn][ICUM][0][0] + 
+                              ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count  + " \n");
             }
              
             }
@@ -4739,11 +4796,17 @@ if( (resS[rn][rDesc].contains("Score")  ) ){
           }
           
             if (E.debugPutRowsOut6) {
-                          if( (resS[rn][rDesc].contains("Score")  ) ){
+                          if( (resS[rn][rDesc].contentEquals("EmergFF")  ) && ( (haveListsMatch & LIST6) > 0 ) ){
             if (putRowsPrint6Count < 20 || 
                 (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
               System.out.flush();
-              System.out.printf("EM.putrow6preCumU rn=%d %s, row=%d, isset=%s ,lock#%d ,list%d, ops=%s, depth=%d, valid%d, ageIx%d, cum00=%d, rende4=%d,%d, putRowsPrint6Count= %d" + " \n", rn, resS[rn][0],row,(myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet"),  d, ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST3) > 0 ? 3 : "??"),getOpsNames(haveCmdMatch), depth, valid, ageIx, resI[rn][ICUM][0][0], rende4, rendae4,putRowsPrint6Count );
+              System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row + 
+                      ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet") + 
+                      ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6: "??") + 
+                      ", ops=" +  getOpsNames(haveCmdMatch) + 
+                      ", depth=" + depth  +  ", valid" + valid + ", ageIx" + ageIx + 
+                              ", cum00=" + resI[rn][ICUM][0][0] + 
+                              ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count  + " \n");
             }
              
             }
@@ -4755,11 +4818,17 @@ if( (resS[rn][rDesc].contains("Score")  ) ){
             lEnd = 1;
             row = putRowInTable(table, resExt, rn, cumUnits, row, suffix, ageIx);
                         if (E.debugPutRowsOut6) {
-                          if( (resS[rn][rDesc].contains("Score")  ) ){
+                          if( (resS[rn][rDesc].contentEquals("EmergFF")  ) && ( (haveListsMatch & LIST6) > 0 ) ){
             if (putRowsPrint6Count < 20 || 
                 (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
               System.out.flush();
-              System.out.printf("EM.putrow6cumUnits rn=%d %s, row=%d, isset=%s ,lock#%d ,list%d, ops=%s, depth=%d, valid%d, ageIx%d, cum00=%d, rende4=%d,%d, putRowsPrint6Count= %d" + " \n", rn, resS[rn][0],row,(myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet"),  d, ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST3) > 0 ? 3 : "??"),getOpsNames(haveCmdMatch), depth, valid, ageIx, resI[rn][ICUM][0][0], rende4, rendae4,putRowsPrint6Count );
+               System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row + 
+                      ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet") + 
+                      ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6: "??") + 
+                      ", ops=" +  getOpsNames(haveCmdMatch) + 
+                      ", depth=" + depth  +  ", valid" + valid + ", ageIx" + ageIx + 
+                              ", cum00=" + resI[rn][ICUM][0][0] + 
+                              ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count  + " \n");
             }
              
             }
@@ -4771,11 +4840,17 @@ if( (resS[rn][rDesc].contains("Score")  ) ){
             lEnd = 1;
             row = putRowInTable(table, resExt, rn, cumUnitAve, row, suffix, ageIx);
                         if (E.debugPutRowsOut6) {
-                         if( (resS[rn][rDesc].contains("Score")  ) ){
+                         if( (resS[rn][rDesc].contentEquals("EmergFF")  ) && ( (haveListsMatch & LIST6) > 0 ) ){
             if (putRowsPrint6Count < 20 || 
                 (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
               System.out.flush();
-              System.out.printf("EM.putrow6cumUnitAve rn=%d %s, row=%d, isset=%s ,lock#%d ,list%d, ops=%s, depth=%d, valid%d, ageIx%d, cum00=%d, rende4=%d,%d, putRowsPrint6Count= %d" + " \n", rn, resS[rn][0],row,(myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet"),  d, ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST3) > 0 ? 3 : "??"),getOpsNames(haveCmdMatch), depth, valid, ageIx, resI[rn][ICUM][0][0], rende4, rendae4,putRowsPrint6Count );
+               System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row + 
+                      ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet") + 
+                      ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6: "??") + 
+                      ", ops=" +  getOpsNames(haveCmdMatch) + 
+                      ", depth=" + depth  +  ", valid" + valid + ", ageIx" + ageIx + 
+                              ", cum00=" + resI[rn][ICUM][0][0] + 
+                              ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count  + " \n");
             }
              
             }
@@ -4789,11 +4864,17 @@ if( (resS[rn][rDesc].contains("Score")  ) ){
               lEnd = m + 1;
               row = putRowInTable(table, resExt, rn, curUnits, row, suffix, ageIx);
                           if (E.debugPutRowsOut6) {
-                            if( (resS[rn][rDesc].contains("Score")  ) ){
+                           if( (resS[rn][rDesc].contentEquals("EmergFF")  ) && ( (haveListsMatch & LIST6) > 0 ) ){
             if (putRowsPrint6Count < 20 || 
                 (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
               System.out.flush();
-              System.out.printf("EM.putrow6curUnits rn=%d %s, row=%d, isset=%s ,lock#%d ,list%d, ops=%s, depth=%d, valid%d, ageIx%d, cum00=%d, rende4=%d,%d, putRowsPrint6Count= %d" + " \n", rn, resS[rn][0],row,(myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet"),  d, ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST3) > 0 ? 3 : "??"),getOpsNames(haveCmdMatch), depth, valid, ageIx, resI[rn][ICUM][0][0], rende4, rendae4,putRowsPrint6Count );
+               System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row + 
+                      ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet") + 
+                      ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6: "??") + 
+                      ", ops=" +  getOpsNames(haveCmdMatch) + 
+                      ", depth=" + depth  +  ", valid" + valid + ", ageIx" + ageIx + 
+                              ", cum00=" + resI[rn][ICUM][0][0] + 
+                              ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count  + " \n");
             }
              
             }
@@ -4809,33 +4890,51 @@ if( (resS[rn][rDesc].contains("Score")  ) ){
             lEnd = 1;
             row = putRowInTable(table, resExt, rn, thisYearUnits, row, suffix, ageIx);
                         if (E.debugPutRowsOut6) {
-                          if( (resS[rn][rDesc].contains("Score")  ) ){
+                          if( (resS[rn][rDesc].contentEquals("EmergFF")  ) && ( (haveListsMatch & LIST6) > 0 ) ){
             if (putRowsPrint6Count < 20 || 
                 (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
      
               System.out.flush();
-              System.out.printf("EM.putrow6thisYrU rn=%d %s, row=%d, isset=%s ,lock#%d ,list%d, ops=%s, depth=%d, valid%d, ageIx%d, cum00=%d, rende4=%d,%d, putRowsPrint6Count= %d" + " \n", rn, resS[rn][0],row,(myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet"),  d, ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST3) > 0 ? 3 : "??"),getOpsNames(haveCmdMatch), depth, valid, ageIx, resI[rn][ICUM][0][0], rende4, rendae4,putRowsPrint6Count );
+               System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row + 
+                      ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet") + 
+                      ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6: "??") + 
+                      ", ops=" +  getOpsNames(haveCmdMatch) + 
+                      ", depth=" + depth  +  ", valid" + valid + ", ageIx" + ageIx + 
+                              ", cum00=" + resI[rn][ICUM][0][0] + 
+                              ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count  + " \n");
             }
              
             }
           }
           }
                     if (E.debugPutRowsOut6) {
-                      if( (resS[rn][rDesc].contains("Score")  ) ){
+                      if( (resS[rn][rDesc].contentEquals("EmergFF")  ) && ( (haveListsMatch & LIST6) > 0 ) ){
             if (putRowsPrint6Count < 20 || 
                 (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
           
               System.out.flush();
-              System.out.printf("EM.putrow6InnerEnd  rn=%d %s, row=%d, isset=%s ,lock#%d ,list%d, ops=%s, depth=%d, valid%d, ageIx%d, cum00=%d, rende4=%d,%d, putRowsPrint6Count= %d" + " \n", rn, resS[rn][0],row,(myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet"),  d, ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST3) > 0 ? 3 : "??"),getOpsNames(haveCmdMatch), depth, valid, ageIx, resI[rn][ICUM][0][0], rende4, rendae4,putRowsPrint6Count );
+               System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row + 
+                      ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet") + 
+                      ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6: "??") + 
+                      ", ops=" +  getOpsNames(haveCmdMatch) + 
+                      ", depth=" + depth  +  ", valid" + valid + ", ageIx" + ageIx + 
+                              ", cum00=" + resI[rn][ICUM][0][0] + 
+                              ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count  + " \n");
             }
         }
                     }
                     if (E.debugPutRowsOut6) { // after last process
-                      if( (resS[rn][rDesc].contains("Score")  ) ){
+                      if( (resS[rn][rDesc].contentEquals("EmergFF")  ) && ( (haveListsMatch & LIST6) > 0 ) ){
             if (putRowsPrint6Count < 20 || 
                 (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {       
               System.out.flush();
-              System.out.printf("EM.putrow6LEnd  rn=%d %s, row=%d, isset=%s ,lock#%d ,list%d, ops=%s, depth=%d, valid%d, ageIx%d, cum00=%d, rende4=%d,%d, putRowsPrint6Count= %d" + " \n", rn, resS[rn][0],row,(myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet"),  d, ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST3) > 0 ? 3 : "??"),getOpsNames(haveCmdMatch), depth, valid, ageIx, resI[rn][ICUM][0][0], rende4, rendae4,putRowsPrint6Count );
+               System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row + 
+                      ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet") + 
+                      ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6: "??") + 
+                      ", ops=" +  getOpsNames(haveCmdMatch) + 
+                      ", depth=" + depth  +  ", valid" + valid + ", ageIx" + ageIx + 
+                              ", cum00=" + resI[rn][ICUM][0][0] + 
+                              ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count  + " \n");
             } 
             }
           }
@@ -4903,7 +5002,8 @@ if( (resS[rn][rDesc].contains("Score")  ) ){
     double sums;
     dFrac.setMaximumFractionDigits(doUnits || doPower > 0 ? 0 : (int) resI[rn][ICUM][CCONTROLD][IFRACS]);
     dd[1] = doSum ? sum : getS; // force D1 request to sum for second round
-    if (doPower > 0) {
+    detail += ":: " + suffix;
+    if (doPower > 0 && ((aop1 & (THISYEARAVE | CURAVE | CUMAVE | THISYEAR | CUR | CUM)) > 0L) ) {
       detail += "/n powers mean the number display should have " + doPower + " zero digits added before the period";
 
     }
@@ -5625,9 +5725,9 @@ if( (resS[rn][rDesc].contains("Score")  ) ){
     winner = scoreVals(TRADELASTGAVE, iGiven, ICUM, isI);
     winner = scoreVals(TRADELASTGAVE, wGiven, ICUM, isV);
     winner = scoreVals(TRADENOMINALGAVE, wGiven2, ICUM, isV);
-    winner = scoreVals(TradeLastStrategicValue, wGenerous, ICUM, isAve);
+    winner = scoreVals(TRADESTRATLASTGAVE, wGenerous, ICUM, isV);//%given
     winner = scoreVals(LIVEWORTH, wLiveWorthScore, ICUM, isV);
-    winner = scoreVals(LIVEWORTH, iLiveWorthScore, ICUR0, isI);  //TradeLastStrategicValue
+    winner = scoreVals(LIVEWORTH, iLiveWorthScore, ICUR0, isI); 
     winner = scoreVals(WTRADEDINCRMULT, wYearTradeV, ICUR0, isV);
    // winner = scoreVals(WTRADEDINCRMULT, wYearTradeI, ICUR0, isI);
     winner = scoreVals(DIED, iNumberDied, ICUM, isI);
