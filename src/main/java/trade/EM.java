@@ -1105,7 +1105,7 @@ class EM {
    */
   //3/15/15 more staff  public static double[] fracPriorityInGrowth = {.5, .5};  //mult priority in growth calc
   static Double minRand = .1;
-  double[] fracBiasInGrowth = {.2, .2};
+  double[] fracBiasInGrowth = {.22, .22};
   static double[][] mFracBiasInGrowth = {{.02, .9}, {.02, .9}};
   double[] fracPriorityInGrowth = {.6, .5};  //mult priority in growth calc and percent to frac
   static final double[][] mFracPriorityInGrowth = {{.1, .9}, {.1, .9}};
@@ -1128,7 +1128,7 @@ class EM {
   static final double[][] mGuestsGrowth = {{0.0000001, 0.00009}, {0.000000001, 0.0000009}};
   static double[][][] mRCSGGrowth = {mResourceGrowth, mCargoGrowth, mStaffGrowth, mGuestsGrowth};
   // growth is in terms of staff units, decay is in term of previous yr growth
-  double[][] assetsGrowth = {resourceGrowth, cargoGrowth, staffGrowth, guestsGrowth};
+  double[][] assetsUnitGrowth = {resourceGrowth, cargoGrowth, staffGrowth, guestsGrowth};
   double[][] growthDecay = {resourceGrowthDecay, resourceGrowthDecay, staffGrowthDecay, staffGrowthDecay};
   double[][] mfracBiasInGrowth = {{.1, .3}, {.1, .3}};
   double[][] mfracPriorityInGrowth = {{.3, .7}, {.3, .7}};  //mult priority in growth calc and percent to frac
@@ -3010,23 +3010,23 @@ class EM {
     doRes(MISSINGNAME, "missing name", "tried an unknown name", 6, 0, list0 | cumUnits | curUnits | curAve | cumAve | both, 0, 0, 0);
     // doRes(DIED, "died", "planets or ships died for any cause",2,2,3,0L,ROWS1 | LIST0 | LIST3 | LISTYRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |  LIST0 | LIST2 | LIST3  | CUMUNITS | BOTH | SKIPUNSET,0L);
     doRes(DIEDPERCENT, "DIED %", "Percent planets or ships died", 2, 2, 3, ROWS1 | LIST3 | LISTYRS | THISYEARAVE | BOTH | SKIPUNSET, ROWS2 | LIST3 | CUMAVE | BOTH | SKIPUNSET, 0L, 0L);
-    doRes(DIEDCATASTROPHY, "DiedAfterCrisis", "Died after catastrophy percent worth would have increased", 2, 2, 3, ROWS1 | LIST3 | CUMUNITS | BOTH | SKIPUNSET, ROWS2 |  LIST3 | BOTH | THISYEARUNITS | SKIPUNSET, 0L, 0L);
-    doRes(DIEDSN4, "DIEDSN4", "died s min(3) or 4 staff lt 0");
-    doRes(DIEDRN4, "DIEDRN3", "died 4 resource lt 0");
+    doRes(DIEDCATASTROPHY, "DiedAfterCrisis", "Died after catastrophy percent worth would have increased", 1, 1, 3, ROWS1 | LIST3YRS | CUMUNITS | BOTH | SKIPUNSET,0, 0L, 0L);
+    doRes(DIEDSN4, "DIEDSN4", "died s min(3) lt 0");
+    doRes(DIEDRN4, "DIEDRN3", "died resource min(2) lt 0");
     doRes(DIEDSN4RM3X5, " DIEDSN4RM3X5", "died 4 r lt 0, && max3 r gt 5 times max3 s");
     doRes(DIEDSN4RM3X4, "DIEDSN4RM3X4", "died 4 r lt 0, && max3 r gt 4 Times max3 s");
     doRes(DIEDSM3X5, "DIEDSM3X5", "died max3 s gt 5 times max3 r");
     doRes(DIEDSN4RN4, "DIEDSN4RN4", "died 4s lt 0 and 4r lt 0");
-    doRes(DIEDRM3X4, "DIEDRM3X4", "died max3 of r gt 4 times max3 of s");
-    doRes(DIEDSN3RN3, "diedSN3RN3", "died 3 s lt 0 and 3 r lt 0");
-    doRes(DIEDSN3RN2, "DIEDSN3RN2", "died 3 s lt 0 and 2 r lt 0");
-    doRes(DIEDSN3RM3X4, "DIEDSN3RM3X4", "died 3 s lt 0 and r max3 gt 4 times s max3");
-    doRes(DIEDSN3RM3X3, "DIEDSN3RM3X3", "died 3 S lt 0 & r max3 gt 3 times s max3");
-    doRes(DIEDSN3RN1, "DIEDSN3RN1", "died");
-    doRes(DIEDSN3RM3X2, "DIEDSN3RM3X2", "died");
-    doRes(DIEDSN3RM3X1, "DIEDSN3RM3X1", "died");
-    doRes(DIEDSN3RM2X4, "DIEDSN3RM2X4", "died");
-    doRes(DIEDSN3RM2X3, "DIEDSN3RM2X3", "died");
+    doRes(DIEDRM3X4, "DIEDRM3X4", "died r much too large max3 of r gt 4 times max3 of s");
+    doRes(DIEDSN3RN3, "diedSN3RN3", "died s.min3 lt 0 and r.min3 lt 0");
+    doRes(DIEDSN3RN2, "DIEDSN3RN2", "died s.min3 lt 0 and r.min2lt 0");
+    doRes(DIEDSN3RM3X4, "DIEDSN3RM3X4", "died s.min3 lt 0 and r max2 gt 4 times s max2");
+    doRes(DIEDSN3RM3X3, "DIEDSN3RM3X3", "died s min3 lt 0 & r max3 gt 3 times s max3");
+    doRes(DIEDSN3RN1, "DIEDSN3RN1", "died s min2 lt 0 & r min1 lt 0");
+    doRes(DIEDSN3RM3X2, "DIEDSN3RM3X2", "died s min3 < 0 and r max3 2 times s max3");
+    doRes(DIEDSN3RM3X1, "DIEDSN3RM3X1", "died s min3 and r max3 1 times s max3");
+    doRes(DIEDSN3RM2X4, "DIEDSN3RM2X4", "died s min3 and r max2 4 times s max2");
+    doRes(DIEDSN3RM2X3, "DIEDSN3RM2X3", "died s min 3 and r max2 3times s max2");
     doRes(DIEDSN3RM2X2, "DIEDSN3RM2X2", "died");
     doRes(DIEDSN3RM2X1, "DIEDSN3RM2X1", "died");
     doRes(DIEDSN3RM1X4, "DIEDSN3RM1X4", "died");
@@ -3098,7 +3098,7 @@ class EM {
     doRes(DIEDSM1X3RN1, "DIEDSM1X3RN1", "died s max1 > 3 * r max, r min1 is neg try reduce difficulty or staff or resource costs.");
     doRes(DIEDSM1X2RN1, "DIEDSM1X2RN1",  "died s max1 > 2 * r max, r min1 is neg try reduce difficulty or staff or resource costs.");
     doRes(DIEDSN1RM1X1, "DIEDSN1RM1X1",  "died s max1 > 1 * r max, r min1 is neg try reduce difficulty or staff or resource costs.");
-    doRes("DeadNegN", "DeadNegSwapN", "Dead Swaps never entered", 2, 2, 3, ROWS1 |  LIST3 | CUMUNITS | CUMAVE | BOTH | SKIPUNSET, ROWS3 | LIST3 | THISYEARUNITS | BOTH | SKIPUNSET, 0L, 0L);
+    doRes("DeadNegN", "DeadNegSwapN", "Dead Swaps never entered");
     doRes("DeadLt5", "DeadLt5", "no more than 15 swaps");
     doRes("DeadLt10", "DeadLt10", "no more than 10 swaps");
     doRes("DeadLt20", "DeadLt20", "no more than 20 swaps");

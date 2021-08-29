@@ -40,7 +40,9 @@ public class ABalRows extends A6Rowa {
   static int bonusUnitsIx = BONUSYEARSIX + 4;//16
   static final int BONUSUNITSIX = BONUSYEARSIX + 4;//16
   static int cumulativeDecayIx = BONUSUNITSIX + 4; //20
+  static int cumulativeUnitDecayIx = BONUSUNITSIX + 4; //20
   static final int CUMULATIVEDECAYIX = BONUSUNITSIX + 4; //20
+  static final int CUMULATIVEUNITDECAYIX = BONUSUNITSIX + 4; //20
   static int balsLength = CUMULATIVEDECAYIX + 4; //24
   static final int BALSLENGTH = CUMULATIVEDECAYIX + 4; //24
   static int balancesSums[] = {BALANCESIX + RCIX, BALANCESIX + SGIX};

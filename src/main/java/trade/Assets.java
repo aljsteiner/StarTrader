@@ -295,8 +295,8 @@ public class Assets {
   static final int BONUSYEARSIX = ABalRows.BONUSYEARSIX;
   //static int bonusUnitsIx = bonusYearsIx + 4;//14
   static final int BONUSUNITSIX = ABalRows.BONUSUNITSIX;
-  //static int cumulativeDecayIx = bonusUnitsIx + 4; //18
-  //static int balsLength = cumulativeDecayIx + 4; //22
+  //static int cumulativeUnitDecayIx = bonusUnitsIx + 4; //18
+  //static int balsLength = cumulativeUnitDecayIx + 4; //22
   static final int CUMULATIVEDECAYIX = ABalRows.CUMULATIVEDECAYIX;
   static final int BALSLENGTH = ABalRows.BALSLENGTH;
   static final int balancesSums[] = {BALANCESIX + RCIX, BALANCESIX + SGIX};
@@ -643,6 +643,20 @@ public class Assets {
   double cRand(int randIx) {
     return ec.cRand(randIx, 1.);
   }
+
+  /** calculate percent and if divisor &lt; value 0
+   * 
+   * @param divisor  divisor value
+   * @param dividend to be divided
+   * @return dividend/divisor unless divisor &lt; 0 then return 0
+   */
+      double calcPercent(double divisor, double dividend){
+      double rtn=0;
+      doubleTroubled(divisor);
+      doubleTroubled(dividend);
+      rtn = divisor > E.PZERO?100. * dividend / divisor : 0.;
+      return rtn;
+    }
 
   /**
    * add to Assets.cash
@@ -1461,7 +1475,7 @@ if(E.debugEconCnt){
           }}
     endYearEnd = false;
 
-    // decrement cumulativeDecay, bonus years and bonus units
+    // decrement cumulativeUnitDecay, bonus years and bonus units
     EM.wasHere = "after cur aaadd2=" + aaadd2++;
     for (int m : balsIxA) {
       for (int n : ASECS) {
@@ -1469,8 +1483,8 @@ if(E.debugEconCnt){
         bals.getRow(ABalRows.bonusUnitsIx + m).add(n, -(bals.getRow(ABalRows.bonusYearsIx + m).get(n) < PZERO ? 0. : bals.getRow(ABalRows.bonusUnitsIx + m).get(n) / bals.getRow(ABalRows.bonusYearsIx + m).get(n)));
         // decrement bonusYears
         bals.getRow(ABalRows.bonusYearsIx + m).set(n, (bals.getRow(ABalRows.bonusYearsIx + m).get(n) > PZERO ? bals.getRow(ABalRows.bonusYearsIx + m).get(n) - 1. : 0.));
-        // now increment cumulativeDecay
-        bals.getRow(ABalRows.cumulativeDecayIx + m).add(n, bals.getRow(ABalRows.GROWTHSIX + m).get(n) * eM.growthDecay[m][pors]);
+        // now increment cumulativeUnitDecay
+        bals.getRow(ABalRows.cumulativeUnitDecayIx + m).add(n, bals.getRow(ABalRows.GROWTHSIX + m).get(n) * eM.growthDecay[m][pors]);
       }
     }
     if(E.debugEconCnt){
@@ -2510,7 +2524,7 @@ if(E.debugEconCnt){
       ARow yearlyUnitGrowth = new ARow(ec);
       ARow rawUnitGrowth = new ARow(ec);
       ARow rawUnitGrowthAfterDecay = new ARow(ec);
-      ARow cumulativeDecay = new ARow(ec);
+      ARow cumulativeUnitDecay = new ARow(ec);
       ARow rawGrowth = new ARow(ec);
       //   ARow fGrowth; // based on fertility function
       ARow growth = new ARow(ec);  // based on balance /
@@ -2908,7 +2922,7 @@ if(E.debugEconCnt){
         //  growth = bals.getRow(ABalRows.GROWTHSIX + asIx);
         //         growth = growths.A[2 + asIx];
         //     fertility = makeZero(fertility);
-        cumulativeDecay = bals.getRow(ABalRows.cumulativeDecayIx + asIx);
+        cumulativeUnitDecay = bals.getRow(ABalRows.cumulativeUnitDecayIx + asIx);
         bonusUnitGrowth = bals.getRow(ABalRows.BONUSUNITSIX + asIx);
         bonusYears = bals.getRow(ABalRows.BONUSYEARSIX + asIx);
         prevUnitGrowth = makeZero(prevUnitGrowth);
@@ -2950,7 +2964,7 @@ if(E.debugEconCnt){
         growth = copy(sa.growth);
         rawGrowth = copy(sa.rawGrowth);
         maxLeft = copy(sa.maxLeft);
-        cumulativeDecay = copy(sa.cumulativeDecay);
+        cumulativeUnitDecay = copy(sa.cumulativeUnitDecay);
         bonusUnitGrowth = copy(sa.bonusUnitGrowth);
         bonusYears = copy(sa.bonusYears);
         return this;
@@ -3135,9 +3149,12 @@ if(E.debugEconCnt){
         calcGrowth();
       }
 
-      /**
-       * calculate staff and guest unit growth per staff work unit
-       *
+      /** calculate growth of each SubAsset
+       * staff are limited by cumulative unit decay, maxGrowth with efficiency, random values and priority 
+       * resources are limited by cumulative unit decay, efficiency, priority and random values, 
+       * cumulative unit decay grows from the previous years growth
+       * again random factors are applied
+       * rawUnitGrowth is passed on the calcRawCosts and getNeeds
        */
       void calcGrowth() { // Assets.CashFlow.SubAsset.calcGrowth
         splus = spluss[sIx];
@@ -3154,30 +3171,32 @@ if(E.debugEconCnt){
         if (sIx == 2) {
           aChar[sIx] = "s";
         }
-        if (didDecay) {
+        if (didDecay) { // no decay if already done this year 
           prevGrowth.zero();
         } else {
           // prevGrowth.set(bals.getGrowthsRow(sIx));
           //    prevGrowth = growths.getRow(2+sIx);
           newDecay = new ARow(ec).setAmultV(prevGrowth = growths.getRow(2 + sIx), eM.growthDecay[sIx][pors]);
-          cumulativeDecay.add(newDecay);
+          cumulativeUnitDecay.add(newDecay);
           // later    handle bonuses  didDecay = true;
         }
         // only do decay once a year
         //   newDecay = new ARow(ec).setAmultV(prevGrowth, eM.growthDecay[sIx][pors]);
-        // cumulativeDecay.add(newDecay);
+        // cumulativeUnitDecay.add(newDecay);
         prevMaxLeft = make(maxLeft);
         bonusYears = bals.getBonusYearsRow(sIx);
         bonusUnitGrowth = bals.getBonusUnitsRow(sIx);
         rawUnitGrowth = make(rawUnitGrowth);
         ARow rawBiasedUnitGrowth = new ARow(ec);
         ARow rawPriorityUnitGrowth = new ARow(ec);
+        ARow rawUnitGrowth1 = new ARow(ec);
+        ARow rawUnitGrowth = new ARow(ec);
         ARow rg1 = new ARow(ec);
-        ARow rg2 = new ARow(ec);
+        //ARow rg2 = new ARow(ec);
         ARow rg3 = new ARow(ec);
-        ARow rg4 = new ARow(ec);
-        ARow uG1 = new ARow(ec);
-        double[] yuGrow = new double[LSECS];
+      //  ARow rg4 = new ARow(ec);
+    //    ARow uG1 = new ARow(ec);
+       // double[] yuGrow = new double[LSECS];
         double bonusLeft = 0;
         if (sstaff) {
           sumGrades();// get recompute for work
@@ -3193,22 +3212,27 @@ if(E.debugEconCnt){
           // double a2 = partner.balance.get(n);
           // yearlyUnitGrowth1 will go negative if decay is larger
           growthFrac = fracGrowths.set(n, (eM.maxGrowth[pors] - balance.get(n)) / eM.maxGrowth[pors]);
-          double yug = yuGrow[n] = yearlyUnitGrowth1.set(n, yearlyUnitGrowth.set(n, eM.assetsGrowth[sIx][pors] * growthFrac - cumulativeDecay.get(n) + (bonusLeft = (bonusYears.get(n) > PZERO ? bonusUnitGrowth.get(n) : 0.))));
+         // double yug = yuGrow[n] = yearlyUnitGrowth1.set(n, yearlyUnitGrowth.set(n, eM.assetsUnitGrowth[sIx][pors] * growthFrac - cumulativeUnitDecay.get(n) + (bonusLeft = (bonusYears.get(n) > PZERO ? bonusUnitGrowth.get(n) : 0.))));
+         double  yug  = yearlyUnitGrowth.set(n, eM.assetsUnitGrowth[sIx][pors] * (sstaff?growthFrac  : 1.0) - cumulativeUnitDecay.get(n) + (bonusLeft = (bonusYears.get(n) > PZERO ? bonusUnitGrowth.get(n) : 0.)));
 
-          // if cumulativeDecay too big, don't allow negative growth, zero it
+          // if cumulativeUnitDecay too big, don't allow negative growth, zero it
           if (yug < E.PZERO) {
-            yug = yuGrow[n] = yearlyUnitGrowth.set(n, 0.0);
+            yug  = yearlyUnitGrowth.set(n, 0.0);
           }
-
+                 
+          rawBiasedUnitGrowth.set(n, (yearlyUnitGrowth.get(n) * eM.fracBiasInGrowth[pors])) ;
+          rawPriorityUnitGrowth.set(n, (yearlyUnitGrowth.get(n) * eM.fracPriorityInGrowth[pors] * ypriorityYr.get(n)) * groEfficiency.get(n) * cRand(3 * sIx + n + 30));
+          double rawUnitGrowthd =
+          rawUnitGrowth1.set(n,rawBiasedUnitGrowth.get(n) + rawPriorityUnitGrowth.get(n));
           //get unitGrowth1, step one in final unit growth
-          double rawUnitGrowthd = uG1.set(n, rawBiasedUnitGrowth.set(n, (1.1 * yearlyUnitGrowth.get(n) * (eM.fracBiasInGrowth[pors])) + rawPriorityUnitGrowth.set(n, (yearlyUnitGrowth.get(n) * eM.fracPriorityInGrowth[pors] * ypriorityYr.get(n)) * groEfficiency.get(n) * cRand(3 * sIx + n + 30))));
-          /**
+         // double rawUnitGrowthd = uG1.set(n, rawBiasedUnitGrowth.set(n, (yearlyUnitGrowth.get(n) * eM.fracBiasInGrowth[pors])) 
+       //           + rawPriorityUnitGrowth.set(n, (yearlyUnitGrowth.get(n) * eM.fracPriorityInGrowth[pors] * ypriorityYr.get(n)) * groEfficiency.get(n) * cRand(3 * sIx + n + 30)));
+          /*
            * raw growth in ships, is dependent on lightYearsTraveled raw growth
            * for planets dependent on staff work
            */
-
-          rawUValue = rawUnitGrowth.set(n, (rg1.set(n, (pors == E.S) ? rg3.set(n, lightYearsTraveled * eM.travelGrowth[E.S]) : 1.) * rg2.set(n, rg4.set(n, cRand(n + 10)) * uG1.get(n))));
-          rawValue = rawGrowth.set(n, s.work.get(n) * rawUnitGrowth.get(n) * cRand(n + 4));
+          rawUValue = rawUnitGrowth.set(n, (rg1.set(n, (sstaff ? rg3.set(n, lightYearsTraveled * eM.travelGrowth[E.S]) : 1.) *  rawUnitGrowth1.get(n))));
+          rawValue = rawGrowth.set(n, s.work.get(n) * rawUValue * cRand(n + 4));
           if (!didDecay) {
             // now count down the bonus units & years
             bonusYears.set(n, bonusYears.get(n) - 1);
@@ -3216,12 +3240,12 @@ if(E.debugEconCnt){
                 && bonusUnitGrowth.values[n] > 0.) {
               bonusUnitGrowth.set(n, bonusUnitGrowth.get(n) - bonusUnitGrowth.get(n) / (bonusYears.get(n) + eM.catastrophyBonusYearsBias[pors][0]));
             }
-            didDecay = true;
+ //           didDecay = true;
           }
 
           if (rawValue < -0.0) {
             if (E.debugNegGrowth) {
-              throw new MyErr(String.format(">>>>ERROR rawGrowth %14.10f too small,eM.Growth=%14.10f,yearlyUnitGrowth=%14.10f,rawUG1=%14.10f, rawUnitGrowth %14.10f, min %14.10f,n=%d,%s,lightYearsTraveled=%10.7f", rawValue, eM.assetsGrowth[sIx][pors], yug, rawUnitGrowthd, rawUValue, eM.mRCSGGrowth[sIx][pors][0], n, name, lightYearsTraveled));
+              throw new MyErr(String.format(">>>>ERROR rawGrowth %14.10f too small,eM.Growth=%14.10f,yearlyUnitGrowth=%14.10f,rawUG1=%14.10f, rawUnitGrowth %14.10f, min %14.10f,n=%d,%s,lightYearsTraveled=%10.7f", rawValue, eM.assetsUnitGrowth[sIx][pors], yug, rawUnitGrowthd, rawUValue, eM.mRCSGGrowth[sIx][pors][0], n, name, lightYearsTraveled));
             } else {
               rawGrowth.set(n, eM.mRCSGGrowth[sIx][pors][0]);
             }
@@ -3231,23 +3255,25 @@ if(E.debugEconCnt){
 
         ec.aPre = aPre = "#G";
         if (History.dl > 5) {
-          hist.add(new History(aPre, 5, aschar + " growth[sIx][pors]", EM.mf(eM.assetsGrowth[sIx][pors]), "sIx", wh(sIx), "pors", wh(pors), "fracBiax..", EM.mf(eM.fracBiasInGrowth[pors]), "fracPriority", EM.mf(eM.fracPriorityInGrowth[pors])));
+          hist.add(new History(aPre, 5, aschar + " growth[sIx][pors]", EM.mf(eM.assetsUnitGrowth[sIx][pors]), "sIx", wh(sIx), "pors", wh(pors), "fracBiax..", EM.mf(eM.fracBiasInGrowth[pors]), "fracPriority", EM.mf(eM.fracPriorityInGrowth[pors])));
           hist.add(new History(aPre, 5, aschar + " balance", balance));
           hist.add(new History(aPre, 5, aschar + " prevGrowth", prevGrowth));
-          hist.add(new History(aPre, 5, aschar + " cumulativeDecay", cumulativeDecay));
+          if(!sstaff){
+          hist.add(new History(aPre, 5, aschar + " cumulativeUnitDecay", cumulativeUnitDecay));
+          }
           hist.add(new History(aPre, 5, " knowledge", knowledge));
           hist.add(new History(aPre, 5, aschar + " bonusUnitGrowth", bonusUnitGrowth));
           hist.add(new History(aPre, 5, " bonusYears", bonusYears));
           hist.add(new History(aPre, 5, aschar + " groEfficiency", groEfficiency));
           hist.add(new History(aPre, 5, aschar + " yearlyUnitGrowth", yearlyUnitGrowth));
-          hist.add(new History(aPre, 5, aschar + " rawUG1", uG1));
+          hist.add(new History(aPre, 5, aschar + " rawUG1", rawUnitGrowth1));
           hist.add(new History(aPre, 5, aschar + " rawBiasedUnitGrowth", rawBiasedUnitGrowth));
           hist.add(new History(aPre, 5, aschar + " rawPriorityUnitGrowth", rawPriorityUnitGrowth));
           hist.add(new History(aPre, 5, aschar + " rawUnitGrowth", rawUnitGrowth));
           hist.add(new History(aPre, 5, aschar + " rg1", rg1));
-          hist.add(new History(aPre, 5, aschar + " rg2", rg2));
+      //    hist.add(new History(aPre, 5, aschar + " rg2", rg2));
           hist.add(new History(aPre, 5, aschar + " rg3", rg3));
-          hist.add(new History(aPre, 5, aschar + " rg4", rg4));
+      //    hist.add(new History(aPre, 5, aschar + " rg4", rg4));
           hist.add(new History(aPre, 5, aschar + " rawGrowth", rawGrowth));
           hist.add(new History(aPre, 5, aschar + "sIx=" + sIx + " Trav=", EM.mf(lightYearsTraveled), "pors+" + pors));
           hist.add(new History(aPre, 5, " ypriorityYr=", ypriorityYr));
@@ -3545,8 +3571,8 @@ if(E.debugEconCnt){
        * @param destIx int destination sector for move
        * @param myDest SubAsset destination for move, may be another econ
        * @param downgrade int Staff may be downgraded in a move
-       * @param availFrac 1. value %lt; PZERO no avail test done 2. value %lt;
-       * 1.-PZERO WR frac available 3. value %lt; 1.+PZERO no avail test 4.
+       * @param availFrac 1. value &lt; PZERO no avail test done 2. value &lt;
+       * 1.-PZERO WR frac available 3. value &lt; 1.+PZERO no avail test 4.
        * value %ge; 1.+PZERO src units available
        * @return amount of move that couldn't be done must be 0
        */
@@ -3567,11 +3593,11 @@ if(E.debugEconCnt){
        * @param destIx int destination sector for move
        * @param myDest SubAsset destination for move, may be another econ
        * @param downgrade int Staff may be downgraded in a move
-       * @param availFrac <ul><li>value %lt; PZERO: no avail kept required after
+       * @param availFrac <ul><li>value &lt; PZERO: no avail kept required after
        * move
-       * <li> value %lt;1.-PZERO: WR frac to be kept available on source after
+       * <li> value &lt;1.-PZERO: WR frac to be kept available on source after
        * move
-       * <li> value %lt; 1.+PZERO no avail kept required after the move
+       * <li> value &lt; 1.+PZERO no avail kept required after the move
        * <li>value %ge; 1.+PZERO :src units to be kept availables after the move
        * </ol>
        * @return amount of move that couldn't be done must be 0
@@ -3782,11 +3808,11 @@ if(E.debugEconCnt){
        *
        * @param cost assume caller has tested for value in sp or sp+op
        * @param sourceIx
-       * @param availFrac<ul><li>value %lt; PZERO: no avail kept required after
+       * @param availFrac<ul><li>value &lt; PZERO: no avail kept required after
        * cost
-       * <li> value %lt;1.-PZERO: Source+Other frac to be kept available on
+       * <li> value &lt;1.-PZERO: Source+Other frac to be kept available on
        * source after move
-       * <li> value %lt; 1.+PZERO no avail kept required after the move
+       * <li> value &lt; 1.+PZERO no avail kept required after the move
        * <li>value %ge; 1.+PZERO :src units to be kept availables after the move
        * </ol>
        *
@@ -4217,6 +4243,7 @@ if(E.debugEconCnt){
           sys[k].calcEfficiency();
           sys[k].calcGrowth();
         }
+        didDecay=true;
         for (int i = 0; i < E.l2secs; i++) {
           valueChangesTried[i] = 0;
           oraisedBid[i] = 0;
@@ -5188,7 +5215,7 @@ if(E.debugEconCnt){
       /**
        * caculate various trading sums.<br>
        *
-       * excessOffers%gt;0 increase requests, or reduce offers.<br>
+       * excessOffers&gt;0 increase requests, or reduce offers.<br>
        * excessOffers&lt;0 increase offers or reduce requests.<br>
        * sv = requests/offers or Iget/Ipaid.<br>
        * sf = goal requests/offers or I get/I paid.<br>
@@ -5416,7 +5443,7 @@ if(E.debugEconCnt){
           hist.add(new History("@i", 5, term + " CHANGES", "changes=" + changes, "sv=" + EM.mf(strategicValue), "sf=" + EM.mf(strategicGoal), "ts=" + EM.mf(offers), "tr=" + EM.mf(requests)));
           return false; // no trade if changes
         }
-        // trade, changes %eq 0, sv %gt; rgoal0 term %lt; barterStart*.75
+        // trade, changes &eq; 0, sv &gt; rgoal0 term &lt; barterStart*.75
         if (sv > sf || (sv > rGoal0 && term < eM.barterStart * .75)) {
           hist.add(new History("@g", 3, "T" + term + " " + name + " doTrm 1", "sv" + EM.mf(strategicValue), "sf" + EM.mf(strategicGoal), "ofrs" + EM.mf(offers), "rqst" + EM.mf(requests)));
           term = 1;
@@ -5840,7 +5867,7 @@ if(E.debugEconCnt){
             isOffer = bid > PZERO;
             // approach emerg if the first mm round did not gain enough offer
             //only use emerg in emergency
-            // on rounds %gt; 1 limit = emerg or (avail + 2*emerg)/3
+            // on rounds &gt; 1 limit = emerg or (avail + 2*emerg)/3
             limit = hEmerg ? emerg : mm > 1 ? (avail + emerg + emerg) * .3333 : avail;
             //' String sLimit = (limit < bid?"limit":"!limit");
             mf = multF.get(ix); //composit strategic Fraction
@@ -6025,7 +6052,7 @@ if(E.debugEconCnt){
             isOffer = bid > PZERO;
             // approach emerg if the first mm round did not gain enough offer
             //only use emerg in emergency
-            // on rounds %gt; 1 limit = emerg or (avail + 2*emerg)/3
+            // on rounds &gt; 1 limit = emerg or (avail + 2*emerg)/3
             limit = hEmerg ? emerg : mm > 1 ? (avail + emerg + emerg) * .3333 : avail;
             //' String sLimit = (limit < bid?"limit":"!limit");
             mf = multF.get(ix); //composit strategic Fraction
@@ -6619,6 +6646,7 @@ if(E.debugEconCnt){
         sys[k].calcEfficiency();
         sys[k].calcGrowth();
       }
+      didDecay = true; // after first calcGrowth
       EM.wasHere = "CashFlow.init... after calcGrowth loop eeei" + ++eeei;
       //  System.out.println("5631 near end CashFlow.initCashFlow");
       didStart = (ec.age < 1 ? false : didStart);// probably age = -1 before year
@@ -6728,7 +6756,25 @@ if(E.debugEconCnt){
       //     hist.add(new History("&&", 9, "userPriority", userPriority));
 
     }
+    
 
+    /** calculate whether to have a catastrophy, 
+     * If a catastrophy is indicated, than for planets there would be one 
+     * for both economies a catastrophy does the following  <ol>
+     * <li>reduce a resource sector balance by a random percent statistic rCatCosts</li>
+     * <li>reduce a staff sector balance by a random percent statistic sCatCosts</li>
+     * <li>reduce a resource sector balance by a random percent statistic rCatCosts  </li>
+     * <li>set a years of bonus for a resource sector statistic rCatBonusY </li>
+     * <li>set a value of bonus (reduces each year) for the resource sector statistic  rCatBonusVal </li>
+     * <li>set a years of bonus for a rstaff sector statistic sCatBonusY </li>
+     * <li>set a value of bonus (reduces each year) for the staff sector statistic  sCatBonusVal </li>
+     * <li>reduce the amount of decay for a resource , prevent a negative decay statistic   </li>
+     * <li>reduce the amount of decay of the above resource by a percent statistic s </li>
+     * <li>  </li>
+     * <li>  </li>
+     * <li>  </li>
+     * </ol>
+     */
     void calcCatastrophy() {
       double t1 = 0., t2 = 0., cc = 1.;
 
@@ -6799,20 +6845,21 @@ if(E.debugEconCnt){
         setStat("sCatBonusY", pors, clan, sBonusYrs1, 1);
         s.bonusUnitGrowth.add(sBonusX1, sBonusVal1);
         setStat("sCatBonusVal", pors, clan, sBonusVal1, 1);
-        double rcd = r.cumulativeDecay.get(r4);
+        double rcd = r.cumulativeUnitDecay.get(r4);
         double rd1 = -rDecayReduce1;
         double rBal = r.balance.get(r4);
-        if (-rDecayReduce1 > rcd) {
-          double rm = -rDecayReduce1 - rcd;
-          setStat(EM.CRISISRESREDUCESURPLUSPERCENT, pors, clan, rm * 100 / rBal, 1);
+        if (rd1 > rcd) {
+          double rm = rd1 - rcd;
+     //     setStat(EM.CRISISRESREDUCESURPLUSPERCENT, pors, clan, rm * 100 / rBal, 1);
+          setStat(EM.CRISISRESREDUCESURPLUSPERCENT, pors, clan, calcPercent(rBal,rm), 1);
           rd1 = rcd;
         }
         // double rd1 = -rDecayReduce1 > rcd ? rcd : -rDecayReduce1; //rd1 < -0.0
-        r.cumulativeDecay.add(r4, rd1);
+        r.cumulativeUnitDecay.add(r4, rd1);
         setStat("rCatNegDecay", pors, clan, -rd1, 1);// ?? rd1 < 0???
-        setStat(eM.CRISISRESREDUCEPERCENT, pors, clan, -rd1 * 100 / rBal, 1);
+        setStat(eM.CRISISRESREDUCEPERCENT, pors, clan, calcPercent(rBal,-rd1), 1);
         double sBal = s.balance.get(s3);
-        double scd = s.cumulativeDecay.get(s3);
+        double scd = s.cumulativeUnitDecay.get(s3);
         double sd1 = -sDecayReduce1;
         if (-sDecayReduce1 > scd) {
           double rm = -sDecayReduce1 - scd;
@@ -6820,11 +6867,11 @@ if(E.debugEconCnt){
           sd1 = scd;
         }
         //double sd1 = -sDecayReduce1 > scd ? scd : -sDecayReduce1; // sd1 < -0.0
-        s.cumulativeDecay.add(s3, sd1);
+        s.cumulativeUnitDecay.add(s3, sd1);
         setStat("sCatNegDecay", pors, clan, -sd1, 1);
         setStat(EM.CRISISSTAFFREDUCEPERCENT, pors, clan, -sd1 * 100 / sBal, 1);
         if (pors == E.P) {
-          double rcd5 = r.cumulativeDecay.get(r5);
+          double rcd5 = r.cumulativeUnitDecay.get(r5);
           double rd5 = -rDecayReduce2;
           rBal = r.balance.get(r5);
           if (-rDecayReduce2 > rcd5) {
@@ -6833,7 +6880,7 @@ if(E.debugEconCnt){
             rd5 = rcd5;
           }
           // double rd5 = -rDecayReduce2 > rcd5 ? rcd5*.99 : -rDecayReduce2;
-          r.cumulativeDecay.add(r5, rd5);
+          r.cumulativeUnitDecay.add(r5, rd5);
           setStat("rCatNegDecay", pors, clan, -rd5, 0);
         } else {  // ships
           manuals.add(sBonusX2, sBonusManuals);  // Adds into value of trades
@@ -6917,7 +6964,8 @@ if(E.debugEconCnt){
         // set up emergency and normal future fund payments
           excessForFF = emergTrans ? maxFutureTrans :(ff1= totWorth - EM.clanStartFutureFundDues[pors][clan]) * (1. + Math.sqrt(ff1)) * EM.futureFundFrac[pors][clan] ;
         if (!didXcessFF 
-            && n >= 0  &&  n%3 == 0 && yearsFutureFund < (EM.futureFundFrac[pors][clan] * totWorth) 
+            && n >= 0  &&  n%3 == 0 
+            && yearsFutureFund < (EM.futureFundFrac[pors][clan] * totWorth) 
             && reDo == 0 && excessForFF > E.PZERO) {
          
           // amount to  worth tranfer due to size
@@ -7695,7 +7743,7 @@ if(E.debugEconCnt){
       //    balances.A[i+2] = sys[i].balance = bals.getRow(BALANCESIX + i);
       //    sys[i].bonusUnitGrowth = bals.getRow(BONUSUNITSIX + i);
       //    sys[i].bonusYears = bals.getRow(BONUSYEARSIX + i);
-      //   sys[i].cumulativeDecay = bals.getRow(CUMULATIVEDECAYIX + i);
+      //   sys[i].cumulativeUnitDecay = bals.getRow(CUMULATIVEDECAYIX + i);
       //    growths.A[i+2] = sys[i].growth = growths.A[2+i] = bals.getRow(GROWTHSIX + i);
       //   growths.aCnt[2+i]++;
       //   }
@@ -7926,18 +7974,18 @@ if(E.debugEconCnt){
 
         double bcurSum = bals.curSum();
         double totWorth = fyW.getTotWorth();
-        eM.setStat(EM.RCMTGC, pors, clan, mtgCosts10.getRow(0).sum() / bcurSum, 1);
-        eM.setStat(EM.SGMTGC, pors, clan, mtgCosts10.getRow(1).sum() / bcurSum, 1);
-        eM.setStat(EM.RRAWMC, pors, clan, maintCosts10.getRow(0).sum() / bcurSum, 1);
-        eM.setStat(EM.SRAWMC, pors, clan, maintCosts10.getRow(1).sum() / bcurSum, 1);
-        eM.setStat(EM.RCREQGC, pors, clan, reqMaintCosts10.getRow(0).sum() / bcurSum, 1);
-        eM.setStat(EM.SGREQGC, pors, clan, reqMaintCosts10.getRow(1).sum() / bcurSum, 1);
-        eM.setStat(EM.RCREQMC, pors, clan, reqGrowthCosts10.getRow(0).sum() / bcurSum, 1);
-        eM.setStat(EM.SGREQMC, pors, clan, reqGrowthCosts10.getRow(1).sum() / bcurSum, 1);
+        eM.setStat(EM.RCMTGC, pors, clan, calcPercent(bcurSum,mtgCosts10.getRow(0).sum()),1);
+        eM.setStat(EM.SGMTGC, pors, clan, calcPercent(bcurSum,mtgCosts10.getRow(1).sum()), 1);
+        eM.setStat(EM.RRAWMC, pors, clan, calcPercent(bcurSum,maintCosts10.getRow(0).sum()),1);
+        eM.setStat(EM.SRAWMC, pors, clan,calcPercent(bcurSum,maintCosts10.getRow(1).sum()),1);
+        eM.setStat(EM.RCREQGC, pors, clan, calcPercent(bcurSum,reqMaintCosts10.getRow(0).sum()),1);
+        eM.setStat(EM.SGREQGC, pors, clan, calcPercent(bcurSum,reqMaintCosts10.getRow(1).sum()),1);
+        eM.setStat(EM.RCREQMC, pors, clan, calcPercent(bcurSum,reqGrowthCosts10.getRow(0).sum()),1);
+        eM.setStat(EM.SGREQMC, pors, clan, calcPercent(bcurSum,reqGrowthCosts10.getRow(1).sum()),1);
           EM.isHere1(ec,"CashFlow.yearEnd before many setStat ddddc=" + ++ddddc);
-        setStat(EM.RCTBAL, pors, clan, fyW.getSumRCBal() / totWorth, 1);
+        setStat(EM.RCTBAL, pors, clan,calcPercent(totWorth, fyW.getSumRCBal()),1);
 
-        setStat("SGTBAL", pors, clan, fyW.getSumSGBal() / totWorth, 1);
+        setStat("SGTBAL", pors, clan, calcPercent(totWorth, fyW.getSumSGBal()),1);
         setStat("SBAL", pors, clan, fyW.getSumSBal() / totWorth, 1);
         setStat("GBAL", pors, clan, fyW.getSumGBal() / totWorth, 1);
         setStat("RBAL", pors, clan, fyW.getSumRBal() / totWorth, 1);
@@ -8719,7 +8767,7 @@ if(E.debugEconCnt){
      * used
      *
      * @param balances the number of units of each SubAsset per sector
-     * @param rawUnitGrowths input rawUnitGrowths of each subasset
+     * @param rawUnitGrowths input rawUnitGrowth of each subasset
      * @param rawGrowths result raw growths before fertility applied
      * @param invMEfficiency inverse of Maint Efficiency
      * @param invGEfficiency inverse of Growth Efficiency
@@ -9302,8 +9350,8 @@ if(E.debugEconCnt){
      * related to the goals, any negative fraction means an unmet goal. The
      * fractions of rawHealth and rawFertility are calculated with the surplus
      * after the required amounts, so that rawHealth of .5 = (balance -
-     * reqHealthCost)/reqHealthCost, %lt; 0 means no survival, %gt; 0 and %lt;
-     * .5 is poor health with a cost penalty, %gt; 1 means super health with a
+     * reqHealthCost)/reqHealthCost, &lt; 0 means no survival, &gt; 0 and &lt;
+     * .5 is poor health with a cost penalty, &gt; 1 means super health with a
      * bonus against costs
      * <p>
      * The effective growth in units is calculated for each sector, the costs

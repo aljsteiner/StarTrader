@@ -1615,7 +1615,6 @@ public class E {
    * @return if debugDouble (if NaN 0, if Infinite 100.0) otherwise trouble
    */
   static double doubleTrouble(Double trouble, String vs) {
-    if (debugDouble) {
       Econ ec = EM.curEcon;
       Assets as = ec.as;
       if (trouble.isNaN()) {
@@ -1632,10 +1631,7 @@ public class E {
           return 100.0;
         }
       }
-      return (double) trouble;
-    } else {
-      return trouble;
-    }
+      return (double) trouble;   
   }
 
   /**
