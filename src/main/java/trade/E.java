@@ -78,7 +78,7 @@ public class E {
   static final boolean debugMaster = !distributable;// !distributable;
   static final boolean debugfalse = false;
   static final boolean debugOutput = distributable; //distributable;
-  static final boolean outputLess = !distributable;  // reduce the output
+  static final boolean outputLess = true;  // reduce the output chars in mf2
   //static final boolean debugOutput = true;
   static final boolean resetOut = debugMaster;
   static final boolean debugDoYearOut = debugMaster; //output messages in doyear and subs

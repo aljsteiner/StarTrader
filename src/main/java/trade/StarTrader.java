@@ -2766,7 +2766,7 @@ public class StarTrader extends javax.swing.JFrame {
     statsCtlButtonRun1Yr.setText("1 yr");
     statsCtlButtonRun1Yr.setActionCommand("1");
     statsCtlButtonRun1Yr.setAlignmentY(0.0F);
-    statsCtlButtonRun1Yr.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 255, 0), 2));
+    statsCtlButtonRun1Yr.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.red, java.awt.Color.black, null, null));
     statsCtlButtonRun1Yr.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
     statsCtlButtonRun1Yr.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
     statsCtlButtonRun1Yr.setMargin(new java.awt.Insets(2, 0, 2, 0));
@@ -2790,7 +2790,7 @@ public class StarTrader extends javax.swing.JFrame {
     statsCtlButtonRun10Yr.setActionCommand("10 ");
     statsCtlButtonRun10Yr.setAlignmentX(5.0F);
     statsCtlButtonRun10Yr.setAlignmentY(0.0F);
-    statsCtlButtonRun10Yr.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 255), 2));
+    statsCtlButtonRun10Yr.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.magenta, java.awt.Color.black, null, null));
     statsCtlButtonRun10Yr.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
     statsCtlButtonRun10Yr.setMargin(new java.awt.Insets(0, 0, 0, 0));
     statsCtlButtonRun10Yr.setMaximumSize(new java.awt.Dimension(50, 40));
@@ -2809,7 +2809,7 @@ public class StarTrader extends javax.swing.JFrame {
     statsCtlButtonRun5Yr.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
     statsCtlButtonRun5Yr.setText("5 yr");
     statsCtlButtonRun5Yr.setActionCommand("5");
-    statsCtlButtonRun5Yr.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 255), 3));
+    statsCtlButtonRun5Yr.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.yellow, java.awt.Color.black, null, null));
     statsCtlButtonRun5Yr.setMargin(new java.awt.Insets(0, 0, 0, 0));
     statsCtlButtonRun5Yr.setMaximumSize(new java.awt.Dimension(50, 40));
     statsCtlButtonRun5Yr.setMinimumSize(new java.awt.Dimension(20, 20));
@@ -2825,7 +2825,7 @@ public class StarTrader extends javax.swing.JFrame {
     statsCtlButtonRun20Yr.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
     statsCtlButtonRun20Yr.setText("20 yr");
     statsCtlButtonRun20Yr.setActionCommand("20");
-    statsCtlButtonRun20Yr.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 255), 2));
+    statsCtlButtonRun20Yr.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.cyan, java.awt.Color.black, java.awt.Color.red, null));
     statsCtlButtonRun20Yr.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
     statsCtlButtonRun20Yr.setMargin(new java.awt.Insets(2, 0, 2, 0));
     statsCtlButtonRun20Yr.setMaximumSize(new java.awt.Dimension(25, 40));
@@ -6307,6 +6307,7 @@ public class StarTrader extends javax.swing.JFrame {
   }
 
   Date dnow = new Date();
+  int lEcons=0;
   //int clanShipsDone[] = {0,0,0,0,0}; // new every doYear
 
   /**
@@ -6360,11 +6361,12 @@ public class StarTrader extends javax.swing.JFrame {
       // eM.porsCnt[0] = eM.planets.size();
       // eM.porsCnt[1] = eM.ships.size();
       int econClan = -5;
-      int lEcons = eM.econs.size();
+      lEcons = eM.econs.size();
 
       // preset counts to zero, they will be counted next
       // preset traded to zero
       eM.econCnt = 0;
+      EM.deadCnt = 0;
       eM.planets.clear();
       eM.ships.clear();
       EM.tradedCnt = 0;
@@ -6397,6 +6399,8 @@ public class StarTrader extends javax.swing.JFrame {
           } else {
             eM.ships.add(t);
           }
+        } else {
+          EM.deadCnt++;
         }
       }
  if(E.debugEconCnt){
@@ -7062,7 +7066,7 @@ public class StarTrader extends javax.swing.JFrame {
        // displayPanel0Text.setBackground(E.clan.values()[curEc.getClan()].getColor(curEc.pors));
          displayPanel0Text.setBackground(new Color(0x00849A));
         Color myTest = E.clan.values()[curEc.getClan()].getColor(curEc.pors);
-        String disp1 = "year" + eM.year + " " + sinceEcon() + " " + EM.econCnt + " Planets=" + EM.porsCnt[E.P] + " ships=" + EM.porsCnt[E.S] + newLine
+        String disp1 = "year" + eM.year + " " + sinceEcon() + " " + EM.econCnt + ":" + EM.econs.size() + " Planets=" + EM.porsCnt[E.P] + " ships=" + EM.porsCnt[E.S] + " dead=" + EM.deadCnt + newLine
                 + " Total Wealth=" + EM.mf(totalWealth) + " minWealth=" + EM.mf(minWealth) + " maxWealth="  + EM.mf(maxWealth) + newLine
                 + "BothCreated " + eM.getCurCumPorsClanUnitSum(rNCreated, EM.ICUM, E.P, E.S + 1, 0, 5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNCreated, EM.ICUM, E.P, E.P + 1, 0, 5) + " Ships " + eM.getCurCumPorsClanUnitSum(rNCreated, EM.ICUM, E.S, E.S + 1, 0, 5) + newLine
                 + "GameCreated" + eM.getCurCumPorsClanUnitSum(rNyCreated, EM.ICUM, E.P, E.S + 1, 0, 5) + " Planets " + eM.getCurCumPorsClanUnitSum(rNyCreated, EM.ICUM, E.P, E.P + 1, 0, 5) + " Ships " + eM.getCurCumPorsClanUnitSum(rNyCreated, EM.ICUM, E.S, E.S + 1, 0, 5) + newLine
@@ -7420,10 +7424,9 @@ public class StarTrader extends javax.swing.JFrame {
             // gameSSliders[p].setEnabled(false);
           }
           //  gamePSliders[p].setEnabled(false);
-
         }
         //  panelAr[p].setEnabled(false);
-
+       EM.flushes();
       }
     } catch (Exception ex) {
       eM.flushes();
@@ -7968,6 +7971,8 @@ public class StarTrader extends javax.swing.JFrame {
       EM.flushes();
       fatalError = true;;
     } finally {
+      System.err.println("doyear finally do flushes next then close bKeep");
+      EM.flushes();
       if (EM.bKeep != null) {
         EM.bKeep.close();
       }

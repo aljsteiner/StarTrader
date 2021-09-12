@@ -18,7 +18,7 @@
 package trade;
 
 /**
- * This is in many ways and extension of StarTrader the main program which also
+ * This is in many ways an extension of StarTrader the main program which also
  * contains the user interface and methods to see results and change priorities
  * EM contains the variable which can be changed, it also contains related
  * constants.
@@ -39,6 +39,7 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Scanner;
 import java.util.TreeMap;
 import javax.swing.JTable;
@@ -103,29 +104,30 @@ class EM {
   ArrayList<Econ> ships = new ArrayList<Econ>();
   ArrayList<Econ> deadPlanets = new ArrayList<Econ>();
   ArrayList<Econ> deadShips = new ArrayList<Econ>();
-  static volatile  ArrayList<Econ> planets = new ArrayList<Econ>();
-  static volatile  ArrayList<Econ> econs = new ArrayList<Econ>();
-  static volatile  ArrayList<EM> ems = new ArrayList<EM>();
-  static volatile  TreeMap<String, Econ> names2ec = new TreeMap<String, Econ>();
-  static volatile  ArrayList<String> emNames = new ArrayList<String>();
+  static volatile ArrayList<Econ> planets = new ArrayList<Econ>();
+  static volatile ArrayList<Econ> econs = new ArrayList<Econ>();
+  static volatile ArrayList<EM> ems = new ArrayList<EM>();
+  static volatile TreeMap<String, Econ> names2ec = new TreeMap<String, Econ>();
+  static volatile ArrayList<String> emNames = new ArrayList<String>();
   static int[] envsPerYear = {10, 20, 30, 40, 50, 60, 10};
   // int porsClanCntd[][] = {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}}; // defaults
   static volatile int porsClanCnt[][] = {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}};
   //int clanCntd[] = {0, 0, 0, 0, 0};
   static volatile int clanCnt[] = {0, 0, 0, 0, 0};
   static volatile Integer econCnt = 0;
+  static volatile int deadCnt = 0;
   // int porsCntd[] = {0, 0};
   static volatile int porsCnt[] = {0, 0};
-  
+
   static volatile int porsClanTraded[][] = {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}};
   static volatile int clanTraded[] = {0, 0, 0, 0, 0};
   static volatile int porsTraded[] = {0, 0};
   static volatile int tradedCnt = 0;
-  static volatile  int porsClanVisited[][] = {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}};
-  static volatile  int clanVisited[] = {0, 0, 0, 0, 0};
-  static volatile  int porsVisited[] = {0, 0};
-  static volatile  int visitedCnt = 0;
-  static volatile  int porsClanDead[][] = {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}};
+  static volatile int porsClanVisited[][] = {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}};
+  static volatile int clanVisited[] = {0, 0, 0, 0, 0};
+  static volatile int porsVisited[] = {0, 0};
+  static volatile int visitedCnt = 0;
+  static volatile int porsClanDead[][] = {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}};
   static volatile int clanDead[] = {0, 0, 0, 0, 0};
   static volatile int porsDead[] = {0, 0};
   static volatile int cntDead = 0;
@@ -136,33 +138,32 @@ class EM {
   public final static double INVL2SECS = E.INVL2SECS;
   public final static int[] ASECS = E.ASECS;
   public final static int[] A2SECS = E.A2SECS;
-  
+
   static final Charset CHARSET = Charset.forName("US-ASCII");
   //                                                                        TUE 04/02/2021 14:03:02:233 cdt
   static final public SimpleDateFormat MYDATEFORMAT = new SimpleDateFormat("EEE MM/dd/YYYY HH:mm:ss:SSSz");
   static final Path REMEMBER = Paths.get("remember");
   static final Path KEEP = Paths.get("keep");
-  static BufferedWriter bRemember=null,bKeep=null;
+  static BufferedWriter bRemember = null, bKeep = null;
   static BufferedReader bKeepr = null;
-  
+
   /* each keep goes false after end of page process new page or settings ended */
   static boolean keepFromPage = false;  // keep clicked titles on this page
   static boolean keepHeaderPrinted = false; // header already printed
   static boolean keepBuffered = false; // true if flush needed
   static final String keepInstruct = "keep any changes made in this page, describe why you kept this changes";
-  static final String initialKeepCmt = "put the why you changed the settings on this page";
+  static final String initialKeepCmt = "put HERE why you changed the settings on this page";
   static String prevKeepCmt = initialKeepCmt + "";
   static String nextLineOfOutput = ""; //both keep and remember
-  
+
   /* each remember goes false at next page request or end stats */
-  static boolean rememberFromPage=false; // remember clicked lines on this page
-  static boolean rememberHeader=false; //header for this page printed
-  static boolean rememberBuffered=false;// flush needed
+  static boolean rememberFromPage = false; // remember clicked lines on this page
+  static boolean rememberHeader = false; //header for this page printed
+  static boolean rememberBuffered = false;// flush needed
   static final String rememberInstruct = "click the name of a line in this table to remember it, also indicate why.";
   static final String initialRememberCmt = "put the why you chose to remember ths lines in this page.";
   static String prevRememberCmt = initialRememberCmt + "";
-  
-          
+
   double[] maxLY = {15.};// ship max light years for search
   static double[][] mMaxLY = {{.5, 25.}};//planet or ship max light years
   double[] addLY = {.9}; // add to ly in planet search per round of search
@@ -176,7 +177,7 @@ class EM {
 // double[][] clanShipFrac = {{.70, .70, .70, .501, .6}, {.70, .70, .70, .501, .6}}; // .3->5. clan choice of clan ships / clan econs
   double[][] clanShipFrac = {{.501, .501, .501, .501, .6}};
   static double[][] mClanShipFrac = {{.25, .81}, {.20, 1.20}};
-  static double[][] clanAllShipFrac = {{.501, .501, .501, .501, .501} }; // clan (ships/econs)
+  static double[][] clanAllShipFrac = {{.501, .501, .501, .501, .501}}; // clan (ships/econs)
   static double[][] mClanAllShipFrac = {{.25, 1.20}, {.2, 1.20}};
   double econLimits1[] = {300.}; // start limiting econs
   static double mEconLimits1[][] = {{200., 500.}, {200., 500.}};
@@ -197,17 +198,17 @@ class EM {
   static final double[][] mminEconsMult = {{.5, 10.0}, {.5, 10.0}};
   static double[][] maxThreads = {{5.2}};
   static final double[][] mmaxThreads = {{1.0, 12.0}};
-  double[][] haveColors = {{ .3}};
-  static final  double [][] mHaveColors = {{ 0.2,2.2}};
-  double[][] haveCash = {{ 2.0}};
-  static final  double [][] mHaveCash = {{ 0.2,2.2}};
+  double[][] haveColors = {{.3}};
+  static final double[][] mHaveColors = {{0.2, 2.2}};
+  double[][] haveCash = {{2.0}};
+  static final double[][] mHaveCash = {{0.2, 2.2}};
   double[] sendHistLim = {20};
-  static final  double[][] mSendHistLim = {{5., 50}, {-1, -1}};
+  static final double[][] mSendHistLim = {{5., 50}, {-1, -1}};
   double[] nominalWealthPerCommonKnowledge = {.2, .3}; // was .9
   static final double[][] mNominalWealthPerCommonKnowledge = {{.15, .5}, {.15, .8}};
   // worth = Wealth/ frac ??
   double[] fracCommonKnowledge = {1.5};//value CommonKnowledge/Worth
- static final  double[][] mFracCommonKnowledge = {{.5, 3.5}, {-1, -1}};
+  static final double[][] mFracCommonKnowledge = {{.5, 3.5}, {-1, -1}};
   double[] fracNewKnowledge = {1.5};//value newKnowledge/nominalWealthPerCommonKnowledge
   static final double[][] mFracNewKnowledge = {{.5, 3.5}, {-1, -1}};
   double[] nominalWealthPerTrade = {5., 5.};  // guests and cargo
@@ -226,9 +227,9 @@ class EM {
   int nameCnt = 1;
   double[] nominalWealthPerStaff = {3., 4.5};  // and guests
   static final double[][] mNominalWealthPerStaff = {{1.7, 6.}, {1.7, 8.}};
-  
-   // double[][] tradeRSWealth = {tradeWealthPerResource, tradeWealthPerStaff};
-  double[][] tradeRSWealth = {nominalWealthPerResource , nominalWealthPerStaff};
+
+  // double[][] tradeRSWealth = {tradeWealthPerResource, tradeWealthPerStaff};
+  double[][] tradeRSWealth = {nominalWealthPerResource, nominalWealthPerStaff};
   double[][] rawHealthsSOS0 = {{.15}};  // rawHealths , rawProspects2 max rawProspects2.min() cnt
   double[][] rawHealthsSOS1 = {{.05}};  // rawHealths , rawProspects2 below this cause sos
   double[][] rawHealthsSOS2 = {{.02}};
@@ -277,11 +278,11 @@ class EM {
   volatile double[] clanFutureFunds = {0., 0., 0., 0., 0.};
   // dues start the first year if this is less than initial worth
   //static double[][] clanStartFutureFundDues = {{8000., 8000., 8000., 8000, 8000.}, {8000, 8000., 8000., 8000., 8000.}};  //place to start future fund dues
-   static double[][] clanStartFutureFundDues = {{4000., 4000., 4000., 4000, 4000.}, {8000, 8000., 8000., 8000., 8000.}};  //place to start future fund dues
+  static double[][] clanStartFutureFundDues = {{4000., 4000., 4000., 4000, 4000.}, {8000, 8000., 8000., 8000., 8000.}};  //place to start future fund dues
   //static double[][] clanStartFutureFundDues = {{1700., 1700., 1700., 1700, 1700.}, {1700, 1700., 1700., 1700., 1700.}};  //place to start future fund dues
   static double[][] mClanStartFutureFundDues = {{1000., 50000.}, {1000., 50000.}};
   static double[][] clanStartFutureFundFrac = {{.07, .07, .07, .07, .07}, {.02, .02, .02, .02, .02}};  //frac of bals.curSum();
-  static final double[][] mClanStartFutureFundFrac = {{.03, 1.6}, {.01,1.6}};
+  static final double[][] mClanStartFutureFundFrac = {{.03, 1.6}, {.01, 1.6}};
 
   static double[][] emergFundFrac = {{3.0, 3.0, 3.0, 3.0, 3.0}, {3.0, 3.0, 3.0, 3.0, 3.0}}; //frac of bals.curSum();
   static final double[][] mEmergFundFrac = {{5., .01}, {5., .01}};
@@ -302,8 +303,8 @@ class EM {
   static double[][] rsefficiencyGMax = {{2.}, {2.}};
   static final double[][] mRsefficiencyGMax = {{1., 5.}, {1., 5.}}; // 170309
   // [pors] of difficulty control
- // static double[] difficultyByPriorityMin = {.4, .4}; //increase increases costs
-   static double[] difficultyByPriorityMin = {.6 ,.6}; //increase increases costs
+  // static double[] difficultyByPriorityMin = {.4, .4}; //increase increases costs
+  static double[] difficultyByPriorityMin = {.6, .6}; //increase increases costs
   static final double[][] mDifficultyByPriorityMin = {{.2, .6}, {.2, .8}}; //
   static double[] difficultyByPriorityMult = {2.4, 2.4}; // increase increases costs of low priority
   static final double[][] mDifficultyByPriorityMult = {{1., 6.}, {1., 6.}}; //
@@ -323,24 +324,23 @@ class EM {
   static double[][] mCatastrophyBonusDecayMultSumSectors = {{.00002, .0002}, {.00005, .0002}};
   double[][] catastrophyManualsMultSumKnowledge = {{0.}, {2.}};//  .5 -10.
   static double[][] mCatastrophyManualsMultSumKnowledge = {{0., .0}, {.5, 10.}};//  .5 -10
-  
+
   Dimension screenSize;
   int screenHeight = -2, screenWidth = -2, myHeight = -2, myWidth = -2, myH2 = -2, myW2 = -2;
-  int  table2W=-2,table2H=-2;
+  int table2W = -2, table2H = -2;
   int myW3 = -2;
   //16,9:1920,1080  1600,900  1280,720  800,450  .5625
   //16,12: 1680,1050  1024,768  800,600 .75
   //            1280,1024  .8
   static double[][] screenW = {{1200.}};
-  static final double[][] mScreenW = {{800.},{1920.}};
+  static final double[][] mScreenW = {{800.}, {1920.}};
   static double[][] panelW = {{1920.}};
-  static final double[][] mPanelW = {{800.},{1920.}};
+  static final double[][] mPanelW = {{800.}, {1920.}};
   static double[][] panelH = {{1080.}};
-  static final double[][] mPanelH = {{600.},{1080,}};
+  static final double[][] mPanelH = {{600.}, {1080,}};
   static double[][] tableW = {{1280.}};
-  static final double[][] mTableW = {{800.},{1920.}};
+  static final double[][] mTableW = {{800.}, {1920.}};
   static double[][] tableH = {{1080.}};
-  
 
   int allGameErrMax = 40;  //EM.allGameErrMax
   static int allGameErrCnt = 0;
@@ -370,41 +370,47 @@ class EM {
   }
 
   /**
-   * initialize eM
-   * read the existing keeps, close that and open as 
+   * initialize eM read the existing keeps, close that and open as
    *
    */
   int rende3 = 500;
-  void init(){
-    try{
-    String dateString = MYDATEFORMAT.format(new Date());
-    String rOut = "New Game " + dateString + "\r\n";
-    Econ.nowThread = Thread.currentThread().getName(); // goes into Static Econ
-    // define each of the first dimension of res or stats values
-    resS = new String[rende3][]; //space for desc, comment
-    resV = new double[rende3][][][];
-    resI = new long[rende3][][][];
-    defRes();
-    runVals();
-    System.out.println("++++counts at init EM doVal vvend=" + vvend + ", doRes rend4=" + rende4 + ", assiged doRes arrays rende3=" + rende3 + " +++++++");
-    doReadKeepVals();
-    if(bKeepr != null) bKeepr.close(); //close reading keep
-    
-  // bRemember = Files.newBufferedWriter(REMEMBER, CHARSET);     
- //  bRemember.write(rOut,0,rOut.length());
-   bKeep = Files.newBufferedWriter(KEEP, CHARSET,StandardOpenOption.CREATE,StandardOpenOption.APPEND); 
-   bKeep.write(rOut,0,rOut.length());
-   keepBuffered = true;
-     } catch (Exception ex) {
+
+  void init() {
+    try {
+      String dateString = MYDATEFORMAT.format(new Date());
+      String rOut = "New Game " + dateString + "\r\n";
+      Econ.nowThread = Thread.currentThread().getName(); // goes into Static Econ
+      // define each of the first dimension of res or stats values
+      resS = new String[rende3][]; //space for desc, comment
+      resV = new double[rende3][][][];
+      resI = new long[rende3][][][];
+      defRes();
+      runVals();
+      System.out.println("++++counts at init EM doVal vvend=" + vvend + ", doRes rend4=" + rende4 + ", assiged doRes arrays rende3=" + rende3 + " +++++++");
+      doReadKeepVals();
+      if (bKeepr != null) {
+        bKeepr.close(); //close reading keep
+      }
+      // bRemember = Files.newBufferedWriter(REMEMBER, CHARSET);     
+      //  bRemember.write(rOut,0,rOut.length());
+      bKeep = Files.newBufferedWriter(KEEP, CHARSET, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+      bKeep.write(rOut, 0, rOut.length());
+      keepBuffered = true;
+  
+ 
+
+ 
+
+    } catch (Exception ex) {
       flushes();
       System.err.println("Error " + new Date().toString() + " " + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr + addMore());
-      fatalError = true;
+      //     fatalError = true;
       flushes();
       ex.printStackTrace(System.err);
       System.err.flush();
       flushes();
-      
-     }
+
+    }
   }
 
   /**
@@ -474,22 +480,26 @@ class EM {
   }
 
   static String eo = "none";
+
   protected static void flushes() {
     try {
-    eo = "out";
-    System.out.flush();
-    System.out.flush();
-    System.out.flush();
-    System.out.flush();
-    eo = "err";
-    System.err.flush();
-    System.err.flush();
-    eo = "keep";
-    if(keepBuffered) { bKeep.flush(); keepBuffered = false;}
- //   if(rememberBuffered) {bRemember.flush(); rememberBuffered = false; }
+      eo = "out";
+      System.out.flush();
+      System.out.flush();
+      System.out.flush();
+      System.out.flush();
+      eo = "err";
+      System.err.flush();
+      System.err.flush();
+      eo = "keep";
+      if (keepBuffered) {
+        bKeep.flush();
+        keepBuffered = false;
+      }
+      //   if(rememberBuffered) {bRemember.flush(); rememberBuffered = false; }
     } catch (Exception ex) {
       System.err.println("Ignore " + eo + " flush() error " + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr + addMore());
-     }
+    }
   }
 
   /**
@@ -501,7 +511,7 @@ class EM {
     flushes();
     //  System.err.println(aLine + andMore()); //later
     // new Throwable().printStackTrace(System.err); // later
-    throw new MyErr(Econ.nowName  + " " + Econ.nowThread + " " + aLine);
+    throw new MyErr(Econ.nowName + " " + Econ.nowThread + " " + aLine);
   }
 
   static long startTime;
@@ -564,7 +574,7 @@ class EM {
   static public int dfN = 2;
 
   /**
-   * format the value
+   * format the value 9 char out
    *
    * @param v input value
    * @return value as a string
@@ -584,15 +594,15 @@ class EM {
       dFrac.setMinimumFractionDigits(0);
       dFrac.setMaximumFractionDigits(3);
       return dFrac.format(v);
-       } else if ((v > -9999999. && v < -.001) || (v > .001 && v < 9999999.)) {
+    } else if ((v > -9999999. && v < -.001) || (v > .001 && v < 9999999.)) {
       dFrac.setMinimumFractionDigits(0);
       dFrac.setMaximumFractionDigits(2);
       return dFrac.format(v);
-       } else if ((v > -99999999. && v < -.001) || (v > .001 && v < 99999999.)) {
+    } else if ((v > -99999999. && v < -.001) || (v > .001 && v < 99999999.)) {
       dFrac.setMinimumFractionDigits(0);
       dFrac.setMaximumFractionDigits(1);
       return dFrac.format(v);
-      } else if ((v > -999999999. && v < -.001) || (v > .001 && v < 999999999.)) {
+    } else if ((v > -999999999. && v < -.001) || (v > .001 && v < 999999999.)) {
       dFrac.setMinimumFractionDigits(0);
       dFrac.setMaximumFractionDigits(0);
       return dFrac.format(v);
@@ -606,33 +616,33 @@ class EM {
   }
 
   /**
-   * format the value
+   * format the value 7 character out
    *
    * @param v input value
    * @return value as a string
    */
   public String mf2(double v) {
-      if(!eE.outputLess){  // don't need to delete old mf2 code
-     return mf(v);
-      } else {
-    NumberFormat dFrac = NumberFormat.getNumberInstance();
-    NumberFormat exp = new DecimalFormat("0.####E0");
-    if (v == .0 || v == -0) {
-      dFrac.setMinimumFractionDigits(0);
-      dFrac.setMaximumFractionDigits(1);
-      return dFrac.format(v);
-    } else if ((v > -999999. && v < -.001) || (v > .001 && v < 999999.)) {
-      dFrac.setMinimumFractionDigits(0);
-      dFrac.setMaximumFractionDigits(3);
-      return dFrac.format(v);
-    } else if ((v > -.001 && v < -.0000001) || (v > .0000001 && v < .001)) {
-      dFrac.setMinimumFractionDigits(0);
-      dFrac.setMaximumFractionDigits(7);
-      return dFrac.format(v);
+    if (!E.outputLess) {  // ignore the need for less than 9 char out
+      return mf(v);
     } else {
-      return exp.format(v);
-    }
+      NumberFormat dFrac = NumberFormat.getNumberInstance();
+      NumberFormat exp = new DecimalFormat("0.####E0");
+      if (v == .0 || v == -0) {
+        dFrac.setMinimumFractionDigits(0);
+        dFrac.setMaximumFractionDigits(1);
+        return dFrac.format(v);
+      } else if ((v > -99999. && v < -.001) || (v > .001 && v < 99999.)) {
+        dFrac.setMinimumFractionDigits(0);
+        dFrac.setMaximumFractionDigits(3);
+        return dFrac.format(v);
+      } else if ((v > -.001 && v < -.000001) || (v > .0000001 && v < .001)) {
+        dFrac.setMinimumFractionDigits(0);
+        dFrac.setMaximumFractionDigits(6);
+        return dFrac.format(v);
+      } else {
+        return exp.format(v);
       }
+    }
   }
 
   /**
@@ -656,14 +666,15 @@ class EM {
     return mf(v);
   }
 
-  /** return just a whole number, rounded up
-   * 
+  /**
+   * return just a whole number, rounded up
+   *
    * @param n number to print
    * @return n rounded up
    */
   static public String wh(double n) {
     whole.setMaximumFractionDigits(0);
-    return whole.format(n +.4999999);
+    return whole.format(n + .4999999);
   }
 
   // static int clans = 5; E.lclans
@@ -786,21 +797,21 @@ class EM {
   double[][] gRGrowthMult2 = {{.3}, {.3}}; // lower growth .01 - .06;
   static double[][] mGRGrowthMult2 = {{.01, .6}, {.01, .6}};
   // freq .2 means chance for today is .2 or 1 in 5years, .333 = 1 in 3 years
-  // goal freq from 1 in 2yrs to 1 in 10 yrs .5
-  double[][] userCatastrophyFreq = {{.35, .33, .27, .35, .4}, {.28, .29, .34, .26, .4}};
-  static double[][] mUserCatastrophyFreq = {{.2, .55}, {.2, .55}};
+  // goal freq from 1 in 2yrs to 1 in 10 yrs  per econ
+  double[][] userCatastrophyFreq = {{.15, .13, .17, .15, .2}, {.11, .12, .13, .11, .13}};
+  static double[][] mUserCatastrophyFreq = {{.1, .35}, {.1, .35}};
   // value 1.5 means  mult user value by 1.5 so .2 * 1.5= .3 about 1 in 3 yrs
   // remember there are also random multipliers
-  double[][] gameUserCatastrophyMult = {{1.5}, {1.}};
-  static double[][] mGameUserCatastrophyMult = {{.5, 2.2}, {.5, 2.2}};
+  double[][] gameUserCatastrophyMult = {{.3}, {.25}};
+  static double[][] mGameUserCatastrophyMult = {{.1, .6}, {.1, .6}};
   double[][] gameClanRiskMult = {{.5}, {.5}};  // range .0 - .6
   static double[][] mGameClanRiskMult = {{.0, .6}, {.0, .6}};  // range .0 - .6
 
   static final double[][] mGuestWorthBias = {{.2, 1.5}, {.2, 1.5}};
   static final double[][] mScoreMult = {{0., 1.}, {0., 1.}};
   static final double[][] mNegScoreMult = {{0., -1.}, {0., -1.}};
-  static final double[][] mNegPluScoreMult = {{-1.,1.0},{-1.0,1.0}};
-  static final double[][] mPlusNegScoreMult = {{ 1.0,-1.0},{1.0,-1.0}};
+  static final double[][] mNegPluScoreMult = {{-1., 1.0}, {-1.0, 1.0}};
+  static final double[][] mPlusNegScoreMult = {{1.0, -1.0}, {1.0, -1.0}};
   double[][] wLiveWorthScore = {{.01}};
   double[][] iLiveWorthScore = {{.01}};
   double[][] iBothCreateScore = {{.01}};
@@ -817,9 +828,9 @@ class EM {
   // multiply table cargo costs by cargoBias when calculating Maint Travel Growth Req cargo costs
   double[] guestWorthBias = {1.};
   double[] cargoWorthBias = {1.}; // reservs have the same value as working
-  double[] resourceWorth= {1.};
+  double[] resourceWorth = {1.};
   double[] staffWorth = {1.};
-  double[][] worthBias = {resourceWorth,cargoWorthBias,staffWorth,guestWorthBias};
+  double[][] worthBias = {resourceWorth, cargoWorthBias, staffWorth, guestWorthBias};
   static final double[][] mCargoWorthBias = {{.2, 1.5}, {.2, 1.5}}; //no changeable
   /**
    * multipliers for annual costs 3/10/27 Required assets should be 2 to 3 times
@@ -929,10 +940,10 @@ class EM {
   double[] multGrowthC = multReqMaintC;
 
   double mult5Ctbl[][] = {multReqMaintC, multReqGrowthC, multMaintC, multTravC, multGrowthC};
-  double mab1[] = {.3,.3}; // resource costs planet,ship
+  double mab1[] = {.3, .3}; // resource costs planet,ship
   //double mab1[] = {.6,.6}; // resource costs planet,ship
   //double mac1[] = {.6,.6}; // staff costs planet ship 
-  double mac1[] = {.3,.3}; // staff costs planet ship 
+  double mac1[] = {.3, .3}; // staff costs planet ship 
   double mabc[][] = {mab1, mac1}; //r or s, p or s
   static double mmab1[][] = {{.01, 2.}, {.01, 2.1}}; // resource costs planet,ship
   static double[][] mmab2 = {{.5, 1.9}, {.5, 1.9}};
@@ -991,7 +1002,7 @@ class EM {
             vrs = rs[aa][ab][ac][ad]
                     = // add difficultyPercent as a cost factor 50% = 1. mult
                     //(vdif = difficultyPercent[ac]) * .1  *
-                  (vdif = difficultyPercent[0] * 0.025)
+                    (vdif = difficultyPercent[0] * 0.025)
                     // (vdif = difficultyPercent[0] * 0.0990)
                     * (vrs4 = rs4[aa][ab][ac][(int) ad / 2])
                     * (vm5t = mult5Ctbl[aa][ac])
@@ -1170,7 +1181,7 @@ class EM {
   double[][] tradeStrategicFrac = {{.5, .5, .5, .5, .5}, {.5, .5, .5, .5, .5}};
   double[][] searchCriticalFrac = {{.5, .5, .5, .5, .5}, {.5, .5, .5, .5, .5}};
   double[][] tradeCriticalFrac = {{.05, .05, .05, .05, .05}, {.05, .05, .05, .05, .05}};
-  static final double[][] mTradeCriticalFrac = {{.01,.5},{.01,.5}};
+  static final double[][] mTradeCriticalFrac = {{.01, .5}, {.01, .5}};
   double[][] tradeManualsFrac = {{.01, .01, .01, .01, .01}, {.01, .01, .01, .01, .01}};
   static double[][] mTradeMFracs = {{.0, 1.}, {.0, 1.}};
   double[][] searchCriticalNumber = {{3, 3, 3, 3, 3}, {3, 3, 3, 3, 3}};
@@ -1184,10 +1195,10 @@ class EM {
   double[][] tradeStartTradeCFrac = {{.7, .7, .7, .7, .7}, {.3, .3, .3, .3, .3}};
   double[][] searchStartTradeGFrac = {{.7, .7, .7, .7, .7}, {.3, .3, .3, .3, .3}};
   double[][] tradeStartTradeGFrac = {{.7, .7, .7, .7, .7}, {.3, .3, .3, .3, .3}};
-  static final double[][] mTradeSearchStart  = {{.2,.8},{.2,.8}};
+  static final double[][] mTradeSearchStart = {{.2, .8}, {.2, .8}};
   double[][] startSwapsCFrac = {{.3, .3, .3, .3, .3}, {.4, .4, .4, .4, .4}};
   double[][] startSwapsGFrac = {{.3, .3, .3, .3, .3}, {.4, .4, .4, .4, .4}};
-  static final double [][] mStartSwaps = {{.2,.7},{.15,.8}};
+  static final double[][] mStartSwaps = {{.2, .7}, {.15, .8}};
   double[][] strategicOfferFrac = {{.3, .3, .3, .3, .3}, {.3, .3, .3, .3, .3}};
   // clan value amount of change to c or g for trade reserving c & g
   double[][] tradeReserveIncFrac = {{.4, .5, .4, .3, .4}, {.5, .4, .5, .4, .5}};
@@ -1466,7 +1477,7 @@ class EM {
   static double[][] mFutGrowthYrMult = {{1.5, 11.5}, {1.5, 11.5}};
   double futtMTGCostsMult[][] = {{2., 2., 4., 4., 3.}, {6., 4., 5., 3., 4.}};
   double[][] mFuttMTGCostsMult = {{.7, 7.}, {.7, 7.}};
- // double growthGoals[][][] = {emergGrowth, goalGrowth, tradeGrowth};
+  // double growthGoals[][][] = {emergGrowth, goalGrowth, tradeGrowth};
   //double maintGoals[][][] = {emergHealth, goalHealth, tradeHealth};
   // A2Row and A6Row sum the min cnt values
   int minSumCnt = 7;  // for large sum of min's
@@ -1638,12 +1649,12 @@ class EM {
    * @return vv the number of the input in valI,valD,valS
    */
   int doVal(String vdesc, double[][] vaddr, double[][] lims, String vdetail) throws IOException {
-   // int v1 = -1, v2 = -1, v3 = -1;
-      int v1 = vaddr.length;
-      int v2 = vaddr[0].length;
-      int v3 = v1 == 2 ? vaddr[1].length : v1 == 3 ? vaddr[1].length : -1;
+    // int v1 = -1, v2 = -1, v3 = -1;
+    int v1 = vaddr.length;
+    int v2 = vaddr[0].length;
+    int v3 = v1 == 2 ? vaddr[1].length : v1 == 3 ? vaddr[1].length : -1;
     if (E.debugSettingsTab) {
-    
+
       if ((v1 <= 2 && v2 != 1 && v2 != 2 && v2 != 5) || (v1 == 2 && v3 != 1 && v3 != 2 && v3 != 5) || (v1 == 3 && v2 != 5 && v3 != 5)) {
         throw new MyErr("doVal{2} illegal length vdesc=" + vdesc + ", vaddr.length=" + vaddr.length + ", vaddr[0].length=" + v2 + (v1 == 2 ? "vaddr[1].length =" + v3 : ""));
       }
@@ -1653,8 +1664,8 @@ class EM {
             : v2 == 2 ? vtwo
                     : v2 == 5 ? vfive : 11
             : v1 == 2 && v2 == 1 && v3 == 1 ? vfour
-                    : v1 == 2 && v2 == 5 && v3 == 5 ? vten 
-            : v1 == 3 && v2 == 5 && v3 == 5 ? vten : 11; // specail case
+                    : v1 == 2 && v2 == 5 && v3 == 5 ? vten
+                            : v1 == 3 && v2 == 5 && v3 == 5 ? vten : 11; // specail case
     if (E.debugSettingsTab) {
       if (gc == 11) {
         throw new MyErr("doval{3} illegal length vdesc=" + vdesc + ", vaddr.length=" + vaddr.length + ", vaddr[0].length=" + v2 + (v1 == 2 ? "vaddr[1].length =" + v3 : "v1!=2"));
@@ -1718,18 +1729,22 @@ class EM {
     if (gc >= vone && gc <= vfour) { // count display starts
       gCntr++;
       clan = 5;
-      if(E.debugSettingsTabOut)System.out.format("doval3 vone tst1 +  vv=%3d,name=%5s,gCntr=%2d,cCntr=%2d%n",vv,valS[vv][0],gCntr,cCntr);
+      if (E.debugSettingsTabOut) {
+        System.out.format("doval3 vone tst1 +  vv=%3d,name=%5s,gCntr=%2d,cCntr=%2d%n", vv, valS[vv][0], gCntr, cCntr);
+      }
       if ((gCntr % lDisp) == 0) {
         gStart[(int) (gCntr / lDisp)] = vv;
-        if(E.debugSettingsTabOut)System.out.format("doval3 vone tst1 +  vv=%3d,name=%5s,gCntr=%2d,cCntr=%2d%n",vv,valS[vv][0],gCntr,cCntr);
+        if (E.debugSettingsTabOut) {
+          System.out.format("doval3 vone tst1 +  vv=%3d,name=%5s,gCntr=%2d,cCntr=%2d%n", vv, valS[vv][0], gCntr, cCntr);
+        }
       }
     } else if (gc == vten || gc == vfive) {
       clan = 0;
       cCntr++;
-     // System.out.format("doval3 vten tst1 +  vv=%3d,name=%5s,gCntr=%2d,cCntr==%2d%n",vv,valS[vv][0],gCntr,cCntr);
+      // System.out.format("doval3 vten tst1 +  vv=%3d,name=%5s,gCntr=%2d,cCntr==%2d%n",vv,valS[vv][0],gCntr,cCntr);
       if ((cCntr % lDisp) == 0) {
         cStart[(int) (cCntr / lDisp)] = vv;
-        System.out.format("doval3 vten tst1 +  vv=%3d,name=%5s,gCntr=%2d,cCntr==%2d%n",vv,valS[vv][0],gCntr,cCntr);
+        System.out.format("doval3 vten tst1 +  vv=%3d,name=%5s,gCntr=%2d,cCntr==%2d%n", vv, valS[vv][0], gCntr, cCntr);
       }
     } else if (E.debugSettingsTab) {
       throw new MyErr("doVal3 err, vDesc=" + valS[vv][vDesc] + ", vv=" + vv + ", invalid gc=" + gc + ", vaddr[1].length =" + valD[vv][gameAddrC][1].length);
@@ -1798,7 +1813,9 @@ class EM {
       valI[vv][prevSliderC] = prevSlidern;
       valI[vv][prev2SliderC] = prev2Slidern;
       valI[vv][prev3SliderC] = prev3Slidern;
-      if(E.debugSettingsTabOut)System.out.format("doval3 vten tst2 +  vv=%3d,name=%5s,gCntr=%2d,cCntr==%2d%n",vv,valS[vv][0],gCntr,cCntr);
+      if (E.debugSettingsTabOut) {
+        System.out.format("doval3 vten tst2 +  vv=%3d,name=%5s,gCntr=%2d,cCntr==%2d%n", vv, valS[vv][0], gCntr, cCntr);
+      }
       int porslim = gc == vfive ? 1 : 2;
       for (pors = 0; pors < porslim; pors++) {
         for (clan = 0; clan < 5; clan++) {
@@ -1924,75 +1941,129 @@ class EM {
 
   String ret = "234f";
 
-  String doReadKeepVals(){
+  String doReadKeepVals() {
     try {
-      String dateString = MYDATEFORMAT.format(new Date());
-      String rOut = "New Game " + dateString + "\n";
+     // String dateString = MYDATEFORMAT.format(new Date());
+     // String rOut = "New Game " + dateString + "\n";
       bKeepr = Files.newBufferedReader(KEEP, CHARSET);
-      Scanner s = new Scanner(bKeepr);
-      while (s.hasNext()) {
-        String fname = s.next();
-        String lname = "line";
-        switch (fname) {
-          case "new":
-          case "year":
-           
-            lname = s.nextLine();
-            System.out.println("line=" + fname + " " + lname);
-            break;
-          case "keep":
-            fname = s.useDelimiter("#\\s*").next();
-            s.useDelimiter("\\s");
-            Object vo = valMap.get(fname);
-            if(vo != null){
-              int vv = (int)vo;
-            int ps = s.nextInt();
-            int klan = s.nextInt();
-            double val = s.nextDouble();
-            //  svalp = valToSlider(vR = valD[vv][gameAddrC][pors][0], lL = valD[vv][gameLim][pors][vLowLim], lH = valD[vv][gameLim][pors][vHighLim]);
-            if (val > valD[vv][gameLim][ps][vHighLim] || val < valD[vv][gameLim][ps][vLowLim]) {
-              double val0 = val;
-
-              val = val > valD[vv][gameLim][ps][vHighLim] ? valD[vv][gameLim][ps][vHighLim] : val < valD[vv][gameLim][ps][vLowLim] ? valD[vv][gameLim][ps][vLowLim] : val;
-              if (E.debugScannerOut) {
-                System.out.println("keep  val out of range" + fname + " " + vv + "  " + ps + " " + mf(val0) + " =>>" + mf(val));
+      if(false){
+String sd = "Hello World! 3 + 3.0  -5.0 = 6 true";
+Scanner sds = new Scanner(sd);
+sds.useLocale(Locale.US);
+            while (sds.hasNext()) {
+              if (sds.hasNextDouble()) {
+            System.out.println("Found :" + sds.nextDouble());
+         } else {
+                System.out.println("Not Found :" + sds.next());
               }
             }
-            valD[vv][gameAddrC][ps][(klan > 4?0:klan)] = val; // restore val
-             
+            sds.close();
+      }
+      Scanner s = new Scanner(bKeepr);
+      System.err.println("locale " + s.locale());
+      Locale locale = Locale.US;
+      s.useLocale(Locale.US);
+      onceAgain: s.useDelimiter("\\s");
+      while (s.hasNext()) {
+        String cname = "notNot";
+        String sname =  "notNot";
+        String fname = "notnot";
+        String lname =  "notNot";
+        String pound =  "notNot";
+         int vv = -999;
+         int ps = -999;
+         int klan =  -999;
+         Boolean isNeg = false;
+         double val =  -999.;
+        try {
+        cname = s.useDelimiter("\\s").next();
+        sname = "space";
+        fname = "notnot";
+        lname = "line";
+        switch (cname) {
+          case "new":
+          case "New":
+          case "year":
+          case "title":
+          case "more":
             lname = s.nextLine();
-            if (E.debugScannerOut) {
-              System.out.println("keep saved " + fname + " " + vv + "  " + ps + " " + klan + " " + mf(val) + " " + lname);
-            }
+            System.out.println("a line=" + cname + " :: " + lname);
+            break;
+          case "keep":
+           // sname = s.next("\\s");
+            sname = s.useDelimiter("\\S*").next(); //stop at non space
+            fname = s.useDelimiter("#\\s*").next();
+            pound = s.useDelimiter("\\s*").next(); // to a space
+            Object vo = valMap.get(fname);
+            double prevVal = -100.;
+            if (vo != null) {
+             vv = (int) vo;
+             s.useDelimiter("\\s");
+              ps = s.nextInt();
+              klan = s.nextInt();
+              //if(s.hasNext("\\s*-")) {s.useDelimiter("\\s*-").next(); isNeg=true;}
+              if(s.hasNextDouble()){
+                val = s.nextDouble();
+                System.err.println("found double= " + mf(val));
+              } else if(s.hasNextFloat()){
+              val = s.nextFloat();
+              System.err.println("found Float= " + mf(val));
+              } else if(s.hasNextInt()){
+                System.err.println("oops hasNextInt= " + s.nextInt());
+              } else {
+                System.err.println("Oops just something else= " +s.next());
+              }
+              val = isNeg?-val:val;
+              //  svalp = valToSlider(vR = valD[vv][gameAddrC][pors][0], lL = valD[vv][gameLim][pors][vLowLim], lH = valD[vv][gameLim][pors][vHighLim]);
+              if (val > valD[vv][gameLim][ps][vHighLim] || val < valD[vv][gameLim][ps][vLowLim]) {
+                double val0 = val;
+
+                val = val > valD[vv][gameLim][ps][vHighLim] ? valD[vv][gameLim][ps][vHighLim] : val < valD[vv][gameLim][ps][vLowLim] ? valD[vv][gameLim][ps][vLowLim] : val;
+                if (E.debugScannerOut) {
+                  System.out.println("keep  val restored to range " + fname + " " + pound + " "+ vv + "  " + ps + " " + mf(val0) + " => " + mf(val));
+                }// debug
+              } // restored
+              prevVal = valD[vv][gameAddrC][ps][(klan > 4 ? 0 : klan)];
+              valD[vv][gameAddrC][ps][(klan > 4 ? 0 : klan)] = val; // restore val
+
+              lname = s.nextLine();
+              if (E.debugScannerOut) {
+                System.out.println("keep changed  \"" + fname + "\" vv="  + vv +  " pound="  + pound +" ps="  + ps + " klan=" + klan + " prevVal=" + mf(prevVal) + " =>val=" + mf(val) + " :: moreLine=" + lname);
+              }
             } else {
-             
-            lname = s.nextLine();
-            if (E.debugScannerOut) {
-              System.out.println("keep unknown " + fname + " " + lname);
-            }
+
+              lname = s.nextLine();
+              if (E.debugScannerOut) {
+                System.out.println("keep unknown = \"blank=" + sname + "\" name=\"" + fname + "\"  pound=" + pound + " :: " + lname);
+              }
             }
             break;
           default:
             lname = s.nextLine();
-            System.out.println("Unknow line=" + fname + " " + lname);
+            System.out.println("Unknow line cmd=" + cname + " :: line=" + lname);
         } // switch
+        } catch (Exception ex) {
+
+      System.err.println("Igmore doKeepVals Input error " + Econ.nowName + " " + Econ.nowThread + " Caught Exception cause=" + ex.getCause() + " message=" + ex.getMessage() + " err string=" + ex.toString() + "\n  keep found \"" + fname + "\" vv="  + vv +  " pound="  + pound +" ps="  + ps + " klan=" + klan +  (isNeg? " isNeg " : " notNeg ") + "val=" + mf(val) + " :: moreLine=" + s.nextLine() + andMore());
+    }
       } // while
-      if(bKeepr != null) {
+      if (bKeepr != null) {
         bKeepr.close();
       }
 
     } catch (Exception ex) {
-      flushes();
-      System.err.println("doKeepVals error" + Econ.nowName  + " " + Econ.nowThread + "Caught Exception cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + " " + andMore());
+      //flushes();
+      System.err.println("doKeepVals error" + Econ.nowName + " " + Econ.nowThread + "Caught Exception cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + " " + andMore());
       System.err.flush();
       ex.printStackTrace(System.err);
       System.err.flush();
       flushes();
-      System.err.println(Econ.nowName  + " " + Econ.nowThread + "Ignore this error " + new Date().toString() + " " + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr + addMore());
+      System.err.println(Econ.nowName + " " + Econ.nowThread + "Ignore this error " + new Date().toString() + " " + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr + addMore());
       flushes();
 
+
     } finally {
-     
+
       return ret;
     }
   }
@@ -2005,38 +2076,49 @@ class EM {
   static String prevKeepCmt = initialKeepCmt + "";
   static String nextLineOfOutput = ""; //both keep and remember
    */
-     int keepYear = -1; // initial unused year
-     /** write the keep file if the keepFromPage flag set, a new page clears the flag
-      * 
-      * @param vv  the index of the val used to get the title
-      * @param ps  the pors value
-      * @param klan the clan value
-      * @param val  the value to be saved
-      * @param val  the previous value before the change
-      * @param slider  the new slider value
-      * @param prevSlider the previous slider value
-      * @param prev2Slider the previous previous slider value
-      * @throws IOException 
-      */
- public void doWriteKeepVals(int vv,int ps,int klan,double val, double prevVal,int slider, int prevslider, int prev2slider) throws IOException {
- 
-  String ll = " ";
-  if(keepFromPage) {
-    if(year != keepYear || !st.settingsComment.getText().matches(prevKeepCmt)){ // need another year comment page
-      keepYear = year;
-      prevKeepCmt = st.settingsComment.getText() + ""; // force a copy
-      String dateString = MYDATEFORMAT.format(new Date());
-  //    String rOut = "New Game " + dateString + "\r\n";
-      ll = "year" + year +" version " + st.versionText  +  " " + dateString + " " + st.settingsComment.getText() + "\r\n";
+  int keepYear = -1; // initial unused year
+
+  /**
+   * write the keep file if the keepFromPage flag set, a new page clears the
+   * flag
+   *
+   * @param vv the index of the val used to get the title
+   * @param ps the pors value
+   * @param klan the clan value
+   * @param val the value to be saved
+   * @param val the previous value before the change
+   * @param slider the new slider value
+   * @param prevSlider the previous slider value
+   * @param prev2Slider the previous previous slider value
+   * @throws IOException
+   */
+  public void doWriteKeepVals(int vv, int ps, int klan, double val, double prevVal, int slider, int prevslider, int prev2slider) throws IOException {
+
+    String ll = " ";
+    if (keepFromPage) {
+// something happens to opens, so it is ok to do it again I think.   
+      bKeep = Files.newBufferedWriter(KEEP, CHARSET, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+      System.err.println("did reopen of keep");
+      if (year != keepYear || !st.settingsComment.getText().matches(prevKeepCmt)) { // need another year comment page
+        keepYear = year;
+        prevKeepCmt = st.settingsComment.getText() + ""; // force a copy
+        String dateString = MYDATEFORMAT.format(new Date());
+        //    String rOut = "New Game " + dateString + "\r\n";
+        ll = "year" + year + " version " + st.versionText + " " + dateString + " " + st.settingsComment.getText() + "\r\n";
+        bKeep.write(ll, 0, ll.length());
+        System.err.println("wrote=" + ll);
+      }
+      ll = "title " + valS[vv][1] + "\r\n"; // the detail description of the keep
       bKeep.write(ll, 0, ll.length());
-    }
-    ll = "title " + valS[vv][1] + "\r\n"; // the detail description of the keep
-    bKeep.write(ll,0,ll.length());
-    ll = "keep " + valS[vv][0] + "# " + ps + " " + klan + " " + mf(val) + " <= " + mf(prevVal) + " sliders " + slider + " <= " + prevslider + " <= " + prev2slider + "\r\n";
-    bKeep.write(ll,0,ll.length());
-    
-  }//keep from page
-}//doWriteKeepVals
+      System.err.println("wrote=" + ll);
+      ll = "keep " + valS[vv][0] + "# " + ps + " " + klan + " " + mf(val) + " <= " + mf(prevVal) + " sliders " + slider + " <= " + prevslider + " <= " + prev2slider + "\r\n";
+      bKeep.write(ll, 0, ll.length());
+      System.err.println("wrote=" + ll);
+
+      keepBuffered = true;
+
+    }//keep from page
+  }//doWriteKeepVals
 
   /**
    * get value from valD and turn it into a slider int between 0-100 This is
@@ -2087,12 +2169,12 @@ class EM {
    * @param clan 0-4 a clan-master 5=game-master
    * @return 1 == change gameValue, 0=noChange
    */
-  int putVal(int slider, int vv, int pors, int clan) throws IOException  {
+  int putVal(int slider, int vv, int pors, int clan) throws IOException {
     int va  = -1;
     int gc = valI[vv][modeC][vFill][0];
     int klan = clan < 5 ? clan : clan == 5 ? 0 : clan % 5;
     if (E.debugPutValue2) {
-     // System.out.print("EM putVal gc=" + gc + " " + ", vv=" + vv + " " + valS[vv][0] + ", " + E.cna[pors] + ", clan=" + clan + ":" + klan);
+      // System.out.print("EM putVal gc=" + gc + " " + ", vv=" + vv + " " + valS[vv][0] + ", " + E.cna[pors] + ", clan=" + clan + ":" + klan);
     }
 
     if (gc <= vfour || gc == vfive) {
@@ -2107,14 +2189,14 @@ class EM {
         //value must change for vone and vtwo
         double val0 = valD[vv][gameAddrC][vFill][pors];
         double val1 = valD[vv][gameAddrC][vFill][pors] = sliderToVal(slider, valD[vv][gameLim][pors][vLowLim], valD[vv][gameLim][pors][vHighLim]);
-        
+
         int prev2Slider = valI[vv][prev2SliderC][vFill][pors] = valI[vv][prevSliderC][vFill][pors];
         int prevSlider = valI[vv][prevSliderC][vFill][pors] = valI[vv][sliderC][vFill][pors];
         valI[vv][sliderC][vFill][pors] = slider; // a new value for slider
         if (E.debugPutValue) {
           System.out.println("EM putVal gc=" + gc + " " + ", vv=" + vv + " " + valS[vv][0] + ", " + E.cna[pors] + ", clan=" + clan + ":" + klan + ", was=" + mf(val0) + ", to=" + mf(val1) + " sliders " + prev2Slider + " => " + prevSlider + " => " + slider);
         }
-        doWriteKeepVals(vv,pors,clan,val1,val0,slider,prevSlider,prev2Slider);
+        doWriteKeepVals(vv, pors, clan, val1, val0, slider, prevSlider, prev2Slider);
         return 1;
       } // note different way gameMaster values stored
       //double[][] rsefficiencyGMax = {{2.}, {2.}}
@@ -2133,7 +2215,7 @@ class EM {
         if (E.debugPutValue) {
           System.out.println("EM putVal gc=" + gc + " " + ", vv=" + vv + " " + valS[vv][0] + ", " + E.cna[pors] + ", clan=" + clan + ":" + klan + ", was=" + mf(val0) + ", to=" + mf(val1) + " sliders " + prev2Slider + " => " + prevSlider + " => " + slider);
         }
-        doWriteKeepVals(vv,pors,clan,val1,val0,slider,prevSlider,prev2Slider);
+        doWriteKeepVals(vv, pors, clan, val1, val0, slider, prevSlider, prev2Slider);
         return 1;
       } else if (gc == vseven) {
         if (slider == (va  = valI[vv][sliderC][pors][vFill])) {
@@ -2152,7 +2234,7 @@ class EM {
         if (E.debugPutValue) {
           System.out.println("EM putVal gc=" + gc + " " + ", vv=" + vv + " " + valS[vv][0] + ", " + E.cna[pors] + ", clan=" + clan + ":" + klan + ", was=" + mf(val0) + ", to=" + mf(val1) + " sliders " + prev2Slider + " => " + prevSlider + " => " + slider);
         }
-        doWriteKeepVals(vv,pors,clan,val1,val0,slider,prevSlider,prev2Slider);
+        doWriteKeepVals(vv, pors, clan, val1, val0, slider, prevSlider, prev2Slider);
         return 1;
       }
     } //  double[][] clanStartFutureFundDues = {{700., 700., 700., 700., 700.}, {600., 600., 600., 600., 600.}};
@@ -2174,9 +2256,9 @@ class EM {
       int prevSlider = valI[vv][prevSliderC][pors][clan] = valI[vv][sliderC][pors][clan];
       valI[vv][sliderC][pors][clan] = slider; // a new value for slider
       if (E.debugPutValue) {
-          System.out.println("EM putVal gc=" + gc + " " + ", vv=" + vv + " " + valS[vv][0] + ", " + E.cna[pors] + ", clan=" + clan + ":" + klan + ", was=" + mf(val0) + ", to=" + mf(val1) + " sliders " + prev2Slider + " => " + prevSlider + " => " + slider);
-        }
-        doWriteKeepVals(vv,pors,clan,val1,val0,slider,prevSlider,prev2Slider);
+        System.out.println("EM putVal gc=" + gc + " " + ", vv=" + vv + " " + valS[vv][0] + ", " + E.cna[pors] + ", clan=" + clan + ":" + klan + ", was=" + mf(val0) + ", to=" + mf(val1) + " sliders " + prev2Slider + " => " + prevSlider + " => " + slider);
+      }
+      doWriteKeepVals(vv, pors, clan, val1, val0, slider, prevSlider, prev2Slider);
       return 1;
     } else if (E.debugSettingsTab) {  //problem with gc
       if (E.debugPutValue2) {
@@ -2241,7 +2323,7 @@ class EM {
   boolean matchGameClanStatus(int vv) {
     int gc = valI[vv][modeC][0][0];
     boolean rtn = ((gc >= vone && gc <= vfour) && gameClanStatus == 5)
-            || (vten == gc || gc == vfive ) && (0 <= gameClanStatus && 4 >= gameClanStatus);
+            || (vten == gc || gc == vfive) && (0 <= gameClanStatus && 4 >= gameClanStatus);
     if (E.debugSettingsTabOut) {
       System.out.println("at 2146 match game clan vv=" + vv + " valS=" + valS[vv][vDesc] + " match game clan status=" + gameClanStatus + ", gc=" + gc + ", " + (rtn ? "" : "!!") + "rtn");
     }
@@ -2328,25 +2410,25 @@ class EM {
    * also run settings adjustments at the end
    */
   void runVals() throws IOException {
-    doVal("difficulty  ", difficultyPercent, mDifficultyPercent, "For ships as well as  Planets , set the difficulty of the game, more difficulty increases costs of  resources and staff each year, increases the possibility of economy death.  More difficulty requires more clan boss expertise.");
-    doVal("randomActions  ", randFrac, mRandFrac, "increased random, increases possibility of gain, and of loss, including possibility of death");
+    doVal("difficulty", difficultyPercent, mDifficultyPercent, "For ships as well as  Planets , set the difficulty of the game, more difficulty increases costs of  resources and staff each year, increases the possibility of economy death.  More difficulty requires more clan boss expertise.");
+    doVal("randomActions", randFrac, mRandFrac, "increased random, increases possibility of gain, and of loss, including possibility of death");
     doVal("Min Econs by Year", minEconsMult, mminEconsMult, "increase slider, increase min econs, create new free econs for clans starting at a random clan");
-    doVal("wGiven", wGiven,mNegPluScoreMult, "increase slider, increase the value of  the percent given in trade by the clan.");
-    doVal("wGiven2", wGiven2,mNegPluScoreMult, "increase slider, increase the value of  the percent given in trade by the clan.");
+    doVal("wGiven", wGiven, mNegPluScoreMult, "increase slider, increase the value of  the percent given in trade by the clan.");
+    doVal("wGiven2", wGiven2, mNegPluScoreMult, "increase slider, increase the value of  the percent given in trade by the clan.");
     doVal("wGenerous", wGenerous, mNegPluScoreMult, "iincrease slider, increase the value of  the percent given in trade by the clan.");
-    doVal("iGiven", iGiven,mNegPluScoreMult, "increase slider, increase the score for number of economies traded.");
-    doVal("wLiveWorthScore", wLiveWorthScore,mNegPluScoreMult, "increase slider, increase the winning score for the clan final worth.");
-    doVal("iLiveWorthScore", iLiveWorthScore,mNegPluScoreMult, "increase slider, increase the winning score for the clan final count of planets and ships");
-    doVal("iBothCreateScore", iBothCreateScore,mNegPluScoreMult, "increase slider, increase the winning score for the number of this clan in ever created");
-    doVal("wYearTradeV", wYearTradeV,mNegPluScoreMult, "increase slider, increase the winning score for the increase in the year trade increase");
-    doVal("wYearTradeI", wYearTradeI,mNegPluScoreMult, "increase slider, increase the winning score for thee increase in the number of economies with at least one trade that year");
+    doVal("iGiven", iGiven, mNegPluScoreMult, "increase slider, increase the score for number of economies traded.");
+    doVal("wLiveWorthScore", wLiveWorthScore, mNegPluScoreMult, "increase slider, increase the winning score for the clan final worth.");
+    doVal("iLiveWorthScore", iLiveWorthScore, mNegPluScoreMult, "increase slider, increase the winning score for the clan final count of planets and ships");
+    doVal("iBothCreateScore", iBothCreateScore, mNegPluScoreMult, "increase slider, increase the winning score for the number of this clan in ever created");
+    doVal("wYearTradeV", wYearTradeV, mNegPluScoreMult, "increase slider, increase the winning score for the increase in the year trade increase");
+    doVal("wYearTradeI", wYearTradeI, mNegPluScoreMult, "increase slider, increase the winning score for thee increase in the number of economies with at least one trade that year");
     doVal("years To Win", winDif, mwinDif, "increase slider, increase the years before a winner is declared");
-    doVal("iNumberDiedI", iNumberDied,mNegPluScoreMult, "increase slider, decrease the winning score for the number of dead economies for this clan this year");
+    doVal("iNumberDiedI", iNumberDied, mNegPluScoreMult, "increase slider, decrease the winning score for the number of dead economies for this clan this year");
     doVal("resourceCosts", mab1, mmab1, "raise the cost of resources planet and ship, makes game harder");
     doVal("staffCosts", mac1, mmac1, "raise the costs of staff for planets and ships, makes planets and ships die more often");
     doVal("Threads", maxThreads, mmaxThreads, "Increase the number of possible threads. If your computer supports more than 1 cpu, more threads may decrease the total time per year.");
     doVal("haveColors", haveColors, mHaveColors, "Above slider 50 the tab display will show the color of the current economy. The changing of colors helps understand how fast the game is going.  Some persons have trouble with blinking colors, so setting this slider below 50 will stop the color changes.");
-     doVal("haveCash", haveCash, mHaveCash, "Above slider 50 the tab display Economies will start with some cash, cash is just another resource that can be traded, think of it as bars of gold, not as paper money");
+    doVal("haveCash", haveCash, mHaveCash, "Above slider 50 the tab display Economies will start with some cash, cash is just another resource that can be traded, think of it as bars of gold, not as paper money");
     doVal("tradeReservFrac", tradeReservFrac, mTradeReservFrac, "raise the amount of resource or staff to reserve during a trade, higher reduces risk and reduces gain");
     doVal("Max LY  ", maxLY, mMaxLY, "adjust the max Light Years distance of planets for trades");
     doVal("Add LY  ", addLY, mAddLY, "adjust addition per round to the max Light Years distance of planets for traded");
@@ -2374,7 +2456,7 @@ class EM {
     doVal("FutureFundFrac", futureFundFrac, mFutureFundFrac, "iincrease the amount transfered to futureFund  at emergencies and dues. increases building new economies, decreases growth may increase deaths, inrease growth, decrease new economies");
     doVal("FutureFEmerg1", clanFutureFundEmerg1, mClanFutureFundEmerg, "adjust first level trigger when staff  or resources are out of bound,divert max staff/resource sectors to futureFund, larger than 2 to have 2 triggers");
     doVal("clanFutureFEmerg2", clanFutureFundEmerg2, mClanFutureFundEmerg, "adjust second level trigger when staff and resources are out of bound,divert staff/resource sectors to futureFund");
-    doVal("TradeCriticalBias",tradeCriticalFrac,mTradeCriticalFrac,"clan increase the trade value of resources or staff critically needed and decrease the trade value of resources or staff least needed");
+    doVal("TradeCriticalBias", tradeCriticalFrac, mTradeCriticalFrac, "clan increase the trade value of resources or staff critically needed and decrease the trade value of resources or staff least needed");
     doVal("swapDif", swapDif, mSwapDif, "decrease the difference when a resource sum, staff sum difference will permit only swap transmuts/repurposing to keep this ship or planet alive");
     doVal("staffSizeRestrictions", gameStartSizeRestrictions, mGameStartSizeRestrictions, "raise the value at which staff increases are restricted");
     doVal("Offer Request Bias", moreOfferBias, mMoreOfferBias, "adjust the bias for requests in the first round adjust of the bid at each turn of bidding");
@@ -2424,15 +2506,15 @@ class EM {
     doVal("CatastrophicUnitsDestroyed", catastrophyUnitReduction, mCatastrophyUnitReduction, "increase the destruction of resources and staff in a catastrophy");
     doVal("CatastrophyBonusYears", catastrophyBonusYears, mCatastrophyBonusYears, "increase years of additional growth for a catastrophy");
     doVal("PriorityRandomAddition", priorityRandAdditions, mPriorityRandAdditions, "adjust possible size of random additons to sector priorities");
-    doVal("CatastrophiesFrequency", userCatastrophyFreq, mUserCatastrophyFreq, "increase frequesncy of catastrophies");
+//    doVal("CatastrophiesFrequency", userCatastrophyFreq, mUserCatastrophyFreq, "increase frequesncy of catastrophies");
     doVal("Catastrophy Size", gameUserCatastrophyMult, mGameUserCatastrophyMult, "increase size and frequency of catastrophies");
     // doVal("CWorthBias", cargoWorthBias, mCargoWorthBias, "increase the worth of cargo in relation to the worth of resources"); cargo worth matches resoruce worth, costs are however less
     //  doVal("GWorthBias", guestWorthBias, mGuestWorthBias, "increase the worth of guests in relation to the worth of staff");  guest worth matches staff worth, costs are less
 
     doVal("growthGoal", goalGrowth, mRegGoals, "set normal, non-emergency growth goal, may increase growth");
     doVal("ShipsTradeFraction", ssFrac, mSsFrac, "Increase the desired trade profit with other ships (received/given) in a trade, this may reduce the number of successful trades");
-     doVal("tradeFraction", tradeFrac, mTradeFrac, "Increase the desired trade profit (received/given) in a trade, this may reduce the number of successful trades");
-   //   doVal("tradeGrowthGoal", tradeGrowth, mAllGoals, "adjust growth goals while trading, increases the level of requests to meet goals");
+    doVal("tradeFraction", tradeFrac, mTradeFrac, "Increase the desired trade profit (received/given) in a trade, this may reduce the number of successful trades");
+    //   doVal("tradeGrowthGoal", tradeGrowth, mAllGoals, "adjust growth goals while trading, increases the level of requests to meet goals");
     doVal("tradeGrowthGoal", tradeGrowth, mAllGoals, "adjust growth goals while trading, increases the level of requests to meet goals");
     doVal("healthGoal", goalHealth, mRegGoals, "set normal, non-emergency health goal, may increase health and reduce costs");
     doVal("emergHealthGoal", emergHealth, mAllGoals, "set emergency health goals for when economies are weak more might help or might may make them worse");
@@ -2589,7 +2671,7 @@ class EM {
   static final long LFORFUND = LIST2YRS | LIST19;
   static final long LSWAPSA = LISTYRS | LIST17;
   static final long CURSMASK = CUR | CURAVE | CURUNITS | THISYEAR | THISYEARAVE | THISYEARUNITS;
-  static final long CUMSMASK = CUM | CUMAVE |CUMUNITS;
+  static final long CUMSMASK = CUM | CUMAVE | CUMUNITS;
   static final long LISTALL = lmask;
   static final long listall = lmask;
 
@@ -2720,8 +2802,8 @@ class EM {
 
   // double gameV[][]; //[gameCnt][pval[],sval[],more[sngl,pmin,pmax,smin,smax]]
   // String[][] gameS; //[gameCnt][desc,detail]
- private  boolean unset = true;  // value in this rn nerver been set
- private  boolean myUnset = false;
+  private boolean unset = true;  // value in this rn nerver been set
+  private boolean myUnset = false;
   private boolean myCumUnset = false;
   private long valid = 0; // number of cur in this rn valid 2 = 0,1 etc.
   private long myAop = 0;
@@ -2905,13 +2987,13 @@ class EM {
   static final int MaxNominalReceivePercentNominalOffer = ++e4;
   static final int MinNominalReceivePercentNominalOffer = ++e4;
   static final int TradeStrategicReceivePercentStrategicOffer = ++e4;
-  static final int MaxStrategicReceivePercentStrategicOffer= ++e4;
+  static final int MaxStrategicReceivePercentStrategicOffer = ++e4;
   static final int MinStrategicReceivePercentStrategicOffer = ++e4;
   static final int YearTradeNominalReceivePercentNominalOffer = ++e4;
   static final int YearMaxNominalReceivePercentNominalOffer = ++e4;
   static final int YearMinNominalReceivePercentNominalOffer = ++e4;
   static final int YearTradeStrategicReceivePercentStrategicOffer = ++e4;
-  static final int YearMaxStrategicReceivePercentStrategicOffer= ++e4;
+  static final int YearMaxStrategicReceivePercentStrategicOffer = ++e4;
   static final int YearMinStrategicReceivePercentStrategicOffer = ++e4;
   /*
    setStat(EM.TradeNominalReceivePercentNominalOffer,pors,clan,100*totalStrategicRequests/nominalOffers);
@@ -2920,7 +3002,7 @@ class EM {
           setStat(EM.TradeStrategicReceivePercentStrategicOffer,pors,clan,100*totalStrategicRequests/nominalOffers);
           setMax(EM.MaxStrategicReceivePercentStrategicOffer,pors,clan,100*totalStrategicRequests/nominalOffers);
           setMin(EM.MinStrategicReceivePercentStrategicOffer,pors,clan,100*totalStrategicRequests/nominalOffers);
-  */
+   */
   static final int TRADESOS1 = ++e4;
   static final int TRADESOS2 = ++e4;
   static final int TRADESOS3 = ++e4;
@@ -2979,7 +3061,7 @@ class EM {
   static final int CRISISSTAFFGROWTHYEARSINCR = ++e4;
   static final int CRISISRESGROWTHPERCENTINCR = ++e4;
   static final int CRISISRESGROWTHYEARSINCR = ++e4;
- 
+
   static final int CRISISMANUALSPERCENTINCR = ++e4;
   // static final int TESTWORTH4 = ++e4;
   /// static final int TESTWORTH5 = ++e4;
@@ -2990,10 +3072,10 @@ class EM {
 
   void defRes() {
 
-    doRes(SCORE, "Score", "Winner has the highest score the result of combining the different priorities set by several value entries which increase the score", 3, 4, 3, LIST7 | LIST8 | LIST9 | LIST43210YRS | THISYEAR  | SUM ,0, 0,0);
-    doRes(LIVEWORTH, "Live Worth", "Live Worth Value including year end working, reserve: resource, staff, knowledge", 2, 2, 0, LIST0 | LIST7 | LIST8 | LIST9 | thisYr | SUM, ROWS1 | LIST0 | LIST7 | LIST8 | LIST9  | THISYEAR | THISYEARUNITS | thisYrAve | BOTH, ROWS3 | LIST43210YRS | LIST5 | CUMUNITS | BOTH | SKIPUNSET, 0L);
-    doRes(STARTWORTH, "Starting Worth", "Starting Worth Value including working, reserve: resource, staff, knowledge", 2, 2, 0, LIST7 | LIST8 | LIST9  | thisYr | SUM, ROWS1 | LIST7 | LIST8 | LIST9  | THISYEAR |  thisYrAve | BOTH, 0L, 0L);
-    doRes(WORTHIFRAC, "PercInitWorth ", "Percent of Initial Worth Value including working, reserve: resource, staff, knowledge", 2, 2, 0, LIST7 | LIST8 | THISYEARAVE | BOTH, ROWS2 |  LIST8 | LIST9 | CUMAVE | BOTH, 0, 0);
+    doRes(SCORE, "Score", "Winner has the highest score the result of combining the different priorities set by several value entries which increase the score", 3, 4, 3, LIST7 | LIST8 | LIST9 | LIST43210YRS | THISYEAR | SUM, 0, 0, 0);
+    doRes(LIVEWORTH, "Live Worth", "Live Worth Value including year end working, reserve: resource, staff, knowledge", 2, 2, 0, LIST0 | LIST7 | LIST8 | LIST9 | thisYr | SUM, ROWS1 | LIST0 | LIST7 | LIST8 | LIST9 | THISYEAR | THISYEARUNITS | thisYrAve | BOTH, ROWS3 | LIST43210YRS | LIST5 | CUMUNITS | BOTH | SKIPUNSET, 0L);
+    doRes(STARTWORTH, "Starting Worth", "Starting Worth Value including working, reserve: resource, staff, knowledge", 2, 2, 0, LIST7 | LIST8 | LIST9 | thisYr | SUM, ROWS1 | LIST7 | LIST8 | LIST9 | THISYEAR | thisYrAve | BOTH, 0L, 0L);
+    doRes(WORTHIFRAC, "PercInitWorth ", "Percent of Initial Worth Value including working, reserve: resource, staff, knowledge", 2, 2, 0, LIST7 | LIST8 | THISYEARAVE | BOTH, ROWS2 | LIST8 | LIST9 | CUMAVE | BOTH, 0, 0);
     doRes(WORTHINCR, "PercIncWorth", "Percent worth increase per year", 2, 2, 0, LIST0 | LIST7 | LIST8 | THISYEARAVE | BOTH, ROWS2 | LIST0YRS | LIST8 | LIST9 | CUMAVE | BOTH, 0, 0);
     doRes(YEARCREATE, "yearCreations", "new Econs ceated from game funds", 3, 2, 0, LIST8 | LISTYRS | THISYEARUNITS | SKIPUNSET | BOTH, ROWS2 | LIST8 | LIST0YRS | CUMUNITS | SKIPUNSET | BOTH, 0L, 0L);
     doRes(FUTURECREATE, "FutureFund Create", "Econs created from Future Funds");
@@ -3010,7 +3092,7 @@ class EM {
     doRes(MISSINGNAME, "missing name", "tried an unknown name", 6, 0, list0 | cumUnits | curUnits | curAve | cumAve | both, 0, 0, 0);
     // doRes(DIED, "died", "planets or ships died for any cause",2,2,3,0L,ROWS1 | LIST0 | LIST3 | LISTYRS | THISYEARUNITS | BOTH | SKIPUNSET, ROWS2 |  LIST0 | LIST2 | LIST3  | CUMUNITS | BOTH | SKIPUNSET,0L);
     doRes(DIEDPERCENT, "DIED %", "Percent planets or ships died", 2, 2, 3, ROWS1 | LIST3 | LISTYRS | THISYEARAVE | BOTH | SKIPUNSET, ROWS2 | LIST3 | CUMAVE | BOTH | SKIPUNSET, 0L, 0L);
-    doRes(DIEDCATASTROPHY, "DiedAfterCrisis", "Died after catastrophy percent worth would have increased", 1, 1, 3, ROWS1 | LIST3YRS | CUMUNITS | BOTH | SKIPUNSET,0, 0L, 0L);
+    doRes(DIEDCATASTROPHY, "DiedAfterCrisis", "Died after catastrophy percent worth would have increased", 1, 1, 3, ROWS1 | LIST3YRS | CUMUNITS | BOTH | SKIPUNSET, 0, 0L, 0L);
     doRes(DIEDSN4, "DIEDSN4", "died s min(3) lt 0");
     doRes(DIEDRN4, "DIEDRN3", "died resource min(2) lt 0");
     doRes(DIEDSN4RM3X5, " DIEDSN4RM3X5", "died 4 r lt 0, && max3 r gt 5 times max3 s");
@@ -3092,12 +3174,12 @@ class EM {
     doRes(DIEDSM3X1RN1, "DIEDSM3X1RN1", "died s max3 > 1 * r max, r min1 is neg try reduce difficulty or staff or resource costs.");
     doRes(DIEDSM2X4RN1, "DIEDSM2X4RN1", "died s max3 > 4 * r max, r min1 is neg try reduce difficulty or staff or resource costs.");
     doRes(DIEDSM2X3RN1, "DIEDSM2X3RN1", "died s max3 > 4 * r max, r min1 is neg try reduce difficulty or staff or resource costs.");
-    doRes(DIEDSM2X2RN1, "DIEDSM2X2RN1","died s max3 > 4 * r max, r min1 is neg try reduce difficulty or staff or resource costs.");
+    doRes(DIEDSM2X2RN1, "DIEDSM2X2RN1", "died s max3 > 4 * r max, r min1 is neg try reduce difficulty or staff or resource costs.");
     doRes(DIEDSM2X1RN1, "DIEDSM2X1RN1", "died s max3 > 4 * r max, r min1 is neg try reduce difficulty or staff or resource costs.");
-    doRes(DIEDSM1X4RN1, "DIEDSM1X4RN1",  "died s max1 > 4 * r max, r min1 is neg try reduce difficulty or staff or resource costs.");
+    doRes(DIEDSM1X4RN1, "DIEDSM1X4RN1", "died s max1 > 4 * r max, r min1 is neg try reduce difficulty or staff or resource costs.");
     doRes(DIEDSM1X3RN1, "DIEDSM1X3RN1", "died s max1 > 3 * r max, r min1 is neg try reduce difficulty or staff or resource costs.");
-    doRes(DIEDSM1X2RN1, "DIEDSM1X2RN1",  "died s max1 > 2 * r max, r min1 is neg try reduce difficulty or staff or resource costs.");
-    doRes(DIEDSN1RM1X1, "DIEDSN1RM1X1",  "died s max1 > 1 * r max, r min1 is neg try reduce difficulty or staff or resource costs.");
+    doRes(DIEDSM1X2RN1, "DIEDSM1X2RN1", "died s max1 > 2 * r max, r min1 is neg try reduce difficulty or staff or resource costs.");
+    doRes(DIEDSN1RM1X1, "DIEDSN1RM1X1", "died s max1 > 1 * r max, r min1 is neg try reduce difficulty or staff or resource costs.");
     doRes("DeadNegN", "DeadNegSwapN", "Dead Swaps never entered");
     doRes("DeadLt5", "DeadLt5", "no more than 15 swaps");
     doRes("DeadLt10", "DeadLt10", "no more than 10 swaps");
@@ -3150,28 +3232,28 @@ class EM {
     doRes(INCRAVAILFRAC, "IncrAvailFrac", "Percent increase in avail frac after trade  at any trade", 2, 3, 2, DUP, 0, 0, 0);
     doRes(INCRAVAILFRACa, "IncrAvailFracRej", "Percent increase in avail frac trade rejected", 2, 3, 2, DUP, 0, 0, 0);
     doRes(INCRAVAILFRACb, "IncrAvailFracb", "Percent increase in avail frac after trade rejected at trade failure", 2, 3, 2, DUP, 0, 0, 0);
-    doRes(TRADEFIRSTRECEIVE, "First Received", "First amount received in a trade", 2, 3, 2, LIST41 | THISYEARAVE | BOTH | SKIPUNSET, ROWS2 | LIST20| CUMUNITS, 0L, 0L);
+    doRes(TRADEFIRSTRECEIVE, "First Received", "First amount received in a trade", 2, 3, 2, LIST41 | THISYEARAVE | BOTH | SKIPUNSET, ROWS2 | LIST20 | CUMUNITS, 0L, 0L);
     doRes(TRADELASTRECEIVE, "Last Received", "Final amount received in a trade", 2, 3, 2, LIST41 | THISYEARAVE | BOTH | SKIPUNSET, ROWS1 | LIST20 | CURAVE | BOTH | SKIPUNSET, ROWS2 | LIST4YRS | CUMAVE | CUM | BOTH | SKIPUNSET, 0L);
     doRes(TRADERECEIVELASTPERCENTFIRST, "percent final/first requested amount", "Final percent of First  amount requested in a trade");
     doRes(TRADEFIRSTGAVE, "TradeFirstGiven", "First amount given in trade percent per sumrcsg", 2, 2, 2, 0, ROWS1 | LIST4 | THISYEARAVE | BOTH | SKIPUNSET, 0L, 0L);
-    doRes(TRADELASTGAVE, "TradeNominalGiven", "Percent nominal amount given in trade per sumrcsg may be used for scoreing", 2, 2, 2, LIST40  | THISYEAR | BOTH | SKIPUNSET, ROWS1 | LIST4  | CUM| CUMAVE |  BOTH | SKIPUNSET, 0L, 0L);
-     doRes(TRADESTRATLASTGAVE, "TradeStrategicLastGave", "Percent nominal amount given in trade per sumrcsg may be used for scoreing");
-    doRes(TRADENOMINALGAVE, "TradeNominalGiven", "Nominal not strategic amount given in trade ", 2, 2, 2, LIST0 | CUM  | BOTH | SKIPUNSET, ROWS1 | LIST4 | CUMAVE | BOTH | SKIPUNSET, 0L, 0L);
-    doRes(TRADESTRATFIRSTRECEIVE, "StrategicFirstReceived", "First strategic amount received in trade", 2, 3, 2, LIST41  | THISYEARAVE | BOTH | SKIPUNSET, ROWS1 | LIST20| BOTH | SKIPUNSET, ROWS2 | LIST4 | CUMAVE | BOTH | SKIPUNSET, 0L);
+    doRes(TRADELASTGAVE, "TradeNominalGiven", "Percent nominal amount given in trade per sumrcsg may be used for scoreing", 2, 2, 2, LIST40 | THISYEAR | BOTH | SKIPUNSET, ROWS1 | LIST4 | CUM | CUMAVE | BOTH | SKIPUNSET, 0L, 0L);
+    doRes(TRADESTRATLASTGAVE, "TradeStrategicLastGave", "Percent nominal amount given in trade per sumrcsg may be used for scoreing");
+    doRes(TRADENOMINALGAVE, "TradeNominalGiven", "Nominal not strategic amount given in trade ", 2, 2, 2, LIST0 | CUM | BOTH | SKIPUNSET, ROWS1 | LIST4 | CUMAVE | BOTH | SKIPUNSET, 0L, 0L);
+    doRes(TRADESTRATFIRSTRECEIVE, "StrategicFirstReceived", "First strategic amount received in trade", 2, 3, 2, LIST41 | THISYEARAVE | BOTH | SKIPUNSET, ROWS1 | LIST20 | BOTH | SKIPUNSET, ROWS2 | LIST4 | CUMAVE | BOTH | SKIPUNSET, 0L);
     doRes(TRADESTRATLASTRECEIVE, "StrategicLastReceived", "Final strategic amount eeceived in trade");
     doRes(TRADESTRATFIRSTGAVE, "TradeStrategicFirstGave", "First amount given in trade");
-    doRes(TradeNominalReceivePercentNominalOffer, "NomReceive%NomOffer", "% of Nominal Received Per Nominal  Given", 1, 3, 2, LIST4YRS |  BOTH | SKIPUNSET,  ROWS2 | LIST4 | CUMAVE | BOTH | SKIPUNSET, 0L, 0L);
+    doRes(TradeNominalReceivePercentNominalOffer, "NomReceive%NomOffer", "% of Nominal Received Per Nominal  Given", 1, 3, 2, LIST4YRS | BOTH | SKIPUNSET, ROWS2 | LIST4 | CUMAVE | BOTH | SKIPUNSET, 0L, 0L);
     doRes(MaxNominalReceivePercentNominalOffer, "MaxNomReceive%NomOffer", "Max % of Nominal Received Per Nominal  Given");
     doRes(MinNominalReceivePercentNominalOffer, "MinNomReceive%NomOffer", "Min % of Nominal Received Per Nominal  Given");
     doRes(TradeStrategicReceivePercentStrategicOffer, "StratReceive%StratGiven", "% of Strategic Received Per Strategic  Given");
-    doRes(MaxStrategicReceivePercentStrategicOffer, "MaxStratReceive%StratGiven","Max % of Strategic Received Per Strategic  Given");
-    doRes(MinStrategicReceivePercentStrategicOffer, "MinStratReceive%StratGiven" ,"Min % of Strategic Received Per Strategic  Given");
+    doRes(MaxStrategicReceivePercentStrategicOffer, "MaxStratReceive%StratGiven", "Max % of Strategic Received Per Strategic  Given");
+    doRes(MinStrategicReceivePercentStrategicOffer, "MinStratReceive%StratGiven", "Min % of Strategic Received Per Strategic  Given");
     doRes(YearTradeNominalReceivePercentNominalOffer, "YearNomReceive%NomOffer", "Year % of Nominal Received Per Nominal  Given");
-    doRes(YearMaxNominalReceivePercentNominalOffer,"YearNomReceive%NomOffer", "Year Max % of Nominal Received Per Nominal  Given");
-    doRes(YearMinNominalReceivePercentNominalOffer, "YearNomReceive%NomOffer","Year Min % of Nominal Received Per Nominal  Given");
+    doRes(YearMaxNominalReceivePercentNominalOffer, "YearNomReceive%NomOffer", "Year Max % of Nominal Received Per Nominal  Given");
+    doRes(YearMinNominalReceivePercentNominalOffer, "YearNomReceive%NomOffer", "Year Min % of Nominal Received Per Nominal  Given");
     doRes(YearTradeStrategicReceivePercentStrategicOffer, "YearStratReceive%StratGiven", "Year % of Strategic Received Per Strategic  Given");
-    doRes(YearMaxStrategicReceivePercentStrategicOffer, "YearMaxStratReceive%StratGiven","Year Max % of Strategic Received Per Strategic  Given");
-    doRes(YearMinStrategicReceivePercentStrategicOffer, "YearMinStratReceive%StratGiven" ,"Year Min % of Strategic Received Per Strategic  Given"); 
+    doRes(YearMaxStrategicReceivePercentStrategicOffer, "YearMaxStratReceive%StratGiven", "Year Max % of Strategic Received Per Strategic  Given");
+    doRes(YearMinStrategicReceivePercentStrategicOffer, "YearMinStratReceive%StratGiven", "Year Min % of Strategic Received Per Strategic  Given");
     /*
    setStat(EM.TradeNominalReceivePercentNominalOffer,pors,clan,100*totalStrategicRequests/nominalOffers);
           setNaxEM.MaxNominalReceivePercentNominalOffer,pors,clan,100*totalStrategicRequests/nominalOffers);
@@ -3179,7 +3261,7 @@ class EM {
           setStat(EM.TradeStrategicReceivePercentStrategicOffer,pors,clan,100*totalStrategicRequests/nominalOffers);
           setMax(EM.MaxStrategicReceivePercentStrategicOffer,pors,clan,100*totalStrategicRequests/nominalOffers);
           setMin(EM.MinStrategicReceivePercentStrategicOffer,pors,clan,100*totalStrategicRequests/nominalOffers);
-  */
+     */
     doRes(BEFORETRADEWORTH, "BeforeTradeWorth", "Worth before A trade", 2, 3, 2, DUP, 0, 0, 0);
     doRes(AFTERTRADEWORTH, "AfterTradeWorth", "Worth after a trade", 2, 3, 2, DUP, 0, 0, 0);
     doRes(TRADEWORTHINCRPERCENT, "TradeWorthIncrPercent", "Percent increase in Worth after trade", 2, 3, 2, SKIPDUP | LIST4 | THISYEARAVE, 0, 0, LIST41 | ROWS3 | CUMUNITS);
@@ -3271,11 +3353,11 @@ class EM {
     doRes(SWAPSDECRCOST, "Swap SDecr Cost", "Fraction of S Decr swap cost/sum of S units", 2, 2, 1);
     doRes(SWAPRXFERCOST, "Swap RXfer Cost", "Fraction of R XFER swap cost/sum of R units", 2, 2, 1);
     doRes(SWAPSXFERCOST, "Swap SXfer Cost", "Fraction of S XFER swap cost/sum of R units", 2, 2, 1);
-    doRes("EmergFF", "EmergFF", "emergency resource/staff sums tranfer resource to FutureFund", 2, 2, 1,  LIST2 | LIST6 | THISYEAR | BOTH | SKIPUNSET, ROWS1 | LISTYRS | SKIPUNSET  | BOTH | CUR  , ROWS2|  LIST6 | CUM |  CUMUNITS | BOTH | SKIPUNSET,0);
+    doRes("EmergFF", "EmergFF", "emergency resource/staff sums tranfer resource to FutureFund", 1, 1, 1, LIST2 | THISYEAR | BOTH | SKIPUNSET, ROWS1 | LISTYRS | SKIPUNSET | BOTH | CUM, ROWS2 | LIST6 | CUM | CUMUNITS | BOTH | SKIPUNSET, 0);
     doRes("SizeFF", "SizeFF", "Size resource/staff sums tranfer resource to FutureFund");
-    doRes("FutureFundSaved", "FutureFundsSaved", "Total resource/staff sums tranfered to FutureFund", 2, 2, 1,  LIST2 | THISYEAR | BOTH | SKIPUNSET,ROWS1  | SKIPUNSET  | BOTH   , ROWS2|  LIST6 | CUM | BOTH | SKIPUNSET, 0);
+    doRes("FutureFundSaved", "FutureFundsSaved", "Total resource/staff sums tranfered to FutureFund", 2, 2, 1, LIST2 | THISYEAR | BOTH | SKIPUNSET, ROWS1 | SKIPUNSET | BOTH, ROWS2 | LIST6 | CUM | BOTH | SKIPUNSET, 0);
     doRes("FutureFund", "Redo FutureFund", "At emergency1 level of resource/staff back out of a saved future fund");
-    doRes("EmergFF1", "Emerg FutureFund1", "At emergency1 level of resource/staff neg prospects val to FutureFund");
+    doRes("EmergFF1", "Emerg FutureFund1", "At emergency1 level of resource/staff neg prospects val to FutureFund", 1, 1, 1, LIST2 | THISYEAR | BOTH | SKIPUNSET, ROWS1 | LISTYRS | SKIPUNSET | BOTH | CUM, ROWS2 | LIST6 | CUM | CUMUNITS | BOTH | SKIPUNSET, 0);
     doRes("REmergFF1", "R Emerg FutureFund1", "At emergency1 level of resource/staff sums tranfser val to FutureFund");;
     doRes("SEmergFF1", "S Emerg FutureFund1", "At emergency1 level of staff/resource sums transfer val to FutureFund");
     doRes("REmergFF2", "R Emerg FutureFund2", "At emergency2 level of resource/staff sums transfer val to FutureFund");
@@ -3286,11 +3368,11 @@ class EM {
     doRes("SgEmergFF2", "Sg Emerg FutureFund2", "At emergency2 level of staff/resource sums tranfer val to FutureFund");
     doRes("SizeFFr", "R SizeFutureFund", "At size level of resource/staff sums tranfer val  to FutureFund");
     doRes("SizeFFs", "S SizeFutureFund", "At size level of resource/staff sums tranfer val  to FutureFund");
-     doRes("SizeFFEr", "RE SizeFutureFund", "At emergency prospects level of resource/staff sums tranfer val to FutureFund");
+    doRes("SizeFFEr", "RE SizeFutureFund", "At emergency prospects level of resource/staff sums tranfer val to FutureFund", 1, 1, 1, LIST2 | THISYEAR | BOTH | SKIPUNSET, ROWS1 | LISTYRS | SKIPUNSET | BOTH | CUM, ROWS2 | LIST6 | CUM | CUMUNITS | BOTH | SKIPUNSET, 0);
     doRes("SizeFFEs", "SE SizeFutureFund", "At size level of resource/staff sums tranfer val  to FutureFund");
     doRes("RSwapFF", "R SwapEmergFF", "At emergency level of resource/staff sums during swaps tranfer val to FutureFund");
     doRes("SSwapFF", "S SwapEmergFF", "At emergency level of staff/resource sums during swaps tranfer val to FutureFund");
-    doRes(CRISISINCR, "IncWorthCrisis", "Percent Year increase Worrth/worth a year with a catastrophy", 2, 2, 1,  LIST2 |  THISYEARUNITS | BOTH | SKIPUNSET,LIST9 | LISTYRS | SKIPUNSET | BOTH | THISYEAR | THISYEARUNITS , ROWS3 | LIST9 |  CUM | CUMUNITS | BOTH | SKIPUNSET, 0);
+    doRes(CRISISINCR, "IncWorthCrisis", "Percent Year increase Worrth/worth a year with a catastrophy", 2, 2, 1, LIST2 | THISYEARUNITS | BOTH | SKIPUNSET, LIST9 | LISTYRS | SKIPUNSET | BOTH | THISYEAR | THISYEARUNITS, ROWS3 | LIST9 | CUM | CUMUNITS | BOTH | SKIPUNSET, 0);
     doRes(CRISIS2INCR, "IncWorthCrisis", "Percent Year increase Worrth/worth a second year after a  catastrophy");
     doRes(CRISIS3INCR, "IncWorthCrisis", "Percent Year increase Worrth/worth a third year after a  catastrophy");
     doRes(NOCRISISINCR, "IncWorth 1Yr No Crisis", "Percent Year increase Worrth/Year initial worth if at least 1  year of no catastrophy");
@@ -3451,8 +3533,8 @@ class EM {
    *
    * @param dName name of setStats recording a result
    * @param desc description of result
-   * @param detail detailed description available by clicking description
-   *  set depth=1, ydepth=1
+   * @param detail detailed description available by clicking description set
+   * depth=1, ydepth=1
    * @param fracs number of fraction digits
    * @param lock0 0'th lock to match the offered keys
    * @param lock1 1'th lock to match offered keys may be empty
@@ -3462,7 +3544,7 @@ class EM {
    * @return rN the index of a vector of result integer index into
    * resI,resV,resS
    */
- private  int doRes(String dName, String desc, String detail, int fracs, long lock0, long lock1, long lock2, long lock3) {
+  private int doRes(String dName, String desc, String detail, int fracs, long lock0, long lock1, long lock2, long lock3) {
     return doRes(dName, desc, detail, 1, 1, fracs, lock0, lock1, lock2, lock3);
   }
 
@@ -3473,8 +3555,7 @@ class EM {
    * @param dName name of setStats recording a result
    * @param desc description of result
    * @param detail detailed description available by clicking description
-   * @param depth number of successive years displayed 1-6
-   * ydepth=1
+   * @param depth number of successive years displayed 1-6 ydepth=1
    * @param fracs number of fraction digits
    * @param lock0 0'th lock to match the offered keys
    * @param lock1 1'th lock to match offered keys may be empty
@@ -3524,8 +3605,7 @@ class EM {
    * @param rN number of the result
    * @param desc description
    * @param detail detailed description available by clicking description
-   * @param fracs number of fraction digits
-   * depth=1, ydepth=1
+   * @param fracs number of fraction digits depth=1, ydepth=1
    * @param lock0 0'th lock to match the offered keys
    * @param lock1 1'th lock to match offered keys may be empty
    * @param lock2 2nd lock to match offered keys, may be empty
@@ -3545,8 +3625,8 @@ class EM {
    * @param rN number of the result
    * @param desc description
    * @param detail detailed description available by clicking description
-   * @param depth depth of reports for all years
-   *  set ydepth depth for 5 year groups, LIST10,LIST11,LIST12,LIST13,LIST14
+   * @param depth depth of reports for all years set ydepth depth for 5 year
+   * groups, LIST10,LIST11,LIST12,LIST13,LIST14
    * @param fracs number of fraction digits
    * @param lock0 0'th lock to match the offered keys
    * @param lock1 1'th lock to match offered keys may be empty
@@ -3688,7 +3768,7 @@ class EM {
    * @return rN the index of a vector of result locks which match call keys
    * recall doRes with ydepth=1;
    */
- private  int doRes(int rN, String desc, String detail) {
+  private int doRes(int rN, String desc, String detail) {
     return doRes(rN, desc, detail, rDepth, rYdepth, rFracs, rLock0, rLock1, rLock2, rLock3);
   }
 
@@ -4001,12 +4081,13 @@ class EM {
    * @return v
    */
   int cntStatsPrints = 0;
+
   double setStat(int rn, int pors, int clan, double v, int cnt, int age
   ) {
     int le = lStatsWaitList;
     int prevIx = ixStatsWaitList;
     ixStatsWaitList = (++ixStatsWaitList) % lStatsWaitList;
-    prevIx = prevIx >= lStatsWaitList ? 0: prevIx;// I don't know why there was out of bounds sometimes
+    prevIx = prevIx >= lStatsWaitList ? 0 : prevIx;// I don't know why there was out of bounds sometimes
     int atCnt = 0;
     long nTime = (new Date()).getTime();
     long moreT = nTime - doYearTime;
@@ -4045,7 +4126,7 @@ class EM {
       }
       curm = ICUR0 + CURMAXDEPTH * b;
     } // end if
-    long  resLock[][][] = resI[rn];
+    long resLock[][][] = resI[rn];
     double resL[][][] = resV[rn];
     int ycnt = cnt > -2 ? cnt : 0;
 
@@ -4096,11 +4177,11 @@ class EM {
         long isset1 = (jj - 1 + jjj < resI[rN].length ? resI[rN][jj - 1 + jjj] != null ? resI[rN][jj - 1 + jjj][CCONTROLD][ISSET] : -1 : -2);
 
         if (E.debugStatsOut1) {
-          if(cntStatsPrints < E.ssMax) { 
-          cntStatsPrints += 1;
-          System.out.println(
-                  "EM.setStat " + Econ.nowName + " " + Econ.threadCnt[0] + " since doYear" + year + "=" + moreT + "=>" + moreTT + " " + resS[rN][0] + " rN" + rN + ", valid" + valid + ", " + " resIcum=" + resICumClan + ", age" + age + ", curEcon.age" + curEcon.age + ", pors=" + pors + ", clan=" + clan + ", resIcur0Isset=" + resIcur0Isset + ", resICumIsset=" + resICumIsset + ", resVCur0Clan=" + mf(resVcur0Clan) + ", resVCurmClan=" + mf(resVCurmClan));
-          System.out.flush();
+          if (cntStatsPrints < E.ssMax) {
+            cntStatsPrints += 1;
+            System.out.println(
+                    "EM.setStat " + Econ.nowName + " " + Econ.threadCnt[0] + " since doYear" + year + "=" + moreT + "=>" + moreTT + " " + resS[rN][0] + " rN" + rN + ", valid" + valid + ", " + " resIcum=" + resICumClan + ", age" + age + ", curEcon.age" + curEcon.age + ", pors=" + pors + ", clan=" + clan + ", resIcur0Isset=" + resIcur0Isset + ", resICumIsset=" + resICumIsset + ", resVCur0Clan=" + mf(resVcur0Clan) + ", resVCurmClan=" + mf(resVCurmClan));
+            System.out.flush();
           } //ssMax
         }
 
@@ -4111,7 +4192,7 @@ class EM {
     return v;
   }
 
-   /**
+  /**
    * set a maxStatistic value and a count
    *
    * @param rn the name of this statistic
@@ -4122,7 +4203,7 @@ class EM {
    * @param age years since creation of the Econ for this stat
    * @return v
    */
- // int cntStatsPrints = 0;
+  // int cntStatsPrints = 0;
   double setMaxStat(int rn, int pors, int clan, double v, int cnt, int age
   ) {
     int le = 10;
@@ -4167,7 +4248,7 @@ class EM {
       }
       curm = ICUR0 + CURMAXDEPTH * b;
     } // end if
-    long  resLock[][][] = resI[rn];
+    long resLock[][][] = resI[rn];
     double resL[][][] = resV[rn];
     int ycnt = cnt > 0 ? cnt : 0;
 
@@ -4185,39 +4266,39 @@ class EM {
     long[] resICurmCC = resI[rn][curm][CCONTROLD];
     //wasHere = "inSetStat rn=" + rn + " desc=" + desc + " pors=" + pors + " clan=" + clan + " ";
     synchronized (resLock) {
-        if(resICumCC[ISSET]  < 1){
-            for(int m=0;m< 2; m++) {
-                double aresVC[] = resV[rn][ICUM][m];
-            for(int n=0; n < E.LCLANS;n++){
-                aresVC[n] = -999999999999.;
-            }
-            }
+      if (resICumCC[ISSET] < 1) {
+        for (int m = 0; m < 2; m++) {
+          double aresVC[] = resV[rn][ICUM][m];
+          for (int n = 0; n < E.LCLANS; n++) {
+            aresVC[n] = -999999999999.;
+          }
         }
-      resVCum[clan] = v > resVCum[clan] ? v : resVCum[clan] ;
+      }
+      resVCum[clan] = v > resVCum[clan] ? v : resVCum[clan];
       resICum[clan] += ycnt;
-       if(resICurCC[ISSET]  < 1){
-            for(int m=0;m< 2; m++) {
-                double aresVC[] = resV[rn][ICUR0][m];
-            for(int n=0; n < E.LCLANS;n++){
-                aresVC[n] = -999999999999.;
-            }
-            }
+      if (resICurCC[ISSET] < 1) {
+        for (int m = 0; m < 2; m++) {
+          double aresVC[] = resV[rn][ICUR0][m];
+          for (int n = 0; n < E.LCLANS; n++) {
+            aresVC[n] = -999999999999.;
+          }
         }
+      }
       resVCur[clan] = v > resVCur[clan] ? v : resVCur[clan];
       resICur[clan] += ycnt;
       resICurCC[ISSET] = 1;
       resICumCC[ISSET] = 1;
       if (curm > 0) {
-          if(resICurmCC[ISSET]  < 1){
-            for(int m=0;m< 2; m++) {
-                double aresVC[] = resV[rn][curm][m];
-            for(int n=0; n < E.LCLANS;n++){
-                aresVC[n] = -999999999999.;
+        if (resICurmCC[ISSET] < 1) {
+          for (int m = 0; m < 2; m++) {
+            double aresVC[] = resV[rn][curm][m];
+            for (int n = 0; n < E.LCLANS; n++) {
+              aresVC[n] = -999999999999.;
             }
-            }
+          }
         }
         /* now set the values in the appropriate age group */
-        resVCurm[clan] = v  > resVCurm[clan] ? v : resVCurm[clan];
+        resVCurm[clan] = v > resVCurm[clan] ? v : resVCurm[clan];
         resICurm[clan] += ycnt;
         resICurmCC[ISSET] = 1;
       }
@@ -4242,11 +4323,11 @@ class EM {
         long isset1 = (jj - 1 + jjj < resI[rN].length ? resI[rN][jj - 1 + jjj] != null ? resI[rN][jj - 1 + jjj][CCONTROLD][ISSET] : -1 : -2);
 
         if (E.debugStatsOut1) {
-          if(cntStatsPrints < E.ssMax) { 
-          cntStatsPrints += 1;
-          System.out.println(
-                  "EM.setStat " + Econ.nowName + " " + Econ.threadCnt[0] + " since doYear" + year + "=" + moreT + "=>" + moreTT + " " + resS[rN][0] + " rN" + rN + ", valid" + valid + ", " + " resIcum=" + resICumClan + ", age" + age + ", curEcon.age" + curEcon.age + ", pors=" + pors + ", clan=" + clan + ", resIcur0Isset=" + resIcur0Isset + ", resICumIsset=" + resICumIsset + ", resVCur0Clan=" + mf(resVcur0Clan) + ", resVCurmClan=" + mf(resVCurmClan));
-          System.out.flush();
+          if (cntStatsPrints < E.ssMax) {
+            cntStatsPrints += 1;
+            System.out.println(
+                    "EM.setStat " + Econ.nowName + " " + Econ.threadCnt[0] + " since doYear" + year + "=" + moreT + "=>" + moreTT + " " + resS[rN][0] + " rN" + rN + ", valid" + valid + ", " + " resIcum=" + resICumClan + ", age" + age + ", curEcon.age" + curEcon.age + ", pors=" + pors + ", clan=" + clan + ", resIcur0Isset=" + resIcur0Isset + ", resICumIsset=" + resICumIsset + ", resVCur0Clan=" + mf(resVcur0Clan) + ", resVCurmClan=" + mf(resVCurmClan));
+            System.out.flush();
           } //ssMax
         }
 
@@ -4256,8 +4337,8 @@ class EM {
     double[][][] resvv = resV[rn];
     return v;
   }
-  
-   /**
+
+  /**
    * set a min Statistic value and a count
    *
    * @param rn the name of this statistic
@@ -4268,7 +4349,7 @@ class EM {
    * @param age years since creation of the Econ for this stat
    * @return v
    */
- // int cntStatsPrints = 0;
+  // int cntStatsPrints = 0;
   double setMinStat(int rn, int pors, int clan, double v, int cnt, int age
   ) {
     int le = 10;
@@ -4313,7 +4394,7 @@ class EM {
       }
       curm = ICUR0 + CURMAXDEPTH * b;
     } // end if
-    long  resLock[][][] = resI[rn];
+    long resLock[][][] = resI[rn];
     double resL[][][] = resV[rn];
     int ycnt = cnt > 0 ? cnt : 0;
 
@@ -4331,39 +4412,39 @@ class EM {
     long[] resICurmCC = resI[rn][curm][CCONTROLD];
     //wasHere = "inSetStat rn=" + rn + " desc=" + desc + " pors=" + pors + " clan=" + clan + " ";
     synchronized (resLock) {
-         if(resICumCC[ISSET] < 1){
-            for(int m=0;m< 2; m++) {
-                double aresVC[] = resV[rn][ICUM][m];
-            for(int n=0; n < E.LCLANS;n++){
-                aresVC[n] = 999999999999999999999999.;
-            }
-            }
+      if (resICumCC[ISSET] < 1) {
+        for (int m = 0; m < 2; m++) {
+          double aresVC[] = resV[rn][ICUM][m];
+          for (int n = 0; n < E.LCLANS; n++) {
+            aresVC[n] = 999999999999999999999999.;
+          }
         }
-      resVCum[clan] = v < resVCum[clan] ? v : resVCum[clan] ;
+      }
+      resVCum[clan] = v < resVCum[clan] ? v : resVCum[clan];
       resICum[clan] += ycnt;
-       if(resICurCC[ISSET]   < 1){
-            for(int m=0;m< 2; m++) {
-                double aresVC[] = resV[rn][ICUR0][m];
-            for(int n=0; n < E.LCLANS;n++){
-                aresVC[n] = 999999999999999999999999.;
-            }
-            }
+      if (resICurCC[ISSET] < 1) {
+        for (int m = 0; m < 2; m++) {
+          double aresVC[] = resV[rn][ICUR0][m];
+          for (int n = 0; n < E.LCLANS; n++) {
+            aresVC[n] = 999999999999999999999999.;
+          }
         }
-      resVCur[clan] = v < resVCur[clan]  ? v : resVCur[clan];
+      }
+      resVCur[clan] = v < resVCur[clan] ? v : resVCur[clan];
       resICur[clan] += ycnt;
       resICurCC[ISSET] = 1;
       resICumCC[ISSET] = 1;
       if (curm > 0) {
         /* now set the values in the appropriate age group */
-         if(resICurmCC[ISSET]  < 1){
-            for(int m=0;m< 2; m++) {
-                double aresVC[] = resV[rn][curm][m];
-            for(int n=0; n < E.LCLANS;n++){
-                aresVC[n] = 999999999999999999999999.;
+        if (resICurmCC[ISSET] < 1) {
+          for (int m = 0; m < 2; m++) {
+            double aresVC[] = resV[rn][curm][m];
+            for (int n = 0; n < E.LCLANS; n++) {
+              aresVC[n] = 999999999999999999999999.;
             }
-            }
+          }
         }
-        resVCurm[clan] = v  < resVCurm[clan] || resICurmCC[ISSET]  < 1 ? v : resVCurm[clan];
+        resVCurm[clan] = v < resVCurm[clan] || resICurmCC[ISSET] < 1 ? v : resVCurm[clan];
         resICurm[clan] += ycnt;
         resICurmCC[ISSET] = 1;
       }
@@ -4388,11 +4469,11 @@ class EM {
         long isset1 = (jj - 1 + jjj < resI[rN].length ? resI[rN][jj - 1 + jjj] != null ? resI[rN][jj - 1 + jjj][CCONTROLD][ISSET] : -1 : -2);
 
         if (E.debugStatsOut1) {
-          if(cntStatsPrints < E.ssMax) { 
-          cntStatsPrints += 1;
-          System.out.println(
-                  "EM.setStat " + Econ.nowName + " " + Econ.threadCnt[0] + " since doYear" + year + "=" + moreT + "=>" + moreTT + " " + resS[rN][0] + " rN" + rN + ", valid" + valid + ", " + " resIcum=" + resICumClan + ", age" + age + ", curEcon.age" + curEcon.age + ", pors=" + pors + ", clan=" + clan + ", resIcur0Isset=" + resIcur0Isset + ", resICumIsset=" + resICumIsset + ", resVCur0Clan=" + mf(resVcur0Clan) + ", resVCurmClan=" + mf(resVCurmClan));
-          System.out.flush();
+          if (cntStatsPrints < E.ssMax) {
+            cntStatsPrints += 1;
+            System.out.println(
+                    "EM.setStat " + Econ.nowName + " " + Econ.threadCnt[0] + " since doYear" + year + "=" + moreT + "=>" + moreTT + " " + resS[rN][0] + " rN" + rN + ", valid" + valid + ", " + " resIcum=" + resICumClan + ", age" + age + ", curEcon.age" + curEcon.age + ", pors=" + pors + ", clan=" + clan + ", resIcur0Isset=" + resIcur0Isset + ", resICumIsset=" + resICumIsset + ", resVCur0Clan=" + mf(resVcur0Clan) + ", resVCurmClan=" + mf(resVCurmClan));
+            System.out.flush();
           } //ssMax
         }
 
@@ -4402,7 +4483,7 @@ class EM {
     double[][][] resvv = resV[rn];
     return v;
   }
-  
+
   /**
    * set a statistic value and possibly a count
    *
@@ -4439,9 +4520,11 @@ class EM {
    * from StarTrader
    *
    * @param table table in Stats
-   * @param resExt this is the detail and (tip text) accessed by the title in the table 
+   * @param resExt this is the detail and (tip text) accessed by the title in
+   * the table
    * @param row next row in the display table
-   * @param aop the key to fit locks in resI, describes which page(LIST..) and types of output, rows
+   * @param aop the key to fit locks in resI, describes which page(LIST..) and
+   * types of output, rows
    * @return next row
    */
   public int putRows(JTable table, String[] resExt, int row, long aop) {
@@ -4486,7 +4569,7 @@ class EM {
 
         // now see if this rn has an acceptable lock,
         // if the governing locks contain
-      long allLocks = resiic[LOCKS0] | resiic[LOCKS1] | resiic[LOCKS2] | resiic[LOCKS3];
+        long allLocks = resiic[LOCKS0] | resiic[LOCKS1] | resiic[LOCKS2] | resiic[LOCKS3];
         // pick ages  again in putRows2
         int maxc = resI[rn].length < DVECTOR2MAX ? shortLength : longLength;
         for (c = 3, ageIx = 0; c < maxc && ageIx == 0; c++) {
@@ -4517,54 +4600,56 @@ class EM {
     }
     return row;
   }
-   private long haveOpsMatch;
-   private long haveAllOpsMatch;
-   private long haveListsMatch;
-   private long haveRows;  //StarTrader rows key
-   private long haveRowsMatch;
-   private long haveCmdMatch ;
-   
-   private String getOpsNames(Long ops){
-     String rtn="";
-     rtn += ((ops & CUR) > 0? " cur":"");
-     rtn += ((ops & CURAVE ) > 0 ? " curAve":"");
-     rtn += ((ops & CURUNITS)  > 0 ? " curUnits":"");
-     rtn += ((ops & CUM) > 0 ? " cum":"");
-     rtn += ((ops & CUMAVE) > 0 ? " cumAve":"");
-     rtn += ((ops & CUMUNITS) > 0 ? " cumUnits":"");
-     rtn += ((ops & THISYEAR) > 0 ? " thisYear":"");
-     rtn += ((ops & THISYEARUNITS) > 0 ? " thisYearUnits":"");
-     rtn += ((ops & THISYEARAVE) > 0 ? " thisYearAve":"");
-     return rtn;
-   }
-     int c = 0,myRow=0,myLock=0,myAgeIx=0;
-      long depth = -2, listMatch = 0, prevListMatch = 0, hLMp = 0, myValid = 0;
-      //long haveRows = 0L;
-      /** test whether to output this special line of output
-       * 
-       * @param myCmd the cmd being proessed
-       * @return true if a print done
-       */
-      private boolean ifPutRow6(String myCmd){
-        if( (resS[c][rDesc].contentEquals("EmergFF")  ) && ( (haveListsMatch & LIST6) > 0 ) ){
-            if (putRowsPrint6Count  < 20 || 
-                (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-              System.out.flush();
-               System.out.printf("EM.putrow6" + myCmd + "  rn=" + myRn + ", " + resS[myRn][0] + ", row=" + myRow + 
-                      ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet") + 
-                      ", lock#" + myLock + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6: "??") + 
-                      ", ops=" +  getOpsNames(haveCmdMatch) + 
-                      ", depth=" + depth  +  ", valid" + valid + ", ageIx" + myAgeIx + 
-                              ", cum00=" + resI[myRn][ICUM][0][0] + 
-                              ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count  + " \n");
-               return true;
-            }
-             
-            }
-        
-        return false;
+  private long haveOpsMatch;
+  private long haveAllOpsMatch;
+  private long haveListsMatch;
+  private long haveRows;  //StarTrader rows key
+  private long haveRowsMatch;
+  private long haveCmdMatch;
+
+  private String getOpsNames(Long ops) {
+    String rtn = "";
+    rtn += ((ops & CUR) > 0 ? " cur" : "");
+    rtn += ((ops & CURAVE) > 0 ? " curAve" : "");
+    rtn += ((ops & CURUNITS) > 0 ? " curUnits" : "");
+    rtn += ((ops & CUM) > 0 ? " cum" : "");
+    rtn += ((ops & CUMAVE) > 0 ? " cumAve" : "");
+    rtn += ((ops & CUMUNITS) > 0 ? " cumUnits" : "");
+    rtn += ((ops & THISYEAR) > 0 ? " thisYear" : "");
+    rtn += ((ops & THISYEARUNITS) > 0 ? " thisYearUnits" : "");
+    rtn += ((ops & THISYEARAVE) > 0 ? " thisYearAve" : "");
+    return rtn;
+  }
+  int c = 0, myRow = 0, myLock = 0, myAgeIx = 0;
+  long depth = -2, listMatch = 0, prevListMatch = 0, hLMp = 0, myValid = 0;
+  //long haveRows = 0L;
+
+  /**
+   * test whether to output this special line of output
+   *
+   * @param myCmd the cmd being proessed
+   * @return true if a print done
+   */
+  private boolean ifPutRow6(String myCmd) {
+    if ((resS[c][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
+      if (putRowsPrint6Count < 20
+              || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
+        System.out.flush();
+        System.out.printf("EM.putrow6" + myCmd + "  rn=" + myRn + ", " + resS[myRn][0] + ", row=" + myRow
+                + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
+                + ", lock#" + myLock + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
+                + ", ops=" + getOpsNames(haveCmdMatch)
+                + ", depth=" + depth + ", valid" + valid + ", ageIx" + myAgeIx
+                + ", cum00=" + resI[myRn][ICUM][0][0]
+                + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
+        return true;
       }
-              
+
+    }
+
+    return false;
+  }
+
   /**
    * possibly put a row into table if the key aop matches a lock in rn
    *
@@ -4577,7 +4662,7 @@ class EM {
    * @param ageIx the age category of the item must be recalculated
    * @return next row
    */
-  private int putRows2(JTable table, String[] resExt, int rn, int row, long aop, long allLocks,int ageIx) {
+  private int putRows2(JTable table, String[] resExt, int rn, int row, long aop, long allLocks, int ageIx) {
     myRn = rn;
     myRow = row;
     myAop = aop;
@@ -4597,7 +4682,7 @@ class EM {
       long[][][] resii = res2;
       long[][] resiii = res2[ICUM];
       long[] resiic = res2[ICUM][CCONTROLD];
-    
+
       haveAllOpsMatch = (aop & allLocks) & dmask;
       haveListsMatch = (aop & allLocks) & lmask;
       if (E.debugPutRowsOut) {
@@ -4641,15 +4726,15 @@ class EM {
           // now process the selected age group by the first match
           // aop should containt no more than 1 age list
           // pick ages  again in putRows2
-        int maxc = resI[rn].length < DVECTOR2MAX ? shortLength : longLength;
-        for (c = 3, ageIx = 0; c < maxc && ageIx == 0; c++) {
-          if (((listMatch) & AGELISTS[c]) > 0) { // pick the first matching age start LIST10
-            ageIx = c - shortLength + 1; // LIST10 = 1
+          int maxc = resI[rn].length < DVECTOR2MAX ? shortLength : longLength;
+          for (c = 3, ageIx = 0; c < maxc && ageIx == 0; c++) {
+            if (((listMatch) & AGELISTS[c]) > 0) { // pick the first matching age start LIST10
+              ageIx = c - shortLength + 1; // LIST10 = 1
+            }
           }
-        }
 
           myUnset = unset = resI[rn][ICUR0 + ageIx * CURMAXDEPTH][CCONTROLD][ISSET] < 1; // flag for age
-          myCumUnset = myUnset && resI[rn][ICUM][CCONTROLD][ISSET] < 1; 
+          myCumUnset = myUnset && resI[rn][ICUM][CCONTROLD][ISSET] < 1;
           myValid = valid = resI[rn][ICUR0 + ageIx * CURMAXDEPTH][CCONTROLD][IVALID];
           depth = resI[rn][ICUR0 + ageIx * CURMAXDEPTH][CCONTROLD][IVALID];
 
@@ -4666,11 +4751,13 @@ class EM {
           //  int cop = (int)(aop & opx & 017);
           // lla true if rn>rend4-1 
           boolean lla = (rn > (rende4 - 2)
-                  && ((aop & (LIST1 | LIST0 | LIST2 | LIST3)) > 0l) ?  false : false);
+                  && ((aop & (LIST1 | LIST0 | LIST2 | LIST3)) > 0l) ? false : false);
 
           //   if ((resS[rn][rDesc].contains("WORTH") || resS[rn][rDesc].contains("KNOWLEDGE") || resS[rn][rDesc].contains("Create") || lla || ((putRowsPrint6Count % 75) == 0 )) && (putRowsPrint6Count < 200)) {
           if (E.debugPutRowsOut6) {
-            if(ifPutRow6("start")) { putRowsPrint6Count++; }
+            if (ifPutRow6("start")) {
+              putRowsPrint6Count++;
+            }
           }
           if (unset) {
             suffix = " curYr:";
@@ -4678,7 +4765,7 @@ class EM {
 
           if (!myUnset && (opr & cur) > 0L) {
             suffix = " curYr:";
-           
+
             for (int m = 0; m < valid; m++) {
               suffix = " curYr:" + (m + 1) + "/" + valid;
               lStart = m;
@@ -4687,17 +4774,17 @@ class EM {
             }
             if (E.debugPutRowsOut6) {
               ifPutRow6("cur");
+            }
           }
-          } 
           // do not process thisYear if cur was already processed
           if (!myUnset && ((opr & cur) == 0) && ((opr & thisYr) > 0L)) {
             suffix = " thisYr";
             lStart = 0;
             lEnd = 1;
             row = putRowInTable(table, resExt, rn, thisYr, row, suffix, ageIx);
-                        if (E.debugPutRowsOut6) {
-                         ifPutRow6("thisYr");
-          }
+            if (E.debugPutRowsOut6) {
+              ifPutRow6("thisYr");
+            }
           }
 
           if (tstr) { // tstring is not used
@@ -4712,22 +4799,22 @@ class EM {
               lEnd = m + 1;
               row = putRowInTable(table, resExt, rn, curUnitAve, row, suffix, ageIx);
             }
-                          if (E.debugPutRowsOut6) {
-                            if( (resS[rn][rDesc].contentEquals("EmergFF")  ) && ( (haveListsMatch & LIST6) > 0 ) ){
-            if (putRowsPrint6Count  < 20 || 
-                (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-              System.out.flush();
-               System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row + 
-                      ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet") + 
-                      ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6: "??") + 
-                      ", ops=" +  getOpsNames(haveCmdMatch) + 
-                      ", depth=" + depth  +  ", valid" + valid + ", ageIx" + ageIx + 
-                              ", cum00=" + resI[rn][ICUM][0][0] + 
-                              ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count  + " \n");
+            if (E.debugPutRowsOut6) {
+              if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
+                if (putRowsPrint6Count < 20
+                        || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
+                  System.out.flush();
+                  System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
+                          + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
+                          + ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
+                          + ", ops=" + getOpsNames(haveCmdMatch)
+                          + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
+                          + ", cum00=" + resI[rn][ICUM][0][0]
+                          + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
+                }
+
+              }
             }
-             
-            }
-          }
 
             // break;
           }
@@ -4738,77 +4825,77 @@ class EM {
             lStart = 0;
             lEnd = 1;
             row = putRowInTable(table, resExt, rn, thisYearUnitAve, row, suffix, ageIx);
-                       if (E.debugPutRowsOut6) {
-                         if( (resS[rn][rDesc].contentEquals("EmergFF")  ) && ( (haveListsMatch & LIST6) > 0 ) ){
-            if (putRowsPrint6Count < 20 || 
-                (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-              System.out.flush();
-              System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row + 
-                      ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet") + 
-                      ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6: "??") + 
-                      ", ops=" +  getOpsNames(haveCmdMatch) + 
-                      ", depth=" + depth  +  ", valid" + valid + ", ageIx" + ageIx + 
-                              ", cum00=" + resI[rn][ICUM][0][0] + 
-                              ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count  + " \n");
+            if (E.debugPutRowsOut6) {
+              if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
+                if (putRowsPrint6Count < 20
+                        || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
+                  System.out.flush();
+                  System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
+                          + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
+                          + ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
+                          + ", ops=" + getOpsNames(haveCmdMatch)
+                          + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
+                          + ", cum00=" + resI[rn][ICUM][0][0]
+                          + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
+                }
+
+              }
             }
-             
-            }
-          }
           }
 
-            if (E.debugPutRowsOut6) {
-                          if( (resS[rn][rDesc].contentEquals("EmergFF")  ) && ( (haveListsMatch & LIST6) > 0 ) ){
-            if (putRowsPrint6Count < 20 || 
-                (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-              System.out.flush();
-               System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row + 
-                      ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet") + 
-                      ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6: "??") + 
-                      ", ops=" +  getOpsNames(haveCmdMatch) + 
-                      ", depth=" + depth  +  ", valid" + valid + ", ageIx" + ageIx + 
-                              ", cum00=" + resI[rn][ICUM][0][0] + 
-                              ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count  + " \n");
-            }
-             
+          if (E.debugPutRowsOut6) {
+            if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
+              if (putRowsPrint6Count < 20
+                      || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
+                System.out.flush();
+                System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
+                        + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
+                        + ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
+                        + ", ops=" + getOpsNames(haveCmdMatch)
+                        + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
+                        + ", cum00=" + resI[rn][ICUM][0][0]
+                        + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
+              }
+
             }
           }
-          if(!myCumUnset && (haveCmdMatch & cum) > 0L) {
+          if (!myCumUnset && (haveCmdMatch & cum) > 0L) {
             suffix = " Cum";
             lStart = 0;
             lEnd = 1;
             row = putRowInTable(table, resExt, rn, cum, row, suffix, ageIx);
-                        if (E.debugPutRowsOut6) {
-                          if( (resS[rn][rDesc].contentEquals("EmergFF")  ) && ( (haveListsMatch & LIST6) > 0 ) ){
-            if (putRowsPrint6Count < 20 || 
-                (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-              System.out.flush();
-               System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row + 
-                      ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet") + 
-                      ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6: "??") + 
-                      ", ops=" +  getOpsNames(haveCmdMatch) + 
-                      ", depth=" + depth  +  ", valid" + valid + ", ageIx" + ageIx + 
-                              ", cum00=" + resI[rn][ICUM][0][0] + 
-                              ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count  + " \n");
-            }
-             
-            }
-          }
-          }
-          
             if (E.debugPutRowsOut6) {
-                          if( (resS[rn][rDesc].contentEquals("EmergFF")  ) && ( (haveListsMatch & LIST6) > 0 ) ){
-            if (putRowsPrint6Count < 20 || 
-                (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-              System.out.flush();
-              System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row + 
-                      ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet") + 
-                      ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6: "??") + 
-                      ", ops=" +  getOpsNames(haveCmdMatch) + 
-                      ", depth=" + depth  +  ", valid" + valid + ", ageIx" + ageIx + 
-                              ", cum00=" + resI[rn][ICUM][0][0] + 
-                              ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count  + " \n");
+              if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
+                if (putRowsPrint6Count < 20
+                        || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
+                  System.out.flush();
+                  System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
+                          + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
+                          + ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
+                          + ", ops=" + getOpsNames(haveCmdMatch)
+                          + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
+                          + ", cum00=" + resI[rn][ICUM][0][0]
+                          + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
+                }
+
+              }
             }
-             
+          }
+
+          if (E.debugPutRowsOut6) {
+            if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
+              if (putRowsPrint6Count < 20
+                      || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
+                System.out.flush();
+                System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
+                        + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
+                        + ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
+                        + ", ops=" + getOpsNames(haveCmdMatch)
+                        + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
+                        + ", cum00=" + resI[rn][ICUM][0][0]
+                        + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
+              }
+
             }
           }
           if (!myCumUnset && (haveCmdMatch & cumUnits) > 0) {
@@ -4817,44 +4904,44 @@ class EM {
             lStart = 0;
             lEnd = 1;
             row = putRowInTable(table, resExt, rn, cumUnits, row, suffix, ageIx);
-                        if (E.debugPutRowsOut6) {
-                          if( (resS[rn][rDesc].contentEquals("EmergFF")  ) && ( (haveListsMatch & LIST6) > 0 ) ){
-            if (putRowsPrint6Count < 20 || 
-                (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-              System.out.flush();
-               System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row + 
-                      ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet") + 
-                      ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6: "??") + 
-                      ", ops=" +  getOpsNames(haveCmdMatch) + 
-                      ", depth=" + depth  +  ", valid" + valid + ", ageIx" + ageIx + 
-                              ", cum00=" + resI[rn][ICUM][0][0] + 
-                              ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count  + " \n");
+            if (E.debugPutRowsOut6) {
+              if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
+                if (putRowsPrint6Count < 20
+                        || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
+                  System.out.flush();
+                  System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
+                          + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
+                          + ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
+                          + ", ops=" + getOpsNames(haveCmdMatch)
+                          + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
+                          + ", cum00=" + resI[rn][ICUM][0][0]
+                          + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
+                }
+
+              }
             }
-             
-            }
-          }
           }
           if (!myCumUnset && (haveCmdMatch & cumUnitAve) > 0) {
             suffix = " CumAve";
             lStart = 0;
             lEnd = 1;
             row = putRowInTable(table, resExt, rn, cumUnitAve, row, suffix, ageIx);
-                        if (E.debugPutRowsOut6) {
-                         if( (resS[rn][rDesc].contentEquals("EmergFF")  ) && ( (haveListsMatch & LIST6) > 0 ) ){
-            if (putRowsPrint6Count < 20 || 
-                (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-              System.out.flush();
-               System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row + 
-                      ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet") + 
-                      ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6: "??") + 
-                      ", ops=" +  getOpsNames(haveCmdMatch) + 
-                      ", depth=" + depth  +  ", valid" + valid + ", ageIx" + ageIx + 
-                              ", cum00=" + resI[rn][ICUM][0][0] + 
-                              ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count  + " \n");
+            if (E.debugPutRowsOut6) {
+              if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
+                if (putRowsPrint6Count < 20
+                        || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
+                  System.out.flush();
+                  System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
+                          + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
+                          + ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
+                          + ", ops=" + getOpsNames(haveCmdMatch)
+                          + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
+                          + ", cum00=" + resI[rn][ICUM][0][0]
+                          + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
+                }
+
+              }
             }
-             
-            }
-          }
           }
           if (!myUnset && (haveCmdMatch & curUnits) > 0) {
             for (int m = 0; m < valid; m++) {
@@ -4863,22 +4950,22 @@ class EM {
               lStart = m;
               lEnd = m + 1;
               row = putRowInTable(table, resExt, rn, curUnits, row, suffix, ageIx);
-                          if (E.debugPutRowsOut6) {
-                           if( (resS[rn][rDesc].contentEquals("EmergFF")  ) && ( (haveListsMatch & LIST6) > 0 ) ){
-            if (putRowsPrint6Count < 20 || 
-                (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-              System.out.flush();
-               System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row + 
-                      ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet") + 
-                      ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6: "??") + 
-                      ", ops=" +  getOpsNames(haveCmdMatch) + 
-                      ", depth=" + depth  +  ", valid" + valid + ", ageIx" + ageIx + 
-                              ", cum00=" + resI[rn][ICUM][0][0] + 
-                              ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count  + " \n");
-            }
-             
-            }
-          }
+              if (E.debugPutRowsOut6) {
+                if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
+                  if (putRowsPrint6Count < 20
+                          || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
+                    System.out.flush();
+                    System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
+                            + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
+                            + ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
+                            + ", ops=" + getOpsNames(haveCmdMatch)
+                            + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
+                            + ", cum00=" + resI[rn][ICUM][0][0]
+                            + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
+                  }
+
+                }
+              }
             }
           }
           // do not process thisYear if cur was already processed
@@ -4889,57 +4976,57 @@ class EM {
             lStart = 0;
             lEnd = 1;
             row = putRowInTable(table, resExt, rn, thisYearUnits, row, suffix, ageIx);
-                        if (E.debugPutRowsOut6) {
-                          if( (resS[rn][rDesc].contentEquals("EmergFF")  ) && ( (haveListsMatch & LIST6) > 0 ) ){
-            if (putRowsPrint6Count < 20 || 
-                (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-     
-              System.out.flush();
-               System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row + 
-                      ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet") + 
-                      ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6: "??") + 
-                      ", ops=" +  getOpsNames(haveCmdMatch) + 
-                      ", depth=" + depth  +  ", valid" + valid + ", ageIx" + ageIx + 
-                              ", cum00=" + resI[rn][ICUM][0][0] + 
-                              ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count  + " \n");
-            }
-             
-            }
-          }
-          }
-                    if (E.debugPutRowsOut6) {
-                      if( (resS[rn][rDesc].contentEquals("EmergFF")  ) && ( (haveListsMatch & LIST6) > 0 ) ){
-            if (putRowsPrint6Count < 20 || 
-                (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-          
-              System.out.flush();
-               System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row + 
-                      ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet") + 
-                      ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6: "??") + 
-                      ", ops=" +  getOpsNames(haveCmdMatch) + 
-                      ", depth=" + depth  +  ", valid" + valid + ", ageIx" + ageIx + 
-                              ", cum00=" + resI[rn][ICUM][0][0] + 
-                              ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count  + " \n");
-            }
-        }
-                    }
-                    if (E.debugPutRowsOut6) { // after last process
-                      if( (resS[rn][rDesc].contentEquals("EmergFF")  ) && ( (haveListsMatch & LIST6) > 0 ) ){
-            if (putRowsPrint6Count < 20 || 
-                (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {       
-              System.out.flush();
-               System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row + 
-                      ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet") + 
-                      ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6: "??") + 
-                      ", ops=" +  getOpsNames(haveCmdMatch) + 
-                      ", depth=" + depth  +  ", valid" + valid + ", ageIx" + ageIx + 
-                              ", cum00=" + resI[rn][ICUM][0][0] + 
-                              ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count  + " \n");
-            } 
+            if (E.debugPutRowsOut6) {
+              if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
+                if (putRowsPrint6Count < 20
+                        || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
+
+                  System.out.flush();
+                  System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
+                          + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
+                          + ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
+                          + ", ops=" + getOpsNames(haveCmdMatch)
+                          + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
+                          + ", cum00=" + resI[rn][ICUM][0][0]
+                          + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
+                }
+
+              }
             }
           }
-                            }// end of match
-        
+          if (E.debugPutRowsOut6) {
+            if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
+              if (putRowsPrint6Count < 20
+                      || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
+
+                System.out.flush();
+                System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
+                        + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
+                        + ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
+                        + ", ops=" + getOpsNames(haveCmdMatch)
+                        + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
+                        + ", cum00=" + resI[rn][ICUM][0][0]
+                        + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
+              }
+            }
+          }
+          if (E.debugPutRowsOut6) { // after last process
+            if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
+              if (putRowsPrint6Count < 20
+                      || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
+                System.out.flush();
+                System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
+                        + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
+                        + ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
+                        + ", ops=" + getOpsNames(haveCmdMatch)
+                        + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
+                        + ", cum00=" + resI[rn][ICUM][0][0]
+                        + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
+              }
+            }
+          }
+        }// end of match
+
       } // end of loop on doRes locks0-3
       if (E.debugPutRowsOut) {
         if (putRowsPrint9Count < 12) {
@@ -4958,19 +5045,31 @@ class EM {
     } catch (RuntimeException ex) {
       System.out.flush();
       System.err.flush();
-      System.err.println(Econ.nowName  + " " + Econ.nowThread + "Caught RuntimeException cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + andMore());
+      System.err.println(Econ.nowName + " " + Econ.nowThread + "Caught RuntimeException cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + andMore());
       System.err.println("rn=" + rn + ", desc=" + resS[rn][0]);
       ex.printStackTrace(System.err);
       System.out.flush();
     } catch (Exception ex) {
       flushes();
-      System.err.println(Econ.nowName  + " " + Econ.nowThread + "Caught Exception cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + andMore());
+      System.err.println(Econ.nowName + " " + Econ.nowThread + "Caught Exception cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + andMore());
       System.err.println("rn=" + rn + ", desc=" + resS[rn][0]);
       System.err.flush();
       ex.printStackTrace(System.err);
       System.err.flush();
     }
     return row;
+  }
+
+  boolean yesPercent = false;
+
+  /**
+   * convert val to a shorter string if % present
+   *
+   * @param val value to convert
+   * @return string with possible % and shorter
+   */
+  private String valForTable(double val) {
+    return (yesPercent ? mf2(val) + "%" : mf(val));
   }
 
   /**
@@ -4993,21 +5092,28 @@ class EM {
     long dd[] = {getP, getS};
     description = resS[rn][rDesc];
     myRn = rn;
- //   myAop = aop;
+    //   myAop = aop;
     String detail = myDetail = resS[rn][rDetail];
     String dds = description + detail;
     String isPercent = (dds.contains("%") || dds.contains("Percen") || dds.contains("percen")) && ((aop1 & (THISYEARAVE | CURAVE | CUMAVE | THISYEAR | CUR | CUM)) > 0L) ? "%" : "";
+    if ((dds.contains("%") || dds.contains("Percen") || dds.contains("percen")) && ((aop1 & (THISYEARAVE | CURAVE | CUMAVE | THISYEAR | CUR | CUM)) > 0L)) {
+      isPercent = "%";
+      yesPercent = true;
+    } else {
+      isPercent = "";
+      yesPercent = false;
+    }
 
     double aVal;
     double sums;
     dFrac.setMaximumFractionDigits(doUnits || doPower > 0 ? 0 : (int) resI[rn][ICUM][CCONTROLD][IFRACS]);
     dd[1] = doSum ? sum : getS; // force D1 request to sum for second round
     detail += ":: " + suffix;
-    if (doPower > 0 && ((aop1 & (THISYEARAVE | CURAVE | CUMAVE | THISYEAR | CUR | CUM)) > 0L) ) {
+    if (doPower > 0 && ((aop1 & (THISYEARAVE | CURAVE | CUMAVE | THISYEAR | CUR | CUM)) > 0L)) {
       detail += "/n powers mean the number display should have " + doPower + " zero digits added before the period";
 
     }
-    if (unset && E.debugPutRowsOutUnset && !doSkipUnset ) {
+    if (unset && E.debugPutRowsOutUnset && !doSkipUnset) {
       suffix = ">>>UNSET<<<<";
     } else if (row > 96) {
       suffix = "full";
@@ -5015,15 +5121,15 @@ class EM {
     if (row < 98) {
       table.setValueAt(description + suffix, row, 0);
       resExt[row] = detail;
-   
-        if(E.debugPutRowsOut6){
-          if (resS[rn][rDesc].contains("Score") ) {
-          System.out.println("in gamRes. do Score " + Thread.currentThread().getName() + " .putRowInTable" + (doSum ? " doSum" :  doBoth ? " doBoth" : "")  + ", suffix=" + suffix + " aop1=" + Long.toOctalString(aop1) +  " lStart=" + lStart + " lEnd=" + lEnd + ", valid=" + valid +  (myUnset?" myUnset":"") + (myCumUnset?" myCumUnset":""));
-          }
-      //   System.out.println("in EM.gameRes." + toString() + ".putRowInTable" + dFrac.format(values[0][0]) + " " + dFrac.format(values[0][6]));
+
+      if (E.debugPutRowsOut6) {
+        if (resS[rn][rDesc].contains("Score")) {
+          System.out.println("in gamRes. do Score " + Thread.currentThread().getName() + " .putRowInTable" + (doSum ? " doSum" : doBoth ? " doBoth" : "") + ", suffix=" + suffix + " aop1=" + Long.toOctalString(aop1) + " lStart=" + lStart + " lEnd=" + lEnd + ", valid=" + valid + (myUnset ? " myUnset" : "") + (myCumUnset ? " myCumUnset" : ""));
         }
+        //   System.out.println("in EM.gameRes." + toString() + ".putRowInTable" + dFrac.format(values[0][0]) + " " + dFrac.format(values[0][6]));
+      }
       // process values never set, particularly skip adding row if unset
-      if ((myCumUnset || myUnset || unset) && (doSkipUnset || didUnset || !E.debugPutRowsOutUnset )) {
+      if ((myCumUnset || myUnset || unset) && (doSkipUnset || didUnset || !E.debugPutRowsOutUnset)) {
         return row;  // do not update row, do not write row
       } // or set a zero row if stat is unset
       else if (myCumUnset && myUnset && doZeroUnset) {
@@ -5044,7 +5150,9 @@ class EM {
           int i = E.S;
           // String ww[] = {"color","Winner","999999","99.0%",">>>>>>>>>>" }; `
           //  Set second half of the row in ships 5
-          if(isWinner)table.setBackground(new java.awt.Color(E.backGroundColors[winner]));
+          if (isWinner) {
+            table.setBackground(new java.awt.Color(E.backGroundColors[winner]));
+          }
           aVal = sums = 0;
           double myWin = 0;
           for (int m = 0; m < E.lclans; m++) {
@@ -5058,7 +5166,7 @@ class EM {
           if (isWinner) {
             table.setValueAt(E.groupNames[winner], row, 1);
             table.setValueAt("Winner", row, 2);
-            table.setValueAt("   by   ",row,3);
+            table.setValueAt("   by   ", row, 3);
             table.setValueAt((mf(aVal * 100 / sums * .2)) + "%", row, 4); // qubbwe
             table.setValueAt(">>>>>>>>>>", row, 5);
           } else { // winner pending
@@ -5082,9 +5190,9 @@ class EM {
               }
             } else { // second half of sum
               for (int m = 0; m < E.lclans; m++) {
-                table.setValueAt(((sums += aVal = getRowEntryValue(rn, dd[(int) i] + aop1, m, ageIx)) < -93456789.0 ? "------" : dFrac.format(aVal) + isPercent), row, (int) i * E.lclans + m + 1);
+                table.setValueAt(((sums += aVal = getRowEntryValue(rn, dd[(int) i] + aop1, m, ageIx)) < -93456789.0 ? "------" : valForTable(aVal)), row, (int) i * E.lclans + m + 1);
               }
-              table.setValueAt(dFrac.format(sums * .2) + isPercent, row, 1);
+              table.setValueAt(valForTable(sums), row, 1);
             }
           }
           table.setValueAt(description + suffix + powers, row, 0);
@@ -5102,7 +5210,7 @@ class EM {
                       ? aVal < -94567895.
                               ? "--------"
                               : "-----"
-                      : mf(aVal) + isPercent)),
+                      : valForTable(aVal))),
                       row, (int) ij * E.lclans + m + 1);
             }
           }
@@ -5113,7 +5221,7 @@ class EM {
         }
       }
     }
-    
+
     return row;
   }
 
@@ -5146,11 +5254,7 @@ class EM {
         } else if ((cumUnits & opr) > 0) {
           sum = doSum ? resI[rn][ICUM][0][dClan] + resI[rn][ICUM][1][dClan] : resI[rn][ICUM][pors][dClan];
           ops = "cumUnits";
-
-          if (false && doPower > 0) {
-            sum = sum / Math.pow(10., doPower);
-            powers = " *10**" + doPower + " ";
-          }
+          doPower = 0;
         } else if ((cumUnitAve & opr) > 0) {
           sum = (doSum ? resV[rn][ICUM][0][dClan] + resV[rn][ICUM][1][dClan] : resV[rn][ICUM][pors][dClan]) / (doSum ? resI[rn][ICUM][0][dClan] + resI[rn][ICUM][1][dClan] : resI[rn][ICUM][pors][dClan]);
           ops = "cumUnitAve";
@@ -5237,58 +5341,62 @@ class EM {
       }
       return -93456789.;  // if a strange option
     } catch (Exception ex) {
-      System.err.println(Econ.nowName  + " " + Econ.nowThread + "Caught Exception cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + andMore());
+      System.err.println(Econ.nowName + " " + Econ.nowThread + "Caught Exception cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + andMore());
       System.err.println("rn=" + rn + ", desc=" + resS[rn][0]);
       ex.printStackTrace(System.err);
       return -94567895.;
     }
   }
-  
-  int rememberYear=-1;
+
+  int rememberYear = -1;
   int rememberList = -1;
   int rememberRow = -1;
   int detailYear = -1;
-  String rememberDetail= "xx";
-  
-  /** write to the keep file if rememberFromPage is set
-   * rememberFromPage is cleared at each new page
+  String rememberDetail = "xx";
+
+  /**
+   * write to the keep file if rememberFromPage is set rememberFromPage is
+   * cleared at each new page
+   *
    * @param list
    * @param table
    * @param theRow
-   * @param theDetail 
+   * @param theDetail
    */
-  void doRememberValues(int list,JTable table, int theRow,String theDetail){
+  void doRememberValues(int list, JTable table, int theRow, String theDetail) {
     try {
-  String ll = " ";
-  if(rememberFromPage) {
-    if(year != rememberYear || !st.statsRememberWhy.getText().matches(prevRememberCmt)){ // need another year comment page
-      rememberYear = year;
-      prevRememberCmt = st.statsRememberWhy.getText() + ""; // force a copy
-      String dateString = MYDATEFORMAT.format(new Date());
-  //    String rOut = "New Game " + dateString + "\r\n";
-      ll = "renenberYear" + year +" version " + st.versionText  +  " " + dateString + " " + prevRememberCmt + "\r\n";
-      bKeep.write(ll, 0, ll.length());
-    }
-    if(!theDetail.matches(rememberDetail) || year != detailYear){
-      rememberDetail = theDetail + "";
-    ll = "title " + theDetail + "\r\n"; // the detail description of the remember
-    bKeep.write(ll,0,ll.length());
-    ll = "remember ";
-    // add the string value of the row entries
-    for(int i=0;i < 11; i++){ ll += table.getValueAt(theRow,i).toString() + " ";}
-    ll += "\r\n";
-    bKeep.write(ll,0,ll.length());
-    keepBuffered = true;
-    }//rememberDetail
-    
-  }//keep from page
+      String ll = " ";
+      if (rememberFromPage) {
+        if (year != rememberYear || !st.statsRememberWhy.getText().matches(prevRememberCmt)) { // need another year comment page
+          rememberYear = year;
+          prevRememberCmt = st.statsRememberWhy.getText() + ""; // force a copy
+          String dateString = MYDATEFORMAT.format(new Date());
+          //    String rOut = "New Game " + dateString + "\r\n";
+          ll = "renenberYear" + year + " version " + st.versionText + " " + dateString + " " + prevRememberCmt + "\r\n";
+          bKeep.write(ll, 0, ll.length());
+        }
+        if (!theDetail.matches(rememberDetail) || year != detailYear) {
+          rememberDetail = theDetail + "";
+          ll = "title " + theDetail + "\r\n"; // the detail description of the remember
+          bKeep.write(ll, 0, ll.length());
+          ll = "remember ";
+          // add the string value of the row entries
+          for (int i = 0; i < 11; i++) {
+            ll += table.getValueAt(theRow, i).toString() + " ";
+          }
+          ll += "\r\n";
+          bKeep.write(ll, 0, ll.length());
+          keepBuffered = true;
+        }//rememberDetail
+
+      }//remember from page
     } catch (Exception ex) {
       flushes();
-      System.err.println(Econ.nowName  + " " + Econ.nowThread + "Ignore this error " + new Date().toString() + " " + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr + addMore());
+      System.err.println(Econ.nowName + " " + Econ.nowThread + "Ignore this error " + new Date().toString() + " " + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr + addMore());
       flushes();
 
     }
-}//doWriteKeepVals
+  }//doWriteRememberVals
 
   /**
    * set the columns of a title row, and end the row as needed commands colAdd
@@ -5452,59 +5560,71 @@ class EM {
     //System.exit(5);
     //return 0.;
   }
-  
-  /** generate a string with names of Econ, Thread, file.line.method, file.line.method why
-   * 
-   * @param ec  the Econ of the caller
-   * @param why  the message
+
+  /**
+   * generate a string with names of Econ, Thread, file.line.method,
+   * file.line.method why
+   *
+   * @param ec the Econ of the caller
+   * @param why the message
    * @return filled out message line
    */
-  static String here(Econ ec,String why){
-    String isHere = "++" + ec.name +"  " + Thread.currentThread().getName();
+  static String here(Econ ec, String why) {
+    String isHere = "++" + ec.name + "  " + Thread.currentThread().getName();
     StackTraceElement aa = Thread.currentThread().getStackTrace()[2];
     int stLen = Thread.currentThread().getStackTrace().length;
-    if(stLen == 2){
-      isHere += " " + aa.getFileName() + "." + aa.getLineNumber()  + "." + aa.getMethodName()  + " " + why ;
-    } else if(stLen >= 3){
-    StackTraceElement ab = Thread.currentThread().getStackTrace()[3];
-   // StackTraceElement ac = Thread.currentThread().getStackTrace()[5];
-     isHere += " " + aa.getFileName() + "." + aa.getLineNumber()  + "." + aa.getMethodName() + " from " + ab.getFileName()  + "." + ab.getLineNumber() + " " + ab.getMethodName() + " " + why ;
-    return isHere;
+    if (stLen == 2) {
+      isHere += " " + aa.getFileName() + "." + aa.getLineNumber() + "." + aa.getMethodName() + " " + why;
+    } else if (stLen >= 3) {
+      StackTraceElement ab = Thread.currentThread().getStackTrace()[3];
+      // StackTraceElement ac = Thread.currentThread().getStackTrace()[5];
+      isHere += " " + aa.getFileName() + "." + aa.getLineNumber() + "." + aa.getMethodName() + " from " + ab.getFileName() + "." + ab.getLineNumber() + " " + ab.getMethodName() + " " + why;
+      return isHere;
     }
     return isHere;
   }
-  
-   /** generate a string with names of Econ, Thread, file.line.method, file.line.method why
-   *   Place the string at variable wasHere
-   * 
-   * @param ec  the Econ of the caller
-   * @param why  the message
-   * @return filled out message line
-   */
-  static String isHere1(Econ ec, String why){ return wasHere = here(ec,why);}
 
-   /** generate a string with names of Econ, Thread, file.line.method, file.line.method why
-   *   Place the string at variable wasHere2
-   * 
-   * @param ec  the Econ of the caller
-   * @param why  the message
+  /**
+   * generate a string with names of Econ, Thread, file.line.method,
+   * file.line.method why Place the string at variable wasHere
+   *
+   * @param ec the Econ of the caller
+   * @param why the message
    * @return filled out message line
    */
-  static String isHere2(Econ ec, String why){ return wasHere2 = here(ec,why);}
-  
-   /** generate a string with names of Econ, Thread, file.line.method, file.line.method why
-   *   Place the string at variable wasHere
-   * 
-   * @param ec  the Econ of the caller
-   * @param why  the message
+  static String isHere1(Econ ec, String why) {
+    return wasHere = here(ec, why);
+  }
+
+  /**
+   * generate a string with names of Econ, Thread, file.line.method,
+   * file.line.method why Place the string at variable wasHere2
+   *
+   * @param ec the Econ of the caller
+   * @param why the message
    * @return filled out message line
    */
-  static String isHere3(Econ ec, String why){ return wasHere3 = here(ec,why);}
-  
-  /**  write to System.err a message using form with oargs as arguments
-   * 
-   * @param form  the form of the message
-   * @param oargs a set of up to 20 arguments 
+  static String isHere2(Econ ec, String why) {
+    return wasHere2 = here(ec, why);
+  }
+
+  /**
+   * generate a string with names of Econ, Thread, file.line.method,
+   * file.line.method why Place the string at variable wasHere
+   *
+   * @param ec the Econ of the caller
+   * @param why the message
+   * @return filled out message line
+   */
+  static String isHere3(Econ ec, String why) {
+    return wasHere3 = here(ec, why);
+  }
+
+  /**
+   * write to System.err a message using form with oargs as arguments
+   *
+   * @param form the form of the message
+   * @param oargs a set of up to 20 arguments
    */
   void aMsg(String form, Object... oargs) {
     // StringBuffer m = "Exception";
@@ -5543,8 +5663,9 @@ class EM {
     System.out.flush();
   }
 
-  /** pending
-   * 
+  /**
+   * pending
+   *
    */
   void doResSpecial() {
 
@@ -5707,7 +5828,7 @@ class EM {
   double myScoreSum = 0.0;
   int isV = 0;
   int isI = 1;
-  int isAve = 2; 
+  int isAve = 2;
   int sValsCnt = -1;
   double difPercent = 0.0;
   double difMult = 0.0;
@@ -5727,9 +5848,9 @@ class EM {
     winner = scoreVals(TRADENOMINALGAVE, wGiven2, ICUM, isV);
     winner = scoreVals(TRADESTRATLASTGAVE, wGenerous, ICUM, isV);//%given
     winner = scoreVals(LIVEWORTH, wLiveWorthScore, ICUM, isV);
-    winner = scoreVals(LIVEWORTH, iLiveWorthScore, ICUR0, isI); 
+    winner = scoreVals(LIVEWORTH, iLiveWorthScore, ICUR0, isI);
     winner = scoreVals(WTRADEDINCRMULT, wYearTradeV, ICUR0, isV);
-   // winner = scoreVals(WTRADEDINCRMULT, wYearTradeI, ICUR0, isI);
+    // winner = scoreVals(WTRADEDINCRMULT, wYearTradeI, ICUR0, isI);
     winner = scoreVals(DIED, iNumberDied, ICUM, isI);
     winner = scoreVals(BOTHCREATE, iBothCreateScore, ICUM, isI);
 
@@ -5741,15 +5862,15 @@ class EM {
       resV[SCORE][ICUR0][0][n] = myScore[n];
       resV[SCORE][ICUR0][1][n] = myScore[n];
       resI[SCORE][ICUR0][1][n] = 1;
-      resI[SCORE][ICUR0][0][n] = 1;  
+      resI[SCORE][ICUR0][0][n] = 1;
     }
     double dif = 0.0, wDif = 0.0;
     // dif = max - myScore.ave
     // wDif = dif/myScore.av - curDif
     // isWinner if wDif > 0.0 that is max  is enough greater than ave
     int prevWinner = winner;
-    boolean badbad = winner < 0 || winner > 4 ? true: false; // set legal winner
-    winner = badbad? 0:winner; // set winner legal
+    boolean badbad = winner < 0 || winner > 4 ? true : false; // set legal winner
+    winner = badbad ? 0 : winner; // set winner legal
     difPercent = (wDif = (dif = (myScore[winner] - myScoreSum * .1) / myScoreSum * .1) - curDif) * 100.0;
     if (wDif > 0.0) {  // wDif is frac (max-ave)/ave - curDif
       isWinner = true;
@@ -5758,9 +5879,9 @@ class EM {
       curDif += (wDif * difMult);
       // reduce curDif each year but don't go negative
       // redices amt max/ave >  curDif
-      curDif -= (curDif - curDif * difMult) > 0.0 ? curDif * difMult: 0.0;
+      curDif -= (curDif - curDif * difMult) > 0.0 ? curDif * difMult : 0.0;
     }
-    System.out.println("getWinner " + resS[SCORE][0] + " =" + mf(resV[SCORE][ICUR0][0][0]) + " , " + mf(resV[SCORE][ICUR0][0][1]) + " , " + mf(resV[SCORE][ICUR0][0][2]) + "," + mf(resV[SCORE][ICUR0][0][3]) + "," + mf(resV[SCORE][ICUR0][0][4]) + " : " + mf(resV[SCORE][ICUR0][1][0]) + " , " + mf(resV[SCORE][ICUR0][1][1]) + " , " + mf(resV[SCORE][ICUR0][1][2]) + "," + mf(resV[SCORE][ICUR0][1][3]) + "," + mf(resV[SCORE][ICUR0][1][4]) + ", myScore=" + mf(myScore[0]) + " , " + mf(myScore[1]) + " , " + mf(myScore[2]) + "," + mf(myScore[3]) + "," + mf(myScore[4]) + ", winner=" + winner + (badbad ? " illegal winner=" + prevWinner: ""));
+    System.out.println("getWinner " + resS[SCORE][0] + " =" + mf(resV[SCORE][ICUR0][0][0]) + " , " + mf(resV[SCORE][ICUR0][0][1]) + " , " + mf(resV[SCORE][ICUR0][0][2]) + "," + mf(resV[SCORE][ICUR0][0][3]) + "," + mf(resV[SCORE][ICUR0][0][4]) + " : " + mf(resV[SCORE][ICUR0][1][0]) + " , " + mf(resV[SCORE][ICUR0][1][1]) + " , " + mf(resV[SCORE][ICUR0][1][2]) + "," + mf(resV[SCORE][ICUR0][1][3]) + "," + mf(resV[SCORE][ICUR0][1][4]) + ", myScore=" + mf(myScore[0]) + " , " + mf(myScore[1]) + " , " + mf(myScore[2]) + "," + mf(myScore[3]) + "," + mf(myScore[4]) + ", winner=" + winner + (badbad ? " illegal winner=" + prevWinner : ""));
     return winner;
   }
 
@@ -5775,34 +5896,34 @@ class EM {
    */
   int scoreVals(int dRn, double[][] mult, int cumCur, int isN) {
     double inScore[] = {0., 0., 0., 0., 0.};
-    int winner = -1; 
+    int winner = -1;
     double mm = mult[0][0];  // bottom value of limits
     double min = 9999999999.E+20; //reduce to mins
     double max = -min; // increase to max
     double max1 = max - 1.;// an almost max amount
-    int ii=0;
+    int ii = 0;
     int m = 0, n = 0;
     for (m = 0; m < 2; m++) {
       for (n = 0; n < 5; n++) {
-        
+
         if (m == 0) {
           // initialize with planet values for each clan
           if (isN == isI) {
             inScore[n] = resI[dRn][cumCur][m][n] * mm;
-          } else if(isN == isV){
+          } else if (isN == isV) {
             inScore[n] = resV[dRn][cumCur][m][n] * mm;
           } else { // isAve
-            ii = (int)resI[dRn][cumCur][m][n];
-            inScore[n] = mm * (ii == 0? 1.: resV[dRn][cumCur][m][n]/ii);
+            ii = (int) resI[dRn][cumCur][m][n];
+            inScore[n] = mm * (ii == 0 ? 1. : resV[dRn][cumCur][m][n] / ii);
           }
         } else { // Than add ship values per clan
           if (isN == isI) {
             inScore[n] += resI[dRn][cumCur][m][n] * mm;
-          } else if(isN == isV){
+          } else if (isN == isV) {
             inScore[n] += resV[dRn][cumCur][m][n] * mm;
-           } else {
-            ii = (int)resI[dRn][cumCur][m][n];
-            inScore[n] += mm * (ii == 0? 1.: resV[dRn][cumCur][m][n]/ii);
+          } else {
+            ii = (int) resI[dRn][cumCur][m][n];
+            inScore[n] += mm * (ii == 0 ? 1. : resV[dRn][cumCur][m][n] / ii);
           }
           // than find the min value of all clans
           if (inScore[n] < min) {
@@ -5904,22 +6025,22 @@ class EM {
    */
   int getCurCumPorsClanUnitSum(int rn, int curCum, int porsStart, int porsEnd, int clanStart, int clanEnd) {
     String anErr = "";
-    if(E.PAINTDISPLAYOUT){
-        anErr = (curCum < ICUM ? "curCum=" + curCum + " is less than ICUM"
-            : curCum > ICUR0 ? "curCum " + curCum + " is greater than ICUR0"
-                    : porsStart < 0 ? "porsStart=" + porsStart + " is less than 0 E.P"
-                            : porsStart > 1 ? "porsStart=" + porsStart + " is greater than 1 E.S"
-                                    : porsEnd < 1 ? "porsEnd=" + porsEnd + " is less than 1 E.P+1"
-                                            : porsEnd > 2 ? "porsEnd=" + porsEnd + " is greater than 2 E.S+1"
-                                                    : clanStart < 0 ? "clanStart=" + clanStart + " is less than 0"
-                                                            : clanStart > 4 ? "clanStart=" + clanStart + " is greater than 4"
-                                                                    : clanEnd < 1 ? "clanEnd=" + clanEnd + " is less than 1"
-                                                                            : clanEnd > 5 ? "clanEnd=" + clanEnd + " is greater than 5"
-                                                                                    : "");
-    if (anErr.length() > 0) {
-      throw (new MyErr("ERR: " + anErr + " stats:" + rn + ":" + resS[rn][0]
-      ));
-    }
+    if (E.PAINTDISPLAYOUT) {
+      anErr = (curCum < ICUM ? "curCum=" + curCum + " is less than ICUM"
+              : curCum > ICUR0 ? "curCum " + curCum + " is greater than ICUR0"
+                      : porsStart < 0 ? "porsStart=" + porsStart + " is less than 0 E.P"
+                              : porsStart > 1 ? "porsStart=" + porsStart + " is greater than 1 E.S"
+                                      : porsEnd < 1 ? "porsEnd=" + porsEnd + " is less than 1 E.P+1"
+                                              : porsEnd > 2 ? "porsEnd=" + porsEnd + " is greater than 2 E.S+1"
+                                                      : clanStart < 0 ? "clanStart=" + clanStart + " is less than 0"
+                                                              : clanStart > 4 ? "clanStart=" + clanStart + " is greater than 4"
+                                                                      : clanEnd < 1 ? "clanEnd=" + clanEnd + " is less than 1"
+                                                                              : clanEnd > 5 ? "clanEnd=" + clanEnd + " is greater than 5"
+                                                                                      : "");
+      if (anErr.length() > 0) {
+        throw (new MyErr("ERR: " + anErr + " stats:" + rn + ":" + resS[rn][0]
+        ));
+      }
     }
     int mPors = 0, nClan = 0, iSum = 0;
     for (mPors = porsStart; mPors < porsEnd; mPors++) {
@@ -5930,10 +6051,9 @@ class EM {
     return iSum;
   }
 
-
-/**
-   * get a val sum from the stats database, it could be for the current year
-   * or for the cunulative sum of all the years
+  /**
+   * get a val sum from the stats database, it could be for the current year or
+   * for the cunulative sum of all the years
    *
    * @param rN the index into the stats database<br>
    * use getStatrN(name) as rN to select by string name
@@ -5947,24 +6067,24 @@ class EM {
    */
   double getCurCumPorsClanValSum(int rn, int curCum, int porsStart, int porsEnd, int clanStart, int clanEnd) {
     String anErr = "";
-    if(E.PAINTDISPLAYOUT){
-    anErr = (curCum < ICUM ? "curCum=" + curCum + " is less than ICUM"
-            : curCum > ICUR0 ? "curCum " + curCum + " is greater than ICUR0"
-                    : porsStart < 0 ? "porsStart=" + porsStart + " is less than 0 E.P"
-                            : porsStart > 1 ? "porsStart=" + porsStart + " is greater than 1 E.S"
-                                    : porsEnd < 1 ? "porsEnd=" + porsEnd + " is less than 1 E.P+1"
-                                            : porsEnd > 2 ? "porsEnd=" + porsEnd + " is greater than 2 E.S+1"
-                                                    : clanStart < 0 ? "clanStart=" + clanStart + " is less than 0"
-                                                            : clanStart > 4 ? "clanStart=" + clanStart + " is greater than 4"
-                                                                    : clanEnd < 1 ? "clanEnd=" + clanEnd + " is less than 1"
-                                                                            : clanEnd > 5 ? "clanEnd=" + clanEnd + " is greater than 5"
-                                                                                    : "");
-    if (anErr.length() > 0) {
-      throw (new MyErr("ERR: " + anErr + " stats#:" + rn + ":" + resS[rn][0]
-      ));
-    }
+    if (E.PAINTDISPLAYOUT) {
+      anErr = (curCum < ICUM ? "curCum=" + curCum + " is less than ICUM"
+              : curCum > ICUR0 ? "curCum " + curCum + " is greater than ICUR0"
+                      : porsStart < 0 ? "porsStart=" + porsStart + " is less than 0 E.P"
+                              : porsStart > 1 ? "porsStart=" + porsStart + " is greater than 1 E.S"
+                                      : porsEnd < 1 ? "porsEnd=" + porsEnd + " is less than 1 E.P+1"
+                                              : porsEnd > 2 ? "porsEnd=" + porsEnd + " is greater than 2 E.S+1"
+                                                      : clanStart < 0 ? "clanStart=" + clanStart + " is less than 0"
+                                                              : clanStart > 4 ? "clanStart=" + clanStart + " is greater than 4"
+                                                                      : clanEnd < 1 ? "clanEnd=" + clanEnd + " is less than 1"
+                                                                              : clanEnd > 5 ? "clanEnd=" + clanEnd + " is greater than 5"
+                                                                                      : "");
+      if (anErr.length() > 0) {
+        throw (new MyErr("ERR: " + anErr + " stats#:" + rn + ":" + resS[rn][0]
+        ));
+      }
     } // if DEBUG
-    double vSum=0.;
+    double vSum = 0.;
     int mPors = 0, nClan = 0, iSum = 0;
     for (mPors = porsStart; mPors < porsEnd; mPors++) {
       for (nClan = clanStart; nClan < clanEnd; nClan++) {
@@ -5973,10 +6093,10 @@ class EM {
     }
     return vSum;
   }
-  
+
   /**
-   * get a val min from the stats database, it could be for the current year
-   * or for the cunulative mins of all the years
+   * get a val min from the stats database, it could be for the current year or
+   * for the cunulative mins of all the years
    *
    * @param rN the index into the stats database<br>
    * use getStatrN(name) as rN to select by string name
@@ -5990,28 +6110,28 @@ class EM {
    */
   double getCurCumPorsClanValMin(int rn, int curCum, int porsStart, int porsEnd, int clanStart, int clanEnd) {
     String anErr = "";
-    if(E.PAINTDISPLAYOUT){
-    anErr = (curCum < ICUM ? "curCum=" + curCum + " is less than ICUM"
-            : curCum > ICUR0 ? "curCum " + curCum + " is greater than ICUR0"
-                    : porsStart < 0 ? "porsStart=" + porsStart + " is less than 0 E.P"
-                            : porsStart > 1 ? "porsStart=" + porsStart + " is greater than 1 E.S"
-                                    : porsEnd < 1 ? "porsEnd=" + porsEnd + " is less than 1 E.P+1"
-                                            : porsEnd > 2 ? "porsEnd=" + porsEnd + " is greater than 2 E.S+1"
-                                                    : clanStart < 0 ? "clanStart=" + clanStart + " is less than 0"
-                                                            : clanStart > 4 ? "clanStart=" + clanStart + " is greater than 4"
-                                                                    : clanEnd < 1 ? "clanEnd=" + clanEnd + " is less than 1"
-                                                                            : clanEnd > 5 ? "clanEnd=" + clanEnd + " is greater than 5"
-                                                                                    : "");
-    if (anErr.length() > 0) {
-      throw (new MyErr("ERR: " + anErr + " stats#:" + rn + ":" + resS[rn][0]
-      ));
-    }
+    if (E.PAINTDISPLAYOUT) {
+      anErr = (curCum < ICUM ? "curCum=" + curCum + " is less than ICUM"
+              : curCum > ICUR0 ? "curCum " + curCum + " is greater than ICUR0"
+                      : porsStart < 0 ? "porsStart=" + porsStart + " is less than 0 E.P"
+                              : porsStart > 1 ? "porsStart=" + porsStart + " is greater than 1 E.S"
+                                      : porsEnd < 1 ? "porsEnd=" + porsEnd + " is less than 1 E.P+1"
+                                              : porsEnd > 2 ? "porsEnd=" + porsEnd + " is greater than 2 E.S+1"
+                                                      : clanStart < 0 ? "clanStart=" + clanStart + " is less than 0"
+                                                              : clanStart > 4 ? "clanStart=" + clanStart + " is greater than 4"
+                                                                      : clanEnd < 1 ? "clanEnd=" + clanEnd + " is less than 1"
+                                                                              : clanEnd > 5 ? "clanEnd=" + clanEnd + " is greater than 5"
+                                                                                      : "");
+      if (anErr.length() > 0) {
+        throw (new MyErr("ERR: " + anErr + " stats#:" + rn + ":" + resS[rn][0]
+        ));
+      }
     } // if DEBUG
     double vMin = 999999999999999999.;
     int mPors = 0, nClan = 0, iSum = 0;
     for (mPors = porsStart; mPors < porsEnd; mPors++) {
       for (nClan = clanStart; nClan < clanEnd; nClan++) {
-        vMin += resV[rn][curCum][mPors][nClan] < vMin ?  resV[rn][curCum][mPors][nClan] :vMin;
+        vMin += resV[rn][curCum][mPors][nClan] < vMin ? resV[rn][curCum][mPors][nClan] : vMin;
       }
     }
     return vMin;
