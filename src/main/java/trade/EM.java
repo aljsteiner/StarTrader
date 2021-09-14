@@ -1711,6 +1711,7 @@ class EM {
   }
 
   /**
+   * now fill out valI with the values set into valD for vv, and the gc in valI
    * now fill out the rest of the valD, valI, valS field Also check for range
    * errors, and method errors set arrays cstart and gstart the starts of the
    * display panels
@@ -1752,10 +1753,13 @@ class EM {
     // Save 4 different versions of the values to go into the slider
     if (vone == gc || gc == vtwo) { // gameMaster
       int[][] slidern = {{-1, -1}};
-      valI[vv][sliderC] = slidern;
-      valI[vv][prevSliderC] = slidern;
-      valI[vv][prev2SliderC] = slidern;
-      valI[vv][prev3SliderC] = slidern;
+      int[][] slidern2 = {{-1, -1}};
+      int[][] slidern3 = {{-1, -1}};
+      int[][] slidern4 = {{-1, -1}};
+      valI[vv][sliderC] = slidern;  //doVal3
+      valI[vv][prevSliderC] = slidern2;
+      valI[vv][prev2SliderC] = slidern3;
+      valI[vv][prev3SliderC] = slidern4;
       pors = E.P;
       clan = 5;
       klan = clan % 5;
@@ -1778,10 +1782,13 @@ class EM {
       }
     } else if (gc == vthree || gc == vfour) { // more gameMaster
       int[][] slidern = {{-1}, {-1}};
+      int[][] slidern2 = {{-1}, {-1}};
+      int[][] slidern3 = {{-1}, {-1}};
+      int[][] slidern4 = {{-1}, {-1}};
       valI[vv][sliderC] = slidern;
-      valI[vv][prevSliderC] = slidern;
-      valI[vv][prev2SliderC] = slidern;
-      valI[vv][prev3SliderC] = slidern;
+      valI[vv][prevSliderC] = slidern2;
+      valI[vv][prev2SliderC] = slidern3;
+      valI[vv][prev3SliderC] = slidern4;
       pors = E.P;
       clan = 5;
       svalp = valToSlider(vR = valD[vv][gameAddrC][pors][0], lL = valD[vv][gameLim][pors][vLowLim], lH = valD[vv][gameLim][pors][vHighLim]);
@@ -1860,24 +1867,24 @@ class EM {
     int j1 = -3, j2 = -4, j3 = -5, j4 = -6, j5 = -7;
     int klan = clan < 5 ? clan : clan == 5 ? 0 : clan % 5;
     if (E.debugSettingsTabOut) {
-      System.out.format("in doval5 gc=%1d, lmode=%1d, mode=%1d, vv=%3d =\"%5s\",xCnt=%1d, xStrt[xCnt]=%2d,  iinput=%3d, pors=%1d,klan=%1d,val=%7.2f, low=%7.2f,high=%7.2f%n", gc, valI[vv][modeC].length, valI[vv][modeC][0][0], vv, valS[vv][vDesc], xCntr, xCntr < 0 ? 9999 : xStart[(int) (xCntr / lDisp)], iinput, pors, clan, val, low, high);
+      System.out.format("in doval5 gc=%1d, lmode=%1d, mode=%1d, vv=%3d =\"%5s\",xCnt=%1d, xStrt[xCnt]=%2d,  iinput=%3d, pors=%1d,klan=%1d,val=%7.2f, low=%7.2f,high=%7.2f 00slider 0123=" + valI[vv][sliderC][0][0] + " " + valI[vv][prevSliderC][0][0] + " " + valI[vv][prev2SliderC][0][0] + " " + valI[vv][prev3SliderC][0][0] + " "  + "%n", gc, valI[vv][modeC].length, valI[vv][modeC][0][0], vv, valS[vv][vDesc], xCntr, xCntr < 0 ? 9999 : xStart[(int) (xCntr / lDisp)], iinput, pors, clan, val, low, high);
     }
     // test for legal gc
-    if (E.debugSettingsTab && (gc != vone && gc != vtwo && gc != vthree && gc != vfour && gc != vfive && gc != vten)) {
+    if (E.debugSettingsTab){if((gc != vone && gc != vtwo && gc != vthree && gc != vfour && gc != vfive && gc != vten)) {
       throw new MyErr("doVal5 Illegal gc=" + gc + ", vv=" + vv + ", desc=" + valS[vv][vDesc]);
-    }
+    }}
     // test value between low and high. note high may be &lt; low
-    if (E.debugSettingsTab && !((val >= low && val <= high) || (val >= high && val <= low))) {
+    if (E.debugSettingsTab){if(!((val >= low && val <= high) || (val >= high && val <= low))) {
       throw new MyErr("doval5 " + valS[vv][vDesc] + " value=" + mf(val) + " out of limits high=" + mf(high) + " low=" + mf(low));
-    }
+    }}
     // test gc == saved gc
-    if (E.debugSettingsTab && gc != valI[vv][modeC][vFill][0]) {
+    if (E.debugSettingsTab){if(gc != valI[vv][modeC][vFill][0]) {
       throw new MyErr("doval5 " + valS[vv][vDesc] + "gc =" + gc + "not equal stored gc=" + valI[vv][modeC][vFill][0]);
-    }
+    }}
     // test getVal matches iinput(the converted game slider Value
-    if (E.debugSettingsTab && iinput != (j1 = getVal(vv, pors, clan))) {
+    if (E.debugSettingsTab){if(iinput != (j1 = getVal(vv, pors, clan))) {
       throw new MyErr("doval5 vv=" + vv + ", desc=" + valS[vv][vDesc] + " iinput=" + iinput + " not equal to saved slider  value =" + j1);
-    }
+    }}
     // test that input matches the value derived from the saved slider value
     if (gc == vone || gc == vtwo) {
       j2 = valI[vv][sliderC][vFill][pors];
@@ -1886,9 +1893,9 @@ class EM {
     } else if (gc == vten || gc == vfive) {
       j2 = valI[vv][sliderC][pors][klan];
     }
-    if (E.debugSettingsTab && iinput != j2) {
+    if(E.debugSettingsTab){if(iinput != j2) {
       throw new MyErr("doval5 vv=" + vv + ", desc=" + valS[vv][vDesc] + " iinput=" + iinput + " not equal to saved slider  value =" + j2);
-    }
+    }}
     // now test that the value save in valI results in a real number about 5% of original value
     double dif0 = Math.abs(high - low);
     double dif1 = dif0 * .5;
@@ -1907,10 +1914,9 @@ class EM {
       t1 = valD[vv][gameAddrC][pors][klan];
       //   valD[vv][gameAddrC][pors][klan] = val;
     }
-    if (E.debugSettingsTab && Math.abs(val - t1) > dif1) {
+    if (E.debugSettingsTab){ if(Math.abs(val - t1) > dif1) {
       throw new MyErr("doVal5.6 regenerated value too different=" + mf(val - t1) + ", allowed=" + mf(dif1) + ", val=" + mf(val) + ", reval=" + mf(t1) + ", frac dif=" + mf((val - t1) / dif0) + ", vv=" + vv + " name=" + valS[vv][vDesc] + ", gc=" + gc + ", pors=" + pors + ", clan=" + clan % 5);
-
-    }
+    } }
 
     if (gc == vone || gc == vtwo) {
       j1 = valI[vv][sliderC][vFill][pors];  // j1 should be val
@@ -1919,6 +1925,7 @@ class EM {
       t1 = valD[vv][gameAddrC][vFill][pors];
       valD[vv][gameAddrC][vFill][pors] = val; // restore val
       valI[vv][sliderC][vFill][pors] = j1; // restore sliderC val
+      valI[vv][prevSliderC][vFill][pors] = j1; // restore prevSliderC val
     } else if (gc == vthree || gc == vfour) {
       j1 = valI[vv][sliderC][pors][vFill];
       valI[vv][sliderC][pors][vFill] = -3;// force a different old value
@@ -1926,6 +1933,7 @@ class EM {
       t1 = valD[vv][gameAddrC][pors][vFill];
       valD[vv][gameAddrC][pors][vFill] = val;
       valI[vv][sliderC][pors][vFill] = j1;
+      valI[vv][prevSliderC][pors][vFill] = j1;
     } else if (gc == vfive || gc == vten) {
       j1 = valI[vv][sliderC][pors][klan]; // save iinput
       valI[vv][sliderC][pors][klan] = -3;// force a different old value
@@ -1933,10 +1941,11 @@ class EM {
       t1 = valD[vv][gameAddrC][pors][klan];
       valD[vv][gameAddrC][pors][klan] = val; // restore original
       valI[vv][sliderC][pors][klan] = j1;
+      valI[vv][prevSliderC][pors][klan] = j1;
     }
-    if (E.debugSettingsTab && Math.abs(val - t1) > dif1) {
+    if (E.debugSettingsTab){if(Math.abs(val - t1) > dif1) {
       throw new MyErr("doVal5.7 regenerated value too different=" + mf(val - t1) + ", allowed=" + mf(dif1) + ", val=" + mf(val) + ", reval=" + mf(t1) + ", frac dif=" + mf((val - t1) / dif0) + ", vv=" + vv + " name=" + valS[vv][vDesc] + ", gc=" + gc + ", pors=" + pors + ", clan=" + clan);
-    }
+    }}
   }//doVal5
 
   String ret = "234f";
@@ -1973,6 +1982,8 @@ sds.useLocale(Locale.US);
          int vv = -999;
          int ps = -999;
          int klan =  -999;
+         int clan = -999;
+         int slider = -999;
          Boolean isNeg = false;
          double val =  -999.;
         try {
@@ -1986,6 +1997,7 @@ sds.useLocale(Locale.US);
           case "year":
           case "title":
           case "more":
+          case "version":
             lname = s.nextLine();
             System.out.println("a line=" + cname + " :: " + lname);
             break;
@@ -2001,19 +2013,20 @@ sds.useLocale(Locale.US);
              s.useDelimiter("\\s");
               ps = s.nextInt();
               klan = s.nextInt();
+              clan = klan = klan%5;
               //if(s.hasNext("\\s*-")) {s.useDelimiter("\\s*-").next(); isNeg=true;}
               if(s.hasNextDouble()){
                 val = s.nextDouble();
-                System.err.println("found double= " + mf(val));
+                System.out.println("found double= " + mf(val));
               } else if(s.hasNextFloat()){
               val = s.nextFloat();
-              System.err.println("found Float= " + mf(val));
+              System.out.println("found Float= " + mf(val));
               } else if(s.hasNextInt()){
-                System.err.println("oops hasNextInt= " + s.nextInt());
+                System.out.println("oops hasNextInt= " + s.nextInt());
               } else {
-                System.err.println("Oops just something else= " +s.next());
+                System.out.println("Oops just something not number = " +s.next());
               }
-              val = isNeg?-val:val;
+         //     val = isNeg?-val:val;
               //  svalp = valToSlider(vR = valD[vv][gameAddrC][pors][0], lL = valD[vv][gameLim][pors][vLowLim], lH = valD[vv][gameLim][pors][vHighLim]);
               if (val > valD[vv][gameLim][ps][vHighLim] || val < valD[vv][gameLim][ps][vLowLim]) {
                 double val0 = val;
@@ -2023,12 +2036,21 @@ sds.useLocale(Locale.US);
                   System.out.println("keep  val restored to range " + fname + " " + pound + " "+ vv + "  " + ps + " " + mf(val0) + " => " + mf(val));
                 }// debug
               } // restored
-              prevVal = valD[vv][gameAddrC][ps][(klan > 4 ? 0 : klan)];
-              valD[vv][gameAddrC][ps][(klan > 4 ? 0 : klan)] = val; // restore val
+              prevVal = valD[vv][gameAddrC][ps][klan];
+              valD[vv][gameAddrC][ps][klan] = val; // set to kept value
+                  slider = valToSlider( valD[vv][gameAddrC][clan][ps], valD[vv][gameLim][ps][vLowLim],valD[vv][gameLim][ps][vHighLim]);
+            int prev3a = valI[vv][prev3SliderC][ps][clan];
+            int prev2a = valI[vv][prev2SliderC][ps][clan] ;
+            int prev1a = valI[vv][prevSliderC][ps][clan];
+            int prev0a = valI[vv][sliderC][ps][clan];
+            int prev3 =  valI[vv][prev3SliderC][ps][clan] = valI[vv][prev2SliderC][ps][clan];
+            int prev2 =  valI[vv][prev2SliderC][ps][clan] = valI[vv][prevSliderC][ps][clan];
+            int prev1 = valI[vv][prevSliderC][ps][clan] = valI[vv][sliderC][ps][clan];
+                valI[vv][sliderC][ps][clan] = slider; // a new value for slider
 
               lname = s.nextLine();
               if (E.debugScannerOut) {
-                System.out.println("keep changed  \"" + fname + "\" vv="  + vv +  " pound="  + pound +" ps="  + ps + " klan=" + klan + " prevVal=" + mf(prevVal) + " =>val=" + mf(val) + " :: moreLine=" + lname);
+                System.out.println("keep changed  \"" + fname + "\" vv="  + vv +  " pound="  + pound +" ps="  + ps + " klan=" + klan + " prevVal=" + mf(prevVal) + " =>val=" + mf(val) + "slider a0123,0123=" + prev0a + " " + prev1a + " " + prev2a + " " + prev3a + " , " + slider + " " + prev1 + " " + prev2 + " " + prev3 + " " +  " \n  :: moreLine=" + lname);
               }
             } else {
 
@@ -2044,7 +2066,7 @@ sds.useLocale(Locale.US);
         } // switch
         } catch (Exception ex) {
 
-      System.err.println("Igmore doKeepVals Input error " + Econ.nowName + " " + Econ.nowThread + " Caught Exception cause=" + ex.getCause() + " message=" + ex.getMessage() + " err string=" + ex.toString() + "\n  keep found \"" + fname + "\" vv="  + vv +  " pound="  + pound +" ps="  + ps + " klan=" + klan +  (isNeg? " isNeg " : " notNeg ") + "val=" + mf(val) + " :: moreLine=" + s.nextLine() + andMore());
+      System.out.println("Igmore doReadKeepVals Input error " + " " + " Caught Exception cause=" + ex.getCause() + " message=" + ex.getMessage() + " err string=" + ex.toString() + "\n  keep found \"" + fname + "\" vv="  + vv +  " pound="  + pound +" ps="  + ps + " klan=" + klan +  (isNeg? " isNeg " : " notNeg ") + "val=" + mf(val) + " :: moreLine=" + s.nextLine() + andMore());
     }
       } // while
       if (bKeepr != null) {
@@ -2053,17 +2075,14 @@ sds.useLocale(Locale.US);
 
     } catch (Exception ex) {
       //flushes();
-      System.err.println("doKeepVals error" + Econ.nowName + " " + Econ.nowThread + "Caught Exception cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + " " + andMore());
+      System.err.println("doReadKeepVals error  Caught Exception cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + " " + andMore());
       System.err.flush();
       ex.printStackTrace(System.err);
       System.err.flush();
       flushes();
-      System.err.println(Econ.nowName + " " + Econ.nowThread + "Ignore this error " + new Date().toString() + " " + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr + addMore());
+      System.err.println("doReadKeepVals Ignore this error " + new Date().toString() + " " + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr + addMore());
       flushes();
-
-
     } finally {
-
       return ret;
     }
   }
@@ -2083,8 +2102,8 @@ sds.useLocale(Locale.US);
    * flag
    *
    * @param vv the index of the val used to get the title
-   * @param ps the pors value
-   * @param klan the clan value
+   * @param ps the first index often the pors value  
+   * @param klan the second index often the clan
    * @param val the value to be saved
    * @param val the previous value before the change
    * @param slider the new slider value
@@ -2172,7 +2191,7 @@ sds.useLocale(Locale.US);
   int putVal(int slider, int vv, int pors, int clan) throws IOException {
     int va  = -1;
     int gc = valI[vv][modeC][vFill][0];
-    int klan = clan < 5 ? clan : clan == 5 ? 0 : clan % 5;
+    int klan =  clan % 5;
     if (E.debugPutValue2) {
       // System.out.print("EM putVal gc=" + gc + " " + ", vv=" + vv + " " + valS[vv][0] + ", " + E.cna[pors] + ", clan=" + clan + ":" + klan);
     }
@@ -2187,16 +2206,17 @@ sds.useLocale(Locale.US);
           return 0; // no change
         }
         //value must change for vone and vtwo
-        double val0 = valD[vv][gameAddrC][vFill][pors];
+        double val0 = valD[vv][gameAddrC][vFill][pors]; //save prev value
         double val1 = valD[vv][gameAddrC][vFill][pors] = sliderToVal(slider, valD[vv][gameLim][pors][vLowLim], valD[vv][gameLim][pors][vHighLim]);
 
+        int prev3Slider = valI[vv][prev3SliderC][vFill][pors] = valI[vv][prev2SliderC][vFill][pors]; //putVal
         int prev2Slider = valI[vv][prev2SliderC][vFill][pors] = valI[vv][prevSliderC][vFill][pors];
         int prevSlider = valI[vv][prevSliderC][vFill][pors] = valI[vv][sliderC][vFill][pors];
         valI[vv][sliderC][vFill][pors] = slider; // a new value for slider
         if (E.debugPutValue) {
           System.out.println("EM putVal gc=" + gc + " " + ", vv=" + vv + " " + valS[vv][0] + ", " + E.cna[pors] + ", clan=" + clan + ":" + klan + ", was=" + mf(val0) + ", to=" + mf(val1) + " sliders " + prev2Slider + " => " + prevSlider + " => " + slider);
         }
-        doWriteKeepVals(vv, pors, clan, val1, val0, slider, prevSlider, prev2Slider);
+        doWriteKeepVals(vv, vFill, pors, val1, val0, slider, prevSlider, prev2Slider);
         return 1;
       } // note different way gameMaster values stored
       //double[][] rsefficiencyGMax = {{2.}, {2.}}
@@ -2209,13 +2229,14 @@ sds.useLocale(Locale.US);
         }
         double val0 = valD[vv][gameAddrC][pors][0];
         double val1 = valD[vv][gameAddrC][pors][0] = sliderToVal(slider, valD[vv][gameLim][pors][vLowLim], valD[vv][gameLim][pors][vHighLim]);
+        int prev3Slider = valI[vv][prev3SliderC][pors][vFill] = valI[vv][prev2SliderC][pors][vFill];
         int prev2Slider = valI[vv][prev2SliderC][pors][vFill] = valI[vv][prevSliderC][pors][vFill];
         int prevSlider = valI[vv][prevSliderC][pors][vFill] = valI[vv][sliderC][pors][vFill];
         valI[vv][sliderC][pors][vFill] = slider; // a new value for slider
         if (E.debugPutValue) {
           System.out.println("EM putVal gc=" + gc + " " + ", vv=" + vv + " " + valS[vv][0] + ", " + E.cna[pors] + ", clan=" + clan + ":" + klan + ", was=" + mf(val0) + ", to=" + mf(val1) + " sliders " + prev2Slider + " => " + prevSlider + " => " + slider);
         }
-        doWriteKeepVals(vv, pors, clan, val1, val0, slider, prevSlider, prev2Slider);
+        doWriteKeepVals(vv, pors, vFill ,val1, val0, slider, prevSlider, prev2Slider);
         return 1;
       } else if (gc == vseven) {
         if (slider == (va  = valI[vv][sliderC][pors][vFill])) {
@@ -2228,13 +2249,14 @@ sds.useLocale(Locale.US);
 
         double val0 = valD[vv][gameAddrC][vFill][valI[vv][sevenC][vFill][vFill]];
         double val1 = valD[vv][gameAddrC][vFill][valI[vv][sevenC][vFill][vFill]] = sliderToVal(slider, valD[vv][gameLim][vFill][vLowLim], valD[vv][gameLim][vFill][vHighLim]);
+        int prev3Slider = valI[vv][prev3SliderC][vFill][valI[vv][sevenC][vFill][vFill]] = valI[vv][prev2SliderC][vFill][valI[vv][sevenC][vFill][vFill]];
         int prev2Slider = valI[vv][prev2SliderC][vFill][valI[vv][sevenC][vFill][vFill]] = valI[vv][prevSliderC][vFill][valI[vv][sevenC][vFill][vFill]];
         int prevSlider = valI[vv][prevSliderC][vFill][valI[vv][sevenC][vFill][vFill]] = valI[vv][sliderC][vFill][valI[vv][sevenC][vFill][vFill]];
         valI[vv][sliderC][vFill][valI[vv][sevenC][vFill][vFill]] = slider; // a new value for slider
         if (E.debugPutValue) {
           System.out.println("EM putVal gc=" + gc + " " + ", vv=" + vv + " " + valS[vv][0] + ", " + E.cna[pors] + ", clan=" + clan + ":" + klan + ", was=" + mf(val0) + ", to=" + mf(val1) + " sliders " + prev2Slider + " => " + prevSlider + " => " + slider);
         }
-        doWriteKeepVals(vv, pors, clan, val1, val0, slider, prevSlider, prev2Slider);
+        doWriteKeepVals(vv, pors, valI[vv][sevenC][vFill][vFill], val1, val0, slider, prevSlider, prev2Slider);
         return 1;
       }
     } //  double[][] clanStartFutureFundDues = {{700., 700., 700., 700., 700.}, {600., 600., 600., 600., 600.}};
@@ -2252,6 +2274,7 @@ sds.useLocale(Locale.US);
 
       double val0 = valD[vv][gameAddrC][pors][klan];
       double val1 = valD[vv][gameAddrC][pors][klan] = sliderToVal(slider, valD[vv][gameLim][pors][vLowLim], valD[vv][gameLim][pors][vHighLim]);
+      int prev3Slider = valI[vv][prev3SliderC][pors][clan] = valI[vv][prev2SliderC][pors][clan];
       int prev2Slider = valI[vv][prev2SliderC][pors][clan] = valI[vv][prevSliderC][pors][clan];
       int prevSlider = valI[vv][prevSliderC][pors][clan] = valI[vv][sliderC][pors][clan];
       valI[vv][sliderC][pors][clan] = slider; // a new value for slider
@@ -2271,12 +2294,14 @@ sds.useLocale(Locale.US);
   }
 
   /**
-   * convert val to slider int
+   * convert val to slider int using the value low and high limits
+   * find the value as the faction of the low to high extent
+   * then apply to the slider starting at 1 and going to 100 
    *
    * @param val real value being converted
    * @param low 1st limit usually lowest from doVal initialization
    * @param high 2nd limit usually highest from doVal initialization
-   * @return int for the slider 0 %le; int %le; 99 sliderExtend (100)
+   * @return new slider value
    */
   int valToSlider(double val, double low, double high) {
     // dif1 20 = 29-10+1  dif2 = -20 10 - 29-1
@@ -3686,7 +3711,7 @@ sds.useLocale(Locale.US);
    * recall doRes with ydepth=1;
    */
   private int doRes(int rN, String desc, String detail, int depth, int ydepth, int fracs, long lock0, long lock1, long lock2, long lock3) {
-    rDepth = depth;
+    rDepth = depth;  // save the last 7 params for use in calls without them
     rYdepth = ydepth;
     rFracs = fracs;
     rLock0 = lock0;
@@ -3695,7 +3720,7 @@ sds.useLocale(Locale.US);
     rLock3 = lock3;
     long mLocks = (lock0 | lock1 | lock2 | lock3) & (LIST10 | LIST11 | LIST12 | LIST13 | LIST14);
     int bvector2l = mLocks == 0 ? DVECTOR2A : DVECTOR2L; // short if no age years option
-    int[] yrs3 = mLocks == 0 ? yrs1 : yrs2;
+    int[] yrsAll = mLocks == 0 ? yrs1 : yrs2;
     if (E.debugStats) {
       if (!(resV[rN] == null) && resV[rN].length > 1) {
         throw new MyErr("null doRes rN=" + rN + " curDescription=" + (resS[rN] != null && resS[rN][0] != null ? resS[rN][0] : " null cur descrip ") + " prevDescription=" + description);
@@ -3712,37 +3737,37 @@ sds.useLocale(Locale.US);
      */
     int curIx = 10, ccntl = -5, ageIx = -6, mDepth = -7;
     int newIx = 56, cur0 = 25;
-    // for (int jj = ICUR0 - 1; jj < bvector2l; jj++) { // cum,cur0-6
+    // for (int yrsIx = ICUR0 - 1; yrsIx < bvector2l; yrsIx++) { // cum,cur0-6
     // set only the first for a year, doStartYear will move entries up each yr
-    for (int jj : yrs3) { // ICUM,ICUR0 if yrs2 5 more ages
-      newIx = (jj - ICUR0 + 1) % 7;
-      curIx = (jj - ICUR0) % 7; //index in relation to CUR0
-      cur0 = jj - curIx;  // start of an age group
-      ageIx = (jj - ICUR0) / 7; // index into age groups 0f years all <4,<8,<16,<32,32+
+    for (int yrsIx : yrsAll) { // ICUM,ICUR0 if yrs2 5 more ages
+      newIx = (yrsIx - ICUR0 + 1) % 7;
+      curIx = (yrsIx - ICUR0) % 7; //index in relation to CUR0
+      cur0 = yrsIx - curIx;  // start of an age group
+      ageIx = (yrsIx - ICUR0) / 7; // index into age groups 0f years all <4,<8,<16,<32,32+
 
-      resV[rN][jj] = new double[DVECTOR3L][]; // p,s
-      resI[rN][jj] = new long[IVECTOR3L][];// p,s,ctl
-      for (int kk = 0; kk < 2; kk++) {
-        resV[rN][jj][kk] = new double[E.lclans];
-        resI[rN][jj][kk] = new long[E.lclans]; // counts array
+      resV[rN][yrsIx] = new double[DVECTOR3L][]; // p,s
+      resI[rN][yrsIx] = new long[IVECTOR3L][];// p,s,ctl
+      for (int ixPorS = 0; ixPorS < 2; ixPorS++) {
+        resV[rN][yrsIx][ixPorS] = new double[E.lclans];
+        resI[rN][yrsIx][ixPorS] = new long[E.lclans]; // counts array
         for (int ii = 0; ii < E.lclans; ii++) {
-          resV[rN][jj][kk][ii] = 0.0;
-          resI[rN][jj][kk][ii] = 0;
+          resV[rN][yrsIx][ixPorS][ii] = 0.0;
+          resI[rN][yrsIx][ixPorS][ii] = 0;
         }
       }
-      ccntl = ((jj == 0) ? 11 : 3);
-      resI[rN][jj][CCONTROLD] = new long[ccntl];
-      resI[rN][jj][CCONTROLD][ISSET] = 0;
-      resI[rN][jj][CCONTROLD][IVALID] = 0;
-      resI[rN][jj][CCONTROLD][IPOWER] = 0;
-      if (jj == 0) {
-        resI[rN][jj][CCONTROLD][LOCKS0] = lock0;
-        resI[rN][jj][CCONTROLD][LOCKS1] = lock1;
-        resI[rN][jj][CCONTROLD][LOCKS2] = lock2;
-        resI[rN][jj][CCONTROLD][LOCKS3] = lock3;
-        resI[rN][jj][CCONTROLD][IFRACS] = fracs;
-        resI[rN][jj][CCONTROLD][IDEPTH] = Math.max(minDepth, Math.min(maxDepth, depth));
-        resI[rN][jj][CCONTROLD][IYDEPTH] = Math.max(minYDepth, Math.min(maxYDepth, ydepth));
+      ccntl = ((yrsIx == 0) ? 11 : 3);
+      resI[rN][yrsIx][CCONTROLD] = new long[ccntl];
+      resI[rN][yrsIx][CCONTROLD][ISSET] = 0;
+      resI[rN][yrsIx][CCONTROLD][IVALID] = 0;
+      resI[rN][yrsIx][CCONTROLD][IPOWER] = 0;
+      if (yrsIx == 0) {
+        resI[rN][yrsIx][CCONTROLD][LOCKS0] = lock0;
+        resI[rN][yrsIx][CCONTROLD][LOCKS1] = lock1;
+        resI[rN][yrsIx][CCONTROLD][LOCKS2] = lock2;
+        resI[rN][yrsIx][CCONTROLD][LOCKS3] = lock3;
+        resI[rN][yrsIx][CCONTROLD][IFRACS] = fracs;
+        resI[rN][yrsIx][CCONTROLD][IDEPTH] = Math.max(minDepth, Math.min(maxDepth, depth));
+        resI[rN][yrsIx][CCONTROLD][IYDEPTH] = Math.max(minYDepth, Math.min(maxYDepth, ydepth));
       }
     }
     description = desc;
@@ -3831,18 +3856,18 @@ sds.useLocale(Locale.US);
         //   LIST012 LIST10 LIST11 LIST12 LIST13 LIST14
         // LIST8-20        
         //              44                0
-        for (int jj = bvector2lim; jj >= ICUM; jj--) {
-          new0 = jj + 1; // 45
+        for (int yrsIx = bvector2lim; yrsIx >= ICUM; yrsIx--) {
+          new0 = yrsIx + 1; // 45
           newIx = new0 % 7; // if newIx==0, this is row0 of an agegrp =45%7 = 3
-          yearsGrp = (jj - ICUR0) / 7; // (44-1)= 43/7=1 =6,5...0 should be depth
-          curIx = (jj - ICUR0) % 7; //index in relation to 0 of yr grp 43%7 =1
-          cur0 = jj - curIx;  //43 - 1 = 42
+          yearsGrp = (yrsIx - ICUR0) / 7; // (44-1)= 43/7=1 =6,5...0 should be depth
+          curIx = (yrsIx - ICUR0) % 7; //index in relation to 0 of yr grp 43%7 =1
+          cur0 = yrsIx - curIx;  //43 - 1 = 42
           if ((cur0 - ICUR0) % 7 != 0) { // (42 -1) = 41%7 = 
-            bErr("rN=%2d,resV[Rn]=%5s, resI[rn].length=%3d, curIx=%1d, cur0=%1d, cur0 not index of 0, cur0=%2d, ICUR0=%2d, curIx=%2d,jj=%3d\n", rN, resS[rN][0], resI[rN].length, curIx, cur0, cur0, ICUR0, curIx, jj);
+            bErr("rN=%2d,resV[Rn]=%5s, resI[rn].length=%3d, curIx=%1d, cur0=%1d, cur0 not index of 0, cur0=%2d, ICUR0=%2d, curIx=%2d,yrsIx=%3d\n", rN, resS[rN][0], resI[rN].length, curIx, cur0, cur0, ICUR0, curIx, yrsIx);
           }
           // choose depth = YDEPTH if yearsGrp !=0 , IDEPTH if == 0 using ICUM
           depth = resI[rN][ICUM][CCONTROLD][(yearsGrp == 0 ? IDEPTH : IYDEPTH)];
-          if (resI[rN][jj] != null) { // don't try to mov null up one
+          if (resI[rN][yrsIx] != null) { // don't try to mov null up one
             // each yearAge has its own isset and valid and power
 
             // copy only if the higher cur is valid for this age
@@ -3850,53 +3875,53 @@ sds.useLocale(Locale.US);
             if ((curIx + 1) <= (depth)) {
               // copy if source is not null and isset
               // #7 in agegrp is always null
-              if (resI[rN][jj] != null
-                      && resI[rN][jj][CCONTROLD][ISSET] > 0) {
+              if (resI[rN][yrsIx] != null
+                      && resI[rN][yrsIx][CCONTROLD][ISSET] > 0) {
                 // isset and within depth, keep larger val or set depth nexIx
-                valid = Math.max(valid, (jj + 1) % 7); // highest destination value
+                valid = Math.max(valid, (yrsIx + 1) % 7); // highest destination value
                 //copy reference up, including the current values
                 // overwrite any previous reference 
-                // ensure that each reference is in one ICURO+JJ
-                resI[rN][jj + 1] = resI[rN][jj];  //moving up by 1 to depth
-                resV[rN][jj + 1] = resV[rN][jj];
-                if (E.debugStatsOut && ((rN == -96 || rN <= -3) && jj < 10 && resI[rN] != null && resI[rN][ICUR0] != null)) {
-                  System.out.printf("In doStartYear move at %s rN%d, jj%d, idepth%d, ydepth%d, valid%d, isseta%d, issetb%d\n", resS[rN][0], rN, jj, resI[rN][ICUM][CCONTROLD][IDEPTH], resI[rN][ICUM][CCONTROLD][IYDEPTH], resI[rN][ICUR0][CCONTROLD][IVALID], resI[rN][ICUR0][CCONTROLD][ISSET], resI[rN][ICUR0 + 1] == null ? -2 : resI[rN][ICUR0 + 1][CCONTROLD][ISSET]);
+                // ensure that each reference is in one ICURO+yrsIx
+                resI[rN][yrsIx + 1] = resI[rN][yrsIx];  //moving up by 1 to depth
+                resV[rN][yrsIx + 1] = resV[rN][yrsIx];
+                if (E.debugStatsOut && ((rN == -96 || rN <= -3) && yrsIx < 10 && resI[rN] != null && resI[rN][ICUR0] != null)) {
+                  System.out.printf("In doStartYear move at %s rN%d, yrsIx%d, idepth%d, ydepth%d, valid%d, isseta%d, issetb%d\n", resS[rN][0], rN, yrsIx, resI[rN][ICUM][CCONTROLD][IDEPTH], resI[rN][ICUM][CCONTROLD][IYDEPTH], resI[rN][ICUR0][CCONTROLD][IVALID], resI[rN][ICUR0][CCONTROLD][ISSET], resI[rN][ICUR0 + 1] == null ? -2 : resI[rN][ICUR0 + 1][CCONTROLD][ISSET]);
 
                 }// end print if
               } else {  // put null there at the next one
-                resI[rN][jj + 1] = null;
-                resV[rN][jj + 1] = null;
+                resI[rN][yrsIx + 1] = null;
+                resV[rN][yrsIx + 1] = null;
               }
             }
             if (curIx == 0) {// is this the 0 element of a ageGrp
               // create a new 0'th element, overwrite old reference
-              // jj still at 0 element of age
-              resV[rN][jj] = new double[2][]; // p,s
-              resI[rN][jj] = new long[3][];
-              for (int kk = 0; kk < 2; kk++) {
-                resV[rN][jj][kk] = new double[E.lclans];// make the clans
-                resI[rN][jj][kk] = new long[E.lclans]; // make array for i
+              // yrsIx still at 0 element of age
+              resV[rN][yrsIx] = new double[2][]; // p,s
+              resI[rN][yrsIx] = new long[3][];
+              for (int ixPorS = 0; ixPorS < 2; ixPorS++) {
+                resV[rN][yrsIx][ixPorS] = new double[E.lclans];// make the clans
+                resI[rN][yrsIx][ixPorS] = new long[E.lclans]; // make array for i
                 for (int ii = 0; ii < E.lclans; ii++) {
                   // zero the elements of the clan
-                  resV[rN][jj][kk][ii] = 0.0;
-                  resI[rN][jj][kk][ii] = 0;
+                  resV[rN][yrsIx][ixPorS][ii] = 0.0;
+                  resI[rN][yrsIx][ixPorS][ii] = 0;
                 }
               }
               // int ri1[][][] = resI[rN];
-              //  int ri2[][] = resI[rN][jj];
-              //  int ri3[] = resI[rN][jj][CCONTROLD];
-              //    resI[rN][ICUR0 + jj][CCONTROLD][IVALID] = valid;
-              //    ccntl = jj == 0 ? IVECTOR4C : IVECTOR4A;
-              resI[rN][jj][CCONTROLD] = new long[3];
-              resI[rN][jj][CCONTROLD][ISSET] = 0;
-              resI[rN][jj][CCONTROLD][IVALID] = valid;
+              //  int ri2[][] = resI[rN][yrsIx];
+              //  int ri3[] = resI[rN][yrsIx][CCONTROLD];
+              //    resI[rN][ICUR0 + yrsIx][CCONTROLD][IVALID] = valid;
+              //    ccntl = yrsIx == 0 ? IVECTOR4C : IVECTOR4A;
+              resI[rN][yrsIx][CCONTROLD] = new long[3];
+              resI[rN][yrsIx][CCONTROLD][ISSET] = 0;
+              resI[rN][yrsIx][CCONTROLD][IVALID] = valid;
               valid = 0; // reset for the next row
-              resI[rN][jj][CCONTROLD][IPOWER] = 0;
-              jj--; // skip copy up to cur0
+              resI[rN][yrsIx][CCONTROLD][IPOWER] = 0;
+              yrsIx--; // skip copy up to cur0
             }
           }
 
-        } // end loop on jj
+        } // end loop on yrsIx
 
         int rn = rN;
         boolean doYears = bvector2lim > ICUR0 + 6;
@@ -3944,7 +3969,7 @@ sds.useLocale(Locale.US);
          * ICUM,CCONTROLD}LOCKS0,LOCKS1,L0CKS2,LOCKS3,IFRACS,IDEPTH] valid
          * number of valid entries 0=unset,1=cur0,2=cur1,7=cur6
          */
-        int bvector2lim = resI[rN].length; // length of jj vector I think
+        int bvector2lim = resI[rN].length; // length of yrsIx vector I think
         int[] spots = {0, 1};  // ICUM,ICUR0 short spots no LISTYRS
         // 8 for LIST10 
         int[] spotsl = {0, 1, 8, 15, 22, 29, 36};// long cur0 index
@@ -3958,23 +3983,23 @@ sds.useLocale(Locale.US);
         //spots  0   1     8    15    22    29    36       43(44)    
         //   LIST012 LIST10 LIST11 LIST12 LIST13 LIST14
         // LIST8-20
-        for (int jj : spots) {
-          newIx = (jj + 1) % 7;
-          yearsGrp = jj / CURMAXDEPTH;
+        for (int yrsIx : spots) {
+          newIx = (yrsIx + 1) % 7;
+          yearsGrp = yrsIx / CURMAXDEPTH;
           depth = resI[rN][ICUM][CCONTROLD][(yearsGrp == 0 ? IDEPTH : IYDEPTH)];
-          curIx = (jj) % CURMAXDEPTH; //index in relation to CUR0
-          cur0 = jj - curIx;
+          curIx = (yrsIx) % CURMAXDEPTH; //index in relation to CUR0
+          cur0 = yrsIx - curIx;
 
           // find the max value in cum and cur
           // all entries 
           if (!didPower) {
             double maxCum = -99999999.;
             maxCumP = -10;
-            int maxCumKK = 0, m;
+            int maxCumixPorS = 0, m;
             // find the largest abs value in all values in resV
-            for (int kk = 0; kk < 2; kk++) {
+            for (int ixPorS = 0; ixPorS < 2; ixPorS++) {
               for (int ll = 0; ll < E.lclans; ll++) {
-                maxCum = Math.max(maxCum, Math.abs(resV[rN][jj][kk][ll]));
+                maxCum = Math.max(maxCum, Math.abs(resV[rN][yrsIx][ixPorS][ll]));
               }
             }
 
@@ -4001,32 +4026,32 @@ sds.useLocale(Locale.US);
             }
           }
           //     if(E.debugStatsOut)System.out.println( "Max_PRINT[" + maxCumP + "]=" + MAX_PRINT[maxCumP] + " maxCum=" + maxCum );
-          resI[rN][jj][CCONTROLD][IPOWER] = maxCumP;
+          resI[rN][yrsIx][CCONTROLD][IPOWER] = maxCumP;
 
           // now compute the valid rows for stats for this age
-          long isset1 = resI[rN][jj][CCONTROLD][ISSET];
-          int maxjjj = 6;
+          long isset1 = resI[rN][yrsIx][CCONTROLD][ISSET];
+          int maxyrsIxj = 6;
           valid = 0;
-          long maxd = Math.min(depth, maxjjj);
-          for (int jjj = 1; jjj <= maxd && jj > 0; jjj++) {
-            valid = resI[rN][jj + jjj - 1] != null && (isset1 = resI[rN][jj + jjj - 1][CCONTROLD][ISSET]) > 0 ? jjj : valid;
+          long maxd = Math.min(depth, maxyrsIxj);
+          for (int yrsIxj = 1; yrsIxj <= maxd && yrsIx > 0; yrsIxj++) {
+            valid = resI[rN][yrsIx + yrsIxj - 1] != null && (isset1 = resI[rN][yrsIx + yrsIxj - 1][CCONTROLD][ISSET]) > 0 ? yrsIxj : valid;
             if (maxd > 1 && rN < 0) {
               if (E.debugStatsOut) {
-                System.out.printf("EM.doEndYear %s rN%d, valid%d,isseta%d,issetb%d, issetc%d depth%d, maxd%d, jjj%d,jj%d\n", resS[rN][0], rN, valid, isset1, (jj + jjj < resI[rN].length ? resI[rN][jj + jjj] != null ? resI[rN][jj + jjj][CCONTROLD][ISSET] : -1 : -2), (jj + CURMAXDEPTH + jjj < resI[rN].length ? resI[rN][jj + CURMAXDEPTH + jjj] != null ? resI[rN][jj + CURMAXDEPTH + jjj][CCONTROLD][ISSET] : -1 : -2), depth, maxd, jjj, jj);
+                System.out.printf("EM.doEndYear %s rN%d, valid%d,isseta%d,issetb%d, issetc%d depth%d, maxd%d, yrsIxj%d,yrsIx%d\n", resS[rN][0], rN, valid, isset1, (yrsIx + yrsIxj < resI[rN].length ? resI[rN][yrsIx + yrsIxj] != null ? resI[rN][yrsIx + yrsIxj][CCONTROLD][ISSET] : -1 : -2), (yrsIx + CURMAXDEPTH + yrsIxj < resI[rN].length ? resI[rN][yrsIx + CURMAXDEPTH + yrsIxj] != null ? resI[rN][yrsIx + CURMAXDEPTH + yrsIxj][CCONTROLD][ISSET] : -1 : -2), depth, maxd, yrsIxj, yrsIx);
               }
             }
 
-          }// end of jjj
+          }// end of yrsIxj
           //  int[][][] resii = resI[rN];
-          // int[][] resi2 = resii[ICUR0+jj];
+          // int[][] resi2 = resii[ICUR0+yrsIx];
           // int[] resi3 = resi2[2];
           // int resValid = resi3[IVALID];
-          resI[rN][jj][CCONTROLD][IVALID] = valid;
+          resI[rN][yrsIx][CCONTROLD][IVALID] = valid;
 
           if (didEndYear < 3) {
             // if(E.debugStatsOut)System.out.printf("in doEndYear econ rN=%3d, desc=%5s, MAX_PRINT[0]=%6f,%8.2e,%e,%e, (MAX_PRINT[m=%d]= < maxCum=%5f   < MAX_PRINT[m+1=%3d]=\n", rN, resS[rN][0], 729845219.331, 729845219.331, 8729845219.331, 57729845219.331, m, maxCum, m + 1);
           }
-        }// end jj
+        }// end yrsIx
 
         int rn = rN;
         if ((rN == 96 || rN < 1) && resI[rN] != null && resI[rN][ICUR0] != null) {
@@ -4164,8 +4189,8 @@ sds.useLocale(Locale.US);
         long endSt = (new Date()).getTime();
         long moreTT = endSt - doYearTime;
         int rN = rn;
-        int jj = 1;
-        int jjj = 1;
+        int yrsIx = 1;
+        int yrsIxj = 1;
         long resICumClan = resI[rn][ICUM][pors][clan];
         long resIcur0Clan = resI[rn][ICUR0][pors][clan];
         double resVcur0Clan = resV[rn][ICUR0][pors][clan];
@@ -4174,7 +4199,7 @@ sds.useLocale(Locale.US);
         long resIcur0Isset = resI[rn][ICUR0][CCONTROLD][ISSET];
         long resICumIsset = resI[rn][ICUM][CCONTROLD][ISSET];
 
-        long isset1 = (jj - 1 + jjj < resI[rN].length ? resI[rN][jj - 1 + jjj] != null ? resI[rN][jj - 1 + jjj][CCONTROLD][ISSET] : -1 : -2);
+        long isset1 = (yrsIx - 1 + yrsIxj < resI[rN].length ? resI[rN][yrsIx - 1 + yrsIxj] != null ? resI[rN][yrsIx - 1 + yrsIxj][CCONTROLD][ISSET] : -1 : -2);
 
         if (E.debugStatsOut1) {
           if (cntStatsPrints < E.ssMax) {
