@@ -206,11 +206,11 @@ public class StarTrader extends javax.swing.JFrame {
   static final public String statsButton7Tip = "7: Resource, staff, knowledge values";
   static final public String statsButton8Tip = "8: creates. growth and costs details";
   static final public String statsButton9Tip = "9: Catastrophes, Fertility, health and effects";
-  static final public String statsButton10Tip = "10: years 0,1,2,3 worth inc, costs, efficiency,knowledge,phe";
-  static final public String statsButton11Tip = "11: years 4,5,6,7 worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton12Tip = "12: years 8->15 worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton13Tip = "13: years 16->31 worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton14Tip = "14: years 32+ worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton10Tip = "10: list by ages deaths with trades missed, rejected, lost";
+  static final public String statsButton11Tip = "11: list by ages deaths with trades accepted ";
+  static final public String statsButton12Tip = "12: list by ages deaths with negative prospects";
+  static final public String statsButton13Tip = "13: list by ages affects with growths decayed";
+  static final public String statsButton14Tip = "14: list by ages affects with catastrophies, futureFund ";
   static final public String statsButton15Tip = "15: swap factors";
   static final public String statsButton16Tip = "16: Swaps years incr skips, redos and dos";
   static final public String statsButton17Tip = "17: Swaps years decr skips, redos and dos";

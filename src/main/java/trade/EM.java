@@ -84,11 +84,11 @@ class EM {
   static final public String statsButton7Tip = "7: Resource, staff, knowledge values";
   static final public String statsButton8Tip = "8: creates. growth and costs details";
   static final public String statsButton9Tip = "9: Catastrophes, Fertility, health and effects";
-  static final public String statsButton10Tip = "10: years 0,1,2,3 worth inc, costs, efficiency,knowledge,phe";
-  static final public String statsButton11Tip = "11: years 4,5,6,7 worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton12Tip = "12: years 8->15 worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton13Tip = "13: years 16->31 worth inc, costs, efficiency,knowledge,phe ";
-  static final public String statsButton14Tip = "14: years 32+ worth inc, costs, efficiency,knowledge,phe ";
+  static final public String statsButton10Tip = "10: list by ages deaths with trades missed, rejected, lost";
+  static final public String statsButton11Tip = "11: list by ages deaths with trades accepted ";
+  static final public String statsButton12Tip = "12: list by ages deaths with negative prospects";
+  static final public String statsButton13Tip = "13: list by ages affects with growths decayed";
+  static final public String statsButton14Tip = "14: list by ages affects with catastrophies, futureFund ";
   static final public String statsButton15Tip = "15: swap factors";
   static final public String statsButton16Tip = "16: Swaps years incr skips, redos and dos";
   static final public String statsButton17Tip = "17: Swaps years decr skips, redos and dos";
@@ -396,10 +396,6 @@ class EM {
       bKeep = Files.newBufferedWriter(KEEP, CHARSET, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
       bKeep.write(rOut, 0, rOut.length());
       keepBuffered = true;
-  
- 
-
- 
 
     } catch (Exception ex) {
       flushes();
@@ -1867,24 +1863,32 @@ class EM {
     int j1 = -3, j2 = -4, j3 = -5, j4 = -6, j5 = -7;
     int klan = clan < 5 ? clan : clan == 5 ? 0 : clan % 5;
     if (E.debugSettingsTabOut) {
-      System.out.format("in doval5 gc=%1d, lmode=%1d, mode=%1d, vv=%3d =\"%5s\",xCnt=%1d, xStrt[xCnt]=%2d,  iinput=%3d, pors=%1d,klan=%1d,val=%7.2f, low=%7.2f,high=%7.2f 00slider 0123=" + valI[vv][sliderC][0][0] + " " + valI[vv][prevSliderC][0][0] + " " + valI[vv][prev2SliderC][0][0] + " " + valI[vv][prev3SliderC][0][0] + " "  + "%n", gc, valI[vv][modeC].length, valI[vv][modeC][0][0], vv, valS[vv][vDesc], xCntr, xCntr < 0 ? 9999 : xStart[(int) (xCntr / lDisp)], iinput, pors, clan, val, low, high);
+      System.out.format("in doval5 gc=%1d, lmode=%1d, mode=%1d, vv=%3d =\"%5s\",xCnt=%1d, xStrt[xCnt]=%2d,  iinput=%3d, pors=%1d,klan=%1d,val=%7.2f, low=%7.2f,high=%7.2f 00slider 0123=" + valI[vv][sliderC][0][0] + " " + valI[vv][prevSliderC][0][0] + " " + valI[vv][prev2SliderC][0][0] + " " + valI[vv][prev3SliderC][0][0] + " " + "%n", gc, valI[vv][modeC].length, valI[vv][modeC][0][0], vv, valS[vv][vDesc], xCntr, xCntr < 0 ? 9999 : xStart[(int) (xCntr / lDisp)], iinput, pors, clan, val, low, high);
     }
     // test for legal gc
-    if (E.debugSettingsTab){if((gc != vone && gc != vtwo && gc != vthree && gc != vfour && gc != vfive && gc != vten)) {
-      throw new MyErr("doVal5 Illegal gc=" + gc + ", vv=" + vv + ", desc=" + valS[vv][vDesc]);
-    }}
+    if (E.debugSettingsTab) {
+      if ((gc != vone && gc != vtwo && gc != vthree && gc != vfour && gc != vfive && gc != vten)) {
+        throw new MyErr("doVal5 Illegal gc=" + gc + ", vv=" + vv + ", desc=" + valS[vv][vDesc]);
+      }
+    }
     // test value between low and high. note high may be &lt; low
-    if (E.debugSettingsTab){if(!((val >= low && val <= high) || (val >= high && val <= low))) {
-      throw new MyErr("doval5 " + valS[vv][vDesc] + " value=" + mf(val) + " out of limits high=" + mf(high) + " low=" + mf(low));
-    }}
+    if (E.debugSettingsTab) {
+      if (!((val >= low && val <= high) || (val >= high && val <= low))) {
+        throw new MyErr("doval5 " + valS[vv][vDesc] + " value=" + mf(val) + " out of limits high=" + mf(high) + " low=" + mf(low));
+      }
+    }
     // test gc == saved gc
-    if (E.debugSettingsTab){if(gc != valI[vv][modeC][vFill][0]) {
-      throw new MyErr("doval5 " + valS[vv][vDesc] + "gc =" + gc + "not equal stored gc=" + valI[vv][modeC][vFill][0]);
-    }}
+    if (E.debugSettingsTab) {
+      if (gc != valI[vv][modeC][vFill][0]) {
+        throw new MyErr("doval5 " + valS[vv][vDesc] + "gc =" + gc + "not equal stored gc=" + valI[vv][modeC][vFill][0]);
+      }
+    }
     // test getVal matches iinput(the converted game slider Value
-    if (E.debugSettingsTab){if(iinput != (j1 = getVal(vv, pors, clan))) {
-      throw new MyErr("doval5 vv=" + vv + ", desc=" + valS[vv][vDesc] + " iinput=" + iinput + " not equal to saved slider  value =" + j1);
-    }}
+    if (E.debugSettingsTab) {
+      if (iinput != (j1 = getVal(vv, pors, clan))) {
+        throw new MyErr("doval5 vv=" + vv + ", desc=" + valS[vv][vDesc] + " iinput=" + iinput + " not equal to saved slider  value =" + j1);
+      }
+    }
     // test that input matches the value derived from the saved slider value
     if (gc == vone || gc == vtwo) {
       j2 = valI[vv][sliderC][vFill][pors];
@@ -1893,9 +1897,11 @@ class EM {
     } else if (gc == vten || gc == vfive) {
       j2 = valI[vv][sliderC][pors][klan];
     }
-    if(E.debugSettingsTab){if(iinput != j2) {
-      throw new MyErr("doval5 vv=" + vv + ", desc=" + valS[vv][vDesc] + " iinput=" + iinput + " not equal to saved slider  value =" + j2);
-    }}
+    if (E.debugSettingsTab) {
+      if (iinput != j2) {
+        throw new MyErr("doval5 vv=" + vv + ", desc=" + valS[vv][vDesc] + " iinput=" + iinput + " not equal to saved slider  value =" + j2);
+      }
+    }
     // now test that the value save in valI results in a real number about 5% of original value
     double dif0 = Math.abs(high - low);
     double dif1 = dif0 * .5;
@@ -1914,9 +1920,11 @@ class EM {
       t1 = valD[vv][gameAddrC][pors][klan];
       //   valD[vv][gameAddrC][pors][klan] = val;
     }
-    if (E.debugSettingsTab){ if(Math.abs(val - t1) > dif1) {
-      throw new MyErr("doVal5.6 regenerated value too different=" + mf(val - t1) + ", allowed=" + mf(dif1) + ", val=" + mf(val) + ", reval=" + mf(t1) + ", frac dif=" + mf((val - t1) / dif0) + ", vv=" + vv + " name=" + valS[vv][vDesc] + ", gc=" + gc + ", pors=" + pors + ", clan=" + clan % 5);
-    } }
+    if (E.debugSettingsTab) {
+      if (Math.abs(val - t1) > dif1) {
+        throw new MyErr("doVal5.6 regenerated value too different=" + mf(val - t1) + ", allowed=" + mf(dif1) + ", val=" + mf(val) + ", reval=" + mf(t1) + ", frac dif=" + mf((val - t1) / dif0) + ", vv=" + vv + " name=" + valS[vv][vDesc] + ", gc=" + gc + ", pors=" + pors + ", clan=" + clan % 5);
+      }
+    }
 
     if (gc == vone || gc == vtwo) {
       j1 = valI[vv][sliderC][vFill][pors];  // j1 should be val
@@ -1943,131 +1951,134 @@ class EM {
       valI[vv][sliderC][pors][klan] = j1;
       valI[vv][prevSliderC][pors][klan] = j1;
     }
-    if (E.debugSettingsTab){if(Math.abs(val - t1) > dif1) {
-      throw new MyErr("doVal5.7 regenerated value too different=" + mf(val - t1) + ", allowed=" + mf(dif1) + ", val=" + mf(val) + ", reval=" + mf(t1) + ", frac dif=" + mf((val - t1) / dif0) + ", vv=" + vv + " name=" + valS[vv][vDesc] + ", gc=" + gc + ", pors=" + pors + ", clan=" + clan);
-    }}
+    if (E.debugSettingsTab) {
+      if (Math.abs(val - t1) > dif1) {
+        throw new MyErr("doVal5.7 regenerated value too different=" + mf(val - t1) + ", allowed=" + mf(dif1) + ", val=" + mf(val) + ", reval=" + mf(t1) + ", frac dif=" + mf((val - t1) / dif0) + ", vv=" + vv + " name=" + valS[vv][vDesc] + ", gc=" + gc + ", pors=" + pors + ", clan=" + clan);
+      }
+    }
   }//doVal5
 
   String ret = "234f";
 
   String doReadKeepVals() {
     try {
-     // String dateString = MYDATEFORMAT.format(new Date());
-     // String rOut = "New Game " + dateString + "\n";
+      // String dateString = MYDATEFORMAT.format(new Date());
+      // String rOut = "New Game " + dateString + "\n";
       bKeepr = Files.newBufferedReader(KEEP, CHARSET);
-      if(false){
-String sd = "Hello World! 3 + 3.0  -5.0 = 6 true";
-Scanner sds = new Scanner(sd);
-sds.useLocale(Locale.US);
-            while (sds.hasNext()) {
-              if (sds.hasNextDouble()) {
+      if (false) {
+        String sd = "Hello World! 3 + 3.0  -5.0 = 6 true";
+        Scanner sds = new Scanner(sd);
+        sds.useLocale(Locale.US);
+        while (sds.hasNext()) {
+          if (sds.hasNextDouble()) {
             System.out.println("Found :" + sds.nextDouble());
-         } else {
-                System.out.println("Not Found :" + sds.next());
-              }
-            }
-            sds.close();
+          } else {
+            System.out.println("Not Found :" + sds.next());
+          }
+        }
+        sds.close();
       }
       Scanner s = new Scanner(bKeepr);
       System.err.println("locale " + s.locale());
       Locale locale = Locale.US;
       s.useLocale(Locale.US);
-      onceAgain: s.useDelimiter("\\s");
+      onceAgain:
+      s.useDelimiter("\\s");
       while (s.hasNext()) {
         String cname = "notNot";
-        String sname =  "notNot";
+        String sname = "notNot";
         String fname = "notnot";
-        String lname =  "notNot";
-        String pound =  "notNot";
-         int vv = -999;
-         int ps = -999;
-         int klan =  -999;
-         int clan = -999;
-         int slider = -999;
-         Boolean isNeg = false;
-         double val =  -999.;
+        String lname = "notNot";
+        String pound = "notNot";
+        int vv = -999;
+        int ps = -999;
+        int klan = -999;
+        int clan = -999;
+        int slider = -999;
+        Boolean isNeg = false;
+        double val = -999.;
         try {
-        cname = s.useDelimiter("\\s").next();
-        sname = "space";
-        fname = "notnot";
-        lname = "line";
-        switch (cname) {
-          case "new":
-          case "New":
-          case "year":
-          case "title":
-          case "more":
-          case "version":
-            lname = s.nextLine();
-            System.out.println("a line=" + cname + " :: " + lname);
-            break;
-          case "keep":
-           // sname = s.next("\\s");
-            sname = s.useDelimiter("\\S*").next(); //stop at non space
-            fname = s.useDelimiter("#\\s*").next();
-            pound = s.useDelimiter("\\s*").next(); // to a space
-            Object vo = valMap.get(fname);
-            double prevVal = -100.;
-            if (vo != null) {
-             vv = (int) vo;
-             s.useDelimiter("\\s");
-              ps = s.nextInt();
-              klan = s.nextInt();
-              clan = klan = klan%5;
-              //if(s.hasNext("\\s*-")) {s.useDelimiter("\\s*-").next(); isNeg=true;}
-              if(s.hasNextDouble()){
-                val = s.nextDouble();
-                System.out.println("found double= " + mf(val));
-              } else if(s.hasNextFloat()){
-              val = s.nextFloat();
-              System.out.println("found Float= " + mf(val));
-              } else if(s.hasNextInt()){
-                System.out.println("oops hasNextInt= " + s.nextInt());
-              } else {
-                System.out.println("Oops just something not number = " +s.next());
-              }
-         //     val = isNeg?-val:val;
-              //  svalp = valToSlider(vR = valD[vv][gameAddrC][pors][0], lL = valD[vv][gameLim][pors][vLowLim], lH = valD[vv][gameLim][pors][vHighLim]);
-              if (val > valD[vv][gameLim][ps][vHighLim] || val < valD[vv][gameLim][ps][vLowLim]) {
-                double val0 = val;
+          cname = s.useDelimiter("\\s").next();
+          sname = "space";
+          fname = "notnot";
+          lname = "line";
+          switch (cname) {
+            case "new":
+            case "New":
+            case "year":
+            case "title":
+            case "more":
+            case "version":
+              lname = s.nextLine();
+              System.out.println("a line=" + cname + " :: " + lname);
+              break;
+            case "keep":
+              // sname = s.next("\\s");
+              sname = s.useDelimiter("\\S*").next(); //stop at non space
+              fname = s.useDelimiter("#\\s*").next();
+              pound = s.useDelimiter("\\s*").next(); // to a space
+              Object vo = valMap.get(fname);
+              double prevVal = -100.;
+              if (vo != null) {
+                vv = (int) vo;
+                s.useDelimiter("\\s");
+                ps = s.nextInt();
+                klan = s.nextInt();
+                clan = klan = klan % 5;
+                //if(s.hasNext("\\s*-")) {s.useDelimiter("\\s*-").next(); isNeg=true;}
+                if (s.hasNextDouble()) {
+                  val = s.nextDouble();
+                  System.out.println("found double= " + mf(val));
+                } else if (s.hasNextFloat()) {
+                  val = s.nextFloat();
+                  System.out.println("found Float= " + mf(val));
+                } else if (s.hasNextInt()) {
+                  System.out.println("oops hasNextInt= " + s.nextInt());
+                } else {
+                  System.out.println("Oops just something not number = " + s.next());
+                }
+                //     val = isNeg?-val:val;
+                //  svalp = valToSlider(vR = valD[vv][gameAddrC][pors][0], lL = valD[vv][gameLim][pors][vLowLim], lH = valD[vv][gameLim][pors][vHighLim]);
+                if (val > valD[vv][gameLim][ps][vHighLim] || val < valD[vv][gameLim][ps][vLowLim]) {
+                  double val0 = val;
 
-                val = val > valD[vv][gameLim][ps][vHighLim] ? valD[vv][gameLim][ps][vHighLim] : val < valD[vv][gameLim][ps][vLowLim] ? valD[vv][gameLim][ps][vLowLim] : val;
-                if (E.debugScannerOut) {
-                  System.out.println("keep  val restored to range " + fname + " " + pound + " "+ vv + "  " + ps + " " + mf(val0) + " => " + mf(val));
-                }// debug
-              } // restored
-              prevVal = valD[vv][gameAddrC][ps][klan];
-              valD[vv][gameAddrC][ps][klan] = val; // set to kept value
-                  slider = valToSlider( valD[vv][gameAddrC][clan][ps], valD[vv][gameLim][ps][vLowLim],valD[vv][gameLim][ps][vHighLim]);
-            int prev3a = valI[vv][prev3SliderC][ps][clan];
-            int prev2a = valI[vv][prev2SliderC][ps][clan] ;
-            int prev1a = valI[vv][prevSliderC][ps][clan];
-            int prev0a = valI[vv][sliderC][ps][clan];
-            int prev3 =  valI[vv][prev3SliderC][ps][clan] = valI[vv][prev2SliderC][ps][clan];
-            int prev2 =  valI[vv][prev2SliderC][ps][clan] = valI[vv][prevSliderC][ps][clan];
-            int prev1 = valI[vv][prevSliderC][ps][clan] = valI[vv][sliderC][ps][clan];
+                  val = val > valD[vv][gameLim][ps][vHighLim] ? valD[vv][gameLim][ps][vHighLim] : val < valD[vv][gameLim][ps][vLowLim] ? valD[vv][gameLim][ps][vLowLim] : val;
+                  if (E.debugScannerOut) {
+                    System.out.println("keep  val restored to range " + fname + " " + pound + " " + vv + "  " + ps + " " + mf(val0) + " => " + mf(val));
+                  }// debug
+                } // restored
+                prevVal = valD[vv][gameAddrC][ps][klan];
+                valD[vv][gameAddrC][ps][klan] = val; // set to kept value
+                slider = valToSlider(valD[vv][gameAddrC][clan][ps], valD[vv][gameLim][ps][vLowLim], valD[vv][gameLim][ps][vHighLim]);
+                int prev3a = valI[vv][prev3SliderC][ps][clan];
+                int prev2a = valI[vv][prev2SliderC][ps][clan];
+                int prev1a = valI[vv][prevSliderC][ps][clan];
+                int prev0a = valI[vv][sliderC][ps][clan];
+                int prev3 = valI[vv][prev3SliderC][ps][clan] = valI[vv][prev2SliderC][ps][clan];
+                int prev2 = valI[vv][prev2SliderC][ps][clan] = valI[vv][prevSliderC][ps][clan];
+                int prev1 = valI[vv][prevSliderC][ps][clan] = valI[vv][sliderC][ps][clan];
                 valI[vv][sliderC][ps][clan] = slider; // a new value for slider
 
-              lname = s.nextLine();
-              if (E.debugScannerOut) {
-                System.out.println("keep changed  \"" + fname + "\" vv="  + vv +  " pound="  + pound +" ps="  + ps + " klan=" + klan + " prevVal=" + mf(prevVal) + " =>val=" + mf(val) + "slider a0123,0123=" + prev0a + " " + prev1a + " " + prev2a + " " + prev3a + " , " + slider + " " + prev1 + " " + prev2 + " " + prev3 + " " +  " \n  :: moreLine=" + lname);
-              }
-            } else {
+                lname = s.nextLine();
+                if (E.debugScannerOut) {
+                  System.out.println("keep changed  \"" + fname + "\" vv=" + vv + " pound=" + pound + " ps=" + ps + " klan=" + klan + " prevVal=" + mf(prevVal) + " =>val=" + mf(val) + "slider a0123,0123=" + prev0a + " " + prev1a + " " + prev2a + " " + prev3a + " , " + slider + " " + prev1 + " " + prev2 + " " + prev3 + " " + " \n  :: moreLine=" + lname);
+                }
+              } else {
 
-              lname = s.nextLine();
-              if (E.debugScannerOut) {
-                System.out.println("keep unknown = \"blank=" + sname + "\" name=\"" + fname + "\"  pound=" + pound + " :: " + lname);
+                lname = s.nextLine();
+                if (E.debugScannerOut) {
+                  System.out.println("keep unknown = \"blank=" + sname + "\" name=\"" + fname + "\"  pound=" + pound + " :: " + lname);
+                }
               }
-            }
-            break;
-          default:
-            lname = s.nextLine();
-            System.out.println("Unknow line cmd=" + cname + " :: line=" + lname);
-        } // switch
+              break;
+            default:
+              lname = s.nextLine();
+              System.out.println("Unknow line cmd=" + cname + " :: line=" + lname);
+          } // switch
         } catch (Exception ex) {
 
-      System.out.println("Igmore doReadKeepVals Input error " + " " + " Caught Exception cause=" + ex.getCause() + " message=" + ex.getMessage() + " err string=" + ex.toString() + "\n  keep found \"" + fname + "\" vv="  + vv +  " pound="  + pound +" ps="  + ps + " klan=" + klan +  (isNeg? " isNeg " : " notNeg ") + "val=" + mf(val) + " :: moreLine=" + s.nextLine() + andMore());
-    }
+          System.out.println("Igmore doReadKeepVals Input error " + " " + " Caught Exception cause=" + ex.getCause() + " message=" + ex.getMessage() + " err string=" + ex.toString() + "\n  keep found \"" + fname + "\" vv=" + vv + " pound=" + pound + " ps=" + ps + " klan=" + klan + (isNeg ? " isNeg " : " notNeg ") + "val=" + mf(val) + " :: moreLine=" + s.nextLine() + andMore());
+        }
       } // while
       if (bKeepr != null) {
         bKeepr.close();
@@ -2102,7 +2113,7 @@ sds.useLocale(Locale.US);
    * flag
    *
    * @param vv the index of the val used to get the title
-   * @param ps the first index often the pors value  
+   * @param ps the first index often the pors value
    * @param klan the second index often the clan
    * @param val the value to be saved
    * @param val the previous value before the change
@@ -2191,7 +2202,7 @@ sds.useLocale(Locale.US);
   int putVal(int slider, int vv, int pors, int clan) throws IOException {
     int va  = -1;
     int gc = valI[vv][modeC][vFill][0];
-    int klan =  clan % 5;
+    int klan = clan % 5;
     if (E.debugPutValue2) {
       // System.out.print("EM putVal gc=" + gc + " " + ", vv=" + vv + " " + valS[vv][0] + ", " + E.cna[pors] + ", clan=" + clan + ":" + klan);
     }
@@ -2236,7 +2247,7 @@ sds.useLocale(Locale.US);
         if (E.debugPutValue) {
           System.out.println("EM putVal gc=" + gc + " " + ", vv=" + vv + " " + valS[vv][0] + ", " + E.cna[pors] + ", clan=" + clan + ":" + klan + ", was=" + mf(val0) + ", to=" + mf(val1) + " sliders " + prev2Slider + " => " + prevSlider + " => " + slider);
         }
-        doWriteKeepVals(vv, pors, vFill ,val1, val0, slider, prevSlider, prev2Slider);
+        doWriteKeepVals(vv, pors, vFill, val1, val0, slider, prevSlider, prev2Slider);
         return 1;
       } else if (gc == vseven) {
         if (slider == (va  = valI[vv][sliderC][pors][vFill])) {
@@ -2294,9 +2305,9 @@ sds.useLocale(Locale.US);
   }
 
   /**
-   * convert val to slider int using the value low and high limits
-   * find the value as the faction of the low to high extent
-   * then apply to the slider starting at 1 and going to 100 
+   * convert val to slider int using the value low and high limits find the
+   * value as the faction of the low to high extent then apply to the slider
+   * starting at 1 and going to 100
    *
    * @param val real value being converted
    * @param low 1st limit usually lowest from doVal initialization
@@ -2558,11 +2569,11 @@ sds.useLocale(Locale.US);
   static final long getS = 01L;
   static final long psmask = 01L;
   static final long PSMASK = psmask;
-  static final long sum = 0000002L;  // prlong at the round sum P + S
+  static final long sum = 0000002L;  //  sum P + S
   static final long SUM = sum;
   static final long pns = sum;  // p and s are sum
   static final long PNS = sum;
-  static final long both = 0000004L; // prlong both P & S this round
+  static final long both = 0000004L; //  both P & S this round
   static final long BOTH = both;
   static final long thisYr = 0000010L; // sum of r0 thisYr values
   static final long THISYR = thisYr;
@@ -2577,7 +2588,7 @@ sds.useLocale(Locale.US);
   static final long UNITS = units;
   static final long skipUnset = 0000020L; // skip listing anything if value unset
   static final long SKIPUNSET = skipUnset;
-  static final long curUnitAve = 0000040L; // each year sum/units
+  static final long curUnitAve = 0000040L; // each year ave sum/units
   static final long CURUNITAVE = curUnitAve;
   static final long curAve = curUnitAve;
   static final long CURAVE = curUnitAve;
@@ -2602,12 +2613,12 @@ sds.useLocale(Locale.US);
   static final long CUMUNITS = cumUnits;
   static final long zeroUnset = 0004000L; // show unset as zero's
   static final long ZEROUNSET = zeroUnset;
-  static final long tstring = 0010000L; //  use descriptor as a title
-  static final long divByAve = 0020000L; // divide by other val/units
-  static final long cum = 0040000L; // cum sum of values both without sum
+  static final long tstring = 0010000L; //  unused
+  static final long divByAve = 0020000L; // divide by other val/units unused
+  static final long cum = 0040000L; // cum sum of values both 
   static final long CUM = cum;
-  static final long dmask = 0777770L; // mask for at least one type
-  static final long d1mask = 0777776L; // opr mask to determine boolean values
+  static final long dmask = 0777770L; // mask for commands but not both,sum,p
+  static final long d1mask = 0777776L; // opr mask commands with both and sum
 
   static final long list0 = 00000100000000L; // usually part of 0 table view
   static final long LIST0 = list0;
@@ -2654,8 +2665,8 @@ sds.useLocale(Locale.US);
   static final long ROWS123 = ROWS1 | ROWS2 | ROWS3;
   static final long ROWSMASK = 07000000000000000L;
   static final long LMASK = lmask;
-  static final long LISTYRS = LIST10 | LIST11 | LIST12 | LIST13 | LIST14;
-  //static final long LISTYRS = LISTYRS;
+  static final long AGESMASK = LIST10 | LIST11 | LIST12 | LIST13 | LIST14; // show available age vals
+  static final long LISTYRS = 0L;
   static final long LIST1YRS = list1 | LISTYRS;
   static final long LIST3YRS = list3 | LISTYRS;  // missed deaths
   static final long LIST4YRS = list4 | LISTYRS;  // trades, accepted rej deaths
@@ -2702,36 +2713,6 @@ sds.useLocale(Locale.US);
 
   static final public String gameTextFieldText = "This is to be filled with descriptions of the field over which the mouse hovers";
 
-  //  values for doRes
-  private boolean doSum = false;
-  private boolean didSum = false; //a previous lock offered sum, so without both do sum
-  private boolean doBoth = false;
-  private long doPower = -5;
-  private String powers = "";  // the power append to name and desc string
-  private boolean doSkipUnset = false;
-  private boolean doZeroUnset = false;
-  private boolean didUnset = false;
-  private boolean doCum = false;
-  private boolean doValues = false;
-  private boolean doUnits = false;
-  private boolean doUnitsDivide = false;  // units ave
-  private boolean doValidDivide = false; // divide sum by valid years  ave
-  private boolean divBy = false;
-  private static boolean tstr = false;   // a tstring line
-  private static long lStart = 0;
-  private static long lEnd = 1;  // o-1
-  private static String suffix = "";
-  private static String nextCol = "";
-  private static boolean ctlFnd = false;
-  private static boolean inNum = false;
-  private static int colCnt = 0, colMax = 10, lTit = 41, lCol = 15;
-  private static int lMax = 0, lCnt = 0;
-  private static final int colAdd = 0;
-  private static final int colAddBrk = 1;
-  private static final int colBrkAdd = 2;
-  private static final int colHlfAddBrk = 3;
-  private static final int colHlfBrkAdd = 4;
-  private static final int colBrkEnd = 5;
   TreeMap<String, Integer> valMap = new TreeMap<String, Integer>();
   TreeMap<String, Integer> resMap = new TreeMap<String, Integer>();
 //                                    -1         0           1            2             3
@@ -2740,39 +2721,43 @@ sds.useLocale(Locale.US);
   String[][] resS;  // [RN][rDesc,rDetail] result string values
   static int rDesc = 0;
   static int rDetail = 1; // detail or tip text
-  static final int CURMAXDEPTH = 7;
+  static final int MAXDEPTH = 7;
 
   /**
    * resV [resNum][cum,cur0-6,7-13,14-20,21-27,28-34,35-41][[p0-4],[s0-4]]
    *
    */
   static final int DCUM = 0;
+  static final int EXTRA1 = 1;
+  static final int EXTRA2 = 2;
   // years starting all,<=3,<=7,<=15,<=31,32++
-  static final int DCUR0 = 1;
-  static final int DCUR1 = DCUR0 + CURMAXDEPTH * 1;
-  static final int DCUR2 = DCUR0 + CURMAXDEPTH * 2;
-  static final int DCUR3 = DCUR0 + CURMAXDEPTH * 3;
-  static final int DCUR4 = DCUR0 + CURMAXDEPTH * 4;
-  static final int DCUR5 = DCUR0 + CURMAXDEPTH * 5;
-  static final int DCUR6 = DCUR0 + CURMAXDEPTH * 6;  // not used
+  static final int DCUR0 = 1;  //the curs
+  static final int DCUR1 = DCUR0 + MAXDEPTH * 1; //4
+  static final int DCUR2 = DCUR0 + MAXDEPTH * 2; //8
+  static final int DCUR3 = DCUR0 + MAXDEPTH * 3; //26
+  static final int DCUR4 = DCUR0 + MAXDEPTH * 4; //32
+  static final int DCUR5 = DCUR0 + MAXDEPTH * 5;
+  static final int DCUR6 = DCUR0 + MAXDEPTH * 6;  // start unused next age
+  static final int DVECTOR2L = DCUR6 + EXTRA2; //42+1+2 =45
 
-  static final int D3CUR0 = DCUR0 + 3 * DCUR6; // 1+3*7 = 22
-  static final int D7CUR0 = 45; //starts 1, 8 4=15 8=22 16=29,32=36,end=41+2=43,
-  static final int DVECTOR2L = 1 + 7 * 6;// 43
+  static final int D3CUR0 = DCUR0 + 3 * MAXDEPTH; // 1+3*7 = 22
+  static final int D7CUR0 = 43; //starts 1, 8 4=15 8=22 16=29,32=36,end=41+2=43,
+  // static final int DVECTOR2L = 1 + 7 * 6;// 43
   // any row vector less than 9 does not have separate age entries
-  static final int DVECTOR2MAX = 9;
+  static final int DVECTOR2MAX = DCUR0 + MAXDEPTH + EXTRA1; // 9
   static final int DVECTOR2A = 8; //
   static final int DVECTOR3L = 2;  // P,S
   // extra start next age group cur0-6 entries in vector2
-  static final int[] AGEBREAKS = {0, 4, 8, 16, 32, 999999}; // + over 31+ group
+  static final int[] AGESTARTS = {0, 4, 8, 16, 32, 999999}; // + over 31+ group
   static final String[] AGESTR = {"", "0-3", "4-7", "8-15", "16-31", "32+"};
-  static final long[] AGELISTS = {list0 | list1 | list2, LIST10, LIST11, LIST12, LIST13, LIST14};
+  static final int[] AGENUM = {0, 0, 4, 8, 16, 32};
+  static final long[] AGELISTS = {LIST0 | LIST1 | LIST2, LIST10, LIST11, LIST12, LIST13, LIST14};
   static final long[] SHORTAGELIST = {LIST0 | LIST1 | LIST2};
   static final int shortLength = SHORTAGELIST.length;
   static final int longLength = AGELISTS.length;
   static final long AGEMASK = LIST10 | LIST11 | LIST12 | LIST13 | LIST14;
   static final int minDepth = 1; // set min number of output for allYears
-  static final int maxDepth = 7; // 0 1 2 3 4 5 6
+  static final int maxDepth = MAXDEPTH; // 0 1 2 3 4 5 6 separation betwen age groups
   static final int minYDepth = 1; // min number of output in year groups
   static final int maxYDepth = 2;
   // vector 4 is LCLANS
@@ -2786,14 +2771,14 @@ sds.useLocale(Locale.US);
    */
 
   static final int ICUM = 0; // continue vector 2
-  static final int ICUR0 = 1;
-  static final int ICUR1 = 8;
-  static final int ICUR2 = 15;
-  static final int ICUR3 = 22;
-  static final int ICUR4 = 29;
-  static final int ICUR5 = 36;
-  static final int ICUR6 = 43;
-  static final int IVECTOR2L = DVECTOR2L;//43 ages < 4,8,16,31,31+
+  static final int ICUR0 = DCUR0;
+  static final int ICUR1 = DCUR1;
+  static final int ICUR2 = DCUR2;
+  static final int ICUR3 = DCUR3;
+  static final int ICUR4 = DCUR4;
+  static final int ICUR5 = DCUR5;
+  static final int ICUR6 = DCUR6;
+  static final int IVECTOR2L = DVECTOR2L;//43 ages < 4,8,16,32,31+
   static final int IVECTOR2A = DVECTOR2A;
   // end of second vector definition
   // start definitions for ICUM thru ICUR6, total 6 iterations
@@ -3718,7 +3703,8 @@ sds.useLocale(Locale.US);
     rLock1 = lock1;
     rLock2 = lock2;
     rLock3 = lock3;
-    long mLocks = (lock0 | lock1 | lock2 | lock3) & (LIST10 | LIST11 | LIST12 | LIST13 | LIST14);
+    // long mLocks = (lock0 | lock1 | lock2 | lock3) & (LIST10 | LIST11 | LIST12 | LIST13 | LIST14);
+    long mLocks = (lock0 | lock1 | lock2 | lock3) & AGEMASK;
     int bvector2l = mLocks == 0 ? DVECTOR2A : DVECTOR2L; // short if no age years option
     int[] yrsAll = mLocks == 0 ? yrs1 : yrs2;
     if (E.debugStats) {
@@ -3750,9 +3736,9 @@ sds.useLocale(Locale.US);
       for (int ixPorS = 0; ixPorS < 2; ixPorS++) {
         resV[rN][yrsIx][ixPorS] = new double[E.lclans];
         resI[rN][yrsIx][ixPorS] = new long[E.lclans]; // counts array
-        for (int ii = 0; ii < E.lclans; ii++) {
-          resV[rN][yrsIx][ixPorS][ii] = 0.0;
-          resI[rN][yrsIx][ixPorS][ii] = 0;
+        for (int clanIx = 0; clanIx < E.lclans; clanIx++) {
+          resV[rN][yrsIx][ixPorS][clanIx] = 0.0;
+          resI[rN][yrsIx][ixPorS][clanIx] = 0;
         }
       }
       ccntl = ((yrsIx == 0) ? 11 : 3);
@@ -3800,21 +3786,72 @@ sds.useLocale(Locale.US);
   /**
    * define method calls creating output lines in the results array when some
    * bits in the locks correspond with bits in the offered key from StarTrader
+   * the last 7 parameters are filled in with the values from the doRes
+   * immediately before this doRes, This allows a quick definition using the
+   * previous values which were the same If the immediate previous was
+   * shortened, it was filled from the previous doRes Eventually a previous has
+   * all the parameters which are used by the following doRes
    *
    * @param rN number of the result
    * @param desc description
-   * @param detail detailed description available by clicking description the
-   * last 7 parameters are filled in with the values from the doRes immediately
-   * before this doRes, This allows a quick definition using the previous values
-   * which were the same If the immediate previous was shortened, it was filled
-   * from the previous doRes Eventually a previous has all the parameters which
-   * are used by the following doRes
+   * @param detail detailed description available by clicking description
    *
    * @return rN the index of a vector of result locks which match call keys
    * recall doRes with ydepth=1;
    */
   private int doRes(String rs, String desc, String detail) {
     return doRes(rs, desc, detail, rDepth, rYdepth, rFracs, rLock0, rLock1, rLock2, rLock3);
+  }
+
+  /**
+   * define method calls creating output lines in the results array when some
+   * bits in the locks correspond with bits in the offered key from StarTrader
+   * the last 7 parameters are filled in with the values from the doRes
+   * immediately before this doRes, This allows a quick definition using the
+   * previous values which were the same If the immediate previous was
+   * shortened, it was filled from the previous doRes Eventually a previous has
+   * all the parameters which are used by the following doRes
+   *
+   * @param rN number of the result
+   * @param desc description
+   * @param detail detailed description available by clicking description
+   * @param lockMore temporarily for this time add lockMore to lock3
+   *
+   * @return rN the index of a vector of result locks which match call keys
+   * recall doRes with ydepth=1;
+   */
+  private int doRes(String rs, String desc, String detail, Long lockMore) {
+    long saveRLock3 = rLock3;
+    int res = doRes(rs, desc, detail, rDepth, rYdepth, rFracs, rLock0, rLock1, rLock2, rLock3 | lockMore);
+    rLock3 = saveRLock3;
+    return res;
+  }
+
+  /**
+   * define method calls creating output lines in the results array when some
+   * bits in the locks correspond with bits in the offered key from StarTrader
+   * the last 7 parameters are filled in with the values from the doRes
+   * immediately before this doRes, This allows a quick definition using the
+   * previous values which were the same If the immediate previous was
+   * shortened, it was filled from the previous doRes Eventually a previous has
+   * all the parameters which are used by the following doRes
+   *
+   * @param rN number of the result
+   * @param desc description
+   * @param detail detailed description available by clicking description
+   * @param lockMore2 for this time only add lockMore2 to lock2
+   * @param lockMore3 for this time only add lockMore3 to lock3
+   *
+   * @return rN the index of a vector of result locks which match call keys
+   * recall doRes with ydepth=1;
+   */
+  private int doRes(String rs, String desc, String detail, Long lockMore2, Long lockMore3) {
+    long saveRLock2 = rLock2;
+    long saveRLock3 = rLock3;
+    int res = doRes(rs, desc, detail, rDepth, rYdepth, rFracs, rLock0, rLock1, rLock2 | lockMore2, rLock3 | lockMore3);
+    rLock2 = saveRLock2;
+    rLock3 = saveRLock3;
+    return res;
   }
 
   /**
@@ -3852,20 +3889,20 @@ sds.useLocale(Locale.US);
         valid = 0;
         //YEARS 0-99999   0,   4,   8,    16,    32,   999999}; // + over 31+ group
         //  CUM CUR0  CUR1 CUR2  CUR3  CUR4  CUR5
-        //spots  0   1     8    15    22    29    36       43(44)<45>   
+        //starts  0      1        8        15       22       29       36       43(44)<45>   
         //   LIST012 LIST10 LIST11 LIST12 LIST13 LIST14
         // LIST8-20        
         //              44                0
-        for (int yrsIx = bvector2lim; yrsIx >= ICUM; yrsIx--) {
+        for (int yrsIx = bvector2lim; yrsIx > ICUM; yrsIx--) {
           new0 = yrsIx + 1; // 45
-          newIx = new0 % 7; // if newIx==0, this is row0 of an agegrp =45%7 = 3
-          yearsGrp = (yrsIx - ICUR0) / 7; // (44-1)= 43/7=1 =6,5...0 should be depth
-          curIx = (yrsIx - ICUR0) % 7; //index in relation to 0 of yr grp 43%7 =1
+          newIx = new0 % MAXDEPTH; // if newIx==0, this is row0 of an agegrp =45%7 = 3
+          yearsGrp = (yrsIx - ICUR0) / MAXDEPTH; // (44-1)= 43/7=1 =6,5...0 should be depth
+          curIx = (yrsIx - ICUR0) % MAXDEPTH; //index in relation to 0 of yr grp 43%7 =1
           cur0 = yrsIx - curIx;  //43 - 1 = 42
-          if ((cur0 - ICUR0) % 7 != 0) { // (42 -1) = 41%7 = 
+          if ((cur0 - ICUR0) % MAXDEPTH != 0) { // (42 -1) = 41%7 = 
             bErr("rN=%2d,resV[Rn]=%5s, resI[rn].length=%3d, curIx=%1d, cur0=%1d, cur0 not index of 0, cur0=%2d, ICUR0=%2d, curIx=%2d,yrsIx=%3d\n", rN, resS[rN][0], resI[rN].length, curIx, cur0, cur0, ICUR0, curIx, yrsIx);
           }
-          // choose depth = YDEPTH if yearsGrp !=0 , IDEPTH if == 0 using ICUM
+          // using ICUM choose depth = YDEPTH if yearsGrp !=0 , IDEPTH if == 0 
           depth = resI[rN][ICUM][CCONTROLD][(yearsGrp == 0 ? IDEPTH : IYDEPTH)];
           if (resI[rN][yrsIx] != null) { // don't try to mov null up one
             // each yearAge has its own isset and valid and power
@@ -3874,11 +3911,11 @@ sds.useLocale(Locale.US);
             // depth must be 2 for a copy
             if ((curIx + 1) <= (depth)) {
               // copy if source is not null and isset
-              // #7 in agegrp is always null
+              // #7 in agegrp is always null?
               if (resI[rN][yrsIx] != null
                       && resI[rN][yrsIx][CCONTROLD][ISSET] > 0) {
                 // isset and within depth, keep larger val or set depth nexIx
-                valid = Math.max(valid, (yrsIx + 1) % 7); // highest destination value
+                valid = Math.max(valid, (yrsIx + 1) % MAXDEPTH); // highest destination value
                 //copy reference up, including the current values
                 // overwrite any previous reference 
                 // ensure that each reference is in one ICURO+yrsIx
@@ -3901,10 +3938,10 @@ sds.useLocale(Locale.US);
               for (int ixPorS = 0; ixPorS < 2; ixPorS++) {
                 resV[rN][yrsIx][ixPorS] = new double[E.lclans];// make the clans
                 resI[rN][yrsIx][ixPorS] = new long[E.lclans]; // make array for i
-                for (int ii = 0; ii < E.lclans; ii++) {
+                for (int clanIx = 0; clanIx < E.lclans; clanIx++) {
                   // zero the elements of the clan
-                  resV[rN][yrsIx][ixPorS][ii] = 0.0;
-                  resI[rN][yrsIx][ixPorS][ii] = 0;
+                  resV[rN][yrsIx][ixPorS][clanIx] = 0.0;
+                  resI[rN][yrsIx][ixPorS][clanIx] = 0;
                 }
               }
               // int ri1[][][] = resI[rN];
@@ -3985,9 +4022,9 @@ sds.useLocale(Locale.US);
         // LIST8-20
         for (int yrsIx : spots) {
           newIx = (yrsIx + 1) % 7;
-          yearsGrp = yrsIx / CURMAXDEPTH;
+          yearsGrp = yrsIx / MAXDEPTH;
           depth = resI[rN][ICUM][CCONTROLD][(yearsGrp == 0 ? IDEPTH : IYDEPTH)];
-          curIx = (yrsIx) % CURMAXDEPTH; //index in relation to CUR0
+          curIx = (yrsIx) % MAXDEPTH; //index in relation to CUR0
           cur0 = yrsIx - curIx;
 
           // find the max value in cum and cur
@@ -4037,12 +4074,12 @@ sds.useLocale(Locale.US);
             valid = resI[rN][yrsIx + yrsIxj - 1] != null && (isset1 = resI[rN][yrsIx + yrsIxj - 1][CCONTROLD][ISSET]) > 0 ? yrsIxj : valid;
             if (maxd > 1 && rN < 0) {
               if (E.debugStatsOut) {
-                System.out.printf("EM.doEndYear %s rN%d, valid%d,isseta%d,issetb%d, issetc%d depth%d, maxd%d, yrsIxj%d,yrsIx%d\n", resS[rN][0], rN, valid, isset1, (yrsIx + yrsIxj < resI[rN].length ? resI[rN][yrsIx + yrsIxj] != null ? resI[rN][yrsIx + yrsIxj][CCONTROLD][ISSET] : -1 : -2), (yrsIx + CURMAXDEPTH + yrsIxj < resI[rN].length ? resI[rN][yrsIx + CURMAXDEPTH + yrsIxj] != null ? resI[rN][yrsIx + CURMAXDEPTH + yrsIxj][CCONTROLD][ISSET] : -1 : -2), depth, maxd, yrsIxj, yrsIx);
+                System.out.printf("EM.doEndYear %s rN%d, valid%d,isseta%d,issetb%d, issetc%d depth%d, maxd%d, yrsIxj%d,yrsIx%d\n", resS[rN][0], rN, valid, isset1, (yrsIx + yrsIxj < resI[rN].length ? resI[rN][yrsIx + yrsIxj] != null ? resI[rN][yrsIx + yrsIxj][CCONTROLD][ISSET] : -1 : -2), (yrsIx + MAXDEPTH + yrsIxj < resI[rN].length ? resI[rN][yrsIx + MAXDEPTH + yrsIxj] != null ? resI[rN][yrsIx + MAXDEPTH + yrsIxj][CCONTROLD][ISSET] : -1 : -2), depth, maxd, yrsIxj, yrsIx);
               }
             }
 
           }// end of yrsIxj
-          //  int[][][] resii = resI[rN];
+          //  int[][][] resclanIx = resI[rN];
           // int[][] resi2 = resii[ICUR0+yrsIx];
           // int[] resi3 = resi2[2];
           // int resValid = resi3[IVALID];
@@ -4141,15 +4178,15 @@ sds.useLocale(Locale.US);
     int a = -5, b = -5, curm = 0;
     if (resI[rn].length > DVECTOR2A) {
       for (a = 1; a < 6 && b < 0; a++) {
-        //AGEBREAKS   0,   4,   8,    16,    32,   999999}; 
+        //AGESTARTS   0,   4,   8,    16,    32,   999999}; 
         //  CUM CUR0  CUR1 CUR2  CUR3  CUR4  CUR5
         //   LIST0-LIST9 LIST10 LIST11 LIST12 LIST13 LIST14 LIST15-LIST20
-        //   CURMAXDEPTH = 7
-        if (age < AGEBREAKS[a]) {
+        //   MAXDEPTH = 7
+        if (age < AGESTARTS[a]) {
           b = a;
         }
       }
-      curm = ICUR0 + CURMAXDEPTH * b;
+      curm = ICUR0 + MAXDEPTH * b;
     } // end if
     long resLock[][][] = resI[rn];
     double resL[][][] = resV[rn];
@@ -4263,15 +4300,15 @@ sds.useLocale(Locale.US);
     // check if we do agelist
     if (resI[rn].length > DVECTOR2A) {
       for (a = 1; a < 6 && b < 0; a++) {
-        //AGEBREAKS   0,   4,   8,    16,    32,   999999}; 
+        //AGESTARTS   0,   4,   8,    16,    32,   999999}; 
         //  CUM CUR0  CUR1 CUR2  CUR3  CUR4  CUR5
         //   LIST0-LIST9 LIST10 LIST11 LIST12 LIST13 LIST14 LIST15-LIST20
-        //   CURMAXDEPTH = 7
-        if (age < AGEBREAKS[a]) {
+        //   MAXDEPTH = 7
+        if (age < AGESTARTS[a]) {
           b = a;
         }
       }
-      curm = ICUR0 + CURMAXDEPTH * b;
+      curm = ICUR0 + MAXDEPTH * b;
     } // end if
     long resLock[][][] = resI[rn];
     double resL[][][] = resV[rn];
@@ -4409,15 +4446,15 @@ sds.useLocale(Locale.US);
     // check if we do agelist
     if (resI[rn].length > DVECTOR2A) {
       for (a = 1; a < 6 && b < 0; a++) {
-        //AGEBREAKS   0,   4,   8,    16,    32,   999999}; 
+        //AGESTARTS   0,   4,   8,    16,    32,   999999}; 
         //  CUM CUR0  CUR1 CUR2  CUR3  CUR4  CUR5
         //   LIST0-LIST9 LIST10 LIST11 LIST12 LIST13 LIST14 LIST15-LIST20
-        //   CURMAXDEPTH = 7
-        if (age < AGEBREAKS[a]) {
+        //   MAXDEPTH = 7
+        if (age < AGESTARTS[a]) {
           b = a;
         }
       }
-      curm = ICUR0 + CURMAXDEPTH * b;
+      curm = ICUR0 + MAXDEPTH * b;
     } // end if
     long resLock[][][] = resI[rn];
     double resL[][][] = resV[rn];
@@ -4537,9 +4574,52 @@ sds.useLocale(Locale.US);
   static int prpc1 = 0;
   static int prpc2 = 0;
   static int prpc3 = 0;
-  private long[][][] res2;
+  private long[][][] curRes;
   private long[][][] res3;
-
+  //  values for doRes
+  private boolean doSum = false;
+  private boolean didSum = false; //a previous lock offered sum, so without both do sum
+  private boolean doBoth = false;
+  private long doPower = -5;
+  private String powers = "";  // the power append to name and desc string
+  private boolean doSkipUnset = false;
+  private boolean doZeroUnset = false;
+  private boolean didUnset = false;
+  private boolean doCum = false;
+  private boolean doValues = false;
+  private boolean doUnits = false;
+  private boolean doUnitsDivide = false;  // units ave
+  private boolean doValidDivide = false; // divide sum by valid years  ave
+  private boolean divBy = false;
+  private boolean isCur;
+  private boolean isCurAve;
+  private boolean isCurUnits, isACur;
+  private boolean isThisYear, isAThisYear;
+  private boolean isThisYearAve;
+  private boolean isThisYearUnits;
+  private boolean isCum, isACum;
+  private boolean isCumAve;
+  private boolean isCumUnits;
+  private boolean isAve;
+  private boolean isUnits;
+  private boolean isVal, isAge0, isAgeMore,isAges,isAgeCmd;
+  private static boolean tstr = false;   // a tstring line
+  private static long lStart = 0L;
+  private static long lEnd = 1L;  // o-1
+  private static long cmd = 0L;
+  private static String suffix = "";
+  private static String extSuffix = "";
+  private static String nextCol = "";
+  private static boolean ctlFnd = false;
+  private static boolean inNum = false;
+  private static int colCnt = 0, colMax = 10, lTit = 41, lCol = 15;
+  private static int lMax = 0, lCnt = 0;
+  private static final int colAdd = 0;
+  private static final int colAddBrk = 1;
+  private static final int colBrkAdd = 2;
+  private static final int colHlfAddBrk = 3;
+  private static final int colHlfBrkAdd = 4;
+  private static final int colBrkEnd = 5;
   /**
    * possibly put a row into table if the key aop matches a lock in rn Called
    * from StarTrader
@@ -4579,21 +4659,21 @@ sds.useLocale(Locale.US);
         int c = 0, ageIx = 0;
         // duplication is also in doRes with short versions doing duplication of previous values
         if (res3 != null) { //use prev locks by default
-          res2 = res3;
+          curRes = res3;
           res3 = null;
         }
-        // check for SKIPDUP in locks0, save res2 in res3 don't use dup, use this rn
+        // check for SKIPDUP in locks0, save curRes in res3 don't use dup, use this rn
         if ((resI[rn][ICUM][CCONTROLD][LOCKS0 + 0] & SKIPDUP) > 0L) {
-          res3 = res2;  // save prev value for use above
-          res2 = resI[rn];
-        } else // use the previous locks at res2 if DUP is in the first lock this rn
+          res3 = curRes;  // save prev value for use above
+          curRes = resI[rn];
+        } else // use the previous locks at curRes if DUP is in the first lock this rn
         // there can be a long string of DUP, always use the last no DUP
         if ((resI[rn][ICUM][CCONTROLD][LOCKS0 + 0] & DUP) == 0L) { // if no DUP
-          res2 = resI[rn];  //save this rn locks as current if no dup, then use previous locks
+          curRes = resI[rn];  //save this rn locks as current if no dup, then use previous locks
         }
 
         // now see if this rn has an acceptable lock,
-        // if the governing locks contain
+        //find the index into the lowest age group of all the locks
         long allLocks = resiic[LOCKS0] | resiic[LOCKS1] | resiic[LOCKS2] | resiic[LOCKS3];
         // pick ages  again in putRows2
         int maxc = resI[rn].length < DVECTOR2MAX ? shortLength : longLength;
@@ -4602,12 +4682,12 @@ sds.useLocale(Locale.US);
             ageIx = c - shortLength + 1; // LIST10 = 1
           }
         }
-        // short look only at ICUR0 unset, long look at ICUR0 for the first 3 than at thee rest
+        // short look only at ICUR0 unset, long look at ICUR0 for the first 3 than at the rest
         // so change ageIx to do the above
         ageIx = resI[rn].length < DVECTOR2MAX ? 0 : ageIx <= shortLength ? 0 : ageIx - shortLength + 1;
-        myUnset = unset = resI[rn][ICUR0 + ageIx * CURMAXDEPTH][CCONTROLD][ISSET] < 1; // flag for age
-        myValid = valid = resI[rn][ICUR0 + ageIx * CURMAXDEPTH][CCONTROLD][IVALID];
-        depth = resI[rn][ICUR0 + ageIx * CURMAXDEPTH][CCONTROLD][IVALID];
+        myUnset = unset = resI[rn][ICUR0 + ageIx * MAXDEPTH][CCONTROLD][ISSET] < 1; // flag for age
+        myValid = valid = resI[rn][ICUR0 + ageIx * MAXDEPTH][CCONTROLD][IVALID];
+        depth = resI[rn][ICUR0 + ageIx * MAXDEPTH][CCONTROLD][IVALID];
         // set lla true to do a print below
         boolean lla = (rn > (rende4 - 2) ? true
                 : (rn == RCGLT10PERCENT) ? true
@@ -4617,7 +4697,7 @@ sds.useLocale(Locale.US);
         if (E.debugPutRowsOut) {
           if ((lla || ((putRowsPrint6aCount % 75) == 0)) && (putRowsPrint6aCount++ < 100)) {
             System.out.flush();
-            System.out.printf("EM.putrow6a rn=%d %s, %s, list%d, depth%d, valid%d, cum%d, rende4=%d,%d putRowsPrint6aCount= " + putRowsPrint6aCount + " \n", rn, (unset ? "UNSET" : "ISSET"), resS[rn][0], ((aop & list0) > 0 ? 0 : (aop & list1) > 0 ? 1 : (aop & LIST8) > 10 ? 2 : (aop & LIST3) > 0 ? 17 : aop), depth, valid, resI[rn][ICUM][0][0], rende4, rendae4);
+            System.out.printf("EM.putrow6a rn=%d %s, %s, list%d, depth%d, valid%d, cum%d, rende4=%d,%d putRowsPrint6aCount= " + putRowsPrint6aCount + " \n", rn, (unset ? "UNSET" : "ISSET"), resS[rn][0], ((aop & list0) > 0 ? 0 : (aop & list1) > 0 ? 1 : (aop & LIST3) > 0 ? 3 : (aop & LIST8) > 0 ? 8 : aop), depth, valid, resI[rn][ICUM][0][0], rende4, rendae4);
           }
         }
         row = putRows2(table, resExt, rn, row, aop, allLocks, ageIx);
@@ -4631,6 +4711,10 @@ sds.useLocale(Locale.US);
   private long haveRows;  //StarTrader rows key
   private long haveRowsMatch;
   private long haveCmdMatch;
+  private long haveAgesMatch;
+  private int myRow = 0, myLock = 0, myAgeIx = 0;
+  private long depth = -2, listMatch = 0, prevListMatch = 0, hLMp = 0, myValid = 0;
+  private boolean isAgeList = false, myIsSet = false;
 
   private String getOpsNames(Long ops) {
     String rtn = "";
@@ -4645,10 +4729,8 @@ sds.useLocale(Locale.US);
     rtn += ((ops & THISYEARAVE) > 0 ? " thisYearAve" : "");
     return rtn;
   }
-  int c = 0, myRow = 0, myLock = 0, myAgeIx = 0;
-  long depth = -2, listMatch = 0, prevListMatch = 0, hLMp = 0, myValid = 0;
-  //long haveRows = 0L;
 
+  //long haveRows = 0L;
   /**
    * test whether to output this special line of output
    *
@@ -4656,7 +4738,7 @@ sds.useLocale(Locale.US);
    * @return true if a print done
    */
   private boolean ifPutRow6(String myCmd) {
-    if ((resS[c][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
+    if ((resS[myRn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
       if (putRowsPrint6Count < 20
               || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
         System.out.flush();
@@ -4669,9 +4751,7 @@ sds.useLocale(Locale.US);
                 + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
         return true;
       }
-
     }
-
     return false;
   }
 
@@ -4700,13 +4780,14 @@ sds.useLocale(Locale.US);
     if (resV[rn] == null) { // skip undefined rows
       return row;
     }
+
     try {
       int tend = table.getSize().height;
       long opr = 0;
       //int opx = 0;
-      long[][][] resii = res2;
-      long[][] resiii = res2[ICUM];
-      long[] resiic = res2[ICUM][CCONTROLD];
+      long[][][] resii = curRes;
+      long[][] resiii = curRes[ICUM];
+      long[] resiic = curRes[ICUM][CCONTROLD];
 
       haveAllOpsMatch = (aop & allLocks) & dmask;
       haveListsMatch = (aop & allLocks) & lmask;
@@ -4728,253 +4809,128 @@ sds.useLocale(Locale.US);
         }
       }
       int rowAtStart = row;
+      
       // printing done now move through the 4 locks
-      for (int d = 0; d < 4; d++) {
-        myLock = d;
+      for (int lockIx = 0; lockIx < 4; lockIx++) {
+        myLock = lockIx;
         // check for a LISTx match put in prevListMatch
-        prevListMatch = (long) (aop & res2[ICUM][CCONTROLD][LOCKS0 + d]) & lmask;
+        //  prevListMatch = (long) (aop & curRes[ICUM][CCONTROLD][LOCKS0 + lockIx]) & lmask;
         //look for ROWS1 ROWS2 ROWS3
         haveRows = aop & ROWSMASK;  //StarTrader rows key
         // any ROWSx in this lock
-        haveRowsMatch = res2[ICUM][CCONTROLD][LOCKS0 + d] & ROWSMASK;
+        haveRowsMatch = curRes[ICUM][CCONTROLD][LOCKS0 + lockIx] & ROWSMASK;
         // match either no ROWS or some ROWS
         boolean okRows = (haveRows == 0L && haveRowsMatch == 0L) || ((haveRows & haveRowsMatch) > 0L);
         //use current  LISTx match if present else use previous listMatch 
-        listMatch = (res2[ICUM][CCONTROLD][LOCKS0 + d] & lmask) > 0L ? prevListMatch : listMatch;
+        listMatch = curRes[ICUM][CCONTROLD][LOCKS0 + lockIx] & lmask;
+        listMatch = (listMatch == 0L ? prevListMatch : listMatch);
+        isAgeList = (aop & AGEMASK) > 0L;
         // is there a command match
-        haveCmdMatch = (aop & res2[ICUM][CCONTROLD][LOCKS0 + d]) & d1mask;
-        opr = haveCmdMatch;
+        haveCmdMatch = (aop & curRes[ICUM][CCONTROLD][LOCKS0 + lockIx]) & d1mask;
+        cmd = opr = haveCmdMatch;
 
         // must have at least 1 matching list and 1 matching do type and okRows
         if (listMatch > 0L && haveCmdMatch > 0L && okRows) {
-          hLMp = listMatch; // save a good list option
-          // now process the selected age group by the first match
+          prevListMatch = listMatch; // save a good list option for possible use in the next lockIx
+        
+         isCur = (cmd & CUR) > 0;
+         isCurAve = (cmd & CURAVE) > 0;
+         isCurUnits = (cmd & CURUNITS) > 0;
+         isCum = (cmd & CUM) > 0;
+         isCumAve = (cmd & CUMAVE) > 0;
+         isCumUnits = (cmd & CUMUNITS) > 0;
+         isThisYear = (cmd & THISYEAR) > 0;
+         isThisYearAve = (cmd & THISYEARAVE) > 0;
+         isThisYearUnits = (cmd & THISYEARUNITS) > 0;
+         isUnits = isCurUnits | isCumUnits | isThisYearUnits;
+         isAve = isCurAve | isCumAve | isThisYearAve;
+         isVal = isCur | isCum| isThisYear;
+         isACur = isCur | isCurUnits | isCurAve;
+         isACum = isCum | isCumUnits | isCumAve;
+         isAThisYear = isThisYear | isThisYearUnits | isThisYearAve;
+         
           // aop should containt no more than 1 age list
-          // pick ages  again in putRows2
-          int maxc = resI[rn].length < DVECTOR2MAX ? shortLength : longLength;
-          for (c = 3, ageIx = 0; c < maxc && ageIx == 0; c++) {
-            if (((listMatch) & AGELISTS[c]) > 0) { // pick the first matching age start LIST10
-              ageIx = c - shortLength + 1; // LIST10 = 1
-            }
-          }
+          int maxList = resI[rn].length < DVECTOR2MAX ? shortLength : longLength;
+          isAges = resI[rn].length > DVECTOR2MAX;
+          isAgeCmd = (haveCmdMatch & (CUR | CURAVE)) > 0L;
+          isAge0 = (ageIx == 0) && isAges  && isAgeCmd;
+          isAgeMore = ageIx > 0 && isAges  && isAgeCmd;
+          String sstring = (isVal?"" : isUnits? " units " : isAve ? " ave " : "???");
+          int maxAges = ((resI[rn].length > DVECTOR2MAX) && isAgeCmd) ? longLength - shortLength + 1 : 1;
+          for (ageIx = 0; ageIx < maxAges; ageIx++) {
 
-          myUnset = unset = resI[rn][ICUR0 + ageIx * CURMAXDEPTH][CCONTROLD][ISSET] < 1; // flag for age
-          myCumUnset = myUnset && resI[rn][ICUM][CCONTROLD][ISSET] < 1;
-          myValid = valid = resI[rn][ICUR0 + ageIx * CURMAXDEPTH][CCONTROLD][IVALID];
-          depth = resI[rn][ICUR0 + ageIx * CURMAXDEPTH][CCONTROLD][IVALID];
+            myCumUnset = myUnset && resI[rn][ICUM][CCONTROLD][ISSET] < 1;
+            myUnset = unset = resI[rn][ICUR0 + ageIx * MAXDEPTH][CCONTROLD][ISSET] < 1; // flag for age
 
-          doUnits = false;
-          // set didSum if ever doSum and not both
-          didSum |= doSum = (opr & sum) > 0;
-          doBoth = (opr & both) > 0 || !didSum;  // no default both if didsum
-          didSum &= !doBoth;  // doBoth clears didSum
-          doSkipUnset = (haveAllOpsMatch & skipUnset) > 0;
-          doZeroUnset = (haveAllOpsMatch & zeroUnset) > 0;
-          tstr = (opr & tstring) > 0;
-          didUnset = false;
-          // now determine type to pick a suffix and set boolean flags
-          //  int cop = (int)(aop & opx & 017);
-          // lla true if rn>rend4-1 
-          boolean lla = (rn > (rende4 - 2)
-                  && ((aop & (LIST1 | LIST0 | LIST2 | LIST3)) > 0l) ? false : false);
+            myValid = valid = resI[rn][ICUR0 + ageIx * MAXDEPTH][CCONTROLD][IVALID];
+            depth = resI[rn][ICUR0][CCONTROLD][IVALID];
 
-          //   if ((resS[rn][rDesc].contains("WORTH") || resS[rn][rDesc].contains("KNOWLEDGE") || resS[rn][rDesc].contains("Create") || lla || ((putRowsPrint6Count % 75) == 0 )) && (putRowsPrint6Count < 200)) {
-          if (E.debugPutRowsOut6) {
-            if (ifPutRow6("start")) {
-              putRowsPrint6Count++;
-            }
-          }
-          if (unset) {
-            suffix = " curYr:";
-          }
-
-          if (!myUnset && (opr & cur) > 0L) {
-            suffix = " curYr:";
-
-            for (int m = 0; m < valid; m++) {
-              suffix = " curYr:" + (m + 1) + "/" + valid;
-              lStart = m;
-              lEnd = m + 1;
-              row = putRowInTable(table, resExt, rn, cur, row, suffix, ageIx);
-            }
+            doUnits = false;
+            // set didSum if ever doSum and not both
+            didSum |= doSum = (opr & sum) > 0;
+            doBoth = (opr & both) > 0 || !didSum;  // no default both if didsum
+            didSum &= !doBoth;  // doBoth clears didSum
+            doSkipUnset = (haveAllOpsMatch & skipUnset) > 0;
+            doZeroUnset = (haveAllOpsMatch & zeroUnset) > 0;
+ //           tstr = (opr & tstring) > 0;
+            didUnset = false;
+            // now determine type to pick a suffix and set boolean flags
+            //  int cop = (int)(aop & opx & 017);
+            // lla true if rn>rend4-1 
+     //       boolean lla = (rn > (rende4 - 2)
+       //             && ((aop & (LIST1 | LIST0 | LIST2 | LIST3)) > 0l) ? false : false);
+            //   if ((resS[rn][rDesc].contains("WORTH") || resS[rn][rDesc].contains("KNOWLEDGE") || resS[rn][rDesc].contains("Create") || lla || ((putRowsPrint6Count % 75) == 0 )) && (putRowsPrint6Count < 200)) {
             if (E.debugPutRowsOut6) {
-              ifPutRow6("cur");
+              if (ifPutRow6("start")) {
+                putRowsPrint6Count++;
+              }
             }
-          }
-          // do not process thisYear if cur was already processed
-          if (!myUnset && ((opr & cur) == 0) && ((opr & thisYr) > 0L)) {
-            suffix = " thisYr";
-            lStart = 0;
-            lEnd = 1;
-            row = putRowInTable(table, resExt, rn, thisYr, row, suffix, ageIx);
-            if (E.debugPutRowsOut6) {
-              ifPutRow6("thisYr");
+           
+            //pick commands with multiple years
+            if (!myUnset && (isACur || (!isACur && isAThisYear ))) {
+              // age0
+              String thisOrCur = isAThisYear? " thisYr ": " curYr";
+              String[] agesStr = {"","0-3","4=7","8-15", "16-31","32+"};
+              int yearsMax = isAge0? (int)valid : isThisYear? 1: isAgeMore?1:(int)valid;
+              for (int yearsIx = 0; yearsIx < yearsMax; yearsIx++) {
+                suffix =  (isVal ? isAge0 ? sstring + " allAges" + thisOrCur + ":" + (yearsIx + 1) + "/" + valid 
+                        : isAgeMore ? sstring + "ages" + agesStr[ageIx] 
+                        : isACur ? sstring + thisOrCur + ":"+ (yearsIx + 1) + "/" + valid 
+                        : sstring 
+                        : isAve ? isAge0 ? sstring + " allAges" + thisOrCur +":" + (yearsIx + 1) + "/" + valid 
+                        : isAgeMore ?sstring + "ages" + agesStr[ageIx] 
+                        : isACur ? sstring + thisOrCur + ":" + (yearsIx + 1) + "/" + valid 
+                        : " "
+                        : " ??? ");
+                extSuffix = suffix;
+                lStart = yearsIx;
+                lEnd = yearsIx + 1;
+                row = putRowInTable(table, rn, row, ageIx, cmd, suffix, resExt, extSuffix);
+              }
+              if (E.debugPutRowsOut6) {
+                ifPutRow6("cur");
+              }
             }
-          }
-
-          if (tstr) { // tstring is not used
-            //        row = getT(table, rn, resExt, row);
-            //  return row;
-          }
-
-          if (!myUnset && (opr & curUnitAve) > 0L) {
-            for (int m = 0; m < valid; m++) {
-              suffix = " curAve yr:" + wh(m + 1) + "/" + wh(valid);
-              lStart = m;
-              lEnd = m + 1;
-              row = putRowInTable(table, resExt, rn, curUnitAve, row, suffix, ageIx);
-            }
-            if (E.debugPutRowsOut6) {
-              if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
-                if (putRowsPrint6Count < 20
-                        || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-                  System.out.flush();
-                  System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
-                          + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
-                          + ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
-                          + ", ops=" + getOpsNames(haveCmdMatch)
-                          + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
-                          + ", cum00=" + resI[rn][ICUM][0][0]
-                          + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
-                }
-
+            
+            isAge0 = ageIx == 0;
+            // do not process thisYear if cur was already processed
+            if (false && !myUnset && !isCur && isThisYear) {
+              suffix = " thisYr";
+              lStart = 0;
+              lEnd = 1;
+            //  row = putRowInTable(table, resExt, rn, thisYr, row, suffix, ageIx);
+              if (E.debugPutRowsOut6) {
+                ifPutRow6("thisYr");
               }
             }
 
-            // break;
-          }
-
-          // do not process thisYear if cur was already processed
-          if (!myUnset && ((opr & curUnitAve) == 0L) && ((opr & thisYearUnitAve) > 0L)) {
-            suffix = " ThisYrAve";
-            lStart = 0;
-            lEnd = 1;
-            row = putRowInTable(table, resExt, rn, thisYearUnitAve, row, suffix, ageIx);
-            if (E.debugPutRowsOut6) {
-              if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
-                if (putRowsPrint6Count < 20
-                        || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-                  System.out.flush();
-                  System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
-                          + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
-                          + ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
-                          + ", ops=" + getOpsNames(haveCmdMatch)
-                          + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
-                          + ", cum00=" + resI[rn][ICUM][0][0]
-                          + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
-                }
-
+            if (false && !myUnset && (opr & curUnitAve) > 0L) {
+              for (int m = 0; m < valid; m++) {
+                suffix = " curAve yr:" + wh(m + 1) + "/" + wh(valid);
+                lStart = m;
+                lEnd = m + 1;
+              //  row = putRowInTable(table, resExt, rn, curUnitAve, row, suffix, ageIx);
               }
-            }
-          }
-
-          if (E.debugPutRowsOut6) {
-            if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
-              if (putRowsPrint6Count < 20
-                      || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-                System.out.flush();
-                System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
-                        + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
-                        + ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
-                        + ", ops=" + getOpsNames(haveCmdMatch)
-                        + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
-                        + ", cum00=" + resI[rn][ICUM][0][0]
-                        + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
-              }
-
-            }
-          }
-          if (!myCumUnset && (haveCmdMatch & cum) > 0L) {
-            suffix = " Cum";
-            lStart = 0;
-            lEnd = 1;
-            row = putRowInTable(table, resExt, rn, cum, row, suffix, ageIx);
-            if (E.debugPutRowsOut6) {
-              if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
-                if (putRowsPrint6Count < 20
-                        || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-                  System.out.flush();
-                  System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
-                          + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
-                          + ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
-                          + ", ops=" + getOpsNames(haveCmdMatch)
-                          + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
-                          + ", cum00=" + resI[rn][ICUM][0][0]
-                          + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
-                }
-
-              }
-            }
-          }
-
-          if (E.debugPutRowsOut6) {
-            if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
-              if (putRowsPrint6Count < 20
-                      || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-                System.out.flush();
-                System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
-                        + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
-                        + ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
-                        + ", ops=" + getOpsNames(haveCmdMatch)
-                        + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
-                        + ", cum00=" + resI[rn][ICUM][0][0]
-                        + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
-              }
-
-            }
-          }
-          if (!myCumUnset && (haveCmdMatch & cumUnits) > 0) {
-            suffix = " CumU";
-            doUnits = true;
-            lStart = 0;
-            lEnd = 1;
-            row = putRowInTable(table, resExt, rn, cumUnits, row, suffix, ageIx);
-            if (E.debugPutRowsOut6) {
-              if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
-                if (putRowsPrint6Count < 20
-                        || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-                  System.out.flush();
-                  System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
-                          + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
-                          + ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
-                          + ", ops=" + getOpsNames(haveCmdMatch)
-                          + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
-                          + ", cum00=" + resI[rn][ICUM][0][0]
-                          + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
-                }
-
-              }
-            }
-          }
-          if (!myCumUnset && (haveCmdMatch & cumUnitAve) > 0) {
-            suffix = " CumAve";
-            lStart = 0;
-            lEnd = 1;
-            row = putRowInTable(table, resExt, rn, cumUnitAve, row, suffix, ageIx);
-            if (E.debugPutRowsOut6) {
-              if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
-                if (putRowsPrint6Count < 20
-                        || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-                  System.out.flush();
-                  System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
-                          + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
-                          + ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
-                          + ", ops=" + getOpsNames(haveCmdMatch)
-                          + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
-                          + ", cum00=" + resI[rn][ICUM][0][0]
-                          + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
-                }
-
-              }
-            }
-          }
-          if (!myUnset && (haveCmdMatch & curUnits) > 0) {
-            for (int m = 0; m < valid; m++) {
-              suffix = " curU yr:" + wh(m + 1) + "/" + wh(valid);
-              doUnits = true;
-              lStart = m;
-              lEnd = m + 1;
-              row = putRowInTable(table, resExt, rn, curUnits, row, suffix, ageIx);
               if (E.debugPutRowsOut6) {
                 if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
                   if (putRowsPrint6Count < 20
@@ -4982,7 +4938,33 @@ sds.useLocale(Locale.US);
                     System.out.flush();
                     System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
                             + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
-                            + ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
+                            + ", lock#" + lockIx + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
+                            + ", ops=" + getOpsNames(haveCmdMatch)
+                            + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
+                            + ", cum00=" + resI[rn][ICUM][0][0]
+                            + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
+                  }
+
+                }
+              } // E.debug...
+
+              // break;
+            } // isThisYear
+
+            // do not process thisYear if cur was already processed
+            if (false && !myUnset && ((opr & curUnitAve) == 0L) && ((opr & thisYearUnitAve) > 0L)) {
+              suffix = " ThisYrAve";
+              lStart = 0;
+              lEnd = 1;
+            //  row = putRowInTable(table, resExt, rn, thisYearUnitAve, row, suffix, ageIx);
+              if (E.debugPutRowsOut6) {
+                if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
+                  if (putRowsPrint6Count < 20
+                          || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
+                    System.out.flush();
+                    System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
+                            + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
+                            + ", lock#" + lockIx + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
                             + ", ops=" + getOpsNames(haveCmdMatch)
                             + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
                             + ", cum00=" + resI[rn][ICUM][0][0]
@@ -4992,24 +4974,15 @@ sds.useLocale(Locale.US);
                 }
               }
             }
-          }
-          // do not process thisYear if cur was already processed
-          // if ((opr & (myOp = thisYearUnits)) > 0 && !unset) {
-          if (!myUnset && ((haveCmdMatch & curUnits) == 0) && ((opr & thisYearUnits) > 0)) {
-            suffix = " thisyrU";
-            doUnits = true;
-            lStart = 0;
-            lEnd = 1;
-            row = putRowInTable(table, resExt, rn, thisYearUnits, row, suffix, ageIx);
+
             if (E.debugPutRowsOut6) {
               if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
                 if (putRowsPrint6Count < 20
                         || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-
                   System.out.flush();
                   System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
                           + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
-                          + ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
+                          + ", lock#" + lockIx + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
                           + ", ops=" + getOpsNames(haveCmdMatch)
                           + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
                           + ", cum00=" + resI[rn][ICUM][0][0]
@@ -5018,38 +4991,177 @@ sds.useLocale(Locale.US);
 
               }
             }
-          }
-          if (E.debugPutRowsOut6) {
-            if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
-              if (putRowsPrint6Count < 20
-                      || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
+            if (!myCumUnset && isCum && isAge0) {
+              suffix = " Cum";
+              cmd = CUM;
+              lStart = 0;
+              lEnd = 1;
+                row = putRowInTable(table, rn, row, ageIx, cmd, suffix, resExt, suffix);
 
-                System.out.flush();
-                System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
-                        + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
-                        + ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
-                        + ", ops=" + getOpsNames(haveCmdMatch)
-                        + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
-                        + ", cum00=" + resI[rn][ICUM][0][0]
-                        + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
+              if (E.debugPutRowsOut6) {
+                if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
+                  if (putRowsPrint6Count < 20
+                          || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
+                    System.out.flush();
+                    System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
+                            + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
+                            + ", lock#" + lockIx + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
+                            + ", ops=" + getOpsNames(haveCmdMatch)
+                            + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
+                            + ", cum00=" + resI[rn][ICUM][0][0]
+                            + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
+                  }
+
+                }
               }
             }
-          }
-          if (E.debugPutRowsOut6) { // after last process
-            if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
-              if (putRowsPrint6Count < 20
-                      || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-                System.out.flush();
-                System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
-                        + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
-                        + ", lock#" + d + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
-                        + ", ops=" + getOpsNames(haveCmdMatch)
-                        + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
-                        + ", cum00=" + resI[rn][ICUM][0][0]
-                        + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
+
+            if (E.debugPutRowsOut6) {
+              if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
+                if (putRowsPrint6Count < 20
+                        || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
+                  System.out.flush();
+                  System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
+                          + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
+                          + ", lock#" + lockIx + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
+                          + ", ops=" + getOpsNames(haveCmdMatch)
+                          + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
+                          + ", cum00=" + resI[rn][ICUM][0][0]
+                          + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
+                }
+
               }
             }
-          }
+            if (!myCumUnset && isCumUnits && isAge0) {
+              suffix = " CumU";
+              doUnits = true;
+              cmd = cumUnits;
+              lStart = 0;
+              lEnd = 1;
+               row = putRowInTable(table, rn, row, ageIx, cmd, suffix, resExt, suffix);
+              if (E.debugPutRowsOut6) {
+                if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
+                  if (putRowsPrint6Count < 20
+                          || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
+                    System.out.flush();
+                    System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
+                            + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
+                            + ", lock#" + lockIx + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
+                            + ", ops=" + getOpsNames(haveCmdMatch)
+                            + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
+                            + ", cum00=" + resI[rn][ICUM][0][0]
+                            + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
+                  }
+
+                }
+              }
+            }
+            if (!myCumUnset && isCumAve && isAge0) {
+              suffix = " CumAve";
+              cmd = CUMAVE;
+              lStart = 0;
+              lEnd = 1;
+             row = putRowInTable(table, rn, row, ageIx, cmd, suffix, resExt, suffix);
+              if (E.debugPutRowsOut6) {
+                if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
+                  if (putRowsPrint6Count < 20
+                          || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
+                    System.out.flush();
+                    System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
+                            + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
+                            + ", lock#" + lockIx + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
+                            + ", ops=" + getOpsNames(haveCmdMatch)
+                            + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
+                            + ", cum00=" + resI[rn][ICUM][0][0]
+                            + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
+                  }
+
+                }
+              }
+            }
+            if (false && !myUnset && (haveCmdMatch & curUnits) > 0) {
+              for (int yearIx = 0; yearIx < valid; yearIx++) {
+                suffix = " curU yr:" + wh(yearIx + 1) + "/" + wh(valid);
+                doUnits = true;
+                lStart = yearIx;
+                lEnd = yearIx + 1;
+              //  row = putRowInTable(table, resExt, rn, curUnits, row, suffix, ageIx);
+                if (E.debugPutRowsOut6) {
+                  if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
+                    if (putRowsPrint6Count < 20
+                            || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
+                      System.out.flush();
+                      System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
+                              + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
+                              + ", lock#" + lockIx + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
+                              + ", ops=" + getOpsNames(haveCmdMatch)
+                              + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
+                              + ", cum00=" + resI[rn][ICUM][0][0]
+                              + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
+                    }
+
+                  }
+                }
+              }
+            }
+            // do not process thisYear if cur was already processed
+            // if ((opr & (myOp = thisYearUnits)) > 0 && !unset) {
+            if (false && !myUnset && ((haveCmdMatch & curUnits) == 0) && ((opr & thisYearUnits) > 0)) {
+              suffix = " thisyrU";
+              doUnits = true;
+              lStart = 0;
+              lEnd = 1;
+             // row = putRowInTable(table, resExt, rn, thisYearUnits, row, suffix, ageIx);
+              if (E.debugPutRowsOut6) {
+                if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
+                  if (putRowsPrint6Count < 20
+                          || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
+
+                    System.out.flush();
+                    System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
+                            + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
+                            + ", lock#" + lockIx + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
+                            + ", ops=" + getOpsNames(haveCmdMatch)
+                            + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
+                            + ", cum00=" + resI[rn][ICUM][0][0]
+                            + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
+                  }
+
+                }
+              }
+            }
+            if (E.debugPutRowsOut6) {
+              if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
+                if (putRowsPrint6Count < 20
+                        || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
+
+                  System.out.flush();
+                  System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
+                          + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
+                          + ", lock#" + lockIx + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
+                          + ", ops=" + getOpsNames(haveCmdMatch)
+                          + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
+                          + ", cum00=" + resI[rn][ICUM][0][0]
+                          + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
+                }
+              }
+            }
+            if (E.debugPutRowsOut6) { // after last process
+              if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
+                if (putRowsPrint6Count < 20
+                        || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
+                  System.out.flush();
+                  System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
+                          + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
+                          + ", lock#" + lockIx + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
+                          + ", ops=" + getOpsNames(haveCmdMatch)
+                          + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
+                          + ", cum00=" + resI[rn][ICUM][0][0]
+                          + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
+                }
+              }
+            }
+          }// for ageix
         }// end of match
 
       } // end of loop on doRes locks0-3
@@ -5103,13 +5215,13 @@ sds.useLocale(Locale.US);
    * @param table where rows are stored
    * @param resExit reference for the detail string
    * @param rn the index of the value being written
-   * @param aop part of the key being offered for the type of line element
+   * @param myCmd part of the key being offered for the type of line element
    * @param row the row in the table to receive a line
    * @param desc the description line for the start of the line
    * @param ageIx the index to the cur agegroup to use
    * @return the row
    */
-  private int putRowInTable(JTable table, String resExt[], int rn, long aop1, int row, String suffix, int ageIx) {
+  private int putRowInTable(JTable table, int rn, int row,int ageIx, long myCmd,  String suffix, String resExt[],String extSuffix) {
     // String s[] = {"planets ", "ships ", "sum "};
     String ss[] = {"999999.", "ave of the", "P and S", "sums", ">>>>>>>>>>"};
     String ww[] = {"color", "Winner", "999999", "99.0%", ">>>>>>>>>>"};
@@ -5117,26 +5229,18 @@ sds.useLocale(Locale.US);
     long dd[] = {getP, getS};
     description = resS[rn][rDesc];
     myRn = rn;
-    //   myAop = aop;
+
     String detail = myDetail = resS[rn][rDetail];
     String dds = description + detail;
-    String isPercent = (dds.contains("%") || dds.contains("Percen") || dds.contains("percen")) && ((aop1 & (THISYEARAVE | CURAVE | CUMAVE | THISYEAR | CUR | CUM)) > 0L) ? "%" : "";
-    if ((dds.contains("%") || dds.contains("Percen") || dds.contains("percen")) && ((aop1 & (THISYEARAVE | CURAVE | CUMAVE | THISYEAR | CUR | CUM)) > 0L)) {
-      isPercent = "%";
-      yesPercent = true;
-    } else {
-      isPercent = "";
-      yesPercent = false;
-    }
-
+    String isPercent = (dds.contains("%") || dds.contains("Percen") || dds.contains("percen")) && ((myCmd & (THISYEARAVE | CURAVE | CUMAVE | THISYEAR | CUR | CUM)) > 0L) ? "%" : "";
+    yesPercent = isPercent.contains("%");
     double aVal;
     double sums;
     dFrac.setMaximumFractionDigits(doUnits || doPower > 0 ? 0 : (int) resI[rn][ICUM][CCONTROLD][IFRACS]);
     dd[1] = doSum ? sum : getS; // force D1 request to sum for second round
-    detail += ":: " + suffix;
-    if (doPower > 0 && ((aop1 & (THISYEARAVE | CURAVE | CUMAVE | THISYEAR | CUR | CUM)) > 0L)) {
+    detail += ":: " + extSuffix;
+    if (doPower > 0 && ((myCmd & (THISYEARAVE | CURAVE | CUMAVE | THISYEAR | CUR | CUM)) > 0L)) {
       detail += "/n powers mean the number display should have " + doPower + " zero digits added before the period";
-
     }
     if (unset && E.debugPutRowsOutUnset && !doSkipUnset) {
       suffix = ">>>UNSET<<<<";
@@ -5149,7 +5253,7 @@ sds.useLocale(Locale.US);
 
       if (E.debugPutRowsOut6) {
         if (resS[rn][rDesc].contains("Score")) {
-          System.out.println("in gamRes. do Score " + Thread.currentThread().getName() + " .putRowInTable" + (doSum ? " doSum" : doBoth ? " doBoth" : "") + ", suffix=" + suffix + " aop1=" + Long.toOctalString(aop1) + " lStart=" + lStart + " lEnd=" + lEnd + ", valid=" + valid + (myUnset ? " myUnset" : "") + (myCumUnset ? " myCumUnset" : ""));
+          System.out.println("in gamRes. do Score " + Thread.currentThread().getName() + " .putRowInTable" + (doSum ? " doSum" : doBoth ? " doBoth" : "") + ", suffix=" + suffix + " myCmd=" + Long.toOctalString(myCmd) + " lStart=" + lStart + " lEnd=" + lEnd + ", valid=" + valid + (myUnset ? " myUnset" : "") + (myCumUnset ? " myCumUnset" : ""));
         }
         //   System.out.println("in EM.gameRes." + toString() + ".putRowInTable" + dFrac.format(values[0][0]) + " " + dFrac.format(values[0][6]));
       }
@@ -5181,7 +5285,7 @@ sds.useLocale(Locale.US);
           aVal = sums = 0;
           double myWin = 0;
           for (int m = 0; m < E.lclans; m++) {
-            table.setValueAt(((aVal = getRowEntryValue(rn, dd[(int) i] + aop1, m, ageIx)) < -93456789.0 ? "------" : mf(aVal)), row, (int) (i * E.lclans + m + 1));
+            table.setValueAt(((aVal = getRowEntryValue(rn, dd[(int) i] + myCmd, m, ageIx)) < -93456789.0 ? "------" : mf(aVal)), row, (int) (i * E.lclans + m + 1));
             sums += aVal;
             if (m == winner && isWinner) {
               table.setValueAt(aVal, row, 3);
@@ -5203,7 +5307,7 @@ sds.useLocale(Locale.US);
           }
 
           table.setValueAt(description + suffix + powers, row, 0);
-          resExt[row] = detail + powers;
+          resExt[row] = detail;
           row++;
         } else if (doSum) {
           sums = 0.;
@@ -5215,23 +5319,23 @@ sds.useLocale(Locale.US);
               }
             } else { // second half of sum
               for (int m = 0; m < E.lclans; m++) {
-                table.setValueAt(((sums += aVal = getRowEntryValue(rn, dd[(int) i] + aop1, m, ageIx)) < -93456789.0 ? "------" : valForTable(aVal)), row, (int) i * E.lclans + m + 1);
+                table.setValueAt(((sums += aVal = getRowEntryValue(rn, dd[(int) i] + myCmd, m, ageIx)) < -93456789.0 ? "------" : valForTable(aVal)), row, (int) i * E.lclans + m + 1);
               }
               table.setValueAt(valForTable(sums), row, 1);
             }
           }
           table.setValueAt(description + suffix + powers, row, 0);
-          resExt[row] = detail + powers;
+          resExt[row] = detail;
           row++;
         }
         if (doBoth) {
           boolean didSum = doSum;
           doSum = false; // prevent getRowEntryValue from suming values
           table.setValueAt(description + suffix + " both", row, 0);
-          resExt[row] = detail;
+          resExt[row] = detail ;
           for (long ij : d) {
             for (int m = 0; m < E.lclans; m++) {
-              table.setValueAt((((aVal = getRowEntryValue(rn, (int) dd[(int) ij] + aop1, m, ageIx)) < -93456789.
+              table.setValueAt((((aVal = getRowEntryValue(rn, (int) dd[(int) ij] + myCmd, m, ageIx)) < -93456789.
                       ? aVal < -94567895.
                               ? "--------"
                               : "-----"
@@ -5240,7 +5344,7 @@ sds.useLocale(Locale.US);
             }
           }
           table.setValueAt(description + suffix + powers, row, 0);
-          resExt[row] = detail + powers;
+          resExt[row] = detail;
           row++;
           doSum = didSum;  // restore doSum
         }
@@ -5313,7 +5417,7 @@ sds.useLocale(Locale.US);
         powers = "";
         lEnd = Math.min(lEnd, valid); //restrict year 0 to 1 year,1 prior reset
         ops = "some Cur";
-        for (ii = (int) lStart + ageIx * 7; ii < lEnd + ageIx * CURMAXDEPTH; ii++) {
+        for (ii = (int) lStart + ageIx * 7; ii < lEnd + ageIx * MAXDEPTH; ii++) {
           if (resV[rn] == null) {
             if (pors == 0 && dClan == 0) { //complain only once
               cErr(">>>>>>in Getd1 null at resV[" + rn + "] desc=" + resS[rn][0]);
@@ -5853,7 +5957,7 @@ sds.useLocale(Locale.US);
   double myScoreSum = 0.0;
   int isV = 0;
   int isI = 1;
-  int isAve = 2;
+  int isScoreAve = 2;
   int sValsCnt = -1;
   double difPercent = 0.0;
   double difMult = 0.0;
@@ -5916,7 +6020,7 @@ sds.useLocale(Locale.US);
    * @param dRn count of the stats
    * @param mult pointer to multiplier entry, neg mult, neg to score
    * @param cumCur ICUM or ICUR0
-   * @param isN isV =0,isI=1,isAve = 2
+   * @param isN isV =0,isI=1,isScoreAve = 2
    * @return 0-4 number of winner
    */
   int scoreVals(int dRn, double[][] mult, int cumCur, int isN) {
@@ -5937,7 +6041,7 @@ sds.useLocale(Locale.US);
             inScore[n] = resI[dRn][cumCur][m][n] * mm;
           } else if (isN == isV) {
             inScore[n] = resV[dRn][cumCur][m][n] * mm;
-          } else { // isAve
+          } else { // isScoreAve
             ii = (int) resI[dRn][cumCur][m][n];
             inScore[n] = mm * (ii == 0 ? 1. : resV[dRn][cumCur][m][n] / ii);
           }
