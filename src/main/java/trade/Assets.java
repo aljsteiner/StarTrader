@@ -58,6 +58,7 @@ package trade;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.TreeSet;
 
 /**
@@ -6819,15 +6820,16 @@ public class Assets {
       cc = eM.gameUserCatastrophyMult[pors][0];
       if (((t1 = Math.random()) < (t2 = eM.userCatastrophyFreq[pors][clan] + (cc = eM.gameUserCatastrophyMult[pors][0]) * cRand(34))) ) {
 
-        int r1 = (int) (cRand(6) * balances.get(0, 0)) % 7;
-        int r2 = (int) (cRand(7) * balances.get(0, 1)) % 7;
-        int s1 = (int) (cRand(8) * balances.get(1, 0)) % 7;
-        int s2 = (int) (cRand(9) * balances.get(1, 1)) % 7;
-        int r3 = (int) (cRand(10) * balances.get(0, 2)) % 7;
-        int r4 = (int) (cRand(11) * balances.get(0, 4)) % 7;
-        int s3 = (int) (cRand(12) * balances.get(1, 2)) % 7;
-        int s4 = (int) (cRand(13) * balances.get(1, 3)) % 7;
-        int r5 = (int) (cRand(14) * balances.get(0, 5)) % 7;
+       // int r1 = (int) (cRand(6) * balances.get(0, 0)) % 7;
+        int r1 = new Random().nextInt(7);
+        int r2 = new Random().nextInt(7);
+        int s1 = new Random().nextInt(7);
+        int s2 = new Random().nextInt(7);
+        int r3 = new Random().nextInt(7);
+        int r4 = new Random().nextInt(7);
+        int s3 = new Random().nextInt(7);
+        int s4 = new Random().nextInt(7);
+        int r5 = new Random().nextInt(7);
         double rReduce1 = Math.min(.65, (cRand(14) * cc * eM.catastrophyUnitReduction[pors][0] * 1.5));
         double rReduce2 = Math.min(.65, (cRand(15) * cc * eM.catastrophyUnitReduction[pors][0] * .6));
         double sReduce1 = Math.min(.65, (cRand(16) * cc * eM.catastrophyUnitReduction[pors][0] * 1.5));
@@ -6836,14 +6838,14 @@ public class Assets {
         int rBonusYrs2 = (int) (cRand(17) * cc * eM.catastrophyBonusYears[pors][0] * .8);
         int sBonusYrs1 = (int) (cRand(18) * cc * eM.catastrophyBonusYears[pors][0] * 2);
         int sBonusYrs2 = (int) (cRand(19) * cc * eM.catastrophyBonusYears[pors][0] * .8);
-        double rBonusVal1 = cRand(20) * cc * eM.catastrophyBonusGrowthValue[pors][0] * 1.9;
+        double rBonusVal1 = cRand(20) * cc * eM.catastrophyBonusGrowthValue[pors][0] * 1.9 ;
         double rBonusVal2 = cRand(21) * cc * eM.catastrophyBonusGrowthValue[pors][0] * .5;
         double sBonusVal1 = cRand(22) * cc * eM.catastrophyBonusGrowthValue[pors][0] * 1.9;
         double sBonusVal2 = cRand(23) * cc * eM.catastrophyBonusGrowthValue[pors][0] * .5;
-        double rDecayReduce1 = cRand(24) * cc * eM.growthDecay[0][pors] * balances.getRow(0).sum();
-        double rDecayReduce2 = cRand(25) * cc * eM.growthDecay[0][pors] * .2 * balances.getRow(0).sum();
-        double sDecayReduce1 = cRand(26) * cc * eM.growthDecay[2][pors] * balances.getRow(1).sum();
-        double sDecayReduce2 = cRand(27) * cc * eM.growthDecay[2][pors] * .02 * balances.getRow(1).sum();
+        double rDecayReduce1 = cRand(24) * cc * eM.growthDecay[0][pors] *  1.1 * balances.getRow(0).sum();
+        double rDecayReduce2 = cRand(25) * cc * eM.growthDecay[0][pors] * .7 * balances.getRow(0).sum();
+        double sDecayReduce1 = cRand(26) * cc * eM.growthDecay[2][pors] * 2.3 * balances.getRow(1).sum();
+        double sDecayReduce2 = cRand(27) * cc * eM.growthDecay[2][pors] * .3 * balances.getRow(1).sum();
         int rBonusX1 = (int) (3 + cRand(28) * 5.) % 7;
         int rBonusX2 = (int) (4 + cRand(29) * 4.) % 7;
         int sBonusX1 = (int) (3 + cRand(30) * 5.) % 7;
@@ -6865,19 +6867,20 @@ public class Assets {
         double rc1, sc2, rc3, rreduced, sreduced;
         yearCatastrophy = year; // flag entered
         r.cost3((rc1 = balances.get(2, r1) * rReduce1), r1, 0);  // apply costs to P and S
-        setStat("rCatCosts", pors, clan, rc1, 1);
+        setStat("rCatCosts", pors, clan, rReduce1*100., 1);
         s.cost3((sc2 = balances.get(4, s1) * sReduce1), s1, 0);
-        setStat("sCatCosts", pors, clan, sc2, 1);
+        setStat("sCatCosts", pors, clan, sReduce1*100, 1);
         r.cost3((rc3 = balances.get(2, r2) * rReduce2), r2, 0);
-        setStat("rCatCosts", pors, clan, rc3, 1);
+        setStat("rCatCosts", pors, clan, rReduce2*100, 1);
         rreduced = rc1 + rc3;
         sreduced = sc2;
         r.bonusYears.add(rBonusX1, rBonusYrs1);             // both P & S
+        r.bonusYears.add(rBonusX2, rBonusYrs2);
         setStat("rCatBonusY", pors, clan, rBonusYrs1 + rBonusYrs2, 1);
         r.bonusUnitGrowth.add(rBonusX1, rBonusVal1);
-        setStat("rCatBonusVal", pors, clan, rBonusVal1 + rBonusVal2, 1);
-        r.bonusYears.add(rBonusX2, rBonusYrs2);
         r.bonusUnitGrowth.add(rBonusX2, rBonusVal2);
+        setStat("rCatBonusVal", pors, clan, rBonusVal1 + rBonusVal2, 1);
+        
         s.bonusYears.add(sBonusX1, sBonusYrs1);
         setStat("sCatBonusY", pors, clan, sBonusYrs1, 1);
         s.bonusUnitGrowth.add(sBonusX1, sBonusVal1);
@@ -9990,7 +9993,7 @@ public class Assets {
         if (resTypeName != "anot" && this.swapType == 3) {
           setStat(resTypeName, pors, clan, -ay.rsval, -1);
           setStat(resTypeName.contains("Emerg") ? "EmergFF" : "SizeFF", pors, clan, -ay.rsval, -1);
-          setStat("FutureFund", pors, clan, -ay.rsval, -1);
+          setStat("Redo FutureFund", pors, clan, -ay.rsval, -1);
         }
         ay.resTypeName = good.resTypeName;
         ay.rsval = good.rsval;
