@@ -55,7 +55,7 @@ public class E {
   static final public String statsButton12Tip = "12: list by ages deaths with negative prospects";
   static final public String statsButton13Tip = "13: list by ages affects with growths decayed";
   static final public String statsButton14Tip = "14: list by ages affects with catastrophies, futureFund ";
-  static final public String statsButton15Tip = "15: swap factors";
+  static final public String statsButton15Tip = "15: list by ages creations, growths";
   static final public String statsButton16Tip = "16: Swaps years incr skips, redos and dos";
   static final public String statsButton17Tip = "17: Swaps years decr skips, redos and dos";
   static final public String statsButton18Tip = "18: Swaps years xfer skips, redos and dos";
@@ -113,7 +113,9 @@ public class E {
   static final boolean debugPutValue1 = outputLess; //test putValue processing
   static final boolean debugPutValue2 = outputLess; //test putValue processing
   static final boolean debugPutValue3 = false; //choose alternative for too big
-  static final boolean debugPutRowsOut6 = false; //test putValue processing
+  static final boolean debugPutRowsOut6 = debugMaster; 
+  static final boolean debugPutRows6aOut = debugMaster; 
+  static final boolean debugPutRows2 = debugMaster; 
   static final boolean DEBUGWAITTRACE = debugMaster;
  static final boolean debugLogsOut = debugMaster; // EM rs output
   static final boolean debugStatsOut1 = outputLess; // stats output1

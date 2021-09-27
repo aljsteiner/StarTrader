@@ -156,34 +156,7 @@ public class ARow {
   }
   
   double doubleTrouble(Double trouble){
-    if(trouble.isNaN()){
-      if(E.debugNoTerm){
-        if(as != null){
-        Assets abs = as;
-        int ii = as.i;
-        int tt = abs.term;
-        int jj = as.j;
-        int mm = as.m;
-        int nn = as.n;
-   
-      if(E.debugDouble){
-        throw new MyErr(String.format(" %s  Not a number found, term%d, i%d, j%d, m%d, n%d",trouble ,as.term,as.i,as.j,as.m,as.n)); 
-      } else {
-        return 0.0;
-      } 
-    }// as null
-      } // debugTerm
-    } //isNaN
-    if(trouble.isInfinite()){
-      if(E.debugDouble){
-        if(as != null){
-      throw new MyErr(String.format("Infinite number found, term%d,i%d,j%d,m%d,n%d",as.term,as.i,as.j,as.m,as.n));
-        }
-      } else {
-        return 100.0;
-      }
-    }
-      return (double)trouble;
+ return E.doubleTrouble(trouble,"");
     }
 
   /**
@@ -217,6 +190,50 @@ public class ARow {
       values[i] = 0.0;
     }
     return this;
+  }
+  
+   /** get the count of positive sectors
+   * 
+   * @return count of positive sectors
+   */
+  int getPlusCount() {
+    if (setCnt != savCnt) {
+      makeOrderIx();
+    }
+    return plusCnt;
+  }
+  
+   /** get the count of negative sectors
+   * 
+   * @return count of negative sectors
+   */
+  int getNegCount() {
+    if (setCnt != savCnt) {
+      makeOrderIx();
+    }
+    return negCnt;
+  }
+  
+   /** get the sum of positive sectors
+   * 
+   * @return the positive sum 
+   */
+  double getPlusSum() {
+    if (setCnt != savCnt) {
+      makeOrderIx();
+    }
+    return plusSum;
+  }
+  
+   /** get the sum of negative sectors
+   * 
+   * @return the sum of negative sectors
+   */
+  double getNegSum() {
+    if (setCnt != savCnt) {
+      makeOrderIx();
+    }
+    return negSum;
   }
 
   /**
@@ -524,7 +541,7 @@ public class ARow {
   }
 
   /**
-   * set ARows A subtract B
+   * set ARows A subtract B overwrite calling ARow
    *
    * @param A ARow
    * @param B ARow subtracted
@@ -535,6 +552,23 @@ public class ARow {
     }
     return this;
   }
+  
+  /**Get the difference between a and b for each sector
+   * check for possible infinite or nan not a number input
+   * 
+   * @param ec reference to the Econ running this difference
+   * @param a  the initial values
+   * @param b  the subtracted values
+   * @return The difference a-b for each sector of a and b
+   */
+  ARow getAsubB(Econ ec,ARow a, ARow b) {
+    ARow ret = new ARow(ec);
+    for(int ix=0; ix < E.LSECS; ix++){
+      ret.set(ix,doubleTrouble(a.get(ix)) - doubleTrouble(b.get(ix)));
+    }
+    return ret;
+    }
+
 
   /**
    * set to A subtract product of B times V use with remnants that are not

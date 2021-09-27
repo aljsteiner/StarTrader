@@ -39,12 +39,13 @@ public class ABalRows extends A6Rowa {
   static final int BONUSYEARSIX = GROWTHSIX + 4; //12
   static int bonusUnitsIx = BONUSYEARSIX + 4;//16
   static final int BONUSUNITSIX = BONUSYEARSIX + 4;//16
-  static int cumulativeDecayIx = BONUSUNITSIX + 4; //20
-  static int cumulativeUnitDecayIx = BONUSUNITSIX + 4; //20
-  static final int CUMULATIVEDECAYIX = BONUSUNITSIX + 4; //20
-  static final int CUMULATIVEUNITDECAYIX = BONUSUNITSIX + 4; //20
-  static int balsLength = CUMULATIVEDECAYIX + 4; //24
-  static final int BALSLENGTH = CUMULATIVEDECAYIX + 4; //24
+//  static int cumulativeDecayIx = BONUSUNITSIX + 4; //20
+  static int CUMULATIVEUNITBONUSIX = BONUSUNITSIX+4;// 20
+//  static int cumulativeUnitDecayIx = BONUSUNITSIX + 4; //20
+//  static final int CUMULATIVEDECAYIX = BONUSUNITSIX + 4; //20
+  static final int CUMULATIVEUNITDECAYIX = CUMULATIVEUNITBONUSIX + 4; //24
+//  static int balsLength = CUMULATIVEDECAYIX + 4; //24
+  static final int BALSLENGTH = CUMULATIVEUNITDECAYIX + 4; //28
   static int balancesSums[] = {BALANCESIX + RCIX, BALANCESIX + SGIX};
   static int balancesSubSum1[] = {BALANCESIX + RIX, BALANCESIX + CIX};
   static int balancesSubSum2[] = {BALANCESIX + SIX, BALANCESIX + GIX};
@@ -74,7 +75,7 @@ public class ABalRows extends A6Rowa {
    *
    */
   ABalRows(Econ ec) {
-    super(ec,balsLength, tbal, History.informationMajor8, "bals");
+    super(ec,BALSLENGTH, tbal, History.informationMajor8, "bals");
   }
 
   /**
@@ -83,7 +84,7 @@ public class ABalRows extends A6Rowa {
    * @param aLev level for any send to hist methods
    */
   ABalRows(Econ ec,int aLev) {
-    super(ec,balsLength, tbal, aLev, "bals");
+    super(ec,BALSLENGTH, tbal, aLev, "bals");
   }
 
   /**
@@ -421,7 +422,7 @@ public class ABalRows extends A6Rowa {
    * @return the selected bals references in an A6Row
    */
   A6Row getCumDecay(int lev, String titl) {
-    return use4(CUMULATIVEDECAYIX, lev, titl);
+    return use4(CUMULATIVEUNITDECAYIX, lev, titl);
   }
 
   /**
@@ -432,7 +433,7 @@ public class ABalRows extends A6Rowa {
    * @param alev level of listed rows
    */
   void listCumDecay(int blev, String apre, int alev) {
-    sendHist(CUMULATIVEDECAYIX, CUMULATIVEDECAYIX + 3, blev, apre, alev);
+    sendHist(CUMULATIVEUNITDECAYIX, CUMULATIVEUNITDECAYIX + 3, blev, apre, alev);
   }
 
 }
