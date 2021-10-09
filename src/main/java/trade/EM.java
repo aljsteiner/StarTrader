@@ -2616,15 +2616,12 @@ class EM {
   static final long zeroUnset = 0004000L; // show unset as zero's
   static final long ZEROUNSET = zeroUnset;
   static final long tstring = 0010000L; //  unused
-  static final long NEVER = 0010000L; //  unused
+  
   static final long divByAve = 0020000L; // divide by other val/units unused
   static final long cum = 0040000L; // cum sum of values both 
   static final long CUM = 0040000L;;
   static final long CMDSONLYMASK = 0777770L; // mask for commands but not both,sum,p
-  static final long CMDSMASK = 0777776L; // opr mask commands with both and sum
-  static final long[] NINECMDS = {THISYEAR,CUR,CUM,THISYEARUNITS,CURUNITS,CUMUNITS,THISYEARAVE,CURAVE,CUMAVE};
-  static final long[] NINENOTS = {CUR,NEVER,NEVER,CURUNITS,NEVER,NEVER,CURAVE,NEVER,NEVER};
-  
+  static final long CMDSMASK = 0777776L; // opr mask commands with both and sumstatic final long 
   static final long list0 = 00000100000000L; // usually part of 0 table view
   static final long LIST0 = list0;
   static final long list1 = 00000200000000L; // usually part of 1 table view etc
@@ -3376,11 +3373,11 @@ class EM {
     doRes(SWAPRXFERCOST, "Swap RXfer Cost", "Fraction of R XFER swap cost/sum of R units", 2, 2, 1);
     doRes(SWAPSXFERCOST, "Swap SXfer Cost", "Fraction of S XFER swap cost/sum of R units", 2, 2, 1);
      doRes("Redo FutureFund", "Redo FutureFund", "At emergency1 level of resource/staff back out of a saved future fund",1, 2, 1, ROWS2 | LIST6 | CUM | CUMUNITS | BOTH | SKIPUNSET, 0,0,0);
-    doRes("EmergFF", "EmergFF", "emergency resource/staff sums tranfer resource to FutureFund", ROWS1 |  LIST14 | CURAVE |CUMUNITS);
-    doRes("SizeFF", "SizeFF", "Size resource/staff sums tranfer resource to FutureFund", ROWS1 |  LIST14 | CUR | CUMUNITS);
-    doRes("FutureFundSaved", "FutureFundsSaved", "Total resource/staff sums tranfered to FutureFund", ROWS1 |  LIST14 | CURAVE  |CUMUNITS);
+    doRes("EmergFF", "EmergFF", "emergency resource/staff sums tranfer resource to FutureFund",1, 2, 1, ROWS2 | LIST6 | CUM | CUMUNITS | BOTH | SKIPUNSET, 0,0,ROWS1 |  LIST14 | CURAVE | CUM | CUMAVE | CUMUNITS | SKIPUNSET);
+    doRes("SizeFF", "SizeFF", "Size resource/staff sums tranfer resource to FutureFund");
+    doRes("FutureFundSaved", "FutureFundsSaved", "Total resource/staff sums tranfered to FutureFund");
    
-    doRes("EmergFF1", "Emerg FutureFund1", "At emergency1 level of resource/staff neg prospects val to FutureFund");
+    doRes("EmergFF1", "Emerg FutureFund1", "At emergency1 level of resource/staff neg prospects val to FutureFund",1, 2, 1, ROWS2 | LIST6 | CUM | CUMUNITS | BOTH | SKIPUNSET, 0,0,0);
     doRes("REmergFF1", "R Emerg FutureFund1", "At emergency1 level of resource/staff sums tranfser val to FutureFund");
     doRes("SEmergFF1", "S Emerg FutureFund1", "At emergency1 level of staff/resource sums transfer val to FutureFund");
     doRes("REmergFF2", "R Emerg FutureFund2", "At emergency2 level of resource/staff sums transfer val to FutureFund");
@@ -4201,8 +4198,8 @@ class EM {
     addlErr = "";
     int a = -5, b = -5, curm = 0;
     if (resI[rn].length > STATSSHORTLEN) {
-      for (a = 2; a < 6 && b < 0; a++) {
-        //AGESTARTS 0,  0,   4,   8,    16,    32,   999999}; 
+      for (a = 1; a < 6 && b < 0; a++) {
+        //AGESTARTS   0,   4,   8,    16,    32,   999999}; 
         //  CUM CUR0  CUR1 CUR2  CUR3  CUR4  CUR5
         //   LIST0-LIST9 LIST10 LIST11 LIST12 LIST13 LIST14 LIST15-LIST20
         //   MAXDEPTH = 7
@@ -4745,10 +4742,14 @@ class EM {
   private static String suffix = "";
   private static String extSuffix = "";
   private boolean isAgeList = false, myIsSet = false,isAAge0;
-  private String[] NINESTRS = {"THISYEAR","CUR","CUM","THISYEARUNITS","CURUNITS","CUMUNITS","THISYEARAVE","CURAVE","CUMAVE"};
-  private String[] ninesSuffix={" thisYr"," curYr"," cum"," thisYrU"," curU"," cumU"," thisYrAve"," curAveYr"," cumAve"};
-  private String[] ninesExtSuffix ={" this  year"," cur Year"," cum",  " this year units"," cur units"," cum units"," this year ave"," cur ave year"," cum ave"};
-  private int[] curAveAgesYrs = {1,4,4,6,6,6}; //yrs to scan for ageIx
+  private static final long NEVER = 0000000L; //  unused
+  private static final long[] NINECMDS = {CUR,CURUNITS,CURAVE,THISYEAR,THISYEARUNITS,THISYEARAVE,CUM,CUMUNITS,CUMAVE};
+  private static final long[] NINENOTS = {NEVER,NEVER,NEVER,CUR,CURUNITS,CURAVE,NEVER,NEVER,NEVER};
+  private static final long[] NINEAGECMDS = {CUR,CURUNITS,CURAVE,NEVER,NEVER,NEVER,NEVER,NEVER,NEVER};
+  private static final String[] NINESTRS = {"CUR","CURUNITS","CURAVE","THISYEAR","THISYEARUNITS","THISYEARAVE","CUM","CUMUNITS","CUMAVE"};
+  private static final String[] ninesSuffix={" curYr"," curU"," curAveYr"," thisYr"," thisYrU"," thisYrAve"," cum"," cumU"," cumAve"};
+  private static final String[] ninesExtSuffix ={" current years sums"," current year units"," currrent year ave years"," this  year sum"," this year units"," this year ave"," cumulative sum"," cumulative units"," cumulative ave"};
+  private static final int[] curAveAgesYrs = {1,4,4,6,6,6}; //yrs to scan for ageIx
                   
 
   private String getOpsNames(Long ops) {
@@ -4902,14 +4903,15 @@ class EM {
          // now go thru the 9 possible commands in NINECMDS putRows2
           for(nineIx = 0;nineIx < 9;nineIx++){
             //dont THISYEAR if a corresponding CUR exists
-            if(((NINECMDS[nineIx] & cmd) > 0L) && !((NINENOTS[nineIx] & cmd) > 0L)){
-               isAgeCmd = (haveCmdMatch & (CUR | CURAVE | CURUNITS)) > 0L;
+            if(((NINECMDS[nineIx] & haveCmdMatch) > 0L) && !((NINENOTS[nineIx] & haveCmdMatch) > 0L)){
+               isAgeCmd = nineIx < 3;// cur curu curave
                isAges = (isAgeLength && isAgeCmd && isAgeList);
                int ageLim = isAges? MAXAGES:1;
   //        String sstring = (isVal?" values " : isUnits? " units " : isAve ? " ave " : "???");
           // loop through possible sets of ages, most commands have only 1 age
           for (ageIx = 0; ageIx < ageLim; ageIx++) { //
           myAgeIx = ageIx;
+          cmd = opr = haveCmdMatch;  //commands in this lock
           isAAge0 = (ageIx == 0) && isAges;
           isAge0 = (ageIx == 0)  ;
           isAgeMore = ageIx > 0 && isAges;
@@ -4961,8 +4963,8 @@ class EM {
                  extSuffix = ninesExtSuffix[nineIx];
                 suffix += ((isYear0 && isAAge0) ? " allAges":"");
                 extSuffix += ((isYear0 && isAAge0) ? " allAges":"");
-                suffix = isAgeMore ? " age" + agesStr[ageIx]: suffix;
-                extSuffix = isAgeMore ? " age" + agesStr[ageIx]:extSuffix;
+                suffix += isAgeMore ? " age" + agesStr[ageIx]: "";
+                extSuffix += isAgeMore ? " age" + agesStr[ageIx]:"";
                 suffix += isMoreYears?" :" + (yearsIx + 1) + "/" + valid :"";
                 extSuffix += isMoreYears?" :" + (yearsIx + 1) + "/" + valid :"";
               //  suffix = (isVal ? isAAge0 ? sstring + " allAges" + thisOrCur + ":" + (yearsIx + 1) + "/" + valid
@@ -4980,7 +4982,7 @@ class EM {
                 if (E.debugPutRows6aOut) {
                   if (isAgeList || ((putRowsPrint6aCount++ < 400) && (putRowsPrint6aCount % 25) == 0) ) {
                     System.out.flush();
-                    System.out.printf("EM.putrow6ab rn=%d ageIx%d %s, %s, aop%o, opr%o, cmd%o, list%d, depth%d, valid%d, cum%d, rende4=%d,%d putRowsPrint6aCount= " + putRowsPrint6aCount + " \n", rn, myAgeIx, (unset ? "UNSET" : "ISSET") + " = " + resI[myRn][ICUM][CCONTROLD][ISSET] + ":" + resI[myRn][ICUR0 + myAgeIx * MAXDEPTH][CCONTROLD][ISSET], resS[rn][0], aop,opr,cmd,((aop & LIST14) > 0 ? 14 : (aop & list1) > 0 ? 1 : (aop & LIST3) > 0 ? 3 : (aop & LIST8) > 0 ? 8 : aop), depth, valid, resI[rn][ICUM][0][0], rende4, rendae4);
+                    System.out.printf("EM.putrow6ab rn=%d lockIx%d ageIx%d ageLim%d, nineIx%d yearsIx%d yearsMax%d %s, %s, %s, aop%o, opr%o, cmd%o, list%d, depth%d, valid%d, cum%d, rende4=%d,%d putRowsPrint6aCount= " + putRowsPrint6aCount + " \n", rn, lockIx, myAgeIx, ageLim, nineIx, yearsIx, yearsMax,resS[rn][0],  extSuffix,(unset ? "UNSET" : "ISSET") + " = " + resI[myRn][ICUM][CCONTROLD][ISSET] + ":" + resI[myRn][ICUR0 + myAgeIx * MAXDEPTH][CCONTROLD][ISSET], aop,opr,cmd,((aop & LIST14) > 0 ? 14 : (aop & list1) > 0 ? 1 : (aop & LIST3) > 0 ? 3 : (aop & LIST8) > 0 ? 8 : aop), depth, valid, resI[rn][ICUM][0][0], rende4, rendae4);
                   }
                 }
                 row = putRowInTable(table, rn, row, ageIx, cmd, suffix, resExt, extSuffix);
@@ -6078,8 +6080,8 @@ class EM {
   int sValsCnt = -1;
   double difPercent = 0.0;
   double difMult = 0.0;
-  double winDif[][] = {{2.000}};
-  static double mwinDif[][] = {{0.2, 4.0}, {0.2, 4.0}};
+  double winDif[][] = {{12.000}};
+  static double mwinDif[][] = {{2.2, 40.0}, {2.2, 40.0}};
   double curDif = 0.0;
 
   int getWinner() {
