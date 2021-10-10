@@ -1,5 +1,5 @@
 /*
- Copyright (C) 2012 Albertres Steiner
+ Copyright (C) 2012 Albert Steiner
  Copyright (C) 2016 Albert Steiner
 
  This program is free software: you can redistribute it and/or modify

@@ -1,25 +1,58 @@
-New Game Sun 05/16/2021 16:09:58:160CDT
-New Game Mon 05/17/2021 15:36:30:394CDT
-New Game Tue 05/18/2021 05:02:51:305CDT
-New Game Sun 05/23/2021 06:44:34:350CDT
-New Game Mon 05/24/2021 05:55:39:115CDT
-New Game Mon 05/24/2021 09:42:11:052CDT
-New Game Tue 05/25/2021 06:02:17:656CDT
-New Game Tue 05/25/2021 06:05:25:206CDT
-New Game Tue 05/25/2021 08:37:53:762CDT
-New Game Tue 05/25/2021 08:44:29:156CDT
-New Game Tue 05/25/2021 08:47:41:898CDT
-New Game Tue 05/25/2021 08:52:40:279CDT
-New Game Tue 05/25/2021 08:55:39:731CDT
-New Game Fri 05/28/2021 13:14:43:351CDT
-New Game Fri 05/28/2021 13:56:19:945CDT
-New Game Fri 05/28/2021 15:46:52:638CDT
-New Game Fri 05/28/2021 15:53:20:855CDT
-New Game Sat 05/29/2021 03:54:03:167CDT
-New Game Sat 05/29/2021 04:06:56:727CDT
-New Game Sat 05/29/2021 04:53:42:862CDT
-New Game Sat 05/29/2021 06:00:06:372CDT
-New Game Sat 05/29/2021 16:31:12:210CDT
-New Game Sat 05/29/2021 16:44:48:845CDT
-New Game Sat 05/29/2021 17:20:15:136CDT
-New Game Sun 08/01/2021 14:27:27:226CDT
+New Game Sat 08/28/2021 06:25:10:185CDT
+New Game Tue 08/31/2021 05:16:24:390CDT
+New Game Tue 08/31/2021 17:03:25:309CDT
+New Game Tue 08/31/2021 17:31:43:332CDT
+New Game Tue 08/31/2021 17:40:19:768CDT
+New Game Wed 09/01/2021 12:38:42:830CDT
+New Game Thu 09/02/2021 17:33:45:124CDT
+New Game Fri 09/03/2021 06:00:14:401CDT
+New Game Fri 09/03/2021 07:11:49:129CDT
+New Game Sun 09/05/2021 15:53:49:181CDT
+New Game Sun 09/05/2021 15:53:49:181CDT
+ more rOutNew Game Sun 09/05/2021 15:53:49:181CDT
+ more rOut 2more rOutNew Game Sun 09/05/2021 15:53:49:181CDT
+ more rOut 2more rOut 3more rOutNew Game Sun 09/05/2021 15:53:49:181CDT
+ more rOut 2more rOut 3more rOut 3more rOutNew Game Sun 09/05/2021 15:53:49:181CDT
+ more rOut 2more rOut 3more rOut 3more rOut 5more rOutNew Game Sun 09/05/2021 17:04:42:787CDT
+New Game Sun 09/05/2021 17:04:42:787CDT
+ more rOutNew Game Sun 09/05/2021 17:04:42:787CDT
+ more rOut 2more rOutNew Game Sun 09/05/2021 17:04:42:787CDT
+ more rOut 2more rOut 3more rOutNew Game Sun 09/05/2021 17:04:42:787CDT
+ more rOut 2more rOut 3more rOut 3more rOutNew Game Sun 09/05/2021 17:04:42:787CDT
+ more rOut 2more rOut 3more rOut 3more rOut 5more rOutNew Game Sun 09/05/2021 17:05:14:776CDT
+New Game Sun 09/05/2021 17:05:14:776CDT
+ more rOutNew Game Sun 09/05/2021 17:05:14:776CDT
+ more rOut 2more rOutNew Game Sun 09/05/2021 17:05:14:776CDT
+ more rOut 2more rOut 3more rOutNew Game Sun 09/05/2021 17:05:14:776CDT
+ more rOut 2more rOut 3more rOut 3more rOutNew Game Sun 09/05/2021 17:05:14:776CDT
+ more rOut 2more rOut 3more rOut 3more rOut 5more rOutyear-1 version 19.32 Sun 09/05/2021 17:08:36:547CDT put your comments for keep here
+title increase slider, increase the winning score for the increase in the year trade increase
+keep wYearTradeV# 0 5 0.36 <= 0.01 sliders 68 <= 50 <= 50
+title increase slider, increase the winning score for thee increase in the number of economies with at least one trade that year
+keep wYearTradeI# 0 5 -0.3 <= 0.01 sliders 35 <= 50 <= 50
+title Increase the number of possible threads. If your computer supports more than 1 cpu, more threads may decrease the total time per year.
+keep Threads# 0 5 7.6 <= 5.2 sliders 60 <= 38 <= 38
+title Above slider 50 the tab display will show the color of the current economy. The changing of colors helps understand how fast the game is going.  Some persons have trouble with blinking colors, so setting this slider below 50 will stop the color changes.
+keep haveColors# 0 5 0.62 <= 0.3 sliders 21 <= 4 <= 4
+New Game Mon 09/06/2021 08:43:42:361CDT
+New Game Mon 09/06/2021 08:43:42:361CDT
+ more rOutNew Game Mon 09/06/2021 08:43:42:361CDT
+ more rOut 2more rOutNew Game Mon 09/06/2021 08:43:42:361CDT
+ more rOut 2more rOut 3more rOutNew Game Mon 09/06/2021 08:43:42:361CDT
+ more rOut 2more rOut 3more rOut 3more rOutNew Game Mon 09/06/2021 08:43:42:361CDT
+ more rOut 2more rOut 3more rOut 3more rOut 5more rOutyear-1 version 19.32 Mon 09/06/2021 09:07:42:161CDT put your comments for keep here
+title increase slider, increase the score for number of economies traded.
+keep iGiven# 0 5 -0.7 <= 0.7 sliders 15 <= 85 <= 85
+title increase slider, increase the winning score for the clan final worth.
+keep wLiveWorthScore# 0 5 -0.94 <= 0.01 sliders 3 <= 50 <= 50
+title Increase the number of possible threads. If your computer supports more than 1 cpu, more threads may decrease the total time per year.
+keep Threads# 0 5 8.92 <= 5.2 sliders 72 <= 38 <= 38
+title Above slider 50 the tab display will show the color of the current economy. The changing of colors helps understand how fast the game is going.  Some persons have trouble with blinking colors, so setting this slider below 50 will stop the color changes.
+keep haveColors# 0 5 1.58 <= 0.3 sliders 69 <= 4 <= 4
+New Game Mon 09/06/2021 09:31:43:572CDT
+New Game Mon 09/06/2021 09:31:43:572CDT
+ more rOutNew Game Mon 09/06/2021 09:31:43:572CDT
+ more rOut 2more rOutNew Game Mon 09/06/2021 09:31:43:572CDT
+ more rOut 2more rOut 3more rOutNew Game Mon 09/06/2021 09:31:43:572CDT
+ more rOut 2more rOut 3more rOut 3more rOutNew Game Mon 09/06/2021 09:31:43:572CDT
+ more rOut 2more rOut 3more rOut 3more rOut 5more rOut
