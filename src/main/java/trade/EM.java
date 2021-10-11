@@ -3372,7 +3372,7 @@ class EM {
     doRes(SWAPSDECRCOST, "Swap SDecr Cost", "Fraction of S Decr swap cost/sum of S units", 2, 2, 1);
     doRes(SWAPRXFERCOST, "Swap RXfer Cost", "Fraction of R XFER swap cost/sum of R units", 2, 2, 1);
     doRes(SWAPSXFERCOST, "Swap SXfer Cost", "Fraction of S XFER swap cost/sum of R units", 2, 2, 1);
-     doRes("Redo FutureFund", "Redo FutureFund", "At emergency1 level of resource/staff back out of a saved future fund",1, 2, 1, ROWS2 | LIST6 | CUM | CUMUNITS | BOTH | SKIPUNSET, 0,0,0);
+     doRes("Redo FutureFund", "Redo FutureFund", "At emergency1 level of resource/staff back out of a saved future fund",3, 2, 1, ROWS2 | LIST6 | CUM | CUMUNITS | BOTH | SKIPUNSET, 0,0,0);
     doRes("EmergFF", "EmergFF", "emergency resource/staff sums tranfer resource to FutureFund",1, 2, 1, ROWS2 | LIST6 | CUM | CUMUNITS | BOTH | SKIPUNSET, 0,0,ROWS1 |  LIST14 | CURAVE | CUM | CUMAVE | CUMUNITS | SKIPUNSET);
     doRes("SizeFF", "SizeFF", "Size resource/staff sums tranfer resource to FutureFund");
     doRes("FutureFundSaved", "FutureFundsSaved", "Total resource/staff sums tranfered to FutureFund");
@@ -4917,8 +4917,6 @@ class EM {
           isAgeMore = ageIx > 0 && isAges;
           int unsetCnt = 0;
           int yrsMax = curAveAgesYrs[ageIx];
-         
-                  
           for(int ageYrsIx = 0;ageYrsIx < yrsMax;ageYrsIx++) {
              prevLine = "rN" + myRn + " "  + resS[myRn][0] + ", length" + resI[rn].length + ", nineIx" + nineIx + ", extSuffix=" + extSuffix + (isAges?", isAges " : " notAges ") + ", ageIx" + ageIx + ", ageYrsIx" + ageYrsIx + ", extSuffix=" + ninesExtSuffix[nineIx];
             if(resI[rn].length < ICUR0 + ageIx * MAXDEPTH + ageYrsIx) {
@@ -4982,7 +4980,7 @@ class EM {
                 if (E.debugPutRows6aOut) {
                   if (isAgeList || ((putRowsPrint6aCount++ < 400) && (putRowsPrint6aCount % 25) == 0) ) {
                     System.out.flush();
-                    System.out.printf("EM.putrow6ab rn=%d lockIx%d ageIx%d ageLim%d, nineIx%d yearsIx%d yearsMax%d %s, %s, %s, aop%o, opr%o, cmd%o, list%d, depth%d, valid%d, cum%d, rende4=%d,%d putRowsPrint6aCount= " + putRowsPrint6aCount + " \n", rn, lockIx, myAgeIx, ageLim, nineIx, yearsIx, yearsMax,resS[rn][0],  extSuffix,(unset ? "UNSET" : "ISSET") + " = " + resI[myRn][ICUM][CCONTROLD][ISSET] + ":" + resI[myRn][ICUR0 + myAgeIx * MAXDEPTH][CCONTROLD][ISSET], aop,opr,cmd,((aop & LIST14) > 0 ? 14 : (aop & list1) > 0 ? 1 : (aop & LIST3) > 0 ? 3 : (aop & LIST8) > 0 ? 8 : aop), depth, valid, resI[rn][ICUM][0][0], rende4, rendae4);
+                    System.out.printf("EM.putrow6ab rn=%d %s,lockIx%d ageIx%d ageLim%d, nineIx%d yearsIx%d yearsMax%d, depth%d, valid%d,%s, %s, aop%o, opr%o, cmd%o, list%d,cum%d, rende4=%d,%d putRowsPrint6aCount= " + putRowsPrint6aCount + " \n", rn,resS[rn][0], lockIx, myAgeIx, ageLim, nineIx, yearsIx, yearsMax, depth, valid,  extSuffix,(unset ? "UNSET" : "ISSET") + " = " + resI[myRn][ICUM][CCONTROLD][ISSET] + ":" + resI[myRn][ICUR0 + myAgeIx * MAXDEPTH][CCONTROLD][ISSET], aop,opr,cmd,((aop & LIST14) > 0 ? 14 : (aop & list1) > 0 ? 1 : (aop & LIST3) > 0 ? 3 : (aop & LIST8) > 0 ? 8 : aop), resI[rn][ICUM][0][0], rende4, rendae4);
                   }
                 }
                 row = putRowInTable(table, rn, row, ageIx, cmd, suffix, resExt, extSuffix);
