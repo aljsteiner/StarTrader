@@ -680,6 +680,66 @@ class EM {
     whole.setMaximumFractionDigits(0);
     return whole.format(n + .4999999);
   }
+  
+  /** return the max of 2 arguments
+   * 
+   * @param a first arg
+   * @param b second arg
+   * @return max of a or b
+   */
+  static public double myMax(double a,double b){ return a > b ? a : b;}
+  
+  /** return the max of 3 arguments
+   * 
+   * @param a arg 1
+   * @param b arg 2
+   * @param c arg 3
+   * @return max of arg 1, arg 2 or arg 3
+   */
+  static public double myMax(double a,double b, double c){ return myMax(a,myMax(b,c)); }
+
+  /** return the max of 4 arguments
+   * 
+   * @param a arg 1
+   * @param b arg 2
+   * @param c arg 3
+   * @param d arg 4
+   * @return  max of arg 1, arg 2, arg 3, arg 4
+   */
+  static public double myMax(double a, double b, double c, double d){return myMax(a,myMax(b,myMax(c,d)));}
+  
+  /** return the least of 2 arguments
+   * 
+   * @param a arg 1
+   * @param b arg 2
+   * @return  the least of the arguments
+   */
+  static public double myMin(double a, double b){ return a < b ? a:b;}
+  
+  /** return the most of 2 arguments
+   * 
+   * @param a arg 1
+   * @param b arg 2
+   * @return the greatest argument
+   */
+  static public int myMax(int a, int b) { return a > b ? a:b; }
+  
+  /** return the most of 3 arguments
+   * 
+   * @param a arg 1
+   * @param b arg 2
+   * @param c arg 3
+   * @return max of arg 1, arg 2 or arg 3
+   */
+  static public int myMax(int a, int b, int c) { return myMax(a,myMax(b,c));}
+  
+   /** return the least of 2 arguments
+   * 
+   * @param a arg 1
+   * @param b arg 2
+   * @return  the least of the arguments
+   */
+  static public int myMin(int a, int b) { return a < b? a:b;}
 
   // static int clans = 5; E.lclans
   static int lRow = E.lclans * 2;
@@ -3373,7 +3433,7 @@ class EM {
     doRes(SWAPRXFERCOST, "Swap RXfer Cost", "Fraction of R XFER swap cost/sum of R units", 2, 2, 1);
     doRes(SWAPSXFERCOST, "Swap SXfer Cost", "Fraction of S XFER swap cost/sum of R units", 2, 2, 1);
      doRes("Redo FutureFund", "Redo FutureFund", "At emergency1 level of resource/staff back out of a saved future fund",3, 2, 1, ROWS2 | LIST6 | CUM | CUMUNITS | BOTH | SKIPUNSET, 0,0,0);
-    doRes("EmergFF", "EmergFF", "emergency resource/staff sums tranfer resource to FutureFund",1, 2, 1, ROWS2 | LIST6 | CUM | CUMUNITS | BOTH | SKIPUNSET, 0,0,ROWS1 |  LIST14 | CURAVE | CUM | CUMAVE | CUMUNITS | SKIPUNSET);
+    doRes("EmergFF", "EmergFF", "emergency resource/staff sums tranfer resource to FutureFund",3, 2, 1, ROWS2 | LIST6 | CUM | CUMUNITS | BOTH | SKIPUNSET, 0,0,ROWS1 |  LIST14 | CUR | CURAVE | CUM | CUMAVE | CUMUNITS | SKIPUNSET);
     doRes("SizeFF", "SizeFF", "Size resource/staff sums tranfer resource to FutureFund");
     doRes("FutureFundSaved", "FutureFundsSaved", "Total resource/staff sums tranfered to FutureFund");
    
@@ -3911,10 +3971,11 @@ class EM {
         //   LIST015 LIST10 LIST11 LIST12 LIST13 LIST14 LIST15
         // LIST8-20        
         //              44                0
-        // start yrsIx as the top one to move up, 42 or 6
+        // start yrsIx as the top one to copy up one row, 42 or 6
         for (yrsIx = statsLim-1; yrsIx > ICUM; yrsIx--) { // 6 or 41 not 7 or 42
-          newIx = yrsIx% MAXDEPTH; // if newIx==0, this is row7 of an agegrp =45%
-          new0 = yrsIx; // 10:45 yrsIx 8:42,do not copy 35 to 36, 28 to 29, 21 to 22 etc
+          newIx = (yrsIx)% MAXDEPTH; // if newIx==0, time for new row0 in this age
+          new0 = newIx; // 10:45 yrsIx 8:42,do not copy7 to 8, 35 to 36, 28 to 29, 21 to 22 etc
+          // 1,8,15,22,29,36,43 == the  age start, 0,7,14,21,28,35 are do not copy
           yearsGrp = (yrsIx - ICUR0) / MAXDEPTH; // (44-1)= 43/7=1 =6,5...0 should be depth
           curIx = (yrsIx - ICUR0) % MAXDEPTH; //index in relation to 0 of yr grp 43%7 =1:0
           cur0 = yrsIx - curIx;  //43 - 1 = 42
@@ -3926,38 +3987,40 @@ class EM {
           if (resI[rN][yrsIx] != null ) { // don't try to mov null up one
             // each yearAge has its own isset and valid and power
 
-            // copy only if the higher cur is valid for this age
-            // depth must be 2 for a copy
+            // now false:copy only if the higher cur is valid for this age
+            // now false:depth must be 2 for a copy
+            //
             if (true || (curIx + 1) <= (depth)) {
               // copy everything here, except the 7 to 0
               if ( resI[rN][yrsIx][CCONTROLD][ISSET] > 0) {
                 // isset and within depth, keep larger val or set depth nexIx
                 valid = Math.max(valid, (yrsIx + 1) % MAXDEPTH); // highest destination value
               }
-              if(newIx > 0){ // do everything except start of age group
-                //copy reference up, including the current values
+              if(newIx > 0){ // copy to  everything except start of age group
+                //copy ageStart to ageStart+1 etc
+//copy reference up, including the current values
                 // overwrite any previous reference 
                 // ensure that each reference is in one ICURO+yrsIx
                 resI[rN][yrsIx + 1] = resI[rN][yrsIx];  //moving up by 1 to depth
                 resV[rN][yrsIx + 1] = resV[rN][yrsIx];
-                if (E.debugStatsOut && ((rN == -96 || rN <= -3) && yrsIx < 10 && resI[rN] != null && resI[rN][ICUR0] != null)) {
-                  System.out.printf("In doStartYear move at %s rN%d, yrsIx%d, idepth%d, ydepth%d, valid%d, isseta%d, issetb%d\n", resS[rN][0], rN, yrsIx, resI[rN][ICUM][CCONTROLD][IDEPTH], resI[rN][ICUM][CCONTROLD][IYDEPTH], resI[rN][ICUR0][CCONTROLD][IVALID], resI[rN][ICUR0][CCONTROLD][ISSET], resI[rN][ICUR0 + 1] == null ? -2 : resI[rN][ICUR0 + 1][CCONTROLD][ISSET]);
+                if (E.debugStatsOut && (rN == 96 || rN <= 3) && (yrsIx % 5 ) == 0 && (resI[rN] != null) && (resI[rN][ICUR0] != null)) {
+                  System.out.printf("In doStartYear have at %s rN%d, yrsIx%d, idepth%d, ydepth%d, valid%d, isseta%d, issetb%d\n", resS[rN][0], rN, yrsIx, resI[rN][ICUM][CCONTROLD][IDEPTH], resI[rN][ICUM][CCONTROLD][IYDEPTH], resI[rN][ICUR0][CCONTROLD][IVALID], resI[rN][ICUR0][CCONTROLD][ISSET], resI[rN][ICUR0 + 1] == null ? -2 : resI[rN][ICUR0 + 1][CCONTROLD][ISSET]);
 
                 }// end print if
-              } else {  // put null there at the next one
-                resI[rN][yrsIx + 1] = null;
-                resV[rN][yrsIx + 1] = null;
-              }
-            }
-            if (newIx == 0) {// is this the 0 element of a ageGrp
+              } else {  //  otherwise do an age start
+   //             resI[rN][yrsIx + 1] = null;
+   //             resV[rN][yrsIx + 1] = null;
+//              }
+//            }
+//            if (newIx == 0) {// is this the 0 element of a ageGrp
               // create a new 0'th element, overwrite old reference
               // yrsIx still at 0 element of age
-              resV[rN][yrsIx+1] = new double[2][]; // p,s
-              resI[rN][yrsIx +1] = new long[3][];
+              resV[rN][yrsIx+1] = new double[DVECTOR3L][]; // p,s
+              resI[rN][yrsIx +1] = new long[IVECTOR3L][]; // p,s,controld
               for (int ixPorS = 0; ixPorS < 2; ixPorS++) {
                 resV[rN][yrsIx+1][ixPorS] = new double[E.lclans];// make the clans
                 resI[rN][yrsIx+1][ixPorS] = new long[E.lclans]; // make array for i
-                for (int clanIx = 0; clanIx < E.lclans; clanIx++) {
+                for (int clanIx = 0; clanIx < E.LCLANS; clanIx++) {
                   // zero the elements of the clan
                   resV[rN][yrsIx+1][ixPorS][clanIx] = 0.0;
                   resI[rN][yrsIx+1][ixPorS][clanIx] = 0;
@@ -3968,12 +4031,12 @@ class EM {
               //  int ri3[] = resI[rN][yrsIx][CCONTROLD];
               //    resI[rN][ICUR0 + yrsIx][CCONTROLD][IVALID] = valid;
               //    ccntl = yrsIx == 0 ? IVECTOR4C : IVECTOR4A;
-              resI[rN][yrsIx][CCONTROLD] = new long[3];
-              resI[rN][yrsIx][CCONTROLD][ISSET] = 0;
-              resI[rN][yrsIx][CCONTROLD][IVALID] = valid;
+              resI[rN][yrsIx+1][CCONTROLD] = new long[3];
+              resI[rN][yrsIx+1][CCONTROLD][ISSET] = 0;
+              resI[rN][yrsIx+1][CCONTROLD][IVALID] = valid;
               valid = 0; // reset for the next row
-              resI[rN][yrsIx][CCONTROLD][IPOWER] = 0;
-              yrsIx--; // skip copy up to cur0
+              resI[rN][yrsIx+1][CCONTROLD][IPOWER] = 0;
+              
             }
           }// not null
 
@@ -3991,6 +4054,7 @@ class EM {
       //      if (((resI[rN][ICUM][CCONTROLD][IDEPTH] > 1) && resI[rN][ICUM][CCONTROLD][IVALID] > resI[rN][ICUM][CCONTROLD][IDEPTH]) || resI[rN][rcur0 + resI[rN][lockC][0][rValid] - 1] == null) {
       //     E.myTest(true, "doStartYear rcur" + (resI[rN][lockC][0][rValid] - 1) + " is null" + " rValid=" + resI[rN][lockC][0][rValid] + (resI[rN][rcur0] == null ? " !!!" : " " + "rcur0") + (resI[rN][rcur0 + 1] == null ? " !!!" : " " + "rcur1") + (resI[rN][rcur0 + 2] == null ? " !!!" : " " + "rcur2") + (resI[rN][rcur0 + 3] == null ? " !!!" : " " + "rcur3") + (resI[rN][rcur0 + 4] == null ? " !!!" : " " + "rcur4") + (resI[rN][rcur0 + 5] == null ? " !!!" : " " + "rcur5"));
       //        }
+      }
     }// end rN loop
 
     return rende4 - cnt;
@@ -4204,18 +4268,18 @@ class EM {
         //   LIST0-LIST9 LIST10 LIST11 LIST12 LIST13 LIST14 LIST15-LIST20
         //   MAXDEPTH = 7
         if (age < AGESTARTS[a]) {
-          b = a;
+          b = a; //ageIx: b1 = -1 to 3
         }
       }
-      curm = ICUR0 + MAXDEPTH * b;
+      curm = ICUR0 + MAXDEPTH * b;//age < 4 makes ageIx=1 curm>0
     } // end if
     long resLock[][][] = resI[rn];
     double resL[][][] = resV[rn];
-    int ycnt = cnt > -2 ? cnt : 0;
+    int ycnt = cnt > -2 ? cnt : 0;// allow -1
 
     double[] resVCum = resV[rn][ICUM][pors]; //array object 
     double resVCumC = resVCum[clan]; // value in 
-    resVCumC += v; // won't work
+    resVCumC += v; // doesn't change resVCum[clan]
     long[] resICum = resI[rn][ICUM][pors];
     double[] resVCur = resV[rn][ICUR0][pors];
     long[] resICur = resI[rn][ICUR0][pors];
@@ -4231,13 +4295,13 @@ class EM {
       resICum[clan] += ycnt;
       resVCur[clan] += v;
       resICur[clan] += ycnt;
-      resICurCC[ISSET]++;
-      resICumCC[ISSET]++;
+      resICurCC[ISSET] += 1;
+      resICumCC[ISSET] += 1;
       if (curm > 0) {
         /* now set the values in the appropriate age group */
         resVCurm[clan] += v;
         resICurm[clan] += ycnt;
-        resICurmCC[ISSET]++;
+        resICurmCC[ISSET] += 1;
       }
     } // end of lock on res..[rn]
 
@@ -4720,7 +4784,7 @@ class EM {
   private boolean isCumUnits;
   private boolean isAve;
   private boolean isUnits;
-    private boolean doSum = false;
+   private boolean doSum = false;
   private boolean didSum = false; //a previous lock offered sum, so without both do sum
   private boolean doBoth = false;
   private long doPower = -5;
@@ -4735,6 +4799,9 @@ class EM {
   private static boolean tstr = false;   // a tstring line
   private static long lStart = 0L;
   private static long lEnd = 1L;  // o-1
+  private static int startAgeYearsValues=0;
+  private static int endAgeYearsValues=1;
+  private static int ageYearsIx=-3;
   private static long cmd = 0L;
   // these are only in one process so they can be static
   private static int myRow = 0, myLock = 0, myAgeIx = 0,myPors=0;
@@ -4749,7 +4816,7 @@ class EM {
   private static final String[] NINESTRS = {"CUR","CURUNITS","CURAVE","THISYEAR","THISYEARUNITS","THISYEARAVE","CUM","CUMUNITS","CUMAVE"};
   private static final String[] ninesSuffix={" curYr"," curU"," curAveYr"," thisYr"," thisYrU"," thisYrAve"," cum"," cumU"," cumAve"};
   private static final String[] ninesExtSuffix ={" current years sums"," current year units"," currrent year ave years"," this  year sum"," this year units"," this year ave"," cumulative sum"," cumulative units"," cumulative ave"};
-  private static final int[] curAveAgesYrs = {1,4,4,6,6,6}; //yrs to scan for ageIx
+  private static final int[] curAveAgesYrs = {MAXDEPTH,4,4,6,6,6}; //yrs to scan for ageIx
                   
 
   private String getOpsNames(Long ops) {
@@ -4881,31 +4948,32 @@ class EM {
         if ((listMatch > 0L) && (haveCmdMatch > 0L) && okRows) {
           prevListMatch = listMatch; // save a good list option for possible use in the next lockIx
         
-         isCur = (cmd & CUR) > 0;
-         isCurAve = (cmd & CURAVE) > 0;
-         isCurUnits = (cmd & CURUNITS) > 0;
-         isCum = (cmd & CUM) > 0;
-         isCumAve = (cmd & CUMAVE) > 0;
-         isCumUnits = (cmd & CUMUNITS) > 0;
-         isThisYear = (cmd & THISYEAR) > 0;
-         isThisYearAve = (cmd & THISYEARAVE) > 0;
-         isThisYearUnits = (cmd & THISYEARUNITS) > 0;
-         isUnits = isCurUnits | isCumUnits | isThisYearUnits;
-         isAve = isCurAve | isCumAve | isThisYearAve;
-         isVal = isCur | isCum| isThisYear;
-         isACur = isCur | isCurUnits | isCurAve;
-         isACum = isCum | isCumUnits | isCumAve;
-         isAThisYear = isThisYear | isThisYearUnits | isThisYearAve;
+        
          
           // aop from StarTrader should containt no more than 1 age list
           int maxList = isAgeLength ? shortLength : longLength;
          
          // now go thru the 9 possible commands in NINECMDS putRows2
           for(nineIx = 0;nineIx < 9;nineIx++){
+          isCur = nineIx == 0; //(cmd & CUR) > 0;
+         isCurAve = nineIx == 2; //(cmd & CURAVE) > 0;
+         isCurUnits = nineIx == 1; //(cmd & CURUNITS) > 0;
+         isCum = nineIx == 6; //(cmd & CUM) > 0;
+         isCumAve = nineIx == 8; //(cmd & CUMAVE) > 0;
+         isCumUnits = nineIx == 7; //(cmd & CUMUNITS) > 0;
+         isThisYear = nineIx == 3; //(cmd & THISYEAR) > 0;
+         isThisYearAve = nineIx == 5; //(cmd & THISYEARAVE) > 0;
+         isThisYearUnits = nineIx == 4; //(cmd & THISYEARUNITS) > 0;
+         isUnits = isCurUnits | isCumUnits | isThisYearUnits;
+         isAve = isCurAve | isCumAve | isThisYearAve;
+         isVal = isCur | isCum| isThisYear;
+         isACur = isCur | isCurUnits | isCurAve;
+         isACum = isCum | isCumUnits | isCumAve;
+         isAThisYear = isThisYear | isThisYearUnits | isThisYearAve;
             //dont THISYEAR if a corresponding CUR exists
             if(((NINECMDS[nineIx] & haveCmdMatch) > 0L) && !((NINENOTS[nineIx] & haveCmdMatch) > 0L)){
-               isAgeCmd = nineIx < 3;// cur curu curave
-               isAges = (isAgeLength && isAgeCmd && isAgeList);
+               isAgeCmd = isACur;// cur curu curave
+               isAges = (isAgeLength && isACur && isAgeList);
                int ageLim = isAges? MAXAGES:1;
   //        String sstring = (isVal?" values " : isUnits? " units " : isAve ? " ave " : "???");
           // loop through possible sets of ages, most commands have only 1 age
@@ -4916,16 +4984,29 @@ class EM {
           isAge0 = (ageIx == 0)  ;
           isAgeMore = ageIx > 0 && isAges;
           int unsetCnt = 0;
-          int yrsMax = curAveAgesYrs[ageIx];
+          int yrsMax = MAXDEPTH; //curAveAgesYrs[ageIx];
           for(int ageYrsIx = 0;ageYrsIx < yrsMax;ageYrsIx++) {
              prevLine = "rN" + myRn + " "  + resS[myRn][0] + ", length" + resI[rn].length + ", nineIx" + nineIx + ", extSuffix=" + extSuffix + (isAges?", isAges " : " notAges ") + ", ageIx" + ageIx + ", ageYrsIx" + ageYrsIx + ", extSuffix=" + ninesExtSuffix[nineIx];
             if(resI[rn].length < ICUR0 + ageIx * MAXDEPTH + ageYrsIx) {
               if(E.debugPutRows2){
                 doMyErr("Null in putRows2 rn=" + rn + ", desc=" + resS[rn][0] + (isAges? ", isAges ":", not Ages "  )+ " ageIx"  + ageIx + ", ageYrsIx" + ageYrsIx + ", len" + ICUR0 + ageIx * MAXDEPTH + ageYrsIx + ":" + resI[rn].length);
               } 
+            } else if(resI[rn][ICUR0 + ageIx * MAXDEPTH + ageYrsIx] == null){
+              ageYrsIx = MAXDEPTH+2; // stop the loop
+              // OR do nothing, but not an error
             } else {
               if( resI[rn][ICUR0 + ageIx * MAXDEPTH + ageYrsIx].length > 0){
               unsetCnt += resI[rn][ICUR0 + ageIx * MAXDEPTH + ageYrsIx][CCONTROLD][ISSET];
+              // go up the ageYrsIx even if not set, only set valid if year isset
+              valid = resI[rn][ICUR0 + ageIx * MAXDEPTH + ageYrsIx][CCONTROLD][ISSET] > 0? ageYrsIx+1: valid;
+              resI[rn][ICUR0 + ageIx * MAXDEPTH][CCONTROLD][IVALID] = valid;
+             
+             if (E.debugPutRows6abOut) {
+                  if (isAgeList || ((putRowsPrint6aCount++ < 400) && (putRowsPrint6aCount % 25) == 0) ) {
+                    System.out.flush();
+                    System.out.printf("EM.putrow6ab rn=%d %s,lockIx%d ageIx%d ageLim%d, nineIx%d ageYrsIx%d yrsMax%d, depth%d, valid%d,%s, %s, aop%o, opr%o, cmd%o, list%d,cum%d, rende4=%d,%d putRowsPrint6aCount= " + putRowsPrint6aCount + " \n", rn,resS[rn][0], lockIx, myAgeIx, ageLim, nineIx, ageYrsIx, yrsMax, depth, valid,  extSuffix,(unset ? "UNSET" : "ISSET") + " = " + resI[myRn][ICUM][CCONTROLD][ISSET] + ":" + resI[myRn][ICUR0 + myAgeIx * MAXDEPTH][CCONTROLD][ISSET], aop,opr,cmd,((aop & LIST14) > 0 ? 14 : (aop & list1) > 0 ? 1 : (aop & LIST3) > 0 ? 3 : (aop & LIST8) > 0 ? 8 : aop), resI[rn][ICUM][0][0], rende4, rendae4);
+                  }
+                }
               }
             }
           }  // for
@@ -4933,7 +5014,7 @@ class EM {
           myCumUnset = myUnset && resI[rn][ICUM][CCONTROLD][ISSET] < 1;
           myUnset = unset =  isACum ? myCumUnset | unset: unset;
             myValid = valid = resI[rn][ICUR0 + ageIx * MAXDEPTH][CCONTROLD][IVALID];
-            depth = resI[rn][ICUR0][CCONTROLD][IVALID];
+            depth = resI[rn][ICUM][CCONTROLD][IDEPTH];
 
             doUnits = isThisYearUnits || isCurUnits || isCumUnits;
             // set didSum if ever doSum and not both
@@ -4951,20 +5032,25 @@ class EM {
               }
             } // if debug
             
-              String[] agesStr = {"", "0-3", "4-7", "8-15", "16-31", "32+"};
+              //String[] agesStr = {"", "0-3", "4-7", "8-15", "16-31", "32+"};
               boolean isYears = isACur;
-              int yearsMax = isAAge0 && isYears ? (int) valid : isThisYear ? 1 : isAgeMore ? 1 : 1;
+              int yearsMax = isAge0 && isACur ? (int) Math.min(depth, valid) : 1;
               for (yearsIx = 0; yearsIx < yearsMax; yearsIx++) {
                 boolean isYear0 = yearsIx == 0;
                 boolean isMoreYears = yearsMax > 1;
+                boolean scanMoreYears = isCurAve && !isMoreYears;
+                startAgeYearsValues = yearsIx;// for curave values in getRowEntryValues
+                //scan and average if not displaying year by year values
+                endAgeYearsValues = myMin(MAXDEPTH,(yearsIx + (scanMoreYears ? curAveAgesYrs[ageIx] : 1)));
                  suffix = ninesSuffix[nineIx];
                  extSuffix = ninesExtSuffix[nineIx];
-                suffix += ((isYear0 && isAAge0) ? " allAges":"");
-                extSuffix += ((isYear0 && isAAge0) ? " allAges":"");
-                suffix += isAgeMore ? " age" + agesStr[ageIx]: "";
-                extSuffix += isAgeMore ? " age" + agesStr[ageIx]:"";
-                suffix += isMoreYears?" :" + (yearsIx + 1) + "/" + valid :"";
-                extSuffix += isMoreYears?" :" + (yearsIx + 1) + "/" + valid :"";
+                 // treat isMoreYears later
+                suffix += ((isYear0 && isAAge0 && !isMoreYears) ? (scanMoreYears? " scanAges: " : " allAges: "):"");
+                extSuffix += ((isYear0 && isAAge0 && !isMoreYears) ? (scanMoreYears? " scanAges: " : " allAges: "):"");
+                suffix += isAgeMore ? " age" + AGESTR[ageIx]: "";
+                extSuffix += isAgeMore ? " age" + AGESTR[ageIx]:"";
+                suffix += isMoreYears?(scanMoreYears? " scanAges: " : " allAges: ") + (yearsMax - yearsIx) + "/" + yearsMax :"";
+                extSuffix += isMoreYears? (scanMoreYears? " scanAllAges " : " allAges ") + " latest year first: " + (yearsMax - yearsIx)  + "/" + yearsMax : "";
               //  suffix = (isVal ? isAAge0 ? sstring + " allAges" + thisOrCur + ":" + (yearsIx + 1) + "/" + valid
                     //    : isAgeMore ? sstring + " ages" + agesStr[ageIx]
                      //           : isACur ? sstring + thisOrCur + ":" + (yearsIx + 1) + "/" + valid
@@ -4977,10 +5063,10 @@ class EM {
                 cmd = NINECMDS[nineIx] ;
                 lStart = yearsIx;
                 lEnd = yearsIx + 1;
-                if (E.debugPutRows6aOut) {
+                if (E.debugPutRows6acOut) {
                   if (isAgeList || ((putRowsPrint6aCount++ < 400) && (putRowsPrint6aCount % 25) == 0) ) {
                     System.out.flush();
-                    System.out.printf("EM.putrow6ab rn=%d %s,lockIx%d ageIx%d ageLim%d, nineIx%d yearsIx%d yearsMax%d, depth%d, valid%d,%s, %s, aop%o, opr%o, cmd%o, list%d,cum%d, rende4=%d,%d putRowsPrint6aCount= " + putRowsPrint6aCount + " \n", rn,resS[rn][0], lockIx, myAgeIx, ageLim, nineIx, yearsIx, yearsMax, depth, valid,  extSuffix,(unset ? "UNSET" : "ISSET") + " = " + resI[myRn][ICUM][CCONTROLD][ISSET] + ":" + resI[myRn][ICUR0 + myAgeIx * MAXDEPTH][CCONTROLD][ISSET], aop,opr,cmd,((aop & LIST14) > 0 ? 14 : (aop & list1) > 0 ? 1 : (aop & LIST3) > 0 ? 3 : (aop & LIST8) > 0 ? 8 : aop), resI[rn][ICUM][0][0], rende4, rendae4);
+                    System.out.printf("EM.putrow6ac rn=%d %s,lockIx%d ageIx%d ageLim%d, nineIx%d yearsIx%d yearsMax%d, depth%d, valid%d,%s, %s, aop%o, opr%o, cmd%o, list%d,cum%d, rende4=%d,%d putRowsPrint6aCount= " + putRowsPrint6aCount + " \n", rn,resS[rn][0], lockIx, myAgeIx, ageLim, nineIx, yearsIx, yearsMax, depth, valid,  extSuffix,(unset ? "UNSET" : "ISSET") + " = " + resI[myRn][ICUM][CCONTROLD][ISSET] + ":" + resI[myRn][ICUR0 + myAgeIx * MAXDEPTH][CCONTROLD][ISSET], aop,opr,cmd,((aop & LIST14) > 0 ? 14 : (aop & list1) > 0 ? 1 : (aop & LIST3) > 0 ? 3 : (aop & LIST8) > 0 ? 8 : aop), resI[rn][ICUM][0][0], rende4, rendae4);
                   }
                 }
                 row = putRowInTable(table, rn, row, ageIx, cmd, suffix, resExt, extSuffix);
@@ -4991,223 +5077,6 @@ class EM {
               } //yearsIx
             } // ageIx
             
-            // do not process thisYear if cur was already processed
-            if (false && !myUnset && !isCur && isThisYear) {
-              suffix = " thisYr";
-              lStart = 0;
-              lEnd = 1;
-            //  row = putRowInTable(table, resExt, rn, thisYr, row, suffix, ageIx);
-              if (E.debugPutRowsOut6) {
-                ifPutRow6("thisYr");
-              }
-            }
-
-            if (false && !myUnset && (opr & curUnitAve) > 0L) {
-              for (int m = 0; m < valid; m++) {
-                suffix = " curAve yr:" + wh(m + 1) + "/" + wh(valid);
-                lStart = m;
-                lEnd = m + 1;
-              //  row = putRowInTable(table, resExt, rn, curUnitAve, row, suffix, ageIx);
-              }
-              if (E.debugPutRowsOut6) {
-                if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
-                  if (putRowsPrint6Count < 20
-                          || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-                    System.out.flush();
-                    System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
-                            + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
-                            + ", lock#" + lockIx + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
-                            + ", ops=" + getOpsNames(haveCmdMatch)
-                            + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
-                            + ", cum00=" + resI[rn][ICUM][0][0]
-                            + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
-                  }
-
-                }
-              } // E.debug...
-
-              // break;
-            } // isThisYear
-
-            // do not process thisYear if cur was already processed
-            if (false && !myUnset && ((opr & curUnitAve) == 0L) && ((opr & thisYearUnitAve) > 0L)) {
-              suffix = " ThisYrAve";
-              lStart = 0;
-              lEnd = 1;
-            //  row = putRowInTable(table, resExt, rn, thisYearUnitAve, row, suffix, ageIx);
-              if (E.debugPutRowsOut6) {
-                if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
-                  if (putRowsPrint6Count < 20
-                          || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-                    System.out.flush();
-                    System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
-                            + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
-                            + ", lock#" + lockIx + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
-                            + ", ops=" + getOpsNames(haveCmdMatch)
-                            + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
-                            + ", cum00=" + resI[rn][ICUM][0][0]
-                            + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
-                  }
-
-                }
-              }
-            }
-
-            if (E.debugPutRowsOut6) {
-              if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
-                if (putRowsPrint6Count < 20
-                        || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-                  System.out.flush();
-                  System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
-                          + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
-                          + ", lock#" + lockIx + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
-                          + ", ops=" + getOpsNames(haveCmdMatch)
-                          + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
-                          + ", cum00=" + resI[rn][ICUM][0][0]
-                          + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
-                }
-
-              }
-            }
-            if (false && !myCumUnset && isCum && isAge0) {
-              suffix = " Cum";
-              cmd = CUM;
-              lStart = 0;
-              lEnd = 1;
-                row = putRowInTable(table, rn, row, ageIx, cmd, suffix, resExt, suffix);
-
-              if (E.debugPutRowsOut6) {
-                if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
-                  if (putRowsPrint6Count < 20
-                          || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-                    System.out.flush();
-                    System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
-                            + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
-                            + ", lock#" + lockIx + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
-                            + ", ops=" + getOpsNames(haveCmdMatch)
-                            + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
-                            + ", cum00=" + resI[rn][ICUM][0][0]
-                            + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
-                  }
-
-                }
-              }
-            }
-
-            if (E.debugPutRowsOut6) {
-              if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
-                if (putRowsPrint6Count < 20
-                        || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-                  System.out.flush();
-                  System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
-                          + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
-                          + ", lock#" + lockIx + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
-                          + ", ops=" + getOpsNames(haveCmdMatch)
-                          + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
-                          + ", cum00=" + resI[rn][ICUM][0][0]
-                          + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
-                }
-
-              }
-            }
-            if (false & !myCumUnset && isCumUnits && isAge0) {
-              suffix = " CumU";
-              doUnits = true;
-              cmd = cumUnits;
-              lStart = 0;
-              lEnd = 1;
-               row = putRowInTable(table, rn, row, ageIx, cmd, suffix, resExt, suffix);
-              if (E.debugPutRowsOut6) {
-                if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
-                  if (putRowsPrint6Count < 20
-                          || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-                    System.out.flush();
-                    System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
-                            + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
-                            + ", lock#" + lockIx + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
-                            + ", ops=" + getOpsNames(haveCmdMatch)
-                            + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
-                            + ", cum00=" + resI[rn][ICUM][0][0]
-                            + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
-                  }
-
-                }
-              }
-            }
-            if (false & !myCumUnset && isCumAve && isAge0) {
-              suffix = " CumAve";
-              cmd = CUMAVE;
-              lStart = 0;
-              lEnd = 1;
-             row = putRowInTable(table, rn, row, ageIx, cmd, suffix, resExt, suffix);
-              if (E.debugPutRowsOut6) {
-                if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
-                  if (putRowsPrint6Count < 20
-                          || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-                    System.out.flush();
-                    System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
-                            + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
-                            + ", lock#" + lockIx + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
-                            + ", ops=" + getOpsNames(haveCmdMatch)
-                            + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
-                            + ", cum00=" + resI[rn][ICUM][0][0]
-                            + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
-                  }
-
-                }
-              }
-            }
-            if (false && !myUnset && (haveCmdMatch & curUnits) > 0) {
-              for (int yearIx = 0; yearIx < valid; yearIx++) {
-                suffix = " curU yr:" + wh(yearIx + 1) + "/" + wh(valid);
-                doUnits = true;
-                lStart = yearIx;
-                lEnd = yearIx + 1;
-              //  row = putRowInTable(table, resExt, rn, curUnits, row, suffix, ageIx);
-                if (E.debugPutRowsOut6) {
-                  if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
-                    if (putRowsPrint6Count < 20
-                            || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-                      System.out.flush();
-                      System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
-                              + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
-                              + ", lock#" + lockIx + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
-                              + ", ops=" + getOpsNames(haveCmdMatch)
-                              + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
-                              + ", cum00=" + resI[rn][ICUM][0][0]
-                              + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
-                    }
-
-                  }
-                }
-              }
-            }
-            // do not process thisYear if cur was already processed
-            // if ((opr & (myOp = THISYEARUNITS)) > 0 && !unset) {
-            if (false && !myUnset && ((haveCmdMatch & curUnits) == 0) && ((opr & THISYEARUNITS) > 0)) {
-              suffix = " thisyrU";
-              doUnits = true;
-              lStart = 0;
-              lEnd = 1;
-             // row = putRowInTable(table, resExt, rn, THISYEARUNITS, row, suffix, ageIx);
-              if (E.debugPutRowsOut6) {
-                if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
-                  if (putRowsPrint6Count < 20
-                          || (((putRowsPrint6Count % 25) == 0)) && (putRowsPrint6Count < 200)) {
-
-                    System.out.flush();
-                    System.out.printf("EM.putrow6Start rn=" + rn + ", " + resS[rn][0] + ", row=" + row
-                            + ", isset=" + (myUnset ? myCumUnset ? "CumUnset" : "unset" : "isSet")
-                            + ", lock#" + lockIx + ", list" + ((haveListsMatch & list0) > 0 ? 0 : (haveListsMatch & list1) > 0 ? 1 : (haveListsMatch & LIST2) > 0 ? 2 : (haveListsMatch & LIST6) > 0 ? 6 : "??")
-                            + ", ops=" + getOpsNames(haveCmdMatch)
-                            + ", depth=" + depth + ", valid" + valid + ", ageIx" + ageIx
-                            + ", cum00=" + resI[rn][ICUM][0][0]
-                            + ", rende4=" + rende4 + "," + rendae4 + " putRowsPrint6Count=" + putRowsPrint6Count + " \n");
-                  }
-
-                }
-              }
-            }
             if (false && E.debugPutRowsOut6) {
               if ((resS[rn][rDesc].contentEquals("EmergFF")) && ((haveListsMatch & LIST6) > 0)) {
                 if (putRowsPrint6Count < 20
@@ -5345,7 +5214,7 @@ class EM {
 
       if (E.debugPutRowsOut6) {
         if (resS[rn][rDesc].contains("Score")) {
-          System.out.println("in gamRes. do Score " + Thread.currentThread().getName() + " .putRowInTable" + (doSum ? " doSum" : doBoth ? " doBoth" : "") + ", suffix=" + suffix + " myCmd=" + Long.toOctalString(myCmd) + " lStart=" + lStart + " lEnd=" + lEnd + ", valid=" + valid + (myUnset ? " myUnset" : "") + (myCumUnset ? " myCumUnset" : ""));
+          System.out.println("in putRowInTable. do Score " + Thread.currentThread().getName() + " .putRowInTable" + (doSum ? " doSum" : doBoth ? " doBoth" : "") + ", suffix=" + suffix + " myCmd=" + Long.toOctalString(myCmd) + " lStart=" + lStart + " lEnd=" + lEnd + ", valid=" + valid + (myUnset ? " myUnset" : "") + (myCumUnset ? " myCumUnset" : ""));
         }
         //   System.out.println("in EM.gameRes." + toString() + ".putRowInTable" + dFrac.format(values[0][0]) + " " + dFrac.format(values[0][6]));
       }
@@ -5485,20 +5354,24 @@ class EM {
           powers = " *10**" + doPower + " ";
         }
         return sum;
+        
         } else if ((CURAVE & cmd) > 0) {
           // for curave sum averages
-          int yrsMax = curAveAgesYrs[ageIx];
+       //   int yrsMax = curAveAgesYrs[ageIx];
           sum = 0.;
           int didCnt=0;
-          for(int ageYrsIx = 0;ageYrsIx < yrsMax;ageYrsIx++) {
+          for(int ageYrsIx = startAgeYearsValues;ageYrsIx < endAgeYearsValues;ageYrsIx++) {
            double aaa=0.,bbb=0.,ccc=0.,ddd=0.;
            long cntSum =0;
            int cntS = 0;  // ignore zero counts
            // skip empty entries
+           if(resV[rn][ICUR0 + (ageIx * MAXDEPTH + ageYrsIx)] == null) {
+             // no error but don't count in average
+           } else 
            if(resV[rn][ICUR0 + (ageIx * MAXDEPTH + ageYrsIx)].length > 0 ){
              cntSum = doSum ? resI[rn][ICUR0 + ageIx * MAXDEPTH + ageYrsIx][0][dClan] + resI[rn][ICUR0 + ageIx * MAXDEPTH + ageYrsIx][1][dClan] : resI[rn][ICUR0 + ageIx * MAXDEPTH + ageYrsIx][pors][dClan];
           cntS = cntSum > 0? (int)cntSum:1;  // ignore zero counts
-          sum +=  cntSum > 0 ?(aaa = (ccc = doSum ? (resV[rn][ICUR0 + (ageIx * MAXDEPTH + ageYrsIx)][0][dClan] + resV[rn][ICUR0 + ageIx * MAXDEPTH + ageYrsIx][1][dClan] ) : (bbb = resV[myRn][ICUR0 + ageIx * MAXDEPTH + ageYrsIx][pors][dClan])) / cntS) : 0.;
+          sum +=  cntS > 0 ?(aaa = (ccc = doSum ? (resV[rn][ICUR0 + (ageIx * MAXDEPTH + ageYrsIx)][0][dClan] + resV[rn][ICUR0 + ageIx * MAXDEPTH + ageYrsIx][1][dClan] ) : (bbb = resV[myRn][ICUR0 + ageIx * MAXDEPTH + ageYrsIx][pors][dClan])) / cntS) : 0.;
             didCnt += cntSum > 0? 1:0;  // only count actural sums
            }
           }
@@ -5516,16 +5389,16 @@ class EM {
         sum = 0.;
         cnts = 0.;
         if (resI[rn] == null) {
-          cErr(">>>>>>in curIxgetRowEntryValue null at resI[" + rn + "]=" + description);
+          doMyErr(">>>>>>in curIxgetRowEntryValue null at resI[" + rn + "]=" + description);
           return -88888888.;
         }
         if (resI[rn][ICUR0 + (int) lStart] != null && resI[rn][ICUR0 + (int) lStart][CCONTROLD] != null && resI[rn][ICUR0 + (int) lStart][CCONTROLD][IPOWER] < 0) {
-          cErr(">>>>>>in curIxgetRowEntryValue null at resI[rn][ICUR0 + (int) lStart=" + lStart + "] resI[" + rn + "]=" + description);
+          doMyErr(">>>>>>in curIxgetRowEntryValue null at resI[rn][ICUR0 + (int) lStart=" + lStart + "] resI[" + rn + "]=" + description);
           return -9999998888.;
         }
         long resia[][] = resI[rn][ICUR0 + (int) lStart];
         if (resia[CCONTROLD] == null) {
-          cErr(">>>>>>in curIxgetRowEntryValue null at resI[rn][ICUR0 + (int) lStart=" + lStart + "][CCONTROLD] resI[" + rn + "]=" + description);
+          doMyErr(">>>>>>in curIxgetRowEntryValue null at resI[rn][ICUR0 + (int) lStart=" + lStart + "][CCONTROLD] resI[" + rn + "]=" + description);
           return -99999999.;
         }
         long resib[] = resia[CCONTROLD];
@@ -6078,7 +5951,7 @@ class EM {
   int sValsCnt = -1;
   double difPercent = 0.0;
   double difMult = 0.0;
-  double winDif[][] = {{12.000}};
+  double winDif[][] = {{6.000}};
   static double mwinDif[][] = {{2.2, 40.0}, {2.2, 40.0}};
   double curDif = 0.0;
 

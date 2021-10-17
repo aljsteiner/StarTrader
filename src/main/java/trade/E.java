@@ -113,9 +113,11 @@ public class E {
   static final boolean debugPutValue1 = outputLess; //test putValue processing
   static final boolean debugPutValue2 = outputLess; //test putValue processing
   static final boolean debugPutValue3 = false; //choose alternative for too big
-  static final boolean debugPutRowsOut6 = debugMaster; 
-  static final boolean debugPutRows6aOut = debugMaster; 
-  static final boolean debugPutRows2 = debugMaster; 
+  static final boolean debugPutRowsOut6 = false; 
+  static final boolean debugPutRows6aOut = false; 
+  static final boolean debugPutRows6abOut = false;
+  static final boolean debugPutRows6acOut = false;
+  static final boolean debugPutRows2 = false; 
   static final boolean DEBUGWAITTRACE = debugMaster;
  static final boolean debugLogsOut = debugMaster; // EM rs output
   static final boolean debugStatsOut1 = outputLess; // stats output1

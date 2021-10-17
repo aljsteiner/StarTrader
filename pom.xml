@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>trade</groupId>
     <artifactId>starTraderMaven</artifactId>
-    <version>19.34</version>
+    <version>19.35</version>
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -63,6 +63,6 @@
       </pluginRepository> 
     </pluginRepositories>
     <name>StarTraderMaven</name>
-    <description>try startrader in maven</description>
+    <description>startrader in maven</description>
    
 </project>
