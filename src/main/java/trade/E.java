@@ -117,6 +117,7 @@ public class E {
   static final boolean debugPutRows6aOut = false; 
   static final boolean debugPutRows6abOut = false;
   static final boolean debugPutRows6acOut = false;
+  static final boolean debugPutRows6agOut = true;
   static final boolean debugPutRows2 = false; 
   static final boolean DEBUGWAITTRACE = debugMaster;
  static final boolean debugLogsOut = debugMaster; // EM rs output

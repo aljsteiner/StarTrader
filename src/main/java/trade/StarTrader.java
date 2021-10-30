@@ -184,8 +184,8 @@ public class StarTrader extends javax.swing.JFrame {
   static int yearEcons[] = new int[yearsL];
   static int yearPlanets[]  = new int[yearsL];
   static int yearShips[]  = new int[yearsL];
-   static double  yearTW[]  = new double[yearsL]; // max for a year
-   static double gameTW[] = new double[yearsL]; // max for the game
+   static double  yearTW[]  = new double[yearsL]; // total worth max for a year
+   static double gameTW[] = new double[yearsL]; // total worth max for the game
   static int gamePlanets[]  = new int[yearsL];
   static int gameShips[]  = new int[yearsL];
   static int gameEcons[]  = new int[yearsL];
@@ -223,9 +223,9 @@ public class StarTrader extends javax.swing.JFrame {
    */
 
   static final public String[] statsButtonsTips = {statsButton0Tip, statsButton1Tip, statsButton2Tip, statsButton3Tip, statsButton4Tip, statsButton5Tip, statsButton6Tip, statsButton7Tip, statsButton8Tip, statsButton9Tip, statsButton10Tip, statsButton11Tip, statsButton12Tip, statsButton13Tip, statsButton14Tip, statsButton15Tip, statsButton16Tip, statsButton17Tip, statsButton18Tip, statsButton19Tip, statsButton20Tip, gameTextFieldText};
-  static final public String versionText = "19.35";
+  static final public String versionText = "19.36";
   static final public String storyText = 
-          "         Save the Planets       Version 19.35\n" +
+          "         Save the Planets       Version 19.36\n" +
 "\n" +
 "“Save the Planets”; “Trade, trade, trade”;  “Cooperating together with trades”: is a strategic economics game emphasizing cooperation over competition.  This is a strategy game for one to four or five players. The game-master selects the nature of the game as well as how the winner is picked.  The game’s spaceships could just as well be traders with wagons going from settlement to settlement.  The nature of the traders and the settlements/planets is very flexible.  Shipping and trading is critical for every town, county, country and world.  \n" +
 "\n" +
@@ -5433,6 +5433,7 @@ public class StarTrader extends javax.swing.JFrame {
             }
             // listRes(fullRes); done in runBackgroundYears4
             break;
+            
           case RUNSDONE:  
             // no wait
             if (E.debugThreads) {
@@ -6329,9 +6330,9 @@ public class StarTrader extends javax.swing.JFrame {
      // gameTW[0] = yearTW[0] > gameTW[0] ? yearTW[0] : gameTW[0];
       //gameEcons[0] = yearEcons[0] > gameEcons[0] ? yearEcons[0] : gameEcons[0];
       yearSecPerEcon[0] = (int) (yearEcons[0] < 1? 0 :yearSecs[0] / yearEcons[0]);
-      System.err.println("theYr=" + theYear[0] + "yearSecs " + EM.mf(yearSecs[0]) + " yearEcons " + EM.mf(yearEcons[0]) + " year S per E " + EM.mf(yearSecPerEcon[0]));
-      System.err.println("theYr=" + theYear[1] + "yearSecs " + EM.mf(yearSecs[1]) + " yearEcons " + EM.mf(yearEcons[1]) + " year S per E " + EM.mf(yearSecPerEcon[1]));
-      System.err.println("theYr=" + theYear[2] + "yearSecs " + EM.mf(yearSecs[2]) + " yearEcons " + EM.mf(yearEcons[2]) + " year S per E " + EM.mf(yearSecPerEcon[2]));
+      System.err.println("&&&&&&&&&&&&&&theYr=" + theYear[0] + "yearSecs " + EM.mf(yearSecs[0]) + " yearEcons " + EM.mf(yearEcons[0]) + " year S per E " + EM.mf(yearSecPerEcon[0]));
+      System.err.println("&&&&&&&&&theYr=" + theYear[1] + "yearSecs " + EM.mf(yearSecs[1]) + " yearEcons " + EM.mf(yearEcons[1]) + " year S per E " + EM.mf(yearSecPerEcon[1]));
+      System.err.println("&&&theYr=" + theYear[2] + "yearSecs " + EM.mf(yearSecs[2]) + " yearEcons " + EM.mf(yearEcons[2]) + " year S per E " + EM.mf(yearSecPerEcon[2]));
     }
   }
 
@@ -7118,13 +7119,14 @@ public class StarTrader extends javax.swing.JFrame {
           }
           disp1 += newLine;
         */
-        disp1 += "===== (year) WyearWorth/gameWorth  EyearEcons/gameEcons PyearPlanets/gameP S yearShips/gameShips ===========" + newLine;
+        disp1 += "===== (year) Tsecs/econs  WyearWorth/gameWorth  EyearEcons/gameEcons  PyearPlanets/gameP S yearShips/gameShips ===========" + newLine;
         int entPerRow = 2;
        
        for (int y = 0; y < yearsL && theYear[y] > -1;) {
          int yMax = y+entPerRow;
           for (; y < yMax && theYear[y] > -1; y++) { 
-             disp1 += "(" + theYear[y] + ")" + "  W" + EM.wh(yearTW[y]) + "/" + EM.wh(gameTW[y]) + "  E" + yearEcons[y] + "/" + gameEcons[y] + "  P" + yearPlanets[y] + "/" + gamePlanets[y] + "  S" + yearShips[y] + "/" + gameShips[y]  + (y < yMax-1? " === ":"");
+             disp1 += "(" + theYear[y] + ")" + "T"  +  yearSecPerEcon[y]  +  " W" + EM.wh(yearTW[y]) + "/" + EM.wh(gameTW[y]) + "  E" + yearEcons[y] + "/" + gameEcons[y] + "  P" + yearPlanets[y] + "/" + gamePlanets[y] + "  S" + yearShips[y] + "/" + gameShips[y]  + (y < yMax-1? " === ":"");
+             
           }
           disp1 += newLine;
        } 

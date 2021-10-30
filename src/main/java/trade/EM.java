@@ -196,7 +196,7 @@ class EM {
   static final double[][] mDifficultyPercent = {{1., 90.}, {1., 90.}};
   static double[][] minEconsMult = {{1.5}};
   static final double[][] mminEconsMult = {{.5, 10.0}, {.5, 10.0}};
-  static double[][] maxThreads = {{5.2}};
+  static double[][] maxThreads = {{1.0}};
   static final double[][] mmaxThreads = {{1.0, 12.0}};
   double[][] haveColors = {{.3}};
   static final double[][] mHaveColors = {{0.2, 2.2}};
@@ -400,12 +400,12 @@ class EM {
     } catch (Exception ex) {
       flushes();
       System.err.println("Error " + new Date().toString() + " " + (new Date().getTime() - startTime) + " cause=" + ex.getCause() + " message=" + ex.getMessage() + " string=" + ex.toString() + ", addlErr=" + eM.addlErr + addMore());
-      //     fatalError = true;
+      fatalError = true;
       flushes();
       ex.printStackTrace(System.err);
       System.err.flush();
       flushes();
-
+      st.setFatalError();
     }
   }
 
@@ -863,7 +863,7 @@ class EM {
   // freq .2 means chance for today is .2 or 1 in 5years, .333 = 1 in 3 years
   // goal freq from 1 in 2yrs to 1 in 10 yrs  per econ
   double[][] userCatastrophyFreq = {{.6, .5, .4, .3, .2}, {.4, .4, .6, .3, .6}};
-  static double[][] mUserCatastrophyFreq = {{.1, .9}, {.1, .39}};
+  static double[][] mUserCatastrophyFreq = {{.1, .9}, {.1, .9}};
   // value 1.5 means  mult user value by 1.5 so .2 * 1.5= .3 about 1 in 3 yrs
   // remember there are also random multipliers
   double[][] gameUserCatastrophyMult = {{.3}, {.25}};
@@ -5319,7 +5319,7 @@ class EM {
    * return value of one value, value designated by opr
    *
    * @param rn the index of the statistic being listed
-   * @param opr1 key flags for pors
+   * @param opr1 key flags for pors other commands
    * @param dClan the dClan to be processed
    * @param ageIx index of age in request
    * @return value a value sumsV, sumsI or sumsV/sumsI
@@ -5336,16 +5336,16 @@ class EM {
     try {
       doPower = resI[myRn][ICUM][CCONTROLD][IPOWER];
       powers = "";
-      if (((CUM | CUMAVE | CUMUNITS ) & cmd) > 0) {
-        if ((CUM & cmd) > 0) {
+      if (((CUM | CUMAVE | CUMUNITS ) & opr1) > 0) {
+        if ((CUM & opr1) > 0) {
           ops = "cum";
           //              sum                                            both
           sum = doSum ? resV[rn][ICUM][0][dClan] + resV[rn][ICUM][1][dClan] : resV[rn][ICUM][pors][dClan];
-        } else if ((CUMUNITS & cmd) > 0) {
+        } else if ((CUMUNITS & opr1) > 0) {
           sum = doSum ? resI[rn][ICUM][0][dClan] + resI[rn][ICUM][1][dClan] : resI[rn][ICUM][pors][dClan];
           ops = "cumUnits";
           doPower = 0;
-        } else if ((CUMAVE & cmd) > 0) {
+        } else if ((CUMAVE & opr1) > 0) {
           sum = (doSum ? resV[rn][ICUM][0][dClan] + resV[rn][ICUM][1][dClan] : resV[rn][ICUM][pors][dClan]) / (doSum ? resI[rn][ICUM][0][dClan] + resI[rn][ICUM][1][dClan] : resI[rn][ICUM][pors][dClan]);
           ops = "cumUnitAve";
         }
@@ -5355,13 +5355,15 @@ class EM {
         }
         return sum;
         
-        } else if ((CURAVE & cmd) > 0) {
+        } else if ((CURAVE & opr1) > 0) {
           // for curave sum averages
        //   int yrsMax = curAveAgesYrs[ageIx];
           sum = 0.;
           int didCnt=0;
           for(int ageYrsIx = startAgeYearsValues;ageYrsIx < endAgeYearsValues;ageYrsIx++) {
            double aaa=0.,bbb=0.,ccc=0.,ddd=0.;
+           int iii = ageYrsIx;
+           int jjj = ICUR0 + (ageIx * MAXDEPTH + ageYrsIx);
            long cntSum =0;
            int cntS = 0;  // ignore zero counts
            // skip empty entries
@@ -5371,8 +5373,15 @@ class EM {
            if(resV[rn][ICUR0 + (ageIx * MAXDEPTH + ageYrsIx)].length > 0 ){
              cntSum = doSum ? resI[rn][ICUR0 + ageIx * MAXDEPTH + ageYrsIx][0][dClan] + resI[rn][ICUR0 + ageIx * MAXDEPTH + ageYrsIx][1][dClan] : resI[rn][ICUR0 + ageIx * MAXDEPTH + ageYrsIx][pors][dClan];
           cntS = cntSum > 0? (int)cntSum:1;  // ignore zero counts
-          sum +=  cntS > 0 ?(aaa = (ccc = doSum ? (resV[rn][ICUR0 + (ageIx * MAXDEPTH + ageYrsIx)][0][dClan] + resV[rn][ICUR0 + ageIx * MAXDEPTH + ageYrsIx][1][dClan] ) : (bbb = resV[myRn][ICUR0 + ageIx * MAXDEPTH + ageYrsIx][pors][dClan])) / cntS) : 0.;
+          sum +=  cntS > 0 ?(aaa = (ccc = doSum ? ((bbb = resV[rn][ICUR0 + (ageIx * MAXDEPTH + ageYrsIx)][0][dClan]) + resV[rn][ICUR0 + ageIx * MAXDEPTH + ageYrsIx][1][dClan] ) : (bbb = resV[myRn][ICUR0 + ageIx * MAXDEPTH + ageYrsIx][pors][dClan])) / cntS) : 0.;
             didCnt += cntSum > 0? 1:0;  // only count actural sums
+             if (E.debugPutRows6agOut) {
+                  if ((resS[rn][rDesc].contentEquals("SizeFF")) && (pors == 0) && (dClan == 0) ) {
+                    System.out.flush();
+  //                  long opr1 = opr1;
+                    System.out.printf("EM.putrow6ag rn=%d %s,lockIx%d ageIx%d  nineIx%d yearsIx%d depth%d, valid%d,%s, %s, opr1%o, cmd%o, list%d, ageYrsIx%d, icur%d ,cur%10.2f, rende4=%d,%d putRowsPrint6aCount= " + putRowsPrint6aCount + " \n", rn,resS[rn][0], lockIx, myAgeIx,  nineIx, yearsIx,  depth, valid,  extSuffix,(unset ? "UNSET" : "ISSET") + " = " + resI[myRn][ICUM][CCONTROLD][ISSET] + ":" + resI[myRn][ICUR0 + myAgeIx * MAXDEPTH][CCONTROLD][ISSET], opr1,cmd,((opr1 & LIST14) > 0 ? 14 : (opr1 & list1) > 0 ? 1 : (opr1 & LIST3) > 0 ? 3 : (opr1 & LIST8) > 0 ? 8 : opr1), iii,jjj,bbb, rende4, rendae4);
+                  }
+                }
            }
           }
           // now average for years found

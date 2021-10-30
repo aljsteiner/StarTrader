@@ -9442,7 +9442,7 @@ public class Assets {
      * @param rawFertilities2 output Min frac of required Growth&Maint and
      * growth before any growth limits
      * <ol start=0><li>rc<li>sg<li</ol>
-     * @param rawProspects2 output each sector availW*14/(rcSum+sgSum)
+     * @param rawProspects2 output each sector availW*14/(rcSum+sgSum) a proportional measure of availability against sum of balances. so size independent
      * @param rawHealths output SubAssets ??? mostly not used
      * @param mtNegs output costs of maint and travel with PHE
      * @param growthNegs output cost of growths
